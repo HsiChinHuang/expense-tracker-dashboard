@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T15:28:57Z",
-  "last_seq": 32,
+  "updated_at": "2026-10-07T15:30:20Z",
+  "last_seq": 35,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "phase_1_init",
+      "issue_id": "t0",
       "role": "definer",
-      "phase": "survey",
-      "spawn_at": "2026-10-07T15:28:01Z",
-      "last_activity_at": "2026-10-07T15:28:57Z",
-      "run_id": "bef8481a-602d-4df3-a783-b7a318d5f2ef",
+      "phase": "review_plan",
+      "spawn_at": "2026-10-07T15:30:20Z",
+      "last_activity_at": "2026-10-07T15:30:20Z",
+      "run_id": null,
       "worktree_path": null
     }
   ],
