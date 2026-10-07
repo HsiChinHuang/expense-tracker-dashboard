@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:e348dfa96695376ed8b243068ec5ec4886f7bf062e55c6cf41b02e99a42b110b",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/unit/test_config.py::TestSettings::test_env_var_overrides_default tests/unit/test_config.py::TestSettings::test_defaults_match_env_example -q >/dev/null 2>&1'",
+      "ac2": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && env JWT_SECRET=change-me ENVIRONMENT=development uv run pytest tests/unit/test_config.py::TestSettings::test_production_rejects_default_secret tests/unit/test_config.py::TestSettings::test_development_allows_default_secret -q >/dev/null 2>&1'",
+      "ac3": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t5_ac3.db\" uv run pytest tests/integration/test_database.py::TestDatabase::test_get_db_yields_and_closes_session tests/integration/test_database.py::TestDatabase::test_sqlite_pragma_foreign_keys_enabled -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t5_ac3.db; exit $rc'",
+      "ac4": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f alembic.ini && test -f alembic/env.py && rm -f /tmp/t5_ac4.db && DATABASE_URL=\"sqlite:////tmp/t5_ac4.db\" uv run alembic upgrade head >/dev/null 2>&1 || exit 1; test -f /tmp/t5_ac4.db; rc=$?; rm -f /tmp/t5_ac4.db; exit $rc'",
+      "ac5": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; grep -Eq \"^migrate[[:space:]]*:\" Makefile || exit 1; grep -qP \"^\\t.*(uv run alembic upgrade head)\" Makefile || exit 1; make -n migrate >/dev/null 2>&1 || exit 1; rm -f build/t5_ac5.db; DATABASE_URL=\"sqlite:///$(pwd)/build/t5_ac5.db\" make migrate >/dev/null 2>&1 || exit 1; test -f build/t5_ac5.db; rc=$?; rm -f build/t5_ac5.db; exit $rc'",
+      "ac6": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": [
+      "t5 is a DELTA issue scoped against merged phase_1 reality, re-verified on-tree during groom: backend/alembic is tracked as versions/.gitkeep ONLY and no alembic.ini exists anywhere ('cd backend && uv run alembic upgrade head' exits 255 'No script_location key found'); the root Makefile migrate target is the t4 echo-only stub (line ~73); .env.example already carries all 13 app vars from t4, so ac1 MIRRORS those defaults and the issue explicitly forbids editing/extending .env.example; backend/pyproject.toml already declares sqlalchemy/alembic/pydantic (python-jose/passlib for t7) but NOT pydantic-settings and it is absent from uv.lock - Builder must add it and commit the regenerated pyproject.toml+uv.lock (Constraints pre-authorize; python-dotenv NOT needed since pydantic-settings reads .env natively). A Settings Defaults table mirroring .env.example verbatim was pinned in Context as the ac1 contract.",
+      "review_plan groom-mandates all applied: ac1/ac2/ac3 pinned as pytest node-ID commands (tests/unit/test_config.py::TestSettings::test_env_var_overrides_default + test_defaults_match_env_example; test_production_rejects_default_secret + test_development_allows_default_secret; tests/integration/test_database.py::TestDatabase::test_get_db_yields_and_closes_session + test_sqlite_pragma_foreign_keys_enabled). ac4/ac5 pinned as alembic/make exit-code contracts; ac6 pinned as the three suite gates (pytest/ruff/mypy in backend/). 6/6 automatable, no manual AC (contract_first.require_for=[backend,api,database]).",
+      "ac2 runnable WITHOUT a real production secret: the command prefixes 'env JWT_SECRET=change-me ENVIRONMENT=development' in front of pytest, so the production-refusal branch is driven by the test constructing Settings(environment='production', ...) with the visible placeholder, and a machine-level ENVIRONMENT=production cannot flake the dev-branch test. backend/.env must NOT be created (Constraints/Out-of-scope): repo-root .env holds only launcher vars (PLATFORM/API_TOKEN/REPO_ID/MAX_SLOTS - verified during groom) and pytest cwd is backend/, so no app-var .env can shadow ac1's defaults test.",
+      "Test isolation (t5/t6/t8 constraint) honored: ac3 pins DATABASE_URL=sqlite:////tmp/t5_ac3.db, ac4 pins sqlite:////tmp/t5_ac4.db, ac5 pins sqlite:///$(pwd)/build/t5_ac5.db (gitignored build/); every command rm -fs its own file afterwards. backend/dev.db is unreachable from all six commands. Absolute 4-slash sqlite URLs are deliberate (relative sqlite:///./x.db would land in backend/).",
+      "ac4 hardening discovered by probing alembic 1.20.0 (the uv.lock-pinned version): an env.py that merely imports alembic.context exits 0 on 'upgrade head' with zero revisions WITHOUT ever connecting (no DB file created) - a degenerate harness that would satisfy a bare exit-code AC. The command therefore also asserts 'test -f /tmp/t5_ac4.db', forcing env.py to build the engine and context.configure(connection=...) before run_migrations (standard online-mode template). Positive path proven: zero-revision upgrade rc=0 with file creation against a /tmp harness.",
+      "ac5 contract (replaces t4 stub): '^migrate[[:space:]]*:' rule grep + tab-anchored 'grep -qP ^\\t.*(uv run alembic upgrade head)' (t4 discovery reused: make -n alone exits 0 for .PHONY-only names and echo stubs) + 'make -n migrate' rc=0 + REAL 'make migrate' with caller DATABASE_URL and post-run file existence - the echo stub fails the real-run half deterministically on main even though make -n passes. Positive shape proven in /tmp with a Makefile stub + uv stub harness (rc=0, db file created). Recipe must honor caller DATABASE_URL via env.py->Settings, not hardcode a path, and must not require backend/.env.",
+      "Pre-implementation behavior verified by executing the six final command strings VERBATIM (extracted from the issue file into script files) from the repo root on current main (a6fc4ce): ac1 rc=4, ac2 rc=4, ac3 rc=4 (pytest usage error - test files do not exist), ac4 rc=1 (test -f alembic.ini guard; bare alembic rc=255), ac5 rc=1 (echo stub fails recipe grep + real run), ac6 rc=0. ac6 is the ONLY non-regression-only AC and passes on main by design - stated explicitly in the issue notes per the t3 precedent of stating the exception either direction. No leftover db files after the run.",
+      "ac4 command deliberately avoids git ls-files (worktree gitdir pointers unresolvable under WSL per environment constraints); 'alembic.ini and alembic/env.py tracked' is instead a Definition-of-Done item. DoD also pins the diff surface: the 4 plan files + 2 test modules + pyproject.toml/uv.lock + the single migrate recipe line; main.py, health contract, .env.example and dev.db untouched.",
+      "Granularity: 6 AC at the max_acs cap (warn_only); file set = plan's 4 + tests + dependency files + 1 Makefile target; diff expected well under max_diff_lines=300. Survey draft had no '## Out of scope' section - added one (users table/revision 001 -> t6, JWT/bcrypt -> t7, endpoints/get_db consumers -> t8, PG fallback -> phase_5, seed/e2e/security -> later phases, frontend/MCP vars out of Settings).",
+      "Platform sync: 'issue update 8 --body' (full file content with leading newline, body starts with '---' frontmatter) returned number=8 at 2026-10-07T18:31:21Z - Gate 1 body sync holds. Labels: 'label remove 8 --label defined' then 'label add 8 --labels groomed' both rc=0 (normal endpoints worked this run; note CLI takes --labels plural for add, not --label as docs/commands.md shows for the add case). 'issue get 8' (authoritative) confirms labels=[\"groomed\"], defined removed. Groom summary comment POSTED successfully on first attempt (rc=0) - the earlier POST outage did not recur.",
+      "ac_hash = sha256 over the '## Acceptance criteria' section of docs/issues/t5.md (heading excluded, LF-normalized, per-line trailing whitespace stripped, Verification commands excluded): sha256:e348dfa96695376ed8b243068ec5ec4886f7bf062e55c6cf41b02e99a42b110b.",
+      "Scratch probes (alembic harnesses, Makefile/uv stub fixtures, command scripts) lived only under the gitignored build/ dir and /tmp; all deleted afterwards - git status shows only docs/issues/t5.md modified plus the handoff output."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t5.md",
+      "docs/state/outputs/t5_definer_groom.json"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/t5_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T18:32:05Z",
+  "retry_count": 0
+}
