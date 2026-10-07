@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pi-agent/schemas/common/error.json",
+  "title": "Error",
+  "description": "Structured error for all role failures. error_type describes the MECHANISM layer; business-level failure details belong in context.failure_type when error_type == business_failure.",
+  "type": "object",
+  "required": [
+    "error_type",
+    "error_code",
+    "message",
+    "context",
+    "retryable",
+    "suggested_action"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "error_type": {
+      "type": "string",
+      "enum": [
+        "business_failure",
+        "schema_violation",
+        "timeout",
+        "crash",
+        "format_error",
+        "empty_output",
+        "refused",
+        "self_diagnosis",
+        "environment_error"
+      ],
+      "description": "Mechanism-layer error category. Business-level failure (implementation, ac_ambiguous, ac_wrong, test_env, test_quality) MUST use error_type=business_failure and set context.failure_type."
+    },
+    "error_code": {
+      "type": "string",
+      "pattern": "^[A-Z_]+$",
+      "description": "Specific error code, uppercase with underscores"
+    },
+    "message": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Human-readable error description"
+    },
+    "context": {
+      "type": "object",
+      "description": "Error-specific context. When error_type == business_failure, MUST contain failure_type (one of: implementation, ac_ambiguous, ac_wrong, test_env, test_quality, merge_conflict, regression).",
+      "additionalProperties": true
+    },
+    "retryable": {
+      "type": "boolean",
+      "description": "Whether retry is allowed"
+    },
+    "suggested_action": {
+      "type": "string",
+      "enum": [
+        "rerun_same_role",
+        "rerun_with_role",
+        "escalate_to_human",
+        "skip_and_continue",
+        "rollback",
+        "abort"
+      ],
+      "description": "Suggested handling action"
+    },
+    "suggested_role": {
+      "type": ["string", "null"],
+      "enum": ["definer", "builder", "verifier", null],
+      "description": "Required (non-null) when suggested_action == rerun_with_role"
+    },
+    "suggested_phase": {
+      "type": ["string", "null"],
+      "enum": [
+        "survey", "review_plan", "groom", "re_groom",
+        "implement", "fix_qa", "fix_merge", "fix_regression",
+        "verify_issue", "verify_pre_merge", "verify_post_merge",
+        null
+      ],
+      "description": "Required (non-null) when suggested_action == rerun_with_role"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "suggested_action": { "const": "rerun_with_role" } },
+        "required": ["suggested_action"]
+      },
+      "then": {
+        "properties": {
+          "suggested_role": {
+            "type": "string",
+            "enum": ["definer", "builder", "verifier"]
+          },
+          "suggested_phase": {
+            "type": "string",
+            "enum": [
+              "survey", "review_plan", "groom", "re_groom",
+              "implement", "fix_qa", "fix_merge", "fix_regression",
+              "verify_issue", "verify_pre_merge", "verify_post_merge"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "error_type": { "const": "business_failure" } },
+        "required": ["error_type"]
+      },
+      "then": {
+        "properties": {
+          "context": {
+            "type": "object",
+            "required": ["failure_type"],
+            "properties": {
+              "failure_type": {
+                "type": "string",
+                "enum": [
+                  "implementation",
+                  "ac_ambiguous",
+                  "ac_wrong",
+                  "test_env",
+                  "test_quality",
+                  "merge_conflict",
+                  "regression"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

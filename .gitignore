@@ -1,0 +1,176 @@
+# ============================================================
+# Secrets
+# ============================================================
+.env
+
+# ============================================================
+# Local config (example is committed)
+# ============================================================
+docs/config.yaml
+
+# ============================================================
+# Runtime state (never commit)
+# ============================================================
+docs/cache/
+docs/state/orchestrator.lock
+docs/state/pause
+docs/state/restart
+docs/state/reset
+docs/state/reset_approved
+docs/state/reset_ids
+docs/state/reset_platform_approved
+docs/state/initialized
+docs/state/compressed/
+docs/state/outputs/orphan_*/
+docs/state/recovery.log
+docs/state/log_rotating
+docs/state/cancel_*
+docs/state/merge_cp.json
+docs/state/merge_cp.json.tmp
+docs/state/snapshot.json.tmp
+docs/state/retry.json.tmp
+docs/state/retry_subagent.json.tmp
+docs/state/idempotency.json.tmp
+docs/state/stalled.md
+docs/state/pending_blockers/
+docs/state/metrics/status_metrics.json
+docs/state/outputs/*.tmp
+docs/state/outputs/*.invalid.json
+docs/state/factpack/
+.pi-agent/
+
+# ============================================================
+# Runtime logs (gitignored after week 1)
+# ============================================================
+docs/log/[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9].md
+docs/log/[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_human.md
+docs/log/[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9].md.gz
+docs/log/launcher.log
+docs/log/redaction_failures.md
+docs/log/by_issue/
+docs/log/analysis/
+
+# Track summaries and audits (whitelist)
+!docs/log/index.md
+!docs/log/weekly_*.md
+!docs/log/*/summary.md
+!docs/log/failure_audit*.md
+!docs/log/api_failures.md
+
+# ============================================================
+# Runtime memory (candidates are gitignored)
+# ============================================================
+docs/memory/candidates/
+docs/memory/archive/
+
+# Track verified and patterns
+!docs/memory/index.json
+!docs/memory/index.md
+!docs/memory/readme.md
+
+# ============================================================
+# Runtime issues
+# ============================================================
+docs/issues/pending/
+docs/issues/*.tmp
+
+# ============================================================
+# Worktrees (outside repo)
+# ============================================================
+../worktrees/
+
+# ============================================================
+# Node / TypeScript
+# ============================================================
+node_modules/
+dist/
+*.tsbuildinfo
+.npm/
+npm-debug.log*
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ============================================================
+# OS
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# IDE
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================================
+# Temporary
+# ============================================================
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# ============================================================
+# NOTE: The following files ARE committed (explicitly not ignored)
+# ============================================================
+# docs/state/snapshot.json
+# docs/state/retry.json
+# docs/state/retry_subagent.json
+# docs/state/seq.txt
+# docs/state/last_restart.txt
+# docs/state/config_snapshot.json
+# docs/state/issue_map.json
+# docs/state/status.md
+# docs/state/questions.md
+# docs/state/merge_history.json
+# docs/state/merge_test_index.json
+# docs/state/idempotency.json
+# docs/state/launcher_checkpoint.json
+# docs/state/metrics/token_usage.json
+# docs/state/metrics/misjudgments.json
+# docs/state/milestones/*.json
+# docs/state/outputs/*.json
+# docs/state/history/config_*.json (keep latest 10)
+# docs/state/history/reset_*/ (audit trail)
+# docs/state/history/final_*/ (audit trail)
+# docs/issues/*.md
+# docs/issues/closed/
+# docs/plan.md
+# docs/backlog.md
+# docs/coding_standards.md
+# docs/documentation_standards.md
+# docs/commands.md
+# docs/config.yaml.example
+# docs/requirements.md
+# docs/memory/verified/
+# docs/memory/patterns/
+# docs/memory/anti_patterns/
+# docs/log/archive/**
+# .env.example
+# .pi/
+# launcher/
+# extensions/
+# schemas/
+# scripts/
+# skills/
+# AGENTS.md
+# package.json
+# tsconfig.json
+# .eslintrc.json

@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pi-agent/schemas/state/snapshot.json",
+  "title": "Snapshot",
+  "description": "Orchestrator slot and merge queue state snapshot",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "updated_at",
+    "last_seq",
+    "slots",
+    "merge_queue",
+    "active_issues"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Last processed sequence number, synced with seq.txt"
+    },
+    "slots": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "slot_id",
+          "issue_id",
+          "role",
+          "phase",
+          "run_id",
+          "spawn_at",
+          "last_activity_at",
+          "worktree_path"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slot_id": {
+            "type": "string",
+            "pattern": "^slot_[0-9]+$"
+          },
+          "issue_id": {
+            "type": "string",
+            "pattern": "^t[0-9]+$"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["definer", "builder", "verifier"]
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "survey", "review_plan", "groom", "re_groom",
+              "implement", "fix_qa", "fix_merge", "fix_regression",
+              "verify_issue", "verify_pre_merge", "verify_post_merge"
+            ]
+          },
+          "run_id": {
+            "type": ["string", "null"],
+            "description": "pi-subagents run ID. Must be updated on every revive or re-spawn. Null only before first spawn or after release."
+          },
+          "spawn_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Synced from pi-subagents status.json lastActivityAt on each liveness check. NOT written by subagents."
+          },
+          "worktree_path": {
+            "type": ["string", "null"],
+            "description": "Worktree path for Builder/Verifier; null for Definer"
+          }
+        }
+      }
+    },
+    "merge_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue_id", "verifier_pass_at", "priority", "depends_merged"],
+        "additionalProperties": false,
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "pattern": "^t[0-9]+$"
+          },
+          "verifier_pass_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Verifier PASS timestamp, used for FIFO ordering"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Dependency priority; higher is more urgent. May be negative due to penalties."
+          },
+          "depends_merged": {
+            "type": "boolean",
+            "description": "Whether all dependencies have been merged"
+          }
+        }
+      }
+    },
+    "active_issues": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^t[0-9]+$"
+      },
+      "uniqueItems": true,
+      "description": "All in-flight issues (derived from slots, kept for fast lookup)"
+    }
+  }
+}
