@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI
 
+from app.routers.health import router as health_router
+
 
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application.
@@ -19,6 +21,8 @@ def create_app() -> FastAPI:
             dict[str, str]: A static status payload.
         """
         return {"status": "ok"}
+
+    application.include_router(health_router)
 
     return application
 
