@@ -1,13 +1,15 @@
 # Status
 
-Updated: 2026-10-07T18:40Z
+Updated: 2026-10-07T18:52Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t5 | definer | groom | 18:38Z | run 45bb271e (main checkout, #8; review_plan groom-instructions embedded) |
-| 2/2 | (free) | — | — | — | t6 gated on t5 closure (dep chain serializes) |
+| 1/2 | t5 | verifier | verify_issue | 18:50Z | run cf0de1d2 (worktree ../worktrees/t5 @ 7ca676e, #8) |
+| 2/2 | (free) | — | — | — | t6 gated on t5 closure |
+
+Operator standing order 18:47Z: run autonomously to FULL project completion (all milestones).
 
 ## Merge queue
 
@@ -15,7 +17,7 @@ Updated: 2026-10-07T18:40Z
 
 ## Ready issues
 
-t5–t9 `defined` (#8–#12), review_plan **PASS_WITH_WARNINGS** → lifecycle-eligible. DAG gate: t5 deps-closed (t1,t4); t6←t5, t7←t6, t8←t7, t9←t2+t8 serialize (critical path 8 < warn 10).
+t5 `built` (#8, gate2 + orch re-run 6/6). t6–t9 `defined` (#9–#12). DAG gate: t6←t5, t7←t6, t8←t7, t9←t2+t8.
 
 ## Blocked issues
 
