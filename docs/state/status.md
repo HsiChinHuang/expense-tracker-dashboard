@@ -1,23 +1,23 @@
 # Status
 
-Updated: 2026-10-07T16:42Z
+Updated: 2026-10-07T16:50Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t3 | definer | groom | 16:38Z | run 60927fe1 (main checkout, #6) |
-| 2/2 | t2 | verifier | verify_pre_merge (RESUMED) | 16:36Z | run c38b09bd (revived from 95cabfd3, worktree ../worktrees/verify-t2, #5) |
+| 1/2 | t3 | builder | implement | 16:48Z | run cf8824aa (worktree ../worktrees/t3, branch issue/t3-health-endpoint @ 3a3e293, #6) |
+| 2/2 | t2 | verifier | verify_post_merge | 16:44Z | run 19e28836 (worktree ../worktrees/verify-4f89797 @ 4f89797, #5) |
 
 ## Merge queue
 
 | Issue | Branch | State | Note |
 |---|---|---|---|
-| t2 | issue/t2-frontend-skeleton @ d7c4f3c | verified | Orchestrator merge-tree dry-run vs origin/main: clean (tree 4644b42). Awaiting verifier MERGE VERDICT comment + handoff, then transactional merge. |
+| t2 | merged 4f89797 | verified + merge pending post-merge | Orchestrator suite on merged main: cumulative 11/11 + t2 6/6. On post-merge PASS -> gate4 -> closure -> t4 unblocks fully. |
 
 ## Ready issues
 
-- (none yet) **t4** (#7, root config files) needs deps [t1, t2] CLOSED: t1 closed, t2 still pre-merge. `groom` is t4's next phase (t4.md has ACs but no verification commands). Spawn on t2 closure + free slot.
+- (none) **t4** (#7) needs t2 CLOSED; spawn `groom` on t2 closure + free slot.
 
 ## Blocked issues
 
@@ -36,7 +36,8 @@ Updated: 2026-10-07T16:42Z
 
 ## Notes
 
-- Cumulative merge test index: 11 commands (t0 ×6 amended per WAL 77, t1 ×5).
+- Cumulative merge test index: 11 commands (t0 ×6 amended per WAL 77, t1 ×5). t2's 6 commands appended at t2 closure.
+- t3 groom: contract-first, pytest node-ID pinned; phase-1 static health semantics documented (phase_5 re-grooms); ac5 pre-implementation pass is intentional (lint gate).
 - t2 verify_pre_merge first attempt (95cabfd3) exited 0 mid-work with no handoff/comment ->
   resumed as c38b09bd (WAL 106). If it fails again: retry_count 1 of 2, then failures.md routing.
 - Fairness metrics are in `docs/state/metrics/status_metrics.json` (updated every iteration).
