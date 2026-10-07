@@ -17,7 +17,7 @@ Updated: 2026-10-07T16:42Z
 
 ## Ready issues
 
-- **t4** (#7, root config files) — deps [t1, t2]: t1 closed, t2 verified. `groom` is the next phase (t4.md has ACs but no verification commands yet). Spawned as soon as a slot frees.
+- (none yet) **t4** (#7, root config files) needs deps [t1, t2] CLOSED: t1 closed, t2 still pre-merge. `groom` is t4's next phase (t4.md has ACs but no verification commands). Spawn on t2 closure + free slot.
 
 ## Blocked issues
 
