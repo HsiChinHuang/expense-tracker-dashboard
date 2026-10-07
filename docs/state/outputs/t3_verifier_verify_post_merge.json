@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t3",
+  "role": "verifier",
+  "phase": "verify_post_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "smoke_tests": {
+      "total": 22,
+      "passed": 22,
+      "failed": 0
+    },
+    "merge_sha": "b3c5746861502cf3c777554e4310e86c931d4283",
+    "regressions_detected": [],
+    "breakdown": {
+      "cumulative_suite": {
+        "source": "docs/state/merge_test_index.json",
+        "total": 17,
+        "passed": 17,
+        "failed": 0,
+        "results": [
+          { "index": 0, "issue_id": "t0", "exit_code": 0, "note": "verbatim failed exit 128 (WSL gitdir pointer unresolvable); rerun with GIT_DIR/GIT_WORK_TREE env pointing at main-checkout worktree metadata: exit 0" },
+          { "index": 1, "issue_id": "t0", "exit_code": 0 },
+          { "index": 2, "issue_id": "t0", "exit_code": 0 },
+          { "index": 3, "issue_id": "t0", "exit_code": 0, "note": "same GIT_DIR/GIT_WORK_TREE workaround as index 0: exit 0" },
+          { "index": 4, "issue_id": "t0", "exit_code": 0 },
+          { "index": 5, "issue_id": "t0", "exit_code": 0 },
+          { "index": 6, "issue_id": "t1", "exit_code": 0 },
+          { "index": 7, "issue_id": "t1", "exit_code": 0 },
+          { "index": 8, "issue_id": "t1", "exit_code": 0 },
+          { "index": 9, "issue_id": "t1", "exit_code": 0 },
+          { "index": 10, "issue_id": "t1", "exit_code": 0 },
+          { "index": 11, "issue_id": "t2", "exit_code": 0, "note": "same GIT_DIR/GIT_WORK_TREE workaround (git ls-files on package-lock.json): exit 0" },
+          { "index": 12, "issue_id": "t2", "exit_code": 0, "note": "verbatim failed EALLOWSCRIPTS (established Windows shell env artifact, WAL 99); rerun with 'set npm_config_allow_scripts= &&' inside cmd.exe: npm install exit 0, 474 packages, 11s" },
+          { "index": 13, "issue_id": "t2", "exit_code": 0 },
+          { "index": 14, "issue_id": "t2", "exit_code": 0, "note": "npm test -- --run exit 0 (vitest: 1 file, 3 tests passed); 'set npm_config_allow_scripts=' prefix as above" },
+          { "index": 15, "issue_id": "t2", "exit_code": 0, "note": "npx tsc --noEmit exit 0 after node_modules installed; 'set npm_config_allow_scripts=' prefix as above" },
+          { "index": 16, "issue_id": "t2", "exit_code": 0 }
+        ]
+      },
+      "t3_verification_commands": {
+        "source": "docs/issues/t3.md",
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "results": [
+          { "ac": "ac1", "exit_code": 0, "note": "node IDs test_health_returns_200_without_auth + test_health_body_has_exactly_four_fields pass" },
+          { "ac": "ac2", "exit_code": 0, "note": "node ID test_health_response_matches_pydantic_schema passes" },
+          { "ac": "ac3", "exit_code": 0, "note": "node ID test_health_phase1_reports_ok_no_fallback passes" },
+          { "ac": "ac4", "exit_code": 0, "note": "tests/integration/test_health_api.py exists; full backend suite: 6 passed, 1 warning" },
+          { "ac": "ac5", "exit_code": 0, "note": "ruff check . and mypy . (strict) both exit 0" }
+        ]
+      }
+    },
+    "head_check": "git rev-parse HEAD == b3c5746861502cf3c777554e4310e86c931d4283 (matches merge_sha); WSL gitdir pointer unresolvable, git run via GIT_DIR/GIT_WORK_TREE env or main-checkout cmd.exe per Orchestrator-provided workaround",
+    "worktree_cleanliness": "git status --porcelain --untracked-files=no is empty after npm install (node_modules gitignored)",
+    "venv_note": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH were empty; per-worktree backend/.venv used via uv sync. Command strings were NOT modified except Orchestrator-sanctioned environment workarounds (npm_config_allow_scripts, gitdir) noted per-command above.",
+    "smoke_test_source_note": "docs/plan.md has no '## Smoke tests' section; per verify_post_merge.md Step 1 the fallback is docs/commands.md. Test scope for this run was the Orchestrator-supplied set: 17 cumulative index commands (t0 x6 + t1 x5 + t2 x6) + 5 t3 verification commands. No tests were invented.",
+    "platform_comment": {
+      "posted": false,
+      "platform_issue": 6,
+      "verdict": "PASS",
+      "failure": "POST /repos/HsiChinHuang/expense-tracker-dashboard/issues/6/comments returned HTTP 500 (null body) on 7 attempts between ~16:53Z and ~17:07Z with backoff. Recurrence of Blocker D (docs/state/PREFLIGHT_FAIL.md): issue-scoped POSTs 500, GET/PATCH OK. Comments last succeeded at 16:48:46Z (t3 pre-merge verdict). Logged as [19] in docs/log/api_failures.md per Orchestrator authorization. Orchestrator will attempt a backfill comment when the endpoint recovers. Verdict body intended for the comment: '## MERGE VERDICT: PASS / Phase: post-merge / Smoke Tests: Total 22, Passed 22, Failed 0 / Merge SHA b3c5746861502cf3c777554e4310e86c931d4283'."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t3_verifier_verify_post_merge.json",
+      "docs/log/api_failures.md"
+    ],
+    "platform_issue": 6,
+    "output_path": "docs/state/outputs/t3_verifier_verify_post_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T17:08:00Z",
+  "retry_count": 0
+}
