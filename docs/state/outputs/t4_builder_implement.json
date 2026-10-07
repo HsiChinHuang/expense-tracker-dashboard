@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t4",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t4-root-config",
+    "branch_sha": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'test -f .env.example && git ls-files --error-unmatch .env.example >/dev/null && for v in DATABASE_URL JWT_SECRET JWT_ALGORITHM JWT_ACCESS_TOKEN_EXPIRE_MINUTES JWT_ISSUER JWT_AUDIENCE CORS_ORIGINS ENVIRONMENT APP_VERSION DB_CONNECT_TIMEOUT VITE_API_BASE_URL MCP_API_BASE_URL MCP_JWT_SECRET PLATFORM API_TOKEN REPO_ID; do grep -Eq \"^$v=\" .env.example || exit 1; done && ! grep -Eqi \"(secret|token|password)[a-z_]*=[[:space:]]*[A-Za-z0-9+/]{24,}\" .env.example && ! grep -Eq \"(ghp_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,}|glpat-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\" .env.example && test -z \"$(git ls-files -- .env)\"'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'command -v make >/dev/null || exit 1; test -f Makefile && git ls-files --error-unmatch Makefile >/dev/null && for t in setup setup-backend setup-frontend dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend down migrate seed e2e security; do grep -Eq \"^${t}[[:space:]]*:\" Makefile || exit 1; make -n \"$t\" >/dev/null 2>&1 || exit 1; done && for r in \"uv sync\" \"uv run pytest\" \"uv run ruff\" \"uv run mypy\" \"npm install\" \"npm test\"; do grep -qP \"^\\t.*($r)\" Makefile || exit 1; done && grep -qP \"^\\t.*(npm run lint|npx tsc --noEmit)\" Makefile'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; out=$(make test-backend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-backend >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; out=$(make test-frontend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"vitest|Test Files\" || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-frontend >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'test -f LICENSE && git ls-files --error-unmatch LICENSE >/dev/null && grep -q \"MIT License\" LICENSE && grep -q \"Permission is hereby granted, free of charge\" LICENSE'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "102b6bdbec2fbf9014aa45d150cff36dc6f8a575",
+        "test": "bash -c 'test -f README.md && l=$(wc -l < README.md) && [ \"$l\" -ge 30 ] && [ \"$l\" -le 500 ] && grep -Eqi \"^#{1,6}[[:space:]].*quick start\" README.md && grep -Eqi \"^#{1,6}[[:space:]].*running tests\" README.md && grep -q \"cp .env.example .env\" README.md && grep -q \"make setup\" README.md && grep -q \"make dev-backend\" README.md && grep -q \"make dev-frontend\" README.md && grep -q \"make test\" README.md && grep -q \"make lint\" README.md && grep -Eqi \"prerequisite\" README.md && grep -Ewq MIT README.md'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t4.md#verification-commands",
+    "notes": [
+      "All six verification commands executed verbatim from the repo root of the worktree; each exited 0.",
+      "WSL host: WSL git cannot resolve this worktree's gitdir pointer (error: 'not a git repository: .../t4/C:/...'); the git ls-files steps inside ac1/ac2/ac5 were run through a thin /tmp/gitshim/git shim forwarding to Windows git via cmd.exe. Command strings otherwise unmodified.",
+      "ac3: 'make test-backend' printed '6 passed'; 'make lint-backend' (ruff + mypy) exit 0.",
+      "ac4: 'make test-frontend' printed the 'vitest --run' banner, 'Test Files 1 passed', 'Tests 3 passed'; 'make lint-frontend' (eslint + npx tsc --noEmit) exit 0.",
+      "First 'npm install' (make setup-frontend) hit the known host artifact (WAL 99): the Windows shell exports npm_config_allow_scripts=msgpackr-extract, npm 11.17.0 aborts with EALLOWSCRIPTS. Recipe left as plain 'npm install' per ac2; install completed via the established 'set npm_config_allow_scripts= &&' env workaround (node_modules now present, so ac4 targets run verbatim).",
+      "FE macro uses the groom-proven UNQUOTED path form cmd.exe /c \"cd /d <wslpath -w abs frontend dir> && ...\"; inner quotes around the Windows path break cmd.exe parsing on this host (Big5 'The system cannot find the path specified'). Repo path contains no spaces.",
+      "Host core.autocrlf=true: a fresh checkout materializes the Makefile with CRLF; verified GNU Make 4.3 on this host tolerates CR in recipes (test-backend and test-frontend re-run against a CRLF copy of the Makefile both exit 0).",
+      "make test (both suites) exit 0: 6 pytest + 3 vitest. No new test files written: the deliverables are root config/docs files and every AC is gated by its mechanical verification command per the groom's contract-first note; the testable behavior (uv/npm delegation) is exercised by the existing t1-t3 suites through the new Makefile targets.",
+      "Diff touches exactly .env.example, Makefile, LICENSE, README.md (git status after commit clean; this handoff file is intentionally left untracked to honor the DoD 'diff touches only the four root files' rule)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      ".env.example",
+      "Makefile",
+      "LICENSE",
+      "README.md",
+      "docs/state/outputs/t4_builder_implement.json"
+    ],
+    "platform_issue": 7,
+    "output_path": "docs/state/outputs/t4_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T17:12:30Z",
+  "retry_count": 0
+}
