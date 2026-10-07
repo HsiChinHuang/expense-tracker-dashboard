@@ -71,7 +71,8 @@ down:
 	@echo "No services to stop yet (docker-compose lands in phase_5_infra)."
 
 migrate:
-	@echo "Alembic migrations land in phase_2; run 'cd backend && uv run alembic upgrade head' then."
+	@mkdir -p build  # ensure the gitignored build/ dir exists for tmp DATABASE_URLs (t5 ac5)
+	cd backend && uv run alembic upgrade head
 
 seed:
 	@echo "Seed data script lands in phase_3."
