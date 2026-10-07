@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 28,
+      "passed": 28,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "notes": [
+      "CWD verified as first action: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t5 (spawn worktree_path). HEAD == 7ca676e5ed67417436aed0d7f84a6b7912a3d833 == spawn branch_sha, and 'git ls-remote origin refs/heads/issue/t5-db-foundation' returns the same SHA (pushed, branch head matches). Branch: issue/t5-db-foundation. All git access read-only via cmd.exe git -C <worktree> (WSL git cannot resolve this worktree's gitdir pointer); git-internal steps of verbatim commands satisfied through the /tmp/gitshim/git cmd.exe forwarding shim. No state-changing git command run; no checkout, no merge.",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset in this spawn. WARN only per skill; per-worktree backend/.venv via 'uv sync --directory backend' (Resolved 53 packages, exit 0) was used. Command strings were NOT modified.",
+      "Smoke set: docs/plan.md has no '## Smoke tests' section and docs/commands.md defines no smoke commands. Per the skill's fallback guidance and the t0-t4 verify_pre_merge precedent, the 6 t5 AC verification commands from docs/issues/t5.md were used as the smoke/regression set. All 6 executed VERBATIM from the worktree root: ac1..ac6 exit 0 (6/6). ac1/ac2 config unit tests, ac3 get_db/PRAGMA integration tests, ac4 alembic upgrade head + DB-file-created assertion, ac5 real 'make migrate' against build/t5_ac5.db (accepted @mkdir -p build deviation from verify_issue is inside the Makefile recipe, already accepted), ac6 full pytest + ruff + mypy strict all green.",
+      "Cumulative suite: docs/state/merge_test_index.json from the t5 worktree (28 commands: t0 x6, t1 x5, t2 x6, t3 x5, t4 x6). All 28 executed verbatim against the worktree: final tally 28/28 exit 0. Two environment artifacts, both documented and neither a builder deviation: (1) #13 (t2 npm install) fails verbatim with the host EALLOWSCRIPTS artifact (cmd.exe env exports npm_config_allow_scripts=msgpackr-extract, which npm 11.17.0 rejects for project-scoped installs); re-run with the established 'set npm_config_allow_scripts= &&' environment workaround - command string unmodified - exit 0 ('up to date'). (2) #10 (t1 full-suite grep) and #21 (t3 full-suite grep) returned rc=1 on the first batch pass and rc=0 on immediate rerun; each then passed 3/3 consecutive standalone reruns (12 tests collected, '12 passed'). Direct 'uv run pytest -q' in the same worktree exits 0, so the single failures were transient (file-system/venv contention on the Windows-mounted drive during the sequential batch), not real regressions.",
+      "Merge-safety: 'git fetch origin' run from the main checkout; origin/main = 12d6ac3eeef8258f350ce6ced521baca2ecb4e07. merge-base(origin/main, 7ca676e) = b51babe. 'git merge-tree --write-tree origin/main 7ca676e' exit 0, output a single tree OID (f9366ee) with zero conflict entries and zero 'changed in both' records - clean merge expected. origin/main is NOT an ancestor of 7ca676e (main advanced with state-doc commits after the branch was cut), which is exactly the case merge-tree confirms as conflict-free. Branch diff vs merge-base touches exactly the 9 in-scope files: M Makefile (+2/-1), A backend/alembic.ini (+47), A backend/alembic/env.py (+40), A backend/app/config.py (+85), A backend/app/database.py (+74), M backend/pyproject.toml (+1), A backend/tests/integration/test_database.py (+90), A backend/tests/unit/test_config.py (+100), M backend/uv.lock (+16); 455 insertions, 1 deletion. The diff exceeds the warn-only max_diff_lines=300 guideline (already noted/accepted upstream at verify_issue/QA). backend/app/main.py, .env.example, backend/dev.db untouched; no backend/dev.db exists in the worktree after the run; git status clean apart from the two untracked t5 handoff JSONs.",
+      "Platform: MERGE VERDICT PASS comment posted successfully on issue #8 (attempt 1, exit 0, comment created_at 2026-10-07T18:59:15Z) via scripts/platform.ts run with /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs from the main checkout (npx tsx broken on this host, established). No label transition performed (skill prescribes comment only for pre-merge; 'verified' label already set by verify_issue). No api_failures.",
+      "Verdict: PASS - no regression from t5's changes; t0-t4 cumulative suites and t5's own 6 ACs all green, merge-tree clean against advanced origin/main."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t5_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/t5_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T19:00:30Z",
+  "retry_count": 0
+}

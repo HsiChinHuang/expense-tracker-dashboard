@@ -1,0 +1,4 @@
+feat(t5): CLOSED - merged 8e9fcb3, index 28->34, history #6
+
+- post-merge 6/6 + 28/28, 0 regressions, retries 0
+- #8 closed; t5.md -> closed/; worktree removed; t6 unblocked

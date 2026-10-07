@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T17:33:41Z",
+  "updated_at": "2026-10-07T19:03:20Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -113,6 +113,30 @@
     {
       "issue_id": "t4",
       "command": "bash -c 'test -f README.md && l=$(wc -l < README.md) && [ \"$l\" -ge 30 ] && [ \"$l\" -le 500 ] && grep -Eqi \"^#{1,6}[[:space:]].*quick start\" README.md && grep -Eqi \"^#{1,6}[[:space:]].*running tests\" README.md && grep -q \"cp .env.example .env\" README.md && grep -q \"make setup\" README.md && grep -q \"make dev-backend\" README.md && grep -q \"make dev-frontend\" README.md && grep -q \"make test\" README.md && grep -q \"make lint\" README.md && grep -Eqi \"prerequisite\" README.md && grep -Ewq MIT README.md'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/unit/test_config.py::TestSettings::test_env_var_overrides_default tests/unit/test_config.py::TestSettings::test_defaults_match_env_example -q >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && env JWT_SECRET=change-me ENVIRONMENT=development uv run pytest tests/unit/test_config.py::TestSettings::test_production_rejects_default_secret tests/unit/test_config.py::TestSettings::test_development_allows_default_secret -q >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t5_ac3.db\" uv run pytest tests/integration/test_database.py::TestDatabase::test_get_db_yields_and_closes_session tests/integration/test_database.py::TestDatabase::test_sqlite_pragma_foreign_keys_enabled -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t5_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f alembic.ini && test -f alembic/env.py && rm -f /tmp/t5_ac4.db && DATABASE_URL=\"sqlite:////tmp/t5_ac4.db\" uv run alembic upgrade head >/dev/null 2>&1 || exit 1; test -f /tmp/t5_ac4.db; rc=$?; rm -f /tmp/t5_ac4.db; exit $rc'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; grep -Eq \"^migrate[[:space:]]*:\" Makefile || exit 1; grep -qP \"^\\t.*(uv run alembic upgrade head)\" Makefile || exit 1; make -n migrate >/dev/null 2>&1 || exit 1; rm -f build/t5_ac5.db; DATABASE_URL=\"sqlite:///$(pwd)/build/t5_ac5.db\" make migrate >/dev/null 2>&1 || exit 1; test -f build/t5_ac5.db; rc=$?; rm -f build/t5_ac5.db; exit $rc'"
+    },
+    {
+      "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
     }
   ]
 }

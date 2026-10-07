@@ -13,5 +13,9 @@
     "t8",
     "t9"
   ],
-  "survey_attempts": 0
+  "survey_attempts": 0,
+  "completed_issues": [
+    "t5"
+  ],
+  "updated_at": "2026-10-07T19:03:37Z"
 }

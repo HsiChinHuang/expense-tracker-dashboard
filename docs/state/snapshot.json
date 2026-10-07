@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T18:52:57Z",
-  "last_seq": 174,
+  "updated_at": "2026-10-07T19:03:37Z",
+  "last_seq": 179,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "t5",
-      "role": "verifier",
-      "phase": "verify_pre_merge",
-      "spawn_at": "2026-10-07T18:52:57Z",
-      "last_activity_at": "2026-10-07T18:53:10Z",
-      "run_id": "fffee94a-bb22-4b74-adaa-6cec0e458642",
-      "worktree_path": "../worktrees/t5"
+      "issue_id": "t6",
+      "role": "definer",
+      "phase": "groom",
+      "spawn_at": "2026-10-07T19:03:37Z",
+      "last_activity_at": "2026-10-07T19:03:37Z",
+      "run_id": "pending",
+      "worktree_path": "main checkout"
     },
     {
       "slot": 2,
@@ -27,16 +27,9 @@
   "merge_queue": [],
   "active_issues": [
     {
-      "issue_id": "t5",
-      "state": "verified",
-      "modifiers": []
-    },
-    {
       "issue_id": "t6",
       "state": "defined",
-      "modifiers": [
-        "deps_open:t5"
-      ]
+      "modifiers": []
     },
     {
       "issue_id": "t7",
