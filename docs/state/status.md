@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T16:15Z
+Updated: 2026-10-07T16:20Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t0 | verifier | verify_issue | 16:12Z | run ad8ea930 @ ../worktrees/verify-t0 (sha 7dd36b7) |
+| 1/2 | t0 | verifier | verify_pre_merge | 16:18Z | run a6731e64 @ ../worktrees/verify-t0 (candidate 7dd36b7) |
 
 ## Merge queue
 
@@ -88,6 +88,8 @@ Also created (Preflight Stage 3 "labels creatable"): the 13 gates.md labels
 - seq 53 `[SPAWN]` builder implement t0 (run 6dc8159a, worktree ../worktrees/t0, branch issue/t0-repo-skeleton, 120min)
 - seq 54-58 `[COMPLETE]` implement 6/6 AC; `[SCHEMA_VIOLATION]` unsatisfiable const in 3 schemas -> `[ORCH_FIX]` pattern; gate2 passed; AC re-verified independently 6/6; #3 built
 - seq 59 `[SPAWN]` verifier verify_issue t0 (run ad8ea930, worktree verify-t0 @ 7dd36b7, thinking low)
+- seq 60-61 `[COMPLETE]`+`[VALIDATION]` verify_issue PASS 6/6, gate3 passed, #3 verified
+- seq 62 `[SPAWN]` verifier verify_pre_merge t0 (run a6731e64, candidate issue/t0-repo-skeleton)
 
 ## Boot outcome
 
