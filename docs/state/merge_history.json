@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T17:01:23Z",
+  "updated_at": "2026-10-07T17:33:41Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -40,6 +40,16 @@
       "merged_at": "2026-10-07T16:52:00Z",
       "retries": 0,
       "tests_appended": 5,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t4",
+      "platform_issue": 7,
+      "branch": "issue/t4-root-config",
+      "merge_sha": "410ac3e8df72ea5afd6e7bbb05004686051ded7f",
+      "merged_at": "2026-10-07T17:28:00Z",
+      "retries": 0,
+      "tests_appended": 6,
       "regressions": 0
     }
   ]

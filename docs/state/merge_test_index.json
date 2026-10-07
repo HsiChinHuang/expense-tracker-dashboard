@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T17:01:23Z",
+  "updated_at": "2026-10-07T17:33:41Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -89,6 +89,30 @@
     {
       "issue_id": "t3",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'test -f .env.example && git ls-files --error-unmatch .env.example >/dev/null && for v in DATABASE_URL JWT_SECRET JWT_ALGORITHM JWT_ACCESS_TOKEN_EXPIRE_MINUTES JWT_ISSUER JWT_AUDIENCE CORS_ORIGINS ENVIRONMENT APP_VERSION DB_CONNECT_TIMEOUT VITE_API_BASE_URL MCP_API_BASE_URL MCP_JWT_SECRET PLATFORM API_TOKEN REPO_ID; do grep -Eq \"^$v=\" .env.example || exit 1; done && ! grep -Eqi \"(secret|token|password)[a-z_]*=[[:space:]]*[A-Za-z0-9+/]{24,}\" .env.example && ! grep -Eq \"(ghp_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,}|glpat-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\" .env.example && test -z \"$(git ls-files -- .env)\"'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'command -v make >/dev/null || exit 1; test -f Makefile && git ls-files --error-unmatch Makefile >/dev/null && for t in setup setup-backend setup-frontend dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend down migrate seed e2e security; do grep -Eq \"^${t}[[:space:]]*:\" Makefile || exit 1; make -n \"$t\" >/dev/null 2>&1 || exit 1; done && for r in \"uv sync\" \"uv run pytest\" \"uv run ruff\" \"uv run mypy\" \"npm install\" \"npm test\"; do grep -qP \"^\\t.*($r)\" Makefile || exit 1; done && grep -qP \"^\\t.*(npm run lint|npx tsc --noEmit)\" Makefile'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; out=$(make test-backend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-backend >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; out=$(make test-frontend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"vitest|Test Files\" || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-frontend >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'test -f LICENSE && git ls-files --error-unmatch LICENSE >/dev/null && grep -q \"MIT License\" LICENSE && grep -q \"Permission is hereby granted, free of charge\" LICENSE'"
+    },
+    {
+      "issue_id": "t4",
+      "command": "bash -c 'test -f README.md && l=$(wc -l < README.md) && [ \"$l\" -ge 30 ] && [ \"$l\" -le 500 ] && grep -Eqi \"^#{1,6}[[:space:]].*quick start\" README.md && grep -Eqi \"^#{1,6}[[:space:]].*running tests\" README.md && grep -q \"cp .env.example .env\" README.md && grep -q \"make setup\" README.md && grep -q \"make dev-backend\" README.md && grep -q \"make dev-frontend\" README.md && grep -q \"make test\" README.md && grep -q \"make lint\" README.md && grep -Eqi \"prerequisite\" README.md && grep -Ewq MIT README.md'"
     }
   ]
 }
