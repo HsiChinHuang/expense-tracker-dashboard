@@ -1,0 +1,81 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t7",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac1.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_hash_password_emits_cost12_prefix_with_random_salt\" \"tests/unit/test_password.py::TestPassword::test_verify_password_roundtrips_true_and_rejects_wrong_password\" \"tests/unit/test_password.py::TestPassword::test_verify_password_returns_false_for_malformed_hash\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac1.db; exit $rc'",
+        "exit_code": 0,
+        "note": "3/3 nodes pass: $2b$12$ prefix, 60 chars, distinct salts; verify is True/is False; malformed + empty hash -> False without raising."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac2.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_verify_dummy_returns_none_after_full_bcrypt_cycle\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac2.db; exit $rc'",
+        "exit_code": 0,
+        "note": "verify_dummy returns None, no raise; measured dummy 0.206s vs real verify 0.201s (floor 0.05s met, ratio 1.02 <= 10x). Independent probe confirms a real _CONTEXT.verify against a documented decoy hash, not a stub."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac3.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_emits_exact_claim_set_with_24h_expiry\" \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_is_hs256_signed_with_settings_secret\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac3.db; exit $rc'",
+        "exit_code": 0,
+        "note": "Claims exactly {sub,iss,aud,iat,exp,type}; exp-iat=86400; header == {alg:HS256,typ:JWT}; wrong-secret rejected at library level."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac4.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_decode_access_token_roundtrips_valid_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_secret\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_tampered_signature\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_expired_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_audience\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_issuer\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_refresh_type_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_alg_none_forgery\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac4.db; exit $rc'",
+        "exit_code": 0,
+        "note": "8/8 nodes pass. Independent probe reproduced all 7 reject paths as TokenError, incl. hand-built alg=none forgery."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && grep -Eq \"^[[:space:]]*\\\"bcrypt[>=<]\" pyproject.toml && uv run python -c \"import tomllib; d = tomllib.load(open(\\\"uv.lock\\\", \\\"rb\\\")); v = [p[\\\"version\\\"] for p in d[\\\"package\\\"] if p[\\\"name\\\"] == \\\"bcrypt\\\"][0]; parts = tuple(int(x) for x in v.split(\\\".\\\")[:2]); raise SystemExit(0 if (4, 0) <= parts < (4, 1) else 1)\"'",
+        "exit_code": 0,
+        "note": "uv run pytest -q: 31 passed; ruff check .: All checks passed!; mypy . (strict): no issues in 29 source files; pyproject declares bcrypt>=4.0,<4.1; uv.lock resolves bcrypt 4.0.1."
+      }
+    },
+    "test_summary": {
+      "total": 31,
+      "passed": 31,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac1's pinned malformed-hash inputs ('not-a-bcrypt-hash', '') are covered by passlib's UnknownHashError and return False as required. Independently probed additional malformed shapes: '$2b$12$', '$2b$12$short' and '$2y$05$'+22 chars raise passlib's ValueError (not UnknownHashError) and would propagate out of verify_password. No AC text or pinned test requires those shapes, so this is NOT a failure; recorded as a latent hardening note for t8 (which will pass DB-sourced hashes)."
+    ],
+    "dod_verified": {
+      "all_5_ac_verified_via_single_command_each": true,
+      "auth_modules_and_tests_exist_and_are_tracked": true,
+      "bcrypt_pin_committed_in_pyproject_and_uvlock": true,
+      "pytest_ruff_mypy_exit_0_31_tests_collected": true,
+      "eight_dedicated_tokenerror_reject_nodes": true,
+      "create_access_token_signature_is_subject_str_to_str": true,
+      "no_new_runtime_deps_beyond_bcrypt_pin_only_bcrypt_drifted_in_lock": true,
+      "uv_lock_check_clean": true,
+      "no_env_file_and_no_real_secret_in_diff": true,
+      "diff_touches_only_the_seven_allowed_files": true,
+      "main_config_database_models_alembic_untouched": true
+    },
+    "verification_commands_source": "docs/issues/t7.md#verification-commands"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t7_verifier_verify_issue.json"
+    ],
+    "platform_issue": 10,
+    "output_path": "docs/state/outputs/t7_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T20:40:00Z",
+  "retry_count": 0
+}
