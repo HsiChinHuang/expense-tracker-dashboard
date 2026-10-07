@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T15:47Z
+Updated: 2026-10-07T15:55Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t0 | definer | review_plan | 15:46Z | run 08e20c4e (async, thinking=medium) |
+| 1/2 | t0 | definer | groom | 15:54Z | run a0040d5e (async, thinking=medium) |
 
 ## Merge queue
 
@@ -76,26 +76,27 @@ Also created (Preflight Stage 3 "labels creatable"): the 13 gates.md labels
 
 ## Recent events (last 10)
 
-- seq 19-20 `[PREFLIGHT_OK]` stage=2 PASS (B); survey precondition fixed (C)
-- seq 21 `[API_FAILURE]` POST 500 -> 201, Blocker D self-healed
-- seq 22 `[BLOCKER_RESOLVED]` issue #1 closed, probe cleanup done
-- seq 23 `[SPAWN]` definer survey, factpack `phase_1_init`, timeout 60 min
-- seq 24 `[SPAWN]` run_id 65b75c9c bound to slot 1/2
+- seq 39-41 `[CONFIG_CHANGED]` autocrlf reverted to true; stray ./C: tree removed; owner remap high/xhigh->medium applied
+- seq 42 `[SPAWN]` definer review_plan (run 08e20c4e, milestone phase_1_init)
+- seq 43-44 `[COMPLETE]`+`[VALIDATION]` review_plan PASS_WITH_WARNINGS (9 warnings, 0 blocking)
+- seq 45 `[FINDINGS]` warnings recorded; t0/t4 items routed into groom spawn prompt
+- seq 46 `[ORCH_FIX]` plan.md health template -> /api/v1/health (REQ-BE-132 authority)
+- seq 47 `[AUTO_INITIALIZED]` docs/state/initialized created (Step 0)
+- seq 48 `[STATE_TRANSITION]` Step 4: t0 ready; t1/t2 blocked on t0
+- seq 49 `[SPAWN]` definer groom t0 (run a0040d5e, factpack t0.json, platform #3)
 
 ## Boot outcome
 
-**Preflight PASSED end-to-end. Lifecycle Step 0 is running.**
+**Preflight PASSED. Project INITIALIZED (Step 0). Pipeline running.**
 
-`Definer: survey` is executing in slot 1 (async, 60 min timeout, model
-`ollama/Qwen3.8-Flash-Next-Thinking:high` per `roles.definer.phases.survey.thinking`).
-It will generate `docs/plan.md`, `docs/backlog.md`, `docs/state/dag.json`,
-milestones, issue files, and create the Platform issues labeled `defined`.
+Pipeline so far: survey (attempt 2 OK) -> review_plan PASS_WITH_WARNINGS ->
+initialized -> groom t0 running.
 
-Next on completion: Step 9 schema validation (`schemas/definer/survey.json`) +
-gate check (`scripts/gate_check.ts`), then Step 3 triggers `review_plan` for each
-milestone created by survey.
+Ready-issue frontier: t0 (grooming now) -> then t1/t2 become ready (parallel,
+slots max=2) -> t3 (after t1) -> t4 (after t1+t2).
 
-Preflight failure record is retained in `docs/state/PREFLIGHT_FAIL.md` for audit.
+Next on groom completion: Step 9 validation, label #3 defined->groomed, then
+Step 4/7 spawns Builder: implement for t0.
 
 ---
 
