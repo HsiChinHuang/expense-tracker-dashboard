@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t0",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_1_init",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t0", "t1", "t2", "t3", "t4"],
+    "findings": [
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Survey deferral 1 CONFIRMED with one caveat. The Phase-1 documentation deliverables of REQ-PLAN-010/REQ-PLAN-011 (product-spec.md, CLAUDE.md, process.md, three role files, task-template.md, ~30 groomed issues) are legitimately satisfied by this repo's existing agent-workflow tooling (skills/, AGENTS.md, docs/requirements.md, docs/coding_standards.md) and by the REQ-AI-020..023 / REQ-EXT mapping to phase_6_agent plus REQ-DOC mapping to phase_8_docs. Caveat: product-spec.md has NO named owner in docs/plan.md at file granularity, yet REQ-PROD-001..007 (all Must) are verified by reading product-spec.md. The next survey/groom must name an owning milestone and issue for product-spec.md (and for CLAUDE.md / process.md / task-template.md if they are not to be declared satisfied-by-tooling). Non-blocking for phase_1_init."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Survey deferral 2 CONFIRMED. Delivery phases 2-8 (auth, CRUD, dashboard, container/CI/CD/deploy, agent pack, security/ops, docs) are deferred to milestones phase_2_auth .. phase_8_docs by rolling planning, which is the documented model in docs/plan.md and REQ-PLAN-001/002. The current mapping is chapter-level only; each later survey must produce requirement-ID-level coverage before that milestone's review_plan. Non-blocking."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Survey deferral 3 CONFIRMED. REQ-PROD-017 (FR-DB-1 SQLite fallback) is owned by phase_5_infra, consistent with REQ-PLAN-050 which lists the health check and SQLite fallback as Phase 5 tasks. t3 correctly stubs fallback_active as a boolean that is false in normal operation and explicitly defers the fallback logic. phase_5_infra must also pick up REQ-PROD-021, REQ-PROD-035, REQ-ARCH-033, REQ-ARCH-073 and REQ-TECH-030/032. Non-blocking."
+      },
+      {
+        "issue_id": "t0",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Survey deferral 4 CONFIRMED and correctly encoded as a t0 constraint: agent-capabilities/, agent-hooks/, mcp-server/, custom-agent/ and .agents/ are excluded from t0 and owned by phase_6_agent (REQ-STRUCT-028/029, REQ-EXT-003/004, REQ-ARCH-053). Consequence to record now: REQ-STRUCT-001 (Must, 'list the repository recursively; compare') and REQ-ARCH-050 can only be verified at project completion, not at the end of phase_1_init; t0 therefore covers REQ-STRUCT-001 partially by design. Also note screenshots/ (REQ-STRUCT-001) and the root files product-spec.md, CLAUDE.md, openapi.yaml, Dockerfile, docker-compose.yml, render.yaml are not created in phase_1_init and are owned by phase_5_infra / phase_6_agent / phase_8_docs."
+      },
+      {
+        "issue_id": "t0",
+        "category": "other",
+        "severity": "warning",
+        "description": "t0 assumes a greenfield repo but the tooling baseline already exists and is tracked: .gitignore (comprehensive), .env.example, README.md, docs/, AGENTS.md. Groom should rephrase the AC as 'extend the existing tracked .gitignore' and add the REQ-STRUCT-060 entries still missing today (*.db / *.sqlite3, RENDER_DEPLOY_HOOK, generic *.log). The AC bullet 'docs/ exists' is already satisfied and should not drive any change."
+      },
+      {
+        "issue_id": "t0",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "t0 touches at least 7 top-level directories plus .gitignore, exceeding limits.issue_granularity.max_files = 4 (max_acs 6 is respected at 4 ACs). Non-blocking because limits.issue_granularity.warn_only = true, and splitting a placeholder-only skeleton would add dependency overhead for no risk reduction."
+      },
+      {
+        "issue_id": "t2",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "t2 sits at the AC cap (6 ACs) and implies more than 4 files (package.json, src/main.tsx, App/shell, vite.config.ts, tailwind.config.js, vitest/test setup). warn_only = true, so non-blocking; the scaffold is cohesive and the toolchain is already constrained (no RHF/Zod/Recharts until later milestones)."
+      },
+      {
+        "issue_id": "t3",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "docs/plan.md's phase_1 issue template contradicts t3: the template says 'GET /api/health' with file backend/app/api/health.py, while t3 (and REQ-PROD-016 verification, REQ-API-010, REQ-DB-111, REQ-BE-132 and Chapter 16 s16.3.4 file table) specify GET /api/v1/health in backend/app/routers/health.py with test test_health_api.py. t3 is CORRECT and authoritative; the stale plan.md template must be corrected at the next plan edit (review_plan is read-only for plan.md, so this is handed to the Orchestrator). Verifier should test /api/v1/health, not /api/health."
+      },
+      {
+        "issue_id": "t4",
+        "category": "other",
+        "severity": "warning",
+        "description": "t4's .env.example AC is under-specified and collides with an existing tracked file. The repo already ships .env.example holding platform-tooling variables (PLATFORM, API_TOKEN, REPO_ID); t4 must EXTEND it, not overwrite it, and the AC should enumerate the full REQ-TECH-090 list (DATABASE_URL, JWT settings, CORS, ENVIRONMENT, APP_VERSION, DB_CONNECT_TIMEOUT, VITE_API_BASE_URL, MCP_API_BASE_URL, MCP_JWT_SECRET) instead of the current 'DATABASE_URL, SECRET_KEY, token settings, frontend API base URL'. Groom should use the exact variable names from Chapter 3 s3.10 and may defer MCP_API_BASE_URL / MCP_JWT_SECRET to phase_6_agent only if the AC says so explicitly. Likewise README.md already exists as a one-line placeholder: t4 owns the setup path only, while REQ-PROJ-002 (one-line description) and REQ-PROJ-005 (14-criteria mapping table) stay with phase_8_docs."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete - phase_1_init issues cover REQ-STRUCT-001 (partial by design), 010, 011, 012, 020, 060; REQ-TECH-001..010, 020..028, 073, 080, 081, 090, 091; REQ-PROD-016, 028; REQ-PLAN-001/010/011/012 (partial). All four survey deferrals adjudicated above.",
+      "granularity_check": "complete - limits.issue_granularity = max_acs 6 / max_files 4 / max_diff_lines 300 / warn_only true. AC counts t0=4, t1=5, t2=6, t3=5, t4=5. No issue at 1 AC with 0 files, so no granularity_too_small finding.",
+      "dependency_check": "complete - all depends references resolve (t0, t1, t2 exist); dag.json edges match issue frontmatter exactly; cycles []; topological order t0 -> t1 -> t2 -> t3 -> t4 valid; critical path t0 -> t1 -> t4 length 3, well under limits.dep_chain_warn 10; only root is t0, no orphans.",
+      "duplicate_contradiction_check": "complete - no duplicate ACs across t0..t4. One contradiction found (plan.md template vs t3 health path/file); t0's 'do not create agent dirs' constraint is consistent with REQ-STRUCT-001 deferral, and t1's 'no endpoints here' is consistent with t3.",
+      "platform_check": "verified read-only via scripts/platform.ts: issues #3..#7 open with label 'defined', titles matching t0..t4; docs/state/issue_map.json and docs/backlog.md agree."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_1_init.json",
+      "docs/state/outputs/phase_1_init_definer_review_plan.json"
+    ],
+    "platform_issue": 3,
+    "output_path": "docs/state/outputs/phase_1_init_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T15:38:00Z",
+  "retry_count": 0
+}

@@ -55,9 +55,9 @@ refined by survey/review_plan when they begin.
 > - Requirement: REQ-PROD-016 (FR-HEALTH-1)
 > - Title: Health check endpoint
 > - Acceptance:
->     - GET /api/health returns status, database, fallback_active, version
+>     - GET /api/v1/health returns status, database, fallback_active, version
 >     - Integration test asserts schema and 200 response
-> - Files: backend/app/api/health.py, backend/tests/test_health.py
+> - Files: backend/app/routers/health.py, backend/tests/test_health_api.py
 > - Depends: [t1]
 
 > Issue template:
