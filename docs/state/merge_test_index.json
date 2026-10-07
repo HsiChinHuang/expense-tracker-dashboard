@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T20:01:40Z",
+  "updated_at": "2026-10-07T20:53:46Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -157,6 +157,26 @@
     {
       "issue_id": "t6",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t7",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac1.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_hash_password_emits_cost12_prefix_with_random_salt\" \"tests/unit/test_password.py::TestPassword::test_verify_password_roundtrips_true_and_rejects_wrong_password\" \"tests/unit/test_password.py::TestPassword::test_verify_password_returns_false_for_malformed_hash\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac1.db; exit $rc'"
+    },
+    {
+      "issue_id": "t7",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac2.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_verify_dummy_returns_none_after_full_bcrypt_cycle\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac2.db; exit $rc'"
+    },
+    {
+      "issue_id": "t7",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac3.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_emits_exact_claim_set_with_24h_expiry\" \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_is_hs256_signed_with_settings_secret\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t7",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac4.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_decode_access_token_roundtrips_valid_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_secret\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_tampered_signature\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_expired_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_audience\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_issuer\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_refresh_type_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_alg_none_forgery\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac4.db; exit $rc'"
+    },
+    {
+      "issue_id": "t7",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && grep -Eq \"^[[:space:]]*\\\"bcrypt[>=<]\" pyproject.toml && uv run python -c \"import tomllib; d = tomllib.load(open(\\\"uv.lock\\\", \\\"rb\\\")); v = [p[\\\"version\\\"] for p in d[\\\"package\\\"] if p[\\\"name\\\"] == \\\"bcrypt\\\"][0]; parts = tuple(int(x) for x in v.split(\\\".\\\")[:2]); raise SystemExit(0 if (4, 0) <= parts < (4, 1) else 1)\"'"
     }
   ]
 }

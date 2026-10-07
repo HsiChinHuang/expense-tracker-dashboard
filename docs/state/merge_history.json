@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T20:01:40Z",
+  "updated_at": "2026-10-07T20:53:46Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -68,6 +68,16 @@
       "branch": "issue/t6-user-model",
       "merge_sha": "17064fcd6",
       "merged_at": "2026-10-07T20:01:40Z",
+      "retries": 0,
+      "tests_appended": 5,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t7",
+      "platform_issue": 10,
+      "branch": "issue/t7-auth-primitives",
+      "merge_sha": "d189d2d",
+      "merged_at": "2026-10-07T20:53:46Z",
       "retries": 0,
       "tests_appended": 5,
       "regressions": 0
