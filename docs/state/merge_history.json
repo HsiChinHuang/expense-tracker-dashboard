@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T16:28:55Z",
+  "updated_at": "2026-10-07T16:38:41Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -20,6 +20,16 @@
       "merged_at": "2026-10-07T16:22:00Z",
       "retries": 0,
       "tests_appended": 5,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t2",
+      "platform_issue": 5,
+      "branch": "issue/t2-frontend-skeleton",
+      "merge_sha": "4f89797b4af95195132b7490965d93c65dd5bb73",
+      "merged_at": "2026-10-07T16:35:00Z",
+      "retries": 1,
+      "tests_appended": 6,
       "regressions": 0
     }
   ]

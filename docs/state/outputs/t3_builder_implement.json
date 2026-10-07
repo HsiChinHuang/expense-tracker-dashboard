@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t3",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t3-health-endpoint",
+    "branch_sha": "7ab905e",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "7ab905e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_returns_200_without_auth tests/integration/test_health_api.py::TestHealthApi::test_health_body_has_exactly_four_fields -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "7ab905e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_response_matches_pydantic_schema -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "7ab905e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_phase1_reports_ok_no_fallback -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "7ab905e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f tests/integration/test_health_api.py && out=$(uv run pytest -q 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\"'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "7ab905e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t3.md#verification-commands",
+    "notes": "Phase-1 honest scope per issue: static health reporting (status ok, fallback_active false, configured database constant 'postgresql', version from request.app.version = 0.1.0). Pydantic 2 HealthResponse declared as route response_model in backend/app/schemas/health.py; router backend/app/routers/health.py with prefix /api/v1 registered via create_app(). No new dependencies; uv.lock and pyproject.toml untouched. ac2 test resolves the OpenAPI 200 response schema in both inline and $ref forms (FastAPI inlines the model under the response content in the installed version). ruff check and mypy --strict both exit 0 (17 source files). Full suite: 6 passed (2 t1 smoke + 4 new health tests), no regression.",
+    "ac_suggestions": [],
+    "memory_applied": []
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/schemas/health.py",
+      "backend/app/routers/health.py",
+      "backend/app/main.py",
+      "backend/tests/integration/test_health_api.py"
+    ],
+    "platform_issue": 6,
+    "output_path": "docs/state/outputs/t3_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:38:13Z",
+  "retry_count": 0
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T16:28:55Z",
+  "updated_at": "2026-10-07T16:38:41Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -45,6 +45,30 @@
     {
       "issue_id": "t1",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const r=[\\\"react\\\",\\\"react-dom\\\",\\\"react-router-dom\\\",\\\"@tanstack/react-query\\\",\\\"axios\\\",\\\"tailwindcss\\\",\\\"vitest\\\",\\\"@testing-library/react\\\",\\\"msw\\\",\\\"eslint\\\",\\\"prettier\\\",\\\"typescript\\\"];const b=r.filter(k=>!d[k]||!/^[0-9]/.test(d[k]));if(b.length){console.error(\\\"unpinned or missing: \\\"+b.join(\\\", \\\"));process.exit(1)}\" && git ls-files --error-unmatch frontend/package-lock.json >/dev/null'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm install --no-audit --no-fund\" >/dev/null'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/src/main.tsx && grep -q createRoot frontend/src/main.tsx && grep -q \"id=\\\"root\\\"\" frontend/index.html && ls frontend/tailwind.config.* >/dev/null && grep -RqE \"@tailwind (base|components|utilities)\" frontend/src --include=*.css && grep -RqE \"className=\\\"[^\\\"]*(flex|grid|min-h-screen|mx-auto|p-[0-9]|text-[a-z])\" frontend/src --include=*.tsx'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/package.json && find frontend/src -name \"*.test.tsx\" | grep -q . && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm test -- --run\" >/dev/null'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/tsconfig.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npx tsc --noEmit\"'"
+    },
+    {
+      "issue_id": "t2",
+      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(react-hook-form|zod|recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
     }
   ]
 }

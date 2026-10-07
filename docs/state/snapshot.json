@@ -1,41 +1,39 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:34:07Z",
-  "last_seq": 114,
+  "updated_at": "2026-10-07T16:40:13Z",
+  "last_seq": 121,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t3",
-      "role": "builder",
-      "phase": "implement",
-      "spawn_at": "2026-10-07T16:34:07Z",
-      "last_activity_at": "2026-10-07T16:34:07Z",
-      "run_id": "cf8824aa-d13e-400b-8756-419ef655304f",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "spawn_at": "2026-10-07T16:40:13Z",
+      "last_activity_at": "2026-10-07T16:40:13Z",
+      "run_id": "05a3acc8-56d0-4445-8f0d-90f16a801d1d",
       "worktree_path": "../worktrees/t3"
     },
     {
       "slot": 2,
-      "issue_id": "t2",
-      "role": "verifier",
-      "phase": "verify_post_merge",
-      "spawn_at": "2026-10-07T16:33:46Z",
-      "last_activity_at": "2026-10-07T16:33:46Z",
-      "run_id": "19e28836-1cc5-4a03-aea5-474a335866d6",
-      "worktree_path": "../worktrees/verify-4f89797"
+      "issue_id": "t4",
+      "role": "definer",
+      "phase": "groom",
+      "spawn_at": "2026-10-07T16:40:13Z",
+      "last_activity_at": "2026-10-07T16:40:13Z",
+      "run_id": "d4f14676-ce25-482d-ac71-1e9f197d20db",
+      "worktree_path": null
     }
   ],
   "merge_queue": [],
   "active_issues": [
     {
-      "issue_id": "t2",
-      "state": "verified",
-      "modifiers": [
-        "merge_confirmed_pending"
-      ]
+      "issue_id": "t3",
+      "state": "built",
+      "modifiers": []
     },
     {
-      "issue_id": "t3",
-      "state": "groomed",
+      "issue_id": "t4",
+      "state": "defined",
       "modifiers": []
     }
   ]
