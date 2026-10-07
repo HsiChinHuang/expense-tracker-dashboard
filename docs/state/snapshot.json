@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:16:33Z",
-  "last_seq": 95,
+  "updated_at": "2026-10-07T16:22:27Z",
+  "last_seq": 101,
   "slots": [
     {
       "slot": 1,
@@ -29,11 +29,13 @@
     {
       "issue_id": "t1",
       "state": "verified",
-      "modifiers": []
+      "modifiers": [
+        "merge_confirmed_pending"
+      ]
     },
     {
       "issue_id": "t2",
-      "state": "built",
+      "state": "verified",
       "modifiers": []
     }
   ]

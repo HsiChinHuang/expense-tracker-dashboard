@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t2",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/t2.md#verification-commands",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const r=[\\\"react\\\",\\\"react-dom\\\",\\\"react-router-dom\\\",\\\"@tanstack/react-query\\\",\\\"axios\\\",\\\"tailwindcss\\\",\\\"vitest\\\",\\\"@testing-library/react\\\",\\\"msw\\\",\\\"eslint\\\",\\\"prettier\\\",\\\"typescript\\\"];const b=r.filter(k=>!d[k]||!/^[0-9]/.test(d[k]));if(b.length){console.error(\\\"unpinned or missing: \\\"+b.join(\\\", \\\"));process.exit(1)}\" && git ls-files --error-unmatch frontend/package-lock.json >/dev/null'",
+        "exit_code": 0,
+        "note": "Node/manifest half ran verbatim under WSL (exit 0, all 12 packages pinned exact). Git half (git ls-files --error-unmatch frontend/package-lock.json) executed via Windows git toolchain (exit 0) because WSL git cannot resolve this worktree's Windows-path gitdir pointer; same adaptation the Builder used and the one prescribed by the run environment."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm install --no-audit --no-fund\" >/dev/null'",
+        "exit_code": 0,
+        "note": "npm install completed (474 packages, exit 0) with the documented env workaround `set npm_config_allow_scripts= &&` injected into the cmd.exe invocation: the Windows shell exports npm_config_allow_scripts=msgpackr-extract which makes npm 11.17.0 abort project-scoped installs with EALLOWSCRIPTS regardless of repo contents (verbatim command reproduces EALLOWSCRIPTS even with the Builder's frontend/.npmrc present; the empty-set override is the only fix). Environment artifact, not a builder deviation; ac4/ac5 verbatim passed without the workaround."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/main.tsx && grep -q createRoot frontend/src/main.tsx && grep -q \"id=\\\"root\\\"\" frontend/index.html && ls frontend/tailwind.config.* >/dev/null && grep -RqE \"@tailwind (base|components|utilities)\" frontend/src --include=*.css && grep -RqE \"className=\\\"[^\\\"]*(flex|grid|min-h-screen|mx-auto|p-[0-9]|text-[a-z])\" frontend/src --include=*.tsx'",
+        "exit_code": 0
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json && find frontend/src -name \"*.test.tsx\" | grep -q . && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm test -- --run\" >/dev/null'",
+        "exit_code": 0,
+        "note": "Vitest 1.6.0 non-watch run: 1 test file, 3/3 tests passed (app_shell.test.tsx). Passed both with workaround and verbatim."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/tsconfig.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npx tsc --noEmit\"'",
+        "exit_code": 0,
+        "note": "Strict tsconfig (strict, noUnusedLocals, noUncheckedIndexedAccess) compiles cleanly; passed verbatim."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(react-hook-form|zod|recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
+        "exit_code": 0,
+        "note": "No CSS-in-JS or deferred dependencies in manifest."
+      }
+    },
+    "test_summary": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_6_ac_pass": true,
+      "install_test_tsc_exit_0": true,
+      "diff_only_frontend_no_node_modules_committed": true,
+      "t0_cumulative_checks_ac1_ac5_unaffected": true,
+      "no_secrets_english_only": true,
+      "conventional_commit": true
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t2_verifier_verify_issue.json"
+    ],
+    "platform_issue": 5,
+    "output_path": "docs/state/outputs/t2_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:18:52Z",
+  "retry_count": 0
+}
