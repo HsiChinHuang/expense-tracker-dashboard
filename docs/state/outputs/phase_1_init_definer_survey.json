@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t0",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_1_init",
+    "issues_generated": ["t0", "t1", "t2", "t3", "t4"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": false,
+      "uncovered_requirements": [
+        "Phase 1 docs deliverables of REQ-PLAN-010/011 (product-spec.md, CLAUDE.md, process.md, role files, task-template.md) are intentionally deferred: this repo already hosts the agent workflow under skills/ and AGENTS.md, and the requirements' agent-workflow chapter (REQ-AI/REQ-EXT, Chapter 9/10) maps to the phase_6_agent milestone; review_plan should confirm this mapping.",
+        "All requirements of delivery phases 2-8 (auth, CRUD, dashboard, infra/deploy, agent pack, security/ops, docs) are planned as later milestones in docs/plan.md and are uncovered by phase_1_init issues by design (rolling planning).",
+        "REQ-PROD-017 (database fallback) is planned in phase_5_infra, not phase_1_init.",
+        "REQ-STRUCT-001 subdirectories agent-capabilities/, agent-hooks/, mcp-server/, custom-agent/, .agents/ are explicitly excluded from t0 and owned by phase_6_agent."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 4,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t0.md",
+      "docs/issues/t1.md",
+      "docs/issues/t2.md",
+      "docs/issues/t3.md",
+      "docs/issues/t4.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_1_init.json",
+      "docs/state/outputs/phase_1_init_definer_survey.json"
+    ],
+    "platform_issue": 3,
+    "output_path": "docs/state/outputs/phase_1_init_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T15:35:00Z",
+  "retry_count": 2
+}
