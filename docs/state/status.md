@@ -1,17 +1,17 @@
 # Status
 
-Updated: 2026-10-07T17:20Z
+Updated: 2026-10-07T17:40Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t4 | verifier | verify_pre_merge | 17:18Z | run 153787b9 (worktree ../worktrees/verify-t4 detached @ 102b6bd, #7) |
-| 2/2 | (free) | — | — | — | t4 is the last phase_1 issue |
+| 1/2 | (free) | — | — | — | t4 closed 17:34Z |
+| 2/2 | (free) | — | — | — | — |
 
 ## Merge queue
 
-(empty — t4: pre-merge -> merge -> post-merge -> closure remains)
+(empty)
 
 ## Ready issues
 
@@ -19,7 +19,7 @@ Updated: 2026-10-07T17:20Z
 
 ## Blocked issues
 
-(none — t3 unblocked at t1 closure 16:36Z and is now grooming)
+(none)
 
 ## Closed / merged
 
@@ -29,6 +29,11 @@ Updated: 2026-10-07T17:20Z
 | t1 | #4 | 792f644 | PASS 11/11 (gate4) | 2026-10-07T16:36Z |
 | t2 | #5 | 4f89797 | PASS 17/17 (gate4) | 2026-10-07T16:53Z |
 | t3 | #6 | b3c5746 | PASS 22/22 (gate4) | 2026-10-07T17:03Z |
+| t4 | #7 | 410ac3e | PASS 28/28 (gate4) | 2026-10-07T17:34Z |
+
+## Run state
+
+**phase_1_init COMPLETE — Step 13 completion check passed (both phases).** See `docs/state/complete.md`. No further milestone is planned; phase_2 planning (Definer survey) requires an operator/launcher go-ahead.
 
 ## Open blockers
 
@@ -36,10 +41,9 @@ Updated: 2026-10-07T17:20Z
 
 ## Notes
 
-- Cumulative merge test index: 22 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6, t3 ×5). t4's 6 append at t4 closure.
-- GitHub API outage 16:50–17:01Z: comments-POST + git push 500s (recovered; t3 verdict comment backfilled 17:01:41Z). Label endpoints STILL 500 — use `issue update <n> --labels` (PATCH) workaround.
-- t3 groom: contract-first, pytest node-ID pinned; phase-1 static health semantics documented (phase_5 re-grooms); ac5 pre-implementation pass is intentional (lint gate).
-- Model-suffix spawn override (`:medium`) transiently rejected at t4 spawn (WAL 120) — definer default thinking=medium covers it; verifier `:low` still works.
-- t2 verify_pre_merge first attempt (95cabfd3) exited 0 mid-work with no handoff/comment ->
-  resumed as c38b09bd (WAL 106). If it fails again: retry_count 1 of 2, then failures.md routing.
+- Cumulative merge test index: 28 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6, t3 ×5, t4 ×6).
+- merge_history: 5 entries, total retries 1 (t2 pre-merge resume), regressions 0.
+- GitHub API outages during this run: comments-POST + push 500s 16:50–17:01Z (recovered; t3 verdict backfilled); label endpoints 500 mid-run → PATCH `issue update --labels` workaround; both fully recovered by t4 closure (normal endpoints used).
+- Model-suffix spawn override (`:medium`) transiently rejected at t4 groom spawn (WAL 120) — definer default thinking=medium covers it; verifier `:low` works.
+- Stray tracked CRLF copy of `docs/issues/t2.md` removed 17:38Z (Windows-side resurrect swept by `git add -A docs`; authoritative `closed/t2.md` intact).
 - Fairness metrics are in `docs/state/metrics/status_metrics.json` (updated every iteration).
