@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_2_auth",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t5", "t6", "t7", "t8", "t9"],
+    "findings": [
+      {
+        "issue_id": "t8",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "t8 is at the max_acs=6 cap, implies ~8+ files (4 source + tests + main.py registration + core/errors.py additions), and its own Constraints admit the diff may exceed max_diff_lines=300 (limits: max_files=4, max_diff_lines=300, warn_only=true). Assessed as acceptable WITHOUT a split: the register/login/me vertical shares one service, one schema module, one dependency, and one integration-test module, so splitting (e.g. router vs service) would create horizontal layers rather than verticals and double the contract surface groom must pin. The Constraints section already pre-empts Builder self-splitting. Groom must keep verification node-ID-scoped so per-AC runs stay cheap despite the diff size."
+      },
+      {
+        "issue_id": "t9",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "t9 is at the max_acs=6 cap with ~10 paths (client.ts, auth.ts, auth_context.tsx, protected_route.tsx, public_only_route.tsx, login_page.tsx, register_page.tsx, App.tsx, main.tsx, test/handlers.ts, plus co-located tests) and an estimated 500-700 diff lines, exceeding max_files=4 and max_diff_lines=300 (warn_only). Assessed as acceptable WITHOUT a split: client+context+guards+pages form one inseparable user-facing auth vertical, and the frontend is contract_first.allow_natural_for=ui territory where AC-level granularity (client/context/guards/pages already map to ac1-ac4) gives the Verifier per-AC seams. A client-vs-pages split would leave a half-wired app shell in the intermediate state. Groom should pin vitest filters per AC so the oversized diff stays verifiable incrementally."
+      },
+      {
+        "issue_id": "t5",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "t5 sits exactly at the max_acs=6 cap (warn_only). File list is 4 (config.py, database.py, alembic.ini, alembic/env.py) which is at, not over, max_files; diff expected well under 300 lines. Non-blocking; recorded only because AC count is at the cap. All six ACs are mechanically checkable once groom pins commands (pytest node IDs for ac1/ac2/ac3, alembic/make exit codes for ac4/ac5, suite gates for ac6)."
+      },
+      {
+        "issue_id": "t6",
+        "category": "other",
+        "severity": "warning",
+        "description": "ac3 is the one AC in the milestone that is not cleanly mechanically checkable as drafted: it mixes a docstring requirement ('Builder MUST document in a docstring that email normalization to lowercase happens in the service layer') with a testable core (duplicate-email IntegrityError unit test). Groom MUST pin the checkable core (pytest node ID for the IntegrityError test) and either drop the docstring clause to a Context note or make it a grep-able assertion (e.g. rg -i 'lowercase' backend/app/models/user.py exit 0). Left ambiguous, a Verifier could fail the AC on prose wording, which is an ac_ambiguous failure waiting to happen."
+      },
+      {
+        "issue_id": "t6",
+        "category": "other",
+        "severity": "warning",
+        "description": "ac2 pins the alembic command pair 'upgrade head / downgrade base / upgrade head' but does not state which database file the commands run against. t5/t6/t8 constraints forbid polluting backend/dev.db (which is gitignored via *.db, so pollution is invisible, not impossible), and a shared dev.db across worktrees/serial runs would make downgrade-base destructive of another run's state. Groom should pin the exact DATABASE_URL/DATABASE_URL env override (tmp file SQLite) for the ac2 command sequence, mirroring t8's per-test tmp_path isolation constraint."
+      },
+      {
+        "issue_id": "t9",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "t9 ac5 lifts the react-hook-form/zod ban that merged t2 ac6 (verification command greps package.json for forbidden/deferred deps including react-hook-form and zod) placed. t9's Constraints correctly state the ban is lifted for phase_2 and the check becomes exact-pin (no ranges), and t2 is closed so its per-issue gate no longer runs. Residual risk is a future milestone-level full-suite run reusing t2's ac6 command verbatim and failing post-merge. Groom for t9 must state that the forbidden-dep grep runs WITHOUT the react-hook-form/zod entries (the placeholder already notes this) and must pin a positive exact-version check (node -e reading package.json, asserting /^\\d+\\.\\d+\\.\\d+$/ for react-hook-form 7.x and zod 3.x)."
+      },
+      {
+        "issue_id": "t9",
+        "category": "other",
+        "severity": "warning",
+        "description": "Citation typo: t9 ac5 cites REQ-ARCH-044 for 'no raw fetch/axios outside src/api/'. No REQ-ARCH-044 exists in docs/requirements.md; the correct IDs are REQ-FE-044 (centralized API rationale) and/or REQ-ARCH-070 (centralized API layer, already cited in the Metadata line). The AC's checkability (lint/grep for raw axios/fetch outside src/api/) is unaffected; fix the citation at groom."
+      },
+      {
+        "issue_id": "t9",
+        "category": "other",
+        "severity": "warning",
+        "description": "ac2 says main.tsx nests 'QueryClientProvider -> BrowserRouter -> AuthProvider -> App' while REQ-ARCH-013 names five providers ending in MonthProvider/ToastProvider. t9 correctly scopes MonthProvider/ToastProvider to phase_3/phase_4 and forbids stubbing them, so this is a documented partial-satisfaction progression toward REQ-ARCH-013, not a contradiction — but the milestone exit verifier should record REQ-ARCH-013 as fully checkable only after phase_4, and phase_4's survey must own completing the nesting."
+      },
+      {
+        "issue_id": "t9",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "REQ-PROD-036 (Should) auth-relevant frontend edge cases: token-expiry-during-session is covered via the 401 interceptor (ac1), protected-route-without-login and back-after-logout via ac3 guards. One named edge case, 'network error' handling, is only implicitly covered by ac1's 'distinct code for network errors' normalization; no AC asserts a user-visible network-error path. Acceptable for phase_2 (the toast/UI surface is phase_3 scope per survey deferral 2), but phase_3_crud survey must explicitly own the remaining REQ-PROD-036 cases so they do not fall between milestones."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Survey deferral adjudication (all five CONFIRMED as honestly scoped, not gaps in phase_2 scope): (1) REQ-BE-042 get_client_ip -> phase_3_crud with audit logging: correct, IP is only consumed by audit writes. (2) REQ-PROD-036 partial -> see t9 finding above; auth subset owned here, remainder named to phase_3/phase_4. (3) REQ-PROD-030 partial -> accepted: every auth edge case in Chapter 2 s2.5.1 that phase_2 can physically exercise IS pinned (duplicate email/username t8 ac1, wrong password/nonexistent email t8 ac2, expired/invalid/missing token t8 ac3 + t7 ac4, alg=none t7 ac4); the disabled-user case is resolved as USER_INACTIVE per Chapter 7 s7.8 error table (t8 ac2/ac3), consistent with REQ-SEC-022. (4) REQ-ARCH-074 localStorage trade-off doc -> phase_7_security_ops: correct, it is a security/ artifact. (5) REQ-BE-120 JSON log formatter -> phase_5_infra with t8 ac5 explicitly accepting stdlib logging + structured extra in phase_2: correct, and t8 ac5's caplog test (no raw email/password in log records) is the security-relevant part kept here."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "Delta correctness vs merged reality verified against the tree: backend/alembic contains only versions/.gitkeep and no alembic.ini exists (t5 ac4's premise 'replacing the empty versions-only tree' is true); Makefile migrate target is the t4 echo-only stub t5 ac5 replaces (line 73); .env.example already carries all 13 app variables from t4, so t5 ac1's 'defaults matching .env.example' has a real source of truth and t5 must EXTEND nothing there; backend/pyproject.toml already declares sqlalchemy/alembic/pydantic/python-jose/passlib (t7's 'already declared' premise true; pydantic-settings addition pre-authorized in t5 Constraints with uv.lock pinning); frontend/package.json has axios/react-router/tanstack/msw but no react-hook-form/zod (t9's add-these premise true); .env is gitignored and *.db/*.sqlite3 are ignored (dev.db pollution invisible but untracked). No AC in t5..t9 contradicts a merged phase_1 contract."
+      },
+      {
+        "issue_id": null,
+        "category": "dependency_error",
+        "severity": "warning",
+        "description": "Dependency structure verdict: all depends references exist; dag.json edges match the five issue frontmatters exactly (13 edges, 10 nodes); cycles []; only root among new nodes is via closed t1/t2/t4, no orphans; topological order valid. Two accepted modeling choices flagged for the record: (a) t9->t8 is a contract-only dependency (t9 tests run against MSW fixtures mirroring t8's response/error shapes, stated in t9 Dependencies) — keeping the edge is correct because merging t9 before the real contract lands would let MSW fixtures encode a fiction; (b) the t5->t6->t7->t8->t9 chain serializes the 8-node critical path against slots.max=2, so only t5 can start immediately and the frontend slot idles until t8 lands. Acceptable for one milestone (dep chain 8 < limits.dep_chain_warn 10); if phase_3 shows the same starvation, a future survey may consider contract-first fixture issues to parallelize. No action now."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete - all 76 distinct REQ IDs cited across t5..t9 exist in docs/requirements.md except one typo (REQ-ARCH-044, finding above). phase_2_auth scope per REQ-PLAN-020/021 (15 tasks) maps fully: user model t6, password t7 ac1/ac2, JWT t7 ac3/ac4, register/login/me t8 ac1-ac3, auth dependency t8 ac3, auth unit tests t7 ac1-ac4 + t8 ac5, auth integration tests t8 ac4, AuthContext t9 ac2, axios client t9 ac1, login page t9 ac4, register page t9 ac4, ProtectedRoute t9 ac3, frontend auth tests t9 ac1-ac4/ac6. Security ACs verified present: bcrypt rounds=12 (t7 ac1, $2b$12$ prefix check), HS256 alg-confusion/alg=none rejection (t7 ac4), 24h expiry (t7 ac3 exp-iat==1440*60), disabled-user paths (t8 ac2/ac3 USER_INACTIVE), timing parity (t7 ac2 + t8 ac2 spy), production JWT_SECRET refusal (t5 ac2). Five survey deferrals adjudicated, none re-litigated as gaps.",
+      "granularity_check": "complete - limits.issue_granularity: max_acs=6, max_files=4, max_diff_lines=300, warn_only=true. AC counts t5=6, t6=5, t7=5, t8=6, t9=6. No issue at 1 AC / 0 files, so no granularity_too_small. Three granularity_too_large warnings (t5 at cap; t8 and t9 over files/lines) with split-vs-keep assessments recorded; recommendation is KEEP as drafted.",
+      "dependency_check": "complete - depends references all resolve; dag.json/dag.mmd/issue frontmatter agree; cycles []; no orphans (t5<-t1,t4; t6,t7<-t5; t7<-t6; t8<-t7; t9<-t2,t8); critical path t0->t1->t4->t5->t6->t7->t8->t9 length 8, under limits.dep_chain_warn=10; t9->t8 contract-edge and chain serialization accepted with rationale.",
+      "duplicate_contradiction_check": "complete - no duplicate ACs across t5..t9 (each AC names distinct files/behaviors; regression-gate ACs t5 ac6/t6 ac5/t7 ac5/t8 ac6 are per-issue no-regression gates, an accepted pattern from phase_1). One latent contradiction flagged: t2 ac6's forbidden-dep grep vs t9's RHF/zod introduction, managed by explicit ban-lift language in t9 ac5/Constraints (finding with groom instruction). snake_case filename deviation from Chapter 8 names (auth_context.tsx vs AuthContext.tsx) is correctly resolved in t9 Constraints in favor of coding_standards.md s 'Files: snake_case' with t2 app_shell.tsx precedent - not a finding.",
+      "ac_checkability_check": "complete - all 28 ACs judged mechanically checkable once groom pins commands, with two flagged risks: t6 ac3 docstring clause (needs pinning to the IntegrityError test core) and t6 ac2 DB-target ambiguity (needs pinned tmp DATABASE_URL). All five issues carry the 'Verification commands' placeholder; per t3/t4 precedent groom must pin pytest node IDs / vitest -t filters / CLI exit codes per AC and fail-pre-implementation behavior per AC.",
+      "platform_check": "verified read-only via scripts/platform.ts issue get (authoritative): #8..#12 open, label 'defined', titles match t5..t9 exactly; docs/state/issue_map.json agrees (t5:8 ... t9:12). No platform flakiness encountered this run (5/5 issue-get succeeded first try); no comment or label writes were needed, so no endpoint failures to record."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_2_auth.json",
+      "docs/state/outputs/phase_2_auth_definer_review_plan.json"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/phase_2_auth_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T18:36:00Z",
+  "retry_count": 0
+}
