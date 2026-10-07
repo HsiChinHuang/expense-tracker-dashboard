@@ -9,8 +9,8 @@
       "role": "verifier",
       "phase": "verify_issue",
       "spawn_at": "2026-10-07T19:40:48Z",
-      "last_activity_at": "2026-10-07T19:40:48Z",
-      "run_id": "pending",
+      "last_activity_at": "2026-10-07T19:41:03Z",
+      "run_id": "21ea5082-14f1-4a6a-a551-4ebf97d9b179",
       "worktree_path": "../worktrees/t6"
     },
     {
