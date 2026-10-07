@@ -174,3 +174,13 @@ desktop.ini
 # package.json
 # tsconfig.json
 # .eslintrc.json
+
+# ============================================================
+# Generated / runtime artifacts (REQ-STRUCT-060)
+# ============================================================
+*.db
+*.sqlite3
+RENDER_DEPLOY_HOOK
+*.log
+build/
+coverage/
