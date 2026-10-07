@@ -6,10 +6,10 @@ Updated: 2026-10-07T19:52Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t6 | verifier | verify_pre_merge | 19:51Z | run 72464fe0 (worktree ../worktrees/t6 @ c4d62d5, #9) |
-| 2/2 | (free) | — | — | — | t7 gated on t6 closure |
+| 1/2 | t7 | definer | groom | 20:10Z | run 43ee8975 (main checkout, #10) |
+| 2/2 | (free) | — | — | — | t8 gated on t7 closure |
 
-**t5 CLOSED** (merge `8e9fcb3`). t6 verify_issue gate3 passed (5/5 + 34 cumulative, ac3 semantics confirmed). phase_2_auth 1/5.
+**t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
 
 ## Merge queue
 
