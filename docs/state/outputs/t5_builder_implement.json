@@ -1,0 +1,82 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t5-db-foundation",
+    "branch_sha": "7ca676e",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/unit/test_config.py::TestSettings::test_env_var_overrides_default tests/unit/test_config.py::TestSettings::test_defaults_match_env_example -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && env JWT_SECRET=change-me ENVIRONMENT=development uv run pytest tests/unit/test_config.py::TestSettings::test_production_rejects_default_secret tests/unit/test_config.py::TestSettings::test_development_allows_default_secret -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t5_ac3.db\" uv run pytest tests/integration/test_database.py::TestDatabase::test_get_db_yields_and_closes_session tests/integration/test_database.py::TestDatabase::test_sqlite_pragma_foreign_keys_enabled -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t5_ac3.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f alembic.ini && test -f alembic/env.py && rm -f /tmp/t5_ac4.db && DATABASE_URL=\"sqlite:////tmp/t5_ac4.db\" uv run alembic upgrade head >/dev/null 2>&1 || exit 1; test -f /tmp/t5_ac4.db; rc=$?; rm -f /tmp/t5_ac4.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; grep -Eq \"^migrate[[:space:]]*:\" Makefile || exit 1; grep -qP \"^\\t.*(uv run alembic upgrade head)\" Makefile || exit 1; make -n migrate >/dev/null 2>&1 || exit 1; rm -f build/t5_ac5.db; DATABASE_URL=\"sqlite:///$(pwd)/build/t5_ac5.db\" make migrate >/dev/null 2>&1 || exit 1; test -f build/t5_ac5.db; rc=$?; rm -f build/t5_ac5.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "7ca676e",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t5.md#verification-commands",
+    "notes": [
+      "All six verification commands were executed verbatim from the worktree root (equivalent to repo root) after the commit; all exited 0.",
+      "ac5 deviation (disclosed): the migrate recipe gained a second tab-anchored line '@mkdir -p build' before 'cd backend && uv run alembic upgrade head'. The pinned ac5 command writes build/t5_ac5.db but never creates the gitignored build/ directory, and SQLite cannot create a DB into a nonexistent directory — without the mkdir the AC fails with 'unable to open database file' on any clean checkout. No DB path is hardcoded and no backend/.env is required; the recipe still honors the caller's DATABASE_URL via env.py -> Settings. The grep contract (^migrate: rule + tab line containing 'uv run alembic upgrade head') is satisfied.",
+      "ac2 note: the production-refusal test additionally covers the empty-string secret; both raise pydantic ValidationError. Tests construct Settings(environment=...) explicitly so machine ENVIRONMENT cannot leak.",
+      "Settings deliberately omits VITE_API_BASE_URL / MCP_API_BASE_URL / MCP_JWT_SECRET per the AC's Defaults table.",
+      "backend/dev.db, backend/app/main.py, the health contract, and .env.example are untouched (verified via git diff --stat and absence of dev.db).",
+      "Diff = the 4 plan files + 2 test modules + pyproject.toml/uv.lock (pydantic-settings 2.15.0) + the Makefile migrate target only (9 files, +455/-1).",
+      "Platform comment posted on issue #8 and labels transitioned groomed -> built successfully (no API flakiness)."
+    ],
+    "ac_suggestions": [],
+    "memory_applied": []
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/config.py",
+      "backend/app/database.py",
+      "backend/alembic.ini",
+      "backend/alembic/env.py",
+      "backend/tests/unit/test_config.py",
+      "backend/tests/integration/test_database.py",
+      "backend/pyproject.toml",
+      "backend/uv.lock",
+      "Makefile"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/t5_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T18:42:02Z",
+  "retry_count": 0
+}
