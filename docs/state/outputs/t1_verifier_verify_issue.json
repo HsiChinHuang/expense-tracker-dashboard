@@ -1,0 +1,91 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t1",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "branch": "issue/t1-backend-skeleton",
+    "branch_sha": "d380cee836c9af6464b743eb923266a5b9adda55",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && test -f pyproject.toml && grep -Eq \"requires-python *= *\\\"[^\\\"]*3\\.12\" pyproject.toml && for p in fastapi uvicorn sqlalchemy alembic pydantic python-jose passlib httpx pytest-cov pytest-asyncio pytest ruff mypy; do grep -qi -- \"$p\" pyproject.toml || exit 1; done && test -f uv.lock'",
+        "exit_code": 0,
+        "note": "requires-python=\">=3.12\"; all 13 dependency tokens present; backend/uv.lock exists and is committed (git ls-files)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv sync >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Shared venv unavailable ([VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; scripts/venv_path.py requires root pyproject.toml which lives in backend/), so per-worktree uv sync fallback applied as documented. Fresh sync completed in ~27s."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f app/main.py && grep -Eq \"def create_app\" app/main.py && grep -Eq \"^app *= *create_app\" app/main.py && uv run pytest tests/unit/test_smoke.py -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "create_app factory + module-level app = create_app() confirmed; TestClient smoke test asserts GET / -> 200."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && out=$(uv run pytest -q 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\"'",
+        "exit_code": 0,
+        "note": "uv run pytest -q: 2 passed, 1 warning (non-blocking StarletteDeprecationWarning from fastapi.testclient/httpx)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "ruff check .: All checks passed!; mypy .: exit 0. line-length=100 and mypy strict configured in backend/pyproject.toml."
+      }
+    },
+    "test_summary": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_5_ac_verified_via_verification_commands": true,
+      "uv_sync_pytest_ruff_mypy_exit_0_in_backend": true,
+      "backend_uv_lock_committed": true,
+      "at_least_1_test_under_backend_tests": true,
+      "no_secrets_no_env_file": true,
+      "t0_structural_checks_still_hold": true
+    },
+    "cumulative_t0_results": {
+      "source": "docs/state/merge_test_index.json (Orchestrator-amended per WAL 77; t0/ac6 find rescoped to e2e security ops .github)",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "note": "Git-dependent parts (t0 ac1 git ls-files, ac4 git check-ignore, ac5 git ls-files) executed via cmd.exe Windows git toolchain (git -C <worktree>) because WSL git cannot resolve the worktree's Windows gitdir pointer; command semantics unchanged. No regressions."
+    },
+    "verification_commands_source": "docs/issues/t1.md#verification-commands",
+    "notes": [
+      "All 5 commands from docs/issues/t1.md ## Verification commands were run verbatim (unmodified strings) from the worktree root C:/Users/tw097/Desktop/261007_project01/worktrees/verify-t1 at HEAD d380cee836c9af6464b743eb923266a5b9adda55 (matches assigned branch_sha).",
+      "Builder ac_mapping commands match ## Verification commands exactly; no [BUILDER_COMMAND_MISMATCH].",
+      "Test quality: backend/tests/unit/test_smoke.py has 2 tests with meaningful assertions (status_code == 200, json payload equality); no assert True.",
+      "Working tree at HEAD contains only builder-intended files under backend/ (pyproject.toml, uv.lock, app/main.py, tests/unit/test_smoke.py); uv.lock confirmed tracked; no .env anywhere; git status shows only the pre-copied builder handoff (untracked) and the Orchestrator-amended merge_test_index.json.",
+      "Environment: uv Linux binary at ~/.local/bin/uv resolved via the PATH export embedded in the commands; UV_PROJECT_ENVIRONMENT intentionally not set; per-worktree backend/.venv (gitignored).",
+      "Platform: verdict comment posted on issue #4; labels swapped built -> verified; issue get 4 confirms labels=[\"verified\"]."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t1_verifier_verify_issue.json"
+    ],
+    "platform_issue": 4,
+    "output_path": "docs/state/outputs/t1_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:16:30Z",
+  "retry_count": 0
+}
