@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:29:30Z",
-  "last_seq": 107,
+  "updated_at": "2026-10-07T16:29:50Z",
+  "last_seq": 108,
   "slots": [
     {
       "slot": 1,
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "spawn_at": null,
-      "last_activity_at": null,
-      "run_id": null,
+      "issue_id": "t3",
+      "role": "definer",
+      "phase": "groom",
+      "spawn_at": "2026-10-07T16:29:50Z",
+      "last_activity_at": "2026-10-07T16:29:50Z",
+      "run_id": "60927fe1-fb76-4a7e-9ae1-2871c44f0dff",
       "worktree_path": null
     },
     {
@@ -29,6 +29,11 @@
     {
       "issue_id": "t2",
       "state": "verified",
+      "modifiers": []
+    },
+    {
+      "issue_id": "t3",
+      "state": "defined",
       "modifiers": []
     }
   ]
