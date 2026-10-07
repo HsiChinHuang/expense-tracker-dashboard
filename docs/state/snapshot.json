@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:07:00Z",
-  "last_seq": 78,
+  "updated_at": "2026-10-07T16:07:56Z",
+  "last_seq": 83,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t1",
-      "role": "definer",
-      "phase": "groom",
-      "spawn_at": "2026-10-07T16:00:51Z",
-      "last_activity_at": "2026-10-07T16:00:51Z",
-      "run_id": "cb98f431-27b3-4446-b38d-5ee14a70bb7e",
-      "worktree_path": null
+      "role": "builder",
+      "phase": "implement",
+      "spawn_at": "2026-10-07T16:07:56Z",
+      "last_activity_at": "2026-10-07T16:07:56Z",
+      "run_id": "c90a957a-4b11-4a40-8c07-99afbb5761b0",
+      "worktree_path": "../worktrees/t1"
     },
     {
       "slot": 2,
       "issue_id": "t2",
-      "role": "orchestrator",
-      "phase": "await_builder_slot",
-      "spawn_at": "2026-10-07T16:00:51Z",
-      "last_activity_at": "2026-10-07T16:07:00Z",
-      "run_id": "36633db1-05e2-40e0-8e38-32acbf3f8f8f",
-      "worktree_path": null
+      "role": "builder",
+      "phase": "implement",
+      "spawn_at": "2026-10-07T16:07:56Z",
+      "last_activity_at": "2026-10-07T16:07:56Z",
+      "run_id": "6b6db417-e84c-45ad-95d0-39ac21238e72",
+      "worktree_path": "../worktrees/t2"
     }
   ],
   "merge_queue": [],
