@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:45:58Z",
-  "last_seq": 124,
+  "updated_at": "2026-10-07T16:51:21Z",
+  "last_seq": 128,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t3",
       "role": "verifier",
-      "phase": "verify_pre_merge",
-      "spawn_at": "2026-10-07T16:45:58Z",
-      "last_activity_at": "2026-10-07T16:45:58Z",
-      "run_id": "40ea5f89-f458-4f2b-a394-2e4af0414d0d",
-      "worktree_path": "../worktrees/t3"
+      "phase": "verify_post_merge",
+      "spawn_at": "2026-10-07T16:51:21Z",
+      "last_activity_at": "2026-10-07T16:51:21Z",
+      "run_id": "4cf67138-21e7-43aa-9aae-cdc0be7eb140",
+      "worktree_path": "../worktrees/verify-b3c5746"
     },
     {
       "slot": 2,
@@ -29,7 +29,9 @@
     {
       "issue_id": "t3",
       "state": "verified",
-      "modifiers": []
+      "modifiers": [
+        "merge_confirmed_pending"
+      ]
     },
     {
       "issue_id": "t4",
