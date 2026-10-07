@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t2",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "notes": [
+      "CWD verified as first action: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/verify-t2 (Windows path C:/Users/tw097/Desktop/261007_project01/worktrees/verify-t2). Sibling worktrees ../worktrees/verify-t1 and ../worktrees/verify-792f644 never touched.",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset (Node project; scripts/venv_path.py expects a root-level pyproject.toml which this repo keeps in backend/). WARN only per skill; command strings were NOT modified.",
+      "Candidate branch confirmed: git branch --show-current = issue/t2-frontend-skeleton, HEAD d7c4f3c8b14a655214399666bd2780cb5bd0d98b (matches spawn arg). No state-changing git command was run (no checkout/merge/rebase); all git access read-only via the Windows toolchain (cmd.exe git -C <worktree>) because WSL git cannot resolve this worktree's Windows gitdir pointer.",
+      "Cumulative suite (docs/state/merge_test_index.json, 6 t0 entries incl. the WAL 77 Orchestrator rescope of t0/ac6 to 'e2e security ops .github') executed from the worktree root: 6/6 exit 0. Git-dependent parts (t0 ac1 git ls-files, ac4 git check-ignore, ac5 git ls-files) ran through the read-only Windows git form; semantics unchanged, no regressions from t2's frontend/ changes.",
+      "Smoke tests: docs/plan.md has no '## Smoke tests' section and docs/commands.md defines no smoke commands. Per the skill's fallback guidance and the t0/t1 verify_pre_merge precedent, the 6 t2 AC verification commands from docs/issues/t2.md ## Verification commands were used as the smoke set: ac1..ac6 all exit 0 (6/6). 12 distinct commands executed in total, satisfying merge.smoke_tests_min=10 in aggregate; the 6/6 split is reported per the schema.",
+      "ac1 PASS: all 12 required packages pinned exact (no ^/~/latest) in frontend/package.json; frontend/package-lock.json tracked (git ls-files --error-unmatch exit 0).",
+      "ac2 PASS: npm install exit 0 in frontend/ with the documented environment workaround 'set npm_config_allow_scripts= &&' injected into the cmd.exe invocation. The verbatim command reproduces EALLOWSCRIPTS (Windows shell exports npm_config_allow_scripts=msgpackr-extract, which makes npm 11.17.0 abort project-scoped installs regardless of repo contents) — same finding as the verify_issue sibling and the t1 run's analogous env artifacts; environment artifact, not a builder deviation. node_modules was already present so the install was a fast no-op.",
+      "ac3 PASS: main.tsx uses createRoot; index.html has <div id=\"root\">; tailwind.config.js present; src/index.css has @tailwind directives; app_shell.tsx uses Tailwind utility classes in className.",
+      "ac4 PASS: find located app_shell.test.tsx; Vitest 1.6.0 non-watch run exit 0 — 1 test file, 3/3 tests passed.",
+      "ac5 PASS: npx tsc --noEmit exit 0 (strict tsconfig compiles cleanly; only a benign npm allow-scripts warning on stderr).",
+      "ac6 PASS: no CSS-in-JS (styled-components/@emotion/*/styled-jsx/@stitches/*/@linaria/*) and no deferred deps (react-hook-form, zod, recharts, date-fns) in the manifest.",
+      "Diff review: git diff --name-only cb2e5cc..HEAD = 15 files, ALL under frontend/ (manifest, lockfile, configs, index.html, src entry/shell/test). No backend/, root-tooling, or docs/state product files touched by the branch itself; node_modules/ and dist/ not committed.",
+      "Merge-safety (read-only, informational): origin/main advanced during this run to 566cb94 (merged t1: backend/app/main.py, backend/pyproject.toml, backend/tests/unit/test_smoke.py, backend/uv.lock + docs/state bookkeeping incl. merge_history.json, closed/t1.md). merge-base remains cb2e5cc. git merge-tree --write-tree origin/main HEAD exits 0 with a clean tree (4644b42) and zero conflict markers — main's new code is backend/ + docs/state while t2 touches only frontend/, so the Orchestrator's merge is expected to be conflict-free. No merge/checkout/rebase performed by the Verifier.",
+      "Working tree hygiene: no verifier-authored changes to src/tests/configs; the only write performed in the worktree is this handoff JSON under docs/state/outputs/.",
+      "Platform: MERGE VERDICT PASS comment posted on issue #5 (created_at 2026-10-07T16:30:25Z) via scripts/platform.ts (node + tsx CLI, cwd=main checkout, since npx tsx fails and the worktree lacks root node_modules/.env). Comment only — no label change; verified -> closed is the Orchestrator's post-merge responsibility.",
+      "Run continuity note: the original run (95cabfd3) terminated after running all 12 commands but before posting the comment and writing this handoff. In this revival all 12 commands were re-executed and re-confirmed (same results), then the comment and handoff were completed. retry_count reported as 0 per spawn args."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t2_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 5,
+    "output_path": "docs/state/outputs/t2_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:31:30Z",
+  "retry_count": 0
+}

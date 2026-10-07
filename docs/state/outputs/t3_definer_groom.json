@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t3",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:d5e83d8a803052ea2e550a59c772650662e57b23342b942d52dd60f2a31ea523",
+    "ac_count": 5,
+    "verification_commands": {
+      "ac1": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_returns_200_without_auth tests/integration/test_health_api.py::TestHealthApi::test_health_body_has_exactly_four_fields -q >/dev/null 2>&1'",
+      "ac2": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_response_matches_pydantic_schema -q >/dev/null 2>&1'",
+      "ac3": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_phase1_reports_ok_no_fallback -q >/dev/null 2>&1'",
+      "ac4": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f tests/integration/test_health_api.py && out=$(uv run pytest -q 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\"'",
+      "ac5": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": [
+      "Draft AC refined from 5 draft bullets to 5 checkable AC (ac1..ac5), within limits.issue_granularity.max_acs=6. Every AC is observable behavior verified by a node-ID-pinned pytest command (contract_first.require_for includes backend/api), so no natural-language-only ACs were needed.",
+      "Test path deviation recorded in the issue: plan template says backend/tests/test_health_api.py, but t0's Chapter-16 structure created backend/tests/unit/ and backend/tests/integration/ and t1's smoke test sits in tests/unit/. The AC pins backend/tests/integration/test_health_api.py to match the merged reality; the plan file list is superseded, documented in Context (plan.md itself not modified).",
+      "Phase-1 scope tension handled explicitly, not silently: FR-HEALTH-1 full semantics (status degraded / fallback_active true / live DB probe) require DB session (phase_2) and SQLite fallback (phase_5, REQ-PROD-017), neither of which exists after t1 (t1 explicitly deferred DB wiring). ac3 pins the honest skeleton contract: static reporting (status ok, fallback_active false, configured database name, real app version 0.1.0 — NOT the Chapter 13 doc example 1.0.0) with the ok-iff-not-fallback invariant, and Out of scope + Context state that phase_5 re-grooms the semantics. Recorded in the platform comment too.",
+      "Test function names are part of the contract (verification commands use exact pytest node IDs): TestHealthApi::test_health_returns_200_without_auth, ::test_health_body_has_exactly_four_fields, ::test_health_response_matches_pydantic_schema, ::test_health_phase1_reports_ok_no_fallback. Naming follows coding_standards test_<action>_<expected>. ac2 additionally requires a Pydantic 2 response_model (route response_model + openapi() required-fields assertion) so a bare dict return cannot pass REQ-TECH-022.",
+      "Commands self-tested against the CURRENT pre-implementation repo state (t1 merged at 792f644) by running the exact backtick-quoted strings via bash -c: ac1=exit 4 (pytest: node IDs not collected), ac2=exit 4, ac3=exit 4, ac4=exit 1 (test file absent), ac5=exit 0. ac5 passing pre-implementation is INTENTIONAL: it is the t1 lint/type non-regression gate (ruff/mypy already pass on t1's skeleton and must keep passing after t3); the behavioral gates ac1-ac4 all fail pre-implementation as required for contract-first. Stated in the platform comment so the Verifier does not treat ac5's pre-implementation pass as a defect.",
+      "Environment: uv is the Linux binary at ~/.local/bin (not on default PATH), so every backend command prepends export PATH=\"$HOME/.local/bin:$PATH\" and guards with command -v uv || exit 1; commands run from repo root with cd backend. Verified uv resolves and TestClient(app) works in this shell before finalizing.",
+      "Granularity: expected files are backend/app/routers/health.py, backend/app/schemas/health.py (or schema inline in the router), backend/app/main.py (router registration), backend/tests/integration/test_health_api.py — at/near limits.issue_granularity.max_files=4 (warn_only=true); no new dependencies allowed (DoD), so uv.lock must not churn.",
+      "Platform CLI: npx tsx fails on this host; used /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts. Body starts with '---' frontmatter so a leading newline was prepended for --body. label add uses --labels (plural). issue update 6 returned number=6 (updated_at 2026-10-07T16:32:29Z); groom summary comment posted; label remove defined + label add groomed executed as separate calls (chained batches silently drop later calls on this host); final issue get 6 confirms labels=[\"groomed\"].",
+      "docs/issues/index.md does not exist (t0/t1 live in docs/issues/closed/ with an orchestrator-maintained closed/index.md; t2/t3/t4 are flat files). No index update was applicable; nothing else outside docs/issues/t3.md, the platform issue, and this output was modified.",
+      "ac_hash = sha256 of the '## Acceptance criteria' section of docs/issues/t3.md (LF-normalized, heading line excluded, trailing whitespace stripped, excludes Verification commands)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t3.md",
+      "docs/state/outputs/t3_definer_groom.json"
+    ],
+    "platform_issue": 6,
+    "output_path": "docs/state/outputs/t3_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:33:30Z",
+  "retry_count": 0
+}
