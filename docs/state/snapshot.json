@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:00:51Z",
-  "last_seq": 74,
+  "updated_at": "2026-10-07T16:07:00Z",
+  "last_seq": 78,
   "slots": [
     {
       "slot": 1,
@@ -16,10 +16,10 @@
     {
       "slot": 2,
       "issue_id": "t2",
-      "role": "definer",
-      "phase": "groom",
+      "role": "orchestrator",
+      "phase": "await_builder_slot",
       "spawn_at": "2026-10-07T16:00:51Z",
-      "last_activity_at": "2026-10-07T16:00:51Z",
+      "last_activity_at": "2026-10-07T16:07:00Z",
       "run_id": "36633db1-05e2-40e0-8e38-32acbf3f8f8f",
       "worktree_path": null
     }
@@ -28,12 +28,12 @@
   "active_issues": [
     {
       "issue_id": "t1",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": []
     },
     {
       "issue_id": "t2",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": []
     }
   ]

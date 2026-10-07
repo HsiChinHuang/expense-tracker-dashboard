@@ -1,0 +1,58 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t2",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:bfec33dd70308405f6cda18ac66ff04242b5808d0bbc65382acaf19790698ff5",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const r=[\\\"react\\\",\\\"react-dom\\\",\\\"react-router-dom\\\",\\\"@tanstack/react-query\\\",\\\"axios\\\",\\\"tailwindcss\\\",\\\"vitest\\\",\\\"@testing-library/react\\\",\\\"msw\\\",\\\"eslint\\\",\\\"prettier\\\",\\\"typescript\\\"];const b=r.filter(k=>!d[k]||!/^[0-9]/.test(d[k]));if(b.length){console.error(\\\"unpinned or missing: \\\"+b.join(\\\", \\\"));process.exit(1)}\" && git ls-files --error-unmatch frontend/package-lock.json >/dev/null'",
+      "ac2": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm install --no-audit --no-fund\" >/dev/null'",
+      "ac3": "bash -c 'test -f frontend/src/main.tsx && grep -q createRoot frontend/src/main.tsx && grep -q \"id=\\\"root\\\"\" frontend/index.html && ls frontend/tailwind.config.* >/dev/null && grep -RqE \"@tailwind (base|components|utilities)\" frontend/src --include=*.css && grep -RqE \"className=\\\"[^\\\"]*(flex|grid|min-h-screen|mx-auto|p-[0-9]|text-[a-z])\" frontend/src --include=*.tsx'",
+      "ac4": "bash -c 'test -f frontend/package.json && find frontend/src -name \"*.test.tsx\" | grep -q . && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npm test -- --run\" >/dev/null'",
+      "ac5": "bash -c 'test -f frontend/tsconfig.json && D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && npx tsc --noEmit\"'",
+      "ac6": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(react-hook-form|zod|recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": [
+      "AC refinement: the 6 draft AC were rewritten as observable/checkable statements and numbered ac1-ac6. Draft ac2 ('npm install completes without error') became ac2 with exit-code semantics; draft ac3 (shell renders) was decomposed into concrete file-level evidence (index.html #root, main.tsx createRoot, tailwind.config.*, @tailwind CSS directive, utility className) so it is automatable without a browser; draft ac6 ('no runtime CSS-in-JS') became an executable manifest scan that ALSO enforces the Constraints (no react-hook-form/zod/recharts/date-fns), turning a non-automatable constraint into a checked AC.",
+      "REQ-TECH-081 gap closed: the draft mentioned only 'pins versions'; groom added the committed package-lock.json requirement (git ls-files --error-unmatch frontend/package-lock.json in ac1), which is what REQ-TECH-081 actually specifies as verification.",
+      "Contract-first: contract_first.require_for = [backend, api, database] and allow_natural_for = [ui, ux]. t2 is a frontend tooling skeleton, not a UI-behavior issue: all 6 AC are structurally observable, so all 6 got executable commands and none is marked 'manual'. Recorded as contract_first_applied = true.",
+      "Environment adaptation (critical for Builder/Verifier): node/npm/npx are Windows binaries and 'npx tsx'/node tooling fails from WSL (esbuild platform mismatch, confirmed again this run: 'npx tsx scripts/platform.ts issue get 5' errored). Every toolchain command therefore uses D=$(wslpath -w \"$PWD/frontend\") && cmd.exe /c \"cd /d $D && <cmd>\". This pattern was verified live: 'cmd.exe /c cd /d <winpath> && npm --version' returned 11.17.0 with exit 0 from the repo. The invocation is documented in the issue body's Verification commands environment note.",
+      "Command self-test against CURRENT (pre-implementation) repo: all 6 commands exit non-zero for the correct reason - ac1/ac3/ac4/ac5/ac6 fail on missing frontend/package.json / frontend/src/main.tsx / frontend/tsconfig.json; ac4's 'find frontend/src -name *.test.tsx | grep -q .' guard fails on absence of test files before any npm call.",
+      "Command positive-path simulation (/tmp/t2sim scratch git repo with a representative post-implementation frontend): ac1 passed with a fully pinned manifest + tracked package-lock.json; ac3 passed with index.html #root + main.tsx createRoot + tailwind.config.js + @tailwind CSS + utility className, and FAILED when the @tailwind directive was removed (negative check); ac6 passed on the clean manifest and FAILED with 'forbidden or deferred dependency: zod' after adding zod (negative check). ac2/ac4/ac5 could not be fully simulated (no node_modules install in the scratch repo, and cmd.exe cannot cd to the WSL-UNC /tmp path - an artifact of /tmp, not of the repo path); their syntax was validated and the cmd.exe path pattern was proven from the real /mnt/c repo.",
+      "ac2/ac4/ac5 sequencing note recorded in the issue body: they require ac2 (npm install) to have run first because they need node_modules; the Verifier must run ac2 before ac4/ac5.",
+      "Draft AC 'Dev server builds the app shell' (plan.md template) was intentionally NOT made an AC: starting a dev server is non-deterministic/port-dependent. It is covered deterministically by ac3 (static wiring) + ac5 (tsc) + ac4 (vitest render). REQ-PLAN-012 'frontend starts' is thus checked via build/test/typecheck rather than a live server.",
+      "Granularity: 6 AC == limits.issue_granularity.max_acs (6), warn_only = true; max_files = 4 is exceeded by design for a tooling skeleton. Recorded in the issue Context; scope explicitly capped there ('Do not inflate the scope further').",
+      "t0 regression safety: DoD requires the Verifier to confirm t0's cumulative checks ac1-ac5 still pass. t0/ac6 (placeholder-only find over frontend/) is EXPECTED to be superseded by t2's implementation files; this is stated in the DoD so the Verifier treats it as intentional supersession rather than a regression. Flagged for Orchestrator awareness: the merge_test_index entry t0/ac6 will fail once any frontend file is added, so the index entry needs amending or waiving at t2 merge time (t1's backend files already have the same effect on t0/ac6).",
+      "ESLint/Prettier (REQ-TECH-010, Should priority): kept as a Constraints note ('SHOULD create .eslintrc.cjs / .prettierrc') rather than an AC, consistent with the Should tier and the 6-AC cap; REQ-TECH-010 remains listed in Metadata.",
+      "REQ-TECH-002 (Router v6 nested routes + guards) is only partially satisfied by t2 (dependency present, single root route); full contract completion is stated in Out of scope (phase_2_auth and later UI milestones), mirroring t0's partial-coverage pattern.",
+      "Platform CLI: 'npx tsx' failed (known esbuild error); used fallback '/mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts ...'. Known quirks applied: --body value prefixed with a newline (leading '---' frontmatter would otherwise be parsed as a flag), and 'label add' uses --labels (plural; groom.md's --label example is wrong).",
+      "Issue #5 body synced via 'issue update 5 --body' (returned number=5, exit 0, first attempt). Labels: 'defined' removed (exit 0), 'groomed' added (exit 0); final 'issue get 5' labels = [\"groomed\"].",
+      "ac_hash = sha256 of the '## Acceptance criteria' section body of docs/issues/t2.md (LF-normalized, excluding the Verification commands section), same convention as t0's groom.",
+      "Scope compliance: wrote only docs/issues/t2.md and docs/state/outputs/t2_definer_groom.json plus Platform issue #5. No source files, no plan/DAG, no t1 (#4) artifacts, no merge_test_index, no git operations. The two pre-existing dirty files (docs/state/seq.txt, docs/state/snapshot.json) are Orchestrator-owned and were untouched."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t2.md",
+      "docs/state/outputs/t2_definer_groom.json"
+    ],
+    "platform_issue": 5,
+    "output_path": "docs/state/outputs/t2_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:06:30Z",
+  "retry_count": 0
+}
