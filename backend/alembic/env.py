@@ -11,11 +11,12 @@ from sqlalchemy.engine import Engine
 from alembic import context
 from app.config import get_settings
 from app.database import create_db_engine
+from app.models.user import Base
 
 config = context.config
 
-target_metadata = None
-"""No model metadata yet; the declarative models land with t6 revision 001."""
+target_metadata = Base.metadata
+"""Model metadata for autogenerate; t6 registers only the users table."""
 
 
 def run_migrations_online() -> None:
