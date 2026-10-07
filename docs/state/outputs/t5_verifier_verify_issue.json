@@ -1,0 +1,98 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/unit/test_config.py::TestSettings::test_env_var_overrides_default tests/unit/test_config.py::TestSettings::test_defaults_match_env_example -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Pinned node IDs test_env_var_overrides_default + test_defaults_match_env_example pass; defaults asserted against .env.example itself; CORS_ORIGINS is list[str] with JSON/comma parsing; @lru_cache get_settings present."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && env JWT_SECRET=change-me ENVIRONMENT=development uv run pytest tests/unit/test_config.py::TestSettings::test_production_rejects_default_secret tests/unit/test_config.py::TestSettings::test_development_allows_default_secret -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Production refuses empty and 'change-me' JWT_SECRET via model_validator raising pydantic ValidationError; development allows placeholder; command pins JWT_SECRET/ENVIRONMENT env overrides."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t5_ac3.db\" uv run pytest tests/integration/test_database.py::TestDatabase::test_get_db_yields_and_closes_session tests/integration/test_database.py::TestDatabase::test_sqlite_pragma_foreign_keys_enabled -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t5_ac3.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "get_db yields Session, closes on normal completion and consumer-side exception (finally); SQLite engine uses check_same_thread=False and PRAGMA foreign_keys=ON via event.listens_for; PRAGMA returns 1; tmp-file URL only, backend/dev.db untouched (absent)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f alembic.ini && test -f alembic/env.py && rm -f /tmp/t5_ac4.db && DATABASE_URL=\"sqlite:////tmp/t5_ac4.db\" uv run alembic upgrade head >/dev/null 2>&1 || exit 1; test -f /tmp/t5_ac4.db; rc=$?; rm -f /tmp/t5_ac4.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "alembic.ini + alembic/env.py exist and are tracked (git ls-tree); env.py online-mode builds engine and context.configure(connection=...) before run_migrations, no hardcoded URL (alembic.ini sqlalchemy.url empty); /tmp/t5_spotcheck.db spot-check created the alembic_version table."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; grep -Eq \"^migrate[[:space:]]*:\" Makefile || exit 1; grep -qP \"^\\t.*(uv run alembic upgrade head)\" Makefile || exit 1; make -n migrate >/dev/null 2>&1 || exit 1; rm -f build/t5_ac5.db; DATABASE_URL=\"sqlite:///$(pwd)/build/t5_ac5.db\" make migrate >/dev/null 2>&1 || exit 1; test -f build/t5_ac5.db; rc=$?; rm -f build/t5_ac5.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "makefile ^migrate: rule, tab recipe 'cd backend && uv run alembic upgrade head', make -n exits 0, real run against caller DATABASE_URL creates build/t5_ac5.db. Accepted deviation confirmed harmless: extra tab line '@mkdir -p build' ensures the gitignored build/ dir; no DB path hardcoded, no backend/.env required."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "uv run pytest: 12 passed (t1 smoke + t3 health still green); ruff check . clean; mypy strict clean (22 source files). No except Exception in new code."
+      }
+    },
+    "test_summary": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_6_ac_verified_via_pinned_commands": true,
+      "plan_files_and_test_modules_tracked_with_pinned_node_ids": true,
+      "pytest_ruff_mypy_exit_0": true,
+      "alembic_upgrade_head_connects_and_make_migrate_real": true,
+      "pydantic_settings_in_pyproject_and_uv_lock": true,
+      "diff_scoped_to_allowed_9_files_protected_files_untouched": true,
+      "no_env_or_secret_committed": true
+    },
+    "verification_commands_source": "docs/issues/t5.md#verification-commands",
+    "notes": [
+      "branch_sha verified: HEAD == 7ca676e5ed67417436aed0d7f84a6b7912a3d833 on issue/t5-db-foundation (via cmd.exe git; WSL git cannot resolve this worktree's gitdir pointer).",
+      "Shared venv env vars empty ([VENV_UNAVAILABLE] WARN); per-worktree `uv sync --directory backend` used per spawn guidance (pydantic-settings 2.15.0 already resolved).",
+      "Builder ac_mapping matches docs/issues/t5.md ## Verification commands verbatim for all 6 ACs (no [BUILDER_COMMAND_MISMATCH]). All 6 commands executed verbatim from worktree root; all exit 0.",
+      "Diff vs origin/main: exactly 9 files (+455/-1) — Makefile (migrate target only), backend/alembic.ini, backend/alembic/env.py, backend/app/config.py, backend/app/database.py, backend/tests/unit/test_config.py, backend/tests/integration/test_database.py, backend/pyproject.toml (+pydantic-settings>=2.2), backend/uv.lock. main.py, health endpoint, .env.example, dev.db untouched; backend/.env absent; alembic/versions/.gitkeep retained.",
+      "Settings mirrors the 13-var Defaults table (10 backend app vars); VITE_API_BASE_URL / MCP_API_BASE_URL / MCP_JWT_SECRET deliberately absent per AC.",
+      "Cumulative merge_test_index (28 commands: t0 x6, t1 x5, t2 x6, t3 x5, t4 x6): 28/28 PASS. Git-dependent commands (t0 #1/#4, t2 #2) run via the /tmp/gitshim cmd.exe PATH shim; t2 npm-install command required the established cmd.exe `set npm_config_allow_scripts= &&` env workaround (host EALLOWSCRIPTS artifact; command string unmodified) and frontend/node_modules was absent in this worktree (npm install run first).",
+      "ac5 @mkdir -p build deviation (builder-disclosed, orchestrator-accepted): re-verified — recipe honors caller DATABASE_URL, grep contract satisfied, real run creates the pinned tmp DB.",
+      "Non-blocking observation for later issues: get_db() constructs a fresh engine+factory per call (correct for t5's AC; a module-level engine will likely land with t8 route wiring).",
+      "Platform: verdict comment posted on issue #8; labels built -> verified transitioned; issue get 8 confirms."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t5_verifier_verify_issue.json"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/t5_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T18:49:43Z",
+  "retry_count": 0
+}
