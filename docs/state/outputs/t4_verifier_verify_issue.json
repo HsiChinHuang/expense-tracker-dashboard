@@ -1,0 +1,91 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t4",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/t4.md#verification-commands",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f .env.example && git ls-files --error-unmatch .env.example >/dev/null && for v in DATABASE_URL JWT_SECRET JWT_ALGORITHM JWT_ACCESS_TOKEN_EXPIRE_MINUTES JWT_ISSUER JWT_AUDIENCE CORS_ORIGINS ENVIRONMENT APP_VERSION DB_CONNECT_TIMEOUT VITE_API_BASE_URL MCP_API_BASE_URL MCP_JWT_SECRET PLATFORM API_TOKEN REPO_ID; do grep -Eq \"^$v=\" .env.example || exit 1; done && ! grep -Eqi \"(secret|token|password)[a-z_]*=[[:space:]]*[A-Za-z0-9+/]{24,}\" .env.example && ! grep -Eq \"(ghp_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,}|glpat-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\" .env.example && test -z \"$(git ls-files -- .env)\"'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0 (git steps via cmd.exe git shim; command string unmodified). Diff is purely additive: 3 tooling vars + launcher comments retained, 13 app vars appended with placeholders (JWT_SECRET=change-me, MCP_JWT_SECRET=${JWT_SECRET}); eyeballed clean, no secrets, no tracked .env."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v make >/dev/null || exit 1; test -f Makefile && git ls-files --error-unmatch Makefile >/dev/null && for t in setup setup-backend setup-frontend dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend down migrate seed e2e security; do grep -Eq \"^${t}[[:space:]]*:\" Makefile || exit 1; make -n \"$t\" >/dev/null 2>&1 || exit 1; done && for r in \"uv sync\" \"uv run pytest\" \"uv run ruff\" \"uv run mypy\" \"npm install\" \"npm test\"; do grep -qP \"^\\t.*($r)\" Makefile || exit 1; done && grep -qP \"^\\t.*(npm run lint|npx tsc --noEmit)\" Makefile'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0. All 17 target rules present, make -n parses every one, all 7 toolchain delegation patterns found on tab recipe lines."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; out=$(make test-backend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-backend >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0. make test-backend printed '6 passed'; make lint-backend (ruff + mypy) exit 0."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; out=$(make test-frontend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"vitest|Test Files\" || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-frontend >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0. make test-frontend printed vitest banner, Test Files 1 passed, Tests 3 passed; make lint-frontend (eslint + npx tsc --noEmit) exit 0. frontend/node_modules already present from builder install."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f LICENSE && git ls-files --error-unmatch LICENSE >/dev/null && grep -q \"MIT License\" LICENSE && grep -q \"Permission is hereby granted, free of charge\" LICENSE'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0. LICENSE tracked, full MIT text present."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f README.md && l=$(wc -l < README.md) && [ \"$l\" -ge 30 ] && [ \"$l\" -le 500 ] && grep -Eqi \"^#{1,6}[[:space:]].*quick start\" README.md && grep -Eqi \"^#{1,6}[[:space:]].*running tests\" README.md && grep -q \"cp .env.example .env\" README.md && grep -q \"make setup\" README.md && grep -q \"make dev-backend\" README.md && grep -q \"make dev-frontend\" README.md && grep -q \"make test\" README.md && grep -q \"make lint\" README.md && grep -Eqi \"prerequisite\" README.md && grep -Ewq MIT README.md'",
+        "exit_code": 0,
+        "note": "Verbatim, exit 0. README.md 91 lines with Prerequisites, Quick Start, Running tests, all 6 literal commands, License section naming MIT."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_6_ac_pass_via_verifier": true,
+      "diff_touches_only_four_root_files": true,
+      "make_targets_parse_and_test_lint_exit_0": true,
+      "no_env_tracked_no_secret_values": true,
+      "cumulative_merge_test_index_22_pass": true,
+      "conventional_commit": true
+    },
+    "notes": [
+      "branch_sha verified: HEAD == 102b6bdbec2fbf9014aa45d150cff36dc6f8a575 == assigned; builder ac_mapping matches docs/issues/t4.md ## Verification commands exactly (no BUILDER_COMMAND_MISMATCH).",
+      "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT/PYTHONPATH unset in this spawn; commands ran as-is (per-worktree backend/.venv from builder build was used).",
+      "WSL worktree git constraint: the git ls-files steps inside ac1/ac2/ac5 were satisfied via the established /tmp/gitshim/git -> cmd.exe forwarding shim (command strings unmodified, same pattern the orchestrator used for its 6/6 re-run).",
+      "Diff vs origin/main (merge-base 1f1105d): exactly M .env.example, A Makefile, A LICENSE, M README.md (+220/-2). git status clean except the untracked builder handoff JSON. Commit 102b6bd 'feat(t4): root config - env.example vars, Makefile, MIT license, README' (Conventional Commits).",
+      "Committed blobs for all four files are LF-only (CR count 0 via git show), satisfying the coding_standards LF rule despite host core.autocrlf=true.",
+      "Spot-check: 'make test' from repo root exit 0 — 6 pytest passed + vitest Test Files 1 passed / Tests 3 passed.",
+      "Cumulative merge checks 22/22 PASS: the worktree's copy of docs/state/merge_test_index.json is stale (17 entries, branched before t3's index update); ran the 17 worktree entries (t0 x6, t1 x5, t2 x6) plus the 5 t3 entries from the main checkout's 22-entry index, all against the t4 worktree. No regression.",
+      "Platform: verdict comment posted on issue #7; label endpoints worked this run (no 500): label remove built + label add verified succeeded, issue get 7 confirms labels == ['verified']. No api_failures to record.",
+      "This handoff is intentionally untracked in the worktree to honor the DoD 'diff touches only the four root files' rule (t3/builder precedent)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t4_verifier_verify_issue.json"
+    ],
+    "platform_issue": 7,
+    "output_path": "docs/state/outputs/t4_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T17:16:30Z",
+  "retry_count": 0
+}
