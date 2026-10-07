@@ -1,5 +1,42 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-05T00:00:00Z",
-  "tests": []
+  "updated_at": "2026-10-07T15:59:41Z",
+  "tests": [
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac1",
+      "command": "bash -c 'for d in frontend backend e2e security ops .github/workflows; do test -d \"$d\" || exit 1; done && git ls-files --error-unmatch e2e/.gitkeep security/.gitkeep ops/.gitkeep .github/workflows/.gitkeep >/dev/null'"
+    },
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac2",
+      "command": "bash -c 'test -f backend/app/__init__.py && for d in models schemas routers services auth audit core scripts; do test -f \"backend/app/$d/__init__.py\" || exit 1; done && test -f backend/tests/__init__.py && test -f backend/tests/unit/__init__.py && test -f backend/tests/integration/__init__.py && test -f backend/alembic/versions/.gitkeep'"
+    },
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac3",
+      "command": "bash -c 'for d in api components/ui components/layout components/charts components/forms components/common pages hooks context types utils test; do test -f \"frontend/src/$d/.gitkeep\" || exit 1; done && test -f frontend/public/.gitkeep'"
+    },
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac4",
+      "command": "bash -c 'for p in probe.db probe.sqlite3 probe.log RENDER_DEPLOY_HOOK build/x coverage/x; do git check-ignore -q \"$p\" || exit 1; done'"
+    },
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac5",
+      "command": "bash -c 'test -z \"$(git ls-files -- .env \"*.db\" \"*.sqlite3\" \"*RENDER_DEPLOY_HOOK*\")\"'"
+    },
+    {
+      "issue_id": "t0",
+      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+      "ac": "ac6",
+      "command": "bash -c 'test -d frontend && test -z \"$(find frontend backend e2e security ops .github -type f ! -name .gitkeep ! -name __init__.py 2>/dev/null)\"'"
+    }
+  ]
 }

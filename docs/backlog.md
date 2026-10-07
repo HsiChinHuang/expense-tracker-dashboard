@@ -2,7 +2,7 @@
 
 | ID | Title | Depends | Platform | Status |
 |---|---|---|---|---|
-| t0 | Repository skeleton per Chapter 16 structure | [] | #3 | defined |
+| t0 | Repository skeleton per Chapter 16 structure | [] | #3 | closed |
 | t1 | Backend skeleton (FastAPI + uv + pytest + ruff/mypy) | [t0] | #4 | defined |
 | t2 | Frontend skeleton (Vite + React + TS + Tailwind + Vitest) | [t0] | #5 | defined |
 | t3 | Health check endpoint GET /api/v1/health | [t1] | #6 | defined |
