@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t3",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/t3.md#verification-commands",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_returns_200_without_auth tests/integration/test_health_api.py::TestHealthApi::test_health_body_has_exactly_four_fields -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim node-ID pytest (test_health_returns_200_without_auth + test_health_body_has_exactly_four_fields), exit 0. Public 200 + exactly four body keys confirmed."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_response_matches_pydantic_schema -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim node-ID pytest (test_health_response_matches_pydantic_schema), exit 0. HealthResponse response_model + OpenAPI required-field check (handles inline and $ref)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest tests/integration/test_health_api.py::TestHealthApi::test_health_phase1_reports_ok_no_fallback -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim node-ID pytest (test_health_phase1_reports_ok_no_fallback), exit 0. status ok / fallback false / configured db / version==app.version (0.1.0), invariant holds."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f tests/integration/test_health_api.py && out=$(uv run pytest -q 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\"'",
+        "exit_code": 0,
+        "note": "Verbatim: test -f integration file + full uv run pytest grep '[1-9] passed', exit 0. 6 passed (2 t1 smoke + 4 new), no regression."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'",
+        "exit_code": 0,
+        "note": "Verbatim: uv run ruff check . && uv run mypy . (strict), exit 0. mypy: no issues in 17 source files."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_5_ac_pass": true,
+      "health_router_and_test_exist_create_app_registers_no_t1_regression": true,
+      "pytest_ruff_mypy_exit_0": true,
+      "response_via_pydantic_response_model_not_raw_dict": true,
+      "no_new_deps_no_env_secrets": true,
+      "no_db_session_engine_fallback_phase1_static": true
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t3_verifier_verify_issue.json"
+    ],
+    "platform_issue": 6,
+    "output_path": "docs/state/outputs/t3_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:45:14Z",
+  "retry_count": 0
+}
