@@ -1,15 +1,15 @@
 # Status
 
-Updated: 2026-10-07T18:52Z
+Updated: 2026-10-07T19:07Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t5 | verifier | verify_issue | 18:50Z | run cf0de1d2 (worktree ../worktrees/t5 @ 7ca676e, #8) |
-| 2/2 | (free) | — | — | — | t6 gated on t5 closure |
+| 1/2 | t6 | definer | groom | 19:06Z | run e16095b5 (main checkout, #9; t6 ac3/ac2 groom-mandates embedded) |
+| 2/2 | (free) | — | — | — | t7 gated on t6 closure |
 
-Operator standing order 18:47Z: run autonomously to FULL project completion (all milestones).
+**t5 CLOSED** (merge `8e9fcb3`, retries 0, regressions 0, index 28→34, history #6). phase_2_auth 1/5.
 
 ## Merge queue
 
@@ -17,7 +17,7 @@ Operator standing order 18:47Z: run autonomously to FULL project completion (all
 
 ## Ready issues
 
-t5 `built` (#8, gate2 + orch re-run 6/6). t6–t9 `defined` (#9–#12). DAG gate: t6←t5, t7←t6, t8←t7, t9←t2+t8.
+t5 `built` (#8, gate2 + orch re-run 6/6). t6 `defined` (#9) grooming. t7–t9 `defined` (#10–#12). DAG: t7←t6, t8←t7, t9←t2+t8.
 
 ## Blocked issues
 
@@ -43,7 +43,7 @@ phase_1_init COMPLETE (`docs/state/complete.md`). Operator go-ahead received (17
 
 ## Notes
 
-- Cumulative merge test index: 28 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6, t3 ×5, t4 ×6).
+- Cumulative merge test index: 34 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6, t3 ×5, t4 ×6, t5 ×6).
 - merge_history: 5 entries, total retries 1 (t2 pre-merge resume), regressions 0.
 - GitHub API outages during this run: comments-POST + push 500s 16:50–17:01Z (recovered; t3 verdict backfilled); label endpoints 500 mid-run → PATCH `issue update --labels` workaround; both fully recovered by t4 closure (normal endpoints used).
 - Model-suffix spawn override (`:medium`) transiently rejected at t4 groom spawn (WAL 120) — definer default thinking=medium covers it; verifier `:low` works.
