@@ -17,7 +17,7 @@ Updated: 2026-10-07T19:52Z
 
 ## Ready issues
 
-t5 `built` (#8, gate2 + orch re-run 6/6). t6 `defined` (#9) grooming. t7–t9 `defined` (#10–#12). DAG: t7←t6, t8←t7, t9←t2+t8.
+t5 `built` (#8, gate2 + orch re-run 6/6). t6 `verified` (#9) pre-merge running. t7←t6, t8←t7, t9←t2+t8. t7–t9 `defined` (#10–#12). DAG: t7←t6, t8←t7, t9←t2+t8.
 
 ## Blocked issues
 
