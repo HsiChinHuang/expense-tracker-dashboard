@@ -11,3 +11,5 @@
 - next: phase_2 planning (Definer survey for next milestone) requires operator/launcher decision -
   phase_1_init was the only milestone file; no further milestone is planned yet
 - note: launcher owns launcher_checkpoint.json completed flag (durable.md); not written by Orchestrator
+
+- UPDATE 17:44Z: operator go-ahead received ("keep going"); phase_2_auth survey spawned (run a921b46e) - run continues beyond phase_1_init

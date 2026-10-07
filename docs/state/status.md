@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T17:40Z
+Updated: 2026-10-07T17:47Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | (free) | — | — | — | t4 closed 17:34Z |
+| 1/2 | phase_2_auth | definer | survey | 17:45Z | run a921b46e (main checkout; rolling planning per plan.md §phase_2_auth) |
 | 2/2 | (free) | — | — | — | — |
 
 ## Merge queue
@@ -33,7 +33,7 @@ Updated: 2026-10-07T17:40Z
 
 ## Run state
 
-**phase_1_init COMPLETE — Step 13 completion check passed (both phases).** See `docs/state/complete.md`. No further milestone is planned; phase_2 planning (Definer survey) requires an operator/launcher go-ahead.
+phase_1_init COMPLETE (`docs/state/complete.md`). Operator go-ahead received (17:44Z) → **phase_2_auth survey running**. On survey COMPLETE: milestone file (review_plan pending) → Step 3 spawns Definer:review_plan → then t5.. lifecycle.
 
 ## Open blockers
 
