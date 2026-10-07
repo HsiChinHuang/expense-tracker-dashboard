@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t7",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t7-auth-primitives",
+    "branch_sha": "03111e1",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "03111e1",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac1.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_hash_password_emits_cost12_prefix_with_random_salt\" \"tests/unit/test_password.py::TestPassword::test_verify_password_roundtrips_true_and_rejects_wrong_password\" \"tests/unit/test_password.py::TestPassword::test_verify_password_returns_false_for_malformed_hash\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac1.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "03111e1",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac2.db\" uv run pytest \"tests/unit/test_password.py::TestPassword::test_verify_dummy_returns_none_after_full_bcrypt_cycle\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac2.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "03111e1",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac3.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_emits_exact_claim_set_with_24h_expiry\" \"tests/unit/test_jwt.py::TestJwt::test_create_access_token_is_hs256_signed_with_settings_secret\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac3.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "03111e1",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t7_ac4.db\" uv run pytest \"tests/unit/test_jwt.py::TestJwt::test_decode_access_token_roundtrips_valid_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_secret\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_tampered_signature\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_expired_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_audience\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_wrong_issuer\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_refresh_type_token\" \"tests/unit/test_jwt.py::TestJwt::test_decode_rejects_alg_none_forgery\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t7_ac4.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "03111e1",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && grep -Eq \"^[[:space:]]*\\\"bcrypt[>=<]\" pyproject.toml && uv run python -c \"import tomllib; d = tomllib.load(open(\\\"uv.lock\\\", \\\"rb\\\")); v = [p[\\\"version\\\"] for p in d[\\\"package\\\"] if p[\\\"name\\\"] == \\\"bcrypt\\\"][0]; parts = tuple(int(x) for x in v.split(\\\".\\\")[:2]); raise SystemExit(0 if (4, 0) <= parts < (4, 1) else 1)\"'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 31,
+      "passed": 31,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t7.md#verification-commands",
+    "ac_suggestions": [],
+    "memory_applied": [],
+    "notes": [
+      "All five AC verification commands were executed verbatim from the t7 worktree repo root: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0. No /tmp/t7_ac*.db leftovers.",
+      "Full suite `uv run pytest -q` in backend/: 31 passed (17 pre-existing t1/t3/t5/t6 + 14 new contract nodes). `uv run ruff check .`: All checks passed! `uv run mypy .` (strict): Success: no issues found in 29 source files.",
+      "Pre-authorized dependency change applied: `bcrypt>=4.0,<4.1` added to backend/pyproject.toml [project] dependencies; `uv lock` regenerated uv.lock resolving bcrypt 4.0.1 (was 5.0.0). `uv lock --check` clean; no other package version moved in the lock.",
+      "Groom-documented traps handled: file-level `# mypy: disable-error-code=\"import-untyped\"` in both production and test modules importing jose/passlib; verify_dummy called as a statement (not in an expression) to avoid mypy func-returns-value; `from datetime import UTC` (ruff UP017); every reject test pins TokenError specifically (no B017); `cast(\"str\", ...)` around jose encode; autouse settings fixture is a real generator (`-> Iterator[None]`, yield, cache_clear on teardown).",
+      "ac2 dummy implementation: module materializes a fixed decoy hash at import time (`_CONTEXT.hash(\"t7-dummy-decoy-secret\")`) and verify_dummy performs `CryptContext.verify(plain, _DUMMY_HASH)` at the same cost-12 policy as a real verify; the decoy is documented as a decoy in the source. Measured dummy elapsed comfortably inside the 0.05s floor / 10x ceiling bounds on this host.",
+      "ac4 expiry test uses pytest.MonkeyPatch.context() to set JWT_ACCESS_TOKEN_EXPIRE_MINUTES=-1, clears the settings cache, issues via create_access_token itself, and clears the cache again after undo — deterministic, no sleeps, no freezegun.",
+      "Files touched match the Constraints list exactly (7 files): backend/app/auth/{__init__,password,jwt}.py, backend/tests/unit/{test_password,test_jwt}.py, backend/pyproject.toml, backend/uv.lock.",
+      "Platform comment POST and label transition (groomed -> built) executed after this handoff was written; see handoff delivery notes if the Platform API was flaky."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/auth/password.py",
+      "backend/app/auth/jwt.py",
+      "backend/app/auth/__init__.py",
+      "backend/tests/unit/test_password.py",
+      "backend/tests/unit/test_jwt.py",
+      "backend/pyproject.toml",
+      "backend/uv.lock",
+      "docs/state/outputs/t7_builder_implement.json"
+    ],
+    "platform_issue": 10,
+    "output_path": "docs/state/outputs/t7_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T20:30:00Z",
+  "retry_count": 0
+}
