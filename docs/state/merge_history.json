@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T19:03:20Z",
+  "updated_at": "2026-10-07T20:01:40Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -60,6 +60,16 @@
       "merged_at": "2026-10-07T19:03:20Z",
       "retries": 0,
       "tests_appended": 6,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t6",
+      "platform_issue": 9,
+      "branch": "issue/t6-user-model",
+      "merge_sha": "17064fcd6",
+      "merged_at": "2026-10-07T20:01:40Z",
+      "retries": 0,
+      "tests_appended": 5,
       "regressions": 0
     }
   ]

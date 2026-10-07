@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T19:03:20Z",
+  "updated_at": "2026-10-07T20:01:40Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -136,6 +136,26 @@
     },
     {
       "issue_id": "t5",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t6",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t6_ac1.db\" uv run pytest \"tests/unit/test_user_model.py::TestUserModel::test_creates_user_with_python_uuid_default_and_typed_columns\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t6_ac1.db; exit $rc'"
+    },
+    {
+      "issue_id": "t6",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && rev=$(ls alembic/versions/001_*.py 2>/dev/null | head -n 1); test -n \"$rev\" || exit 1; grep -Eq \"^revision(: str)? = .001\" \"$rev\" || exit 1; grep -Eq \"^down_revision.*= None\" \"$rev\" || exit 1; test \"$(uv run alembic heads 2>/dev/null | wc -l)\" -eq 1 || exit 1; rm -f /tmp/t6_ac2.db; export DATABASE_URL=\"sqlite:////tmp/t6_ac2.db\"; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t6_ac2.db\\\"); cols = {r[1] for r in con.execute(\\\"pragma table_info(users)\\\")}; tables = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert tables == {\\\"users\\\", \\\"alembic_version\\\"}, tables; assert cols == {\\\"id\\\",\\\"email\\\",\\\"username\\\",\\\"hashed_password\\\",\\\"is_active\\\",\\\"created_at\\\",\\\"updated_at\\\"}, cols; assert con.execute(\\\"select count(*) from alembic_version\\\").fetchone()[0] >= 1\" || exit 1; uv run python -c \"import sqlite3, uuid; con = sqlite3.connect(\\\"/tmp/t6_ac2.db\\\"); con.execute(\\\"insert into users (id, email, username, hashed_password) values (?, ?, ?, ?)\\\", (str(uuid.uuid4()), \\\"raw@b.co\\\", \\\"rawuser\\\", \\\"x\\\" * 60)); row = con.execute(\\\"select is_active, created_at, updated_at from users where username = \\\\\\\"rawuser\\\\\\\"\\\").fetchone(); assert row[0] in (1, True), row; assert row[1] is not None and row[2] is not None, row\" || exit 1; uv run alembic downgrade base >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t6_ac2.db\\\"); tables = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert \\\"users\\\" not in tables, tables\" || exit 1; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t6_ac2.db\\\"); cols = {r[1] for r in con.execute(\\\"pragma table_info(users)\\\")}; assert cols == {\\\"id\\\",\\\"email\\\",\\\"username\\\",\\\"hashed_password\\\",\\\"is_active\\\",\\\"created_at\\\",\\\"updated_at\\\"}, cols\"; rc=$?; rm -f /tmp/t6_ac2.db; exit $rc'"
+    },
+    {
+      "issue_id": "t6",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t6_ac3.db\" uv run pytest \"tests/unit/test_user_model.py::TestUserModel::test_duplicate_email_raises_integrity_error\" \"tests/unit/test_user_model.py::TestUserModel::test_duplicate_username_raises_integrity_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t6_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t6",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t6_ac4.db\" uv run pytest \"tests/unit/test_user_model.py::TestUserModel::test_updated_at_refreshes_on_update\" \"tests/unit/test_user_model.py::TestUserModel::test_is_active_defaults_true_on_insert\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t6_ac4.db; exit $rc'"
+    },
+    {
+      "issue_id": "t6",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
     }
   ]
