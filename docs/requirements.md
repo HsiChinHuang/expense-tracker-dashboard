@@ -10080,6 +10080,89 @@ REQ-<DOMAIN>-<NNN>
 
 ---
 
+## Tech stack
+
+> **Derived index.** This section restates, without changing, the normative
+> requirements of §7 (Tech Stack Requirements, REQ-TECH-001 … REQ-TECH-091).
+> It exists at level 2 so that machine readers (`scripts/generate_factpack.ts`
+> `extractSection`, `skills/definer/details/survey.md` input validation) can
+> locate the stack in one block. Where this summary and a REQ entry differ,
+> the **REQ entry wins**.
+
+**Frontend** (REQ-TECH-001 … 010)
+
+- React 18 + TypeScript 5, built with Vite 5 (REQ-TECH-001)
+- React Router v6 — nested routes and route guards (REQ-TECH-002)
+- Tailwind CSS 3, no runtime CSS-in-JS (REQ-TECH-003)
+- Recharts 2 for all five chart types (REQ-TECH-004)
+- TanStack Query 5 for server state — caching, retries, invalidation (REQ-TECH-005)
+- React Hook Form 7 + Zod 3 for forms and validation (REQ-TECH-006)
+- Axios 1 with auth/error interceptors (REQ-TECH-007)
+- date-fns 3 (REQ-TECH-008, Should)
+- Vitest 1 + React Testing Library 14 + MSW 2 (REQ-TECH-009)
+- ESLint 8, Prettier 3, TypeScript ESLint 7 (REQ-TECH-010, Should)
+
+**Backend** (REQ-TECH-020 … 028)
+
+- Python 3.12 + FastAPI 0.110+ (REQ-TECH-020)
+- SQLAlchemy 2.0 + Alembic 1.13+ (REQ-TECH-021)
+- Pydantic 2 for request/response validation (REQ-TECH-022)
+- python-jose 3.3+ (JWT) + passlib[bcrypt] 1.7+ (password hashing) (REQ-TECH-023)
+- uvicorn 0.29+ ASGI server (REQ-TECH-024)
+- uv for dependency management (REQ-TECH-025)
+- httpx 0.27+ for tests and internal calls (REQ-TECH-026)
+- pytest 8, pytest-cov 5, pytest-asyncio 0.23+ (REQ-TECH-027)
+- ruff 0.4+ lint/format, mypy type checking (REQ-TECH-028)
+
+**Database** (REQ-TECH-030 … 032)
+
+- SQLite for local development, PostgreSQL in Docker Compose and production (REQ-TECH-030)
+- All access through SQLAlchemy, no raw SQL (REQ-TECH-031)
+- SQLite `PRAGMA foreign_keys = ON` per connection (REQ-TECH-032)
+
+**Containerization** (REQ-TECH-040 … 042)
+
+- `node:20-alpine` (frontend build), `python:3.12-slim` (backend runtime), `postgres:16-alpine` (Compose) (REQ-TECH-040)
+- Compose services: `db` (PostgreSQL) + `app` (REQ-TECH-041)
+- Production: single app container serving built static frontend (REQ-TECH-042)
+
+**CI/CD and deployment** (REQ-TECH-050 … 062)
+
+- GitHub Actions: `ci.yml`, `e2e.yml`, `deploy.yml` (REQ-TECH-050)
+- Triggers: `ci.yml` on PR + push to main; `e2e.yml` on push to main (REQ-TECH-051)
+- Render free tier with PostgreSQL; documented free-tier limits (REQ-TECH-060, 061)
+- Cold-start mitigation: UptimeRobot pings health every 10 minutes (REQ-TECH-062)
+
+**Development tools and AI** (REQ-TECH-070 … 091)
+
+- pi-agent with qwen3.8-27b running locally (REQ-TECH-070)
+- All code, prompts and context stay on the local machine (REQ-TECH-071)
+- Git + GitHub, Conventional Commits (REQ-TECH-072)
+- Quality: ruff + mypy (Python), ESLint + Prettier + tsc (TypeScript) (REQ-TECH-073)
+- Security scanning: gitleaks, semgrep, trivy, pip-audit (REQ-TECH-074)
+- Testing: pytest, Vitest, React Testing Library, Playwright (REQ-TECH-075)
+- Monitoring: Render logs, health check endpoint (REQ-TECH-076)
+- Versions pinned in `pyproject.toml`/`uv.lock`, `package.json`/lockfile, Docker tags, Actions major versions (REQ-TECH-080 … 083)
+- Configuration via environment variables; `.env.example` holds placeholders only (REQ-TECH-090, 091)
+
+## Core features
+
+> **Derived index.** Restates the functional requirements of §6.2
+> (REQ-PROD-010 … REQ-PROD-017) as a feature list for machine readers. Where
+> this list and a REQ entry differ, the **REQ entry wins**. Out-of-scope items
+> are listed in REQ-PROJ-007 and REQ-FE-143.
+
+- **Authentication** — registration, login, current user, logout, with validation rules and error codes (REQ-PROD-010; FR-AUTH-1…4)
+- **Expense management** — create, list, get, update, delete, with validation, per-user isolation and audit behavior (REQ-PROD-011; FR-EXP-1…5)
+- **Budgets** — set (upsert), get (returns 0 if absent), delete, with audit behavior (REQ-PROD-012; FR-BUD-1…3)
+- **Categories** — list, create, system-category protection (REQ-PROD-013; FR-CAT-1…3)
+- **Dashboard** — summary, by-category, trend, cumulative, heatmap, recent activity, including edge cases (REQ-PROD-014; FR-DASH-1…6)
+- **Audit logging** — written in the same transaction as the business operation; never exposed by any API endpoint (REQ-PROD-015; FR-AUD-1…2)
+- **Health check** — public endpoint returning status, database, fallback_active, version (REQ-PROD-016; FR-HEALTH-1)
+- **Database fallback** — automatic switch to SQLite within 5 seconds when PostgreSQL is unreachable at startup, with table creation and category seeding; data written during fallback is temporary (REQ-PROD-017; FR-DB-1)
+
+---
+
 ## Document End
 
 This document consolidates the requirements for the Expense Tracker &

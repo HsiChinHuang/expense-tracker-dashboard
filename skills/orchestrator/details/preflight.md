@@ -121,11 +121,35 @@ Failure -> write `docs/state/PREFLIGHT_FAIL.md`, HALT.
 
 Scan all `docs/**/*.md` for `docs/...` references.
 
-Ignore:
+Ignore as **referenced paths**:
 
 - Dynamic paths: `issues/<id>.md`, `state/outputs/...`, `log/...`, `memory/candidates/...`, `memory/verified/...`
 - Examples: `docs/*.example`
 - Details files: `skills/*/details/*`
+- **Pending Lifecycle outputs**: `docs/plan.md`, `docs/backlog.md`
+
+Ignore as **scan sources** (do not scan these files at all):
+
+- `docs/requirements.md`, `docs/requirements/**` — user-supplied input
+- `docs/log/**` — runtime WAL and human logs
+- `docs/state/pending_blockers/**`, `docs/state/PREFLIGHT_FAIL.md`,
+  `docs/state/status.md`, `docs/state/questions.md` — Orchestrator-written status
+  and failure prose
+
+Rationale for the additions (owner ruling, 2026-10-07):
+
+1. **User requirements** are user-supplied input describing the system being
+   *built*; they name files as **verification targets** (e.g. `docs/api.md`,
+   `docs/team/pm.md`). Requiring those files to exist before the project has built
+   them would make Stage 2 impossible to pass by construction. They are therefore
+   excluded as sources, so their verification-target references are not treated as
+   framework contracts.
+2. **Pending Lifecycle outputs** `docs/plan.md` and `docs/backlog.md` are created by
+   `Definer: survey` in Lifecycle Step 0, so their absence at cold start is
+   expected, not a broken reference. Once `docs/plan.md` exists it IS verified.
+3. **Runtime-generated sources** quote path names verbatim inside failure prose,
+   which would make every BLOCKER report self-referentially fail the scan. This is
+   consistent with the existing `log/...` dynamic-path ignore.
 
 For static references: verify the file exists.
 

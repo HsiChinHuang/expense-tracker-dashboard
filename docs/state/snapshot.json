@@ -1,8 +1,19 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-05T00:00:00Z",
-  "last_seq": 0,
-  "slots": [],
+  "updated_at": "2026-10-07T15:20:10Z",
+  "last_seq": 23,
+  "slots": [
+    {
+      "slot": 1,
+      "issue_id": "phase_1_init",
+      "role": "definer",
+      "phase": "survey",
+      "spawn_at": "2026-10-07T15:20:10Z",
+      "last_activity_at": "2026-10-07T15:20:10Z",
+      "run_id": null,
+      "worktree_path": null
+    }
+  ],
   "merge_queue": [],
   "active_issues": []
 }

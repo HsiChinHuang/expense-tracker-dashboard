@@ -11,3 +11,4 @@ Runtime-maintained. Write rules are in `api_failures_rules.md`.
 ## Entries
 
 (none yet)
+[18] 2026-10-07T15:11:04Z POST /repos/HsiChinHuang/expense-tracker-dashboard/issues 500 3 POST/DELETE broken on issue endpoints; GET/PATCH OK; GraphQL createIssue also fails
