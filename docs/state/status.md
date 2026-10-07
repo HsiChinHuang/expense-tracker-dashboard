@@ -1,23 +1,21 @@
 # Status
 
-Updated: 2026-10-07T16:50Z
+Updated: 2026-10-07T16:56Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t3 | builder | implement | 16:48Z | run cf8824aa (worktree ../worktrees/t3, branch issue/t3-health-endpoint @ 3a3e293, #6) |
-| 2/2 | t2 | verifier | verify_post_merge | 16:44Z | run 19e28836 (worktree ../worktrees/verify-4f89797 @ 4f89797, #5) |
+| 1/2 | t3 | verifier | verify_issue | 16:54Z | run 05a3acc8 (worktree ../worktrees/t3 @ 7ab905e, #6) |
+| 2/2 | t4 | definer | groom | 16:54Z | run d4f14676 (main checkout, #7) |
 
 ## Merge queue
 
-| Issue | Branch | State | Note |
-|---|---|---|---|
-| t2 | merged 4f89797 | verified + merge pending post-merge | Orchestrator suite on merged main: cumulative 11/11 + t2 6/6. On post-merge PASS -> gate4 -> closure -> t4 unblocks fully. |
+(empty — t3 in verify_issue; pre-merge after gate3)
 
 ## Ready issues
 
-- (none) **t4** (#7) needs t2 CLOSED; spawn `groom` on t2 closure + free slot.
+(none — t4 is the last phase_1 issue; t3 is the last in flight)
 
 ## Blocked issues
 
@@ -29,6 +27,7 @@ Updated: 2026-10-07T16:50Z
 |---|---|---|---|---|
 | t0 | #3 | 1753fd0 | PASS | 2026-10-07T15:59Z |
 | t1 | #4 | 792f644 | PASS 11/11 (gate4) | 2026-10-07T16:36Z |
+| t2 | #5 | 4f89797 | PASS 17/17 (gate4) | 2026-10-07T16:53Z |
 
 ## Open blockers
 
@@ -36,8 +35,9 @@ Updated: 2026-10-07T16:50Z
 
 ## Notes
 
-- Cumulative merge test index: 11 commands (t0 ×6 amended per WAL 77, t1 ×5). t2's 6 commands appended at t2 closure.
+- Cumulative merge test index: 17 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6). t3's commands append at t3 closure.
 - t3 groom: contract-first, pytest node-ID pinned; phase-1 static health semantics documented (phase_5 re-grooms); ac5 pre-implementation pass is intentional (lint gate).
+- Model-suffix spawn override (`:medium`) transiently rejected at t4 spawn (WAL 120) — definer default thinking=medium covers it; verifier `:low` still works.
 - t2 verify_pre_merge first attempt (95cabfd3) exited 0 mid-work with no handoff/comment ->
   resumed as c38b09bd (WAL 106). If it fails again: retry_count 1 of 2, then failures.md routing.
 - Fairness metrics are in `docs/state/metrics/status_metrics.json` (updated every iteration).
