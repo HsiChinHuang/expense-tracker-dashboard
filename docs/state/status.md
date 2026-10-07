@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T15:55Z
+Updated: 2026-10-07T16:05Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t0 | definer | groom | 15:54Z | run a0040d5e (async, thinking=medium) |
+| 1/2 | t0 | builder | implement | 16:04Z | run 6dc8159a @ ../worktrees/t0 (branch issue/t0-repo-skeleton) |
 
 ## Merge queue
 
@@ -84,19 +84,22 @@ Also created (Preflight Stage 3 "labels creatable"): the 13 gates.md labels
 - seq 47 `[AUTO_INITIALIZED]` docs/state/initialized created (Step 0)
 - seq 48 `[STATE_TRANSITION]` Step 4: t0 ready; t1/t2 blocked on t0
 - seq 49 `[SPAWN]` definer groom t0 (run a0040d5e, factpack t0.json, platform #3)
+- seq 50-52 `[COMPLETE]`+`[DRIFT]` groom done; handoff recovered from run events; gate1 passed; #3 groomed; pushed d8cd3d1
+- seq 53 `[SPAWN]` builder implement t0 (run 6dc8159a, worktree ../worktrees/t0, branch issue/t0-repo-skeleton, 120min)
 
 ## Boot outcome
 
 **Preflight PASSED. Project INITIALIZED (Step 0). Pipeline running.**
 
-Pipeline so far: survey (attempt 2 OK) -> review_plan PASS_WITH_WARNINGS ->
-initialized -> groom t0 running.
+Pipeline so far: survey -> review_plan PASS_WITH_WARNINGS -> initialized ->
+groom t0 (gate1 passed, #3 `groomed`) -> implement t0 running in worktree.
 
-Ready-issue frontier: t0 (grooming now) -> then t1/t2 become ready (parallel,
-slots max=2) -> t3 (after t1) -> t4 (after t1+t2).
+Ready-issue frontier: t0 (implementing now, branch issue/t0-repo-skeleton) ->
+then t1/t2 become ready (parallel, slots max=2) -> t3 (after t1) -> t4 (after
+t1+t2).
 
-Next on groom completion: Step 9 validation, label #3 defined->groomed, then
-Step 4/7 spawns Builder: implement for t0.
+Next on implement completion: Step 9 validation, #3 -> `built`, then Verifier:
+verify_issue (worktree per merge.md), then merge flow.
 
 ---
 
