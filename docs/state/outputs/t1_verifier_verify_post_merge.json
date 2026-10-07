@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t1",
+  "role": "verifier",
+  "phase": "verify_post_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "smoke_tests": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "merge_sha": "792f644451529af3d59bcff4de11b36f3cee1f74",
+    "regressions_detected": [],
+    "breakdown": {
+      "cumulative_t0_suite": {
+        "source": "docs/state/merge_test_index.json",
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "results": [
+          { "index": 1, "issue_id": "t0", "exit_code": 0 },
+          { "index": 2, "issue_id": "t0", "exit_code": 0 },
+          { "index": 3, "issue_id": "t0", "exit_code": 0 },
+          { "index": 4, "issue_id": "t0", "exit_code": 0 },
+          { "index": 5, "issue_id": "t0", "exit_code": 0 },
+          { "index": 6, "issue_id": "t0", "exit_code": 0 }
+        ]
+      },
+      "t1_verification_commands": {
+        "source": "docs/issues/t1.md",
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "results": [
+          { "ac": "ac1", "exit_code": 0, "note": "pyproject requires-python 3.12 + all 13 deps declared; uv.lock present" },
+          { "ac": "ac2", "exit_code": 0, "note": "uv sync exit 0 (per-worktree backend/.venv, ~20s)" },
+          { "ac": "ac3", "exit_code": 0, "note": "create_app factory + module-level app; tests/unit/test_smoke.py passed" },
+          { "ac": "ac4", "exit_code": 0, "note": "uv run pytest: 2 passed (>= 1 collected)" },
+          { "ac": "ac5", "exit_code": 0, "note": "ruff: All checks passed; mypy: no issues in 14 source files" }
+        ]
+      }
+    },
+    "head_check": "git rev-parse HEAD == 792f644451529af3d59bcff4de11b36f3cee1f74 (matches merge_sha)",
+    "worktree_cleanliness": "git status --porcelain --untracked-files=no is empty; backend/.venv is gitignored (created by uv sync, not tracked)",
+    "venv_note": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH were empty; fell back to per-worktree `uv sync` in backend/ per docs/commands.md Fallback section. Command strings were NOT modified.",
+    "smoke_test_source_note": "docs/plan.md has no '## Smoke tests' section; per verify_post_merge.md Step 1 the fallback is docs/commands.md. Test scope for this run was the Orchestrator-supplied set: 6 cumulative t0 commands + 5 t1 verification commands. No tests were invented.",
+    "platform_comment": {
+      "posted": true,
+      "platform_issue": 4,
+      "created_at": "2026-10-07T16:25:23Z",
+      "verdict": "PASS"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t1_verifier_verify_post_merge.json"
+    ],
+    "platform_issue": 4,
+    "output_path": "docs/state/outputs/t1_verifier_verify_post_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:26:00Z",
+  "retry_count": 0
+}

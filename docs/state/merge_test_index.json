@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T16:12:22Z",
+  "updated_at": "2026-10-07T16:28:55Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -25,6 +25,26 @@
     {
       "issue_id": "t0",
       "command": "bash -c 'test -d frontend && test -z \"$(find e2e security ops .github -type f ! -name .gitkeep ! -name __init__.py 2>/dev/null)\"'"
+    },
+    {
+      "issue_id": "t1",
+      "command": "bash -c 'cd backend && test -f pyproject.toml && grep -Eq \"requires-python *= *\\\"[^\\\"]*3\\.12\" pyproject.toml && for p in fastapi uvicorn sqlalchemy alembic pydantic python-jose passlib httpx pytest-cov pytest-asyncio pytest ruff mypy; do grep -qi -- \"$p\" pyproject.toml || exit 1; done && test -f uv.lock'"
+    },
+    {
+      "issue_id": "t1",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv sync >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t1",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && test -f app/main.py && grep -Eq \"def create_app\" app/main.py && grep -Eq \"^app *= *create_app\" app/main.py && uv run pytest tests/unit/test_smoke.py -q >/dev/null 2>&1'"
+    },
+    {
+      "issue_id": "t1",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && out=$(uv run pytest -q 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\"'"
+    },
+    {
+      "issue_id": "t1",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; cd backend && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1'"
     }
   ]
 }
