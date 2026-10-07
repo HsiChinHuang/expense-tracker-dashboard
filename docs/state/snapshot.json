@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T18:09:16Z",
-  "last_seq": 155,
+  "updated_at": "2026-10-07T18:16:09Z",
+  "last_seq": 159,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "phase_2_auth",
+      "issue_id": "t5",
       "role": "definer",
-      "phase": "survey",
-      "spawn_at": "2026-10-07T18:09:16Z",
-      "last_activity_at": "2026-10-07T18:09:35Z",
-      "run_id": "a921b46e-0ea5-4ef2-b270-979214921d9a",
+      "phase": "review_plan",
+      "spawn_at": "2026-10-07T18:16:09Z",
+      "last_activity_at": "2026-10-07T18:16:09Z",
+      "run_id": "pending",
       "worktree_path": "main checkout"
     },
     {
@@ -25,5 +25,31 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t5",
+      "state": "defined",
+      "modifiers": []
+    },
+    {
+      "issue_id": "t6",
+      "state": "defined",
+      "modifiers": []
+    },
+    {
+      "issue_id": "t7",
+      "state": "defined",
+      "modifiers": []
+    },
+    {
+      "issue_id": "t8",
+      "state": "defined",
+      "modifiers": []
+    },
+    {
+      "issue_id": "t9",
+      "state": "defined",
+      "modifiers": []
+    }
+  ]
 }

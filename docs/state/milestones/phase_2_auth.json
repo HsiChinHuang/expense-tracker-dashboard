@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_2_auth",
+  "survey_completed_at": "2026-10-07T18:16:00Z",
+  "review_plan_status": "in_progress",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": [
+    "t5",
+    "t6",
+    "t7",
+    "t8",
+    "t9"
+  ],
+  "survey_attempts": 0
+}

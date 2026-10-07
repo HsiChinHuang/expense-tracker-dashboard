@@ -1,16 +1,24 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-07T15:40:00Z",
-  "milestone": "phase_1_init",
-  "nodes": ["t0", "t1", "t2", "t3", "t4"],
+  "generated_at": "2026-10-07T18:20:00Z",
+  "milestone": "phase_2_auth",
+  "nodes": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"],
   "edges": [
     { "from": "t1", "to": "t0" },
     { "from": "t2", "to": "t0" },
     { "from": "t3", "to": "t1" },
     { "from": "t4", "to": "t1" },
-    { "from": "t4", "to": "t2" }
+    { "from": "t4", "to": "t2" },
+    { "from": "t5", "to": "t1" },
+    { "from": "t5", "to": "t4" },
+    { "from": "t6", "to": "t5" },
+    { "from": "t7", "to": "t5" },
+    { "from": "t7", "to": "t6" },
+    { "from": "t8", "to": "t7" },
+    { "from": "t9", "to": "t2" },
+    { "from": "t9", "to": "t8" }
   ],
   "cycles": [],
-  "topological_order": ["t0", "t1", "t2", "t3", "t4"],
-  "critical_path": ["t0", "t1", "t4"]
+  "topological_order": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"],
+  "critical_path": ["t0", "t1", "t4", "t5", "t6", "t7", "t8", "t9"]
 }

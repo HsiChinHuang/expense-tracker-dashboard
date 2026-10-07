@@ -71,34 +71,69 @@ refined by survey/review_plan when they begin.
 
 ## phase_2_auth — Authentication (Phase 2, REQ-PLAN-020 … 021)
 
-> Issue template:
-> - Requirement: REQ-PROD-010 (FR-AUTH-1…4), REQ-AUTH-*
-> - Title: User model and migrations
-> - Acceptance:
->     - User table via SQLAlchemy 2 models; Alembic migration applies cleanly
->     - Passwords stored bcrypt-hashed, never in plaintext
-> - Files: backend/app/models/user.py, backend/alembic/versions/
-> - Depends: [phase_1 issues]
+Survey (2026-10-07) refined the three plan templates into five issues (t5..t9),
+scoped as DELTAS against merged phase_1 reality: phase_1 shipped NO database
+layer, NO Alembic wiring, and NO auth library usage, so the first template was
+split into database foundation (t5) + user model/migration (t6); the backend
+auth issue was split into crypto/JWT primitives (t7) + endpoints/service
+(t8); the frontend template became one issue (t9) since it fits the 6-AC cap.
+The Makefile `migrate` stub from t4 is wired up
+in t5. Dependency chain is linear per stack: t5 → t6 → t7 → t8 → t9 (t9 also
+depends on t2 for the merged frontend skeleton).
 
-> Issue template:
-> - Requirement: REQ-PROD-010, REQ-API (auth endpoints)
-> - Title: Register / login / me endpoints with JWT
+> Issue t5:
+> - Requirement: REQ-BE-010/011/012, REQ-TECH-021/030/031/032, REQ-ARCH-072, REQ-DOC-051 (migrate target)
+> - Title: Database foundation — Settings, SQLAlchemy engine/session, Alembic wiring
 > - Acceptance:
->     - register, login, me work per error codes; 24-hour JWT lifetime
->     - duplicate email and wrong password rejected with correct codes
-> - Files: backend/app/api/auth.py, backend/app/services/auth.py
-> - Depends: [phase_2 model issue]
+>     - Pydantic Settings class with env > .env > defaults precedence, @lru_cache
+>     - create_db_engine + get_db (session per request, finally-close), SQLite PRAGMA foreign_keys ON
+>     - alembic init/upgrade head/downgrade base run cleanly; Makefile migrate target wired
+>     - existing pytest suite still green; ruff/mypy strict clean
+> - Files: backend/app/config.py, backend/app/database.py, backend/alembic.ini, backend/alembic/env.py
+> - Depends: [t1, t4]
 
-> Issue template:
-> - Requirement: REQ-FE (auth pages), REQ-PROD-010
-> - Title: Frontend auth (AuthContext, axios client, login/register pages, ProtectedRoute)
+> Issue t6:
+> - Requirement: REQ-DB-010, REQ-DB-011, REQ-TECH-032, REQ-SEC-020 (storage column), REQ-PLAN-020 (task 2.1)
+> - Title: User model and users-table Alembic migration
 > - Acceptance:
->     - login/register flows pass RTL + MSW tests
->     - unauthenticated users are redirected from protected routes
-> - Files: frontend/src/context/AuthContext.tsx, frontend/src/pages/Login.tsx
-> - Depends: [backend auth issues]
+>     - SQLAlchemy 2 User model: UUID PK (Python-generated), email/username unique, hashed_password, is_active, timestamps
+>     - revision 001 migration applies and re-applies cleanly on SQLite; columns match Chapter 5 §5.3.1
+>     - password column stores hashes only (no plaintext column)
+> - Files: backend/app/models/user.py, backend/alembic/versions/001_...py
+> - Depends: [t5]
 
-(Refined by survey when this milestone begins.)
+> Issue t7:
+> - Requirement: REQ-BE-020/021/022/023, REQ-BE-030, REQ-SEC-020/021, REQ-PROD-022
+> - Title: Auth primitives — bcrypt password hashing and HS256 JWT module
+> - Acceptance:
+>     - passlib bcrypt rounds=12 hash/verify helpers
+>     - create_access_token with sub/iss/aud/iat/exp/type claims, HS256, 24h lifetime from settings
+>     - decode_access_token validates signature/exp/aud/iss/type with fixed algorithms list; alg=none and wrong-alg rejected
+>     - production refuses default/empty JWT_SECRET at settings level
+> - Files: backend/app/auth/password.py, backend/app/auth/jwt.py
+> - Depends: [t5, t6]
+
+> Issue t8:
+> - Requirement: REQ-PROD-010 (FR-AUTH-1..4), REQ-API-020/021/022, REQ-BE-041/050/051, REQ-SEC-022/023, REQ-PROD-030 (subset), REQ-ARCH-022/024
+> - Title: Register / login / me endpoints with auth service and get_current_user
+> - Acceptance:
+>     - POST /api/v1/auth/register: 201 + user; 409 DUPLICATE_EMAIL/DUPLICATE_USERNAME; 422 validation
+>     - POST /api/v1/auth/login: 200 token+user; 401 INVALID_CREDENTIALS (same code for wrong password and unknown email; dummy bcrypt for timing parity)
+>     - GET /api/v1/auth/me: 200 current user; 401 UNAUTHORIZED/TOKEN_INVALID/TOKEN_EXPIRED/USER_INACTIVE
+>     - errors use {detail, code, field} shape; router registered in create_app
+> - Files: backend/app/routers/auth.py, backend/app/services/auth_service.py, backend/app/schemas/auth.py, backend/app/auth/dependencies.py
+> - Depends: [t7]
+
+> Issue t9:
+> - Requirement: REQ-FE-010..014/031/040/041/060/061, REQ-TECH-006/007/009, REQ-ARCH-012/013/042/070, REQ-PROD-010
+> - Title: Frontend auth — axios client, AuthContext, route guards, login/register pages
+> - Acceptance:
+>     - axios client: VITE_API_BASE_URL, Bearer interceptor, 401 clears token, error normalization
+>     - AuthContext (user/token/isLoading/login/register/logout) validating token via /auth/me on mount; token in localStorage key `token`
+>     - ProtectedRoute (spinner + redirect with location state) and PublicOnlyRoute wired in nested route table
+>     - LoginPage/RegisterPage with React Hook Form + Zod pass RTL + MSW tests
+> - Files: frontend/src/api/client.ts, frontend/src/context/auth_context.tsx, frontend/src/components/route guards, frontend/src/pages/login_page.tsx, frontend/src/pages/register_page.tsx
+> - Depends: [t2, t8]
 
 ## phase_3_crud — Core CRUD (Phase 3, REQ-PLAN-030 … 031)
 

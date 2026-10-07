@@ -1,0 +1,67 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t5",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_2_auth",
+    "issues_generated": ["t5", "t6", "t7", "t8", "t9"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-BE-042 (get_client_ip, Should) - intentionally deferred: audit-log IP capture lands with audit logging in phase_3_crud",
+        "REQ-PROD-036 partial (frontend edge cases): auth-relevant subset (token expiry during session via 401 interceptor, protected route without login, back-after-logout) covered by t9; remaining cases (network error toast, empty/loading dashboard, month switching) belong to phase_3/phase_4",
+        "REQ-PROD-030 partial: auth edge cases enumerated in t8 ACs; expired-token/alg=none rejection is unit-pinned in t7 ac4; disabled-user covered in t8 ac2/ac3 - full Chapter 2 2.5.1 matrix re-verified at phase_2 exit by the milestone verifier",
+        "REQ-ARCH-074 (localStorage trade-off documentation) - security/ docs artifact, phase_7_security_ops",
+        "REQ-BE-120 (JSON log formatter) - t8 ac5 accepts stdlib logging with structured extra in phase_2; full JSON formatter is phase_5 ops scope (documented in t8 Context/constraints)"
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 6,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "Rolling planning for a NEW milestone (phase_1_init closed, t0-t4 merged). Issues were generated as DELTAS against merged reality, not the raw plan templates: template 1 (User model + migrations) split into t5 (Settings/database.py/Alembic harness + Makefile migrate wiring - phase_1 shipped zero DB layer) and t6 (User model + revision 001); template 2 split into t7 (passlib bcrypt rounds=12 + python-jose HS256 primitives, unit-testable in isolation) and t8 (schemas/service/router/get_current_user endpoints); template 3 kept as one issue (t9) since it fits the 6-AC cap. N=5, batch_size=min(5, ceil(5/3))=2, batches: [t5,t6], [t7,t8], [t9] - each file written in its own write call, every batch persisted before the next.",
+      "Platform API: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts (npx tsx broken on this host). Created with labels 'defined' and leading-newline bodies (files start with --- frontmatter): t5=#8, t6=#9, t7=#10, t8=#11, t9=#12. Each verified via 'issue get' (title/state/labels confirmed). After writing platform_issue into frontmatter, every issue body was re-synced via 'issue update <n> --body' so the platform body carries the populated frontmatter (all 5 updates returned 200 with updated_at 18:14:33-42Z). No label-add calls were needed (labels set at create time succeeded).",
+      "Platform flakiness observed this run: (a) 'issue list --state all' intermittently returned a stale subset (issue 10, created successfully per 'issue get', was absent from the immediately-following list) - treat list output as best-effort, 'issue get' as authoritative; (b) one combined command aborted early when piped through 'grep -E' with SIGPIPE after the first match - subsequent runs used tail/grep without early pipe closure and all succeeded. No API 5xx occurred this run; no curl was used.",
+      "Granularity: max_acs=6 hit by t5, t8, t9 (config limits.issue_granularity.max_acs=6, warn_only - deliberately at cap because each AC is contract-first mechanically checkable). max_files: nominal 4-6 per issue; t8 (~8 paths incl. tests + main.py registration) and t9 (~10 paths incl. co-located tests) exceed max_files=4 and both will likely exceed max_diff_lines=300 - all warn_only, and each issue's Constraints section states this explicitly so Builders/Verifiers do not split the vertical (t4 groom precedent).",
+      "Environment facts baked into AC/constraint text for groom: uv is the Linux binary at ~/.local/bin (AC commands embed the PATH export, t3 precedent); node/npm are Windows binaries so t9 verification must use the cmd.exe /c 'cd /d $(wslpath -w ...) && ...' pattern from merged t2/t4 ACs; make is GNU Make 4.3 (t5 ac5 make -n migrate); test DB isolation must avoid shared backend/dev.db (t5/t6/t8 constraint); react-hook-form+zod are newly permitted in t9 (t2 ac6 banned them for phase_1 - t9 ac5 restates the pin requirement instead).",
+      "Verification-command sections: t5/t7/t8/t9 carry a 'Verification commands' placeholder stating groom will pin pytest node IDs / vitest filters / CLI exit codes per AC (t3/t4 precedent requires node-ID pinning, which is groom's contract per groom.md; survey drafts ACs). t6 has the same placeholder. Groom must also state fail-pre-implementation behavior per AC.",
+      "File-name deviation recorded in t9 constraints: coding_standards.md mandates snake_case TS files, so Chapter 8's AuthContext.tsx/Login.tsx names are superseded by auth_context.tsx/login_page.tsx etc. (t2 app_shell.tsx precedent). plan.md phase_2 section reflects the refined 5-issue split.",
+      "DAG: 10 nodes, 13 edges, DFS found no cycles, no orphans among new nodes (every t5..t9 reaches closed nodes t1/t2/t4). Topological order t0..t9; critical path t0->t1->t4->t5->t6->t7->t8->t9. t9's dependency on t8 is a contract dependency (MSW-mocked tests) noted in t8/t9 Dependencies sections.",
+      "Uncovered-requirement honesty: phase_2_auth scope = REQ-PLAN-020/021 auth slice. Items listed in coverage_check.uncovered_requirements are deliberate deferrals with owning milestones named, not gaps in the milestone's own scope."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t5.md",
+      "docs/issues/t6.md",
+      "docs/issues/t7.md",
+      "docs/issues/t8.md",
+      "docs/issues/t9.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_2_auth.json",
+      "docs/state/outputs/phase_2_auth_definer_survey.json"
+    ],
+    "platform_issue": 8,
+    "output_path": "docs/state/outputs/phase_2_auth_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T18:18:00Z",
+  "retry_count": 0
+}
