@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t4",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:acc16b1db461055c015b4f81471f6ab110f153c5bc700da7805c17c439c07256",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'test -f .env.example && git ls-files --error-unmatch .env.example >/dev/null && for v in DATABASE_URL JWT_SECRET JWT_ALGORITHM JWT_ACCESS_TOKEN_EXPIRE_MINUTES JWT_ISSUER JWT_AUDIENCE CORS_ORIGINS ENVIRONMENT APP_VERSION DB_CONNECT_TIMEOUT VITE_API_BASE_URL MCP_API_BASE_URL MCP_JWT_SECRET PLATFORM API_TOKEN REPO_ID; do grep -Eq \"^$v=\" .env.example || exit 1; done && ! grep -Eqi \"(secret|token|password)[a-z_]*=[[:space:]]*[A-Za-z0-9+/]{24,}\" .env.example && ! grep -Eq \"(ghp_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,}|glpat-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\" .env.example && test -z \"$(git ls-files -- .env)\"'",
+      "ac2": "bash -c 'command -v make >/dev/null || exit 1; test -f Makefile && git ls-files --error-unmatch Makefile >/dev/null && for t in setup setup-backend setup-frontend dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend down migrate seed e2e security; do grep -Eq \"^${t}[[:space:]]*:\" Makefile || exit 1; make -n \"$t\" >/dev/null 2>&1 || exit 1; done && for r in \"uv sync\" \"uv run pytest\" \"uv run ruff\" \"uv run mypy\" \"npm install\" \"npm test\"; do grep -qP \"^\\t.*($r)\" Makefile || exit 1; done && grep -qP \"^\\t.*(npm run lint|npx tsc --noEmit)\" Makefile'",
+      "ac3": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uv >/dev/null || exit 1; out=$(make test-backend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-backend >/dev/null 2>&1'",
+      "ac4": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; out=$(make test-frontend 2>&1) || exit 1; echo \"$out\" | grep -Eq \"vitest|Test Files\" || exit 1; echo \"$out\" | grep -Eq \"[1-9][0-9]* passed\" || exit 1; make lint-frontend >/dev/null 2>&1'",
+      "ac5": "bash -c 'test -f LICENSE && git ls-files --error-unmatch LICENSE >/dev/null && grep -q \"MIT License\" LICENSE && grep -q \"Permission is hereby granted, free of charge\" LICENSE'",
+      "ac6": "bash -c 'test -f README.md && l=$(wc -l < README.md) && [ \"$l\" -ge 30 ] && [ \"$l\" -le 500 ] && grep -Eqi \"^#{1,6}[[:space:]].*quick start\" README.md && grep -Eqi \"^#{1,6}[[:space:]].*running tests\" README.md && grep -q \"cp .env.example .env\" README.md && grep -q \"make setup\" README.md && grep -q \"make dev-backend\" README.md && grep -q \"make dev-frontend\" README.md && grep -q \"make test\" README.md && grep -q \"make lint\" README.md && grep -Eqi \"prerequisite\" README.md && grep -Ewq MIT README.md'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": [
+      "t4 is a DELTA issue, scoped against merged reality rather than the plan template. .env.example and README.md are ALREADY TRACKED from the tooling baseline: .env.example holds only launcher vars (PLATFORM/API_TOKEN/REPO_ID) and README.md is a single line ('\"# expense-tracker-dashboard\" '). Makefile and LICENSE do not exist and are not tracked. ac1 therefore requires ADDITIVE extension of .env.example with the 13 Chapter 3 sec 3.10 app vars while keeping the tooling vars (the launcher reads .env derived from this file — deleting them would break the harness), and ac6 requires replacing the placeholder README content. Overlap recorded in the issue Context section.",
+      "Draft AC refined from 5 draft bullets to 6 checkable AC (ac1..ac6), at the limits.issue_granularity.max_acs=6 cap (warn_only). Every AC is mechanically observable and got a runnable command; no manual AC. contract_first.require_for is [backend,api,database] and t4 is root tooling/docs, so commands were not strictly mandated — they were provided anyway because every check is automatable.",
+      "ac2 pins the REQ-DOC-051 target surface (dev, down, test, test-backend, test-frontend, e2e, lint, migrate, seed, security) plus setup and the per-stack splits = 17 targets. Two non-obvious hardenings discovered while probing: (a) GNU make exits 0 for a name that appears only in .PHONY ('Nothing to be done'), so make -n alone cannot prove a target exists — ac2 also greps for a real '^target[[:space:]]*:' rule; (b) toolchain delegation is checked with tab-anchored grep -qP '^\\t.*(cmd)' so a mention in a comment cannot satisfy the AC, and space-indented recipes fail make -n with 'missing separator' (verified rc=2).",
+      "ac3/ac4 gate real delegation, not just text: make test-backend must exit 0 with a pytest passed-count line, make test-frontend must exit 0 with a vitest/Test Files summary and a passed count, and lint-backend/lint-frontend must exit 0. Feasibility was proven during this groom by building a candidate Makefile in a scratch dir under the ignored build/ path and running it against the merged t1/t2/t3 suites: test-backend rc=0 (6 passed), test-frontend rc=0 (vitest 3 passed), lint-backend rc=0 (ruff + mypy clean), lint-frontend rc=0 (eslint + tsc), and 'make test' rc=0 running both suites. All scratch artifacts were deleted afterwards; git status shows only docs/issues/t4.md modified.",
+      "Environment discovery baked into the ACs and Constraints: make is GNU Make 4.3 (WSL) but node/npm are WINDOWS binaries, so a naive 'cd frontend && npm test' recipe fails on this host (t2 groom recorded the same for direct npx). The proven pattern is a WSL-detecting FE macro: ifeq ($(shell test -e /proc/sys/fs/binfmt_misc/WSLInterop && echo wsl),wsl) -> cmd.exe /c \"cd /d $(shell wslpath -w <abs frontend dir>) && cmd\" with a plain 'cd frontend && cmd' fallback. Note $(CURDIR) alone broke when the Makefile lived in a subdir; the Builder must resolve the frontend path relative to the repo root (abspath works in both cases). Backend recipes need no shim (uv is a Linux binary at ~/.local/bin, hence the PATH export).",
+      "Pre-implementation behaviour verified on current main (a3cb983, t3 merged): all six commands extracted verbatim from the issue file into script files and executed from repo root returned rc=1 for ac1..ac6. There is NO lint-style non-regression-only AC here — the ruff/mypy/eslint/tsc runs in ac3/ac4 sit behind 'make …' existence gates, so they fail pre-implementation too. This is stated explicitly in the issue's Verification commands notes (t3 precedent required stating the opposite case).",
+      "Positive-path verification: ac1/ac2/ac5/ac6 were run against a synthetic fixture repo (git init in a scratch dir) containing a compliant .env.example, Makefile, LICENSE and 51-line README — all rc=0. Negative paths confirmed: a .env.example with a ghp_ token fails ac1; a Makefile with a .PHONY-only 'seed' fails ac2; a 1-line README fails ac6; missing files fail. ac3/ac4 positives were proven against the real merged suites (see above).",
+      "README scope split recorded deliberately rather than silently: full REQ-DOC-010 compliance (15 sections, live-demo URL, criteria-mapping table, agent-pack/security/ops sections) is impossible in phase 1 — no deployment, no openapi.yaml, no agent pack exist yet. ac6 gates only the criterion-14 reproducibility core (prerequisites, Quick Start, Running tests, the literal make commands, MIT license line) and Out of scope assigns the polish pass to phase_8_docs. Likewise migrate/seed/e2e/security/down recipes may be forward-delegating stubs (Constraints), with real functionality owned by phase_2/phase_3/phase_5/phase_7.",
+      "Granularity: exactly the plan's 4 files (.env.example, Makefile, LICENSE, README.md) so max_files=4 is met; 6 AC at the max_acs cap. The diff may exceed max_diff_lines=300 (MIT text + README + Makefile ≈ 200-330 lines) — warn_only, documented in Context so the Builder does not split a root-config issue.",
+      "Platform sync: issue update 7 --body (full file content with a leading newline because the body starts with '---' frontmatter) returned number=7 at 2026-10-07T16:54:48Z, so Gate 1 body sync holds. Label transition: label remove/label add and label set ALL failed with HTTP 500 (POST/PUT on the labels endpoints), matching the pre-existing entry in docs/log/api_failures.md: '[18] ... POST/DELETE broken on issue endpoints; GET/PATCH OK'. Workaround used: 'issue update 7 --labels \"groomed\"' (PATCH on the issue resource, which replaces the label array) — issue get 7 now confirms labels=[\"groomed\"] with 'defined' removed, updated_at 2026-10-07T16:56:14Z. No direct curl was used; only scripts/platform.ts.",
+      "Groom summary comment could NOT be posted: 'issue comment 7' returns HTTP 500 repeatedly (retried after 30s and 45s waits; a control comment on issue 6 fails identically, so this is a platform-side POST outage, not a payload problem). The groom summary content is preserved in these notes and in the issue body, which is authoritative per groom.md Step 4/6. Flagged to the Orchestrator as an UPDATE; no blocker raised because groom.md's only blocker condition for this step class is body-sync failure, which did not occur.",
+      "ac_hash = sha256 over the '## Acceptance criteria' section of docs/issues/t4.md (heading line excluded, LF-normalized, trailing whitespace stripped, Verification commands excluded)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t4.md",
+      "docs/state/outputs/t4_definer_groom.json"
+    ],
+    "platform_issue": 7,
+    "output_path": "docs/state/outputs/t4_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T16:58:30Z",
+  "retry_count": 0
+}

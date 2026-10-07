@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-07T16:51:21Z",
-  "last_seq": 128,
+  "updated_at": "2026-10-07T16:58:42Z",
+  "last_seq": 132,
   "slots": [
     {
       "slot": 1,
@@ -16,12 +16,12 @@
     {
       "slot": 2,
       "issue_id": "t4",
-      "role": "definer",
-      "phase": "groom",
-      "spawn_at": "2026-10-07T16:40:13Z",
-      "last_activity_at": "2026-10-07T16:40:13Z",
-      "run_id": "d4f14676-ce25-482d-ac71-1e9f197d20db",
-      "worktree_path": null
+      "role": "builder",
+      "phase": "implement",
+      "spawn_at": "2026-10-07T16:58:42Z",
+      "last_activity_at": "2026-10-07T16:58:42Z",
+      "run_id": "pending",
+      "worktree_path": "../worktrees/t4"
     }
   ],
   "merge_queue": [],
@@ -35,7 +35,7 @@
     },
     {
       "issue_id": "t4",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": []
     }
   ]
