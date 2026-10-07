@@ -1,21 +1,21 @@
 # Status
 
-Updated: 2026-10-07T17:05Z
+Updated: 2026-10-07T17:15Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | (free) | — | — | — | t3 closed 17:03Z |
-| 2/2 | t4 | builder | implement | 16:59Z | run 49acbdf1 (worktree ../worktrees/t4, branch issue/t4-root-config @ a3cb983, #7) |
+| 1/2 | t4 | verifier | verify_issue | 17:13Z | run 68181c87 (worktree ../worktrees/t4 @ 102b6bd, #7) |
+| 2/2 | (free) | — | — | — | t4 is the last phase_1 issue |
 
 ## Merge queue
 
-(empty)
+(empty — t4: verify_issue -> pre-merge -> merge -> post-merge -> closure remains)
 
 ## Ready issues
 
-(none — t4 is the LAST phase_1 issue; on its closure the milestone drains and the completion check runs)
+(none)
 
 ## Blocked issues
 
