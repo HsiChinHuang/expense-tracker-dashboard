@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T15:33Z
+Updated: 2026-10-07T15:47Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | phase_1_init | definer | survey | 15:27Z | run bef8481a (async, thinking=medium) |
+| 1/2 | t0 | definer | review_plan | 15:46Z | run 08e20c4e (async, thinking=medium) |
 
 ## Merge queue
 
@@ -52,22 +52,19 @@ Also created (Preflight Stage 3 "labels creatable"): the 13 gates.md labels
 
 ## Open items for the owner
 
-1. **`thinking: high` is unusable on this model** (needs a decision; see WAL seq 28-31).
-   `docs/config.yaml` sets `thinking: high` for survey / review_plan / implement /
-   fix_qa / fix_regression. Model group `Qwen3.8-Flash-Next-Thinking` accepts only
-   `medium` / `low` (server default `xhigh`); the harness maps client `xhigh` ->
-   `high`, which the server rejects with HTTP 400. Orchestrator currently
-   substitutes `medium` per spawn and logs each deviation. Options: remap
-   config.yaml to medium, fix the harness xhigh mapping, or use `:off`
-   (server default). Smoke tests: `:medium` OK, `:off` OK, `:high`/`:xhigh` 400.
+1. ~~`thinking: high` unusable~~ — **RESOLVED by owner ruling** (seq 36-38): config
+   remapped high/xhigh -> medium in docs/config.yaml (local, gitignored),
+   .pi/agents/*.md, config_snapshot.json, role SKILL tables. Commit `0295f41`.
 2. **GitHub POST/DELETE outage** ~14:55-15:18Z (self-healed) — reportable per owner
    ruling; evidence in issue #1's final comment.
 
 ## Infra deviations applied (reversible)
 
-- `git config core.autocrlf false` (repo-local): repo blobs store CRLF (committed
-  from WSL); with autocrlf=true, Windows git reported 115 phantom-modified files,
-  so any child `git add -A` would have committed pure line-ending churn.
+- `core.autocrlf`: set false at seq 31, **reverted to true at seq 39** — repo blobs
+  are LF, worktree CRLF, so true is correct; no churn was ever committed.
+- Stray `./C:/Users/...` tree created by survey child (absolute-path output copy)
+  removed; verified byte-identical duplicate (WAL seq 40). Spawn prompts now forbid
+  absolute output copies.
 
 ## Survey retry history
 
