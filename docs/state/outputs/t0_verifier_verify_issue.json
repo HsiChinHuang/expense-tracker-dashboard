@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t0",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'for d in frontend backend e2e security ops .github/workflows; do test -d \"$d\" || exit 1; done && git ls-files --error-unmatch e2e/.gitkeep security/.gitkeep ops/.gitkeep .github/workflows/.gitkeep >/dev/null'",
+        "exit_code": 0,
+        "note": "Filesystem dir checks ran directly; git ls-files --error-unmatch ran via Windows git toolchain (WSL cannot resolve the worktree gitdir pointer). All 4 markers tracked."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f backend/app/__init__.py && for d in models schemas routers services auth audit core scripts; do test -f \"backend/app/$d/__init__.py\" || exit 1; done && test -f backend/tests/__init__.py && test -f backend/tests/unit/__init__.py && test -f backend/tests/integration/__init__.py && test -f backend/alembic/versions/.gitkeep'",
+        "exit_code": 0
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'for d in api components/ui components/layout components/charts components/forms components/common pages hooks context types utils test; do test -f \"frontend/src/$d/.gitkeep\" || exit 1; done && test -f frontend/public/.gitkeep'",
+        "exit_code": 0
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'for p in probe.db probe.sqlite3 probe.log RENDER_DEPLOY_HOOK build/x coverage/x; do git check-ignore -q \"$p\" || exit 1; done'",
+        "exit_code": 0,
+        "note": "All 6 probe paths matched by git check-ignore (verified via check-ignore -v: *.db, *.sqlite3, *.log, RENDER_DEPLOY_HOOK, build/, coverage/ at .gitignore lines 181-186). git parts executed via Windows git toolchain."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -z \"$(git ls-files -- .env \"*.db\" \"*.sqlite3\" \"*RENDER_DEPLOY_HOOK*\")\"'",
+        "exit_code": 0,
+        "note": "git ls-files returned empty for all secret/generated patterns (ran via Windows git toolchain)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -d frontend && test -z \"$(find frontend backend e2e security ops .github -type f ! -name .gitkeep ! -name __init__.py 2>/dev/null)\"'",
+        "exit_code": 0,
+        "note": "find returned empty. Additional checks: no non-empty __init__.py, no .py other than __init__.py under backend/, no .ts/.tsx under frontend/."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": null,
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_6_ac_pass": true,
+      "diff_is_placeholder_and_additive_gitignore_only": true,
+      "git_status_porcelain_clean": true,
+      "no_secrets_no_impl_files": true,
+      "conventional_commit": true
+    },
+    "verification_commands_source": "docs/issues/t0.md#verification-commands"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t0_verifier_verify_issue.json"
+    ],
+    "platform_issue": 3,
+    "output_path": "docs/state/outputs/t0_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-07T15:52:00Z",
+  "retry_count": 0
+}
