@@ -1,12 +1,12 @@
 # Status
 
-Updated: 2026-10-07T15:11Z
+Updated: 2026-10-07T15:22Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| — | — | — | — | — | — |
+| 1/2 | phase_1_init | definer | survey | 15:21Z | run 65b75c9c (async) |
 
 ## Merge queue
 
@@ -26,16 +26,21 @@ Updated: 2026-10-07T15:11Z
 |---|---|---|---|
 | #1 | BLOCKER: preflight Stage 1 HALT - origin/main does not exist (empty remote repo) | 2026-10-07T14:28Z | open |
 
-Issue #1 now carries four sub-blockers (body updated via PATCH at 15:10Z):
+**None — issue #1 closed at 15:19Z.** All four sub-blockers resolved:
 
-| Sub | Status | Summary |
+| Sub | Status | Resolution |
 |---|---|---|
-| A | **resolved** | `origin/main` bootstrapped (`df8623f`), `origin/HEAD` + `origin_url.txt` set — Stage 1 passes |
-| B | open | Stage 2 reference integrity: 12 requirement-referenced deliverables; needs an ignore-list ruling |
-| C | open | `survey.md` requires level-2 `## Tech stack` / `## Core features`; requirements.md has `### 7. Tech Stack Requirements` only, factpack `tech_stack = null` |
-| D | open | GitHub POST/DELETE on issue endpoints return 500 (GET/PATCH OK) — state labels cannot be set |
+| A | resolved | `origin/main` bootstrapped (`df8623f`), `origin/HEAD` + `origin_url.txt` set |
+| B | resolved | Owner ruling: Stage 2 ignore list extended in `preflight.md` (requirements + runtime sources excluded; `plan.md`/`backlog.md` = pending Lifecycle outputs). Scan: 0 missing refs |
+| C | resolved | Owner ruling: level-2 `## Tech stack` + `## Core features` derived-index sections added to `docs/requirements.md`. Factpack `tech_stack` = 1892 chars (was `null`), 8 feature bullets |
+| D | resolved (self-healed) | GitHub POST/DELETE recovered ~15:18Z (create 201, close, comment, labels, DELETE 204 verified). Outage ~14:55–15:18Z; owner: reportable, no framework change |
 
-Issue #1 cannot be closed by the Orchestrator: `issue close` is a POST (Blocker D).
+Cleanup verified: `probe-label-x` deleted, probe issue #2 closed, test comment deleted.
+
+Also created (Preflight Stage 3 "labels creatable"): the 13 gates.md labels
+(`defined`, `groomed`, `built`, `verified`, `closed`, `verifier_failed`,
+`merge_conflict`, `regression`, `isolated`, `human_review`, `known_limitation`,
+`stale`, `auto_closed`) — all 201. Fixes committed and pushed as `a098995`.
 
 ## Open human reviews
 
@@ -47,32 +52,26 @@ Issue #1 cannot be closed by the Orchestrator: `issue close` is a POST (Blocker 
 
 ## Recent events (last 10)
 
-- seq 10 `[RECOVERY]` startMode=RESUME, prior PID dead
-- seq 11 `[PREFLIGHT_OK]` stage=1 all checks pass (Blocker A resolved)
-- seq 12-13 `[PREFLIGHT_FAIL]` stage=2 unresolved; survey precondition (Blocker C)
-- seq 14-15 `[API_FAILURE]` POST issues / POST comments -> 500 after 3 retries
-- seq 16 `[BLOCKER_CREATED]` issue=#1 body updated via PATCH (Blockers C + D)
-- seq 17 `[PREFLIGHT_FAIL]` Lifecycle cannot start
-- seq 18 `[SHUTDOWN]` HALT, slots_empty=true
+- seq 19-20 `[PREFLIGHT_OK]` stage=2 PASS (B); survey precondition fixed (C)
+- seq 21 `[API_FAILURE]` POST 500 -> 201, Blocker D self-healed
+- seq 22 `[BLOCKER_RESOLVED]` issue #1 closed, probe cleanup done
+- seq 23 `[SPAWN]` definer survey, factpack `phase_1_init`, timeout 60 min
+- seq 24 `[SPAWN]` run_id 65b75c9c bound to slot 1/2
 
 ## Boot outcome
 
-**Stage 1 now passes; HALTED at Stage 2 + two further blockers.** No Lifecycle
-iteration ran; `docs/plan.md` was never generated because Preflight precedes
-Lifecycle Step 0.
+**Preflight PASSED end-to-end. Lifecycle Step 0 is running.**
 
-Remaining blockers:
+`Definer: survey` is executing in slot 1 (async, 60 min timeout, model
+`ollama/Qwen3.8-Flash-Next-Thinking:high` per `roles.definer.phases.survey.thinking`).
+It will generate `docs/plan.md`, `docs/backlog.md`, `docs/state/dag.json`,
+milestones, issue files, and create the Platform issues labeled `defined`.
 
-- **B** — Stage 2 fails on 12 requirement-referenced deliverable paths; the ignore
-  list needs an owner ruling (as written, the project can never boot).
-- **C** — `Definer: survey` would BLOCKER immediately: `survey.md` requires level-2
-  `## Tech stack` and `## Core features` in `docs/requirements.md`; the document
-  uses `### 7. Tech Stack Requirements` and has no Core-features heading. Factpack
-  confirmed `facts.tech_stack = null`.
-- **D** — GitHub POST/DELETE on issue-scoped endpoints return 500, so state labels,
-  comments, BLOCKER creation and merge-close are all impossible.
+Next on completion: Step 9 schema validation (`schemas/definer/survey.json`) +
+gate check (`scripts/gate_check.ts`), then Step 3 triggers `review_plan` for each
+milestone created by survey.
 
-See `docs/state/PREFLIGHT_FAIL.md` and Platform issue #1.
+Preflight failure record is retained in `docs/state/PREFLIGHT_FAIL.md` for audit.
 
 ---
 
