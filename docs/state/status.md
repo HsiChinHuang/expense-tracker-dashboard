@@ -1,13 +1,13 @@
 # Status
 
-Updated: 2026-10-07T17:47Z
+Updated: 2026-10-07T18:22Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | phase_2_auth | definer | survey | 17:45Z | run a921b46e (main checkout; rolling planning per plan.md §phase_2_auth) |
-| 2/2 | (free) | — | — | — | — |
+| 1/2 | t5 (milestone phase_2_auth) | definer | review_plan | 18:20Z | run 74be24e2 (main checkout, no factpack) |
+| 2/2 | (free) | — | — | — | groom spawns gated on review_plan PASS |
 
 ## Merge queue
 
@@ -15,7 +15,7 @@ Updated: 2026-10-07T17:47Z
 
 ## Ready issues
 
-(none)
+t5 #8, t6 #9, t7 #10, t8 #11, t9 #12 — all `defined`, lifecycle-eligible ONLY after review_plan passes (DAG: t5->t6->t7->t8->t9; t5 root).
 
 ## Blocked issues
 
