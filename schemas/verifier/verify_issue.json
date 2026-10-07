@@ -82,7 +82,7 @@
             },
             "verification_commands_source": {
               "type": "string",
-              "const": "docs/issues/<id>.md#verification-commands",
+              "pattern": "^docs/issues/t[0-9]+\\.md#verification-commands$",
               "description": "Authoritative source of verification commands"
             }
           }
