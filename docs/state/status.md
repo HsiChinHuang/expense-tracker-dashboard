@@ -6,7 +6,7 @@ Updated: 2026-10-07T19:52Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t7 | definer | groom | 20:10Z | run 43ee8975 (main checkout, #10) |
+| 1/2 | t7 | builder | implement | 20:26Z | run e0d6a048 (worktree ../worktrees/t7 @ 5b1daa7, #10) |
 | 2/2 | (free) | — | — | — | t8 gated on t7 closure |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
