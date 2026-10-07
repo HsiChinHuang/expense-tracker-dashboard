@@ -1,17 +1,17 @@
 # Status
 
-Updated: 2026-10-07T17:15Z
+Updated: 2026-10-07T17:20Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t4 | verifier | verify_issue | 17:13Z | run 68181c87 (worktree ../worktrees/t4 @ 102b6bd, #7) |
+| 1/2 | t4 | verifier | verify_pre_merge | 17:18Z | run 153787b9 (worktree ../worktrees/verify-t4 detached @ 102b6bd, #7) |
 | 2/2 | (free) | — | — | — | t4 is the last phase_1 issue |
 
 ## Merge queue
 
-(empty — t4: verify_issue -> pre-merge -> merge -> post-merge -> closure remains)
+(empty — t4: pre-merge -> merge -> post-merge -> closure remains)
 
 ## Ready issues
 
