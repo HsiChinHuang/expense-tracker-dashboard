@@ -6,7 +6,7 @@ Updated: 2026-10-08T08:30Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t14 | definer | groom | 12:55Z | run pending (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
+| 1/2 | t14 | definer | groom | 12:55Z | run df35f4cf (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
 | 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
