@@ -10,6 +10,7 @@ import { ProtectedRoute } from './components/common/protected_route';
 import { PublicOnlyRoute } from './components/common/public_only_route';
 import { LoginPage } from './pages/login_page';
 import { RegisterPage } from './pages/register_page';
+import { ExpensesPage } from './pages/expenses_page';
 
 export const App = (): JSX.Element => (
   <Routes>
@@ -19,6 +20,7 @@ export const App = (): JSX.Element => (
     </Route>
     <Route element={<ProtectedRoute />}>
       <Route path="/" element={<AppShell />} />
+      <Route path="/expenses" element={<ExpensesPage />} />
     </Route>
   </Routes>
 );
