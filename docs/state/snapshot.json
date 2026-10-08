@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:12:26Z",
-  "last_seq": 339,
+  "updated_at": "2026-10-08T17:21:06Z",
+  "last_seq": 340,
   "slots": [
     {
       "role": "definer",
-      "phase": "groom",
-      "run_id": "ed354692-dad3-4949-90a8-d4527c827a68",
-      "note": "t17 groom (re-measure baseline 52, ratify 26 titles)",
-      "last_activity_at": "2026-10-08T17:12:26Z"
+      "phase": "build",
+      "run_id": "pending",
+      "note": "t17 build (10 source paths, 26 frozen titles)",
+      "last_activity_at": "2026-10-08T17:21:06Z"
     },
     {
       "slot": 2,
@@ -25,10 +25,8 @@
   "active_issues": [
     {
       "issue_id": "t17",
-      "state": "defined",
-      "modifiers": [
-        "surveyed"
-      ]
+      "state": "groomed",
+      "modifiers": []
     }
   ]
 }
