@@ -10,8 +10,8 @@
       "phase": "build",
       "spawn_at": "2026-10-08T12:05:23Z",
       "last_activity_at": "2026-10-08T12:05:23Z",
-      "run_id": "pending",
-      "worktree_path": "pending",
+      "run_id": "01ac0b22-7248-4919-bbdd-138579746845",
+      "worktree_path": "../worktrees/t14",
       "note": "6 ACs; owns alembic 005; W8/W9 resolved"
     },
     {
