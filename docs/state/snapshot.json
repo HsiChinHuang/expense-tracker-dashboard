@@ -7,10 +7,10 @@
       "slot": 1,
       "issue_id": "t15",
       "role": "definer",
-      "phase": "survey-complete",
+      "phase": "groom",
       "spawn_at": "2026-10-08T13:34:31Z",
-      "last_activity_at": "2026-10-08T13:48:46Z",
-      "run_id": "29201d86-239b-42f9-9c27-f61905c6bcf7",
+      "last_activity_at": "2026-10-08T13:49:10Z",
+      "run_id": "31937b49-1d3f-4222-97cc-3ea9ce7907af",
       "worktree_path": "MAIN checkout",
       "note": "6 ACs 13 nodes; AMOUNT_MAX resolution pinned for groom ratification"
     },
