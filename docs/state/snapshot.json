@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T08:48:35Z",
-  "last_seq": 283,
+  "updated_at": "2026-10-08T08:56:42Z",
+  "last_seq": 285,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t12",
-      "role": "definer",
-      "phase": "groom",
-      "spawn_at": "2026-10-08T08:48:35Z",
-      "last_activity_at": "2026-10-08T08:48:35Z",
-      "run_id": "72f92184-4044-4be7-b84b-8ab4032ef0a6",
-      "worktree_path": "main checkout",
-      "note": "W5 carry-forward"
+      "role": "builder",
+      "phase": "build",
+      "spawn_at": "2026-10-08T08:56:42Z",
+      "last_activity_at": "2026-10-08T08:56:42Z",
+      "run_id": "efc33599-fff5-4d19-bbcb-0a7764adc35a",
+      "worktree_path": "../worktrees/t12",
+      "note": "audit foundation; base b7ca6670b; owns alembic 003"
     },
     {
       "slot": 2,
@@ -29,7 +29,7 @@
   "active_issues": [
     {
       "issue_id": "t12",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": []
     }
   ]
