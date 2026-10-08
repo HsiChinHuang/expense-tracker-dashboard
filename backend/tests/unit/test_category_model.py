@@ -91,7 +91,9 @@ class TestCategoryModel:
 
         assert table.name == "categories"
         assert set(table.columns.keys()) == EXPECTED_COLUMNS
-        assert set(Base.metadata.tables) == {"users", "categories"}
+        # t12 amendment (t10 precedent): AuditLog registers on the shared
+        # Base, so assert the intent-preserving superset, not equality.
+        assert {"users", "categories"} <= set(Base.metadata.tables)
 
         id_col = table.columns["id"]
         user_id_col = table.columns["user_id"]

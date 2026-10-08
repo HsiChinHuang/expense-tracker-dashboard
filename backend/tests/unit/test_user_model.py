@@ -95,7 +95,7 @@ class TestUserModel:
         assert set(table.columns.keys()) == EXPECTED_COLUMNS
         tables = set(Base.metadata.tables)
         assert "users" in tables
-        assert not tables & {"expenses", "budgets", "audit_logs"}, tables
+        assert not tables & {"expenses", "budgets"}, tables  # t12: audit_logs exists now
 
         email_col = table.columns["email"]
         username_col = table.columns["username"]
