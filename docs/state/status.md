@@ -6,7 +6,7 @@ Updated: 2026-10-08T08:30Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t11 | verifier | verify_pre_merge | 08:40Z | run a8574331 (main checkout + throwaway t11pm, #14) (worktree ../worktrees/t11, #14) |
+| 1/2 | t12 | definer | groom | 09:10Z | run 72f92184 (main checkout, #15) (worktree ../worktrees/t11, #14) |
 | 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
