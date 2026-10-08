@@ -5,14 +5,14 @@
   "slots": [
     {
       "slot": 1,
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "spawn_at": null,
-      "last_activity_at": "2026-10-08T13:34:01Z",
-      "run_id": null,
-      "worktree_path": null,
-      "note": "t14 CLOSED 5/9; next t15 survey"
+      "issue_id": "t15",
+      "role": "definer",
+      "phase": "survey",
+      "spawn_at": "2026-10-08T13:34:31Z",
+      "last_activity_at": "2026-10-08T13:34:31Z",
+      "run_id": "1fdc39c4-0c3d-4f31-9ce0-d4c167198241",
+      "worktree_path": "MAIN checkout",
+      "note": "tests-only e2e matrix; W16 bounds + W3 in-use-409 re-proof"
     },
     {
       "slot": 2,
@@ -26,5 +26,11 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t15",
+      "state": "defined",
+      "modifiers": []
+    }
+  ]
 }
