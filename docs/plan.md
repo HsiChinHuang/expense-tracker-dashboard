@@ -246,9 +246,113 @@ REQ-ARCH-078).
 
 ## phase_4_dashboard — Dashboard (Phase 4, REQ-PLAN-040 … 041)
 
-Scope: six dashboard endpoints, five Recharts chart types, MonthContext,
-MonthPicker, KPI cards, edge cases (REQ-PROD-014, REQ-PROD-033).
-Refined by survey when this milestone begins.
+Survey (2026-10-09) refined this placeholder into five issues (t19..t23)
+mapped onto the 19 tasks of Chapter 17 §17.5.2 (4.1..4.19) as vertical slices
+against merged phase_3 reality (main @ 91124de: five routers on
+/api/v1, dashboard_service is the SEVENTH router — append-only in create_app,
+no Alembic revision in this milestone, MSW harness with frozen handlers.ts,
+inline role=status / role=alert+Retry / <p> empty conventions per t18 Q8,
+queryKeys factory whose dashboard family is explicitly a phase_4 extension,
+expense/budget mutations already invalidate the ["dashboard"] prefix so
+REQ-FE-051 observability closes here).
+
+**Survey rulings (pinned; groom may refine wording, not these decisions):**
+
+1. **recharts ADMITTED, exact pin `recharts` 2.15.4** (REQ-TECH-004 Must,
+   "Recharts 2"; registry-verified latest 2.x). The package.json diff is
+   owned SOLELY by t21 (the chart-components issue). t19/t20/t23 carry
+   ac-gates that FAIL if recharts is present before t21 lands it or after
+   t21 if absent — the admission is one-door, test-enforced.
+2. **date-fns REJECTED** (REQ-TECH-008 is Should; every phase_4 need —
+   "MMM YY" labels, Monday-week grids, day-count month walks, cross-year
+   windows — is proven stdlib: merged monthWindow/shiftMonth and the
+   backend month_range/add_month/subtract_months helpers (REQ-BE-096) exist,
+   and the t18 month helpers passed byte-identical frozen tests). The
+   forbidden-dependency grep keeps `date-fns` banned for the whole
+   milestone; only `recharts` is admitted. REQ-TECH-008 is recorded as
+   deliberately-not-adopted in the survey coverage_check.
+3. **LEGACY-INDEX AMENDMENT (definer-owned protocol; orchestrator executes
+   BEFORE the first phase_4 merge).** merge_test_index entries **#17 (t2)**
+   and **#55 (t9)** contain `/^(recharts|date-fns)$/` forbidden-dependency
+   legs that would go permanently red the moment t21 adds recharts. Ruling:
+   the stored commands are amended IN PLACE (entry count stays 95; no other
+   leg touched; no frozen test titles involved) to the same regex with
+   recharts removed from the forbidden set and an exact-version leg added —
+   recharts, if present, MUST equal exactly "2.15.4"; date-fns stays
+   forbidden. #17 forbidden set becomes `^(styled-components|@emotion/|styled-jsx|@stitches/|@linaria/|react-native-css|date-fns)$` plus
+   `if ("recharts" in d && d.recharts !== "2.15.4") exit 1`. #55 becomes the
+   same amendment plus a positive leg: `d.recharts === "2.15.4"` required
+   (true from t21 merge onward; t21's own pre-merge runs AFTER the
+   amendment, so ordering is safe). Only the definer proposes amendments
+   (this ruling); builders/verifiers must never edit stored entries — a
+   future need routes back through a definer ruling. t21's issue file
+   carries the identical protocol text as a carry-forward.
+4. **REQ-FE-101/102 component halves land in t20** (`components/ui/empty_state.tsx`,
+   `error_state.tsx`) per the t18 Q8 deferral; additive only — merged pages
+   keep their inline conventions untouched (frozen titles).
+5. **MonthContext is ADDITIVE** (t19): new `context/month_context.tsx`
+   providing yearMonth/setYearMonth/prevMonth/nextMonth (REQ-FE-032),
+   mounted in main.tsx under QueryClientProvider; merged pages are NOT
+   refactored (frozen test files) — budget/expenses pages keep their local
+   month state; wiring them is a phase_8 polish candidate with explicit
+   byte-identical-title constraints. MonthPicker is a new component in t22.
+6. **Six dashboard endpoints** are contract-first pinned in t19 (methods,
+   auth, query params, exact response shapes below) — no new tables, no
+   migration; aggregation in Python per REQ-BE-092.
+
+> Issue t19:
+> - Requirement: REQ-API-060..065, REQ-BE-090..096, REQ-ARCH-032 (backend half), REQ-TEST-017/023, REQ-PROD-014/033 (server-side), REQ-SEC-030/031, REQ-PROD-023
+> - Title: Dashboard backend — dashboard_service helpers + six GET endpoints
+> - Acceptance:
+>     - GET /api/v1/dashboard/{summary,by-category,trend,cumulative,heatmap,recent} per the frozen response contracts; all require auth (401 shape); caller-scoped
+>     - dashboard_service with get_summary/get_by_category/get_trend/get_cumulative/get_heatmap/get_recent + month_range/add_month/subtract_months/to_decimal helpers; Python aggregation; zero-month and year-boundary correctness
+>     - percentage null iff budget 0; cumulative last point equals month total; heatmap Monday weeks 7-day rows; recent limit default 10 max 50
+>     - legacy-index amendment protocol restated as carry-forward; no new deps
+> - Files: backend/app/routers/dashboard.py, backend/app/services/dashboard_service.py, backend/app/schemas/dashboard.py, backend/tests/unit/test_dashboard_service.py, backend/tests/integration/test_dashboard_api.py
+> - Depends: [t14]
+
+> Issue t20:
+> - Requirement: REQ-FE-032, REQ-FE-050 (dashboard keys), REQ-FE-051 (observability), REQ-FE-101/102 (component halves), REQ-ARCH-013, REQ-PROD-036 (rapid month switching)
+> - Title: Frontend dashboard data layer — MonthContext, dashboard api/hooks, EmptyState/ErrorState
+> - Acceptance:
+>     - MonthContext (yearMonth/setYearMonth/prevMonth/nextMonth, default current month) additive in main.tsx; merged pages untouched
+>     - api/dashboard.ts six fns + queryKeys.dashboard six keys + use_dashboard_* hooks keyed on context month; ["dashboard"] invalidation now observable via mounted observers
+>     - EmptyState/ErrorState components per REQ-FE-101/102 with new tests only; merged inline conventions not rewritten
+>     - MSW via server.use overrides (handlers.ts frozen); recharts/date-fns absent gate
+> - Files: frontend/src/context/month_context.tsx, frontend/src/api/dashboard.ts, frontend/src/hooks/use_dashboard.ts, frontend/src/components/ui/empty_state.tsx, frontend/src/components/ui/error_state.tsx
+> - Depends: [t17, t19]
+
+> Issue t21:
+> - Requirement: REQ-TECH-004, REQ-FE-070..073, REQ-PROD-033 (chart-side: top-6+Other, empty months, max===0)
+> - Title: Recharts admission + CategoryPieChart, MonthlyTrendChart, CumulativeLineChart, WeeklyHeatmap
+> - Acceptance:
+>     - package.json diff owned here: recharts pinned exactly 2.15.4; legacy entries #17/#55 amendment executed by orchestrator BEFORE this merge
+>     - four chart components in components/charts/ with RTL+MSW vitest tests incl. empty states and over-budget red line
+>     - pie merges to top 6 + Other; trend "MMM YY" labels stdlib; heatmap custom 7-col grid handles max===0/missing days
+>     - date-fns still banned; tsc/lint/no-any gates
+> - Files: frontend/package.json, frontend/src/components/charts/category_pie_chart.tsx, frontend/src/components/charts/monthly_trend_chart.tsx, frontend/src/components/charts/cumulative_line_chart.tsx, frontend/src/components/charts/weekly_heatmap.tsx
+> - Depends: [t20]
+
+> Issue t22:
+> - Requirement: REQ-FE-062, REQ-FE-074, REQ-FE-100 (KPI skeletons), REQ-ARCH-032, REQ-FE-015, REQ-PROD-014/033 (integration side), REQ-PROD-036 (empty dashboard/loading/rapid switching)
+> - Title: DashboardPage — MonthPicker, KPI cards, BudgetProgress, recent list, chart wiring, edge cases
+> - Acceptance:
+>     - DashboardPage at "/" in ProtectedRoute with header (logo, MonthPicker, user menu), 4 KPI cards, 5 charts, recent list; money strings verbatim
+>     - month switch updates all six queries via MonthContext; rapid switching resolves to latest selection only
+>     - REQ-PROD-033 UI edge cases: empty month, no budget (percentage null), over-budget red, exactly/top-6 categories
+>     - Dashboard link in AppShell nav additive; unique document title
+> - Files: frontend/src/pages/dashboard_page.tsx, frontend/src/components/common/month_picker.tsx, frontend/src/components/charts/budget_progress.tsx
+> - Depends: [t20, t21]
+
+> Issue t23:
+> - Requirement: REQ-PLAN-041, REQ-DOC-010 (dashboard rows), REQ-PROD-020 (Should: warm-cache <2s, aggregation <500ms), REQ-TECH-004 (five charts), REQ-PROJ-004
+> - Title: Dashboard verification — criteria 17-26/32, README rows, performance measurement
+> - Acceptance:
+>     - scripted checks: summary total = sum(by-category) = trend month = cumulative last point; heatmap 7 days/week; recent limit; month-switch invalidation observable
+>     - five chart components counted; criteria-mapping rows 17-26 + 32 + README dashboard feature/API rows exist
+>     - performance numbers recorded (Should); full suites green with amended #17/#55
+> - Files: docs/criteria/dashboard_verification.md
+> - Depends: [t19, t22]
 
 ## phase_5_infra — Container, CI/CD, Deployment (Phases 5 + 8 deploy items)
 

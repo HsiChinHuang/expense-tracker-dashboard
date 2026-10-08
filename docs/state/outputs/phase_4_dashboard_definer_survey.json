@@ -1,0 +1,70 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t19",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_4_dashboard",
+    "issues_generated": ["t19", "t20", "t21", "t22", "t23"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-TECH-008 (date-fns 3, Should) - DELIBERATELY NOT ADOPTED (survey ruling 2): every phase_4 date need ('MMM YY' labels, Monday-week grids, day-count month walks, cross-year windows) is stdlib-expressible and already proven on-tree (merged monthWindow/shiftMonth in budget_page.tsx passed frozen byte-identical tests; backend month_range/add_month/subtract_months land with t19 per REQ-BE-096). The forbidden-dependency grep keeps date-fns banned all milestone; only recharts is admitted. This is the recorded resolution of the plan.md L151 'phase_4 survey decision'.",
+        "REQ-PROD-020 (performance targets, Should) - t23 ac4 MEASURES and records the dashboard warm-cache/aggregation numbers at this milestone but does not gate on them; the project-exit measurement stays at project close (t15-survey precedent).",
+        "REQ-PROD-035 concurrent-budget scenario and REQ-DB-072/083 SQLite-fallback seeding - unchanged phase_5_infra carry-forwards from the phase_3 survey; nothing in phase_4 touches them.",
+        "REQ-FE-100 full skeleton vocabulary (skeletons for charts/tables/KPI cards, button spinners) - t22 ac3 pins loading regions for KPI cards/charts on the dashboard only; retro-fitting skeletons into merged expenses/budgets/categories pages would edit FROZEN test files and is explicitly out (phase_8 polish candidate).",
+        "REQ-DOC-010 README full section list - t23 ac5 adds/attests only the dashboard feature/API rows; the README itself is phase_8."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 6,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "ROLLING PLANNING for a NEW milestone against verified merged reality (main @ b191004; phase_3 base 91124de; premises re-verified per the t18 lesson: merge_test_index has exactly 95 entries; entries #17 (t2) and #55 (t9) DO contain the /^(recharts|date-fns)$/ forbidden legs (0-based 16/54); frontend suite = 17 test files; package.json has no recharts/date-fns; alembic chain ends at 005; query_keys.ts comment literally says 'Dashboard keys arrive in phase_4'; merged hooks already invalidate the [\"dashboard\"] prefix). N=5 issues t19..t23 mapped onto Chapter 17 §17.5.2 tasks 4.1..4.19: 4.1-4.6+4.17->t19, 4.7-4.8+data half of 4.14->t20, 4.9-4.12+chart tests 4.15->t21, 4.13+4.14(page)+4.16+4.18->t22, §17.5.4 verification 4.19->t23. batch_size=min(5,ceil(5/3))=2; batches [t19,t20],[t21,t22],[t23]; every file written in its own write call, each batch persisted before the next.",
+      "MANDATORY DECISION 1 - recharts ADMITTED at exact pin 2.15.4 (registry-verified latest 2.x today; REQ-TECH-004 says 'Recharts 2', Must). The package.json+lockfile diff is owned SOLELY by t21; t19/t20/t23 carry gates asserting recharts is ABSENT before t21, and t21's ac1 pins the exact version. No caret ranges (exact-pin policy).",
+      "MANDATORY DECISION 2 - date-fns REJECTED (Should-priority REQ; stdlib month math is proven on-tree in both stacks; adding a date lib would put an unproven dep under frozen chart-label/heatmap tests for zero requirement value). date-fns stays inside the forbidden regex in every phase_4 gate.",
+      "MANDATORY DECISION 3 - LEGACY-INDEX CONFLICT RESOLVED by a definer-owned amendment protocol (pinned in plan.md phase_4 ruling 3 AND restated in t19 Constraints + t21 Constraints as carry-forwards): merge_test_index entries #17 (t2) and #55 (t9) go permanently red the moment recharts enters package.json because their node -e legs forbid /^(recharts|date-fns)$/. RULING: the ORCHESTRATOR amends those two stored commands IN PLACE, BEFORE the first phase_4 merge (which is t19's merge - t19 adds no frontend dep so its own gates are unaffected either way; the amendment must land before t21's merge at the latest, and executing it at the first phase_4 merge keeps the 95-entry cumulative gate green throughout). Exact amendment: entry count stays 95; ONLY the forbidden-set leg changes; both entries drop recharts from the forbidden regex and KEEP date-fns forbidden, plus add an exact-version leg: recharts, if present, MUST equal exactly \"2.15.4\"; #55 additionally requires d.recharts === \"2.15.4\" to be PRESENT (true from t21's merge onward; the amendment precedes it so ordering is safe). Governance: only the definer may authorize amendments (this ruling is the authorization); builders/verifiers never edit stored entries - any future need routes back through a definer ruling. Neither entry contains frozen vitest titles, so no test-title byte-identity is at risk.",
+      "MANDATORY DECISION 4 - deferred REQ-FE-101/102 component halves (EmptyState/ErrorState, deferred from t18 by groom ruling Q8 'Do NOT create components/error_state.tsx / empty_state.tsx / loading_indicator.tsx ... deferred to phase_4') land in t20 ac5 as NEW components with NEW tests only. Merged pages keep their inline role=status / role=alert+Retry / <p> conventions untouched (frozen titles). LoadingIndicator is NOT created: REQ-FE-100's merged coverage (inline status regions) already passes frozen tests; dashboard skeletons are pinned inside t22 ac3 instead - recorded in coverage_check.uncovered_requirements.",
+      "MANDATORY DECISION 5 - MonthContext is ADDITIVE (t20 ac1): new context/month_context.tsx (yearMonth/setYearMonth/prevMonth/nextMonth, default current month per REQ-FE-032), mounted in main.tsx; merged pages are NOT refactored - budget_page keeps its local YYYY-MM because its 14+ frozen test titles must stay byte-identical. Wiring existing pages to the shared context is a phase_8 polish candidate requiring byte-identical-title preservation; explicitly out of phase_4 scope.",
+      "MANDATORY DECISION 6 - six-endpoint contract (contract_first.require_for backend/api; t19 pins it, groom pins byte-level key lists): ALL GET, ALL auth-required (401 {detail,code,field} shape), caller-scoped, money 2-dp strings, percentage null iff budget 0. GET /api/v1/dashboard/summary?year_month=YYYY-MM -> {year_month,total_spent,budget,remaining,percentage:number|null,transaction_count,is_over_budget} (REQ-API-060); /by-category?year_month= -> {categories:[{category_id,name,color,amount,percentage}]} amount-desc (REQ-API-061/BE-091); /trend?months=6..24 default 6 -> {months:[{year_month,label,total}]} zero months included, Python aggregation (REQ-API-062/BE-092); /cumulative?year_month= -> {year_month,budget,days:[{date,daily,cumulative}]} every day of month, last cumulative == total (REQ-API-063/BE-093); /heatmap?weeks=1..52 default 12 -> {max_amount,weeks:[{week_start,days:[{date,amount} x7}]} Monday-start, 0-filled (REQ-API-064/BE-094); /recent?limit=1..50 default 10 -> {items:[expense 10-key shape]} date desc, created_at desc (REQ-API-065/BE-095). No new tables/migration (heads stay 005); seventh router appended in create_app; helpers month_range/add_month/subtract_months/to_decimal in dashboard_service (REQ-BE-096).",
+      "DAG: 24 nodes / 38 edges; programmatic DFS: 0 cycles, 0 orphans, topological order t0..t23 verified against every edge; longest dep chain = 15 edges (t0..->t23) which exceeds limits.dep_chain_warn=10 (WARN ONLY; halt threshold 20 not approached - natural accumulation of the merged spine, same condition as phase_3's 12-edge chain). Critical path t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17->t20->t21->t22->t23 (computed by longest-path DP, corrected from the initial draft). t19 depends on t14 only (reads expenses/budgets/categories via merged models; no migration so the Alembic-chain argument does not apply). t20 depends on t17 (toast/state conventions + main.tsx nesting point) and t19 (contract mirror). t23 depends on t19+t22 (transitively covers t20/t21).",
+      "Granularity: max_acs=6 hit by every issue (6 ACs each - warn_only per config limits.issue_granularity.warn_only=true; each AC is mechanically checkable). max_files=4 exceeded nominally by t19 (3 app + 2 test), t20 (5 src + 4 test), t21 (package.json + 4 components + 4 tests), t22 (3 src + tests + route/nav wiring); every affected issue states the warn_only deviation in Constraints (t13/t17/t18 precedent - verticals must not be split). max_diff_lines=300 will likely be exceeded by t19/t21/t22 - also warn_only, stated in-file.",
+      "Verification commands: every issue carries the survey PLACEHOLDER section (groom pins pytest node IDs / vitest cmd.exe --reporter=json per-title greps; NEVER vitest -t - the vacuous-pass trap and t8..t18 command precedents are cited inside each placeholder). t21's placeholder additionally requires groom to verify the #17/#55 amendment is already in place before pinning any package.json-reading gate. t23 is a t15-style verification issue: every attested number must come from a pinned command, failures route to the owning issue's fix_qa flow.",
+      "Platform API: bodies are ~5.4-6.7 KB each (well under the 32,767B Windows ceiling), so the direct node->tsx->platform.ts --body recipe was used (no build/-preload workaround needed); created with labels 'defined' and leading-newline bodies: t19=#22, t20=#23, t21=#24, t22=#25, t23=#26. All 5 verified via 'issue get' (open, labels [defined], correct titles; the get projection omits body, matching every prior phase's verification). No flakiness, no curl, no POST retries needed.",
+      "Milestone file docs/state/milestones/phase_4_dashboard.json written (survey.md Step 8 - unlike the phase_3 spawn, this spawn did not override Step 8; the file is what triggers the Orchestrator's review_plan). Backlog updated: t10..t18 rows corrected 'defined'->'closed' (they were stale post-merge) and t19..t23 appended. issue_map.json extended to t23->26."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t19.md",
+      "docs/issues/t20.md",
+      "docs/issues/t21.md",
+      "docs/issues/t22.md",
+      "docs/issues/t23.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_4_dashboard.json",
+      "docs/state/outputs/phase_4_dashboard_definer_survey.json"
+    ],
+    "platform_issue": 22,
+    "output_path": "docs/state/outputs/phase_4_dashboard_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T21:25:00Z",
+  "retry_count": 0
+}

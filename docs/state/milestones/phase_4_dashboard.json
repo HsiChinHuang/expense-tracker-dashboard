@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_4_dashboard",
+  "survey_completed_at": "2026-10-08T21:10:00Z",
+  "review_plan_status": "pending",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": ["t19", "t20", "t21", "t22", "t23"],
+  "survey_attempts": 0
+}
