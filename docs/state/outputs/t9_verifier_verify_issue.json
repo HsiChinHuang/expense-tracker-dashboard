@@ -1,0 +1,154 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t9",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/api/client.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/api/client.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"creates the axios instance from VITE_API_BASE_URL with a 10 second timeout\" \"attaches the bearer authorization header when a token is stored\" \"clears the stored token and redirects to /login on a 401 response\" \"normalizes a 409 backend error preserving code detail and field\" \"normalizes a network failure to the NETWORK_ERROR code\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac1.out",
+        "note": "client.ts single axios instance (VITE_API_BASE_URL, 10000ms timeout, bearer request interceptor, 401 removeItem('token') + window.location.href='/login'), typed api/auth.ts register/login/getMe, {status,code,message,field?} normalization incl. NETWORK_ERROR. 5/5 frozen titles passed in JSON reporter output (independently re-verified from full-suite JSON)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/context/auth_context.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/context/auth_context.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"populates the user from /auth/me when a stored token is valid\" \"removes an invalid stored token and stays logged out\" \"stores the token and user on login\" \"registers then auto-logs-in with the returned token\" \"clears the stored token and user on logout\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac2.out",
+        "note": "AuthProvider/useAuth {user,token,isLoading,login,register,logout}; mount validation of localStorage 'token' via /auth/me with 401->clear+logged-out; register auto-login; logout clears both; main.tsx nesting QueryClientProvider->BrowserRouter->AuthProvider->App. 5/5 frozen titles passed."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/components/common/guards.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/components/common/guards.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"redirects an unauthenticated visit to a protected route to /login\" \"renders protected content for an authenticated session\" \"redirects a logged-in visitor from /login to /\" \"shows a full-page spinner while the auth state is loading\" \"preserves the attempted location in router state on redirect\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac3.out",
+        "note": "ProtectedRoute role=status spinner / Navigate to /login with state.from / Outlet; PublicOnlyRoute redirects authed visitors off /login+/register to /; app.tsx nested route table. 5/5 frozen titles passed."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/pages/login_page.test.tsx && test -f frontend/src/pages/register_page.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/login_page.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/register_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; na=$(printf \"%s\" \"$a\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); nb=$(printf \"%s\" \"$b\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$na\" -ge 4 ] && [ \"$nb\" -ge 4 ] || exit 1; for t in \"logs in and navigates to the landing route\" \"shows the backend 401 message inline on failed login\" \"blocks client-side validation before any network request\" \"links to the register page\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"registers and auto-logs-in on success\" \"surfaces the backend 409 error on the email field\" \"validates password and username rules on blur without a network call\" \"links to the login page\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac4.out",
+        "note": "LoginPage RHF+Zod, role=alert inline 401, navigate to from ?? /; RegisterPage email/username/password/confirm, onBlur rules (min-8 password, 3-50 no-space username), 409 field mapping, auto-login. 4/4 + 4/4 frozen titles passed; both no-network nodes use flag-flipping MSW handlers asserted uncalled."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/login\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/register\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/me\" frontend/src/test/handlers.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const need=[\\\"react-hook-form\\\",\\\"zod\\\"];for(const k of need){if(!d[k]||!/^[0-9]/.test(d[k])){console.error(\\\"missing or unpinned: \\\"+k);process.exit(1)}}const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac5.out",
+        "note": "handlers.ts covers literal /api/v1/auth/login|register|me; no axios import or fetch( outside src/api (grep live-tested with positive/negative controls); exact pins react-hook-form 7.53.2 + zod 3.23.8; forbidden CSS-in-JS/recharts/date-fns families absent."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 26 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .'",
+        "exit_code": 0,
+        "output_path": "build/verify_t9/ac6.out",
+        "note": "Full suite 26/26 passed (>=26 incl. 3 t2/t4 app-shell nodes, no regressions); npx tsc --noEmit rc=0; npm run lint rc=0 (0 errors, 1 sanctioned react-refresh warning on auth_context.tsx); no 'any' under frontend/src (independent grep: no matches)."
+      }
+    },
+    "test_summary": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 1
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_six_acs_verified_via_pinned_commands": true,
+      "auth_flows_proven_in_jsdom_26_nodes_no_regressions": true,
+      "npm_test_tsc_lint_exit_0_via_cmd_exe_pattern": true,
+      "no_raw_axios_fetch_outside_api_token_key_no_any": true,
+      "package_json_exactly_rhf_zod_exact_pins_lockfile_committed": true,
+      "appshell_layout_unchanged_except_route_outlet": true
+    },
+    "verification_commands_source": "docs/issues/t9.md#verification-commands",
+    "cumulative_tests": {
+      "total": 50,
+      "passed": 49,
+      "failed": 1,
+      "per_issue": {
+        "t0": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        },
+        "t1": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "t2": {
+          "total": 6,
+          "passed": 5,
+          "failed": 1
+        },
+        "t3": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "t4": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        },
+        "t5": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        },
+        "t6": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "t7": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "t8": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        }
+      },
+      "notes": "49/50 exit 0 verbatim. Sole failure cum17_t2 (t2 ac6 forbidden-dependency node) exits 1 solely because react-hook-form+zod are now present — the exact lift t9 ac5 (REQ-TECH-006, phase_2) mandates ('the t2 ac6 phase_1 ban is lifted for these two only'). The stale merge_test_index entry was not updated when the lift took effect; CSS-in-JS families and recharts/date-fns remain absent and would still trip the check (t9 ac5's updated grep, rc=0, enforces this). Classified stale-index/environment artifact, NOT a regression. Recommend Orchestrator update the t2 entry in docs/state/merge_test_index.json at merge time."
+    },
+    "notes": [
+      "CWD verified as first action (both runs): /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t9. HEAD == 4d76b31efafdf56e5f0308a749ca0648c32393fe == spawn branch_sha; origin refs/heads/issue/t9-frontend-auth == same sha (cmd.exe git -C; WSL git cannot resolve this worktree's gitdir pointer). Only read-only git commands run (rev-parse, ls-remote, status, diff, ls-files, merge-base); no checkout, no state change.",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset in this spawn. WARN only per skill; per-worktree backend/.venv via 'uv sync --directory backend' (exit 0) was used for the backend cumulative commands. Command strings were NOT modified; UV_PROJECT_ENVIRONMENT was never set.",
+      "Runner discipline: all 56 commands (6 issue ACs + 50 merge_test_index) extracted programmatically to individual script files under gitignored build/verify_t9/ (leading 'bash -c ' and surrounding single quotes stripped, CRLF-tolerant). Byte-verification: reconstructing bash -c '<body>' from each stripped body reproduced the source command byte-identically for 56/56 — mismatch count 0. Every script executed as 'bash <file> </dev/null'; no inline eval/re-quoting (t8 eval bug avoided).",
+      "Builder ac_mapping vs issue ## Verification commands: all six command strings byte-identical (programmatic comparison after CRLF normalization) — no [BUILDER_COMMAND_MISMATCH]. All six executed verbatim: ac1..ac6 rc=0 (re-run and re-confirmed after the operator-system-restart interruption between the two runs).",
+      "Anti-vacuous spot-check: independent full-suite JSON capture (npm test -- --run --reporter=json) parsed programmatically — 12 suites, 26/26 passed, 0 failed. All 23 frozen ac1-ac4 node titles present with status=passed byte-exact; the only extra passed titles are the 3 pre-existing t2/t4 app-shell nodes (renders the application shell header / applies tailwind utility classes to the shell container / renders the main content area) — no regressions. (The issue prose says '18 frozen titles' but the AC text pins 5+5+5+8=23; the pinned commands grep all 23 and all 23 were confirmed.)",
+      "ac5 grep live-control test: negative control (current tree) produced no matches (rc=1 as required); positive controls — a temporary file importing axios and a temporary file calling fetch(), placed outside src/api and removed immediately — both matched, proving the grep is live and not vacuously passing. Worktree left clean (git status shows only the untracked builder/verifier handoff JSONs).",
+      "Constraint review: diff vs merge-base 2ae7f2d26257e9c23c6d8a1865c4c3debe761946...HEAD touches exactly the 20 frontend files the builder listed (1343 insertions, 5 deletions): package.json, package-lock.json, main.tsx, app.tsx, test/setup.ts + 15 new files under src/api, src/context, src/components/common, src/pages, src/utils, src/test. Backend/pyproject/uv.lock/t4 layout files (incl. components/layout/app_shell.tsx) untouched — AppShell integration is route-outlet only via app.tsx. No .eslintrc*/eslint.config*/tsconfig in the diff (no rule relaxation). package.json diff adds ONLY react-hook-form 7.53.2 and zod 3.23.8 (exact pins, no ^/~); lockfile diff adds exactly node_modules/react-hook-form and node_modules/zod entries; @hookform/resolvers NOT added (resolver hand-rolled in src/utils/validation.ts). No .env committed; no absolute Windows paths in tracked frontend files; independent 'any' grep (ac6 pattern) over frontend/src: no matches.",
+      "Security / token hygiene review (all clean): token read/written only under localStorage key exactly 'token' (TOKEN_KEY constant in api/client.ts, reused by auth_context); Authorization header set only via the request interceptor; 401 response interceptor removes the key and sets window.location.href='/login' (static path, no token in URL); no console.*/logging of tokens or credentials anywhere in frontend/src (grep clean); logout clears storage + in-memory state; auth_context validates stored token via /auth/me on mount and clears stale tokens on any rejection; toApiError never echoes request payloads; pages render only backend-provided messages. No refresh-token or cookie invention (REQ-PROJ-007 respected).",
+      "Cumulative 50: 49/50 exit 0 verbatim. Single failure cum17_t2 (t2 ac6 forbidden/deferred-dependency node) exits 1 with 'forbidden or deferred dependency: react-hook-form, zod'. This is a DOCUMENTED AC-INTENDED supersession, not a regression: t9 ac5 (REQ-TECH-006, phase_2) explicitly permits react-hook-form + zod and states 'the t2 ac6 phase_1 ban is lifted for these two only'; the merge_test_index t2 entry was not updated at t2/t8 merge time to encode the lift. Verified the grep's other arms are still live: CSS-in-JS families and recharts/date-fns remain absent from package.json and would still trip the check (ac5's own updated grep explicitly allows rhf+zod and rejects the forbidden families — rc=0). Classified: stale-index artifact, environment/documentation, not implementation. Recommend Orchestrator update the t2 entry in docs/state/merge_test_index.json at merge time (Verifier must not modify it).",
+      "Environment workarounds (environment-only, command strings unmodified): (1) cum13_t2 npm install succeeded verbatim this run (frontend/node_modules installed earlier via the established 'set npm_config_allow_scripts=' env workaround for the EALLOWSCRIPTS host artifact). (2) Backend uv commands used per-worktree backend/.venv created by 'uv sync --directory backend' because UV_PROJECT_ENVIRONMENT was unset ([VENV_UNAVAILABLE] path). (3) Commands containing internal git calls (t0/t4) ran with a PATH shim (build/verify_t9/bin/git forwarding to cmd.exe git -C <worktree>) because WSL git cannot resolve this worktree's gitdir pointer — command strings byte-identical, host-toolchain adaptation only.",
+      "Interruption note: the first run was killed by an operator system restart mid-cumulative-suite. Scripts/logs survived; after revival, CWD/HEAD re-confirmed, all 50 cumulative commands re-run with per-command rc capture (results.tsv), and all 6 AC commands re-run fresh — the tally above is from the post-revival full pass. No /tmp or build DB scratch survives (commands self-clean; scratch confined to gitignored build/verify_t9/).",
+      "Platform: VERIFIER VERDICT PASS comment posted on issue #12 (attempt 1, exit 0) via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts from the main checkout (npx tsx broken on this host, established). Labels: built removed (rc=0), verified added (rc=0); issue get 12 confirms labels ['verified'], state open. No api_failures.",
+      "Platform: VERIFIER VERDICT PASS comment posted on issue #12; labels built removed, verified added; issue get 12 confirms. Platform sync details recorded in artifacts."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t9_verifier_verify_issue.json"
+    ],
+    "platform_issue": 12,
+    "output_path": "docs/state/outputs/t9_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T03:45:00Z",
+  "retry_count": 0
+}
