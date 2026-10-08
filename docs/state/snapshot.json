@@ -9,8 +9,8 @@
       "role": "verifier",
       "phase": "verify_pre_merge",
       "spawn_at": "2026-10-08T01:13:02Z",
-      "last_activity_at": "2026-10-08T01:13:02Z",
-      "run_id": "pending",
+      "last_activity_at": "2026-10-08T01:13:16Z",
+      "run_id": "fe7d6557-b0ba-4944-b863-75c5caacace1",
       "worktree_path": "../worktrees/t8"
     },
     {
