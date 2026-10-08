@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t8",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac1.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_register_valid_returns_201_lowercase_email_no_password\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_email_case_insensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_username_case_sensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_invalid_bodies_return_422_validation_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac1.db; exit $rc'",
+        "exit_code": 0,
+        "note": "4/4 pinned nodes pass. Code review confirms: 201 body keys exactly {id,email,username,is_active,created_at} via UserResponse (no password field of any casing); email lowercased BEFORE duplicate check and storage (_normalize_email called first in register_user); 409 DUPLICATE_EMAIL field=email / DUPLICATE_USERNAME field=username with case-sensitive username match (different-case username accepted, 201); 422 VALIDATION_ERROR with field naming the offending member for all 7 malformed cases."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac2.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_login_valid_returns_200_token_user_with_matching_sub\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_wrong_password_and_unknown_email_return_identical_401\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_inactive_user_returns_401_user_inactive\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_corrupt_stored_hash_returns_401_not_500\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_valid_returns_user_and_token_with_sub_user_id\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_unknown_email_invokes_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_wrong_password_does_not_invoke_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_corrupt_stored_hash_raises_invalid_credentials_not_value_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac2.db; exit $rc'",
+        "exit_code": 0,
+        "note": "8/8 pinned nodes pass. Code review confirms: wrong-password and unknown-email 401 bodies share the single INVALID_CREDENTIALS_DETAIL constant and one AppError construction site (literal drift structurally impossible); verify_dummy monkeypatch spy pinned exactly-once on unknown-email and corrupt-hash paths, zero on wrong-password; corrupt stored hash (all 3 shapes: '$2b$12$', '$2b$12$short', '$2y$05$'+22) -> 401 INVALID_CREDENTIALS via `except ValueError` in authenticate_user, never 500; t7's password.py NOT in the diff (UnknownHashError-only catch intact); is_active=False -> 401 USER_INACTIVE."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac3.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_returns_200_current_user\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_missing_header_returns_401_unauthorized\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_malformed_and_wrong_signature_return_401_token_invalid\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_expired_token_returns_401_token_expired\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_for_inactive_user_returns_401_user_inactive\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac3.db; exit $rc'",
+        "exit_code": 0,
+        "note": "5/5 pinned nodes pass. Code review confirms: four distinct 401 codes (UNAUTHORIZED / TOKEN_INVALID / TOKEN_EXPIRED / USER_INACTIVE), all bodies exactly {detail,code,field}; TOKEN_EXPIRED via isinstance(exc.__cause__, ExpiredSignatureError) without re-running validation; get_current_user consumes t7 decode_access_token (only one jose_jwt.decode call in the whole app, inside app/auth/jwt.py); lives in app/auth/dependencies.py, supplied via Annotated[..., Depends]."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac4.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_openapi_lists_three_auth_paths_registered_after_health\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_login_me_end_to_end_flow\" \"tests/integration/test_auth_api.py::TestAuthApi::test_health_endpoint_still_returns_200_after_auth_wiring\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac4.db; exit $rc'",
+        "exit_code": 0,
+        "note": "3/3 pinned nodes pass. main.py diff is wiring only: register_error_handlers + include_router(auth_router) after include_router(health_router); openapi paths list health before register; register->login(case-insensitive)->me e2e green; health still 200."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac5.db\" uv run pytest \"tests/unit/test_auth_service.py::TestAuthService::test_failed_login_logs_no_raw_email_and_no_password\" \"tests/unit/test_auth_service.py::TestAuthService::test_register_and_login_success_log_events_without_secrets\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac5.db; exit $rc'",
+        "exit_code": 0,
+        "note": "2/2 pinned nodes pass. Code review confirms: every logger call passes only email_identifier (sha256 first-16-hex) + username/reason/client_ip in extra_fields; no raw email, password, token, or hash reaches any extra payload; tests assert both rendered message and record __dict__ are clean and the sha256 identifier is present."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && ! grep -RnE \"^[[:space:]]*except Exception[[:space:]]*(:|as )\" app tests'",
+        "exit_code": 0,
+        "note": "rc=0. uv run pytest -q: 53 passed (31 pre-existing + 22 new t8 nodes, all 22 contracted node IDs present with zero extras); ruff check .: All checks passed; mypy . (strict): Success, no issues in 36 source files; `! grep -RnE '^[[:space:]]*except Exception(:|as )' app tests` holds (no matches)."
+      }
+    },
+    "test_summary": {
+      "total": 53,
+      "passed": 53,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac2's 'byte-identical 401 bodies' is pinned as parsed-JSON equality (wrong_password.json() == unknown_email.json()); combined with the single shared INVALID_CREDENTIALS_DETAIL constant and single AppError construction site this is a strong no-enumeration guard. Raw-byte equality of the serialized response is not asserted, but serialization is one shared JSONResponse path, so drift is structurally excluded. Non-blocking observation only.",
+      "The 22 contracted node IDs match the collected set exactly (missing=[], extra=[]) — verified programmatically against docs/issues/t8.md."
+    ],
+    "dod_verified": {
+      "all_6_ac_verified_via_single_command_each": true,
+      "five_app_modules_two_test_modules_exist_and_tracked": true,
+      "main_py_registers_auth_router_after_health": true,
+      "pytest_ruff_mypy_exit_0_53_tests_collected": true,
+      "three_endpoints_under_api_v1_auth_in_openapi": true,
+      "authenticate_user_catches_valueerror_with_docstring_decision_and_both_corrupt_hash_nodes_pass": true,
+      "no_plaintext_password_hash_or_token_in_logs_or_committed_files_sha256_identifier_only": true,
+      "no_new_runtime_deps_pyproject_uvlock_database_config_models_alembic_untouched_no_env_file": true,
+      "dev_db_absent_in_worktree_never_opened_no_tmp_t8_ac_db_leftovers": true,
+      "diff_touches_only_the_8_allowed_files": true,
+      "get_db_engine_per_request_observation_recorded_for_orchestrator": true
+    },
+    "verification_commands_source": "docs/issues/t8.md#verification-commands",
+    "cumulative_tests": {
+      "total": 44,
+      "passed": 44,
+      "failed": 0,
+      "verbatim_pass": 43,
+      "environment_workarounds": 1,
+      "notes": "43/44 exit 0 verbatim. #13 (t2 npm install) fails verbatim with the host EALLOWSCRIPTS artifact (npm 11.x rejects --allow-scripts for project-scoped installs); re-run with the established 'set npm_config_allow_scripts=' environment workaround, command string unmodified: exit 0. Classified environment, not regression. frontend/node_modules was absent in the worktree and installed via the same env workaround before the t2 vitest/tsc commands, which then passed verbatim."
+    },
+    "notes": [
+      "CWD verified as first action: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t8 (spawn worktree_path). HEAD == e7098cc313833ca0b0f618934a15e02dab1e4bee == spawn branch_sha (cmd.exe git -C; WSL git cannot resolve this worktree's gitdir pointer). Branch issue/t8-auth-endpoints. Only read-only git commands run (rev-parse, status, diff, ls-files, merge-base); no checkout, no state change.",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset in this spawn. WARN only per skill; per-worktree backend/.venv via 'uv sync --directory backend' (Resolved 54 packages, exit 0) was used. Command strings were NOT modified.",
+      "Builder ac_mapping vs issue ## Verification commands: all six command strings byte-identical (programmatic comparison) — no [BUILDER_COMMAND_MISMATCH]. All six executed VERBATIM (full bash -c '...' strings, </dev/null) from the worktree root: ac1..ac6 rc=0. No /tmp/t8_ac*.db survives any run.",
+      "Diff vs merge-base 86c1d7d: exactly the 8 constraint-list files, 1522 insertions, 0 deletions outside main.py's +5 wiring lines. pyproject.toml / uv.lock / app/database.py / app/config.py / app/models/user.py / alembic / t7's password.py and jwt.py all confirmed untouched via git diff --name-only. All 8 files tracked (git ls-files). git status shows only the untracked builder/verifier handoff JSONs.",
+      "Security review findings (auth endpoint layer, all clean): (1) register — lowercase-before-dup-check proven by code path (_normalize_email first statement) and by the case-insensitive 409 + lowercase-201 tests; hashed_password never in any response model (UserResponse has exactly 5 fields; tests assert no 'password' substring in any response key). (2) login — no-enumeration guaranteed structurally: one shared detail constant, one AppError site per failure class, identical bodies asserted; dummy-verify cost parity pinned by spy on both the unknown path and the corrupt-hash path (the latter additionally pays the dummy so the ValueError catch does not create a timing oracle); corrupt-hash ValueError catch is the t7 carry-forward #1 decision, recorded in the service module docstring, t7 module untouched. (3) /me — HTTPBearer(auto_error=False) so missing header maps to our UNAUTHORIZED (not FastAPI's 403); expired-vs-invalid distinguished by __cause__ inspection, never by re-running validation; single jose_jwt.decode call site in the whole app (app/auth/jwt.py). (4) log hygiene — every extra payload carries only email_id/username/reason/client_ip; the SQLAlchemyError handler logs error TYPE only and never echoes the DB message to the client. (5) `! grep except Exception` holds; all handlers catch specific exceptions (AppError, RequestValidationError, SQLAlchemyError, ValueError, TokenError).",
+      "Cumulative 44: first runner pass mis-reported 14 failures due to a Verifier-side quoting bug (bash eval re-parsed $(...) substitutions inside the command strings); re-ran each command verbatim from its own script file — 43/44 exit 0 + #13 environment artifact above. The initial bad pass is a runner artifact, documented for transparency; the corrected per-file pass is authoritative.",
+      "Platform: VERIFIER VERDICT PASS comment posted on issue #11 (attempt 1, exit 0) via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts from the main checkout (npx tsx broken on this host, established). Labels: built removed, verified added; issue get 11 confirms labels ['verified'], state open. No api_failures.",
+      "Carry-forward observations for the Orchestrator (not ACs): (1) t5 carry-forward #2 still open — get_db() constructs and disposes an engine per request; module-level engine/session factory is a later refactor. (2) Appendix B's 18-code table is partially filled (9 codes) by design; the rest land with phase_3 CRUD issues. (3) max_diff_lines=300 exceeded (1522 insertions) — warn_only and pre-stated in the issue's Constraints (integration module dominates); no action needed.",
+      "Verifier left the worktree read-only-clean: scratch confined to gitignored build/verify_t8/; frontend/node_modules installed (gitignored, required by t2 cumulative commands); HEAD unchanged; no code/test/issue file modified."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t8_verifier_verify_issue.json"
+    ],
+    "platform_issue": 11,
+    "output_path": "docs/state/outputs/t8_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T01:12:10Z",
+  "retry_count": 0
+}
