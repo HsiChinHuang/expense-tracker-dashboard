@@ -10,7 +10,7 @@
       "phase": "verify_issue",
       "spawn_at": "2026-10-08T12:05:23Z",
       "last_activity_at": "2026-10-08T12:26:25Z",
-      "run_id": "pending",
+      "run_id": "a7d4485a-e11f-4c9d-8c7b-fc4be9eb8ea9",
       "worktree_path": "../worktrees/t14",
       "note": "6 ACs + cumulative 72; head-005 amendments audit"
     },
