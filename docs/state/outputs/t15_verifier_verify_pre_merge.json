@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t15",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 77,
+      "passed": 77,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "d7b069b4d6d05855da9b3c46fc6b789397f71a71",
+    "merged_tree": "t15pm throwaway merge commit 5d55cc9ca528db977a904c13706fadb8551a7cfd (origin/main 75f5b0f + origin/issue/t15-isolation-money 55de21f, base 5f08f15ad, ort, clean); branch deleted, main restored at 75f5b0f == origin/main, nothing pushed",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_full_chain_attacker_reads_updates_and_deletes_every_victim_resource\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_cross_user_and_unknown_id_error_bodies_are_byte_identical_for_all_three_resources\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_attacker_budget_put_creates_only_the_attackers_own_row\" -q'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac1.out",
+        "note": "3 passed in 7.15s on merged tree t15pm: full two-real-user attack chain (list disjoint, GET/PUT/DELETE 404 never 403/500, victim rows unchanged), cross-family byte-identical 404 bodies (no existence leak), attacker budget-PUT creates only the attacker's own row."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_with_a_real_expense_returns_409_and_everything_survives\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_returns_204_once_its_only_expense_is_deleted\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_system_category_holding_expenses_is_404_category_not_found_never_409\" -q'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac2.out",
+        "note": "3 passed in 5.41s: in-use DELETE -> 409 CATEGORY_IN_USE field category_id with category+expense surviving, delete-expense->delete-category 204/204 unblock, system category holding an expense -> 404 CATEGORY_NOT_FOUND never 409."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_expense_amount_round_trips_byte_exact_through_create_get_put_and_list\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_maximum_amount_round_trips_and_the_chapter_over_max_value_is_rejected_422_invalid_amount\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_budget_amount_round_trips_byte_exact_through_put_get_and_delete\" \"tests/integration/test_money_precision_api.py::TestDecimalAggregation::test_service_decimal_amounts_sum_without_float_artifacts\" -q'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac3.out",
+        "note": "4 passed in 5.75s: 0.10->0.01 byte-exact round-trips incl. raw JSON 2-dp strings, 999999999.99 round-trip + 9999999999.99 rejected 422 INVALID_AMOUNT nothing persisted, budget 1234.56 round-trip, service Decimal sum == 0.30 no float artifacts."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_amount_note_and_pagination_limits_are_inclusive\" \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_category_name_and_auth_field_limits_are_inclusive\" -q'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac4.out",
+        "note": "2 passed in 5.61s: W16 inclusive-bounds accept matrix at the exact limits (amount 0.01/999999999.99, note 500, page_size 100, category name 100, username 50 / password 72 register)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestAuditObservabilityFromOutside::test_every_successful_write_for_both_users_has_exactly_one_audit_row_for_its_owner\" -q'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac5.out",
+        "note": "1 passed in 4.85s: outside-in audit accounting - exactly one audit_logs row per successful expense/budget write attributed to the writer, none for the other user, categories write no audit row."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "`bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest tests/integration/test_isolation.py tests/integration/test_money_precision_api.py -q >/dev/null 2>&1'`",
+        "exit_code": 0,
+        "output_path": "build/t15pm/logs/ac6.out",
+        "note": "Composite definition-of-done gate rc=0: full pytest + ruff + mypy + the two new modules as a pair, all green on the merged tree. Excluded from merge_test_index.json per t10-t13 precedent."
+      }
+    },
+    "test_summary": {
+      "backend_suite": "uv run pytest -q -> 184 passed, 18 warnings in 64.71s (171-node baseline + 13 new t15 nodes)",
+      "t15_pinned_nodes": "13/13 green across ac1-ac5 (3+3+4+2+1), each via its pinned verbatim command",
+      "ruff": "uv run ruff check . -> All checks passed! (rc=0)",
+      "mypy": "uv run mypy . -> Success: no issues found in 74 source files (rc=0)",
+      "alembic_heads": "uv run alembic heads -> exactly '005 (head)' (rc=0)",
+      "cumulative_batch": "77/77 index entries exit 0, run synchronously in 4 chunks from the merged tree root; git-internal entries {1,4,5,12,23,24,27} via the validated WSL-form git shim, all others unpatched"
+    },
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, Windows host + WSL bash), matching the task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree uv resolution used (uv on PATH via $HOME/.local/bin). UV_PROJECT_ENVIRONMENT never set per the spawn hard rule. No command string was modified.",
+      "Merge-target hygiene: git fetch origin rc=0; origin/main head = 75f5b0f83f12fbb88df9c9b4ec569885b75d6bbc (advanced from the spawn-stated 3d14058 by docs-only state commits; main == origin/main, working tree clean at start and end - no dirty seq.txt this run). merge-base(origin/main, origin/issue/t15-isolation-money@55de21f) = 5f08f15ad071305a92e91a1de52edc46349820a1 (the spawn-stated branch base). Branch = exactly ONE commit 55de21f 'test(t15): add cross-resource isolation and money-precision suites' on that base, as stated. git merge-tree --write-tree origin/main origin/issue/t15-isolation-money -> rc=0, single tree OID d7b069b4d6d05855da9b3c46fc6b789397f71a71, zero conflict output = CLEAN.",
+      "Throwaway-branch protocol (t10-t14 precedent): git checkout -B t15pm origin/main (rc=0, HEAD 75f5b0f); git merge --no-ff -F build/t15pm/msgfile.txt origin/issue/t15-isolation-money -> rc=0, merge commit 5d55cc9, 'ort' strategy, exactly 2 files created (+1141). All legs ran from that merged tree at the main checkout root. Cleanup CONFIRMED: git checkout main (rc=0), git branch -D t15pm (rc=0, was 5d55cc9), main HEAD 75f5b0f == origin/main, git branch --list t15pm empty, git status --porcelain empty. NOTHING pushed; origin/main untouched; no labels changed.",
+      "AC extraction + byte-verify: the 6 t15 AC commands extracted VERBATIM from docs/issues/t15.md '## Verification commands' (LF file; \\r-strip applied defensively), stripping the 'bash -c ' prefix AND the surrounding single quotes; each body to its own file build/t15pm/ac/acN.sh via build/t15pm/extract.cjs. Byte-verify: rebuilt \"bash -c '\" + body + \"'\" == original quoted region for all 6 (byteEqual=true), file round-trip equal for all 6, 0 single quotes inside any body, TOTAL MISMATCHES = 0. Each run as 'bash build/t15pm/ac/acN.sh </dev/null' from the merged tree root with rc captured IMMEDIATELY.",
+      "AC results on the merged tree (6/6 rc=0): ac1 rc=0 (3 passed in 7.15s - full cross-resource attack chain, cross-family byte-identical 404 bodies, attacker budget-PUT row isolation), ac2 rc=0 (3 passed in 5.41s - in-use 409 CATEGORY_IN_USE end-to-end + 204/204 unblock + system-with-expense 404 ordering), ac3 rc=0 (4 passed in 5.75s - 0.10/0.01/999999999.99 round-trips, over-max 9999999999.99 422 INVALID_AMOUNT, budget 1234.56, Decimal aggregation no float artifacts), ac4 rc=0 (2 passed in 5.61s - W16 inclusive-bounds accept matrix), ac5 rc=0 (1 passed in 4.85s - outside-in audit write accounting per writer), ac6 rc=0 (composite gate: full pytest + ruff + mypy + the two modules as a pair). 13 pinned nodes all green (3+3+4+2+1).",
+      "Cumulative regression: docs/state/merge_test_index.json = schema 1.0, updated_at 2026-10-08T13:33:35Z, exactly 77 entries (t0 6, t1 5, t2 6, t3 5, t4 6, t5 6, t6 5, t7 5, t8 6, t9 6, t10 3, t11 4, t12 4, t13 5, t14 5 = 77; t15's own ACs are NOT in the index - they are the smoke set; the index grows only at close). Each command extracted to its own zero-padded file build/t15pm/mt/mt_NN_<issue>.sh via build/t15pm/extract_mt.cjs with the same strip + byte-verify discipline: 77/77 round-trip, 0 mismatches. Batch run synchronously from the merged tree root in 4 chunks (1-20, 21-40, 41-60, 61-77; background jobs do not persist across tool calls): 77/77 exit 0, per-entry rc captured immediately, outputs under build/t15pm/logs/.",
+      "Git-internal steps inside verbatim commands: re-scan of the 77-entry index for 'git ' returned exactly {1,4,5,12,23,24,27} (t0 x3, t2 x1, t4 x3), matching the expected set; t14's appended entries 73-77 verified pytest-only by the same scan. Those 7 entries ONLY got the PATH shim build/t15pm/bin/git (exec /usr/bin/git --git-dir=/mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard/.git --work-tree=/mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard \"$@\", WSL /mnt/c form per the t13/t14 lesson that Windows-form C:/ paths fail under WSL git); validated before the batch: ls-files --error-unmatch backend/tests/integration/test_isolation.py rc=0 and rev-parse --abbrev-ref HEAD -> t15pm. All other 70 entries ran unpatched. Environment artifacts only; no command string modified.",
+      "Backend gates on the merged tree (independent of ac6's /dev/null composite): uv run pytest -q -> 184 passed, 18 warnings in 64.71s (171-node baseline + 13 new t15 nodes); uv run ruff check . -> All checks passed! (rc=0); uv run mypy . -> Success: no issues found in 74 source files (rc=0); uv run alembic heads -> exactly '005 (head)' (rc=0).",
+      "Diff/constraint audit + W16 re-audit on the merged tree: git diff --stat origin/main...origin/issue/t15-isolation-money = EXACTLY the 2 new test files backend/tests/integration/test_isolation.py (+656) and backend/tests/integration/test_money_precision_api.py (+485), +1141/-0, zero other paths. git diff --exit-code origin/main 5d55cc9 -- backend/pyproject.toml backend/uv.lock frontend/package.json -> rc=0 (byte-identical). backend/alembic/versions/ unchanged: exactly {001_initial_schema, 002_categories, 003_audit_logs, 004_expenses, 005_budgets}. No production/migration/dependency change anywhere -> W16 tests-only bound COMPLIANT (re-audited independently of builder/verify_issue).",
+      "Smoke set: docs/plan.md has NO '## Smoke tests' section and docs/commands.md defines no smoke commands (established t0-t14 fallback precedent), so the smoke set = the 6 t15 AC verification commands run VERBATIM from the merged tree root: 6 total, 6 passed, 0 failed. config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue's 6 ACs); the 77-entry cumulative batch plus the 184-test suite provide the surplus coverage. Same accounting as t10-t14 (6 each).",
+      "Platform sync: MERGE VERDICT PASS comment posted on Platform issue #18 via scripts/platform.ts (invocation: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 18 --body <body> through the shell-less node wrapper build/t15pm/post_comment.cjs reading build/t15pm/comment.md; the WSL-local tsx/esbuild binary is corrupt on this host - 'Syntax error: EOF in backquote substitution' - so the documented Windows node.exe fallback was used, t15g/t14pm precedent). rc=0 attempt 1; comment created_at 2026-10-08T14:53:44Z, body 3516 chars, single non-fragment authoritative comment verified via 'issue latest-comment 18' (head '## MERGE VERDICT: PASS', tail \"Orchestrator's transition). No fragment comments were posted, so no disclaimer was required. Labels unchanged: issue get 18 -> state open, labels ['verified','surveyed'] (per instruction: verified stays, 'merged' NOT added - Orchestrator's transition; surveyed left in place).",
+      "Verdict: PASS - merged tree green (cumulative 77/77 exit 0, 6 t15 ACs verbatim 6/6 rc=0 with 13/13 pinned nodes, 184-test backend suite + ruff + strict mypy 74 files, single Alembic head 005), merge-tree clean against the advanced docs-only origin/main, diff exactly the 2 test files, dependency/lockfile/frontend manifests byte-identical, throwaway branch removed, main == origin/main, nothing pushed. Safe to merge.",
+      "Residual risks for the Orchestrator: (1) origin/main advanced during this run (3d14058 -> 75f5b0f, docs-only); re-fetch at merge time and re-run merge-tree if any non-docs file appears in the delta. (2) docs/state/seq.txt is a live runtime counter that can be dirty between orchestrator commits (clean this run); the merge commit must never include it. (3) At close, append the 13 ac1-ac5 node IDs (7 commands as pinned, ac6 excluded) to merge_test_index.json per the issue DoD - the index is still at 77 entries (t0-t14) as expected pre-close. (4) Frontend user-isolation presentation is t16/t17 scope; nothing in this run exercises the frontend surface. (5) SQLite-vs-PostgreSQL Numeric storage differences are deferred to phase_5 per the issue's deliberately-deferred list."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t15_verifier_verify_pre_merge.json",
+      "build/t15pm/extract.cjs",
+      "build/t15pm/extract_mt.cjs",
+      "build/t15pm/ac/ac1.sh",
+      "build/t15pm/ac/ac2.sh",
+      "build/t15pm/ac/ac3.sh",
+      "build/t15pm/ac/ac4.sh",
+      "build/t15pm/ac/ac5.sh",
+      "build/t15pm/ac/ac6.sh",
+      "build/t15pm/mt/ (77 files)",
+      "build/t15pm/logs/ (83 files)",
+      "build/t15pm/bin/git",
+      "build/t15pm/msgfile.txt",
+      "build/t15pm/comment.md",
+      "build/t15pm/post_comment.cjs"
+    ],
+    "platform_issue": 18,
+    "output_path": "docs/state/outputs/t15_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T14:54:24Z",
+  "retry_count": 0
+}
