@@ -3,8 +3,8 @@
   "issue_id": "t16",
   "role": "verifier",
   "phase": "verify_issue",
-  "status": "FAIL",
-  "reached_state": "unchanged",
+  "status": "COMPLETE",
+  "reached_state": "verified",
   "evidence": {
     "evidence_type": "verification",
     "ac_results": {
@@ -12,36 +12,36 @@
         "verdict": "PASS",
         "command": "bash -c 'test -f frontend/src/api/categories.ts && test -f frontend/src/api/expenses.ts && test -f frontend/src/api/budgets.ts && grep -qE \"export const listCategories\" frontend/src/api/categories.ts && grep -qE \"export const createCategory\" frontend/src/api/categories.ts && grep -qE \"export const deleteCategory\" frontend/src/api/categories.ts && grep -qE \"export const listExpenses\" frontend/src/api/expenses.ts && grep -qE \"export const createExpense\" frontend/src/api/expenses.ts && grep -qE \"export const getExpense\" frontend/src/api/expenses.ts && grep -qE \"export const updateExpense\" frontend/src/api/expenses.ts && grep -qE \"export const deleteExpense\" frontend/src/api/expenses.ts && grep -qE \"export const getBudget\" frontend/src/api/budgets.ts && grep -qE \"export const setBudget\" frontend/src/api/budgets.ts && grep -qE \"export const deleteBudget\" frontend/src/api/budgets.ts && grep -qE \"amount: string\" frontend/src/api/expenses.ts && grep -qE \"amount: string\" frontend/src/api/budgets.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && ! grep -RnE \"parseFloat|Number\\(|parseInt|toFixed\" frontend/src/api | grep -q .'",
         "exit_code": 0,
-        "output_path": "build/t16v/ac1.out",
-        "note": "Extracted verbatim (byteEqual=true); 11 exports present, amount: string in expenses/budgets, no axios/fetch outside src/api, no coercion greps clean. Run from worktree root, rc read immediately."
+        "output_path": "build/t16v2/ac1.out",
+        "note": "Re-run verbatim at 01fb789 (extraction re-verified byteEqual x5, files identical to prior run). 11 exports, amount: string, no axios/fetch outside src/api, no coercion greps clean."
       },
       "ac2": {
         "verdict": "PASS",
         "command": "bash -c 'test -f frontend/src/api/query_keys.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/api/query_keys.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"categories.all is the stable two-element prefix\" \"expenses.list embeds the normalized params object under the expenses prefix\" \"expenses.detail nests the id under the expenses prefix family\" \"budgets.byMonth nests the year month under the budgets prefix\" \"all list and detail keys stay prefix-nestable under their resource root\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
         "exit_code": 0,
-        "output_path": "build/t16v/ac2.out",
-        "note": "query_keys.test.ts 5/5 passed via pinned grep pipeline; all 5 frozen titles matched case-exactly."
+        "output_path": "build/t16v2/ac2.out",
+        "note": "5/5 frozen titles via pinned grep pipeline."
       },
       "ac3": {
         "verdict": "PASS",
         "command": "bash -c 'test -f frontend/src/hooks/use_expenses.test.tsx && test -f frontend/src/hooks/use_budgets.test.tsx && test -f frontend/src/hooks/use_categories.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_expenses.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_budgets.test.tsx --reporter=json\" 2>/dev/null) && c=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_categories.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$c\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"use_expenses renders the paginated envelope fetched through the api module\" \"use_expense_detail fetches one expense by id\" \"creating an expense refetches the mounted expenses list observer\" \"creating an expense refetches the mounted dashboard-prefixed observer\" \"updating an expense refetches the expenses list and dashboard observers\" \"deleting an expense refetches the expenses list and dashboard observers\" \"expense mutations never call the categories or budgets handlers\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"use_budget resolves the absent month to the string 0.00 without number coercion\" \"setting a budget refetches the mounted budgets month observer\" \"setting a budget refetches the mounted dashboard-prefixed observer\" \"deleting a budget invalidates the budgets key and refetches the month observer\" \"budget mutations never call the expenses or categories handlers\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"use_categories renders the category list fetched through the api module\" \"creating a category refetches the mounted categories observer\" \"deleting a category refetches the mounted categories observer\" \"category mutations never call the expenses or budgets handlers\" \"category mutations do not refetch the dashboard-prefixed observer\"; do printf \"%s\" \"$c\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
         "exit_code": 0,
-        "output_path": "build/t16v/ac3.out",
-        "note": "All 17 frozen titles passed (7+5+5). Proof-integrity audit PASSED: assertions are MSW handler call-count deltas on mounted observers; dashboard observer key exactly [\"dashboard\",\"probe\"]; category negative control awaits categories.list==2 then 150ms setTimeout settle then asserts callCount(dashboard.probe)===1 (count assertion, not absence-of-error); cross-resource negative controls assert other handlers===0. Removing any invalidateQueries would fail the delta assertions - no vacuous nodes."
+        "output_path": "build/t16v2/ac3.out",
+        "note": "17/17 frozen titles. Proof-integrity re-confirmed: hook files and hook test files are UNTOUCHED by the fix commit (diff 53644f9..HEAD == handlers_contract.test.ts only), so the prior SOUND verdict (call-count deltas, exact [dashboard,probe] key, frozen-at-1 category control, non-vacuous) stands; suite re-execution re-proves the nodes pass."
       },
       "ac4": {
         "verdict": "PASS",
         "command": "bash -c 'test -f frontend/src/test/handlers_contract.test.ts && grep -qE \"/api/v1/categories\" frontend/src/test/handlers.ts && grep -qE \"/api/v1/expenses\" frontend/src/test/handlers.ts && grep -qE \"/api/v1/budgets\" frontend/src/test/handlers.ts && m=$(grep -oE \"http\\.(get|post|put|delete)\\(\" frontend/src/test/handlers.ts | wc -l); [ \"$m\" -ge 14 ] || exit 1; grep -qE \"0\\.00\" frontend/src/test/handlers.ts || exit 1; grep -qE \"page_size\" frontend/src/test/handlers.ts || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/test/handlers_contract.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 4 ] || exit 1; for t in \"the three api modules resolve against the MSW handlers for all eleven phase_3 endpoints\" \"the budget handler returns the absent month as the string 0.00\" \"the expenses handler returns the four-key pagination envelope\" \"an unhandled request fails loudly through the error onUnhandledRequest harness\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
         "exit_code": 0,
-        "output_path": "build/t16v/ac4.out",
-        "note": "handlers.ts regex count 15 = 3 auth + 11 phase_3 + 1 dashboard probe; setup.ts diff vs origin/main EMPTY (onUnhandledRequest error intact); absent-month body is string \"0.00\"; 4 contract titles passed."
+        "output_path": "build/t16v2/ac4.out",
+        "note": "15 handler regex hits (3 auth + 11 phase_3 + 1 probe); setup.ts still untouched; 4 contract titles pass incl. the REWRITTEN loud-failure test (frozen title byte-identical, grep -qF matched)."
       },
       "ac5": {
         "verdict": "PASS",
         "command": "bash -c 'test -f frontend/src/api/query_keys.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 50 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .; node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}if(!/^5\\.56\\.2$/.test(d[\\\"@tanstack/react-query\\\"])){console.error(\\\"tanstack query must stay pinned at 5.56.2\\\");process.exit(1)}\"'",
         "exit_code": 0,
-        "output_path": "build/t16v/ac5.out",
-        "note": "JSON-reporter run: numFailedTests 0, numPendingTests 0, numTodoTests 0, passed-title count 52 >= 50 floor; tsc rc=0; lint rc=0 (0 errors, 1 pre-existing t9 react-refresh warning); no any; deps frozen (tanstack 5.56.2, recharts/date-fns absent). NOTE: the --reporter=json leg masks an unhandled-rejection exit-code defect - see notes and the FAIL below."
+        "output_path": "build/t16v2/ac5.out",
+        "note": "numFailedTests 0, numPendingTests 0, numTodoTests 0, 52 passed-titles >= 50; tsc rc=0; lint rc=0 (0 errors, 1 pre-existing t9 warning); no any; deps frozen (tanstack 5.56.2, recharts/date-fns absent)."
       }
     },
     "test_summary": {
@@ -49,38 +49,31 @@
       "passed": 52,
       "failed": 0
     },
-    "failure_type": "implementation",
+    "failure_type": null,
     "lint_report": {
       "errors": 0,
       "warnings": 1
     },
     "test_quality_warnings": [
-      "handlers_contract.test.ts \"an unhandled request fails loudly\" test leaves an async unhandled rejection (MSW Cannot bypass under error strategy) that makes vitest exit 1 under the DEFAULT reporter despite 52/52 passing - breaks merged gates merge-index #15 (npm test -- --run) and #26 (make test-frontend). Deterministic 3/3.",
-      "Pinned ac5 command uses --reporter=json which does not surface the unhandled rejection (rc=0) - the pinned gate masks the defect; consider adding a default-reporter exit-code leg at close."
+      "Recommend at close: add a default-reporter exit-code leg to the pinned ac5 command so unhandled-rejection exit defects cannot be masked by --reporter=json again (this run proved default rc and json rc can diverge)."
     ],
     "dod_verified": {
       "all_acs_verified_by_pinned_commands": true,
-      "full_frontend_suite_tsc_lint_green": false,
+      "full_frontend_suite_tsc_lint_green": true,
       "conventional_commit_branch_no_force_push": true
     },
     "verification_commands_source": "docs/issues/t16.md#verification-commands",
     "notes": [
-      "CWD verified: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t16, branch issue/t16-frontend-data-layer @ 53644f9 == assigned branch_sha. Venv step N/A (Node project, [VENV_UNAVAILABLE] no-op).",
-      "Extraction byte-verify: 5/5 AC commands extracted verbatim from ## Verification commands to build/t16v/acN.sh; reconstruction (bash -c + single-quote wrap) == source line for all 5 (byteEqual=true x5), zero inner single quotes, no heredocs. Builder ac_mapping == source: 5/5 MATCH (my first pass showed 5 MISMATCH - off-by-one in my slice of the 9-char prefix; corrected, all match).",
-      "AC runs (verbatim, bash build/t16v/acN.sh </dev/null from worktree root, rc immediately): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0. Builder claims independently reproduced.",
-      "Frozen-title inventory: 26/26 new titles present+passed via pinned grep pipeline (5 ac2 + 17 ac3 + 4 ac4, case-exact); per-file counts query_keys 5 / use_expenses 7 / use_budgets 5 / use_categories 5 / handlers_contract 4 == declared 5/7/5/5/4. t9 baseline: all 26 nodes passed (client 5, auth_context 5, login 4, register 4, guards 5, app_shell 3) - zero node regression. Suite: numTotalTests 52, numPassedTests 52, numFailedTests 0, numPendingTests 0, numTodoTests 0. No duplicate titles.",
-      "Cumulative regression: merge_test_index.json = 82 entries, extracted each to build/t16v/mt/NN.sh (zero-padded), run synchronously in 4 chunks from worktree root. Git-internal re-scan found {1,4,5,12,23,24,27} == expected set (entry 5 parenthesized git call; entry 12 has trailing git ls-files). Those 7 ran with PATH-prepended shim build/t16v/bin/git forwarding /usr/bin/git --git-dir=.../worktrees/t16 --work-tree=.../worktrees/t16 (WSL form); shim validated first (ls-files --error-unmatch OK, rev-parse --abbrev-ref HEAD == issue/t16-frontend-data-layer). PATH hygiene: full original PATH restored after every shimmed entry (t15 lesson); frontend entries 13,15,16,26,51-56 all saw cmd.exe on PATH. RESULT: 80/82 exit 0; #15 and #26 exit 1 (deterministic, reproduced 3/3 + isolated re-runs).",
-      "ROOT CAUSE of #15/#26: new frontend/src/test/handlers_contract.test.ts \"an unhandled request fails loudly\" test - the axios/XHR path under onUnhandledRequest error strategy produces a LATE unhandled rejection (InternalError: [MSW] Cannot bypass a request when using the error strategy) after the test completes; vitest 1.6 default reporter counts it as a run error and exits 1 despite Test Files 11 passed / Tests 52 passed. Isolation: contract test alone rc=1; t9 six files alone rc=0; four new files minus contract rc=0; full suite default reporter rc=1; full suite --reporter=json rc=0 (masks it). Both failing entries are merged t9/t4 gates that run the full suite via the default reporter (npm test -- --run; make test-frontend).",
-      "failure_type=implementation: the new test code leaks the rejection (fix target: consume/settle it inside the test, e.g. await a macrotask after the try/catch, or assert via server events). Not test_env (deterministic, attributable solely to new code), not ac_wrong/ac_ambiguous (DoD full-suite-green is unambiguous). Per skill priority, implementation applies.",
-      "Backend unchanged: git diff --name-only origin/main...HEAD == exactly the 13 claimed frontend files; zero backend files touched -> 184-pytest backend suite NOT required from verifier per spawn contract (stated instead of re-run).",
-      "ac3 invalidation-proof integrity verdict: SOUND. Handler call-count deltas on mounted observers (settleObservers awaits counts==1; post-mutation waitFor asserts ==2); dashboard observer key exactly [\"dashboard\",\"probe\"] in all three files; category frozen-at-1 negative control awaits categories.list==2, awaits 150ms setTimeout, then asserts callCount(dashboard.probe)===1 (count assertion on settled state, not absence-of-error); expense/budget/category cross-resource negative controls assert all other handlers===0. Removing any invalidateQueries call would flip a delta assertion to failure - no vacuous tests. Mutation trigger is fireEvent.click on mounted button (groom-ratified style).",
-      "eslint-disable ruling: ACCEPTABLE. (a) Scoped per-file via /* eslint-disable react-hooks/rules-of-hooks */ at the top of the 3 hook files only; no .eslintignore anywhere, no config-level rule override (eslint.config.js does not touch the rule). (b) All 9 hooks follow Rules of Hooks by construction: every hook is a top-level arrow function calling useQuery/useMutation/useQueryClient unconditionally - no conditional/looped/early-return-before-hook paths (reads confirmed). (c) lint rc=0 with the disables. The disable addresses the documented snake_case naming false-positive (plugin only recognizes usePascalCase); it masks no real violation. Residual note: per-file disable also suppresses the rule for the whole file, so future edits to these files could introduce a real violation unnoticed - acceptable risk, flagged for reviewers.",
-      "money-as-string: no parseFloat/Number(/parseInt/toFixed anywhere under frontend/src/api (grep CLEAN); Expense/Budget/CreateExpense/UpdateExpense/SetBudget types all carry amount: string; handlers.ts Number() appears ONLY on page/page_size query params (src/test, outside ac1 scope; money never passes through it - amounts flow as strings through fixtures and echo request bodies verbatim); budget test asserts typeof amount === string.",
-      "api 1:1 contract: categories {categories:[...]} wrapper + 201 create + 204 delete; expenses four-key envelope {items,total,page,page_size}, filters year_month/category_id/page/page_size, detail/PUT/DELETE /{id}, DELETE 204; budgets /{year_month} GET/PUT/DELETE, absent month 200 amount \"0.00\" string. Matches merged routers (backend routers verified by grep: CategoryListResponse wrapper, 204 status_codes, /{year_month} routes). All api calls via api instance from ./client only; no fetch/axios outside src/api (t9 gate green, ac1 leg).",
-      "query_keys prefix-nestability: list/detail nest under [\"expenses\"] root, byMonth under [\"budgets\"], categories.all under [\"categories\"]; unit test asserts isPrefixOf both directions incl. cross-family isolation; normalizeListParams gives fixed key order + drops undefined (stable keys).",
-      "Platform sync (issue #19, from MAIN checkout via scripts/platform.ts): FAIL verdict comment posted (2026-10-08T16:04:52Z, first try); label add verifier_failed done; issue get 19 labels == [defined, built, verifier_failed, surveyed] (built kept per FAIL protocol).",
-      "Builder claims audit: 5/5 rc reproduced; suite 52 (26+26) confirmed; tsc 0 / lint 0 (1 pre-existing warning) confirmed; deps frozen confirmed; handlers regex 15 confirmed; 13-file diff confirmed; single feat(t16) commit confirmed. Builder MISSED the default-reporter exit-code regression (its ac5 leg uses --reporter=json which masks it); claim \"full frontend suite passes\" is not true under the merged canonical runners (#15/#26).",
-      "Merge-index append note: the 26 frozen node IDs remain ready to append at close per issue text (ac5 composite excluded per t10-t15 precedent) - DO NOT append until #15/#26 are green."
+      "RE-VERIFICATION after fix_qa (run 62f3d28b). HEAD 01fb7890b5ef8d6b319abf2c24b0ae7755baba71 == assigned; branch issue/t16-frontend-data-layer; worktree clean. Diff 53644f9..HEAD == EXACTLY frontend/src/test/handlers_contract.test.ts (builder claim re-verified via git diff --name-only). origin/main...HEAD still == the same 13 frontend files; zero backend files -> backend pytest not required (stated, not re-run).",
+      "Extraction: docs/issues/t16.md unchanged (not in diff); re-extracted via build/t16v2/extract.cjs -> byteEqual=true x5, zero inner quotes; cmp proves acN.sh byte-identical to the first-pass extraction. Builder ac_mapping (53644f9 handoff) == source 5/5 MATCH (unchanged source).",
+      "AC runs (bash build/t16v2/acN.sh </dev/null from worktree root, rc immediately): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0 — 5/5 reproduced independently of builder.",
+      "THE GATE THAT FAILED — RESOLVED: merge-index #15 (t9 npm test -- --run) rc=0 x2 runs; #26 (t4 make test-frontend) rc=0 x2 runs; both verbatim from build/t16v/mt/, FULL original PATH (cmd.exe presence asserted first). Independent default-reporter run: vitest run rc=0, Test Files 11 passed, Tests 52 passed, NO Unhandled Errors section, zero Cannot-bypass occurrences in output. Contract test ALONE under default reporter rc=0 (was rc=1 pre-fix).",
+      "FIX-QUALITY AUDIT (new test code read in full): (a) listener hygiene SOUND — borrowed=process.listeners(unhandledRejection) captured, all removed, consume installed; finally removes consume FIRST then re-adds every borrowed listener in original order; finally runs on both success and exception paths (the only throw source is expect() inside the inner try, which is caught or propagates through finally). No permanent removal of vitest counter -> no masking of future rejections in other tests. (b) NOT weakened: original ApiError loud-failure assertion intact (rejected flag + message length) AND a NEW positive assertion that the consumed set contains the MSW error-strategy InternalError (Cannot bypass ... error strategy) — strictly stronger than before: it now proves the harness error was actually observed, not just that the call rejected. (c) 50ms window bounded: if the orphan rejection arrives after finally restores listeners, the mswLoudFailure assertion FAILS the test (loud, deterministic failure) rather than silently leaking — worst case is a red test, not a masked run error; observed 4/4 green runs (2x entry15, 2x entry26) + 2x full-suite + 1x isolated = timing margin adequate on this host. (d) Scope: diff touches ONLY handlers_contract.test.ts — no harness/setup/other test files; process-typing shim is local to the test file.",
+      "82-ENTRY REUSE REASONING: prior run established 80/82 exit 0 at 53644f9 (entries 1-82 verbatim, git-shim set {1,4,5,12,23,24,27} with PATH restore). The fix commit touches ONE frontend test file. Entries whose behavior can be affected are ONLY those that run the frontend suite or lint: {13,15,16,24,25,26,28,51,52,53,54,55,56} (grep of index for frontend/vitest/npm/make). ALL of these were re-run at 01fb789: 15,26 (x2 each, above) and 13,16,24,25,28,51-56 all rc=0 (24 via the still-validated shim, branch check re-confirmed). The remaining 69 entries are backend/structural checks whose inputs are byte-identical between 53644f9 and 01fb789 (zero diff outside one frontend test file) — their prior rc=0 is valid evidence; reuse is sound. Effective tally: 82/82.",
+      "Frozen-title inventory re-checked on fresh --reporter=json run: 52 total/52 passed/0 failed/0 pending/0 todo; 26/26 frozen titles (ac2 5 + ac3 17 + ac4 4) present+passed via pinned grep; per-file 5/7/5/5/4; t9 baseline 26/26 passed (zero regression); no duplicate titles.",
+      "Prior audits that STAND unchanged (files untouched by fix): ac3 invalidation-proof integrity SOUND (call-count deltas on mounted observers, exact [dashboard,probe], frozen-at-1 category negative control with awaited settle, cross-resource controls, non-vacuous); eslint-disable ruling ACCEPTABLE (per-file scoped, no eslintignore, hooks compliant by construction, lint 0); money-as-string (no coercion under src/api, handlers Number() on pagination params only); api 1:1 contract mirrors merged routers; queryKeys prefix-nestable; setup.ts onUnhandledRequest error intact (diff empty).",
+      "Platform sync (issue #19, MAIN checkout, scripts/platform.ts): PASS verdict comment posted 2026-10-08T16:19:48Z (first try); label add verified rc=0; label remove built rc=0; label remove verifier_failed rc=9 (label already absent server-side — end state verified); issue get 19 labels == [defined, surveyed, verified] == target.",
+      "Close-time reminder for orchestrator: append the 26 frozen node IDs to merge_test_index.json (ac5 composite excluded per t10-t15 precedent); consider the ac5 default-reporter leg refinement noted in test_quality_warnings."
     ]
   },
   "artifacts": {
@@ -90,29 +83,8 @@
     "platform_issue": 19,
     "output_path": "docs/state/outputs/t16_verifier_verify_issue.json"
   },
-  "error": {
-    "error_type": "business_failure",
-    "error_code": "MERGED_SUITE_GATE_REGRESSION",
-    "message": "All 5 pinned AC commands pass (rc=0) and 52/52 test nodes pass, but merge-index entries #15 (t9 npm test -- --run) and #26 (t4 make test-frontend) exit 1 deterministically: the new handlers_contract.test.ts unhandled-request test leaks an async unhandled rejection (MSW Cannot bypass, error strategy) that vitest 1.6 default reporter counts as a run error. The pinned ac5 --reporter=json leg masks the defect. Cumulative index 80/82.",
-    "context": {
-      "failure_type": "implementation",
-      "failing_entries": [
-        15,
-        26
-      ],
-      "failing_file": "frontend/src/test/handlers_contract.test.ts",
-      "evidence": "contract-only rc=1; t9 six files rc=0; new-minus-contract rc=0; full default rc=1; full json rc=0; 3/3 deterministic"
-    },
-    "retryable": true,
-    "suggested_action": "rerun_with_role",
-    "suggested_role": "builder",
-    "suggested_phase": "fix_qa"
-  },
-  "next_action": {
-    "role": "builder",
-    "phase": "fix_qa",
-    "reason": "Fix the unhandled-rejection leak in frontend/src/test/handlers_contract.test.ts (settle/consume the MSW error-strategy rejection so vitest exits 0 under the DEFAULT reporter); verify merge-index #15 and #26 exit 0 and full suite default-reporter rc=0; re-verify all 5 AC commands stay rc=0."
-  },
-  "timestamp": "2026-10-08T16:06:07Z",
-  "retry_count": 0
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T16:20:18Z",
+  "retry_count": 1
 }
