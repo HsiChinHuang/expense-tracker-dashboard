@@ -70,7 +70,7 @@
     "byte_verify": "6/6 AC scripts extracted byte-exact (0 mismatches) to build/t14b/, run as own files with </dev/null",
     "new_test_nodes": 28,
     "alembic_head": "005",
-    "platform_sync_status": "pending"
+    "platform_sync_status": "COMPLETE: comment posted on #17 (2026-07-08T12:23:44Z per server), label add built + label remove groomed, re-verified via issue get 17 -> labels == ['built']"
   },
   "artifacts": {
     "files_written": [
