@@ -10,7 +10,7 @@
       "phase": "verify_pre_merge",
       "spawn_at": "2026-10-08T13:55:42Z",
       "last_activity_at": "2026-10-08T16:23:47Z",
-      "run_id": "pending",
+      "run_id": "3ed5c6c3-d473-4d7b-875d-6df322e05720",
       "worktree_path": "../worktrees/t15",
       "note": "t16 pre-merge on merged tree (throwaway t16pm)"
     },
