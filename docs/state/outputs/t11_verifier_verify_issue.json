@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t11",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac1.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_returns_system_plus_own_custom_only_with_exact_fields_and_order\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_without_token_returns_401_unauthorized_contract_shape\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac1.db; exit $rc'",
+        "exit_code": 0
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac2.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_valid_returns_201_with_exact_shape_and_owner_id\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_own_name_case_insensitive_returns_409_duplicate_category_field_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_system_name_returns_409_and_a_different_user_may_reuse_a_custom_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_invalid_bodies_return_422_validation_error_with_field\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac2.db; exit $rc'",
+        "exit_code": 0
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac3.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_own_unused_returns_204_and_row_is_gone\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_unknown_and_cross_user_return_404_not_found_contract_shape\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_system_category_returns_404_and_row_survives\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_openapi_has_no_update_route_for_categories\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_one_raises_409_category_in_use\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_zero_deletes_and_never_blocks\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac3.db; exit $rc'",
+        "exit_code": 0
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac4.db\" uv run pytest \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_system_category_is_returned_for_any_user\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_own_custom_category_is_returned\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_other_users_custom_category_raises_404_category_not_found\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_unknown_id_raises_404_category_not_found\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac4.db; exit $rc'",
+        "exit_code": 0
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_openapi_lists_three_category_operations_after_auth_paths\" -q >/dev/null 2>&1'",
+        "exit_code": 0
+      }
+    },
+    "test_summary": {
+      "total": 88,
+      "passed": 88,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_5_acs_verified_by_pinned_commands": true,
+      "seventeen_contractual_node_ids_verbatim": true,
+      "count_expenses_for_category_w3_seam": true,
+      "exactly_three_new_error_codes": true,
+      "full_suite_ruff_mypy_green_no_new_deps_no_alembic": true,
+      "conventional_commit_on_issue_branch": true
+    },
+    "verification_commands_source": "docs/issues/t11.md#verification-commands",
+    "notes": [
+      "Worktree: C:/Users/tw097/Desktop/261007_project01/worktrees/t11 @ 8682ae73f9a3eb151642e034f50f5da1dc64ab4b (branch issue/t11-categories-api, base main @ 9ad78d4285d203aa3419d596ad13e468248d40d8) — branch_sha matches builder handoff; working tree clean except builder's untracked handoff JSON.",
+      "Extraction protocol: all 5 AC commands + all 59 merge_test_index entries extracted to gitignored build/t11v/ (ac1..ac5.sh, m01..m59.sh) by stripping bash -c wrapper; byte-verify of reconstruction vs source string = 0 mismatches on both legs. Executed as bash build/t11v/<file>.sh </dev/null with rc captured immediately; no inline eval, no re-quoting, no command-body modifications.",
+      "Per-AC rc: ac1=0 ac2=0 ac3=0 ac4=0 ac5=0 (all PASS). No /tmp/t11_ac*.db files survived any run (checked after the batch).",
+      "Cumulative regression tally: 59/59 exit 0 — 52 entries pass directly; entries 1,4,5,12,23,24,27 (1-indexed) invoke plain git and fail (rc 128/1) with WSL git in the worktree (Windows-form .git pointer unresolvable), so they were re-run with the documented build/t11v/bin/git shim (--git-dir/--work-tree pointing at this worktree; PATH prepend as environment artifact only, command bodies untouched — t9/t10 precedent). Shim validated with ls-files --error-unmatch before the batch. Note: entry 4 (git check-ignore loop) also needs the shim; the spawn brief listed 1,4,12,23,24,27 — entry 5 (git ls-files pattern scan) also invokes plain git; the full set found by scanning is {1,4,5,12,23,24,27}, all pass under the shim.",
+      "First merge-index batch run was executed from the wrong cwd (build/t11v) and every entry returned rc=1; re-ran the full 59 from the worktree root — the numbers above are from the corrected run. No entry was re-run more than that; retry_count remains 0 (single verification pass).",
+      "ac_mapping consistency: builder's five ac_mapping.test strings are byte-identical to the ## Verification commands strings in docs/issues/t11.md (programmatic comparison, 0 mismatches).",
+      "Quality gates (backend/, direct runs with visible output): uv run pytest -q -> 88 passed; uv run ruff check . -> All checks passed!; uv run mypy . -> Success: no issues found in 47 source files (strict).",
+      "Contract audit: all 17 contractual node IDs exist verbatim via --collect-only (23 collected instances; parametrized 422 base contributes 7 ids). count_expenses_for_category(session, category_id) -> int is module-level in app/services/category_service.py with the app.models.expense import inside the body (W3 seam, name/signature match the contract); both pinned TestDeleteCategoryInUse nodes monkeypatch the seam itself (setattr on the module attribute), so both branches are proven without the model.",
+      "Builder design note AUDITED (not failed on): the lazy import is wrapped in try/except ImportError -> return 0. Assessment: acceptable — pre-t13 there is no expenses table so the count is definitionally 0; the pinned integration node test_delete_own_unused_returns_204_and_row_is_gone exercises the real delete path and would otherwise raise ModuleNotFoundError; the pinned 409 unit nodes patch the whole seam so the ImportError branch cannot weaken the 409 contract; t13 replaces the branch with the real query and t15 re-proves e2e (both stated in AC text). t13/t15 verifiers should confirm the branch is removed/replaced when the model lands.",
+      "Exactly three new codes appended to app/core/errors.py: DUPLICATE_CATEGORY, CATEGORY_NOT_FOUND, CATEGORY_IN_USE (Appendix B verbatim). NOT_FOUND is a module-local constant in category_service.py (documented, wire value unchanged) — consistent with the DoD's EXACTLY-three pin.",
+      "No Alembic revision (alembic/versions = 001,002 only); pyproject/uv.lock untouched per diff stat (7 files, +1159, all app/test files); commit subject 'feat(t11): categories API - list/create/delete + system protection + access validator' (conventional); router registered health -> auth -> categories in create_app().",
+      "Fail-before/pass-after: groom deferred the positive-path fail-before proof this cycle (recorded deferral). Builder claims rc=4 for all five commands on base @ 9ad78d4 (missing test modules -> pytest usage error), which matches the groom's stated fail-before behavior and is structurally plausible (both new test modules are absent on base per the diff stat — they are added files). Pass-after evidence: the five verbatim commands returned rc=0 on the branch (this verification).",
+      "Shared venv: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty -> [VENV_UNAVAILABLE] logged; per-worktree uv sync --directory backend used instead (succeeded, 52 packages checked). Never set UV_PROJECT_ENVIRONMENT.",
+      "ac_mapping consistency confirmed; commands in ac_results are copied from docs/issues/t11.md ## Verification commands (authoritative).",
+      "Platform #14: verdict comment posted (rc=0); label built removed, verified added; re-verified via issue get 14 -> labels == ['verified'] (silent-no-op hazard checked).",
+      "Scratch confined to gitignored build/t11v/ in the worktree; no git state changes (read-only inspection via cmd.exe git); main checkout untouched."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t11_verifier_verify_issue.json"
+    ],
+    "platform_issue": 14,
+    "output_path": "docs/state/outputs/t11_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T08:13:29Z",
+  "retry_count": 0
+}
