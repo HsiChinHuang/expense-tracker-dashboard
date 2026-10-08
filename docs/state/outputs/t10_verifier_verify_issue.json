@@ -1,0 +1,153 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t10",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t10_ac1.db\" uv run pytest \"tests/unit/test_category_model.py::TestCategoryModel::test_system_and_custom_rows_persist_with_python_uuid_and_typed_columns\" \"tests/unit/test_category_model.py::TestCategoryModel::test_invalid_hex_color_raises_integrity_error\" \"tests/unit/test_category_model.py::TestCategoryModel::test_system_row_with_user_id_and_custom_row_without_user_id_raise_integrity_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t10_ac1.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Run verbatim from worktree root via gitignored script build/t10verify/ac1.sh (byte-equal to the issue string). Fail-before spot-check corroborated: git ls-tree at base defda6e31 shows no tests/unit/test_category_model.py, consistent with Builder's recorded rc=4."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && rev=$(ls alembic/versions/002_*.py 2>/dev/null | head -n 1); test -n \"$rev\" || exit 1; grep -Eq \"^revision(: str)? = .002\" \"$rev\" || exit 1; grep -Eq \"^down_revision.* = .001\" \"$rev\" || exit 1; test \"$(uv run alembic heads 2>/dev/null | wc -l)\" -eq 1 || exit 1; uv run alembic heads 2>/dev/null | grep -q \"^002 (head)$\" || exit 1; rm -f /tmp/t10_ac2.db; export DATABASE_URL=\"sqlite:////tmp/t10_ac2.db\"; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run alembic downgrade base >/dev/null 2>&1 || exit 1; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t10_ac2.db\\\"); rows = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert rows == {\\\"users\\\", \\\"categories\\\", \\\"alembic_version\\\"}, rows; assert con.execute(\\\"select version_num from alembic_version\\\").fetchone()[0] == \\\"002\\\"; cols = {r[1] for r in con.execute(\\\"pragma table_info(users)\\\")}; assert cols == {\\\"id\\\", \\\"email\\\", \\\"username\\\", \\\"hashed_password\\\", \\\"is_active\\\", \\\"created_at\\\", \\\"updated_at\\\"}, cols; ddl = con.execute(\\\"select sql from sqlite_master where type = \\\\\\\"table\\\\\\\" and name = \\\\\\\"categories\\\\\\\"\\\").fetchone()[0]; assert \\\"ck_categories_color_format\\\" in ddl and \\\"ck_categories_system_consistency\\\" in ddl, ddl; idx = con.execute(\\\"select sql from sqlite_master where type = \\\\\\\"index\\\\\\\" and name = \\\\\\\"idx_categories_user_name_unique\\\\\\\"\\\").fetchone()[0]; assert \\\"UNIQUE\\\" in idx.upper() and \\\"WHERE user_id IS NOT NULL\\\" in idx, idx; fk = con.execute(\\\"pragma foreign_key_list(categories)\\\").fetchall(); assert [f[3] for f in fk] == [\\\"user_id\\\"] and [f[6] for f in fk] == [\\\"CASCADE\\\"], fk; ix = {r[0] for r in con.execute(\\\"select name from sqlite_master\\\")}; assert {\\\"idx_categories_user_id\\\", \\\"idx_categories_is_system\\\", \\\"idx_categories_user_name_unique\\\"} <= ix, ix\" || exit 1; uv run alembic downgrade base >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t10_ac2.db\\\"); rows = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert \\\"categories\\\" not in rows, rows\" || exit 1; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; DATABASE_URL=\"sqlite:////tmp/t10_ac2b.db\" uv run pytest \"tests/integration/test_category_migration.py::TestCategoryMigration::test_duplicate_custom_name_raises_and_two_system_rows_are_allowed\" \"tests/integration/test_category_migration.py::TestCategoryMigration::test_revision_002_registers_only_the_categories_table\" -q >/dev/null 2>&1 || exit 1; rc=$?; rm -f /tmp/t10_ac2.db /tmp/t10_ac2b.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Run verbatim via build/t10verify/ac2.sh. Fail-before spot-check: git ls-tree at defda6e31 shows alembic/versions/ holds only 001_initial_schema.py (+ .gitkeep), so the ls-guard rc=1 claim is consistent."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t10_ac3.db\" uv run pytest \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_inserts_exactly_the_ten_pinned_system_rows\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_second_seed_run_inserts_nothing\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_ids_are_python_uuids_and_partial_index_still_holds\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t10_ac3.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Run verbatim via build/t10verify/ac3.sh. Fail-before spot-check: no tests/unit/test_category_seed.py at base defda6e31 (rc=4 claim consistent)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; command -v make >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; uv run mypy . >/dev/null 2>&1 || exit 1; DATABASE_URL=\"sqlite:////tmp/t10_ac4.db\" uv run pytest \"tests/integration/test_category_migration.py::TestCategoryMigration::test_upgrade_head_seeds_exactly_ten_system_categories\" -q >/dev/null 2>&1 || exit 1; cd .. && rm -f /tmp/t10_ac4_make.db && DATABASE_URL=\"sqlite:////tmp/t10_ac4_make.db\" make migrate >/dev/null 2>&1 || exit 1; cd backend && uv run python -c \"import sqlite3, sys; con = sqlite3.connect(sys.argv[1]); n = con.execute(\\\"select count(*) from categories where is_system = 1 and user_id is null\\\").fetchone()[0]; assert n == 10, n\" /tmp/t10_ac4_make.db || exit 1; rc=$?; rm -f /tmp/t10_ac4.db /tmp/t10_ac4_make.db; exit $rc'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Run verbatim via build/t10verify/ac4.sh incl. full-suite/ruff/mypy legs, the upgrade-head-seeds-10 node and the make-migrate 10-system-rows assertion."
+      }
+    },
+    "test_summary": {
+      "total": 65,
+      "passed": 65,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_four_acs_pinned_commands_pass": true,
+      "pytest_65_ruff_mypy_green_devdb_untouched": true,
+      "new_files_exist_and_tracked": true,
+      "models_init_reexports_category": true,
+      "user_model_amendment_exact_only_change_and_in_commit_body": true,
+      "revision_handwritten_down_001_downgrade_drops_3_indexes_and_table": true,
+      "deviation_docstrings_documented": true,
+      "conventional_commit_branch_no_new_deps_pyproject_uvlock_identical": true
+    },
+    "verification_commands_source": "docs/issues/t10.md#verification-commands",
+    "cumulative_tally": {
+      "total": 56,
+      "passed": 56,
+      "failed": 0,
+      "index_source": "docs/state/merge_test_index.json @ main 3652582c3 (56 entries). The worktree copy differs from main ONLY in the t6/ac2 entry (pre-emptive head->001 amendment + note) - the amendment the brief describes; main's version was used as authoritative.",
+      "extraction": "each command extracted to its own script under gitignored build/t10verify/cum/NN.sh; reconstructed bash -c '<body>' asserted byte-equal to every index string; executed as `bash <file> </dev/null` with rc captured immediately (t8 eval bug avoided)",
+      "per_entry": [
+        "entry 1 (t0): PASS (rc=0) - first run rc=128 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 2 (t0): PASS (rc=0) first run",
+        "entry 3 (t0): PASS (rc=0) first run",
+        "entry 4 (t0): PASS (rc=0) - first run rc=1 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 5 (t0): PASS (rc=0) first run",
+        "entry 6 (t0): PASS (rc=0) first run",
+        "entry 7 (t1): PASS (rc=0) first run",
+        "entry 8 (t1): PASS (rc=0) first run",
+        "entry 9 (t1): PASS (rc=0) first run",
+        "entry 10 (t1): PASS (rc=0) first run",
+        "entry 11 (t1): PASS (rc=0) first run",
+        "entry 12 (t2): PASS (rc=0) - first run rc=128 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 13 (t2): PASS (rc=0) first run",
+        "entry 14 (t2): PASS (rc=0) first run",
+        "entry 15 (t2): PASS (rc=0) first run",
+        "entry 16 (t2): PASS (rc=0) first run",
+        "entry 17 (t2): PASS (rc=0) first run",
+        "entry 18 (t3): PASS (rc=0) first run",
+        "entry 19 (t3): PASS (rc=0) first run",
+        "entry 20 (t3): PASS (rc=0) first run",
+        "entry 21 (t3): PASS (rc=0) first run",
+        "entry 22 (t3): PASS (rc=0) first run",
+        "entry 23 (t4): PASS (rc=0) - first run rc=128 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 24 (t4): PASS (rc=0) - first run rc=128 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 25 (t4): PASS (rc=0) first run",
+        "entry 26 (t4): PASS (rc=0) first run",
+        "entry 27 (t4): PASS (rc=0) - first run rc=128 from plain-git WSL worktree-gitdir artifact; passes with mandated build/bin/git shim",
+        "entry 28 (t4): PASS (rc=0) first run",
+        "entry 29 (t5): PASS (rc=0) first run",
+        "entry 30 (t5): PASS (rc=0) first run",
+        "entry 31 (t5): PASS (rc=0) first run",
+        "entry 32 (t5): PASS (rc=0) first run",
+        "entry 33 (t5): PASS (rc=0) first run",
+        "entry 34 (t5): PASS (rc=0) first run",
+        "entry 35 (t6): PASS (rc=0) first run",
+        "entry 36 (t6): PASS (rc=0) first run",
+        "entry 37 (t6): PASS (rc=0) first run",
+        "entry 38 (t6): PASS (rc=0) first run",
+        "entry 39 (t6): PASS (rc=0) first run",
+        "entry 40 (t7): PASS (rc=0) first run",
+        "entry 41 (t7): PASS (rc=0) first run",
+        "entry 42 (t7): PASS (rc=0) first run",
+        "entry 43 (t7): PASS (rc=0) first run",
+        "entry 44 (t7): PASS (rc=0) first run",
+        "entry 45 (t8): PASS (rc=0) first run",
+        "entry 46 (t8): PASS (rc=0) first run",
+        "entry 47 (t8): PASS (rc=0) first run",
+        "entry 48 (t8): PASS (rc=0) first run",
+        "entry 49 (t8): PASS (rc=0) first run",
+        "entry 50 (t8): PASS (rc=0) first run",
+        "entry 51 (t9): PASS (rc=0) first run",
+        "entry 52 (t9): PASS (rc=0) first run",
+        "entry 53 (t9): PASS (rc=0) first run",
+        "entry 54 (t9): PASS (rc=0) first run",
+        "entry 55 (t9): PASS (rc=0) first run",
+        "entry 56 (t9): PASS (rc=0) first run"
+      ]
+    },
+    "notes": [
+      "Independent verification: all four pinned commands re-run verbatim by the Verifier (script files regex-extracted from docs/issues/t10.md ## Verification commands, byte-verified against the issue text); Builder self-report not trusted.",
+      "ac_mapping in t10_builder_build.json matches ## Verification commands byte-for-byte for all four ACs (no [BUILDER_COMMAND_MISMATCH]).",
+      "branch_sha db1c4c9b6ab5107af17443658f953bde5e896c66 matches the assignment; base defda6e31 is the groom commit; main @ 3652582c3 contains it.",
+      "Code review (8 changed files): model matches REQ-DB-020 column-for-column (Python-UUID PK, nullable user_id FK ondelete=CASCADE, String(100)/String(7)/String(50), Boolean server_default sa.false(), DateTime server_default func.now()); both CHECKs named ck_categories_color_format / ck_categories_system_consistency; three indexes idx_categories_user_id / idx_categories_is_system / idx_categories_user_name_unique with BOTH sqlite_where and postgresql_where user_id IS NOT NULL; portable color CHECK defined ONCE in app/models/category.py and imported by the revision (cannot drift); revision declares revision=002 / down_revision=001, creates ONLY categories, calls seed_system_categories(op.get_bind()) as the REQ-DB-072 data step, downgrade drops the 3 indexes then the table; seed is Core-only (sa.table, no ORM import), never commits, returns insert count, and its 10-row table matches Chapter 5 5.9.1 verbatim (cross-checked against requirements/Chapter5_DatabaseDesign.md lines 590-599).",
+      "Scope: git diff defda6e31..HEAD touches exactly the 8 claimed paths; pyproject.toml and uv.lock byte-identical (empty diff); test_user_model.py diff is exactly the mandated replacement (single assert line -> tables = set(Base.metadata.tables) / assert \"users\" in tables / assert not tables & {\"expenses\",\"budgets\",\"audit_logs\"}), nothing else in the file.",
+      "Deviation docstrings present: category.py (portable color CHECK, TIMESTAMPTZ), 002_categories.py (002_categories naming vs 5.10.2, color CHECK portability, TIMESTAMPTZ, downgrade behavior).",
+      "Regression: uv run pytest -> 65 passed; ruff check . -> All checks passed (0 errors / 0 warnings in JSON mode); mypy . -> Success: no issues found in 42 source files.",
+      "Cumulative gate 56/56 PASS in the worktree. Entries 01,04,12,23,24,27 first ran rc=128 because plain `git` under WSL cannot resolve the worktree gitdir pointer (fatal: not a git repository ...C:/Users/...); all six pass with the mandated build/bin/git cmd.exe shim on PATH. This is the documented environment artifact (same commands pass on main where plain git works), NOT a code regression. The amended t6/ac2 entry (head->001 scoping present in main's index) and the lifted t2/ac6 entry both PASS.",
+      "Platform: verdict comment posted on issue 13 (attempt 1); labels now exactly [\"verified\"] (built removed), verified via issue get 13.",
+      "Worktree left clean: no tracked-file modifications, nothing staged; only the pre-existing untracked docs/state/outputs/t10_builder_build.json (Builder handoff, present at spawn) plus gitignored build/ scratch. No /tmp/t10_* or /tmp/t6_* survivors from any command.",
+      "Shared venv: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty -> [VENV_UNAVAILABLE] logged (WARN, not failure); per-worktree `uv sync --directory backend` used instead (52 packages checked, OK).",
+      "Test quality: all 9 contractual node IDs present with meaningful assertions (parametrized color test covers the four pinned bad values; no assert-True style tests). No test_quality_warnings."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t10_verifier_verify_issue.json"
+    ],
+    "platform_issue": 13,
+    "output_path": "docs/state/outputs/t10_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T06:40:57Z",
+  "retry_count": 0
+}
