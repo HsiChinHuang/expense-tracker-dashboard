@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t16",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_3_crud",
+    "issues_generated": ["t16"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-FE-050 the dashboard queryKeys half: ac2 pins only the categories/expenses/budgets factory keys; ['dashboard'] appears in t16 ONLY as the dummy mounted observer key ['dashboard','probe'] used to prove invalidation traffic — the real dashboard keys and consumers land in phase_4 per the issue's Constraints.",
+        "REQ-FE-034/035 the page-consumption half (pages/components rendering hook state): t16 owns the data layer only; t17 (ExpensesPage) and t18 (Budget/Categories pages) own the UI consumption. ac3's harness components are test-only scaffolding, restated as a boundary in the issue's Notes.",
+        "REQ-TECH-005 retries/backoff configuration beyond invalidation: ac3 pins invalidation-driven refetch observably; cache-time/retry tuning is exercised by t17/t18 usage and phase_4, not re-pinned here (no AC invents a retry policy the merged requirements do not state)."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 5,
+      "max_files_per_issue": 14,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "SCOPE OF THIS RUN: single-issue survey for t16 (platform #19, milestone phase_3_crud, FIRST frontend issue of the milestone, foundation for t17/t18). docs/issues/t16.md existed with a PLACEHOLDER Verification-commands section; per the spawn this run PINNED that section (5 ACs, 5 single-line bash -c commands, 24 frozen node titles across 5 new test files) and added a ## Notes section (no-UI boundary, invalidation-proof mechanism, contract pins, duplication map, builder environment note). No new issue files, no plan/DAG/backlog/issue_map/milestone writes — those phase_3 artifacts are already on tree. reached_state=defined: the survey-stage label transition (add 'surveyed', KEEP 'defined') leaves the issue in the defined state per skills/definer/details/survey.md and the t15 precedent; platform #19 re-verified via issue get: state open, labels ['defined','surveyed'].",
+      "TEST HARNESS SWITCH (first frontend issue of phase_3): the harness is the t9 VITEST pattern, not pytest. Every AC command uses the merged Windows pattern: D=$(wslpath -w \"$PWD/frontend\") + cmd.exe /c \"cd /d $D && npx.cmd vitest run <file> --reporter=json\" + grep numFailedTests:0 + per-title grep -qF of frozen titles. NEVER vitest -t (a -t filter makes non-matching frozen tests silently absent, the phase_2 lesson). tsc/lint also via cmd.exe. npx.cmd (not npm test --) because npm forwards TTY-ish args unreliably through cmd.exe on this host; the t9 index entries used 'npm test -- --run' and both resolve to the same vitest run, the pinned form is the stricter one.",
+      "ac3 INVALIDATION PROOF MECHANISM (the spawn's central ask, pinned non-weasellably): each mutation test mounts a real QueryClientProvider with (a) the live resource observer query (e.g. use_expenses list) and (b) a DUMMY mounted observer keyed exactly ['dashboard','probe'] whose queryFn calls a counted MSW handler. The proof is HANDLER CALL COUNTS observed before/after the mutation (invalidation => refetch => count increment) — never reading useMutation({onSuccess}) code. Negative controls are pinned as their own frozen nodes: expense mutations never call categories/budgets handlers, budget mutations never call expenses/categories handlers, category mutations never call expenses/budgets handlers AND category mutations must NOT refetch the dashboard observer (REQ-FE-051: category mutations invalidate ['categories'] only — the asymmetry is a testable node, not a comment). The dummy-observer trick is how ['dashboard'] is proven without any phase_4 query existing, satisfying the issue's Constraint.",
+      "CONTRACT PINS verified against merged main @ 5c03bb0 before pinning: routers/categories.py prefix /api/v1/categories (GET '' object wrapper {categories:[...]}, POST '' 201, DELETE /{id} 204); routers/expenses.py prefix /api/v1/expenses (GET '' W6 envelope {items,total,page,page_size} with year_month/category_id/page/page_size filters, POST '' 201, GET/PUT/DELETE /{id}, DELETE 204); routers/budgets.py prefix /api/v1/budgets (GET/PUT/DELETE /{year_month}, absent-month GET 200 {year_month, amount:'0.00'}, PUT upsert 200 never 201, DELETE 204). Money serializes as a 2-decimal STRING (schemas expense.py/budget.py field_serializer, REQ-SEC-050) hence the pinned ac1 grep 'amount: string' in expenses.ts and budgets.ts; dates are YYYY-MM-DD strings. ac1 additionally keeps the merged t9 ac5 no-axios-outside-src/api grep verbatim and adds a money-coercion grep (no parseFloat/Number(/parseInt/toFixed anywhere under frontend/src/api) — measured clean at base so it is a stay-green gate, same as the t9 gate.",
+      "ac4 handler-count gate: m=$(grep -oE 'http\\.(get|post|put|delete)\\(' handlers.ts | wc -l); [ $m -ge 14 ] — 11 phase_3 endpoints + the 3 merged auth handlers = 14 minimum, so the gate cannot pass while any phase_3 endpoint handler is missing; plus literal-path greps and the '0.00' / page_size shape greps. The contract test file pins 4 nodes incl. 'an unhandled request fails loudly through the error onUnhandledRequest harness' (expected: call an unregistered path via the api client inside expect(...).rejects and assert the normalized ApiError, proving the t9 setup.ts error mode is intact).",
+      "ac5 composite gate: full-suite vitest --reporter=json with numFailedTests:0 AND passed-title count >= 50 (t9's 26 + t16's 24 = zero-regression floor; t10-t15 merged no frontend nodes so 50 is exact, not aspirational), npx tsc --noEmit exit 0, npm run lint exit 0, the merged t9 no-any grep restated, and the dependency-ban node -e gate (recharts/date-fns forbidden — measured present-but-not-yet: they are NOT in package.json today, the gate keeps them out; @tanstack/react-query must stay exactly 5.56.2; no new deps). ac5 is EXCLUDED from merge_test_index.json per the t10-t15 precedent; the 24 node IDs are what gets appended at close.",
+      "FAIL-BEFORE MEASUREMENT (mandatory, worktree @ base 5c03bb0, before any implementation): each AC command extracted from the issue text by build/t16s/extract.cjs into build/t16s/acN.sh (strip 'bash -c ' and surrounding single quotes) with byte-verification written==quoted region (all 5 byteEqual=true, zero single quotes inside any body, no heredocs), then run as 'bash build/t16s/acN.sh </dev/null' with rc read immediately: ac1 rc=1, ac2 rc=1, ac3 rc=1, ac4 rc=1, ac5 rc=1 — every one dying on its first leg (test -f <new file>) which does not exist at base. Baseline proven separately in the MAIN checkout (the worktree has NO node_modules): full vitest run numFailedTests:0 / numPassedTests:26, so the rc=1s are attributable solely to missing files, not to a red suite.",
+      "DUPLICATION CHECK: docs/state/merge_test_index.json = 82 entries (t0..t15), zero t16 entries (verified via node -e). Merged frontend test files are exactly the t9 six (client, auth_context, guards, login_page, register_page, app_shell = 26 nodes, all stay untouched — the >=50 full-suite floor protects them). No merged test touches categories/expenses/budgets api modules, query_keys, hooks, or phase_3 MSW handlers (grep of frontend/src shows handlers.ts covers auth only). All 24 new nodes are new files and new titles.",
+      "ENVIRONMENT NOTE FOR BUILDER (pinned in the issue): the t16 worktree has NO node_modules (root or frontend/); npm ci in frontend/ (cmd.exe toolchain) is required before the vitest/tsc/lint legs can go green. Platform API ran from the MAIN checkout via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts; the comment body starts with '---' so a leading newline was prepended per the known flag-parsing workaround (first attempt without it failed with 'flag --body requires a value', second attempt rc 0).",
+      "Time discipline: revived run; exploration ~15 turns, well inside the 40-turn cap; finish sequence ran issue-edit -> extract+fail-before -> baseline -> platform comment/label/verify -> handoff -> validate -> commit/push in order. Pre-output checklist: requirements.md validated at the phase_3 milestone survey (unchanged here); N=1 single-issue survey so batch discipline trivially satisfied (one artifact per write call); issue carries frontmatter (id/title/depends/platform_issue 19) plus Metadata/Goal/ACs/pinned Verification commands/Dependencies/Constraints/Notes/DoD; DAG unchanged (t16 edges: depends t9/t13/t14, depended-on-by t17/t18, 0 cycles 0 orphans); platform #19 verified; writes stayed inside the definer boundary (docs/issues/t16.md, docs/state/outputs/t16_definer_survey.json, plus gitignored build/t16s/ throwaway scripts)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t16.md",
+      "docs/state/outputs/t16_definer_survey.json"
+    ],
+    "platform_issue": 19,
+    "output_path": "docs/state/outputs/t16_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T15:24:00Z",
+  "retry_count": 0
+}
