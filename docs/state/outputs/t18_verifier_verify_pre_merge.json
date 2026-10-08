@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t18",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 90,
+      "passed": 90,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "notes": "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, WSL bash on Windows host). [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree uv sync used instead (uv at ~/.local/bin/uv; UV_PROJECT_ENVIRONMENT never set). No command string was modified.\nWorktree protocol: created throwaway t18pm via cmd.exe git worktree add C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t18pm -b t18pm 93459d3451c2a576b40564fec1a68b9614cfd80c (rc=0). All worktree git ops via cmd.exe or the WSL git shim build/t18pm/bin/git (exec /usr/bin/git --git-dir=<main>/.git/worktrees/t18pm --work-tree=/mnt/c/.../worktrees/t18pm) because WSL git cannot follow the Windows drive-letter worktree pointer (verified: raw WSL git in t18pm fails with not-a-git-repository). Frontend deps installed with cmd.exe npm.cmd ci (476 packages, rc=0, 11s) - never WSL npm ci.\nMerge simulation (no push): fetch origin rc=0; origin/main advanced to 04e620d34e80ec75e0abe6016cd9b96ec1c42d12 (docs-only commits on top of spawn-stated c52d577; delta = docs/state/seq.txt only, a runtime counter). t18pm reset --hard origin/main, then git merge --no-ff --no-commit issue/t18-budgets-categories-pages -> rc=0, ort AUTO-MERGE CLEAN, ZERO conflicts (unlike t17: the branch already contains main via its merge commit 93459d3, so the expected add/add conflicts on docs/issues/t18.md and t18_definer_groom.json did not materialize). Conflict-equivalent check performed anyway: merged-tree blobs of docs/issues/t18.md (sha256 14da0efa...), t18_definer_groom.json (a6638bce...), merge_test_index.json (d31ad0db...) are byte-equal to origin/main blobs. Merged delta vs origin/main = exactly the 10 frontend files. Committed locally as 6f66d8c (tree 9092baaa419213fd2c81303efbc060704938f470). NOTHING pushed; origin/main untouched.\nAC extraction + byte-verify: 6 commands extracted VERBATIM from the AMENDED issue body fenced bash blocks (git blob lines 68/74/80/86/92/98, LF) -> build/t18pm/acN.sh; byteEqual 6/6 (cmp against HEAD blob lines), bash -n clean x6. Amended-body spot checks: backend/app/services/category_service.py present in ac3/ac4; grep -c ../../backend on the issue = 0. Ran each as bash build/t18pm/acN.sh </dev/null from t18pm root: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (6/6).\nFull suite json leg (merged tree): npx.cmd vitest run --reporter=json rc=0; numPassedTests=112, numFailedTests=0, numPendingTests=0, numTodoTests=0; passed-title count 112. Arithmetic: 34 new titles (budget_page.test.tsx 14 + budget_form.test.tsx 8 + categories_page.test.tsx 12) + baseline 78 = 112 exact. Baseline set identity: the 78 non-new passed titles (file+title normalized) are SET-IDENTICAL to the t17pm merged-tree baseline (build/t17pm/logs/sanity_full_json.out, 78 passed) - cmp clean, zero regression.\nDefault-reporter leg (permanent since t16; t18 touches frontend): cmd.exe npx.cmd vitest run (NO --reporter) -> rc=0, Test Files 17 passed (17), Tests 112 passed (112), ZERO Unhandled Errors sections.\nCumulative merge index: 90 entries (schema 1.0) extracted verbatim -> build/t18pm/mt/NN.sh (seq -w zero-padded 01..90), byte-verified 90/90 (node round-trip cmp, 0 mismatches). Independent re-scan for git-embedded commands returned exactly {01,04,05,12,23,24,27} = expected set. Those 7 ran with PATH shim build/t18pm/bin/git (worktree admin-dir form); the FULL ORIGINAL PATH was restored after EVERY shimmed entry (unconditional reset per loop iteration in build/t18pm/run_chunk.sh); cmd.exe re-asserted after every chunk (command -v cmd.exe guard, no CMD_EXE_LOST). Frontend entries incl. 13,15,16,26,51-56 ran with cmd.exe available and passed. Ran in 8 chunks (01-10,11-20,21-30,31-45,46-60,61-75,76-90) from t18pm root: 90/90 rc=0, per-entry rc captured immediately. No [VENV_UNAVAILABLE] triggered inside index entries.\nIndependent backend leg (t16 legacy requirement): cd backend && uv sync (rc=0) && uv run pytest -q on the merged tree -> 184 passed, 18 warnings in 89.87s, 0 failed. Count stated: 184.\nManifest byte-audit on merged tree: git diff --name-only origin/main...HEAD = exactly 10 frontend files (app.tsx, app_shell.tsx, validation.ts, budget_page(.test).tsx, budget_form(.test).tsx, category_form.tsx, categories_page(.test).tsx); zero docs/backend files in the delta. Blob sha256 vs origin/main: handlers.ts, setup.ts, app_shell.test.tsx, expenses_page.test.tsx, expense_form.test.tsx, toast_context.test.tsx, handlers_contract.test.ts, query_keys.test.ts, api modules, hooks, auth_context, guards, frontend package.json + package-lock.json, backend pyproject.toml + uv.lock - ALL byte-identical (22/22 EQ).\nSmoke accounting: docs/plan.md has NO ## Smoke tests section and docs/commands.md defines no smoke commands (established t0-t17 fallback precedent), so the smoke set = the 6 t18 AC verification commands run verbatim from the merged tree root: 6 total, 6 passed, 0 failed. config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue 6 ACs); the 90-entry cumulative batch + 112-test frontend + 184-test backend suites provide surplus coverage. Same accounting as t10-t17.\nPlatform sync: MERGE VERDICT PASS comment posted on issue #21 via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 21 --body (rc=0 attempt 1). Duplicate check BEFORE posting: latest-comment = the verify_issue PASS (no MERGE VERDICT present). Labels UNTOUCHED (pre-merge gate result is orchestrator-owned; post-merge close-out follows).\nCleanup proof: cmd.exe git worktree remove --force C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t18pm + git branch -D t18pm executed after all legs; worktree list shows only main checkout + t18 (orchestrator-owned); branch --list t18pm empty. t18 worktree NOT touched. NOTHING pushed; main checkout HEAD 04e620d == origin/main.\nVerdict: PASS - pre-merge gate OPEN for the orchestrator real merge. Residual notes for orchestrator: (1) the real merge should be conflict-free (branch already contains main at 93459d3; simulation proved ort clean); (2) at close, append t18 34 frozen titles (budget_page 14 / budget_form 8 / categories_page 12; ac6 composite excluded per precedent) to merge_test_index.json (currently 90); (3) merge commit must never include docs/state/seq.txt runtime drift; (4) frontend suite timing is warm-cache dependent on this host."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t18_verifier_verify_pre_merge.json",
+      "build/t18pm/ac1.sh",
+      "build/t18pm/ac2.sh",
+      "build/t18pm/ac3.sh",
+      "build/t18pm/ac4.sh",
+      "build/t18pm/ac5.sh",
+      "build/t18pm/ac6.sh",
+      "build/t18pm/mt/ (90 files)",
+      "build/t18pm/bin/git",
+      "build/t18pm/run_chunk.sh",
+      "build/t18pm/full.json",
+      "build/t18pm/default_reporter.out",
+      "build/t18pm/comment.md"
+    ],
+    "platform_issue": 21,
+    "output_path": "docs/state/outputs/t18_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T20:38:18Z",
+  "retry_count": 0
+}
