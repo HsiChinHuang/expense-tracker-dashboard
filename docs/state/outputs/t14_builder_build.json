@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t14",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t14-budgets-vertical",
+    "branch_sha": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_model.py::TestBudgetModel::test_columns_types_python_uuid_pk_and_cascade_fk_semantics\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_named_unique_and_both_checks_reject_bad_values_on_sqlite\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_two_sequential_inserts_for_same_user_and_month_raise_integrity_error\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_amount_roundtrips_as_decimal_with_exact_two_dp_equality\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_upgrade_head_creates_budgets_with_three_named_constraints\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_downgrade_005_to_004_drops_budgets_and_upgrade_roundtrip_restores\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_raw_delete_of_owner_cascades_to_budget_rows\" -q'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_creates_budget_with_exactly_the_two_frozen_response_keys\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_second_put_replaces_amount_and_row_count_stays_one\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_amount_is_a_two_dp_string_never_a_json_float\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_invalid_amount_values_return_422_invalid_amount_field_amount\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_missing_amount_non_string_or_extra_key_return_422_validation_error\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_malformed_year_month_paths_return_422_never_404_never_zero_body\" -q'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_stored_budget_returns_200_with_the_two_frozen_keys\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_absent_month_returns_200_exact_zero_body_and_persists_nothing\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_other_users_budget_is_never_returned\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_malformed_year_month_returns_422_never_404_never_zero_body\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_without_token_returns_401\" -q'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_own_returns_204_and_the_row_is_gone\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_absent_and_other_user_return_identical_404_and_the_row_survives\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_malformed_year_month_returns_422\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_deleting_budget_leaves_same_month_expenses_intact_and_queryable\" -q'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_budget_payload\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_budget_payload_keys\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_budget_write\" -q'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "ca26d03fa3277b8c2218d39119aa9a16c25e337d",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetOpenApi::test_openapi_lists_three_budget_operations_after_health_auth_categories_expenses\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_alembic_heads_is_single_revision_005\" -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 171,
+      "passed": 171,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t14.md#verification-commands",
+    "notes": "Builder t14 implement notes (branch issue/t14-budgets-vertical @ ca26d03, base f152702).\n\nRUNNER DISCIPLINE: all 6 AC commands extracted VERBATIM from docs/issues/t14.md ## Verification commands into gitignored build/t14b/ac{1..6}.sh via a byte-verify extraction (reconstruction equality per line; 6 files, 0 byte mismatches; CRLF stripped before backtick matching as warned). Each script executed as its own file via `bash build/t14b/<ac>.sh </dev/null`, rc captured immediately. No inline eval. NOTE: the first extraction pass kept the trailing closing single quote (rc=2 shell-EOF errors on all 6); corrected the extractor to strip the surrounding single quotes per the task instruction, re-verified byte-exact (6/6, 0 mismatches), then all fail-before runs below are on the CORRECTED scripts.\n\nFAIL-BEFORE (base f152702, before implementing): ac1 rc=4, ac2 rc=4, ac3 rc=4, ac4 rc=4, ac5 rc=4 (pytest exit 4 = file-not-found; all pinned nodes are new files \u2014 matches groom's measured rc=4/exit-4 expectation), ac6 rc=4 (gate chain fails at the pinned-nodes leg). AFTER (branch @ ca26d03): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (full pytest 171 + ruff + mypy + openapi/head nodes all green). No deferred legs: every one of the 6 AC scripts has measured rc on base AND rc=0 on the branch.\n\nIMPLEMENTATION (contract exactly as groomed): model app/models/budget.py defines the THREE constraint SQL strings + the UNIQUE name/column tuple, all IMPORTED by alembic/versions/005_budgets.py (revision \"005\", down_revision \"004\", single head 005, FK ON DELETE CASCADE, no idx_budgets_user_ym). GLOB emulation YEAR_MONTH_FORMAT_CHECK_SQL verbatim pinned string; 2026-13 passes the DB CHECK by design. Schemas: BudgetResponse EXACTLY {year_month, amount} (amount Decimal in, 2-dp STRING out via field_serializer mirroring t13; year_month plain str), SetBudgetRequest required {amount: str} extra=forbid; AMOUNT_MAX = Decimal('999999999.99') (t13 tie-break). The chapter amount PATTERN is deliberately NOT a Pydantic constraint (t13 precedent): enforcing it would render \"-1\"/\"1.234\"/\"\" VALIDATION_ERROR and collapse the frozen INVALID_AMOUNT split \u2014 service parse_amount owns the VALUE family (identical to expense parse_amount). Service app/services/budget_service.py: set_budget SELECT-then-UPDATE-or-INSERT upsert with exactly ONE commit + refresh, get_budget returns row-or-None (zero synthesis lives in the ROUTER per the service-shape pin; wire body frozen by ac3), delete_budget 404 NOT_FOUND field None identical for absent/foreign, audit inside the same transaction via UNQUALIFIED `from app.audit.logger import write_audit_log` (Ch6 6.9.1 + W7 monkeypatch seam), payload byte-pinned {amount (2-dp str), year_month} via budget_to_dict. Router app/routers/budgets.py: path param pattern ^[0-9]{4}-[0-9]{2}$ (all four malformed forms -> merged RequestValidationError 422 VALIDATION_ERROR field year_month on GET/PUT/DELETE), PUT always 200 (never 201), GET absent -> EXACT {\"year_month\": echo, \"amount\": \"0.00\"} (never 404), DELETE 204/404, no 409 path, no INVALID_MONTH. Registered in create_app AFTER health/auth/categories/expenses.\n\nMONTH-VALUE OWNERSHIP (2026-13) \u2014 implementation decision within the frozen contract: 2026-13 MATCHES the path pattern ^[0-9]{4}-[0-9]{2}$ (pattern cannot express 01..12) and passes the DB GLOB CHECK by design, so the ONLY place the month-VALUE rule can live is the service \u2014 exactly the Chapter 6 6.9.4 validate_year_month helper the issue explicitly permits (\"if the Builder keeps Chapter 6's validate_year_month, by the service\"). It raises AppError(422, VALIDATION_ERROR, field year_month) which renders BYTE-IDENTICAL to the RequestValidationError body shape {detail, code, field}; called at the top of set_budget/get_budget/delete_budget so all four malformed forms collapse to ONE frozen 422 VALIDATION_ERROR/year_month expectation per route on every budget route (W8 satisfied: never 404, never 200 \"0.00\", never INVALID_MONTH, malformed != absent never collapses \u2014 the absent well-formed month stays 200 \"0.00\"/404-DELETE).\n\nW8 EVIDENCE: ac2/ac3/ac4 malformed-loop nodes assert 422 + code VALIDATION_ERROR + field year_month for 2026-1/2026-13/2026-1-01/abcd-ef on PUT/GET/DELETE, assert !=404, GET additionally asserts body != the zero body; zero-body node pins the exact JSON equality of {\"year_month\",\"amount\":\"0.00\"} for the well-formed absent month (the two branches are separate tests with separate code paths).\nW7 EVIDENCE: tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_budget_write monkeypatches app.services.budget_service.write_audit_log (module-level unqualified name) with a stub staging a REAL AuditLog(action=\"PATCH\", entity_type=\"budget\" IN-CHECK); the service's single commit raises IntegrityError; fresh session shows NEITHER budget NOR audit row. No monkeypatched raise; t12 ac3 untouched (machinery proof).\nW9/upsert EVIDENCE: ac1 proves the UNIQUE guard statically (two SEQUENTIAL raw inserts -> IntegrityError, first row survives; named constraint in stored DDL). API tests prove upsert via persisted CONTENT through FRESH sessions: row COUNT==1 AND value CHANGED (\"2000.00\" -> \"2500.50\"), amount-as-string asserted against RAW JSON text + 2-dp regex, absent-body exact-JSON pinned, cross-user tests use TWO real registered users via the real register endpoint.\n\nBASELINE AMENDMENTS (3 nodes, minimal intent-preserving, per t10/t12/t13 precedent \u2014 every amendment verified to fail on base+feature BEFORE amending):\n1. tests/unit/test_user_model.py::test_creates_user_with_python_uuid_default_and_typed_columns: `assert not tables & {\"budgets\"}` -> vacuous-safe superset `{\"users\",\"categories\",\"audit_logs\",\"expenses\",\"budgets\"} <= tables`. Intent argument: the node's guard was \"budgets must not exist YET\" (a not-yet-exists placeholder); t14 legitimately creates budgets (revision 005), so the guard's subject is exhausted and it retires to the registration-superset check every other model test uses. The users-table shape assertions are untouched.\n2. tests/integration/test_audit_migration.py::test_alembic_heads_is_single_revision_003: heads == [\"004\"] -> [\"005\"]. Intent argument: the node pins LINEAR chain + exactly ONE head (its name says \"single revision\"); t13 already amended this node 003->004 with the same reasoning, and the W15 lesson says every link asserts the CURRENT tip; t14's own test_alembic_heads_is_single_revision_005 owns the tip claim while this node keeps the single-head invariant. Kept exact single-element equality ([\"005\"]) per the t13 amendment form.\n3. tests/integration/test_expense_migration.py: (a) test_alembic_heads_is_single_revision_004 heads == [\"004\"] -> [\"005\"] (same argument as 2; t13's amendment pattern mirrored); (b) test_upgrade_head_creates_expenses_with_named_checks_and_four_indexes now migrates with revision=\"004\" explicitly (upgrade-head would land version 005 and break its `version == \"004\"` pin; the node's intent is revision 004's OWN DDL shape, so pinning the migration target to 004 preserves intent exactly \u2014 same fix t13 applied to the t12 node).\nNO other baseline file touched: test_category_migration pins revision=\"002\" explicitly already, test_expense_api/test_categories_api openapi nodes use index-ordering (budgets appended last, no break), test_audit_logger uses len(paths) >= 5.\n\nTESTS: 28 new nodes (test_budget_model 4, test_budget_migration 4, test_budget_api 16 = Put6/Get5/Delete4/OpenApi1, test_budget_service 4) \u2014 all pinned node IDs verbatim from the AC commands. Suite: 171 passed = 143 baseline + 28 new (groom predicted ~24; 28 actual, every pinned node present). ruff check . CLEAN; strict mypy . CLEAN (one test-side cast(Table, ...) added for strict mypy on Table.insert()).\n\nPLATFORM SYNC: comment posted on #17, label groomed removed + built added, re-verified via issue get 17 (see platform_sync_status for the measured result).",
+    "ac_rcs": {
+      "fail_before": {
+        "ac1": 4,
+        "ac2": 4,
+        "ac3": 4,
+        "ac4": 4,
+        "ac5": 4,
+        "ac6": 4
+      },
+      "after": {
+        "ac1": 0,
+        "ac2": 0,
+        "ac3": 0,
+        "ac4": 0,
+        "ac5": 0,
+        "ac6": 0
+      }
+    },
+    "byte_verify": "6/6 AC scripts extracted byte-exact (0 mismatches) to build/t14b/, run as own files with </dev/null",
+    "new_test_nodes": 28,
+    "alembic_head": "005",
+    "platform_sync_status": "COMPLETE: comment posted on #17 (2026-07-08T12:23:44Z per server), label add built + label remove groomed, re-verified via issue get 17 -> labels == ['built']"
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/models/budget.py",
+      "backend/app/models/__init__.py",
+      "backend/alembic/versions/005_budgets.py",
+      "backend/app/schemas/budget.py",
+      "backend/app/services/budget_service.py",
+      "backend/app/routers/budgets.py",
+      "backend/app/main.py",
+      "backend/tests/unit/test_budget_model.py",
+      "backend/tests/integration/test_budget_migration.py",
+      "backend/tests/integration/test_budget_api.py",
+      "backend/tests/unit/test_budget_service.py",
+      "backend/tests/unit/test_user_model.py",
+      "backend/tests/integration/test_audit_migration.py",
+      "backend/tests/integration/test_expense_migration.py"
+    ],
+    "platform_issue": 17,
+    "output_path": "docs/state/outputs/t14_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T12:23:03Z",
+  "retry_count": 0
+}
