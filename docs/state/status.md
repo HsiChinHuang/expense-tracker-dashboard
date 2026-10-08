@@ -1,13 +1,13 @@
 # Status
 
-Updated: 2026-10-07T19:52Z
+Updated: 2026-10-08T08:30Z
 
 ## Active slots
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t7 | builder | implement | 20:26Z | run e0d6a048 (worktree ../worktrees/t7 @ 5b1daa7, #10) |
-| 2/2 | (free) | — | — | — | t8 gated on t7 closure |
+| 1/2 | t11 | verifier | verify_issue | 08:25Z | run 73cfadcc (worktree ../worktrees/t11, #14) |
+| 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
 
