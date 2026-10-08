@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T18:37:30Z",
+  "updated_at": "2026-10-08T21:01:27Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -228,6 +228,39 @@
       },
       "regression_count": 0,
       "notes": "W13 ExpensesPage + ExpenseForm modal + ToastProvider network-error presentation; pays t9 carry-forward #4; 26 new frozen titles (toast 4 / page 13 / form 9), suite 52->78; zero-regression chain (no fix_qa round needed - t16 lessons embedded in build prompt: default-reporter + #15/#26 run green by builder pre-handoff, amountSchema string-space cents max-compare correct across digit lengths); pre-merge adjudicated single add/add conflict on t17_definer_groom.json (branch copy vs main remediated copy differ only in timestamp) resolved to main content-preserving - real merge hit same single conflict, same resolution; merge tree == verifier dry-run 24b23e02 plus tracked pre-merge handoff JSON only; handoff-format incident: first verify_issue artifact was prose not JSON (chain first schema breach) - remediated via resumed verifier, strict JSON validated [OK], spawn prompts now mandate strict-JSON handoffs; index 86->90 (ac1-ac4 appended, ac5 composite excluded per precedent)."
+    },
+    {
+      "merge_id": "t18-cde20ee",
+      "issue_id": "t18",
+      "platform_issue": 21,
+      "merged_sha": "cde20eeb4e0624ac07819f21151ce4f5cf8fd9cc",
+      "merged_tree": "30b48a42d146504bd6ca14550a928c1d2f34ca83",
+      "merged_at": "2026-10-08T21:01:27Z",
+      "acs": [
+        "ac1",
+        "ac2",
+        "ac3",
+        "ac4",
+        "ac5",
+        "ac6"
+      ],
+      "smoke_tests": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      "cumulative_tests": {
+        "total": 90,
+        "passed": 90,
+        "failed": 0
+      },
+      "backend_tests": {
+        "total": 184,
+        "passed": 184,
+        "failed": 0
+      },
+      "regression_count": 0,
+      "notes": "post-merge inline on main: 6/6 ACs rc=0 (amended body, ../../backend count 0), cumulative 90/90 rc=0 (shim {1,4,5,12,23,24,27}, PATH restored per entry, cmd.exe ok every chunk), default-reporter full-suite leg rc=0 17 files 112 passed no Unhandled Errors; pre-merge gate PASS 0a71aae8 (t18pm sim ort-clean, backend 184 independent leg, 22/22 manifest EQ); pinned-command defect fixed via definer amendment 45eb8b9 (builder refused self-certification - chain-positive); milestone phase_3_crud 9/9 COMPLETE"
     }
   ]
 }
