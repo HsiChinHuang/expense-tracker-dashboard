@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T05:17:26Z",
-  "last_seq": 250,
+  "updated_at": "2026-10-08T05:25:22Z",
+  "last_seq": 252,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "-",
+      "issue_id": "t10",
       "role": "definer",
-      "phase": "review_plan",
-      "spawn_at": "2026-10-08T05:17:26Z",
-      "last_activity_at": "2026-10-08T05:17:42Z",
-      "run_id": "05c66700-6fda-4d93-b392-f545b4a7df4d",
+      "phase": "groom",
+      "spawn_at": "2026-10-08T05:25:22Z",
+      "last_activity_at": "2026-10-08T05:25:22Z",
+      "run_id": "pending",
       "worktree_path": "main checkout",
-      "note": "phase_3_crud review_plan"
+      "note": "phase_3 first lifecycle task; W15 carry-forward"
     },
     {
       "slot": 2,
@@ -26,5 +26,11 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t10",
+      "state": "defined",
+      "modifiers": []
+    }
+  ]
 }

@@ -1,0 +1,142 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t10",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_3_crud",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": [
+      "t10",
+      "t11",
+      "t12",
+      "t13",
+      "t14",
+      "t15",
+      "t16",
+      "t17",
+      "t18"
+    ],
+    "findings": [
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W1 COVERAGE — phase_3 REQ coverage CONFIRMED with one addition. Programmatic cross-check: every REQ ID cited by t10..t18 (including all ..-ranges and /-lists, expanded) exists in docs/requirements.md — zero phantom IDs. REQ-PLAN-030's 25 tasks map fully: 3.1-3.2->t10, 3.3-3.5->t11, 3.6-3.11+3.18->t13, 3.12-3.15+3.19->t14, 3.16-3.17->t12, 3.20->t15, 3.21-3.25->t16/t17/t18. Spot-verified on-tree: REQ-PLAN-031 (CRUD+audit+isolation+frontend+Decimal) anchored by t15; REQ-PROD-011/012/013/015 -> t13/t14/t11/t12; REQ-SEC-030..034 -> t11/t13/t14/t15 (t15 IS the REQ-SEC-034 test_isolation.py deliverable); REQ-BE-063 -> t11 ac4; REQ-DB-020..023/030..034/040..042/050..054/070..072 -> t10/t13/t14/t12; REQ-API-030..032/040..044/050..052 -> t11/t13/t14. ADDITION the survey missed: REQ-FE-052 (Must, QueryClient config staleTime 5m/gcTime 10m/retry 3 network/0 for 4xx/refetchOnWindowFocus false) is cited by NO phase_3 issue and merged main.tsx ships `new QueryClient()` with no options — the config exists nowhere (t9's ACs never required it). See W8 carry-forward. GROOM CARRY-FORWARD (planning-level): keep the survey's 7 deferral lines in the phase_4/phase_5 handoff; note two of them are half-covered, not uncovered (REQ-PROD-035's DB guard = t14 ac1; REQ-PROD-036 network case = t17 ac1), and record owners for the roll-up REQs REQ-DB-060/REQ-DB-092/REQ-SEC-052 (per-table halves owned by t10..t14; aggregate/dashboard halves belong to phase_4 survey)."
+      },
+      {
+        "issue_id": "t11",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "W2 STATUS CODE — t11 ac3 leaves the system-category DELETE status open (404-vs-409) while asserting 404 in the AC text. On-tree REQ-SEC-033 states system categories 'cannot be updated or deleted (404)' and REQ-API-032 lists only 204/404/409-has-expenses, so 404 is the pinned answer unless Chapter 7 §7.4.3 contradicts Chapter 12. GROOM CARRY-FORWARD: pin 404 for DELETE of a system category (and 'no PATCH/PUT categories route exists' as the update-protection check); if §7.4.3 disagrees, record the ruling in the groom notes and keep one frozen status code in the AC — never leave both alternatives in the pinned command."
+      },
+      {
+        "issue_id": "t11",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 IN-USE 409 PRE-TABLE — t11 ac3 must prove DELETE -> 409 when expenses reference the category, but the expenses table only arrives with t13 (Alembic 004). GROOM CARRY-FORWARD: pin the pre-table strategy explicitly in the verification commands — a service-level unit test with a stubbed/monkeypatched expense-count query (NOT an integration test that fabricates expense rows, and NOT a deferred-to-t15 excuse). t15 ac2/ac3 then re-proves the same path end-to-end after t13 merges; state that split in the AC text so the Verifier does not demand an FK that does not exist yet."
+      },
+      {
+        "issue_id": "t11",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 NAME-LENGTH LAYER — t11 ac2 requires 422 for name > 100 chars, but the only DB CHECK in REQ-DB-021 is the HEX color; VARCHAR(100) is NOT enforced by SQLite (silent over-length) while PostgreSQL would error. GROOM CARRY-FORWARD: pin the 100-char bound in the Pydantic schema layer (schemas/category.py max_length=100) and pin the 422 test there; do not let the Builder add a DB CHECK that REQ-DB-021 does not define, and do not let the Verifier look for a DB-level constraint."
+      },
+      {
+        "issue_id": "t12",
+        "category": "other",
+        "severity": "warning",
+        "description": "W5 AUDIT SHAPE + entity_id NULLABILITY — t12's metadata line says 'entity_id UUID' but on-tree REQ-DB-050 declares entity_id UUID NOT NULL; t12 ac1 says 'Python-generated UUID PK, nullable old_value/new_value/ip_address' and omits entity_id. GROOM CARRY-FORWARD: pin entity_id NOT NULL in both model and revision 003, and pin the exact audit payload field list per REQ-SEC-061/062 (amount, date, category_id, note for expenses; amount, year_month for budgets — never secrets), so t13/t14 payloads are byte-pinned before two Builders invent two shapes."
+      },
+      {
+        "issue_id": "t13",
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 PAGINATION ENVELOPE — REQ-API-040 names no envelope keys; Chapter 7 §7.5.1 is the single source and t13 ac3 leaves keys to groom. GROOM CARRY-FORWARD: read §7.5.1 and pin the exact key names and types (items/total/page/page_size or the chapter's actual names) in t13's AC text plus a frozen assertion; name the shared frontend envelope type in t16 so the FE type mirrors the pinned backend shape from ONE source (t16 ac4's MSW fixtures must copy the merged shape, not a guess)."
+      },
+      {
+        "issue_id": "t13",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 ROLLBACK-INJECTION vs entity_type CHECK — t13 ac5 and t14 ac5 both demand an 'audit failure rolls back the business write' test, while t12 ac3 proves the same contract with a synthetic write. The failure-injection mechanism must not require an audit row with an out-of-CHECK entity_type (categories are deliberately not audited; REQ-DB-051 CHECK allows only 'expense','budget'). GROOM CARRY-FORWARD: pin one injection mechanism per issue (invalid action value violating the CHECK, or monkeypatched raise in the logger) and state in t13/t14 ACs that t12 ac3 remains the machinery proof while t13/t14 prove integration only — prevents three near-duplicate atomicity tests drifting."
+      },
+      {
+        "issue_id": "t14",
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 INVALID year_month STATUS — t14 ac2 leaves 422-vs-404 open for malformed path forms (2026-1, 2026-13, 2026-1-01, abcd-ef). REQ-BE-083 owns year_month validation and Chapter 7 §7.6.2 is the tie-break. GROOM CARRY-FORWARD: pin ONE status for all four malformed forms before implementation, freeze it in the AC, and state explicitly that malformed-format != absent (absent is 200 '0.00' per ac3, never 404) so the Builder cannot collapse the two cases and the Verifier has one deterministic expectation per form."
+      },
+      {
+        "issue_id": "t14",
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 CONCURRENCY WORDING — t14 ac1's 'second concurrent-shaped insert raises IntegrityError' is a UNIQUE-constraint guard test, not a concurrency test (single-process SQLite; the real REQ-PROD-035 concurrent-creation scenario is a phase_5 ops check). GROOM CARRY-FORWARD: word the pinned AC as static UNIQUE evidence (two sequential inserts in one session), forbid Builder retry/race machinery, and keep the phase_5 deferral note in Constraints."
+      },
+      {
+        "issue_id": "t16",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W10 REQ-FE-052 ORPHAN (Must) — the QueryClient configuration (staleTime 5m, gcTime 10m, retry 3 network / 0 for 4xx, refetchOnWindowFocus false) is cited by no phase_3 issue and merged main.tsx ships `new QueryClient()` with no options, so REQ-FE-052's verification ('Read main.tsx QueryClient config') fails on main today and would silently stay unowned. GROOM CARRY-FORWARD (t16): add the QueryClient-config assertion to t16 (unit test asserting the resolved defaults, or a pinned main.tsx grep) as part of ac2/ac5, or have the groom record an explicit named owner. This is the one genuine coverage hole this review found."
+      },
+      {
+        "issue_id": "t16",
+        "category": "other",
+        "severity": "warning",
+        "description": "W11 INVALIDATION PROOF MECHANISM — t16 ac3 demands invalidation be proven by MSW handler call-count observation. Under TanStack Query 5 + StrictMode double-effects, call-count assertions are flaky, and invalidating ['dashboard'] when no dashboard query exists produces NO observable refetch at all. GROOM CARRY-FORWARD: pin the mechanism (e.g. queryClient.getQueryCache().findByQueryKey(queryKeys.dashboard.all, 'exact')?.isStale()/isInvalidated() for the dashboard half; handler call-count only where a refetch is actually observable) and pin the exact hook-file layout against merged frontend/src/ (no hooks dir exists on main yet)."
+      },
+      {
+        "issue_id": "t18",
+        "category": "other",
+        "severity": "warning",
+        "description": "W12 12-MONTH HISTORY QUERY-KEY STRATEGY — t18 ac2 composes the history from 12 per-month GETs; the strategy is deferred to groom. GROOM CARRY-FORWARD: pin 12 useQuery (or useQueries) calls whose keys are queryKeys.budgets.byMonth(month) for each of the 12 months — this keeps every call inside t16's ['budgets'] invalidation prefix family and inside t16's MSW handler set (one handler, 12 distinct ?month fixtures or an in-memory month map); freeze the test titles and forbid inventing a backend list endpoint (none exists in §7.6)."
+      },
+      {
+        "issue_id": "t17",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W13 AC BUNDLING AT THE LIMIT — t17 has 5 ACs (under the cap) but ac1 bundles three separable behaviors (ToastProvider mechanics + NETWORK_ERROR retry affordance + provider-nesting regression) and ac2 bundles page+filters+pagination+loading+empty+long-note. Splitting is NOT recommended (single UI vertical; t9 precedent kept one issue at 6 ACs/~10 paths). GROOM CARRY-FORWARD: freeze per-behavior vitest node titles inside each AC (toast render/close/auto-dismiss, retry-flips-list, filter-drives-query, pagination, spinner, empty, long-note) so the Verifier gets per-behavior seams without splitting the issue."
+      },
+      {
+        "issue_id": "t13",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W14 WARN_ONLY OVERRUNS ACCEPTED WITHOUT SPLITS — verified against limits.issue_granularity (max_acs 6 / max_files 4 / max_diff_lines 300 / warn_only=true): AC counts t10=4, t11=5, t12=5, t13=6, t14=6, t15=4, t16=5, t17=5, t18=6 (none at the too-small 1-AC/0-file extreme). t13 (~7-8 paths, diff >300), t14 (~6), t16 (~7), t17 (~6-8, diff >300), t18 (~6) exceed max_files as pre-declared in their own Constraints. All are inseparable verticals; a split would create horizontal layers and double the contract surface. GROOM CARRY-FORWARD: keep verification node-ID/file-scoped per AC so oversized diffs stay incrementally verifiable; do not instruct Builders to split."
+      },
+      {
+        "issue_id": "t10",
+        "category": "other",
+        "severity": "warning",
+        "description": "W15 SINGLE-HEAD ASSERTION MISSING IN t10 ONLY — the migration chain claims were verified: main ships exactly one revision (001_initial_schema.py, down_revision=None) and every issue's stated revision matches the chain (t10 002<-001, t12 003<-002, t13 004<-003, t14 005<-004). t12 ac5, t13 ac6 and t14 ac6 each assert a single Alembic head; t10 ac2 asserts only clean upgrade/downgrade/upgrade. GROOM CARRY-FORWARD (t10): add an `alembic heads` == one-revision assertion at 002 to the pinned commands so a branched head is caught at the first link, not the third. Also pin the seed-trigger choice (Alembic data step vs startup hook) against merged t5 database.py and note the deviation from Chapter 5 §5.10.1's idealized 001-all-tables/002_seed_categories layout (the merged project uses incremental per-slice revisions; name the file descriptively, e.g. 002_categories)."
+      },
+      {
+        "issue_id": "t15",
+        "category": "other",
+        "severity": "warning",
+        "description": "W16 TESTS-ONLY ESCAPE HATCH NEEDS BOUNDS — t15 is tests-only by intent but its DoD permits fix(t15) commits. If the black-box matrix exposes a real defect in merged t11/t13/t14 code, the fix would land inside t15's branch and re-open merged contracts without review. GROOM CARRY-FORWARD: pin the bound in the AC/DoD — defect fixes must be minimal, fail-before/pass-after evidenced by the isolation test itself, listed in the PR body, and anything larger must be escalated to the orchestrator as a new issue rather than expanding t15."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete — all REQ IDs cited by t10..t18 (ranges and slash-lists expanded programmatically) exist in docs/requirements.md (0 phantom IDs); REQ-PLAN-030's 25 tasks and REQ-PLAN-031's five verification clauses all have owners; the survey's 7 deferrals adjudicated and confirmed legitimate (2 are half-covered rather than uncovered); one genuine Must-level hole found and flagged: REQ-FE-052 QueryClient config (W10).",
+      "granularity_check": "complete — AC counts 4/5/5/6/6/4/5/5/6; no too-small issue; warn_only max_files/max_diff_lines overruns pre-declared in t10/t11/t12/t13/t14/t16/t17/t18 Constraints accepted without splits per t8/t9 precedent; no mega-AC that should have been split as its own issue (t17 ac1/ac2 flagged for per-behavior title freezing, W13).",
+      "dependency_check": "complete — dag.json 19 nodes/30 edges; frontmatter depends == DAG edges for all nine issues (checked programmatically, both directions); 0 cycles (DFS), 0 orphans; alembic-chain edges verified: t10->t6, t12->t10, t13->t12, t14->t13; contract edges present: t13->t11 (validate_category_access consumer), t16->t13/t14 (MSW mirrors merged contract), t17->t16, t18->t16, t15->t13/t14; critical path t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17 matches dag.json; t18 sibling leaf confirmed.",
+      "duplicate_contradiction_check": "complete — no duplicate ACs (regression-gate ACs per issue are the accepted phase_1/2 pattern); no contradictions across the shared contracts: t11 ac4's not-found AppError == t13 ac2's 404; t14 ac3's absent-200-'0.00' == t15 ac2 == t16 ac4 fixtures == t18 ac1; t12's entity_type CHECK ('expense','budget', matching on-tree REQ-DB-051) == t13/t14 audit integration (categories deliberately unaudited per Chapter 5 §5.7); t11 ac3's 404-on-system-delete == t15 ac2's rejection expectation. One latent status-code ambiguity (t11 ac3, t14 ac2) is flagged as W2/W8, not a contradiction.",
+      "ac_checkability_check": "complete — every AC is mechanically checkable once groom pins commands; all nine issues carry the survey PLACEHOLDER section (allowed at survey, groom must replace); open questions deferred to groom (t11 404-vs-409 + in-use strategy, t12 payload, t13 envelope, t14 year_month status, t18 history keys) are ALL legitimately groom-scope (implementation detail/status-code pinning), none is a plan-level gap; the date-fns/recharts restated bans in t16 ac5 / t17 ac5 / t18 ac6 match the merged t9 ac6 grep verbatim (recharts|date-fns forbidden; TanStack Query 5.56.2 / axios 1.7.7 / RHF 7.53.2 / zod 3.23.8 / msw 2.3.5 confirmed exact-pinned in frontend/package.json; no new dependencies required by any phase_3 AC).",
+      "platform_check": "verified read-only via scripts/platform.ts issue list/get (authoritative): #13..#21 open, label 'defined', titles match t10..t18 exactly; platform_issue frontmatter (#13..#21) agrees with the survey handoff. Review verdict summary comment posted on anchor issue #13. No label/body writes performed (review is read-only)."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_3_crud.json",
+      "docs/state/outputs/phase_3_crud_definer_review_plan.json"
+    ],
+    "platform_issue": 13,
+    "output_path": "docs/state/outputs/phase_3_crud_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T05:24:00Z",
+  "retry_count": 0
+}
