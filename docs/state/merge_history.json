@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T05:05:07Z",
+  "updated_at": "2026-10-08T15:14:14Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -152,6 +152,20 @@
       "backend_tests": 171,
       "regression_count": 0,
       "notes": "budgets vertical; Alembic 005 single head; W8 tuple ruling; 3 baseline amendments verifier-audited PRESERVE intent; index 72->77 (ac6 suite-gate excluded)"
+    },
+    {
+      "merge_id": "16",
+      "issue_id": "t15",
+      "platform_issue": 18,
+      "merged_sha": "32bc15c22",
+      "merged_tree": "d7b069b4d6d05855da9b3c46fc6b789397f71a71",
+      "merged_at": "2026-10-08T15:14:14Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 77,
+      "backend_tests": 184,
+      "regression_count": 0,
+      "notes": "isolation+money-precision TESTS-ONLY (W16): 13 nodes in 2 files, zero production changes, zero baseline amendments, AMOUNT_MAX ratification honored, index 77->82 (5 command entries ac1-ac5, ac6 gate excluded), 9 post-merge false-reds = orchestrator PATH bug re-ran clean"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T13:33:35Z",
+  "updated_at": "2026-10-08T15:13:50Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -311,6 +311,26 @@
     {
       "issue_id": "t14",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_budget_payload\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_budget_payload_keys\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_budget_write\" -q'"
+    },
+    {
+      "issue_id": "t15",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_full_chain_attacker_reads_updates_and_deletes_every_victim_resource\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_cross_user_and_unknown_id_error_bodies_are_byte_identical_for_all_three_resources\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_attacker_budget_put_creates_only_the_attackers_own_row\" -q'"
+    },
+    {
+      "issue_id": "t15",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_with_a_real_expense_returns_409_and_everything_survives\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_returns_204_once_its_only_expense_is_deleted\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_system_category_holding_expenses_is_404_category_not_found_never_409\" -q'"
+    },
+    {
+      "issue_id": "t15",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_expense_amount_round_trips_byte_exact_through_create_get_put_and_list\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_maximum_amount_round_trips_and_the_chapter_over_max_value_is_rejected_422_invalid_amount\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_budget_amount_round_trips_byte_exact_through_put_get_and_delete\" \"tests/integration/test_money_precision_api.py::TestDecimalAggregation::test_service_decimal_amounts_sum_without_float_artifacts\" -q'"
+    },
+    {
+      "issue_id": "t15",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_amount_note_and_pagination_limits_are_inclusive\" \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_category_name_and_auth_field_limits_are_inclusive\" -q'"
+    },
+    {
+      "issue_id": "t15",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestAuditObservabilityFromOutside::test_every_successful_write_for_both_users_has_exactly_one_audit_row_for_its_owner\" -q'"
     }
   ]
 }

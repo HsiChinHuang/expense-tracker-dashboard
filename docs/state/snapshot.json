@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T14:33:38Z",
-  "last_seq": 319,
+  "updated_at": "2026-10-08T15:14:24Z",
+  "last_seq": 321,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "builder",
-      "phase": "verify_pre_merge",
+      "phase": "complete",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T14:33:38Z",
-      "run_id": "8a7c0d44-9278-42d4-a8ae-3b5328197fb9",
+      "last_activity_at": "2026-10-08T15:14:24Z",
+      "run_id": null,
       "worktree_path": "../worktrees/t15",
-      "note": "6 ACs + cumulative 77 on merged tree; tests-only merge"
+      "note": "t15 closed 6/9"
     },
     {
       "slot": 2,
@@ -26,11 +26,5 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": [
-    {
-      "issue_id": "t15",
-      "state": "verified",
-      "modifiers": []
-    }
-  ]
+  "active_issues": []
 }
