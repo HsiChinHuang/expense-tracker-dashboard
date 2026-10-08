@@ -28,6 +28,7 @@ __all__ = [
     "DUPLICATE_CATEGORY",
     "DUPLICATE_EMAIL",
     "DUPLICATE_USERNAME",
+    "INVALID_AMOUNT",
     "INVALID_CREDENTIALS",
     "TOKEN_EXPIRED",
     "TOKEN_INVALID",
@@ -52,6 +53,9 @@ DATABASE_UNAVAILABLE = "DATABASE_UNAVAILABLE"
 DUPLICATE_CATEGORY = "DUPLICATE_CATEGORY"
 CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND"
 CATEGORY_IN_USE = "CATEGORY_IN_USE"
+# Appendix B code surfaced by the t13 expenses vertical (Chapter 2 2.5.2):
+# the five amount-VALUE cases render 422 INVALID_AMOUNT with field `amount`.
+INVALID_AMOUNT = "INVALID_AMOUNT"
 
 
 class AppError(Exception):

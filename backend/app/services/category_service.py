@@ -6,17 +6,15 @@ the service owns ``db.commit()`` and the router stays thin. All failures
 raise :class:`~app.core.errors.AppError` so the wire shape is always
 ``{detail, code, field}`` (REQ-ARCH-024).
 
-W3 seam (review_plan ruling, contractual name): the expense-count query
-behind the delete-in-use 409 lives in
-:func:`count_expenses_for_category` and its body imports
-``app.models.expense`` LAZILY because that model is t13's deliverable —
-a top-level import would not import today. The pinned unit test
-monkeypatches this exact module attribute, so renaming it breaks the
-contract; t15 re-proves the same path end-to-end after t13 merges. The
-file-level ``import-not-found`` pragma above is the merged t7/t8 precedent
-for a deliberately not-yet-present module (same form as
-``app/auth/dependencies.py``'s ``import-untyped`` pragma) and stays valid
-once t13 lands the model.
+W3 seam (retired by t13): the expense-count query behind the
+delete-in-use 409 lives in :func:`count_expenses_for_category`. Its
+body used to import ``app.models.expense`` LAZILY because the model did
+not exist before t13; the model has landed, so the import is now a
+plain module-level one and the real query always runs. The function
+name is contractual (the pinned t11 unit test monkeypatches this exact
+module attribute) and t15 re-proves the same path end-to-end. The
+file-level ``import-not-found`` pragma above is retained harmlessly
+(superseded by t13; ruff/mypy do not object).
 
 Delete 404 taxonomy per Chapter 6 sections 6.7.3/6.7.4 and the groom's
 frozen W2 ruling: unknown / cross-user / system deletes are all 404 —
@@ -39,6 +37,7 @@ from app.core.errors import (
     AppError,
 )
 from app.models.category import Category
+from app.models.expense import Expense
 from app.models.user import User
 
 NOT_FOUND = "NOT_FOUND"
@@ -144,34 +143,22 @@ def create_category(
 
 
 def count_expenses_for_category(session: Session, category_id: uuid.UUID) -> int:
-    """Count expense rows referencing ``category_id`` (W3 seam).
+    """Count expense rows referencing ``category_id`` (REQ-BE-062).
 
-    The ``app.models.expense`` import is INSIDE the body on purpose: the
-    model is t13's deliverable and does not exist yet, so a top-level
-    import would break module loading today. The pinned unit test
-    monkeypatches this exact function, so the in-use 409 is provable
-    before the expenses table lands; t15 re-proves it end-to-end.
+    t13 retired the W3 lazy-import seam: ``app.models.expense`` exists
+    now, so the import is a plain module-level one and the REAL count
+    query always runs (t13 ac5 pins both the 409 with a real expense row
+    and the source-level absence of the lazy-import fallback branch).
+    The pinned t11 unit test still monkeypatches this exact function
+    name, so the seam's test contract is preserved.
 
     Args:
         session: Active database session.
         category_id: Category primary key to count references for.
 
     Returns:
-        int: Number of expenses using the category. Before t13 lands
-            the model there is no expenses table, so the count is
-            definitionally 0 (the lazy import's ``ImportError`` is the
-            signal); t13 makes the real query run and t15 re-proves it
-            end-to-end.
+        int: Number of expenses using the category.
     """
-    try:
-        from app.models.expense import Expense  # t13 deliverable; lazy by W3 design
-    except ImportError:
-        # Pre-t13: no expense model means no expenses can reference a
-        # category, so the in-use guard is vacuously satisfied. The
-        # pinned unit test never reaches this branch (it patches this
-        # whole function), so the 409 contract stays proven.
-        return 0
-
     count = session.scalar(
         select(func.count()).select_from(Expense).where(Expense.category_id == category_id)
     )

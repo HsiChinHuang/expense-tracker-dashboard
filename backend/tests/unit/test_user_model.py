@@ -95,7 +95,10 @@ class TestUserModel:
         assert set(table.columns.keys()) == EXPECTED_COLUMNS
         tables = set(Base.metadata.tables)
         assert "users" in tables
-        assert not tables & {"expenses", "budgets"}, tables  # t12: audit_logs exists now
+        # t13 amendment (t12 precedent): the expenses table legitimately
+        # exists now (revision 004), so the not-yet-exists guard narrows
+        # to budgets only; audit_logs was already amended out at t12.
+        assert not tables & {"budgets"}, tables
 
         email_col = table.columns["email"]
         username_col = table.columns["username"]
