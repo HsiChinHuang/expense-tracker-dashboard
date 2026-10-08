@@ -1,18 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:01:46Z",
-  "last_seq": 336,
+  "updated_at": "2026-10-08T17:02:32Z",
+  "last_seq": 337,
   "slots": [
     {
-      "slot": 1,
-      "issue_id": "t15",
-      "role": "builder",
-      "phase": "idle",
-      "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T17:01:46Z",
-      "run_id": null,
-      "worktree_path": "../worktrees/t15",
-      "note": "t16 closed; t17 survey next"
+      "role": "definer",
+      "phase": "survey",
+      "run_id": "1a0ea9eb-90f7-438f-9a25-0a683d3ff9b7",
+      "note": "t17 survey",
+      "last_activity_at": "2026-10-08T17:02:32Z"
     },
     {
       "slot": 2,
@@ -26,5 +22,13 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t17",
+      "state": "defined",
+      "modifiers": [
+        "surveying"
+      ]
+    }
+  ]
 }
