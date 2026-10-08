@@ -26,7 +26,12 @@ from app.scripts.seed import SYSTEM_CATEGORIES
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 
 
-def _migrate(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, name: str) -> Engine:
+def _migrate(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    name: str,
+    revision: str = "head",
+) -> Engine:
     """Run `alembic upgrade head` onto a per-test SQLite file.
 
     Args:
@@ -46,7 +51,7 @@ def _migrate(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, name: str) -> Engi
     try:
         config = Config()
         config.set_main_option("script_location", str(BACKEND_DIR / "alembic"))
-        command.upgrade(config, "head")
+        command.upgrade(config, revision)
     finally:
         get_settings.cache_clear()
     return create_db_engine(url)
@@ -120,7 +125,12 @@ class TestCategoryMigration:
     ) -> None:
         """After upgrade head the table set is users+categories+alembic."""
         engine = _migrate(
-            tmp_path, monkeypatch, "test_revision_002_registers_only_the_categories_table"
+            tmp_path,
+            monkeypatch,
+            "test_revision_002_registers_only_the_categories_table",
+            # t12 amendment (t10 precedent): head is 003 now, so pin this
+            # revision-002-shape assertion to 002 explicitly.
+            revision="002",
         )
         with engine.connect() as connection:
             tables = set(

@@ -51,6 +51,28 @@ def _client_ip(request: Request) -> str | None:
     return request.client.host if request.client else None
 
 
+def get_client_ip(request: Request) -> str | None:
+    """Return the client IP for audit capture (REQ-BE-042).
+
+    Chapter 6 6.5.4's frozen single rule, no alternatives: a truthy
+    ``X-Forwarded-For`` header yields its first hop, whitespace-
+    stripped; an absent OR empty header falls back to the direct
+    ``request.client.host`` (``None`` when the transport reports no
+    client). No truncation logic is invented (review_plan: the survey's
+    "<= 45 chars" clause is dropped as unspecified behavior).
+
+    Args:
+        request: The incoming request.
+
+    Returns:
+        str | None: The best-effort client IP, or ``None`` when unknown.
+    """
+    forwarded = request.headers.get("X-Forwarded-For")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else None
+
+
 def get_current_user(
     request: Request,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer_scheme)],
