@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T15:31:01Z",
-  "last_seq": 327,
+  "updated_at": "2026-10-08T15:40:30Z",
+  "last_seq": 329,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "builder",
-      "phase": "build",
+      "phase": "verify_issue",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T15:31:01Z",
-      "run_id": "bf2e4fd5-3591-4a95-a4e7-9044c7de1fd0",
+      "last_activity_at": "2026-10-08T15:40:30Z",
+      "run_id": "pending",
       "worktree_path": "../worktrees/t15",
-      "note": "t16 build: api modules+hooks+handlers, npm ci first"
+      "note": "5 ACs + cumulative 82; eslint-disable + invalidation-proof audit"
     },
     {
       "slot": 2,
@@ -29,7 +29,7 @@
   "active_issues": [
     {
       "issue_id": "t16",
-      "state": "groomed",
+      "state": "built",
       "modifiers": []
     }
   ]

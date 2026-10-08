@@ -1,0 +1,85 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t16",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t16-frontend-data-layer",
+    "branch_sha": "53644f9",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "53644f9",
+        "test": "bash -c 'test -f frontend/src/api/categories.ts && test -f frontend/src/api/expenses.ts && test -f frontend/src/api/budgets.ts && grep -qE \"export const listCategories\" frontend/src/api/categories.ts && grep -qE \"export const createCategory\" frontend/src/api/categories.ts && grep -qE \"export const deleteCategory\" frontend/src/api/categories.ts && grep -qE \"export const listExpenses\" frontend/src/api/expenses.ts && grep -qE \"export const createExpense\" frontend/src/api/expenses.ts && grep -qE \"export const getExpense\" frontend/src/api/expenses.ts && grep -qE \"export const updateExpense\" frontend/src/api/expenses.ts && grep -qE \"export const deleteExpense\" frontend/src/api/expenses.ts && grep -qE \"export const getBudget\" frontend/src/api/budgets.ts && grep -qE \"export const setBudget\" frontend/src/api/budgets.ts && grep -qE \"export const deleteBudget\" frontend/src/api/budgets.ts && grep -qE \"amount: string\" frontend/src/api/expenses.ts && grep -qE \"amount: string\" frontend/src/api/budgets.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && ! grep -RnE \"parseFloat|Number\\(|parseInt|toFixed\" frontend/src/api | grep -q .'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "53644f9",
+        "test": "bash -c 'test -f frontend/src/api/query_keys.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/api/query_keys.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"categories.all is the stable two-element prefix\" \"expenses.list embeds the normalized params object under the expenses prefix\" \"expenses.detail nests the id under the expenses prefix family\" \"budgets.byMonth nests the year month under the budgets prefix\" \"all list and detail keys stay prefix-nestable under their resource root\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "53644f9",
+        "test": "bash -c 'test -f frontend/src/hooks/use_expenses.test.tsx && test -f frontend/src/hooks/use_budgets.test.tsx && test -f frontend/src/hooks/use_categories.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_expenses.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_budgets.test.tsx --reporter=json\" 2>/dev/null) && c=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/hooks/use_categories.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$c\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"use_expenses renders the paginated envelope fetched through the api module\" \"use_expense_detail fetches one expense by id\" \"creating an expense refetches the mounted expenses list observer\" \"creating an expense refetches the mounted dashboard-prefixed observer\" \"updating an expense refetches the expenses list and dashboard observers\" \"deleting an expense refetches the expenses list and dashboard observers\" \"expense mutations never call the categories or budgets handlers\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"use_budget resolves the absent month to the string 0.00 without number coercion\" \"setting a budget refetches the mounted budgets month observer\" \"setting a budget refetches the mounted dashboard-prefixed observer\" \"deleting a budget invalidates the budgets key and refetches the month observer\" \"budget mutations never call the expenses or categories handlers\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"use_categories renders the category list fetched through the api module\" \"creating a category refetches the mounted categories observer\" \"deleting a category refetches the mounted categories observer\" \"category mutations never call the expenses or budgets handlers\" \"category mutations do not refetch the dashboard-prefixed observer\"; do printf \"%s\" \"$c\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "53644f9",
+        "test": "bash -c 'test -f frontend/src/test/handlers_contract.test.ts && grep -qE \"/api/v1/categories\" frontend/src/test/handlers.ts && grep -qE \"/api/v1/expenses\" frontend/src/test/handlers.ts && grep -qE \"/api/v1/budgets\" frontend/src/test/handlers.ts && m=$(grep -oE \"http\\.(get|post|put|delete)\\(\" frontend/src/test/handlers.ts | wc -l); [ \"$m\" -ge 14 ] || exit 1; grep -qE \"0\\.00\" frontend/src/test/handlers.ts || exit 1; grep -qE \"page_size\" frontend/src/test/handlers.ts || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/test/handlers_contract.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 4 ] || exit 1; for t in \"the three api modules resolve against the MSW handlers for all eleven phase_3 endpoints\" \"the budget handler returns the absent month as the string 0.00\" \"the expenses handler returns the four-key pagination envelope\" \"an unhandled request fails loudly through the error onUnhandledRequest harness\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "53644f9",
+        "test": "bash -c 'test -f frontend/src/api/query_keys.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 50 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .; node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}if(!/^5\\.56\\.2$/.test(d[\\\"@tanstack/react-query\\\"])){console.error(\\\"tanstack query must stay pinned at 5.56.2\\\");process.exit(1)}\"'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 52,
+      "passed": 52,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t16.md#verification-commands",
+    "notes": [
+      "Extraction byte-verify: 5/5 AC commands extracted verbatim from docs/issues/t16.md ## Verification commands into gitignored build/t16b/acN.sh; reconstruction (bash -c + single-quote wrap) == source line for all 5 (recon_equal=true x5); zero nested single quotes; bash -n clean; scripts never edited after extraction.",
+      "Fail-before (pre-implementation, worktree @ ebde764): ac1 rc=1, ac2 rc=1, ac3 rc=1, ac4 rc=1, ac5 rc=1 — matches groom evidence (missing files).",
+      "Pass-after (post-implementation, worktree @ 53644f9): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0. Each run as bash build/t16b/acN.sh </dev/null from worktree root, rc captured immediately.",
+      "npm ci: ran ONCE in worktree frontend via cmd.exe/wslpath; 476 packages added; frontend/package-lock.json UNMODIFIED (git status clean on the lockfile).",
+      "Full suite: numTotalTests 52, numPassedTests 52, numFailedTests 0, numPendingTests 0, numTodoTests 0; passed-title grep count 52 (>= 50 floor). Per-file: t9 baseline files unchanged (client.test 5, auth_context 5, login 4, register 4, guards 5, app_shell 3 = 26) + new nodes query_keys.test 5, use_expenses.test 7, use_budgets.test 5, use_categories.test 5, handlers_contract.test 4 = 26 new. Frozen titles all match the pinned for-loop case exactly (gates passed).",
+      "tsc --noEmit rc=0; npm run lint rc=0 with 0 errors (one PRE-EXISTING t9 react-refresh warning in auth_context.tsx, unchanged by t16). No : any / as any under frontend/src (ac5 grep leg green).",
+      "Dependencies: no package.json/package-lock changes; @tanstack/react-query stays 5.56.2; recharts/date-fns absent.",
+      "ac3 trigger style (builder choice per groom): fireEvent.click on a mounted trigger button inside act-wrapped RTL; invalidation proven ONLY by MSW handler call-count deltas on mounted observers incl. the exact [\"dashboard\",\"probe\"] dummy observer; category negative control asserts probe count frozen at 1 after 150ms settle.",
+      "Handlers: grep -oE of http.(get|post|put|delete) in src/test/handlers.ts measures 15 (3 auth + 11 phase_3 + 1 dashboard probe), satisfying the >=14 gate with every phase_3 endpoint present; onUnhandledRequest error harness untouched (src/test/setup.ts unmodified) and the loud-failure contract test passes.",
+      "Money strings end-to-end: no parseFloat/Number(/parseInt/toFixed under frontend/src/api (ac1 grep); the MSW handler file uses Number() on pagination query params only (handlers.ts is under src/test, outside the ac1 src/api scope; money is never coerced anywhere).",
+      "Platform sync: comment posted on issue #19 (first try, 2026-10-08T15:39:21Z); label remove groomed + add built done; issue get 19 labels == [defined, built, surveyed].",
+      "Commit: single feat(t16) commit 53644f9 (13 files, +1257/-7), explicit paths only, no node_modules/build artifacts/lockfile committed; branch pushed to origin (ebde764..53644f9), no merge, no force push.",
+      "Hook files use the issue-pinned snake_case names (use_expenses/use_expense_detail/use_expense_mutations in use_expenses.ts; use_budget/use_budget_mutations in use_budget.ts; use_categories/use_create_category/use_delete_category in use_categories.ts); eslint react-hooks/rules-of-hooks recognition disabled per-file ONLY for the snake_case naming false-positive (project standard pins snake_case; Rules of Hooks still followed)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "frontend/src/api/categories.ts",
+      "frontend/src/api/expenses.ts",
+      "frontend/src/api/budgets.ts",
+      "frontend/src/api/query_keys.ts",
+      "frontend/src/api/query_keys.test.ts",
+      "frontend/src/hooks/use_expenses.ts",
+      "frontend/src/hooks/use_budget.ts",
+      "frontend/src/hooks/use_categories.ts",
+      "frontend/src/hooks/use_expenses.test.tsx",
+      "frontend/src/hooks/use_budgets.test.tsx",
+      "frontend/src/hooks/use_categories.test.tsx",
+      "frontend/src/test/handlers.ts",
+      "frontend/src/test/handlers_contract.test.ts"
+    ],
+    "platform_issue": 19,
+    "output_path": "docs/state/outputs/t16_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T15:39:47.087Z",
+  "retry_count": 0
+}
