@@ -120,6 +120,15 @@
       "retries": 0,
       "regressions": 0,
       "notes": "verify_issue 5/5 + 59/59; pre-merge merged-tree 59/59 clean merge-tree 02d2c20d; post-merge 64/64 (5 ACs + 59); 4 t11 ACs added to index (ac5 suite-gate leg excluded per t10 ac4 precedent); W3 seam contractual for t13, t15 e2e re-proof owed; plain-git shim entry set corrected to {1,4,5,12,23,24,27}"
+    },
+    {
+      "issue_id": "t12",
+      "platform_issue": 15,
+      "merge_commit": "792cf3e1d",
+      "merged_at": "2026-10-08T10:18:40Z",
+      "retries": 0,
+      "regressions": 0,
+      "notes": "verify_issue 5/5 + 63/63 (amended entry 58); pre-merge merged-tree 63/63 clean merge-tree 2db975b0; post-merge 68/68 (5 ACs + 63); 4 t12 ACs added (ac5 suite-gate leg excluded per t10 ac4/t11 ac5 precedent); entry 58 pre-emptively scoped to 002 at this cycle (t6 ac2 pattern); 3 baseline-test amendments intent-preserving (verifier-audited)"
     }
   ]
 }

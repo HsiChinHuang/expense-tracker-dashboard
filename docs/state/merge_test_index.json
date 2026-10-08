@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T09:20:40Z",
+  "updated_at": "2026-10-08T10:18:40Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -255,6 +255,22 @@
     {
       "issue_id": "t11",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac4.db\" uv run pytest \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_system_category_is_returned_for_any_user\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_own_custom_category_is_returned\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_other_users_custom_category_raises_404_category_not_found\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_unknown_id_raises_404_category_not_found\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac4.db; exit $rc'"
+    },
+    {
+      "issue_id": "t12",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_columns_nullability_python_uuid_pk_and_no_cascade_fk\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_entity_id_is_required\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_action_and_entity_type_checks_reject_out_of_set_values\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_json_variant_payload_roundtrips_and_old_new_are_independently_nullable\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_downgrade_003_to_002_drops_audit_logs_and_upgrade_roundtrip_restores\" -q'"
+    },
+    {
+      "issue_id": "t12",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_create_row_has_null_old_value_and_new_value_with_exact_expense_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_update_row_has_both_values_with_exact_budget_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_delete_row_has_old_value_and_null_new_value\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_logger_never_commits_row_visible_only_after_caller_commit\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_get_audit_logger_returns_write_audit_log\" -q'"
+    },
+    {
+      "issue_id": "t12",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestAuditAtomicity::test_action_check_violation_rolls_back_the_business_write\" -q'"
+    },
+    {
+      "issue_id": "t12",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_client_ip.py::TestGetClientIp::test_x_forwarded_for_first_hop_is_returned_and_stripped\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_direct_client_host_when_header_absent\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_empty_header_falls_back_to_client_host\" \"tests/unit/test_audit_logger.py::TestNoAuditApiSurface::test_openapi_has_no_path_containing_audit\" -q'"
     }
   ]
 }

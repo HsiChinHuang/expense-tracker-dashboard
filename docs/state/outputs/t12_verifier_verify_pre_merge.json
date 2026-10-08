@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t12",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 63,
+      "passed": 63,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "2db975b04069d1684fa6292b5029d9fdb4f31942",
+    "merged_tree": "9e23ecd3ad0ccee3ec9a9e2784ac137e9c49abf5 (throwaway local merge commit, abandoned; worktree removed)",
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (main checkout), matching task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree 'uv sync --directory backend' run once in the throwaway merged worktree (rc=0). UV_PROJECT_ENVIRONMENT never set per spawn hard rule. Command strings were NOT modified.",
+      "Merge-target hygiene: git fetch origin main rc=0 (cmd.exe git). origin/main head = 7200fa6c574c44233ace97013d8b5923629423c8 (advanced from spawn-stated acc5f4fa9 by docs-only state commits). merge-base(origin/main, 6b0e39b7f4524fab57f8fb354d1e177786acd889) = b7ca6670b0847f447f30e9fda2311121416add85 (the stated branch base). main-vs-base delta verified docs-only: git diff --name-only b7ca6670b..7200fa6 = 6 files, ALL under docs/state/ (merge_test_index.json incl. the entry-58 amendment, t12 builder/verifier handoff JSONs, seq.txt, snapshot.json, status.md); zero source/config files.",
+      "merge-tree --write-tree origin/main 6b0e39b7f4524fab57f8fb354d1e177786acd889 -> rc=0, single tree OID 2db975b04069d1684fa6292b5029d9fdb4f31942, zero conflict lines = CLEAN merge.",
+      "Merged-tree gate run in a THROWAWAY worktree (t10/t11-precedent protocol): git worktree add ..\\worktrees\\t12pm origin/main --detach (rc=0, HEAD 7200fa6), then git merge --no-ff 6b0e39b7f -F <msgfile> -> rc=0, merge commit 9e23ecd3ad0ccee3ec9a9e2784ac137e9c49abf5. All test legs ran from that merged tree. Worktree then removed with git worktree remove --force ABSOLUTE-Windows-path (rc=0, first attempt; worktree list confirms gone). NOTHING pushed; origin/main untouched (still 7200fa6 at post-cleanup check); no labels changed; no commits kept.",
+      "Runner discipline: all 63 cumulative commands extracted from the MERGED tree's docs/state/merge_test_index.json (63 tests, updated_at 2026-10-08T09:20:40Z, includes the amended entry 58 which passed rc=0) and the 5 t12 AC commands extracted verbatim from docs/issues/t12.md ## Verification commands (CRLF stripped before backtick match; index JSON is LF), each to its OWN file under build/t12pm/{cum,ac}/ and executed as 'bash <file> </dev/null' with rc captured IMMEDIATELY (no inline eval/re-quoting). Byte-verify: 0 mismatches across 63. Batch run from the merged worktree root, synchronously in 3 chunks.",
+      "Cumulative tally on the merged tree: 63/63 exit 0 (t0 6/6, t1 5/5, t2 6/6, t3 5/5, t4 6/6, t5 6/6, t6 5/5, t7 5/5, t8 6/6, t9 6/6, t10 3/3, t11 4/4; amended entry 58 = t10 alembic-versions check, rc=0). Note: in the first chunk pass entries 1/4/5 showed nonzero due to a leading-zero bug in MY shim-scope case pattern (shim not applied); re-ran 1/4/5 with the shim explicitly -> all rc=0. No command string was altered; harness-only fix.",
+      "Git-internal steps inside verbatim commands (entries 1,4,5,12,23,24,27 use plain git; re-scan of the merged index confirmed exactly this set, matching the spawn brief) satisfied via the documented PATH shim build/t12pm/bin/git (forwards to /usr/bin/git with --git-dir/--work-tree using /mnt/c FORM paths of the throwaway worktree); validated with ls-files --error-unmatch before the batch. WSL plain git cannot resolve the Windows gitdir pointer; Windows-form C:/ values in the shim FAIL under WSL git (t12 verify_issue lesson applied). Environment artifacts only; no command string modified.",
+      "Smoke set (docs/plan.md has no '## Smoke tests' section; docs/commands.md defines none - established t0-t11 fallback precedent): the 5 t12 AC verification commands run VERBATIM from the merged worktree root (ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0) plus the backend full-suite leg. Smoke total 6, passed 6, failed 0.",
+      "Backend suite in merged tree: uv run pytest -q -> 105 passed in 29.50s; uv run ruff check . -> All checks passed!; uv run mypy . -> Success: no issues found in 54 source files; uv run alembic heads -> exactly '003 (head)'.",
+      "Diff review: git diff --stat origin/main...6b0e39b7f = exactly the 12 expected backend paths (alembic/versions/003_audit_logs.py, app/audit/logger.py, app/auth/dependencies.py, app/models/__init__.py, app/models/audit_log.py, tests/integration/test_audit_migration.py, tests/unit/test_audit_log_model.py, tests/unit/test_audit_logger.py, tests/unit/test_client_ip.py new/major + 3 amended baseline tests test_category_migration.py, test_category_model.py, test_user_model.py), +1136/-7. No frontend, config, pyproject, or lockfile files in the diff.",
+      "Constraints: git diff --exit-code origin/main 6b0e39b7f -- backend/pyproject.toml backend/uv.lock frontend/package.json -> rc=0 (byte-identical); backend/alembic/versions/ contains exactly {001_initial_schema, 002_categories, 003_audit_logs} (+ .gitkeep).",
+      "Platform: MERGE VERDICT PASS comment posted on issue #15 via scripts/platform.ts (node + tsx cli from main checkout; npx tsx broken on this host - established), rc=0 on attempt 1, comment created_at 2026-10-08T10:01:48Z. Comment-only; no label transition (pre-merge is comment-only; Orchestrator merges).",
+      "Residual: origin/main advanced again during this run (acc5f4fa9 -> 7200fa6, docs-only state deltas); merge-tree and all legs were verified against 7200fa6. Orchestrator should re-fetch at merge time; if further docs-only commits land the merge remains safe, but re-run merge-tree if any non-docs file appears in the delta.",
+      "Verdict: PASS - merged tree green (cumulative 63/63 exit 0, 5 t12 ACs verbatim, 105-test backend suite + ruff + mypy strict, alembic single head 003), merge-tree clean against advanced docs-only origin/main, diff and constraints in bounds. Safe to merge."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t12_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 15,
+    "output_path": "docs/state/outputs/t12_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T10:03:30Z",
+  "retry_count": 0
+}
