@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t19",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest \"tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardByCategoryApi::test_by_category_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardTrendApi::test_trend_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardCumulativeApi::test_cumulative_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardHeatmapApi::test_heatmap_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardRecentApi::test_recent_without_token_returns_401_with_the_frozen_error_shape\" \"tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_empty_month_returns_the_seven_frozen_keys_with_zero_strings\" \"tests/integration/test_dashboard_api.py::TestDashboardByCategoryApi::test_by_category_empty_month_returns_the_three_frozen_keys\" \"tests/integration/test_dashboard_api.py::TestDashboardTrendApi::test_trend_default_without_param_returns_six_month_rows\" \"tests/integration/test_dashboard_api.py::TestDashboardHeatmapApi::test_heatmap_default_returns_twelve_seven_day_week_rows\" \"tests/integration/test_dashboard_api.py::TestDashboardRecentApi::test_recent_default_returns_ten_items_in_the_frozen_expense_shape\" -q; test -f app/routers/dashboard.py; test -f app/services/dashboard_service.py'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Independent run from worktree root @ 6414693 via bash build/t19v/ac1.sh </dev/null: 11 passed, 2 warnings in 10.03s; both test -f legs green."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest \"tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_with_budget_and_expenses_returns_string_money\" \"tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_missing_year_month_and_malformed_forms_return_422\" \"tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_never_returns_another_users_expenses_or_budget\" \"tests/integration/test_dashboard_api.py::TestDashboardByCategoryApi::test_by_category_rows_carry_the_five_frozen_keys_and_string_amounts\" \"tests/unit/test_dashboard_service.py::TestDashboardSummary::test_empty_month_returns_zero_strings_and_a_null_percentage\" \"tests/unit/test_dashboard_service.py::TestDashboardSummary::test_budget_and_expenses_produce_string_money_and_a_62_5_percentage\" \"tests/unit/test_dashboard_service.py::TestDashboardSummary::test_exactly_at_budget_is_percentage_100_and_not_over_budget\" \"tests/unit/test_dashboard_service.py::TestDashboardSummary::test_over_budget_flips_the_flag_and_negates_the_remaining_string\" \"tests/unit/test_dashboard_service.py::TestDashboardSummary::test_expenses_outside_the_month_window_never_enter_the_totals\" -q; test -f app/services/dashboard_service.py'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "9 passed, 3 warnings in 9.02s (string money, percentage null-iff-budget-0, ownership, 422 forms)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest \"tests/integration/test_dashboard_api.py::TestDashboardTrendApi::test_trend_months_out_of_range_or_non_integer_return_422\" \"tests/unit/test_dashboard_service.py::TestDashboardByCategory::test_rows_carry_the_five_frozen_keys_and_order_by_amount_descending\" \"tests/unit/test_dashboard_service.py::TestDashboardByCategory::test_empty_month_returns_an_empty_category_list_and_a_zero_total\" \"tests/unit/test_dashboard_service.py::TestDashboardTrend::test_six_month_window_anchors_on_the_explicit_today_and_walks_ascending\" \"tests/unit/test_dashboard_service.py::TestDashboardTrend::test_months_with_no_expenses_are_included_as_zero_strings\" \"tests/unit/test_dashboard_service.py::TestDashboardTrend::test_twelve_month_window_from_february_walks_back_across_the_year_boundary\" -q; test -f app/services/dashboard_service.py'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "6 passed, 3 warnings in 6.04s (by-category 5-key rows, trend window + months bounds 422)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest \"tests/integration/test_dashboard_api.py::TestDashboardCumulativeApi::test_cumulative_returns_every_day_of_the_month_with_string_money\" \"tests/integration/test_dashboard_api.py::TestDashboardHeatmapApi::test_heatmap_weeks_out_of_range_or_non_integer_return_422\" \"tests/integration/test_dashboard_api.py::TestDashboardRecentApi::test_recent_limit_caps_items_and_out_of_range_limits_return_422\" \"tests/integration/test_dashboard_api.py::TestDashboardRecentApi::test_recent_never_lists_another_users_expenses\" \"tests/unit/test_dashboard_service.py::TestDashboardCumulative::test_28_day_february_lists_every_day_and_the_last_cumulative_is_the_total\" \"tests/unit/test_dashboard_service.py::TestDashboardCumulative::test_leap_february_has_29_days\" \"tests/unit/test_dashboard_service.py::TestDashboardCumulative::test_thirty_one_day_month_has_one_row_per_day\" \"tests/unit/test_dashboard_service.py::TestDashboardHeatmap::test_week_rows_start_on_monday_and_carry_exactly_seven_days\" \"tests/unit/test_dashboard_service.py::TestDashboardHeatmap::test_missing_days_are_zero_filled_and_max_amount_is_the_daily_peak\" \"tests/unit/test_dashboard_service.py::TestDashboardHeatmap::test_a_thirteen_week_window_from_january_crosses_the_year_boundary\" \"tests/unit/test_dashboard_service.py::TestDashboardRecent::test_limit_caps_the_result_at_the_requested_count\" \"tests/unit/test_dashboard_service.py::TestDashboardRecent::test_order_is_date_descending_then_created_at_descending\" \"tests/unit/test_dashboard_service.py::TestDashboardRecent::test_other_users_expenses_are_never_returned\" -q; test -f app/services/dashboard_service.py'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "13 passed, 4 warnings in 9.68s (cumulative 28/29/31-day rows, heatmap grid/bounds, recent caps/order/ownership)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest \"tests/unit/test_dashboard_service.py::TestDashboardHelpers::test_month_range_returns_first_of_month_and_next_month_for_february\" \"tests/unit/test_dashboard_service.py::TestDashboardHelpers::test_month_range_walks_the_december_year_boundary_to_january_one\" \"tests/unit/test_dashboard_service.py::TestDashboardHelpers::test_add_month_rolls_december_to_january_of_the_next_year\" \"tests/unit/test_dashboard_service.py::TestDashboardHelpers::test_subtract_months_walks_back_across_the_year_boundary_by_one_month\" \"tests/unit/test_dashboard_service.py::TestDashboardHelpers::test_to_decimal_quantizes_none_int_float_and_decimal_inputs_to_two_places\" \"tests/unit/test_dashboard_service.py::test_all_four_shared_helpers_are_module_level_callables\" -q; test -f app/services/dashboard_service.py; grep -q \"from decimal import Decimal\" app/services/dashboard_service.py; ! grep -qE \"strftime|date_trunc|to_char|julianday|DATE_TRUNC|EXTRACT\\(\" app/services/dashboard_service.py'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "6 passed in 2.01s; test -f green; grep 'from decimal import Decimal' green; negated DB-date-function grep independently re-verified: 0 matches for strftime|date_trunc|to_char|julianday|DATE_TRUNC|EXTRACT( in dashboard_service.py."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'set -e; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null; cd backend; uv run pytest -q 2>&1 | tail -4; test \"$(uv run pytest -q 2>&1 | grep -c FAILED)\" -eq 0; n=$(uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); test \"$n\" -ge 230; uv run pytest \"tests/integration/test_dashboard_api.py::TestDashboardOpenApi::test_openapi_lists_six_get_dashboard_operations_after_the_merged_routers\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_alembic_heads_is_single_revision_005\" -q; uv run ruff check app/routers/dashboard.py app/services/dashboard_service.py app/schemas/dashboard.py; uv run mypy .; test \"$(find alembic/versions -maxdepth 1 -name \"*.py\" | wc -l)\" -eq 5; test \"$(awk \"/^dependencies = \\[/{f=1;next} /^\\]/{f=0} f&&NF\" pyproject.toml | wc -l)\" -eq 10'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "End-to-end rc=0: full suite '230 passed, 22 warnings in 117.62s'; 0-FAILED leg green; collect-only n=230 >= 230; OpenAPI + alembic-heads nodes 2 passed; ruff 'All checks passed!' on the 3 pinned paths; mypy 'Success: no issues found in 79 source files'; alembic/versions == 5 .py files; pyproject runtime deps == 10."
+      }
+    },
+    "test_summary": {
+      "total": 230,
+      "passed": 230,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "46_frozen_nodes_pass": true,
+      "suite_ge_230_collected_0_failed": true,
+      "ruff_and_mypy_clean": true,
+      "openapi_lists_six_get_operations_after_merged_routers": true,
+      "alembic_heads_single_005_and_5_migration_files": true,
+      "ac1_ac6_pass_in_worktree": true,
+      "runtime_dependencies_stay_10": true,
+      "handoff_validated": true,
+      "platform_22_body_synced": true,
+      "groom_comment_posted": true
+    },
+    "verification_commands_source": "docs/issues/t19.md#verification-commands",
+    "notes": [
+      "SCOPE/RUN: verifier VERIFY_ISSUE for t19 (Platform #22, phase_4 card 1/5, backend-only). Worktree C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t19, branch issue/t19-dashboard-backend-api, HEAD 64146936866590387c238e5d3afe2a240a0a2cd1 (matches assignment), build commit ec2fee9, base a52f1b2. Verdict: PASS on all six ACs, independently measured (builder rc table not trusted).",
+      "CWD/VENV: main-checkout CWD confirmed for node scripts; UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty -> [VENV_UNAVAILABLE] logged, per-worktree uv sync venv used (backend/.venv, Python 3.12) - worked, all commands green. uv at ~/.local/bin/uv; UV_PROJECT_ENVIRONMENT never set (issue harness pin).",
+      "INPUTS + HASH: issue docs/issues/t19.md @ HEAD read (191 lines); definer groom handoff ac_hash RE-VERIFIED by recomputing the t18-amended formula (text between '## Acceptance criteria\\n\\n' and '\\n\\n## Verification commands', per-line rstrip, join \\n, whole-string strip, sha256): computed sha256:9b6b33e52fd31ab54d238c97022fc5036ed37bf5ed36cc245cf00a794ba1cb32 == assigned. Builder handoff read; branch_sha ec2fee9 is an ancestor of HEAD 6414693 (HEAD adds only the docs handoff commit) - consistent.",
+      "COMMAND EXTRACTION + BYTE-VERIFY: the six pinned commands re-extracted from the issue's ## Verification commands fenced blocks into gitignored build/t19v/ac1.sh..ac6.sh (single line + trailing newline each); machine-compared byte-for-byte vs the issue block content: ALL SIX BYTE-IDENTICAL (1655/1305/925/1722/1075/816 bytes). Builder ac_mapping.test strings also compared == issue blocks for all six (no [BUILDER_COMMAND_MISMATCH]). No command modified.",
+      "PER-AC MEASURED RC TABLE (bash build/t19v/acN.sh </dev/null from worktree root, exit code captured directly): ac1 rc=0 (11 passed), ac2 rc=0 (9 passed), ac3 rc=0 (6 passed), ac4 rc=0 (13 passed), ac5 rc=0 (6 passed + gates), ac6 rc=0 (full suite 230 passed in 117.62s, 0 FAILED, n=230, OpenAPI+alembic nodes, ruff, mypy, versions==5, deps==10).",
+      "FULL SUITE + NODE INVENTORY: independent --collect-only -q = 230 nodes total (>= 230 floor; 184 baseline + 46 new). The 46 dashboard nodes collected (25 unit + 21 integration) match the frozen inventory exactly: per-class counts TestDashboardHelpers 5 + module-level callable test 1 + TestDashboardSummary 5 + TestDashboardByCategory 2 + TestDashboardTrend 3 + TestDashboardCumulative 3 + TestDashboardHeatmap 3 + TestDashboardRecent 3 = 25; SummaryApi 5 + ByCategoryApi 3 + TrendApi 3 + CumulativeApi 2 + HeatmapApi 3 + RecentApi 4 + OpenApi 1 = 21. All 46 node IDs pinned in the AC commands exist verbatim in collection (set difference empty except the merged alembic-heads node, which lives in the merged test file and is not part of the 46); no renames/splits.",
+      "DIFF SCOPE (cmd.exe git diff --name-only a52f1b2..HEAD): backend/app/main.py, backend/app/routers/dashboard.py, backend/app/schemas/dashboard.py, backend/app/services/dashboard_service.py, backend/tests/integration/test_dashboard_api.py, backend/tests/unit/test_dashboard_service.py + docs/issues/t19.md and the two t19 handoff JSONs (groom/build docs commits 6fc1806/722ae45/6414693 - the sanctioned issue+handoff files, not source). main.py diff is EXACTLY one import line + one include_router AFTER budgets_router (verified line-by-line). Merged files otherwise UNTOUCHED: no conftest, models, other routers/services/schemas, migrations, pyproject, uv.lock, or frontend changes.",
+      "CONTRACT SPOT-CHECKS (code read, not just tests): router prefix /api/v1/dashboard; CurrentUser=Annotated[User,Depends(get_current_user)] on all six endpoints; 401/422 rendered {detail,code,field} through merged handlers (field None); money str(Decimal.quantize(0.01)) 2-dp strings everywhere; percentage = round(float(total/budget*100),1) iff budget>0 else None (groom ruling 9, the ONLY float conversion); is_over_budget = total>budget and budget>0; remaining may be negative; cumulative day keys {date,daily,cumulative}; trend items {year_month,total} no label; by-category 5-key rows {category_id,category_name,color,amount,percentage} under {year_month,total,categories}; recent reuses merged _to_response/ExpenseResponse (groom ruling 7); trend months ge=1 le=24 default 6, weeks ge=1 le=52 default 12, limit ge=1 le=50 default 10; alembic/versions has exactly 5 files (001..005, heads 005, no new revision); pyproject runtime deps == 10; zero DB date functions in dashboard_service.py (independent grep: 0 matches); month windows half-open >= start AND < next (plan ruling 4); year_month value validation delegated to merged validate_year_month (groom ruling 3).",
+      "ADJUDICATION (a) ACCEPTED: test_week_rows_start_on_monday_and_carry_exactly_seven_days asserts weeks[0]['week_start']=='2026-01-26' and days[6]['date']=='2026-02-01'. Chapter 6 6.10.5 (verbatim in the service) is Monday-aligned: with today=2026-03-05 the window end is Sun 2026-03-08, 6 weeks back starts Mon 2026-01-26, whose 7th day IS 2026-02-01. The inventory PROSE '2026-02-01 is days[1]' would require Sunday-start, contradicting the frozen node TITLE ('start on Monday') and the same test's Monday week_start assertion. Builder kept the frozen ID/TITLE verbatim and followed the chapter algorithm in the body: matches the pinned contract, not a deviation.",
+      "ADJUDICATION (b) ACCEPTED: test_a_thirteen_week_window_from_january_crosses_the_year_boundary asserts weeks[0]['week_start']=='2025-10-13'. Algorithm: today=2026-01-05 -> end=Sun 2026-01-11, start=2026-01-11 - 13w + 1d = 2025-10-14 -> Monday-align back = Mon 2025-10-13, last day Sun 2026-01-11. This IS 'crosses into 2025-10' exactly as the prose states; no conflict with the frozen title.",
+      "ADJUDICATION (c, third spot found during spot-checks) ACCEPTED: the inventory prose for the recent 10-key shape lists [id,amount,description,category_id,category_name,color,expense_date,created_at,is_edited,replaced_expense_id]; NONE of description/expense_date/is_edited/replaced_expense_id exist anywhere in the merged tree (grep 0 hits in app/). Groom ruling 7 explicitly pins 'recent items reuse the MERGED 10-key expense wire shape (same keys/semantics as ExpenseResponse.from_expense)', and the node TITLE says 'the merged 10-key expense shape'. The test asserts the merged key set {id,amount,currency,category_id,category_name,category_color,date,note,created_at,updated_at}. The prose key list is stale (describes a non-merged schema); ruling 7 + merged reality win. Builder's reading matches the frozen contract.",
+      "LINT: ruff check app/ tests/ (broader than the 3 pinned paths): All checks passed, 0 findings via --output-format=json; mypy .: Success, no issues found in 79 source files. Lint non-blocking in any case.",
+      "TEST QUALITY: sampled 401-shape, empty-state, OpenAPI-order, heatmap-grid and recent-shape test bodies - every assertion is meaningful (exact key-set equality, exact dates/amounts, status codes, TWO_DP regex); no assert-True or vacuous assertions. No warnings.",
+      "PLATFORM #22: verdict comment posted rc=0 (VERIFIER VERDICT: PASS, full per-AC table + adjudications). Labels transitioned per skill: built removed, verified added -> [defined, verified]. Issue body sync + groom comment were done by the definer (recorded rc=0 in groom handoff); issue get confirms open/labels green. Issue NOT closed (forbidden for Verifier).",
+      "PRE-OUTPUT CHECKLIST: CWD verified; [VENV_UNAVAILABLE] logged (shared venv vars empty, per-worktree venv worked); inputs read (issue, builder+definer handoffs, commands.md, config_snapshot.json present); ## Verification commands read + byte-verified; branch_sha consistent with HEAD; ac_mapping matches pinned commands; every AC has a verdict (6x PASS); lint report included; DoD verified (10/10); no test-quality warnings; handoff written under docs/state/outputs only (plus the runtime override copy); comment posted via scripts/platform.ts; labels built->verified; output conforms to schemas/verifier/verify_issue.json; reached_state: verified. No source/test/issue file modified; scratch confined to gitignored build/t19v/."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t19_verifier_verify_issue.json"
+    ],
+    "platform_issue": 22,
+    "output_path": "C:\\Users\\tw097\\.pi\\agent\\sessions\\--C--Users-tw097-Desktop-261007_project01-expense-tracker-dashboard--\\subagent-artifacts\\outputs\\ceb90479-f629-4201-aca2-997f4c18708a\\docs\\state\\outputs\\t19_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T23:23:41Z",
+  "retry_count": 0
+}
