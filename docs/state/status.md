@@ -6,7 +6,7 @@ Updated: 2026-10-08T08:30Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t15 | orchestrator | closed | 15:40Z | merged 32bc15c index 82 (#18) (worktree ../worktrees/t15, #18) (worktree ../worktrees/t15, #18) (main, #18) (main, #18) (#17) (worktree ../worktrees/t14, #17) (worktree ../worktrees/t14, #17) (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
+| 1/2 | t16 | definer | survey | 15:50Z | run pending (#19, worktree ../worktrees/t16) (#18) (worktree ../worktrees/t15, #18) (worktree ../worktrees/t15, #18) (main, #18) (main, #18) (#17) (worktree ../worktrees/t14, #17) (worktree ../worktrees/t14, #17) (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
 | 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.

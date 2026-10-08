@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T15:14:24Z",
-  "last_seq": 321,
+  "updated_at": "2026-10-08T15:14:44Z",
+  "last_seq": 322,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "builder",
-      "phase": "complete",
+      "phase": "survey",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T15:14:24Z",
-      "run_id": null,
+      "last_activity_at": "2026-10-08T15:14:44Z",
+      "run_id": "pending",
       "worktree_path": "../worktrees/t15",
-      "note": "t15 closed 6/9"
+      "note": "t16 FE data layer"
     },
     {
       "slot": 2,
@@ -26,5 +26,11 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t16",
+      "state": "surveying",
+      "modifiers": []
+    }
+  ]
 }
