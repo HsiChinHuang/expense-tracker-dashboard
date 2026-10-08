@@ -165,11 +165,15 @@ class TestExpenseMigration:
     def test_upgrade_head_creates_expenses_with_named_checks_and_four_indexes(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """upgrade head lands on 004 with table + named CHECKs + indexes."""
+        """upgrade to 004 lands the table + named CHECKs + indexes."""
         engine = _migrate(
             tmp_path,
             monkeypatch,
             "test_upgrade_head_creates_expenses_with_named_checks",
+            # t14 amendment (t13/t12/t10 precedent): head is 005 now, so
+            # pin this revision-004-shape assertion to 004 explicitly.
+            # The intent (revision 004's own DDL shape) is unchanged.
+            revision="004",
         )
         assert "expenses" in _tables(engine)
         with engine.connect() as connection:
@@ -275,4 +279,8 @@ class TestExpenseMigration:
             heads = ScriptDirectory.from_config(_config()).get_heads()
         finally:
             get_settings.cache_clear()
-        assert heads == ["004"], heads
+        # t14 amendment (t13 precedent): the chain grew revision 005
+        # (budgets), so the single-head tip is "005" now. The node's
+        # intent (LINEAR chain, exactly one head) is unchanged; t14's own
+        # test_alembic_heads_is_single_revision_005 pins the new tip.
+        assert heads == ["005"], heads

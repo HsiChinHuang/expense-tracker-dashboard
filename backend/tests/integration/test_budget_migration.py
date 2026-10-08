@@ -1,10 +1,10 @@
-"""Integration tests for Alembic revision 003 (t12 ac1/ac5).
+"""Integration tests for Alembic revision 005 (t14 ac1, ac6).
 
 Class and function names are part of the issue contract. The schema is
 applied through Alembic's Python API (``command.upgrade``/
 ``command.downgrade`` with an absolute ``script_location``) — never
 ``Base.metadata.create_all`` — so the DDL under test is the migration's
-own (COPY of the tests/integration/test_category_migration.py harness;
+own (COPY of the tests/integration/test_expense_migration.py harness;
 there is no conftest.py). ``DATABASE_URL`` is pointed at a per-test file
 via ``monkeypatch`` + ``get_settings.cache_clear()``.
 """
@@ -21,6 +21,12 @@ from app.config import get_settings
 from app.database import create_db_engine
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
+
+BUDGET_CONSTRAINTS = {
+    "uq_budgets_user_month",
+    "ck_budgets_amount_positive",
+    "ck_budgets_year_month_format",
+}
 
 
 def _config() -> Config:
@@ -83,27 +89,8 @@ def _tables(engine: Engine) -> set[str]:
         )
 
 
-def _index_names(engine: Engine) -> set[str]:
-    """Return the SQLite index names present in ``engine``'s database.
-
-    Args:
-        engine: Engine over a migrated (or downgraded) database.
-
-    Returns:
-        set[str]: Index names from ``sqlite_master``.
-    """
-    with engine.connect() as connection:
-        return set(
-            connection.execute(
-                text("select name from sqlite_master where type = 'index'")
-            )
-            .scalars()
-            .all()
-        )
-
-
-def _audit_ddl(engine: Engine) -> str:
-    """Return the CREATE TABLE DDL Alembic wrote for ``audit_logs``.
+def _budget_ddl(engine: Engine) -> str:
+    """Return the CREATE TABLE DDL Alembic wrote for ``budgets``.
 
     Args:
         engine: Engine over a database where the table exists.
@@ -113,81 +100,76 @@ def _audit_ddl(engine: Engine) -> str:
     """
     with engine.connect() as connection:
         ddl = connection.execute(
-            text(
-                "select sql from sqlite_master "
-                "where type = 'table' and name = 'audit_logs'"
-            )
+            text("select sql from sqlite_master where type = 'table' and name = 'budgets'")
         ).scalar_one()
     return str(ddl)
 
 
-class TestAuditMigration:
-    """Contract coverage for revision 003 (t12 ac1, ac5)."""
+SEED_SQL = [
+    "insert into users (id, email, username, hashed_password, is_active, created_at, updated_at)"
+    " values ('11111111-1111-1111-1111-111111111111', 'a@b.com', 'alice', 'x', 1,"
+    " '2026-01-01 00:00:00', '2026-01-01 00:00:00')",
+    "insert into budgets (id, user_id, year_month, amount, created_at, updated_at)"
+    " values ('44444444-4444-4444-4444-444444444444',"
+    " '11111111-1111-1111-1111-111111111111', '2026-10', 2000.00,"
+    " '2026-10-01 00:00:00', '2026-10-01 00:00:00')",
+]
 
-    def test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes(
+
+class TestBudgetMigration:
+    """Contract coverage for revision 005 (t14 ac1, ac6)."""
+
+    def test_upgrade_head_creates_budgets_with_three_named_constraints(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """upgrade head lands on 003 with table + named CHECKs + indexes."""
+        """upgrade head lands on 005 with the table + three named constraints."""
         engine = _migrate(
             tmp_path,
             monkeypatch,
-            "test_upgrade_head_creates_audit_logs_with_named_checks",
-            # t13 amendment (t12/t10 precedent): head is 004 now, so pin
-            # this revision-003-shape assertion to 003 explicitly. The
-            # intent (revision 003's own DDL shape) is unchanged.
-            revision="003",
+            "test_upgrade_head_creates_budgets_with_three_named_constraints",
         )
-        assert "audit_logs" in _tables(engine)
+        assert "budgets" in _tables(engine)
         with engine.connect() as connection:
             version = connection.execute(
                 text("select version_num from alembic_version")
             ).scalar_one()
-            assert version == "003"
+            assert version == "005"
 
-        ddl = _audit_ddl(engine)
-        assert "ck_audit_action" in ddl, ddl
-        assert "ck_audit_entity_type" in ddl, ddl
-        assert "'CREATE','UPDATE','DELETE'" in ddl.replace(" ", ""), ddl
-        assert "'expense','budget'" in ddl.replace(" ", ""), ddl
-
-        assert {
-            "idx_audit_user_created",
-            "idx_audit_entity",
-            "idx_audit_action",
-        } <= _index_names(engine)
+        ddl = _budget_ddl(engine)
+        compact = ddl.replace(" ", "")
+        for name in BUDGET_CONSTRAINTS:
+            assert name in ddl, ddl
+        assert "amount>0" in compact, ddl
+        assert "year_monthGLOB'[0-9][0-9][0-9][0-9]-[0-9][0-9]'" in compact, ddl
+        assert "unique(user_id,year_month)" in compact.lower(), ddl
+        assert "ON DELETE CASCADE" in ddl.upper(), ddl
         engine.dispose()
 
-    def test_downgrade_003_to_002_drops_audit_logs_and_upgrade_roundtrip_restores(
+    def test_downgrade_005_to_004_drops_budgets_and_upgrade_roundtrip_restores(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """003 -> 002 removes table + index names; re-upgrade restores all."""
+        """005 -> 004 removes the table; re-upgrade restores it (round-trip)."""
         engine = _migrate(
             tmp_path,
             monkeypatch,
-            "test_downgrade_003_to_002_drops_audit_logs_and_roundtrip",
+            "test_downgrade_005_to_004_drops_budgets_and_upgrade_roundtrip_restores",
         )
-        assert "audit_logs" in _tables(engine)
+        assert "budgets" in _tables(engine)
 
         url = engine.url
         monkeypatch.setenv("DATABASE_URL", str(url))
         get_settings.cache_clear()
         try:
-            command.downgrade(_config(), "002")
+            command.downgrade(_config(), "004")
         finally:
             get_settings.cache_clear()
 
-        assert "audit_logs" not in _tables(engine)
-        audit_indexes = {
-            "idx_audit_user_created",
-            "idx_audit_entity",
-            "idx_audit_action",
-        }
-        assert not audit_indexes & _index_names(engine)
+        assert "budgets" not in _tables(engine)
         with engine.connect() as connection:
             version = connection.execute(
                 text("select version_num from alembic_version")
             ).scalar_one()
-            assert version == "002"
+            assert version == "004"
 
         monkeypatch.setenv("DATABASE_URL", str(url))
         get_settings.cache_clear()
@@ -196,27 +178,51 @@ class TestAuditMigration:
         finally:
             get_settings.cache_clear()
 
-        assert "audit_logs" in _tables(engine)
-        assert audit_indexes <= _index_names(engine)
-        ddl = _audit_ddl(engine)
-        assert "ck_audit_action" in ddl and "ck_audit_entity_type" in ddl, ddl
+        assert "budgets" in _tables(engine)
+        ddl = _budget_ddl(engine)
+        for name in BUDGET_CONSTRAINTS:
+            assert name in ddl, ddl
         engine.dispose()
 
-    def test_alembic_heads_is_single_revision_003(
+    def test_raw_delete_of_owner_cascades_to_budget_rows(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """The chain stays linear with exactly one head: 003 (ac5 pin)."""
+        """Raw DELETE of the owner removes their budgets (FK CASCADE, REQ-DB-042)."""
+        engine = _migrate(
+            tmp_path,
+            monkeypatch,
+            "test_raw_delete_of_owner_cascades_to_budget_rows",
+        )
+        with engine.begin() as connection:
+            for statement in SEED_SQL:
+                connection.execute(text(statement))
+
+        with engine.begin() as connection:
+            connection.execute(
+                text("delete from users where id = '11111111-1111-1111-1111-111111111111'")
+            )
+
+        with engine.connect() as connection:
+            surviving = connection.execute(
+                text("select count(*) from budgets")
+            ).scalar_one()
+            assert surviving == 0
+        engine.dispose()
+
+    def test_alembic_heads_is_single_revision_005(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The chain stays linear with exactly one head: 005 (ac6 pin)."""
         # heads/capabilities need no live database; DATABASE_URL is still
         # pointed at a per-test file so nothing can touch backend/dev.db.
-        url = f"sqlite:///{(tmp_path / 'test_alembic_heads_is_single_revision_003.db').as_posix()}"
+        url = (
+            "sqlite:///"
+            + (tmp_path / "test_alembic_heads_is_single_revision_005.db").as_posix()
+        )
         monkeypatch.setenv("DATABASE_URL", url)
         get_settings.cache_clear()
         try:
             heads = ScriptDirectory.from_config(_config()).get_heads()
         finally:
             get_settings.cache_clear()
-        # t14 amendment (t13 precedent): the chain grew revision 005
-        # (budgets), so the single-head tip is "005" now. The node's
-        # intent (LINEAR chain, exactly one head) is unchanged; t14's own
-        # test_alembic_heads_is_single_revision_005 pins the new tip.
         assert heads == ["005"], heads
