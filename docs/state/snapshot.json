@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T02:53:53Z",
-  "last_seq": 237,
+  "updated_at": "2026-10-08T02:57:48Z",
+  "last_seq": 238,
   "slots": [
     {
       "slot": 1,
@@ -11,7 +11,8 @@
       "spawn_at": "2026-10-08T02:53:53Z",
       "last_activity_at": "2026-10-08T02:53:53Z",
       "run_id": "f181c249-b4cc-4c12-a0c4-b090577efb37",
-      "worktree_path": "../worktrees/t9"
+      "worktree_path": "../worktrees/t9",
+      "note": "PAUSED for operator restart; verifier f181c249 likely killed - see docs/state/handoff.md resume procedure"
     },
     {
       "slot": 2,
