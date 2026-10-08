@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T13:48:46Z",
-  "last_seq": 313,
+  "updated_at": "2026-10-08T13:55:42Z",
+  "last_seq": 315,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
-      "role": "definer",
-      "phase": "groom",
-      "spawn_at": "2026-10-08T13:34:31Z",
-      "last_activity_at": "2026-10-08T13:49:10Z",
-      "run_id": "31937b49-1d3f-4222-97cc-3ea9ce7907af",
-      "worktree_path": "MAIN checkout",
-      "note": "6 ACs 13 nodes; AMOUNT_MAX resolution pinned for groom ratification"
+      "role": "builder",
+      "phase": "build",
+      "spawn_at": "2026-10-08T13:55:42Z",
+      "last_activity_at": "2026-10-08T13:55:42Z",
+      "run_id": "887aac17-8154-4696-8f86-009d3537e2af",
+      "worktree_path": "../worktrees/t15",
+      "note": "tests-only 13 nodes; AMOUNT_MAX ratified; defect=BLOCKER"
     },
     {
       "slot": 2,
@@ -29,7 +29,7 @@
   "active_issues": [
     {
       "issue_id": "t15",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": []
     }
   ]
