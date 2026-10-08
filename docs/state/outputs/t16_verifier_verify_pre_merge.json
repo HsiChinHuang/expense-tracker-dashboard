@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t16",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 82,
+      "passed": 82,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "518ebdae65d8d3fd9af4e28affaa88a13cec390b",
+    "merged_tree": "t16pm throwaway merge commit b2e0a4a5a7f4681b9f58909696caad2a60176756 (origin/main 01ce3d1 + origin/issue/t16-frontend-data-layer 01fb789, ort, clean; tree 518ebdae matches git merge-tree dry-run exactly); branch deleted, main restored at 01ce3d1 == origin/main, nothing pushed",
+    "ac_results": {
+      "ac1": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t16pm/logs/ac1.out", "note": "Three api modules, 11 typed exports, amount: string in expenses/budgets, no axios/fetch outside src/api, no money coercion under src/api. rc=0 on merged tree." },
+      "ac2": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t16pm/logs/ac2.out", "note": "query_keys.test.ts via cmd.exe/wslpath vitest --reporter=json: numFailedTests:0, >=5 passed nodes, all 5 frozen titles passed. rc=0." },
+      "ac3": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t16pm/logs/ac3.out", "note": "Three hook test files: numFailedTests:0 x3, all 17 frozen titles (7 expenses + 5 budgets + 5 categories) passed incl. dashboard-observer call-count invalidation proofs and negative controls. rc=0." },
+      "ac4": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t16pm/logs/ac4.out", "note": "handlers.ts >=14 http.* handlers, 0.00 + page_size contract pins, handlers_contract.test.ts numFailedTests:0 with 4 frozen titles incl. the loud unhandled-request failure. rc=0." },
+      "ac5": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t16pm/logs/ac5.out", "note": "Composite gate rc=0: full suite numFailedTests:0, numPendingTests:0, numTodoTests:0, 52 passed-titles >= 50 floor; tsc --noEmit rc=0; npm run lint rc=0; no any under frontend/src; dependency ban (no recharts/date-fns, @tanstack/react-query pinned 5.56.2). rc=0." }
+    },
+    "test_summary": {
+      "frontend_suite_json_reporter": "52 total / 52 passed / 0 failed / 0 pending / 0 todo (11 files)",
+      "frontend_suite_default_reporter": "rc=0, Test Files 11 passed (11), Tests 52 passed (52), NO Unhandled Errors section (t16 fix-cycle durable guard)",
+      "backend_suite": "uv run pytest -q -> 184 passed, 18 warnings in 64.89s on merged tree (independent leg)",
+      "diff_audit": "git diff origin/main...origin/issue/t16-frontend-data-layer = exactly 13 frontend files (+1304/-7), zero non-frontend paths; frontend/package.json, frontend/package-lock.json, backend/pyproject.toml, backend/uv.lock, root package.json byte-identical to origin/main (git diff --exit-code rc=0); backend/alembic unchanged; no new dependencies"
+    },
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, Windows host + WSL bash), matching the task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree uv resolution used (uv on PATH via $HOME/.local/bin). No command string was modified.",
+      "Merge-target hygiene: git fetch origin rc=0; origin/main head = 01ce3d1e422cd0717e0dab796202acdeda5205b1 (advanced from the spawn-era head by docs-only state commits; main == origin/main, working tree clean at start and end). Candidate = origin/issue/t16-frontend-data-layer @ 01fb7890b5ef8d6b319abf2c24b0ae7755baba71 == spawn-stated SHA; branch = exactly TWO commits (53644f9 feat + 01fb789 fix) on base ebde764. git merge-tree --write-tree origin/main origin/issue/t16-frontend-data-layer -> rc=0, single tree OID 518ebdae65d8d3fd9af4e28affaa88a13cec390b, zero conflict output = CLEAN.",
+      "Throwaway-branch protocol (t10-t15 precedent): git branch -f t16pm origin/main, then cmd.exe /c git -C <main checkout> merge --no-ff --no-edit origin/issue/t16-frontend-data-layer -> rc=0, 'ort' strategy, 13 files (+1304/-7). NOTE: branch -f does not switch HEAD, so the merge first landed on main; corrected immediately with git reset --hard origin/main (main back to 01ce3d1), git branch -f t16pm <merge sha b2e0a4a>, git checkout t16pm. All legs then ran from the merged t16pm tree at the main-checkout root (HEAD b2e0a4a, tree 518ebdae == merge-tree dry-run).",
+      "AC extraction + byte-verify: the 5 t16 AC commands extracted VERBATIM from docs/issues/t16.md '## Verification commands' fenced bash blocks (LF; \\r-strip applied defensively) via build/t16pm/extract.cjs -> build/t16pm/ac/acN.sh. Byte-verify: fenced region == '```bash\\n' + body + '\\n```' AND file round-trip equal for all 5 (byteEqual=true, fileEqual=true, TOTAL MISMATCHES=0); each body is one line (0 embedded newlines), the only single quotes are the outer bash -c pair; bash -n syntax-clean x5. Each run as 'bash build/t16pm/ac/acN.sh </dev/null' from the merged tree root with rc captured IMMEDIATELY.",
+      "AC results on the merged tree (5/5 rc=0): ac1 rc=0 (0.27s, structural greps), ac2 rc=0 (3.9s, 5 frozen queryKeys titles), ac3 rc=0 (12.5s, 17 frozen hook/invalidation titles), ac4 rc=0 (2.9s, 4 frozen contract titles), ac5 rc=0 (composite: full JSON suite 52 passed/0 failed/0 pending/0 todo >= 50 floor, tsc rc=0, lint rc=0, no-any grep clean, dependency-ban node -e leg clean). Speed sanity: an independent full-suite JSON run confirmed 52/52 passed and an independent default-reporter run rc=0, so the fast AC legs reflect a genuinely warm, fully-installed frontend node_modules at the main checkout (not a no-op).",
+      "Cumulative regression: docs/state/merge_test_index.json = schema 1.0, updated_at 2026-10-08T15:13:50Z, exactly 82 entries (t0 6, t1 5, t2 6, t3 5, t4 6, t5 6, t6 5, t7 5, t8 6, t9 6, t10 3, t11 4, t12 4, t13 5, t14 5, t15 5 = 82; t16's own ACs are NOT in the index - they are the smoke set; the index grows only at close). Each command extracted VERBATIM to zero-padded build/t16pm/mt/NN.sh via build/t16pm/extract_mt.cjs: 82/82 byte round-trip, 0 mismatches. Batch run synchronously from the merged tree root in 4 chunks (1-10, 11-25, 26-40, 41-56, 57-82): 82/82 exit 0, per-entry rc captured immediately, outputs under build/t16pm/logs/mt_NN.out.",
+      "Git-internal steps inside verbatim commands: re-scan of the 82-entry index for 'git ' returned exactly {1,4,5,12,23,24,27} (t0 x3 incl. entry 5 the parenthesized git call, t2 x1 entry 12 trailing git ls-files, t4 x3), matching the expected shim set. Those 7 entries ONLY got the PATH shim build/t16pm/bin/git (exec /usr/bin/git --git-dir=/mnt/c/.../expense-tracker-dashboard/.git --work-tree=/mnt/c/.../expense-tracker-dashboard \"$@\", WSL /mnt/c form per the t13/t14 lesson); validated before the batch: rev-parse --abbrev-ref HEAD -> t16pm, ls-files --error-unmatch frontend/src/api/query_keys.ts rc=0, check-ignore probe.db rc=0. PATH HYGIENE (t15 lesson): the FULL ORIGINAL PATH was restored after EVERY shimmed entry (case-based prepend + unconditional reset per loop iteration); frontend entries 13,15,16,26,51-56 all ran with cmd.exe available and passed rc=0, confirming no PATH leakage. All other 75 entries ran unpatched. Environment artifacts only; no command string modified.",
+      "Default-reporter leg (step 5, the durable guard proven necessary by the t16 fix cycle): 'npx.cmd vitest run' (no --reporter) via cmd.exe/wslpath on the merged tree -> rc=0, Test Files 11 passed (11), Tests 52 passed (52), ZERO 'Unhandled Errors' sections in output (grep count 0; the expected benign stderr noise - jsdom navigation warnings from t9 auth tests and the intentional [MSW] error output from the contract test - present, as at verify_issue). JSON-reporter cross-check: numTotalTests 52, numPassedTests 52, numFailedTests 0, numPendingTests 0, numTodoTests 0.",
+      "Independent backend leg on the merged tree: uv run pytest -q -> 184 passed, 18 warnings in 64.89s (t15-close baseline; t16 touches zero backend files). Backend ruff/mypy covered by index entries (e.g. #11, t12/t13 quality-gate entries) all rc=0 in the cumulative batch.",
+      "Diff/constraint audit on the merged tree: git diff --stat origin/main...origin/issue/t16-frontend-data-layer = EXACTLY the 13 frontend files (api/categories|expenses|budgets.ts, api/query_keys.ts + .test.ts, hooks/use_expenses|use_budget|use_categories.ts + 3 .test.tsx, test/handlers.ts, test/handlers_contract.test.ts), +1304/-7, zero non-frontend paths. git diff --exit-code origin/main t16pm -- frontend/package.json frontend/package-lock.json backend/pyproject.toml backend/uv.lock package.json -> rc=0 (byte-identical manifests: no new deps, TanStack Query stays 5.56.2). backend/alembic/ diff empty. Tests-only + new-source-files bound COMPLIANT.",
+      "Smoke set: docs/plan.md has NO '## Smoke tests' section and docs/commands.md defines no smoke commands (established t0-t15 fallback precedent), so the smoke set = the 5 t16 AC verification commands run VERBATIM from the merged tree root: 5 total, 5 passed, 0 failed. config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue's 5 ACs); the 82-entry cumulative batch plus the 52-test frontend and 184-test backend suites provide the surplus coverage. Same accounting as t10-t15.",
+      "Platform sync: MERGE VERDICT PASS comment posted on Platform issue #19 via scripts/platform.ts (invocation: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 19 --body <body>, body read from build/t16pm/comment.md through the shell-less command substitution). rc=0 attempt 1 after a first wrapper attempt failed with spawnSync ENOENT (execFileSync WSL-path translation quirk; nothing was posted by the failed attempts - verified via issue latest-comment BEFORE retrying, so no duplicate/fragment comments exist). Latest comment head '## MERGE VERDICT: PASS', 1941 chars, single authoritative comment. Labels UNCHANGED: issue get 19 -> state open, labels [defined, surveyed, verified] (per instruction: pre-merge is not a platform state; 'merged' NOT added - Orchestrator's transition).",
+      "Cleanup CONFIRMED: git checkout main (rc=0), git branch -D t16pm (rc=0, was b2e0a4a), main HEAD 01ce3d1 == origin/main, git branch --list t16pm empty, git status --porcelain empty. NOTHING pushed; origin/main untouched; no label changes; worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t16 untouched (node_modules intact, not deleted).",
+      "Verdict: PASS - merged tree green (cumulative 82/82 exit 0, 5 t16 ACs verbatim 5/5 rc=0 with 26/26 frozen titles, frontend 52/52 under BOTH json and default reporters with no Unhandled Errors, backend 184 passed, manifests byte-identical, diff exactly the 13 frontend files), throwaway branch removed, main == origin/main, nothing pushed. Safe to merge.",
+      "Residual risks for the Orchestrator: (1) origin/main advanced during recent runs by docs-only commits; re-fetch at merge time and re-run merge-tree if any non-docs file appears in the delta. (2) At close, append the 26 frozen node IDs (5+7+5+5+4 per the groomed inventory; ac5 composite excluded per t10-t15 precedent) to merge_test_index.json - the index is still at 82 entries (t0-t15) as expected pre-close. (3) docs/state/seq.txt is a live runtime counter that can be dirty between orchestrator commits (clean this run); the merge commit must never include it. (4) The t16 fix commit 01fb789 temporarily removes vitest's unhandled-rejection listener inside one contract test with a finally-restore (audited SOUND at verify_issue run 1939a05f); the default-reporter leg above re-confirms no masking effect on the merged tree. (5) Frontend suite timing on this host is warm-cache dependent (~10-60s); CI timing differences are a known host quirk, not a t16 risk."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t16_verifier_verify_pre_merge.json",
+      "build/t16pm/extract.cjs",
+      "build/t16pm/extract_mt.cjs",
+      "build/t16pm/ac/ac1.sh",
+      "build/t16pm/ac/ac2.sh",
+      "build/t16pm/ac/ac3.sh",
+      "build/t16pm/ac/ac4.sh",
+      "build/t16pm/ac/ac5.sh",
+      "build/t16pm/mt/ (82 files)",
+      "build/t16pm/logs/ (95 files)",
+      "build/t16pm/bin/git",
+      "build/t16pm/comment.md",
+      "build/t16pm/post_comment.cjs"
+    ],
+    "platform_issue": 19,
+    "output_path": "docs/state/outputs/t16_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T16:44:05Z",
+  "retry_count": 0
+}
