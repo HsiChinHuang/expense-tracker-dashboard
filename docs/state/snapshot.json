@@ -10,7 +10,7 @@
       "phase": "verify_issue",
       "spawn_at": "2026-10-08T13:55:42Z",
       "last_activity_at": "2026-10-08T14:09:32Z",
-      "run_id": "pending",
+      "run_id": "91332340-59d0-43db-9aae-126bc9509445",
       "worktree_path": "../worktrees/t15",
       "note": "6 ACs + cumulative 77; tests-only diff audit"
     },
