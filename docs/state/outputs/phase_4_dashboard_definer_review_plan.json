@@ -1,0 +1,115 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t19",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_4_dashboard",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t19", "t20", "t21", "t22", "t23"],
+    "findings": [
+      {
+        "issue_id": "t21",
+        "category": "other",
+        "severity": "warning",
+        "description": "W1 RULING-1/3 GATE-SCOPE MISMATCH — plan.md phase_4 ruling 1 claims 't19/t20/t23 carry ac-gates that FAIL if recharts is present before t21 lands it', but only t20 has such an AC (ac6 dependency-absence gate); t19 is backend-only (no frontend gate in any AC) and t23's ACs assert the AMENDED index and suite greenness, not a recharts-presence gate. t22 (the post-t21 issue) carries NO recharts assertion at all. The one-door admission is currently test-enforced on the 'absent before' side by t20 only and on the 'present after' side by nothing. REMEDY (groom, t21+t22): pin the admission pair inside issues that own the door — t21 ac1 already pins the exact 2.15.4 present-gate; add to t22 ac6 a node -e gate asserting d.recharts === '2.15.4' (and date-fns absent) so post-t21 merges keep the one-door contract; either amend plan.md ruling 1's wording at the next plan touch or record in the groom notes that t19/t23's coverage is the amended-index leg (#17/#55) rather than an AC gate."
+      },
+      {
+        "issue_id": "t21",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 LEGACY-INDEX AMENDMENT PREMISES RE-VERIFIED, BUT THE ORDERING CLAIM IS WRONG — premise CONFIRMED programmatically: merge_test_index.json has exactly 95 tests; entries #17 (t2, 0-based 16) and #55 (t9, 0-based 54) are the ONLY entries containing the /^(recharts|date-fns)$/ leg (full-index scan; entries #12/#13/#15/#56 read package.json but have no forbidden-dependency leg, so recharts cannot break them). However plan.md ruling 3 and the t19/t21 carry-forwards state the amendment happens 'BEFORE the FIRST phase_4 merge (which is t19's merge)'. t19 is backend-only; its merge touches no frontend file, so entries #17/#55 PASS at t19's merge whether or not the amendment has landed — the first merge at which the amendment is actually REQUIRED is t21's merge (the survey's own notes say exactly this, contradicting the plan's 'first phase_4 merge' phrasing). REMEDY (orchestrator/groom): execute the amendment before t21's pre-merge gate at the latest; earlier execution stays safe (the amended #17 forbids date-fns only and the conditional recharts leg is vacuous while recharts is absent; #55's positive d.recharts === '2.15.4' leg requires the amendment to land AFTER t20's merge, because t20 ac6 pins recharts ABSENT — an amendment executed at t19's merge would make stored entry #55 red at t20's pre-merge gate). Pin the amendment window as: after t20's merge, before t21's pre-merge gate."
+      },
+      {
+        "issue_id": "t20",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 MERGED shiftMonth IS NOT EXPORTED — t20 ac1 says the MonthContext month math 'may be duplicated or extracted to utils/date.ts' citing the merged shiftMonth logic; on-tree it lives in frontend/src/pages/budget_page.tsx line 46 as `export const shiftMonth` but budget_page.test.tsx imports only the default page component (no named import), so ESLint no-unused-vars flags both shiftMonth and monthWindow (t18's build notes attest the 2 pre-existing lint warnings). REMEDY (groom, t20): pin 'duplicate into context/month_context.tsx or utils/date.ts' and FORBID the 'extract' option — moving the helpers out of budget_page.tsx changes a merged source file whose lint baseline is frozen, and deleting the exports removes lint warnings the Verifier has baselined as acceptable; duplication is the byte-identity-safe choice."
+      },
+      {
+        "issue_id": "t22",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 MERGED '/' LANDING IS A DEAD-END SHELL — t22 ac1 says 'the merged /-as-landing behavior is replaced deliberately: / now renders the shell + dashboard content, and every merged route test still passes byte-identically'. Verified safe: app.tsx renders bare <AppShell /> (which prints 'Frontend skeleton is running.') at '/' inside ProtectedRoute, and no merged test asserts the AppShell-as-landing route (app_shell.test.tsx renders <AppShell /> directly; login/register tests build their own route tables). REMEDY (groom, t22): pin the exact app.tsx edit (replace the '/' element with a DashboardPage-inside-AppShell composition or nested index route per Chapter 8 §8.7.3) and pin the three frozen AppShell titles plus the t18 stored entry #95 app.tsx route-ordering greps as regression legs, so the Builder cannot restructure the route table beyond the pinned diff."
+      },
+      {
+        "issue_id": "t22",
+        "category": "other",
+        "severity": "warning",
+        "description": "W5 MONTH-PICKER PLACEMENT DIVERGES FROM CHAPTER 17 — §17.5.2 task 4.9 names the deliverable `components/layout/MonthPicker.tsx`; t22 pins `components/common/month_picker.tsx`. The divergence is HARMLESS (REQ-FE-062 names only the header month picker, not a directory; no REQ pins the path) but it is an unrecorded deviation. REMEDY (groom, t22): either pin components/layout/month_picker.tsx to match the chapter, or keep common/ and record the deviation in the groom notes so the Verifier's 'read the plan; inspect code' check for REQ-PLAN-040 has a documented answer."
+      },
+      {
+        "issue_id": "t22",
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 DOCUMENT TITLE — t22 ac1 pins document title exactly 'Dashboard', but REQ-FE-015 (Should) states the pattern '<Page> — Expense Tracker' while every merged page sets the bare name ('Budget', 'Categories', 'Expenses') and their frozen tests assert the bare strings. REMEDY (groom, t22): ratify the bare 'Dashboard' explicitly in the pinned AC (matching merged reality and the t18 precedent) and note REQ-FE-015's em-dash pattern as a phase_8 docs-polish item for ALL pages at once — do not let the Builder apply the em-dash form to the dashboard alone and create a cross-page inconsistency."
+      },
+      {
+        "issue_id": "t22",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 RAPID-SWITCH PROOF MECHANISM — t22 ac5 pins 'switching months refetches all six queries (observed via MSW call counting per hook)'. Under TanStack Query 5 + StrictMode double-effects call-count assertions are flaky (phase_3 W11 precedent), and t20's ac4 already pins observer-based invalidation evidence. REMEDY (groom, t22): pin the mechanism as the t20 observer pattern (mounted dashboard-prefixed observers per hook) plus a final-state assertion (after N rapid switches only the last yearMonth's fixtures are rendered and every hook's query key equals its byMonth(last) form); forbid raw call-count equality; handlers must delay responses so a stale response could observably win a race."
+      },
+      {
+        "issue_id": "t23",
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 AC6 COUNTS ARE PINNED TO BRANCH-END TOTALS — t23 ac6 hardcodes '184 merged + t19 new' and '112 merged + t20/t21/t22 new'. 184/112 are verified current merged baselines (t18 pre-merge attested 184 pytest passed and 112 vitest passed), but any fix_qa commits on the t19/t20/t21/t22 branches before t23's base adds new nodes, making the hardcoded totals wrong and the gate either red or vacuous. REMEDY (groom, t23): pin the lower-bound form per the t18 stored-command precedent (numPassedTests >= 112 AND numFailedTests:0 AND zero pending/todo, plus '>= 184' for pytest), and pin the 95-entry cumulative-index run as its own leg with the amended #17/#55 expectation."
+      },
+      {
+        "issue_id": "t23",
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 'FIVE CHARTS' COUNTING CONTRACT NEEDS A PIN — REQ-TECH-004 and criteria row 32 ('All five charts visible') are satisfied as 4 Recharts components + BudgetProgress (REQ-FE-074) + custom WeeklyHeatmap; t23 ac3 counts files in frontend/src/components/charts/ (which will hold exactly 4 files after t21, 5 after t22 adds budget_progress.tsx per plan.md's t22 file list). REMEDY (groom, t23): pin the five-item list explicitly (category_pie_chart, monthly_trend_chart, cumulative_line_chart, weekly_heatmap, budget_progress) and the counting command (test -f on each of the five paths + the t22 rendered-page test asserting five chart regions), so 'five chart types present' is one deterministic check, not an interpretive count."
+      },
+      {
+        "issue_id": "t19",
+        "category": "other",
+        "severity": "warning",
+        "description": "W10 §17.5.2 TASK-NUMBER MAPPING IS OFF-BY-ONE FROM 4.7 ONWARD — the Chapter 17 §17.5.2 table is 4.1-4.6 endpoints, 4.7 dashboard aggregation TESTS, 4.8 MonthContext, 4.9 MonthPicker, 4.10 DashboardPage, 4.11 KPI cards, 4.12 CategoryPieChart, 4.13 MonthlyTrendChart, 4.14 CumulativeLineChart, 4.15 WeeklyHeatmap, 4.16 BudgetProgress, 4.17 RecentTransactions, 4.18 chart tests, 4.19 integration tests. The issue 'Source' lines claim t19=4.1-4.6+4.17, t20=4.7,4.8+data half of 4.14, t21=4.9-4.12+4.15, t22=4.13,4.14,4.16,4.18,4.19 — off-by-one from 4.7 onward (the survey's own handoff notes used a different, also-inconsistent mapping). The SUBSTANCE is fully covered: 4.1-4.6 -> t19 endpoints; 4.7 -> t19's two frozen test files; 4.8 -> t20 ac1; 4.9 -> t22 ac2; 4.10 -> t22 ac1; 4.11 -> t22 ac3; 4.12-4.15 -> t21 ac2-5; 4.16 -> t22 ac4; 4.17 -> t22 ac4 recent list; 4.18 -> t21 ac6; 4.19 -> t19 test_dashboard_api.py. No task is unowned, so REQ-PLAN-040 has no real gap — only the citations mislabel it. REMEDY: groom may correct the Source lines only within its own grooming pass (definer review is read-only); otherwise carry the corrected mapping in the groom notes so t23 ac1's 'all 19 tasks accounted for' attestation cites the true numbering."
+      },
+      {
+        "issue_id": "t19",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W11 WARN_ONLY OVERRUNS ACCEPTED WITHOUT SPLITS — verified against limits.issue_granularity (max_acs 6 / max_files 4 / max_diff_lines 300 / warn_only=true): AC counts t19=6, t20=6, t21=6, t22=6, t23=6 (at the cap, none at the too-small 1-AC/0-file extreme). max_files is exceeded by t19 (5 paths), t20 (9), t21 (10), t22 (~7) — each states the warn_only deviation in Constraints per the t13/t17/t18 precedent (verticals must not be split into horizontal layers). GAP: max_diff_lines>300 is predicted for t19/t21/t22 in the survey notes but is NOT stated in the issue files themselves (only t23 has a files line). REMEDY (groom): add the diff-line warn_only note to t19/t21/t22 Constraints when pinning commands, and keep per-AC node-ID/title scoping so oversized diffs stay incrementally verifiable; do not instruct Builders to split."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W12 COVERAGE CONFIRMED — REQ-TECH-008 (date-fns 3, Should) is deliberately not adopted (survey ruling 2, recorded in the survey coverage_check and plan.md ruling 2); it is cited by NO issue, which is the recorded resolution, not a gap. All other milestone-claimed families have issue owners: REQ-API-060..065 and REQ-BE-090..096 -> t19; REQ-FE-030/032/050/051/101/102 -> t20; REQ-TECH-004 and REQ-FE-070..073 -> t21; REQ-FE-062/074/100/015 -> t22; REQ-PLAN-040/041, REQ-PROD-020, REQ-DOC-010 (rows), REQ-PROJ-004 -> t23; REQ-TEST-017/023 -> t19; REQ-TEST-030..039 conventions -> t20/t21/t22. Reverse cross-check found ZERO orphans among the families the milestone claims. The survey's five uncovered_requirements (REQ-TECH-008, REQ-PROD-020 measurement-only, REQ-PROD-035/REQ-DB-072/083 carry-forwards, REQ-FE-100 full skeleton vocabulary, REQ-DOC-010 full README) were each adjudicated legitimate against the requirement text. REQ-FE-060/061/063 (login/register/expenses pages) are merged phase_1/3 requirements, not phase_4 orphans."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete — programmatic REQ-ID cross-check: every raw REQ token (48 distinct) and every expanded range/slash-list citation (58 distinct after expanding .. and / forms) in t19..t23 and the plan.md phase_4 section exists VERBATIM in docs/requirements.md (749 canonical IDs; 0 phantom IDs). Reverse check: all milestone-claimed families (REQ-API-060..065, REQ-BE-090..096, REQ-FE-062/070..074/032/101/102/050/051/100/015, REQ-PLAN-040/041, REQ-PROD-014/033/036/020/023, REQ-TECH-004/005/009, REQ-TEST-017/023/030..039, REQ-ARCH-013/032, REQ-SEC-030/031/050, REQ-DOC-010, REQ-PROJ-004) have >=1 issue owner; 0 orphans; REQ-TECH-008 is the recorded deliberate non-adoption (W12). §17.5.2's 19 tasks all have owners but the issue-file task citations are off-by-one from 4.7 onward (W10).",
+      "granularity_check": "complete — AC counts 6/6/6/6/6 (cap 6, warn_only); no too-small issue; max_files=4 exceeded by t19/t20/t21/t22 with in-file warn_only statements; max_diff_lines>300 predicted but not stated in-file (W11 remedy); t23 is a t15-style verification issue with the verification-only bound pinned in Constraints.",
+      "dependency_check": "complete — dag.json 24 nodes / 38 edges recomputed programmatically: frontmatter depends == DAG edges for ALL 24 issue files in BOTH directions (0 mismatches; t16/t17 live in docs/issues/closed/ and match); 0 cycles (DFS), 0 orphans (t0 excluded per rule); dag.mmd contains all 38 edges (0 mismatches); longest-path DP gives 15 edges (t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17->t20->t21->t22->t23) — matches dag.json critical_path exactly (all 15 edges verified present); 15 > limits.dep_chain_warn=10 (WARN ONLY, halt threshold 20 not approached — natural spine accumulation, same condition phase_3 was passed under); topological order t0..t23 is valid for every edge; t19->t14, t20->{t17,t19}, t21->t20, t22->{t20,t21}, t23->{t19,t22} match the survey's stated rationale.",
+      "duplicate_contradiction_check": "complete — no duplicate ACs (per-issue regression gates are the accepted phase_1..3 pattern); no contradictions across shared contracts: t19's six response shapes == t20 ac2 api mirror == plan ruling 6 == on-tree REQ-API-060..065 statements (spot-verified §11.7 text incl. percentage-null-if-budget-0, weeks default 12 max 52, limit default 10 max 50); t20 ac6 recharts-absent == t21 ac1 recharts-present (ordered by the DAG edge t20->t21); t20 ac4 category-mutation negative control == merged use_categories.ts comment; t21 EmptyState consumption == t20 ac5 creation; t22 BudgetProgress thresholds == REQ-FE-074 verbatim; t23 ac6 amended-index expectation == ruling 3. The one latent conflict (amendment ordering vs t20's absence gate) is W2, not an issue-vs-issue contradiction. t22 ac1 '/'-replacement vs frozen route tests verified non-conflicting on-tree (W4).",
+      "ac_checkability_check": "complete — every issue <=6 ACs, every AC mechanically checkable once groom pins commands; error/empty cases present in every issue (t19 ac2 empty month + ac3 422-over-max, t20 ac4 negative control, t21 empty/zero datasets + max===0, t22 ac3 failed-query ErrorState + null percentage + ac4 empty month, t23 ac2 structural edges); no vacuous-satisfaction AC found (t23 ac3's component-count leg is the weakest and gets the W9 pin; t23 ac4 performance is explicitly non-blocking per REQ-PROD-020 Should). All five issues carry survey PLACEHOLDER verification sections that state the groom-pinning requirements and the NEVER-vitest -t rule; t21's placeholder additionally requires the amendment-in-place check before pinning package.json gates.",
+      "platform_check": "verified read-only via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue get (Windows node required; WSL node's esbuild binary fails in this environment): #22..#26 all state=open, labels ['defined'], titles match t19..t23 exactly; platform_issue frontmatter 22..26 agrees with issue_map.json and the survey handoff; the get projection omits body (body_len 0) exactly as in every prior phase. No label/body writes performed (review is read-only); no comment posted (phase_3 precedent posted one, but the review_plan schema has no comment field and the 12 warnings are fully recorded in this handoff)."
+    },
+    "notes": [
+      "Six mandatory survey rulings verified in durable artifacts: (1) recharts 2.15.4 exact pin — plan.md ruling 1 + t21 metadata + t21 ac1 exact-pin text [PINNED; gate-scope wording defect -> W1]; (2) date-fns rejected + still banned — plan.md ruling 2 + survey coverage_check + t20/t21 AC bans [PINNED]; (3) legacy-index amendment protocol — plan.md ruling 3 with exact amended regex + t19 Constraints + t21 Constraints carry-forwards [PINNED; premises re-verified (95 entries; #17/#55 are the ONLY recharts|date-fns legs; #12/#13/#15/#56 package.json legs are recharts-immune); ordering claim defective -> W2]; (4) REQ-FE-101/102 halves in t20 ac5 — plan.md ruling 4 + t20 ac5 [PINNED]; (5) MonthContext additive — plan.md ruling 5 (says '(t19)' — typo, the component is t20 ac1; plan.md's t20 issue block states it correctly) + t20 ac1/Constraints [PINNED; extraction hazard -> W3]; (6) six-endpoint contract in t19 — plan.md ruling 6 + t19 ac1-4 + contract_first require_for [backend, api] in config + t19 Constraints contract-first line [PINNED; wire-type of percentage delegated to groom, acceptable at survey].",
+      "Merged-reality premises re-verified per the t18 lesson: frontend/package.json has NO recharts/date-fns and @tanstack/react-query exactly 5.56.2; query_keys.ts comment literally says 'Dashboard keys arrive in phase_4'; merged use_expenses/use_budget hooks call invalidateQueries(['dashboard']) while use_categories deliberately does not; alembic versions end at 005_budgets.py; frontend has 17 test files; components/charts/ is empty (t21 creates it); components/ui/ has only confirm_dialog.tsx (t20 adds empty_state/error_state); app.tsx '/' renders bare AppShell inside ProtectedRoute with no landing assertion in any merged test; backend baselines 184 pytest / frontend 112 vitest attested by the t18 pre-merge handoff.",
+      "Verdict arithmetic: 12 warnings, 0 errors -> PASS_WITH_WARNINGS per review_plan.md Step 5. No finding rises to error: every defect is either a wording/ordering pin that groom can fix inside its own pass (W1-W9), a citation fix (W10), an accepted warn_only overrun (W11), or an adjudicated non-gap (W12). No plan regeneration is warranted.",
+      "Windows/WSL environment note: WSL node v18 exists but tsx fails through it (esbuild linux binary hits a backquote-substitution Syntax error under WSL interop); all platform CLI and JSON-check invocations used /mnt/d/Program/nodejs/node.exe successfully.",
+      "Milestone file docs/state/milestones/phase_4_dashboard.json updated: review_plan_status=passed, review_plan_verdict=PASS_WITH_WARNINGS, review_plan_completed_at=2026-10-08T21:45:00Z, review_plan_attempts 0->1. This handoff is written to the runtime-mandated artifact path; the orchestrator copies it to docs/state/outputs/phase_4_dashboard_definer_review_plan.json alongside the milestone commit (the definer spawn was given the artifact path as the authoritative output)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_4_dashboard.json",
+      "docs/state/outputs/phase_4_dashboard_definer_review_plan.json"
+    ],
+    "platform_issue": 22,
+    "output_path": "docs/state/outputs/phase_4_dashboard_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T21:46:00Z",
+  "retry_count": 0
+}
