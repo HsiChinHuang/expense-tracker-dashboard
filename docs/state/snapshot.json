@@ -10,7 +10,7 @@
       "phase": "build",
       "spawn_at": "2026-10-08T13:55:42Z",
       "last_activity_at": "2026-10-08T15:31:01Z",
-      "run_id": "pending",
+      "run_id": "bf2e4fd5-3591-4a95-a4e7-9044c7de1fd0",
       "worktree_path": "../worktrees/t15",
       "note": "t16 build: api modules+hooks+handlers, npm ci first"
     },
