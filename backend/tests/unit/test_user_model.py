@@ -95,10 +95,11 @@ class TestUserModel:
         assert set(table.columns.keys()) == EXPECTED_COLUMNS
         tables = set(Base.metadata.tables)
         assert "users" in tables
-        # t13 amendment (t12 precedent): the expenses table legitimately
-        # exists now (revision 004), so the not-yet-exists guard narrows
-        # to budgets only; audit_logs was already amended out at t12.
-        assert not tables & {"budgets"}, tables
+        # t14 amendment (t12/t13 precedent): the budgets table
+        # legitimately exists now (revision 005), so the not-yet-exists
+        # guard has no remaining subject and retires to the vacuous-safe
+        # superset check; every table's own issue owns its existence pin.
+        assert {"users", "categories", "audit_logs", "expenses", "budgets"} <= tables
 
         email_col = table.columns["email"]
         username_col = table.columns["username"]

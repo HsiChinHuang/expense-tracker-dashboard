@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.core.errors import register_error_handlers
 from app.routers.auth import router as auth_router
+from app.routers.budgets import router as budgets_router
 from app.routers.categories import router as categories_router
 from app.routers.expenses import router as expenses_router
 from app.routers.health import router as health_router
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
     application.include_router(auth_router)
     application.include_router(categories_router)
     application.include_router(expenses_router)
+    application.include_router(budgets_router)
 
     return application
 
