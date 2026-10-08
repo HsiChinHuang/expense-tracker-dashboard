@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:02:32Z",
-  "last_seq": 337,
+  "updated_at": "2026-10-08T17:10:27Z",
+  "last_seq": 338,
   "slots": [
     {
       "role": "definer",
-      "phase": "survey",
-      "run_id": "1a0ea9eb-90f7-438f-9a25-0a683d3ff9b7",
-      "note": "t17 survey",
-      "last_activity_at": "2026-10-08T17:02:32Z"
+      "phase": "groom",
+      "run_id": "pending",
+      "note": "t17 groom (re-measure baseline 52, ratify 26 titles)",
+      "last_activity_at": "2026-10-08T17:10:27Z"
     },
     {
       "slot": 2,
@@ -27,7 +27,7 @@
       "issue_id": "t17",
       "state": "defined",
       "modifiers": [
-        "surveying"
+        "surveyed"
       ]
     }
   ]
