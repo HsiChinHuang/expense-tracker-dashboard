@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T02:57:48Z",
-  "last_seq": 238,
+  "updated_at": "2026-10-08T04:32:11Z",
+  "last_seq": 240,
   "slots": [
     {
       "slot": 1,
@@ -9,10 +9,10 @@
       "role": "verifier",
       "phase": "verify_issue",
       "spawn_at": "2026-10-08T02:53:53Z",
-      "last_activity_at": "2026-10-08T02:53:53Z",
-      "run_id": "f181c249-b4cc-4c12-a0c4-b090577efb37",
+      "last_activity_at": "2026-10-08T04:32:11Z",
+      "run_id": "e8154911-a792-407c-9d3a-d631b4c79c67",
       "worktree_path": "../worktrees/t9",
-      "note": "PAUSED for operator restart; verifier f181c249 likely killed - see docs/state/handoff.md resume procedure"
+      "note": "resumed from restart kill f181c249; verify-and-finish"
     },
     {
       "slot": 2,
