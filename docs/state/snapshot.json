@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T18:40:54Z",
-  "last_seq": 345,
+  "updated_at": "2026-10-08T19:12:28Z",
+  "last_seq": 351,
   "slots": [
     {
-      "role": null,
-      "issue_id": null,
-      "agent": null,
-      "phase": null,
-      "run_id": null,
-      "note": "t17 CLOSED 8/9",
-      "last_activity_at": "2026-10-08T18:40:54Z"
+      "role": "builder",
+      "issue_id": "t18",
+      "agent": "definer",
+      "phase": "build",
+      "run_id": "44af0f88-58bd-4730-acd8-3bd503ca6245",
+      "note": "t18 build on repaired worktree (34 frozen nodes, floor 112)",
+      "last_activity_at": "2026-10-08T19:12:28Z"
     },
     {
       "slot": 2,
@@ -24,5 +24,11 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t18",
+      "state": "groomed",
+      "modifiers": []
+    }
+  ]
 }
