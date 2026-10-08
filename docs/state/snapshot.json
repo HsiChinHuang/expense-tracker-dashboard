@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T02:25:10Z",
-  "last_seq": 235,
+  "updated_at": "2026-10-08T02:53:53Z",
+  "last_seq": 237,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t9",
-      "role": "builder",
-      "phase": "implement",
-      "spawn_at": "2026-10-08T02:25:10Z",
-      "last_activity_at": "2026-10-08T02:25:10Z",
-      "run_id": "04cd8b7a-4850-4889-8480-051ff7366887",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "spawn_at": "2026-10-08T02:53:53Z",
+      "last_activity_at": "2026-10-08T02:53:53Z",
+      "run_id": "f181c249-b4cc-4c12-a0c4-b090577efb37",
       "worktree_path": "../worktrees/t9"
     },
     {
@@ -28,7 +28,7 @@
   "active_issues": [
     {
       "issue_id": "t9",
-      "state": "groomed",
+      "state": "built",
       "modifiers": []
     }
   ]

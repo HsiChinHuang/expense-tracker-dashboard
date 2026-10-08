@@ -1,0 +1,111 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t9",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t9-frontend-auth",
+    "branch_sha": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/src/api/client.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/api/client.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"creates the axios instance from VITE_API_BASE_URL with a 10 second timeout\" \"attaches the bearer authorization header when a token is stored\" \"clears the stored token and redirects to /login on a 401 response\" \"normalizes a 409 backend error preserving code detail and field\" \"normalizes a network failure to the NETWORK_ERROR code\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/src/context/auth_context.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/context/auth_context.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"populates the user from /auth/me when a stored token is valid\" \"removes an invalid stored token and stays logged out\" \"stores the token and user on login\" \"registers then auto-logs-in with the returned token\" \"clears the stored token and user on logout\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/src/components/common/guards.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/components/common/guards.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"redirects an unauthenticated visit to a protected route to /login\" \"renders protected content for an authenticated session\" \"redirects a logged-in visitor from /login to /\" \"shows a full-page spinner while the auth state is loading\" \"preserves the attempted location in router state on redirect\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/src/pages/login_page.test.tsx && test -f frontend/src/pages/register_page.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/login_page.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/register_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; na=$(printf \"%s\" \"$a\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); nb=$(printf \"%s\" \"$b\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$na\" -ge 4 ] && [ \"$nb\" -ge 4 ] || exit 1; for t in \"logs in and navigates to the landing route\" \"shows the backend 401 message inline on failed login\" \"blocks client-side validation before any network request\" \"links to the register page\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"registers and auto-logs-in on success\" \"surfaces the backend 409 error on the email field\" \"validates password and username rules on blur without a network call\" \"links to the login page\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/login\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/register\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/me\" frontend/src/test/handlers.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const need=[\\\"react-hook-form\\\",\\\"zod\\\"];for(const k of need){if(!d[k]||!/^[0-9]/.test(d[k])){console.error(\\\"missing or unpinned: \\\"+k);process.exit(1)}}const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "4d76b31efafdf56e5f0308a749ca0648c32393fe",
+        "test": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 26 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0
+    },
+    "lint_status": "WARNINGS",
+    "verification_commands_source": "docs/issues/t9.md#verification-commands",
+    "ac_suggestions": [],
+    "memory_applied": [],
+    "per_ac_evidence": {
+      "ac1": "frontend/src/api/client.ts (VITE_API_BASE_URL, 10000ms timeout, bearer request interceptor, 401 remove 'token' + window.location.href='/login', {status,code,message,field?} normalization incl. NETWORK_ERROR) + typed frontend/src/api/auth.ts (register/login/getMe); src/api/client.test.ts 5/5 frozen titles green via pinned ac1 command (rc=0).",
+      "ac2": "frontend/src/context/auth_context.tsx exports AuthProvider/useAuth {user,token,isLoading,login,register,logout}; mount validates localStorage 'token' via /auth/me, 401 clears key and stays logged out; register auto-logs-in with the 201 token; main.tsx nests QueryClientProvider -> BrowserRouter -> AuthProvider -> App; auth_context.test.tsx 5/5 via pinned ac2 command (rc=0).",
+      "ac3": "components/common/protected_route.tsx (role=status spinner while loading, Navigate to /login with state.from, Outlet when authed) + public_only_route.tsx (logged-in redirected to /); app.tsx nested route table /login+/register under PublicOnlyRoute, / under ProtectedRoute; guards.test.tsx 5/5 via pinned ac3 command (rc=0).",
+      "ac4": "pages/login_page.tsx (RHF+Zod, role=alert inline 401, navigate to from ?? /) + pages/register_page.tsx (email/username/password/confirm, onBlur zod rules min-8 password and 3-50 no-space username, field-level 409 on email via {code,field}, auto-login); login_page.test.tsx 4/4 + register_page.test.tsx 4/4 via pinned ac4 command (rc=0); both no-network nodes assert a flag-flipping MSW handler stayed uncalled after a 150ms settle.",
+      "ac5": "test/handlers.ts covers literal paths /api/v1/auth/login, /api/v1/auth/register, /api/v1/auth/me (server.ts setupServer; setup.ts listens onUnhandledRequest:'error'); grep proves no axios import / fetch( outside src/api; package.json exact pins react-hook-form 7.53.2 + zod 3.23.8, no forbidden deps; pinned ac5 command rc=0.",
+      "ac6": "Full suite 26 passed / 0 failed (>=26 nodes incl. 3 t2/t4 app-shell nodes, no regressions); npx tsc --noEmit rc=0; npm run lint rc=0 (0 errors, 1 expected react-refresh/only-export-components warning on auth_context.tsx); no 'any' under frontend/src; npm run build rc=0 (extra gate). Pinned ac6 command rc=0."
+    },
+    "constraint_compliance": {
+      "files": "All within the AC5-constrained expected file set; AppShell/t4 layout files untouched; backend, pyproject, uv.lock untouched.",
+      "dependencies": "Only react-hook-form 7.53.2 and zod 3.23.8 added, exact pins (no ^/~), frontend/package-lock.json committed. @hookform/resolvers NOT added; resolver hand-rolled in frontend/src/utils/validation.ts.",
+      "token_key": "localStorage key exactly 'token'; 401 interceptor sets window.location.href = '/login'.",
+      "guards_location": "components/common/ (not components/auth/).",
+      "frozen_titles": "All 18 ac1-ac4 titles byte-exact, apostrophe-free; verified by the pinned commands' JSON greps.",
+      "msw": "msw 2.3.5 setupServer with onUnhandledRequest:'error'; no test touches localhost:8000.",
+      "verification_runner": "Each pinned command extracted byte-identically (reconstruction of bash -c '<body>' matched the source line) to gitignored build/t9/acN.sh and executed as 'bash <file> </dev/null>'; scratch deleted before finishing."
+    },
+    "notes": [
+      "npm install hit the known EALLOWSCRIPTS host artifact; used the env-only workaround 'set npm_config_allow_scripts=' via cmd.exe. No package.json/.npmrc changes were made for it.",
+      "Deviation from groom reference (recorded): @testing-library/user-event is NOT in the lockfile and adding it would violate the two-dependency constraint, so all interactions use fireEvent from the installed @testing-library/react. Behavior coverage is unchanged.",
+      "Implementation trap found and fixed: axios AxiosError itself exposes numeric 'status' and string 'code' (ERR_BAD_REQUEST), so a naive isApiError guard returned the raw AxiosError unchanged; toApiError now excludes axios errors explicitly before the structural check.",
+      "Test-isolation trap: under jsdom a real window.location.href write raises 'Not implemented: navigation' and poisons every later request in the same worker (subsequent axios calls fail with 'Invalid base URL: /login' from whatwg-url). client.test.ts therefore stubs window.location in beforeEach (the AC Context explicitly sanctions Object.defineProperty stubbing).",
+      "AC5 grep requires literal 'api/v1/auth/me' etc. in handlers.ts; handlers use full literal paths instead of a composed `${API}/me` template.",
+      "Lint is WARNINGS not CLEAN: the single react-refresh/only-export-components warning on auth_context.tsx (useAuth exported alongside the provider) is explicitly called acceptable in the groomed issue's reference-pass note. No lint/tsconfig rules were relaxed.",
+      "Both dependency pins (react-hook-form 7.53.2, zod 3.23.8) installed cleanly; no nearest-pin substitution needed.",
+      "Platform comment posted on issue #12 and labels transitioned groomed -> built via scripts/platform.ts (label add uses --labels in this CLI build)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "frontend/package.json",
+      "frontend/package-lock.json",
+      "frontend/src/api/client.ts",
+      "frontend/src/api/auth.ts",
+      "frontend/src/api/client.test.ts",
+      "frontend/src/context/auth_context.tsx",
+      "frontend/src/context/auth_context.test.tsx",
+      "frontend/src/components/common/protected_route.tsx",
+      "frontend/src/components/common/public_only_route.tsx",
+      "frontend/src/components/common/guards.test.tsx",
+      "frontend/src/pages/login_page.tsx",
+      "frontend/src/pages/login_page.test.tsx",
+      "frontend/src/pages/register_page.tsx",
+      "frontend/src/pages/register_page.test.tsx",
+      "frontend/src/utils/validation.ts",
+      "frontend/src/test/handlers.ts",
+      "frontend/src/test/server.ts",
+      "frontend/src/test/setup.ts",
+      "frontend/src/app.tsx",
+      "frontend/src/main.tsx"
+    ],
+    "platform_issue": 12,
+    "output_path": "docs/state/outputs/t9_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T02:52:30Z",
+  "retry_count": 0
+}
