@@ -6,7 +6,7 @@ Updated: 2026-10-08T08:30Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t13 | verifier | verify_issue | 11:45Z | run 9637f28f (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
+| 1/2 | t13 | verifier | verify_pre_merge | 12:05Z | run 5c9ce7e8 (main checkout + throwaway t13pm, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
 | 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.

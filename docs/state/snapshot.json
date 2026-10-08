@@ -10,8 +10,8 @@
       "phase": "verify_pre_merge",
       "spawn_at": "2026-10-08T10:30:23Z",
       "last_activity_at": "2026-10-08T11:17:10Z",
-      "run_id": "pending",
-      "worktree_path": "../worktrees/t13",
+      "run_id": "5c9ce7e8-3220-4aa7-ad2e-8e35ca9140d3",
+      "worktree_path": "main checkout + throwaway t13pm",
       "note": "6 ACs + cumulative 67; head-004 audits"
     },
     {
