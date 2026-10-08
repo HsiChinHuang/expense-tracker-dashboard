@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T07:32:09Z",
+  "updated_at": "2026-10-08T08:48:27Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -239,6 +239,22 @@
     {
       "issue_id": "t10",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t10_ac3.db\" uv run pytest \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_inserts_exactly_the_ten_pinned_system_rows\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_second_seed_run_inserts_nothing\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_ids_are_python_uuids_and_partial_index_still_holds\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t10_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t11",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac1.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_returns_system_plus_own_custom_only_with_exact_fields_and_order\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_without_token_returns_401_unauthorized_contract_shape\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac1.db; exit $rc'"
+    },
+    {
+      "issue_id": "t11",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac2.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_valid_returns_201_with_exact_shape_and_owner_id\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_own_name_case_insensitive_returns_409_duplicate_category_field_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_system_name_returns_409_and_a_different_user_may_reuse_a_custom_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_invalid_bodies_return_422_validation_error_with_field\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac2.db; exit $rc'"
+    },
+    {
+      "issue_id": "t11",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac3.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_own_unused_returns_204_and_row_is_gone\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_unknown_and_cross_user_return_404_not_found_contract_shape\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_system_category_returns_404_and_row_survives\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_openapi_has_no_update_route_for_categories\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_one_raises_409_category_in_use\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_zero_deletes_and_never_blocks\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t11",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac4.db\" uv run pytest \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_system_category_is_returned_for_any_user\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_own_custom_category_is_returned\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_other_users_custom_category_raises_404_category_not_found\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_unknown_id_raises_404_category_not_found\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac4.db; exit $rc'"
     }
   ]
 }

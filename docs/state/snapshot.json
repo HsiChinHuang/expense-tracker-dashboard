@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T08:15:24Z",
-  "last_seq": 278,
+  "updated_at": "2026-10-08T08:48:35Z",
+  "last_seq": 283,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "t11",
-      "role": "verifier",
-      "phase": "verify_pre_merge",
-      "spawn_at": "2026-10-08T07:57:55Z",
-      "last_activity_at": "2026-10-08T08:15:24Z",
-      "run_id": "a8574331-3ed6-46f2-bf40-5b404aa4e5ec",
-      "worktree_path": "../worktrees/t11",
-      "note": "5 ACs + cumulative 59"
+      "issue_id": "t12",
+      "role": "definer",
+      "phase": "groom",
+      "spawn_at": "2026-10-08T08:48:35Z",
+      "last_activity_at": "2026-10-08T08:48:35Z",
+      "run_id": "pending",
+      "worktree_path": "main checkout",
+      "note": "W5 carry-forward"
     },
     {
       "slot": 2,
@@ -28,8 +28,8 @@
   "merge_queue": [],
   "active_issues": [
     {
-      "issue_id": "t11",
-      "state": "verified",
+      "issue_id": "t12",
+      "state": "defined",
       "modifiers": []
     }
   ]

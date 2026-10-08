@@ -111,6 +111,15 @@
       "retries": 0,
       "regressions": 0,
       "notes": "verify_issue 4/4 + 56/56; pre-merge merged-tree 56/56 clean merge-tree 0707362f; post-merge 60/60 (4 ACs + 56); t6 ac2 index pre-amended head->001 at this cycle (zero stale-index failures); 3 t10 ACs added to index (ac4 suite leg represented by existing full-suite entries)"
+    },
+    {
+      "issue_id": "t11",
+      "platform_issue": 14,
+      "merge_commit": "d278fea49",
+      "merged_at": "2026-10-08T08:48:27Z",
+      "retries": 0,
+      "regressions": 0,
+      "notes": "verify_issue 5/5 + 59/59; pre-merge merged-tree 59/59 clean merge-tree 02d2c20d; post-merge 64/64 (5 ACs + 59); 4 t11 ACs added to index (ac5 suite-gate leg excluded per t10 ac4 precedent); W3 seam contractual for t13, t15 e2e re-proof owed; plain-git shim entry set corrected to {1,4,5,12,23,24,27}"
     }
   ]
 }

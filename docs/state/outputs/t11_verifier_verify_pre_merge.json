@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t11",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": { "total": 59, "passed": 59, "failed": 0 },
+    "smoke_tests": { "total": 6, "passed": 6, "failed": 0 },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "02d2c20d5eaad5c0d1b46b79887d9c2d74966452",
+    "merged_tree": "25cb361896bc82619dc55d12e313eb5a8a7c480b (throwaway local merge commit, abandoned)",
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (main checkout, HEAD 9163a0e = origin/main), matching task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree 'uv sync --directory backend' run once in the throwaway merged worktree (rc=0, ~43s). UV_PROJECT_ENVIRONMENT never set per spawn hard rule. Command strings were NOT modified.",
+      "Merge-target hygiene: git fetch origin main rc=0 (cmd.exe git). origin/main head = 9163a0ecb262818600a2dc16ea8aec07d730e605, i.e. advanced from the spawn-stated 0e94c4b62 by docs-only state commits (9163a0e 'docs(state): t11 pre-merge a8574331 running'). merge-base(origin/main, 8682ae73f) = 9ad78d4285d203aa3419d596ad13e468248d40d8 (the stated branch base). main-vs-base delta verified docs-only: git diff --stat 9ad78d428 origin/main = 5 files, ALL under docs/state/ (t11 builder/verifier handoff JSONs, seq.txt, snapshot.json, status.md); 207 insertions / 14 deletions; zero source/config files.",
+      "merge-tree --write-tree origin/main 8682ae73f9a3eb151642e034f50f5da1dc64ab4b -> rc=0, single tree OID 02d2c20d5eaad5c0d1b46b79887d9c2d74966452, zero conflict lines = CLEAN merge expected.",
+      "Merged-tree gate run in a THROWAWAY worktree (t10-precedent protocol): git worktree add ..\\worktrees\\t11pm origin/main --detach (rc=0, HEAD 9163a0e), then git merge --no-ff 8682ae73f -> ort, rc=0, merge commit 25cb361896bc82619dc55d12e313eb5a8a7c480b, 7 files +1159/-0. All test legs ran from that merged tree. Worktree then removed with git worktree remove --force ABSOLUTE-Windows-path (rc=0, first attempt; worktree list confirms gone). NOTHING pushed; origin/main untouched (still 9163a0e at check time); no labels changed; no commits kept.",
+      "Runner discipline: all 59 cumulative commands extracted from the MERGED tree's docs/state/merge_test_index.json (59 tests, updated_at 2026-10-08T07:32:09Z) and the 5 t11 AC commands extracted verbatim from docs/issues/t11.md ## Verification commands, each to its OWN file under build/t11pm/{cum,ac}/ and executed as 'bash <file> </dev/null' with rc captured IMMEDIATELY (no inline eval/re-quoting). Byte-verify: reconstruction of \"bash -c '<body>'\" reproduced every source command byte-identically (0 mismatches across 59+5; no single-quote characters inside any body). Batch run from the merged worktree root.",
+      "Cumulative tally on the merged tree: 59/59 exit 0 (t0 6/6, t1 5/5, t2 6/6, t3 5/5, t4 6/6, t5 6/6, t6 5/5, t7 5/5, t8 6/6, t9 6/6, t10 3/3). Raw per-file results: build/t11pm/cum_results.txt (in throwaway worktree, now removed).",
+      "Git-internal steps inside verbatim commands (entries 1,4,5,12,23,24,27 use plain git; re-scan of the merged index confirmed exactly this set, matching the spawn brief) satisfied via the documented PATH shim build/t11pm/bin/git (forwards to /usr/bin/git with --git-dir/--work-tree of the throwaway worktree); validated against ls-files --error-unmatch, check-ignore and ls-files -- glob before the batch. WSL plain git cannot resolve the Windows gitdir pointer (reproduced: fatal: not a git repository ... C:/Users/...). Environment artifacts only; no command string modified.",
+      "Smoke set (docs/plan.md has no '## Smoke tests' section; docs/commands.md defines none - established t0-t10 fallback precedent): the 5 t11 AC verification commands run VERBATIM from the merged worktree root (ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0; no /tmp/t11_ac*.db leftovers) plus the backend full-suite legs (uv run pytest 88 passed in 29.28s; uv run ruff check . clean; uv run mypy . strict clean, 47 source files - all also executed inside ac5). Smoke total 6, passed 6, failed 0.",
+      "Diff review: git diff --stat origin/main...8682ae73f = exactly the 7 expected backend paths (core/errors.py +9, main.py +2, routers/categories.py, schemas/category.py, services/category_service.py, tests/integration/test_categories_api.py, tests/unit/test_category_service.py), +1159/-0. No frontend, config, pyproject, lockfile, alembic or migration files in the diff.",
+      "Constraints: backend/pyproject.toml and backend/uv.lock byte-identical to origin/main (git diff --exit-code rc=0 each); frontend/package.json identical too; 'uv run alembic heads' on the merged tree reports exactly one head '002 (head)' (t11 adds no migration, as expected).",
+      "Platform: MERGE VERDICT PASS comment posted on issue #14 via scripts/platform.ts (node + tsx cli from main checkout; npx tsx broken on this host - established), rc=0 on attempt 1, comment created_at 2026-10-08T08:33:41Z. No label transition (pre-merge is comment-only; Orchestrator merges).",
+      "Residual: origin/main advanced again during this run (0e94c4b62 -> 9163a0e, docs-only state deltas); merge-tree and all legs were verified against 9163a0e. Orchestrator should re-fetch at merge time; if further docs-only commits land the merge remains safe, but re-run merge-tree if any non-docs file appears in the delta.",
+      "Verdict: PASS - merged tree green (cumulative 59/59, 5 t11 ACs, 88-test backend suite + ruff + mypy strict), merge-tree clean against advanced docs-only origin/main, diff and constraints in bounds. Safe to merge."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t11_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 14,
+    "output_path": "docs/state/outputs/t11_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T08:36:30Z",
+  "retry_count": 0
+}
