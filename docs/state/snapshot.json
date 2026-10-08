@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T05:07:17Z",
-  "last_seq": 248,
+  "updated_at": "2026-10-08T05:17:26Z",
+  "last_seq": 250,
   "slots": [
     {
       "slot": 1,
       "issue_id": "-",
       "role": "definer",
-      "phase": "survey",
-      "spawn_at": "2026-10-08T05:07:17Z",
-      "last_activity_at": "2026-10-08T05:07:54Z",
-      "run_id": "4bcec0b3-c22b-4406-8fce-1e29bdd6a41e",
+      "phase": "review_plan",
+      "spawn_at": "2026-10-08T05:17:26Z",
+      "last_activity_at": "2026-10-08T05:17:26Z",
+      "run_id": "pending",
       "worktree_path": "main checkout",
-      "note": "phase_3_crud survey"
+      "note": "phase_3_crud review_plan"
     },
     {
       "slot": 2,

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_3_crud",
+  "survey_completed_at": "2026-10-08T05:17:26Z",
+  "review_plan_status": "pending",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": [
+    "t10",
+    "t11",
+    "t12",
+    "t13",
+    "t14",
+    "t15",
+    "t16",
+    "t17",
+    "t18"
+  ],
+  "survey_attempts": 0,
+  "completed_issues": [],
+  "updated_at": "2026-10-08T05:17:26Z"
+}
