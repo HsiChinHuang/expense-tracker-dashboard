@@ -10,7 +10,7 @@
       "phase": "verify_pre_merge",
       "spawn_at": "2026-10-08T12:05:23Z",
       "last_activity_at": "2026-10-08T12:54:25Z",
-      "run_id": "pending",
+      "run_id": "35ae40f3-4c69-4041-8f61-abbbf596876a",
       "worktree_path": "../worktrees/t14",
       "note": "6 ACs + cumulative 72 + migration 005 on merged result"
     },
