@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T17:01:20Z",
+  "updated_at": "2026-10-08T18:37:30Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -197,6 +197,37 @@
       },
       "regression_count": 0,
       "notes": "First frontend-touching issue of phase_3; first genuine chain regression caught pre-merge (merge-index #15/#26 default-reporter exit 1 from leaked MSW error-strategy unhandled rejection in handlers_contract.test.ts); fixed in fix_qa 01fb789 by borrowing/restoring process unhandledRejection listeners inside the test with a strictly stronger positive assertion; verify_issue PASS retry_count 1 via RESUMED verifier 1939a05f; pre-merge PASS incl. new permanent default-reporter leg; post-merge 5 ACs + 82/82 index rc=0 inline; index appended with ac1-ac4 (ac5 composite excluded per precedent) 82->86; merge tree differs from verifier dry-run ONLY by the tracked pre-merge handoff JSON (additive docs-only)."
+    },
+    {
+      "merge_id": "t17-3333abc4",
+      "issue_id": "t17",
+      "platform_issue": 20,
+      "merged_sha": "3333abc449d18915eb1b82bb485a5b3dd6883222",
+      "merged_tree": "5836eeec948606b05674920df79b3a04729912eb",
+      "merged_at": "2026-10-08T18:37:30Z",
+      "acs": [
+        "ac1",
+        "ac2",
+        "ac3",
+        "ac4",
+        "ac5"
+      ],
+      "smoke_tests": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0
+      },
+      "cumulative_tests": {
+        "total": 86,
+        "passed": 86,
+        "failed": 0
+      },
+      "backend_tests": {
+        "total": 184,
+        "passed": 184
+      },
+      "regression_count": 0,
+      "notes": "W13 ExpensesPage + ExpenseForm modal + ToastProvider network-error presentation; pays t9 carry-forward #4; 26 new frozen titles (toast 4 / page 13 / form 9), suite 52->78; zero-regression chain (no fix_qa round needed - t16 lessons embedded in build prompt: default-reporter + #15/#26 run green by builder pre-handoff, amountSchema string-space cents max-compare correct across digit lengths); pre-merge adjudicated single add/add conflict on t17_definer_groom.json (branch copy vs main remediated copy differ only in timestamp) resolved to main content-preserving - real merge hit same single conflict, same resolution; merge tree == verifier dry-run 24b23e02 plus tracked pre-merge handoff JSON only; handoff-format incident: first verify_issue artifact was prose not JSON (chain first schema breach) - remediated via resumed verifier, strict JSON validated [OK], spawn prompts now mandate strict-JSON handoffs; index 86->90 (ac1-ac4 appended, ac5 composite excluded per precedent)."
     }
   ]
 }

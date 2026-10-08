@@ -1,14 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:56:59Z",
-  "last_seq": 344,
+  "updated_at": "2026-10-08T18:40:54Z",
+  "last_seq": 345,
   "slots": [
     {
-      "role": "definer",
-      "phase": "verify_pre_merge",
-      "run_id": "ea15b080-377b-48e8-9ca2-2077250bf4f6",
-      "note": "t17 pre-merge on merged tree (throwaway t17pm)",
-      "last_activity_at": "2026-10-08T17:56:59Z"
+      "role": null,
+      "issue_id": null,
+      "agent": null,
+      "phase": null,
+      "run_id": null,
+      "note": "t17 CLOSED 8/9",
+      "last_activity_at": "2026-10-08T18:40:54Z"
     },
     {
       "slot": 2,
@@ -22,11 +24,5 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": [
-    {
-      "issue_id": "t17",
-      "state": "verified",
-      "modifiers": []
-    }
-  ]
+  "active_issues": []
 }
