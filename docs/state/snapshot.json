@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:10:27Z",
-  "last_seq": 338,
+  "updated_at": "2026-10-08T17:12:26Z",
+  "last_seq": 339,
   "slots": [
     {
       "role": "definer",
       "phase": "groom",
-      "run_id": "pending",
+      "run_id": "ed354692-dad3-4949-90a8-d4527c827a68",
       "note": "t17 groom (re-measure baseline 52, ratify 26 titles)",
-      "last_activity_at": "2026-10-08T17:10:27Z"
+      "last_activity_at": "2026-10-08T17:12:26Z"
     },
     {
       "slot": 2,
