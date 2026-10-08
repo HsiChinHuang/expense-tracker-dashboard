@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:21:32Z",
-  "last_seq": 341,
+  "updated_at": "2026-10-08T17:33:55Z",
+  "last_seq": 342,
   "slots": [
     {
       "role": "definer",
-      "phase": "build",
-      "run_id": "3f20b20f-011c-4907-832e-4c61dfcb1f5d",
-      "note": "t17 build (10 source paths, 26 frozen titles)",
-      "last_activity_at": "2026-10-08T17:21:32Z"
+      "phase": "verify_issue",
+      "run_id": "a2888dc9-ca40-4250-9ec7-197b2a896e82",
+      "note": "t17 verify on cffd62f (86-entry cumulative)",
+      "last_activity_at": "2026-10-08T17:33:55Z"
     },
     {
       "slot": 2,
@@ -25,10 +25,8 @@
   "active_issues": [
     {
       "issue_id": "t17",
-      "state": "groomed",
-      "modifiers": [
-        "building"
-      ]
+      "state": "built",
+      "modifiers": []
     }
   ]
 }
