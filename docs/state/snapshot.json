@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T12:54:25Z",
-  "last_seq": 307,
+  "updated_at": "2026-10-08T13:34:01Z",
+  "last_seq": 310,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "t14",
-      "role": "builder",
-      "phase": "verify_pre_merge",
-      "spawn_at": "2026-10-08T12:05:23Z",
-      "last_activity_at": "2026-10-08T12:54:25Z",
-      "run_id": "35ae40f3-4c69-4041-8f61-abbbf596876a",
-      "worktree_path": "../worktrees/t14",
-      "note": "6 ACs + cumulative 72 + migration 005 on merged result"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "spawn_at": null,
+      "last_activity_at": "2026-10-08T13:34:01Z",
+      "run_id": null,
+      "worktree_path": null,
+      "note": "t14 CLOSED 5/9; next t15 survey"
     },
     {
       "slot": 2,
@@ -26,11 +26,5 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": [
-    {
-      "issue_id": "t14",
-      "state": "verified",
-      "modifiers": []
-    }
-  ]
+  "active_issues": []
 }

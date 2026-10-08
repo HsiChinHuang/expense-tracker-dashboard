@@ -6,7 +6,7 @@ Updated: 2026-10-08T08:30Z
 
 | Slot | Issue | Role | Phase | Spawn | Last Activity |
 |---|---|---|---|---|---|
-| 1/2 | t14 | verifier | verify_pre_merge | 14:25Z | run 35ae40f3 (#17) (worktree ../worktrees/t14, #17) (worktree ../worktrees/t14, #17) (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
+| 1/2 | - | - | - | - | t14 CLOSED 5/9 (next: t15 survey) (#17) (worktree ../worktrees/t14, #17) (worktree ../worktrees/t14, #17) (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
 | 2/2 | (free) | — | — | — | — |
 
 **t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.

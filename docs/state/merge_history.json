@@ -138,6 +138,20 @@
       "retries": 0,
       "regressions": 0,
       "notes": "verify_issue 6/6 + 67/67; pre-merge merged-tree 67/67 clean merge-tree d59a611c; post-merge 73/73 (6 ACs + 67); 5 t13 ACs added (ac6 suite-gate excluded per precedent); W3 seam retired + W6/W7 frozen resolutions merged; 3 baseline amendments intent-preserving (verifier-audited); no index amendment needed (head-004 audited pre-verify: entries 32/33/36 head-agnostic, 58 scoped 002, 64 node ID unchanged)"
+    },
+    {
+      "merge_id": "15",
+      "issue_id": "t14",
+      "platform_issue": 17,
+      "merged_sha": "740223cec",
+      "merged_tree": "7a22090c03d59872377c83aa8e03009d44846aad",
+      "merged_at": "2026-10-08T13:33:24Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 72,
+      "backend_tests": 171,
+      "regression_count": 0,
+      "notes": "budgets vertical; Alembic 005 single head; W8 tuple ruling; 3 baseline amendments verifier-audited PRESERVE intent; index 72->77 (ac6 suite-gate excluded)"
     }
   ]
 }

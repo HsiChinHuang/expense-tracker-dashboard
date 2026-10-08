@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T11:57:26Z",
+  "updated_at": "2026-10-08T13:33:35Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -291,6 +291,26 @@
     {
       "issue_id": "t13",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_expense_payload\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_payload_keys\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_expense_write\" \"tests/unit/test_expense_service.py::TestCategoryInUseWithRealExpenses::test_deleting_a_category_with_a_real_expense_raises_409_category_in_use\" \"tests/unit/test_expense_service.py::TestCategoryInUseWithRealExpenses::test_deleting_an_unused_category_still_succeeds_after_the_real_count_lands\" \"tests/integration/test_expense_api.py::TestExpenseAudit::test_create_update_delete_audit_rows_persist_the_forwarded_client_ip\" -q && ! grep -q \"except ImportError\" app/services/category_service.py'"
+    },
+    {
+      "issue_id": "t14",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_model.py::TestBudgetModel::test_columns_types_python_uuid_pk_and_cascade_fk_semantics\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_named_unique_and_both_checks_reject_bad_values_on_sqlite\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_two_sequential_inserts_for_same_user_and_month_raise_integrity_error\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_amount_roundtrips_as_decimal_with_exact_two_dp_equality\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_upgrade_head_creates_budgets_with_three_named_constraints\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_downgrade_005_to_004_drops_budgets_and_upgrade_roundtrip_restores\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_raw_delete_of_owner_cascades_to_budget_rows\" -q'"
+    },
+    {
+      "issue_id": "t14",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_creates_budget_with_exactly_the_two_frozen_response_keys\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_second_put_replaces_amount_and_row_count_stays_one\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_amount_is_a_two_dp_string_never_a_json_float\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_invalid_amount_values_return_422_invalid_amount_field_amount\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_missing_amount_non_string_or_extra_key_return_422_validation_error\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_malformed_year_month_paths_return_422_never_404_never_zero_body\" -q'"
+    },
+    {
+      "issue_id": "t14",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_stored_budget_returns_200_with_the_two_frozen_keys\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_absent_month_returns_200_exact_zero_body_and_persists_nothing\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_other_users_budget_is_never_returned\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_malformed_year_month_returns_422_never_404_never_zero_body\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_without_token_returns_401\" -q'"
+    },
+    {
+      "issue_id": "t14",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_own_returns_204_and_the_row_is_gone\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_absent_and_other_user_return_identical_404_and_the_row_survives\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_malformed_year_month_returns_422\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_deleting_budget_leaves_same_month_expenses_intact_and_queryable\" -q'"
+    },
+    {
+      "issue_id": "t14",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_budget_payload\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_budget_payload_keys\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_budget_write\" -q'"
     }
   ]
 }

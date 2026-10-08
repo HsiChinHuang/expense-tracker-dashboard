@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t14",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 72,
+      "passed": 72,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "7a22090c03d59872377c83aa8e03009d44846aad",
+    "merged_tree": "t14pm throwaway merge commits 9f0620d (first pass) and b7f9e4a (AC-output re-run pass), both with tree == merge-tree OID 7a22090c03d59872377c83aa8e03009d44846aad; branch deleted, main restored at b413412 == origin/main, nothing pushed",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_model.py::TestBudgetModel::test_columns_types_python_uuid_pk_and_cascade_fk_semantics\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_named_unique_and_both_checks_reject_bad_values_on_sqlite\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_two_sequential_inserts_for_same_user_and_month_raise_integrity_error\" \"tests/unit/test_budget_model.py::TestBudgetModel::test_amount_roundtrips_as_decimal_with_exact_two_dp_equality\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_upgrade_head_creates_budgets_with_three_named_constraints\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_downgrade_005_to_004_drops_budgets_and_upgrade_roundtrip_restores\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_raw_delete_of_owner_cascades_to_budget_rows\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac1.out",
+        "note": "7 passed in 2.61s on the merged tree (throwaway branch t14pm). Model columns/UUID PK/CHECKs/UNIQUE, three named constraints in stored DDL, FK ON DELETE CASCADE, IntegrityError on two sequential same-(user,month) inserts, Decimal 2-dp round-trip, upgrade-head + downgrade 004 round-trip."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_creates_budget_with_exactly_the_two_frozen_response_keys\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_second_put_replaces_amount_and_row_count_stays_one\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_amount_is_a_two_dp_string_never_a_json_float\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_invalid_amount_values_return_422_invalid_amount_field_amount\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_put_missing_amount_non_string_or_extra_key_return_422_validation_error\" \"tests/integration/test_budget_api.py::TestBudgetPut::test_malformed_year_month_paths_return_422_never_404_never_zero_body\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac2.out",
+        "note": "6 passed, 4 warnings in 6.09s. PUT upsert creates/replaces with exactly {year_month, amount}, 2-dp string amount, INVALID_AMOUNT vs VALIDATION_ERROR split, malformed path formats 422 (never 404, never zero body)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_stored_budget_returns_200_with_the_two_frozen_keys\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_absent_month_returns_200_exact_zero_body_and_persists_nothing\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_other_users_budget_is_never_returned\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_malformed_year_month_returns_422_never_404_never_zero_body\" \"tests/integration/test_budget_api.py::TestBudgetGet::test_get_without_token_returns_401\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac3.out",
+        "note": "5 passed, 3 warnings in 5.49s. GET stored 200 two-key body; absent well-formed month 200 exact zero body and persists nothing; cross-user reads as absent; malformed 422; unauthenticated 401."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_own_returns_204_and_the_row_is_gone\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_absent_and_other_user_return_identical_404_and_the_row_survives\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_malformed_year_month_returns_422\" \"tests/integration/test_budget_api.py::TestBudgetDelete::test_deleting_budget_leaves_same_month_expenses_intact_and_queryable\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac4.out",
+        "note": "4 passed, 3 warnings in 5.47s. DELETE 204 + row gone; absent and cross-user identical 404 NOT_FOUND with victim row surviving; malformed 422; same-month expenses intact and queryable after delete (REQ-DB-042)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_budget_payload\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_budget_payload_keys\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_budget_service.py::TestBudgetAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_budget_write\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac5.out",
+        "note": "4 passed in 2.28s. Persisted audit content for CREATE/UPDATE/DELETE with the byte-pinned two-key {amount, year_month} payload, plus the W7 rollback integration (monkeypatched write_audit_log staging action=PATCH -> IntegrityError, neither budget nor audit row persisted)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_budget_api.py::TestBudgetOpenApi::test_openapi_lists_three_budget_operations_after_health_auth_categories_expenses\" \"tests/integration/test_budget_migration.py::TestBudgetMigration::test_alembic_heads_is_single_revision_005\" -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "output_path": "build/t14pm/logs/ac6.out",
+        "note": "rc=0 (the command redirects all output to /dev/null by design, so the log file is empty; rc is the evidence). Composite leg: full suite + ruff + strict mypy + OpenAPI three-ops-after-expenses node + single-head-005 node. Independently corroborated by direct gate runs (171 passed / ruff clean / mypy 72 files / heads exactly 005)."
+      }
+    },
+    "test_summary": {
+      "backend_suite": "uv run pytest -q -> 171 passed, 18 warnings in 51.87s (143-node baseline + 28 new budget nodes)",
+      "budget_nodes": "uv run pytest tests/unit/test_budget_model.py tests/integration/test_budget_migration.py tests/unit/test_budget_service.py tests/integration/test_budget_api.py -q -> 28 passed in 12.50s",
+      "ruff": "uv run ruff check . -> All checks passed! (rc=0)",
+      "mypy": "uv run mypy . -> Success: no issues found in 72 source files (rc=0)",
+      "alembic_heads": "uv run alembic heads -> exactly '005 (head)' (rc=0)",
+      "migration_chain_fresh_db": "DATABASE_URL=sqlite:///tmp-fresh alembic upgrade head rc=0; heads exactly '005'; current '005 (head)'; downgrade 004 rc=0 then upgrade head rc=0 (round-trip); stored budgets DDL names uq_budgets_user_month, ck_budgets_amount_positive, ck_budgets_year_month_format and FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE"
+    },
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, Windows host + WSL bash), matching the task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree 'uv sync --directory backend' run once on the merged tree (rc=0, 'Checked 52 packages'). UV_PROJECT_ENVIRONMENT never set per the spawn hard rule. No command string was modified.",
+      "Merge-target hygiene: git fetch origin rc=0; origin/main head = b4134123203fe171352d290f83aea220ba8e464b (advanced from the spawn-stated 8c59aba by docs-only state commits). merge-base(origin/main, origin/issue/t14-budgets-vertical@3420ada) = f152702 (t14 groom commit = the stated branch base). main-vs-base delta verified docs-only: git diff --name-only f152702..b413412 = 5 files, ALL under docs/state/ (t14 builder/verifier handoff JSONs, seq.txt, snapshot.json, status.md); zero source/config files. Branch HEAD 3420ada = code commit ca26d03 (feat(t14)) + docs-only handoff commits, as stated.",
+      "git merge-tree --write-tree origin/main origin/issue/t14-budgets-vertical -> rc=0, single tree OID 7a22090c03d59872377c83aa8e03009d44846aad, zero conflict output = CLEAN merge. The merged tree differs from the branch tree only in 4 docs/state paths (main's newer state artifacts), i.e. backend code is byte-identical to the branch.",
+      "Merged tree built on a THROWAWAY branch (t10-t13 protocol, adapted to the spawn's branch instruction): git branch t14pm origin/main; git checkout t14pm; git merge --no-ff -F build/t14pm/msgfile.txt origin/issue/t14-budgets-vertical -> rc=0, merge commit 9f0620d with tree == the merge-tree OID exactly. All legs ran from that merged tree. Cleanup: git checkout main (rc=0), git branch -D t14pm (rc=0, was b7f9e4a), main HEAD b413412 == origin/main, 'git branch -a | grep -c t14pm' = 0, git status --porcelain empty, git worktree list shows only the main checkout plus the pre-existing (prunable, not mine) builder worktree. NOTHING pushed; origin/main untouched; no labels changed; no commits kept.",
+      "Runtime-artifact note (harmless, disclosed): the main checkout carried a pre-existing dirty docs/state/seq.txt (308 -> 309, a runtime counter bumped by the orchestrator before this spawn; it is NOT part of the t14 merge and the merge would have refused with it dirty). It was committed locally ON THE THROWAWAY BRANCH ONLY as a chore commit and the file was restored on return to main; final git status --porcelain is empty and main == origin/main.",
+      "Runner discipline: the 6 t14 AC commands were extracted VERBATIM from docs/issues/t14.md '## Verification commands' (file is LF, 0 CR bytes; \\r-strip applied defensively per protocol), stripping the 'bash -c ' prefix AND the surrounding single quotes; each body written to its own file under build/t14pm/ac/ and run as 'bash <file> </dev/null' with rc captured IMMEDIATELY (no inline eval/re-quoting). Byte-verify: rebuild \"bash -c '\" + body + \"'\" == original for all 6 -> 0 mismatches; no embedded single quotes or backslash-quotes in any AC body.",
+      "Cumulative regression: docs/state/merge_test_index.json = schema 1.0, updated_at 2026-10-08T11:57:26Z, exactly 72 entries (t0 6, t1 5, t2 6, t3 5, t4 6, t5 6, t6 5, t7 5, t8 6, t9 6, t10 3, t11 4, t12 4, t13 5 = 72; t14's own ACs are NOT in the index and run as the smoke set). Each command extracted to its own zero-padded file build/t14pm/mt/mt_NN_<issue>.sh (zero-padding avoids leading-zero scope bugs) with the same strip + byte-verify discipline: 72/72 round-trip, 0 mismatches, 0 unwrapped entries. Batch run synchronously from the merged tree root in 4 chunks (1-18, 19-36, 37-56, 57-72): 72/72 exit 0, per-entry rc captured immediately, stdout/stderr saved under build/t14pm/logs/.",
+      "Git-internal steps inside verbatim commands: re-scan of the 72-entry index for '\\bgit\\b' returned exactly {1,4,5,12,23,24,27} (t0 x3, t2 x1, t4 x3), matching the spawn brief. Those 7 entries ONLY got the PATH shim build/t14pm/bin/git (forwards to /usr/bin/git with --git-dir=/mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard/.git --work-tree=/mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard, i.e. WSL /mnt/c form per the t13/t14 lesson that Windows-form C:/ paths fail under WSL git); validated before the batch with 'git ls-files --error-unmatch .env.example' rc=0 and 'git rev-parse --abbrev-ref HEAD' -> t14pm. All other 65 entries ran unpatched. Environment artifacts only; no command string modified.",
+      "Head-sensitive entries passed unchanged on the merged tree: entry 64 (t12 internals pinned to revision 003) and entry 68 (t13 internals pinned to revision 004, node IDs unchanged) both rc=0, as did the three amended baseline tests via the cumulative set and the full suite (test_user_model superset guard, test_audit_migration heads 004->005, test_expense_migration heads 004->005 + pinned upgrade revision 004).",
+      "Backend gates on the merged tree (independent of ac6's /dev/null composite): uv run pytest -q -> 171 passed in 51.87s; uv run ruff check . -> All checks passed!; uv run mypy . -> Success: no issues found in 72 source files; uv run alembic heads -> exactly '005 (head)'. The 4 budget test modules alone: 28 passed (matches the 28 new nodes declared in the issue).",
+      "Migration chain on the merged tree, fresh DB: 'DATABASE_URL=sqlite:///tmp alembic upgrade head' rc=0, heads exactly '005', current '005 (head)'; 'downgrade 004' rc=0 then 'upgrade head' rc=0 round-trip; sqlite_master budgets DDL contains CONSTRAINT uq_budgets_user_month UNIQUE (user_id, year_month), ck_budgets_amount_positive, ck_budgets_year_month_format and FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE. No migration-adjacent failures -> no BLOCKER.",
+      "OpenAPI on the merged tree (direct create_app() inspection): paths = ['/', '/api/v1/health', '/api/v1/auth/register', '/api/v1/auth/login', '/api/v1/auth/me', '/api/v1/categories', '/api/v1/categories/{category_id}', '/api/v1/expenses', '/api/v1/expenses/{expense_id}', '/api/v1/budgets/{year_month}'] - the budget path is registered AFTER health/auth/categories/expenses, its operations are exactly {get, put, delete}, and no path contains 'audit'.",
+      "Diff review: git diff --stat origin/main...origin/issue/t14-budgets-vertical = exactly the 14 expected backend paths (backend/alembic/versions/005_budgets.py, app/main.py, app/models/__init__.py, app/models/budget.py, app/routers/budgets.py, app/schemas/budget.py, app/services/budget_service.py, tests/integration/{test_audit_migration,test_budget_api,test_budget_migration,test_expense_migration}.py, tests/unit/{test_budget_model,test_budget_service,test_user_model}.py) plus docs/state artifacts; +2245/-13. No frontend, pyproject, uv.lock, or config files. Constraints: git diff --exit-code origin/main branch -- backend/pyproject.toml backend/uv.lock frontend/package.json -> rc=0 (byte-identical). backend/alembic/versions/ contains exactly {001_initial_schema, 002_categories, 003_audit_logs, 004_expenses, 005_budgets} - single new revision 005, chain linear.",
+      "Smoke set: docs/plan.md has NO '## Smoke tests' section and docs/commands.md defines no smoke commands (established t0-t13 fallback precedent), so the smoke set = the 6 t14 AC verification commands run VERBATIM from the merged tree root: ac1 rc=0 (7 passed), ac2 rc=0 (6 passed), ac3 rc=0 (5 passed), ac4 rc=0 (4 passed), ac5 rc=0 (4 passed), ac6 rc=0 (composite). 6/6 rc=0. config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue's 6 ACs); the 72-entry cumulative batch plus the 171-test suite provide the surplus coverage. Same accounting as t10 (6), t11 (6), t12 (6), t13 (6).",
+      "Platform sync: MERGE VERDICT PASS comment posted on Platform issue #17 via scripts/platform.ts (invocation: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 17 --body <body> through a shell-less node wrapper reading build/t14pm/comment.md, per the flaky/multi-line-body precedent; the WSL-local tsx/esbuild binary is corrupt on this host - 'Syntax error: EOF in backquote substitution' - so the documented Windows node.exe fallback was used). rc=0 attempt 1; comment created_at 2026-10-08T13:13:59Z, body length 4188 chars, single non-fragment comment verified via 'issue latest-comment 17' (head '## MERGE VERDICT: PASS', tail 'Safe to merge.'). Labels unchanged: issue get 17 -> labels ['verified'], state open (per instruction: verified stays, 'merged' is the Orchestrator's post-merge transition).",
+      "Verdict: PASS - merged tree green (cumulative 72/72 exit 0, 6 t14 ACs verbatim 6/6 rc=0, 171-test backend suite + ruff + strict mypy 72 files, single Alembic head 005, fresh-DB upgrade/downgrade/upgrade round-trip, OpenAPI three budget ops after expenses with no audit path), merge-tree clean against the advanced docs-only origin/main, diff and dependency constraints in bounds. Safe to merge.",
+      "Residual risks for the Orchestrator: (1) origin/main advanced twice during this run (8c59aba -> b413412, docs-only); re-fetch at merge time and re-run merge-tree if any non-docs file appears in the delta. (2) The main checkout's docs/state/seq.txt is a live runtime counter that is dirty between orchestrator commits; the merge commit must not include it (it was excluded here). (3) The builder worktree C:/Users/tw097/Desktop/261007_project01/worktrees/t14 shows 'prunable' - the Orchestrator should 'git worktree remove' it as part of t14 close (not the Verifier's scope). (4) e2e/frontend smoke coverage for budgets is t16/t18 scope; nothing in this pre-merge run exercises the frontend budget surface."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t14_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 17,
+    "output_path": "docs/state/outputs/t14_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T13:20:00Z",
+  "retry_count": 0
+}
