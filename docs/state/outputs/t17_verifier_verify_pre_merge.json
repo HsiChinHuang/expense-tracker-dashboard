@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t17",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 86,
+      "passed": 86,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "24b23e02ae000d9bb62a9bb6d95379a14e9de862",
+    "merged_tree": "t17pm throwaway merge commit 74f9812b15de20540455b9e1b42693b45e05e05d (origin/main 2ee0f4a + origin/issue/t17-expenses-page cffd62f, ort; ONE add/add conflict on docs/state/outputs/t17_definer_groom.json resolved to main's copy - the two copies are byte-identical except the handoff timestamp field (17:20:14Z main vs 17:19:56Z branch), so the resolution is content-preserving; tree 24b23e02ae000d9bb62a9bb6d95379a14e9de862). Branch deleted, main restored at 2ee0f4a == origin/main, nothing pushed.",
+    "ac_results": {
+      "ac1": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t17pm/logs/ac1.out", "note": "ToastProvider/useToast exports, <ToastProvider in main.tsx (groom-tightened grep), toast_context.test.tsx + expenses_page.test.tsx numFailedTests:0, 4 toast + 2 network-error frozen titles passed. rc=0 on merged tree." },
+      "ac2": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t17pm/logs/ac2.out", "note": "expenses_page.tsx exists, /expenses in app.tsx, no parseFloat/parseInt/toFixed under pages/components/context, expenses_page JSON numFailedTests:0, 9 frozen titles passed (title/loading/empty/table/amount-string/month/category/pagination/500-char-note). rc=0." },
+      "ac3": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t17pm/logs/ac3.out", "note": "amountSchema+expenseFormSchema in utils/validation.ts, expense_form.test.tsx numFailedTests:0, 9 frozen titles passed (create/edit/pre-network-block/blur rules x2/submit-disabled/backend-field-error/preserve-on-error/focus trap+restore). rc=0." },
+      "ac4": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t17pm/logs/ac4.out", "note": "confirm_dialog.tsx with role=dialog, expenses_page numFailedTests:0, 2 frozen confirm-dialog titles passed (delete-opens-without-handler, confirm-calls-handler-and-refetches). rc=0." },
+      "ac5": { "verdict": "PASS", "exit_code": 0, "output_path": "build/t17pm/logs/ac5.out", "note": "Composite gate rc=0: full JSON suite numFailedTests:0, numPendingTests:0, numTodoTests:0, 78 passed-titles >= 78 floor (52 merged + 26 new); tsc --noEmit rc=0; npm run lint rc=0; no-any grep clean; dependency ban (no recharts/date-fns, @tanstack/react-query pinned 5.56.2). rc=0." }
+    },
+    "test_summary": {
+      "frontend_suite_json_reporter": "78 total / 78 passed / 0 failed / 0 pending / 0 todo (14 files) - independent sanity run build/t17pm/logs/sanity_full_json.out confirms warm node_modules (not a no-op)",
+      "frontend_suite_default_reporter": "rc=0, Test Files 14 passed (14), Tests 78 passed (78), ZERO 'Unhandled Errors' sections (grep count 0; benign stderr noise = jsdom navigation warnings + intentional [MSW] error output, as at verify_issue) - permanent default-reporter leg since t16",
+      "backend_suite": "uv run pytest -q -> 184 passed, 18 warnings in 79.57s on merged tree (independent durable leg per t16 precedent; t17 touches zero backend files)",
+      "diff_audit": "git diff --stat origin/main...origin/issue/t17-expenses-page = exactly 10 frontend files + 3 docs artifacts (docs/issues/t17.md, docs/state/outputs/t17_definer_survey.json, t17_definer_groom.json), +1850/-24; zero other non-frontend paths. git diff --exit-code origin/main t17pm -- frontend/package.json frontend/package-lock.json backend/pyproject.toml backend/uv.lock package.json -> rc=0 (byte-identical manifests: no new deps, TanStack Query stays 5.56.2). Merged-tree non-docs delta vs origin/main = exactly the 10 frontend files."
+    },
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, Windows host + WSL bash), matching the task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree uv resolution used (uv on PATH via $HOME/.local/bin). No command string was modified.",
+      "Merge-target hygiene: git fetch origin rc=0; origin/main head = 2ee0f4a0ffad3aa6400865d8cbf4f8741a4a336e (main == origin/main, working tree clean at start and end). Candidate = origin/issue/t17-expenses-page @ cffd62f5ce5754ffb07c92720111ebfa760bd1b5 == spawn-stated SHA; branch = exactly FOUR commits (b6f1e01 survey + 2d39e16 groom + 4a64bbe groom-handoff + cffd62f feat) on base 01ce3d1 (t16 merge). git merge-tree dry-run: rc=1, single CONFLICT (add/add) on docs/state/outputs/t17_definer_groom.json only - the branch carries its own survey/groom docs commits and main received remediated copies of the same handoffs via the docs pipeline.",
+      "Conflict adjudication BEFORE merging: git show both sides -> both 16545 bytes, diff = exactly one line (the handoff timestamp: main 2026-10-08T17:20:14Z vs branch 2026-10-08T17:19:56Z; main's copy is the remediated [OK] version per commit 063db72). Resolution to main's copy is content-preserving (verifier is read-only w.r.t. artifacts; no code/test/issue file affected). docs/issues/t17.md and t17_definer_survey.json auto-merged clean (0 conflict markers in merged tree, grep -c '<<<<<<<' = 0 on both previously-conflicting and auto-merged docs).",
+      "Throwaway-branch protocol (t16 lesson applied): git checkout -b t17pm origin/main (rc=0, HEAD actually switched to 2ee0f4a - NOT the git branch -f trap), then cmd.exe /c git -C <main checkout> merge --no-ff --no-edit origin/issue/t17-expenses-page -> rc=1 (the one add/add conflict, all other files auto-merged by ort), git checkout --ours docs/state/outputs/t17_definer_groom.json + git add + git commit --no-edit -> merge commit 74f9812, tree 24b23e02ae000d9bb62a9bb6d95379a14e9de862. All legs then ran from the merged t17pm tree at the main-checkout root.",
+      "AC extraction + byte-verify: the 5 t17 AC commands extracted VERBATIM from docs/issues/t17.md '## Verification commands' fenced bash blocks (LF; \\r-strip applied defensively) via build/t17pm/extract.cjs -> build/t17pm/ac/acN.sh. Byte-verify: fenced region == '```bash\\n' + body + '\\n```' AND file round-trip equal for all 5 (byteEqual=true, fileEqual=true, TOTAL MISMATCHES=0); each body is one line (0 embedded newlines), the only single quotes are the outer bash -c pair; bash -n syntax-clean x5. Each run as 'bash build/t17pm/ac/acN.sh </dev/null' from the merged tree root with rc captured IMMEDIATELY: ac1..ac5 all rc=0 (17:58:07Z-17:58:27Z).",
+      "Speed sanity (t16 precedent): an independent full-suite JSON run on the merged tree returned 78 total / 78 passed / 0 failed / 0 pending / 0 todo (14 files), and the default-reporter run rc=0 - the fast AC legs reflect a genuinely warm, fully-installed frontend node_modules at the main checkout, not a no-op.",
+      "Cumulative regression: docs/state/merge_test_index.json = schema 1.0, updated_at 2026-10-08T17:01:20Z, exactly 86 entries (t0 6, t1 5, t2 6, t3 5, t4 6, t5 6, t6 5, t7 5, t8 6, t9 6, t10 3, t11 4, t12 4, t13 5, t14 5, t15 5, t16 4 = 86; t17's own ACs are NOT in the index - they are the smoke set; the index grows only at close). Each command extracted VERBATIM to zero-padded build/t17pm/mt/NN.sh via build/t17pm/extract_mt.cjs: 86/86 byte round-trip, 0 mismatches, bash -n clean x86. Batch run synchronously from the merged tree root in 6 chunks (01-10, 11-25, 26-40, 41-56, 57-76, 77-86): 86/86 exit 0, per-entry rc captured immediately, outputs under build/t17pm/logs/mt_NN.out.",
+      "Git-internal steps inside verbatim commands: re-scan of the 86-entry index for 'git ' returned exactly {1,4,5,12,23,24,27} (t0 x3 incl. entry 5 the parenthesized git call, t2 x1 entry 12, t4 x3 entries 23/24/27), matching the expected shim set. Those 7 entries ONLY got the PATH shim build/t17pm/bin/git (exec /usr/bin/git --git-dir=/mnt/c/.../expense-tracker-dashboard/.git --work-tree=/mnt/c/.../expense-tracker-dashboard \"$@\", WSL /mnt/c form, MAIN checkout); validated before the batch: rev-parse --abbrev-ref HEAD -> t17pm, ls-files --error-unmatch frontend/src/pages/expenses_page.tsx rc=0. PATH HYGIENE (t15 lesson): the FULL ORIGINAL PATH was restored after EVERY shimmed entry (case-based prepend + unconditional reset per loop iteration); frontend entries 13,15,16,26,51-56 all ran with cmd.exe available and passed rc=0, confirming no PATH leakage. All other 79 entries ran unpatched. Environment artifacts only; no command string modified.",
+      "Default-reporter leg (permanent frontend requirement since t16): 'npx.cmd vitest run' (no --reporter) via cmd.exe/wslpath on the merged tree -> rc=0 (explicit rc capture), Test Files 14 passed (14), Tests 78 passed (78), ZERO 'Unhandled Errors' sections in output (grep count 0). The 4 stderr lines present are the known benign noise (jsdom navigation warnings from t9 auth tests, intentional [MSW] unhandled-request error output from the t16 contract test).",
+      "Independent backend leg on the merged tree: uv run pytest -q -> 184 passed, 18 warnings in 79.57s (t15/t16 baseline; t17 touches zero backend files). Backend ruff/mypy covered by index entries (e.g. #11, t12/t13 quality-gate entries) all rc=0 in the cumulative batch.",
+      "Smoke set: docs/plan.md has NO '## Smoke tests' section and docs/commands.md defines no smoke commands (established t0-t16 fallback precedent), so the smoke set = the 5 t17 AC verification commands run VERBATIM from the merged tree root: 5 total, 5 passed, 0 failed. config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue's 5 ACs); the 86-entry cumulative batch plus the 78-test frontend and 184-test backend suites provide the surplus coverage. Same accounting as t10-t16.",
+      "Platform sync: MERGE VERDICT PASS comment posted on Platform issue #20 via scripts/platform.ts (invocation: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 20 --body <body>, body via command substitution from build/t17pm/comment.md). rc=0 attempt 1; issue get BEFORE posting showed zero 'MERGE VERDICT' occurrences (no duplicate risk); issue latest-comment AFTER posting = the single PASS comment (1398 chars, head '## MERGE VERDICT: PASS'). Labels UNCHANGED: issue get 20 -> state open, labels [defined, surveyed, verified] (per instruction: pre-merge is not a platform state; 'merged' NOT added - Orchestrator's transition).",
+      "Cleanup CONFIRMED: git checkout main (rc=0), git branch -D t17pm (rc=0, was 74f9812), main HEAD 2ee0f4a == origin/main, git branch --list t17pm empty, git status --porcelain empty. NOTHING pushed; origin/main untouched; no label changes; worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t17 untouched (node_modules intact, not deleted).",
+      "Verdict: PASS - merged tree green (cumulative 86/86 exit 0, 5 t17 ACs verbatim 5/5 rc=0 with 26/26 frozen titles, frontend 78/78 under BOTH json and default reporters with no Unhandled Errors, backend 184 passed, manifests byte-identical, diff exactly the 10 frontend files + 3 docs artifacts), throwaway branch removed, main == origin/main, nothing pushed. Safe to merge.",
+      "Residual risks for the Orchestrator: (1) The t17 branch carries docs commits (survey/groom/handoff) that CONFLICT add/add with main's remediated copies of t17_definer_groom.json - the real merge will hit the same single conflict; resolve to main's copy (byte-identical except timestamp, main's is the [OK]-validated remediated version). Alternative: rebase/rebuild the branch onto current main to drop the duplicate docs commits before merging. (2) At close, append the 26 frozen node IDs (4 toast + 13 expenses_page + 9 expense_form per the groomed inventory; ac5 composite excluded per t10-t16 precedent) to merge_test_index.json - the index is at 86 entries (t0-t16) as expected pre-close. (3) docs/state/seq.txt is a live runtime counter; the merge commit must never include it (merged-tree delta vs branch showed seq.txt/snapshot.json/status.md + builder/verifier handoffs as main-side drift only, not branch changes). (4) Frontend suite timing on this host is warm-cache dependent (~5-60s); CI timing differences are a known host quirk, not a t17 risk."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t17_verifier_verify_pre_merge.json",
+      "build/t17pm/extract.cjs",
+      "build/t17pm/extract_mt.cjs",
+      "build/t17pm/ac/ac1.sh",
+      "build/t17pm/ac/ac2.sh",
+      "build/t17pm/ac/ac3.sh",
+      "build/t17pm/ac/ac4.sh",
+      "build/t17pm/ac/ac5.sh",
+      "build/t17pm/mt/ (86 files)",
+      "build/t17pm/logs/ (100+ files)",
+      "build/t17pm/bin/git",
+      "build/t17pm/comment.md"
+    ],
+    "platform_issue": 20,
+    "output_path": "docs/state/outputs/t17_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T18:20:30Z",
+  "retry_count": 0
+}
