@@ -1,0 +1,93 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t15",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t15-isolation-money",
+    "branch_sha": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_full_chain_attacker_reads_updates_and_deletes_every_victim_resource\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_cross_user_and_unknown_id_error_bodies_are_byte_identical_for_all_three_resources\" \"tests/integration/test_isolation.py::TestCrossResourceIsolation::test_attacker_budget_put_creates_only_the_attackers_own_row\" -q'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_with_a_real_expense_returns_409_and_everything_survives\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_category_returns_204_once_its_only_expense_is_deleted\" \"tests/integration/test_isolation.py::TestCategoryDeleteInUseEndToEnd::test_delete_system_category_holding_expenses_is_404_category_not_found_never_409\" -q'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_expense_amount_round_trips_byte_exact_through_create_get_put_and_list\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_maximum_amount_round_trips_and_the_chapter_over_max_value_is_rejected_422_invalid_amount\" \"tests/integration/test_money_precision_api.py::TestMoneyPrecisionRoundTrip::test_budget_amount_round_trips_byte_exact_through_put_get_and_delete\" \"tests/integration/test_money_precision_api.py::TestDecimalAggregation::test_service_decimal_amounts_sum_without_float_artifacts\" -q'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_amount_note_and_pagination_limits_are_inclusive\" \"tests/integration/test_money_precision_api.py::TestBoundsMatrix::test_category_name_and_auth_field_limits_are_inclusive\" -q'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_isolation.py::TestAuditObservabilityFromOutside::test_every_successful_write_for_both_users_has_exactly_one_audit_row_for_its_owner\" -q'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "55de21fe99722e3c1b5bc2ffb61fc21998c2fbbd",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest tests/integration/test_isolation.py tests/integration/test_money_precision_api.py -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 184,
+      "passed": 184,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t15.md#verification-commands",
+    "ac_rcs": {
+      "fail_before": {
+        "ac1": 4,
+        "ac2": 4,
+        "ac3": 4,
+        "ac4": 4,
+        "ac5": 4,
+        "ac6": 4
+      },
+      "pass_after": {
+        "ac1": 0,
+        "ac2": 0,
+        "ac3": 0,
+        "ac4": 0,
+        "ac5": 0,
+        "ac6": 0
+      }
+    },
+    "byte_verify": {
+      "scripts": 6,
+      "mismatches": 0,
+      "crlf_stripped": true,
+      "single_quotes_in_bodies": 0
+    },
+    "new_test_nodes": 13,
+    "baseline_amendments": 0,
+    "production_changes": 0,
+    "platform_sync_status": "comment posted (rc=0); groomed removed, built added, verified via issue get 18 -> [built, surveyed]; branch pushed to origin (rc=0)",
+    "notes": "Builder t15 implement notes (branch issue/t15-isolation-money @ 55de21f, base 5f08f15).\n\nRUNNER DISCIPLINE: all 6 AC commands extracted VERBATIM from docs/issues/t15.md ## Verification commands into gitignored build/t15b/ac{1..6}.sh. Extraction byte-verified (reconstruction equality per AC; 6/6 byteEqual=true, 0 mismatches; CRLF stripped before backtick matching as warned; 0 single quotes inside any body). Each script executed as its own file via `bash build/t15b/acN.sh </dev/null`, rc captured immediately. No inline eval.\n\nFAIL-BEFORE (base 5f08f15, BEFORE any test file existed): ac1 rc=4, ac2 rc=4, ac3 rc=4, ac4 rc=4, ac5 rc=4, ac6 rc=4 (pytest file-not-found), exactly matching the survey and groom measurements. PASS-AFTER (commit 55de21f): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0. Full suite `uv run pytest -q`: 184 passed (171 baseline + 13 new nodes, exactly the expected count), rc=0. ruff check .: CLEAN. mypy (strict): Success, 74 files.\n\nW16 COMPLIANCE: TESTS-ONLY honored exactly. Created EXACTLY 2 files (backend/tests/integration/test_isolation.py, 7 nodes; backend/tests/integration/test_money_precision_api.py, 6 nodes). NO production code changes, NO migrations, NO new dependencies, NO fix(t15) commits — no node exposed a production defect; every pinned expectation passed against merged t11/t13/t14 behavior on the first measured run (two early reds were MY OWN test-authoring bugs — a UUID-string ordering assumption and a float/Decimal mixing line — fixed inside the test files before any commit; no contract was involved). No contract change was needed anywhere, so no BLOCKER applies.\n\nAMOUNT_MAX RATIFICATION COMPLIANCE: test_maximum_amount... round-trips \"999999999.99\" (= merged AMOUNT_MAX) byte-exact through create/get/list/update and pins \"999999999.99\" over-max \"9999999999.99\" as 422 INVALID_AMOUNT field amount with NOTHING persisted (expense count stays 1), exactly as ratified at groom (WAL 315). AMOUNT_MAX, the columns, and the status codes were NOT touched.\n\nBASELINE AMENDMENTS: ZERO — confirmed. No baseline test was modified or failed; the 171 baseline nodes all pass untouched alongside the 13 new nodes (184 total). No model/schema change was involved.\n\nCONTRACT PINS HONORED: two REAL users per scenario via POST /api/v1/auth/register + /auth/login (no direct DB user inserts); harness is the copied t13/t14 tmp_path SQLite + dependency_overrides[get_db] pattern (no conftest.py, no DATABASE_URL prefix); byte-identity asserted via response.content equality across expense GET/PUT/DELETE, custom-category DELETE, and budget DELETE families with key set exactly {detail,code,field}, code NOT_FOUND, field null, never 403/500; victim budget GET 200 \"0.00\" for the attacker while the owner still sees her amount; attacker PUT on the victim month returns 200 with the ATTACKER amount, victim row UNCHANGED in a fresh session, exactly one row per (user,month); in-use 409 CATEGORY_IN_USE/category_id with category+expense surviving fresh-session, 204/204 delete-expense-then-delete-category unblock, system-category-holding-expense 404 CATEGORY_NOT_FOUND never 409; money asserted against RAW JSON text + ^[0-9]+\\.[0-9]{2}$ (never JSON float); audit rows read via fresh DB session, exactly one row per write attributed to its writer, entity_type in {expense,budget}, categories write none; the openapi no-audit clause was NOT re-pinned per the groom duplication ruling.\n\nPLATFORM SYNC: comment posted on issue #18 (rc=0, first try), label groomed removed, label built added, re-verified via issue get 18 -> labels [\"built\",\"surveyed\"] (surveyed left alone per instruction). Branch pushed to origin (push -u origin issue/t15-isolation-money, rc=0, first try); no merge, no push to main, no force push.\n\nAC6 NOTE: composite gate rc=0 covers full-suite pytest + ruff + mypy + the two new modules as a pair; ac6 remains EXCLUDED from merge_test_index.json per the t10-t13 precedent (append at close covers the 13 ac1-ac5 node IDs)."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/tests/integration/test_isolation.py",
+      "backend/tests/integration/test_money_precision_api.py"
+    ],
+    "platform_issue": 18,
+    "output_path": "docs/state/outputs/t15_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T14:08:45Z",
+  "retry_count": 0
+}
