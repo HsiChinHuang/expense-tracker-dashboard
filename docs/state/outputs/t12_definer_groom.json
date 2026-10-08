@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t12",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:e0fca1087f772ab47272c9d223d903f68b1785a44bbf44e1e6ec4ca6082b8c82",
+    "ac_count": 5,
+    "verification_commands": {
+      "ac1": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_columns_nullability_python_uuid_pk_and_no_cascade_fk\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_entity_id_is_required\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_action_and_entity_type_checks_reject_out_of_set_values\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_json_variant_payload_roundtrips_and_old_new_are_independently_nullable\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_downgrade_003_to_002_drops_audit_logs_and_upgrade_roundtrip_restores\" -q'",
+      "ac2": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_create_row_has_null_old_value_and_new_value_with_exact_expense_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_update_row_has_both_values_with_exact_budget_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_delete_row_has_old_value_and_null_new_value\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_logger_never_commits_row_visible_only_after_caller_commit\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_get_audit_logger_returns_write_audit_log\" -q'",
+      "ac3": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestAuditAtomicity::test_action_check_violation_rolls_back_the_business_write\" -q'",
+      "ac4": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_client_ip.py::TestGetClientIp::test_x_forwarded_for_first_hop_is_returned_and_stripped\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_direct_client_host_when_header_absent\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_empty_header_falls_back_to_client_host\" \"tests/unit/test_audit_logger.py::TestNoAuditApiSurface::test_openapi_has_no_path_containing_audit\" -q'",
+      "ac5": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_audit_migration.py::TestAuditMigration::test_alembic_heads_is_single_revision_003\" -q >/dev/null 2>&1'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": [
+      "Groomed against MERGED reality (main @ d278fea = t11 close). Re-verified on-tree during this groom: alembic versions/ = {001,002} with `uv run alembic heads` -> '002 (head)'; baseline suite measured this run = 88 passed; ruff/mypy green; app/audit/ is an empty package; app/models/{user,category}.py provide the Base + Python-UUID + named-CHECK + model-imported-by-revision precedents; app/auth/dependencies.py has only a private _client_ip (direct host) which t12 supplements with the public get_client_ip per REQ-BE-042 ('Read dependencies.py'). There is NO tests/conftest.py; harnesses are copied per test module (t8/t10/t11 precedent) and the issue's test-layout section mandates COPY.",
+      "W5 RESOLVED (phase_3_crud_definer_review_plan.json carry-forward) — AUDIT SHAPE + entity_id NULLABILITY. On-tree REQ-DB-050 and Chapter 5 5.7.1/5.7.2 both declare entity_id UUID NOT NULL (reference model: nullable=False, no FK); the survey metadata's bare 'entity_id UUID' and ac1's omission are corrected in ac1: entity_id is pinned NOT NULL in BOTH the model and revision 003, with NO foreign key. Payload field lists are byte-pinned per REQ-SEC-061/062 + Chapter 5 5.7.5 + Chapter 12 12.7.4 (the two chapters agree verbatim): expense payloads carry EXACTLY {amount (string), date (YYYY-MM-DD string), category_id (string UUID), note (string|null)}; budget payloads EXACTLY {amount (string), year_month (string)}. t12's own tests write synthetic payloads with exactly these key sets and assert persisted CONTENT (action/entity_type/entity_id/payload keys/ip_address), never row counts — so t13/t14 inherit one frozen shape instead of two Builders inventing two. The old/new direction was verified in Chapter 5 5.7.4/5.7.5 and Chapter 12 12.7.2 before pinning (not guessed): CREATE old NULL/new full, UPDATE both, DELETE old full/new NULL.",
+      "W7 RESOLVED for t12 — the atomicity failure-injection mechanism is pinned to ONE option: an invalid action value ('PATCH') violating ck_audit_action inside the caller's single transaction; commit raises IntegrityError and rollback must leave NEITHER the business row NOR any audit row. This needs no out-of-CHECK entity_type (categories are not audited) and no monkeypatch. The AC states t12 ac3 is the machinery proof and t13/t14 re-use this same mechanism for integration evidence only, preventing three drifting near-duplicate tests.",
+      "Writer contract pinned to Chapter 6 6.11.1 verbatim: write_audit_log(db, user_id, action, entity_type, entity_id, old_value, new_value, ip_address) -> None, body = db.add only ('No commit here; caller commits'). The survey's abbreviated name 'write_audit' was corrected to write_audit_log — Chapter 12 12.7.5's service example calls it with those exact keyword names, which t13/t14 will use. get_audit_logger (REQ-ARCH-022) is pinned as a zero-arg dependency in app/audit/logger.py returning write_audit_log itself (one unit test asserts identity); no router consumes it in t12.",
+      "get_client_ip (REQ-BE-042) frozen to Chapter 6 6.5.4's exact code: truthy X-Forwarded-For -> split(',')[0].strip() (first hop); else request.client.host if request.client else None; return str|None. The survey's 'string <= 45 chars' clause was DROPPED as unspecified behavior (no truncation rule exists in any source; IPv6 <= 45 fits VARCHAR(45)); an empty header value is falsy and falls through — one frozen rule, no alternatives, three pinned unit cases (multi-hop, absent, empty).",
+      "Alembic discipline from the t6/t10 cycles applied: ac1 pins upgrade-head -> single head 003, downgrade 003->002 removes audit_logs + its three index names, re-upgrade round-trip; named CHECKs ck_audit_action/ck_audit_entity_type and index names idx_audit_user_created (user_id, created_at DESC)/idx_audit_entity/idx_audit_action are FROZEN in the AC (Chapter 5 5.7/5.8) so t13+ can reference them; JSONB/JSON handled by sa.JSON().with_variant(postgresql.JSONB(),'postgresql') defined ONCE in the model module and imported by revision 003 (t10 no-drift precedent) — every t12 test runs on the SQLite harness. ac5 adds the explicit 'alembic heads == 003 (head)' node per review_plan W15's lesson (assert your own head at every link).",
+      "Vacuous-trap guards: audit assertions check persisted row CONTENT through a fresh session; the no-commit probe uses a SECOND session's invisibility until the caller commits (mechanical proof the logger never commits); 'no API endpoint exposes logs' is the openapi ABSENCE check (no path containing 'audit', t11 precedent), mechanical and non-git. FK preserve rule pinned: audit_logs.user_id has NO ondelete CASCADE (Chapter 6 6.11.2 'Preserve on user delete | No cascade') — unlike categories.",
+      "Fail-before measured on main @ d278fea: ac1/ac2/ac4 pinned-node commands exit rc=4 (missing test modules — reproduced this run); ac3 same missing-module rc=4; ac5 already non-zero on main because its final leg collects a nonexistent node (rc=4) and `uv run alembic heads` prints '002 (head)' today (measured). Positive-path proof deferred to Builder/Verifier per the t11 precedent (all pinned commands are mechanically runnable pytest invocations from backend/).",
+      "Platform sync: issue #15 body synced via `issue update 15 --body` (full file incl. frontmatter); labels defined->groomed via label add + label remove, re-verified via `issue get 15` (silent no-op seen twice before; fallback PATCH used if needed). See this run's handoff for the verified label state."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t12.md",
+      "docs/state/outputs/t12_definer_groom.json"
+    ],
+    "platform_issue": 15,
+    "output_path": "docs/state/outputs/t12_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T08:55:00Z",
+  "retry_count": 0
+}
