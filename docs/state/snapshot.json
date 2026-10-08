@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T15:14:44Z",
-  "last_seq": 322,
+  "updated_at": "2026-10-08T15:15:38Z",
+  "last_seq": 324,
   "slots": [
     {
       "slot": 1,
@@ -9,7 +9,7 @@
       "role": "builder",
       "phase": "survey",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T15:14:44Z",
+      "last_activity_at": "2026-10-08T15:15:38Z",
       "run_id": "61dd2170-943c-4301-b200-8dab623b47a1",
       "worktree_path": "../worktrees/t15",
       "note": "t16 FE data layer"
