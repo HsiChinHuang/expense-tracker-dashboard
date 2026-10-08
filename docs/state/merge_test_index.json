@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T01:26:43Z",
+  "updated_at": "2026-10-08T05:05:07Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -68,7 +68,8 @@
     },
     {
       "issue_id": "t2",
-      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(react-hook-form|zod|recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
+      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
+      "note": "lifted react-hook-form+zod per REQ-TECH-006 / t9 ac5 (phase_2 allowance); applied by Orchestrator at t9 merge 2026-10-08; other arms unchanged"
     },
     {
       "issue_id": "t3",
@@ -201,6 +202,30 @@
     {
       "issue_id": "t8",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && ! grep -RnE \"^[[:space:]]*except Exception[[:space:]]*(:|as )\" app tests'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/src/api/client.test.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/api/client.test.ts --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"creates the axios instance from VITE_API_BASE_URL with a 10 second timeout\" \"attaches the bearer authorization header when a token is stored\" \"clears the stored token and redirects to /login on a 401 response\" \"normalizes a 409 backend error preserving code detail and field\" \"normalizes a network failure to the NETWORK_ERROR code\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/src/context/auth_context.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/context/auth_context.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"populates the user from /auth/me when a stored token is valid\" \"removes an invalid stored token and stays logged out\" \"stores the token and user on login\" \"registers then auto-logs-in with the returned token\" \"clears the stored token and user on logout\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/src/components/common/guards.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run src/components/common/guards.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 5 ] || exit 1; for t in \"redirects an unauthenticated visit to a protected route to /login\" \"renders protected content for an authenticated session\" \"redirects a logged-in visitor from /login to /\" \"shows a full-page spinner while the auth state is loading\" \"preserves the attempted location in router state on redirect\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/src/pages/login_page.test.tsx && test -f frontend/src/pages/register_page.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/login_page.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npm test -- --run src/pages/register_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; na=$(printf \"%s\" \"$a\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); nb=$(printf \"%s\" \"$b\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$na\" -ge 4 ] && [ \"$nb\" -ge 4 ] || exit 1; for t in \"logs in and navigates to the landing route\" \"shows the backend 401 message inline on failed login\" \"blocks client-side validation before any network request\" \"links to the register page\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"registers and auto-logs-in on success\" \"surfaces the backend 409 error on the email field\" \"validates password and username rules on blur without a network call\" \"links to the login page\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/login\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/register\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/me\" frontend/src/test/handlers.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const need=[\\\"react-hook-form\\\",\\\"zod\\\"];for(const k of need){if(!d[k]||!/^[0-9]/.test(d[k])){console.error(\\\"missing or unpinned: \\\"+k);process.exit(1)}}const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
+    },
+    {
+      "issue_id": "t9",
+      "command": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 26 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .'"
     }
   ]
 }

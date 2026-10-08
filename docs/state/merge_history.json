@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T01:26:43Z",
+  "updated_at": "2026-10-08T05:05:07Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -91,6 +91,17 @@
       "retries": 1,
       "tests_appended": 6,
       "regressions": 0
+    },
+    {
+      "issue_id": "t9",
+      "platform_issue": 12,
+      "branch": "issue/t9-frontend-auth",
+      "merge_sha": "1a89838",
+      "merged_at": "2026-10-08T05:05:07Z",
+      "retries": 0,
+      "tests_appended": 6,
+      "regressions": 0,
+      "note": "t2 ac6 index entry lifted (rhf+zod per REQ-TECH-006) at this merge"
     }
   ]
 }

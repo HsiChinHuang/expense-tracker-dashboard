@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T04:44:53Z",
-  "last_seq": 242,
+  "updated_at": "2026-10-08T05:07:17Z",
+  "last_seq": 248,
   "slots": [
     {
       "slot": 1,
-      "issue_id": "t9",
-      "role": "verifier",
-      "phase": "verify_pre_merge",
-      "spawn_at": "2026-10-08T02:53:53Z",
-      "last_activity_at": "2026-10-08T04:45:19Z",
-      "run_id": "73dac23f-3161-4519-99f6-6bf2dc01eea6",
-      "worktree_path": "../worktrees/t9",
-      "note": "resumed verify_issue COMPLETE gate3; pre-merge next"
+      "issue_id": "-",
+      "role": "definer",
+      "phase": "survey",
+      "spawn_at": "2026-10-08T05:07:17Z",
+      "last_activity_at": "2026-10-08T05:07:17Z",
+      "run_id": "pending",
+      "worktree_path": "main checkout",
+      "note": "phase_3_crud survey"
     },
     {
       "slot": 2,
@@ -26,11 +26,5 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": [
-    {
-      "issue_id": "t9",
-      "state": "verified",
-      "modifiers": []
-    }
-  ]
+  "active_issues": []
 }

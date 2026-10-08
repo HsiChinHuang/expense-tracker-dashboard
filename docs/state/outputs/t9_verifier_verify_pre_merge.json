@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t9",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 50,
+      "passed": 49,
+      "failed": 1
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [
+      {
+        "test": "cum17_t2 (t2 ac6 forbidden-dependency grep)",
+        "error_summary": "DOCUMENTED stale-index artifact, not a regression: grep trips on react-hook-form+zod, explicitly lifted by t9 ac5/REQ-TECH-006; all other banned families verified still enforced."
+      }
+    ],
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t9 (Windows C:/Users/tw097/Desktop/261007_project01/worktrees/t9), matching spawn arg. HEAD=4d76b31efafdf56e5f0308a749ca0648c32393fe == branch_sha == git ls-remote origin refs/heads/issue/t9-frontend-auth. branch --show-current = issue/t9-frontend-auth. READ-ONLY git only; no checkout/merge/commit.",
+      "[VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset (per spawn instruction this is expected; UV_PROJECT_ENVIRONMENT stays unset). Per-worktree backend/.venv and frontend/node_modules already present; no uv sync / npm install needed. Command strings NOT modified.",
+      "WSL git cannot resolve this worktree's Windows gitdir pointer (known). All git invocations (including git-internal steps inside verbatim commands) ran via a read-only PATH shim build/verify_t9_premerge/bin/git forwarding to cmd.exe /c git -C <worktree>. Shim validated against every quoting style used (ls-files --error-unmatch, check-ignore, ls-files -- glob).",
+      "Runner discipline: all 6 AC commands (docs/issues/t9.md) + all 50 cumulative commands (docs/state/merge_test_index.json) extracted to individual files under gitignored build/verify_t9_premerge/{ac,cum}/ by build/verify_t9_premerge/extract.py (strips 'bash -c ' + surrounding single quotes, CRLF-tolerant; both sources are CRLF). Byte-verify: reconstructed \"bash -c '<body>'\" == source for all 56; MISMATCH COUNT = 0. No single-quote characters inside any body. Every file executed as bash <file> </dev/null; no inline eval/re-quoting.",
+      "t9 AC results (verbatim, each exit 0): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0. ac6 additionally asserts >=26 passed nodes, tsc --noEmit rc=0, npm run lint rc=0, no 'any' under frontend/src.",
+      "Cumulative: 50/50 executed; 49 pass, 1 fail (cum17_t2). Per-issue: t0 6/6, t1 5/5, t2 5/6, t3 5/5, t4 6/6, t5 6/6, t6 5/5, t7 5/5, t8 6/6. Raw results: build/verify_t9_premerge/cum_results.txt.",
+      "cum17_t2 classification: DOCUMENTED stale-index artifact, NOT a regression (identical classification to verify_issue at same sha). Failure output is exactly 'forbidden or deferred dependency: react-hook-form, zod' — t2 ac6's phase_1 ban grep trips on the two deps that t9 ac5 / REQ-TECH-006 explicitly lift for exactly react-hook-form + zod from phase_2. Re-verified the other arms of the same grep still reject recharts, date-fns, and CSS-in-JS runtime families (test snippet run against the banned pattern with those keys present: all listed). Fixing the index entry is Orchestrator scope, not Verifier.",
+      "Smoke tests: docs/plan.md has no '## Smoke tests' section and docs/commands.md has no smoke commands; per established precedent (t0-t4 pre-merge handoffs) the 6 t9 AC verification commands are the smoke set: 6 total, 6 passed, 0 failed.",
+      "Merge safety (run from MAIN checkout C:/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard): git fetch origin rc=0; merge-base(origin/main, 4d76b31) = 2ae7f2d26257e9c23c6d8a1865c4c3debe761946; git merge-tree --write-tree origin/main 4d76b31 -> rc=0, single tree aac8f402e9d4e1e1ab50e70560122d71ce7d8571, no conflict output = CLEAN. origin/main = a2401ec12733b67c2f67ce417ffbcf5bc5b86977.",
+      "Diff vs merge-base: exactly 20 files, 1343 insertions(+), 5 deletions(-), all under frontend/ (13 source/test files + package.json + package-lock.json + app.tsx/main.tsx/test-harness edits). Matches expected file set; no backend, alembic, dev.db, .env, lint/tsconfig/eslint config files in diff.",
+      "Constraint checks: package.json diff adds ONLY react-hook-form 7.53.2 and zod 3.23.8 as exact pins (no ^/~); lockfile diff adds only those two packages' entries; no @hookform/resolvers. git status in worktree shows only the two untracked prior-handoff JSONs (builder implement + verify_issue outputs) — no tracked-file dirt.",
+      "Platform: MERGE VERDICT PASS comment posted on issue #12 via scripts/platform.ts (cmd.exe /c git shim NOT used for platform; node tsx from MAIN checkout), rc=0, comment created_at 2026-10-08T04:52:57Z. No label transition for pre-merge per spawn instruction.",
+      "Verdict: PASS. Cumulative 49/50 with the sole failure being the documented cum17_t2 stale-index artifact; all 6 t9 ACs and smoke set green; merge-tree clean; diff/constraints in bounds."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t9_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 12,
+    "output_path": "docs/state/outputs/t9_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T04:53:24Z",
+  "retry_count": 0
+}
