@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t10",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": { "total": 56, "passed": 56, "failed": 0 },
+    "smoke_tests": { "total": 6, "passed": 6, "failed": 0 },
+    "failed_tests": [],
+    "verdict": "PASS",
+    "merge_tree_sha": "0707362f3a41cd60be0d4e28b0018fa5715da897",
+    "merged_tree": "49553c7a5005b4b6fdf9f73fdedba1c14ec5ef5c (throwaway local merge commit, abandoned)",
+    "notes": [
+      "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (main checkout), matching task context. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree 'uv sync --directory backend' run once in the throwaway merged worktree (rc=0, ~42s). UV_PROJECT_ENVIRONMENT never set per spawn hard rule. Command strings were NOT modified.",
+      "Merge-target hygiene: git fetch origin main rc=0 (cmd.exe git). origin/main head = 1d981cf43424d47c5e212e8c5f55f8a342e5859d, i.e. one docs(state) commit AHEAD of the spawn-stated 824ddb2 (824ddb2 'docs(t10): verify_issue PASS' is an ancestor of 1d981cf). main-vs-branch-base delta verified docs-only: git diff --stat defda6e31 origin/main = 5 files, ALL under docs/state/ (merge_test_index.json amendment, t10 builder/verifier handoff JSONs, seq.txt, snapshot.json); 271 insertions / 13 deletions; zero source/config files. merge-base(origin/main, db1c4c9) = defda6e31 (the stated branch base).",
+      "merge-tree --write-tree origin/main db1c4c9b6ab5107af17443658f953bde5e896c66 -> rc=0, single tree OID 0707362f3a41cd60be0d4e28b0018fa5715da897, zero conflict lines = CLEAN merge expected.",
+      "Merged-tree gate run in a THROWAWAY worktree: git worktree add ..\\..\\worktrees\\t10pm origin/main --detach (rc=0, HEAD 1d981cf), then git merge --no-ff db1c4c9 -> ort, rc=0, merge commit 49553c7a5005b4b6fdf9f73fdedba1c14ec5ef5c, 8 files +792/-4. All test legs ran from that merged tree. Worktree then removed with git worktree remove --force (rc=0, first attempt; worktree list confirms gone). NOTHING pushed; origin/main untouched (still 1d981cf at check time; local main 030b68d untouched); no labels changed; no commits kept.",
+      "Runner discipline: all 56 cumulative commands extracted from the MERGED tree's docs/state/merge_test_index.json (identical content to main checkout copy, 56 tests, updated_at 2026-10-08T05:05:07Z, incl. Orchestrator's amended t6/ac2 head->001 scope and t2/ac6 lift) and the 4 t10 AC commands extracted verbatim from docs/issues/t10.md ## Verification commands, each to its OWN file under build/t10pm/{cum,ac}/ and executed as 'bash <file> </dev/null' with rc captured IMMEDIATELY (no inline eval/re-quoting). Byte-verify: reconstruction of \"bash -c '<body>'\" reproduced every source command byte-identically (0 mismatches across 56+4; no single-quote characters inside any body).",
+      "Cumulative tally on the merged tree: 56/56 exit 0 (t0 6/6, t1 5/5, t2 6/6, t3 5/5, t4 6/6, t5 6/6, t6 5/5, t7 5/5, t8 6/6, t9 6/6). Notably cum17_t2 (the t2/ac6 forbidden-dependency grep) PASSED this run - the t9 pre-merge stale-index artifact is resolved by the Orchestrator's index amendment now on main. Raw per-file results: build/t10pm/cum_results.txt.",
+      "Git-internal steps inside verbatim commands (entries 1,4,5,12,23,24,27 use plain git) satisfied via the documented PATH shim build/t10pm/bin/git (forwards to /usr/bin/git with --git-dir/--work-tree of the throwaway worktree); validated against ls-files --error-unmatch, check-ignore and ls-files -- glob before the batch. WSL plain git cannot resolve the Windows gitdir pointer (reproduced: fatal: not a git repository ... C:/Users/...). Environment artifacts only; no command string modified.",
+      "Smoke set (docs/plan.md has no '## Smoke tests' section; docs/commands.md defines none - established t0-t9 fallback precedent): the 4 t10 AC verification commands run VERBATIM from the merged worktree root (ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0; no /tmp/t10_* leftovers) plus the backend full-suite legs (uv run pytest 65 passed; uv run ruff check . clean; uv run mypy . strict clean - all executed inside ac4). Smoke total 6, passed 6, failed 0.",
+      "Diff review: git diff --stat origin/main...db1c4c9 = exactly the 8 expected backend paths (002_categories.py, models/__init__.py, models/category.py, scripts/seed.py, test_category_migration.py, test_category_model.py, test_category_seed.py, test_user_model.py one-line amendment), +792/-4. No frontend, config, pyproject, lockfile, alembic.ini or dev.db files in the diff.",
+      "Constraints: backend/pyproject.toml and backend/uv.lock byte-identical to origin/main (git diff --exit-code rc=0); frontend/package.json + package-lock.json identical too; 'uv run alembic heads' on the merged tree reports exactly one head '002 (head)'.",
+      "Platform: MERGE VERDICT PASS comment posted on issue #13 via scripts/platform.ts (node + tsx cli from main checkout; npx tsx broken on this host - established), rc=0, comment created_at 2026-10-08T07:20:50Z. No label transition (pre-merge is comment-only; Orchestrator merges).",
+      "Deadline checkpoint noted: all verification work was already complete at checkpoint time; only cleanup, comment, and this handoff remained, all finished. Residual: main advanced AGAIN during this run (1d981cf -> 030b68d, docs-only seq.txt delta); Orchestrator should re-fetch at merge time - merge-tree was verified against 1d981cf.",
+      "Verdict: PASS - merged tree green (cumulative 56/56, 4 t10 ACs, 65-test backend suite + ruff + mypy strict), merge-tree clean against advanced docs-only origin/main, diff and constraints in bounds. Safe to merge."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t10_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 13,
+    "output_path": "docs/state/outputs/t10_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T07:21:30Z",
+  "retry_count": 0
+}

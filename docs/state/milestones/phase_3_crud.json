@@ -18,6 +18,8 @@
     "t18"
   ],
   "survey_attempts": 0,
-  "completed_issues": [],
-  "updated_at": "2026-10-08T05:24:00Z"
+  "completed_issues": [
+    "t10"
+  ],
+  "updated_at": "2026-10-08T07:32:09Z"
 }

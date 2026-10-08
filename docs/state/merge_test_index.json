@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T05:05:07Z",
+  "updated_at": "2026-10-08T07:32:09Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -227,6 +227,18 @@
     {
       "issue_id": "t9",
       "command": "bash -c 'test -f frontend/package.json && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npm test -- --run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 26 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .'"
+    },
+    {
+      "issue_id": "t10",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t10_ac1.db\" uv run pytest \"tests/unit/test_category_model.py::TestCategoryModel::test_system_and_custom_rows_persist_with_python_uuid_and_typed_columns\" \"tests/unit/test_category_model.py::TestCategoryModel::test_invalid_hex_color_raises_integrity_error\" \"tests/unit/test_category_model.py::TestCategoryModel::test_system_row_with_user_id_and_custom_row_without_user_id_raise_integrity_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t10_ac1.db; exit $rc'"
+    },
+    {
+      "issue_id": "t10",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && rev=$(ls alembic/versions/002_*.py 2>/dev/null | head -n 1); test -n \"$rev\" || exit 1; grep -Eq \"^revision(: str)? = .002\" \"$rev\" || exit 1; grep -Eq \"^down_revision.* = .001\" \"$rev\" || exit 1; test \"$(uv run alembic heads 2>/dev/null | wc -l)\" -eq 1 || exit 1; uv run alembic heads 2>/dev/null | grep -q \"^002 (head)$\" || exit 1; rm -f /tmp/t10_ac2.db; export DATABASE_URL=\"sqlite:////tmp/t10_ac2.db\"; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run alembic downgrade base >/dev/null 2>&1 || exit 1; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t10_ac2.db\\\"); rows = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert rows == {\\\"users\\\", \\\"categories\\\", \\\"alembic_version\\\"}, rows; assert con.execute(\\\"select version_num from alembic_version\\\").fetchone()[0] == \\\"002\\\"; cols = {r[1] for r in con.execute(\\\"pragma table_info(users)\\\")}; assert cols == {\\\"id\\\", \\\"email\\\", \\\"username\\\", \\\"hashed_password\\\", \\\"is_active\\\", \\\"created_at\\\", \\\"updated_at\\\"}, cols; ddl = con.execute(\\\"select sql from sqlite_master where type = \\\\\\\"table\\\\\\\" and name = \\\\\\\"categories\\\\\\\"\\\").fetchone()[0]; assert \\\"ck_categories_color_format\\\" in ddl and \\\"ck_categories_system_consistency\\\" in ddl, ddl; idx = con.execute(\\\"select sql from sqlite_master where type = \\\\\\\"index\\\\\\\" and name = \\\\\\\"idx_categories_user_name_unique\\\\\\\"\\\").fetchone()[0]; assert \\\"UNIQUE\\\" in idx.upper() and \\\"WHERE user_id IS NOT NULL\\\" in idx, idx; fk = con.execute(\\\"pragma foreign_key_list(categories)\\\").fetchall(); assert [f[3] for f in fk] == [\\\"user_id\\\"] and [f[6] for f in fk] == [\\\"CASCADE\\\"], fk; ix = {r[0] for r in con.execute(\\\"select name from sqlite_master\\\")}; assert {\\\"idx_categories_user_id\\\", \\\"idx_categories_is_system\\\", \\\"idx_categories_user_name_unique\\\"} <= ix, ix\" || exit 1; uv run alembic downgrade base >/dev/null 2>&1 || exit 1; uv run python -c \"import sqlite3; con = sqlite3.connect(\\\"/tmp/t10_ac2.db\\\"); rows = {r[0] for r in con.execute(\\\"select name from sqlite_master where type = \\\\\\\"table\\\\\\\"\\\")}; assert \\\"categories\\\" not in rows, rows\" || exit 1; uv run alembic upgrade head >/dev/null 2>&1 || exit 1; DATABASE_URL=\"sqlite:////tmp/t10_ac2b.db\" uv run pytest \"tests/integration/test_category_migration.py::TestCategoryMigration::test_duplicate_custom_name_raises_and_two_system_rows_are_allowed\" \"tests/integration/test_category_migration.py::TestCategoryMigration::test_revision_002_registers_only_the_categories_table\" -q >/dev/null 2>&1 || exit 1; rc=$?; rm -f /tmp/t10_ac2.db /tmp/t10_ac2b.db; exit $rc'"
+    },
+    {
+      "issue_id": "t10",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t10_ac3.db\" uv run pytest \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_inserts_exactly_the_ten_pinned_system_rows\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_second_seed_run_inserts_nothing\" \"tests/unit/test_category_seed.py::TestSeedCategories::test_seed_ids_are_python_uuids_and_partial_index_still_holds\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t10_ac3.db; exit $rc'"
     }
   ]
 }

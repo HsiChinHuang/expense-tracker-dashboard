@@ -102,6 +102,15 @@
       "tests_appended": 6,
       "regressions": 0,
       "note": "t2 ac6 index entry lifted (rhf+zod per REQ-TECH-006) at this merge"
+    },
+    {
+      "issue_id": "t10",
+      "platform_issue": 13,
+      "merge_commit": "14d7e86a8",
+      "merged_at": "2026-10-08T07:32:09Z",
+      "retries": 0,
+      "regressions": 0,
+      "notes": "verify_issue 4/4 + 56/56; pre-merge merged-tree 56/56 clean merge-tree 0707362f; post-merge 60/60 (4 ACs + 56); t6 ac2 index pre-amended head->001 at this cycle (zero stale-index failures); 3 t10 ACs added to index (ac4 suite leg represented by existing full-suite entries)"
     }
   ]
 }
