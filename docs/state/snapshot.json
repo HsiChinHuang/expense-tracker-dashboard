@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T16:06:47Z",
-  "last_seq": 331,
+  "updated_at": "2026-10-08T16:15:31Z",
+  "last_seq": 333,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "builder",
-      "phase": "fix_qa",
+      "phase": "verify_issue_rerun",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T16:06:47Z",
-      "run_id": "62f3d28b-0209-44ca-9354-410eb441e529",
+      "last_activity_at": "2026-10-08T16:15:31Z",
+      "run_id": "1939a05f-e2b8-40ae-b0b5-9d76533d028d",
       "worktree_path": "../worktrees/t15",
-      "note": "t16 fix: unhandled-rejection leak in handlers_contract.test.ts"
+      "note": "resumed verifier on 01fb789 + fix-quality audit"
     },
     {
       "slot": 2,
@@ -31,7 +31,7 @@
       "issue_id": "t16",
       "state": "built",
       "modifiers": [
-        "verifier_failed"
+        "fix_qa_done"
       ]
     }
   ]

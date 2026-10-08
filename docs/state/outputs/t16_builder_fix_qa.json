@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t16",
+  "role": "builder",
+  "phase": "fix_qa",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t16-frontend-data-layer",
+    "branch_sha": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+        "test": "bash build/t16f/ac1.sh (verbatim extraction of docs/issues/t16.md ac1 verification command, byteEqual=true, run from worktree root, bash </dev/null)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+        "test": "bash build/t16f/ac2.sh (verbatim extraction of docs/issues/t16.md ac2 verification command, byteEqual=true, run from worktree root, bash </dev/null)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+        "test": "bash build/t16f/ac3.sh (verbatim extraction of docs/issues/t16.md ac3 verification command, byteEqual=true, run from worktree root, bash </dev/null)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+        "test": "bash build/t16f/ac4.sh (verbatim extraction of docs/issues/t16.md ac4 verification command, byteEqual=true, run from worktree root, bash </dev/null); frozen title grep still matches case-exactly",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "01fb7890b5ef8d6b319abf2c24b0ae7755baba71",
+        "test": "bash build/t16f/ac5.sh (verbatim extraction of docs/issues/t16.md ac5 verification command, byteEqual=true, run from worktree root, bash </dev/null); additionally the previously masked default-reporter full-suite leg now exits 0",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 52,
+      "passed": 52,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "failed_acs_addressed": [
+      {
+        "ac_id": "ac4",
+        "fix_description": "Merged-suite gate regression (merge-index #15 npm test -- --run, #26 make test-frontend): the frozen-titled ac4 test 'an unhandled request fails loudly through the error onUnhandledRequest harness' leaked msw 2.3.5's error-strategy InternalError ('[MSW] Cannot bypass a request...') as a process-level orphan unhandledRejection after the test completed; vitest 1.6 default reporter counts it as a run error and exits 1 despite 52/52 passing. Fixed inside the test body only: the test now temporarily removes the incumbent process 'unhandledRejection' listeners (vitest's run-level counter), installs its own consume listener, awaits a macrotask (setTimeout 50ms) so the msw rejection lands while the test is still active, asserts the loud-failure InternalError is among the consumed reasons, and restores every borrowed listener in a finally block. The test still proves loud failure (rejects with a non-empty normalized ApiError) and asserts strictly more than before; frozen title unchanged; setup.ts onUnhandledRequest:'error' untouched."
+      }
+    ],
+    "verification_commands_source": "docs/issues/t16.md#verification-commands",
+    "notes": [
+      "CWD verification: work started at assigned worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t16 (branch issue/t16-frontend-data-layer @ 53644f9 == spawn branch_sha). All test/AC/merge-index runs executed from that worktree root with $PWD-derived wslpath windows.",
+      "FAILURE ANALYSIS: verifier run f9262252, failure_type=implementation, MERGED_SUITE_GATE_REGRESSION. All 5 pinned ACs rc=0 but merge-index #15 (t9 'npm test -- --run') and #26 (t4 'make test-frontend') exit 1 deterministically under the DEFAULT vitest reporter. Root cause confirmed by code read + probe: msw 2.3.5 SetupServerCommonApi registers an 'unhandledException' interceptor listener that rethrows InternalError; @mswjs/interceptors awaits listeners via emitAsync inside an until() wrapper, so the throw both surfaces as the XHR error (axios rejects -> normalized ApiError, caught by the test) AND escapes as an orphan rejected promise that nothing can attach a handler to synchronously. Vitest 1.6 registers a PROCESS-LEVEL unhandledRejection listener (vendor/cli-api catchError -> 'Unhandled Rejection' run error; the default reporter then exits 1); the --reporter=json leg of pinned ac5 does not count it, which is why ac5 masked the defect.",
+      "RED REPRODUCED FIRST (pre-fix, at 53644f9): contract-only default reporter rc=1 ('Vitest caught 1 unhandled error... Tests 4 passed, Errors 1 error'); full-suite default reporter rc=1 (verified by git-stashing the fix, running 'npx.cmd vitest run' -> rc=1, then stash pop; git status confirmed only the one test file modified throughout). Matches verifier isolation evidence exactly.",
+      "FIX MECHANISM (test-code only, single file frontend/src/test/handlers_contract.test.ts, +52/-5): inside the failing test body, before issuing the unhandled request, the test snapshots the current process 'unhandledRejection' listeners (vitest's run-level counter among them), removes them, and installs a local consume listener. It then performs the same api.get('/api/v1/nonexistent-endpoint') in try/catch (still asserting rejection with a non-empty normalized ApiError message), awaits one macrotask (setTimeout 50ms) so the orphaned msw rejection fires while the test is still ACTIVE and is captured by the consume listener, and in a finally block removes the consume listener and re-adds every borrowed listener (exact restore, no leak across tests). After the finally, it asserts that a consumed reason is an Error whose message includes 'Cannot bypass a request when using the \"error\" strategy' - i.e. the test now POSITIVELY asserts the harness's loud failure at both layers (api rejection + MSW error-strategy rejection). Not a no-op, not weakened, no try/catch-and-ignore, process guard is scoped to this test's dynamic extent only.",
+      "WHY NOT THE ALTERNATIVES: (a) server.events.on('unhandledRequest') alone cannot prevent the escape - the InternalError is thrown by msw's own unhandledException interceptor listener independently of the emitter event; (b) msw's 'unhandledException' emitter event cannot be subscribed from test code without reaching into private interceptor internals (server.interceptor) and even then the async-listener rejection race remains; (c) touching setup.ts (shared t9 harness, frozen) or package.json/vitest config was forbidden scope. The process-listener borrow/restore is the minimal fix fully contained in the permitted file.",
+      "GREEN rc TABLE (all runs from worktree root, cmd.exe/npx.cmd with </dev/null, rc read immediately): pre-fix contract-only default rc=1, pre-fix full-suite default rc=1 (stash probe); post-fix contract-only default rc=0 (4 passed, 0 errors), post-fix full-suite default rc=0 (Test Files 11 passed, Tests 52 passed, no Unhandled Errors section); merge-index #15 rc=0 (ran twice: 0,0), #26 rc=0 (ran twice: 0,0); ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0; tsc --noEmit rc=0; npm run lint rc=0 (0 errors, 1 pre-existing t9 react-refresh warning - same as verifier baseline).",
+      "BYTE-VERIFY TALLIES: merge-index #15/#26 extracted programmatically from docs/state/merge_test_index.json (entries[14]/[25].command) to build/t16f/mt15.sh / mt26.sh, reconstruction byteEqual=true x2; the 5 AC commands extracted from docs/issues/t16.md '## Verification commands' fenced bash blocks to build/t16f/ac1..ac5.sh, byteEqual=5/5 (each file == source line + trailing newline; files copied byte-for-byte from the source strings, no manual retyping). All runs used the full cmd.exe path form and bash </dev/null.",
+      "FROZEN-TITLE INTEGRITY: test title 'an unhandled request fails loudly through the error onUnhandledRequest harness' byte-identical (ac4 for-loop greps it case-exactly and passed); all 26 frozen new-node titles still pass (ac2 5/5, ac3 17/17, ac4 4/4 via pinned greps); suite total unchanged at 52.",
+      "SCOPE DISCIPLINE: git diff --name-only 53644f9..HEAD == exactly [frontend/src/test/handlers_contract.test.ts]. No api/hooks source files, no setup.ts, no package.json/lock, no docs/issues/t16.md, no pinned AC commands touched. No test-harness plumbing changes were needed (fix fully contained in the permitted test file).",
+      "GIT/PLATFORM: one commit 01fb789 'fix(t16): consume MSW error-strategy rejection in unhandled-request test' (message includes 'Addresses: ac4 (merged-suite gate regression #15/#26)') on top of 53644f9, staged with explicit path (never git add -A), pushed to origin/issue/t16-frontend-data-layer (53644f9..01fb789, fast-forward, no force). Platform #19 (from MAIN checkout via scripts/platform.ts): fix_qa COMPLETE comment posted first try (2026-10-08T16:13:57Z); label remove 19 --label verifier_failed done; label add 19 --labels built done (idempotent, state label kept); issue get 19 labels == [defined, built, surveyed] as required.",
+      "RESIDUAL RISKS: (1) the fix borrows/restores process-level unhandledRejection listeners during this one test's dynamic extent; if some OTHER genuine rejection happened to fire in that ~50ms window it would be captured into the consumed array instead of reported - accepted, bounded, and the array is asserted non-empty (no silent-drop path for the asserted error). (2) The assertion depends on the msw 2.3.5 error-strategy message text 'Cannot bypass a request when using the \"error\" strategy'; an msw upgrade changing that string would fail the test loudly (safe direction). (3) The pinned ac5 command still uses --reporter=json and thus still cannot itself catch a future default-reporter-only regression - verifier's close-time default-reporter leg (or adding one to the issue text at close) remains the durable guard; per orchestrator ruling this run, the ac5 text was NOT changed. (4) merge-index still has the 26 frozen t16 node IDs un-appended pending verifier re-run (verifier note: do not append until #15/#26 green - they are green now).",
+      "Pre-output checklist: CWD verified PASS; verifier FAIL report read PASS; failure_history (latest full FAIL = f9262252 report) read PASS; ## Verification commands read PASS; failure analyzed PASS; failed_acs addressed (ac4 gate regression) PASS; full test suite passes (52/52, default reporter rc=0) PASS; no regressions (#15/#26 green, 5 ACs green, t9 baseline nodes green inside full suite) PASS; linter PASS (0 errors); all changes committed PASS (01fb789, explicit paths); branch pushed PASS; comment posted PASS; memory IDs: none provided/used; verifier_failed removed PASS; built kept PASS; output conforms to schemas/builder/fix_qa.json PASS; reached_state built PASS."
+    ],
+    "memory_applied": []
+  },
+  "artifacts": {
+    "files_written": [
+      "frontend/src/test/handlers_contract.test.ts",
+      "docs/state/outputs/t16_builder_fix_qa.json"
+    ],
+    "platform_issue": 19,
+    "output_path": "docs/state/outputs/t16_builder_fix_qa.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T16:14:11Z",
+  "retry_count": 0
+}
