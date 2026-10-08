@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T15:15:38Z",
-  "last_seq": 324,
+  "updated_at": "2026-10-08T15:23:27Z",
+  "last_seq": 325,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "builder",
-      "phase": "survey",
+      "phase": "groom",
       "spawn_at": "2026-10-08T13:55:42Z",
-      "last_activity_at": "2026-10-08T15:15:38Z",
-      "run_id": "61dd2170-943c-4301-b200-8dab623b47a1",
+      "last_activity_at": "2026-10-08T15:23:27Z",
+      "run_id": "pending",
       "worktree_path": "../worktrees/t15",
-      "note": "t16 FE data layer"
+      "note": "t16 groom: ratify vitest commands + invalidation mechanism"
     },
     {
       "slot": 2,
@@ -29,7 +29,7 @@
   "active_issues": [
     {
       "issue_id": "t16",
-      "state": "surveying",
+      "state": "surveyed",
       "modifiers": []
     }
   ]
