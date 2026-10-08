@@ -1,0 +1,106 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t11",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t11-categories-api",
+    "branch_sha": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+    "base_commit": "9ad78d4285d203aa3419d596ad13e468248d40d8",
+    "commits": ["8682ae73f9a3eb151642e034f50f5da1dc64ab4b"],
+    "ac_mapping": {
+      "ac1": {
+        "commit": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac1.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_returns_system_plus_own_custom_only_with_exact_fields_and_order\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_list_without_token_returns_401_unauthorized_contract_shape\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac1.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac2.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_valid_returns_201_with_exact_shape_and_owner_id\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_own_name_case_insensitive_returns_409_duplicate_category_field_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_duplicate_system_name_returns_409_and_a_different_user_may_reuse_a_custom_name\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_create_invalid_bodies_return_422_validation_error_with_field\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac2.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac3.db\" uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_own_unused_returns_204_and_row_is_gone\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_unknown_and_cross_user_return_404_not_found_contract_shape\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_delete_system_category_returns_404_and_row_survives\" \"tests/integration/test_categories_api.py::TestCategoriesApi::test_openapi_has_no_update_route_for_categories\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_one_raises_409_category_in_use\" \"tests/unit/test_category_service.py::TestDeleteCategoryInUse::test_expense_count_zero_deletes_and_never_blocks\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac3.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t11_ac4.db\" uv run pytest \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_system_category_is_returned_for_any_user\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_own_custom_category_is_returned\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_other_users_custom_category_raises_404_category_not_found\" \"tests/unit/test_category_service.py::TestValidateCategoryAccess::test_unknown_id_raises_404_category_not_found\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t11_ac4.db; exit $rc'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "8682ae73f9a3eb151642e034f50f5da1dc64ab4b",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_categories_api.py::TestCategoriesApi::test_openapi_lists_three_category_operations_after_auth_paths\" -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": { "total": 88, "passed": 88, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t11.md#verification-commands",
+    "self_verify": {
+      "ac1_rc": 0,
+      "ac2_rc": 0,
+      "ac3_rc": 0,
+      "ac4_rc": 0,
+      "ac5_rc": 0,
+      "full_suite": "uv run pytest -q -> 88 passed (merged 65 + 23 collected instances of the 17 new contractual node IDs; the parametrized 422 base contributes 7)",
+      "ruff": "uv run ruff check . -> All checks passed!",
+      "mypy": "uv run mypy . -> Success: no issues found in 47 source files (strict)",
+      "tmp_files": "no /tmp/t11_ac*.db survived any run (checked after both batches)"
+    },
+    "fail_before_evidence": {
+      "base": "9ad78d4285d203aa3419d596ad13e468248d40d8 (before any t11 file existed)",
+      "ac1_rc": 4,
+      "ac2_rc": 4,
+      "ac3_rc": 4,
+      "ac4_rc": 4,
+      "ac5_rc": 4,
+      "note": "All five pinned commands executed verbatim on base from the worktree root: rc=4 (pytest usage error, the two test modules absent; ac5's gate legs pass on base by design but the chained openapi-node leg yields rc=4), matching the groom's stated fail-before behavior. After implementation the same five strings returned rc=0."
+    },
+    "files_changed": [
+      "backend/app/schemas/category.py (new)",
+      "backend/app/services/category_service.py (new)",
+      "backend/app/routers/categories.py (new)",
+      "backend/app/core/errors.py (three new Appendix B code constants + __all__)",
+      "backend/app/main.py (categories router registered after health+auth)",
+      "backend/tests/integration/test_categories_api.py (new, 11 nodes; parametrized 422 base)",
+      "backend/tests/unit/test_category_service.py (new, 6 nodes)"
+    ],
+    "notes": [
+      "No Alembic revision: alembic/versions still {001,002}, single head 002 (t12 owns 003). No new dependencies (pyproject/uv.lock untouched). Frontend untouched.",
+      "All 17 contractual node IDs exist verbatim (pytest --collect-only shows 23 instances: 11 integration nodes with the contractual parametrized base test_create_invalid_bodies_return_422_validation_error_with_field contributing 7 ids, + 6 unit nodes).",
+      "W3 seam kept contractually: category_service.count_expenses_for_category(session, category_id) -> int, module-level, body imports app.models.expense lazily. DESIGN DECISION for Verifier: the lazy import is wrapped in try/except ImportError -> return 0, because ac3's pinned integration node test_delete_own_unused_returns_204_and_row_is_gone calls the REAL delete path, which would otherwise raise ModuleNotFoundError (pre-t13 the expense count is definitionally 0 — no table, no rows). The pinned unit tests monkeypatch the seam itself, so both 409-in-use branches stay proven without the model; t13 makes the real query run, t15 re-proves end-to-end. The seam name/signature are unchanged.",
+      "NOT_FOUND (Appendix B generic 404, field '-') is defined as a module-local constant in category_service.py, NOT added to core/errors.py: the DoD pins EXACTLY three new codes there (DUPLICATE_CATEGORY/CATEGORY_NOT_FOUND/CATEGORY_IN_USE, all three added, verbatim names). The rendered wire value is Appendix B verbatim either way; a comment in the service records that a later CRUD issue may promote it.",
+      "list_categories orders by is_system DESC, lower(name), name: the func.lower tie-break is REQUIRED to satisfy ac1's pinned 'alphabetical inside each block' (test asserts apple before Zebra; SQLite/PostgreSQL BINARY collation would return Zebra first). Raw name kept as final tie-break for determinism. Documented in the docstring; the pinned ordering contract is unchanged for the ten capitalized system rows.",
+      "Delete 404 code split per groom note 9: system id -> 404 CATEGORY_NOT_FOUND field=category_id; unknown/cross-user -> 404 NOT_FOUND field=None. Single frozen status code 404 (W2); tests assert != 409 and never 403.",
+      "category_service.py carries a file-level '# mypy: disable-error-code=\"import-not-found\"' for the deliberately absent app.models.expense (merged precedent: app/auth/dependencies.py disables import-untyped at file level). Strict mypy passes; no casts used.",
+      "422 coverage parametrized over 7 bad bodies: color red/#GGGGGG/#12345 -> field=color; name 101-char and empty -> field=name; missing name -> field=name; missing color -> field=color. W4 honored: name bound lives in schemas/category.py Field(min_length=1,max_length=100); NO DB CHECK added.",
+      "Isolation contract honored: one SQLite file per test under tmp_path, no os.environ[DATABASE_URL] read in either new module (grep-verified), create_all + seed_system_categories(connection)+commit, dependency_overrides[get_db], JWT pinned via copied t8 _pin_jwt_settings (cache_clear on setup AND teardown). Harness is a COPY of test_auth_api.py's pattern, no cross-test-module import, no conftest created.",
+      "Test-harness correction vs spawn brief: there is NO backend/tests/conftest.py (the brief said 'copy the t8 pattern from tests/integration/test_auth_api.py' correctly, and the groom note confirms); the harness was copied from that module as pinned.",
+      "Platform #14: comment posted (rc=0), label built added, groomed removed, re-verified via issue get 14 -> labels == ['built'] (silent-no-op hazard explicitly checked).",
+      "Scratch kept out of the commit: the five AC command strings were staged as build/scratch/ac{1..5}.sh (build/ is gitignored; git status showed no build entries before commit). Handoff JSON intentionally uncommitted."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/schemas/category.py",
+      "backend/app/services/category_service.py",
+      "backend/app/routers/categories.py",
+      "backend/app/core/errors.py",
+      "backend/app/main.py",
+      "backend/tests/integration/test_categories_api.py",
+      "backend/tests/unit/test_category_service.py",
+      "docs/state/outputs/t11_builder_build.json"
+    ],
+    "platform_issue": 14,
+    "output_path": "docs/state/outputs/t11_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T07:53:38Z",
+  "retry_count": 0
+}
