@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-07T18:20:00Z",
-  "milestone": "phase_2_auth",
-  "nodes": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"],
+  "generated_at": "2026-10-08T05:40:00Z",
+  "milestone": "phase_3_crud",
+  "nodes": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12", "t13", "t14", "t15", "t16", "t17", "t18"],
   "edges": [
     { "from": "t1", "to": "t0" },
     { "from": "t2", "to": "t0" },
@@ -16,9 +16,26 @@
     { "from": "t7", "to": "t6" },
     { "from": "t8", "to": "t7" },
     { "from": "t9", "to": "t2" },
-    { "from": "t9", "to": "t8" }
+    { "from": "t9", "to": "t8" },
+    { "from": "t10", "to": "t5" },
+    { "from": "t10", "to": "t6" },
+    { "from": "t11", "to": "t8" },
+    { "from": "t11", "to": "t10" },
+    { "from": "t12", "to": "t6" },
+    { "from": "t12", "to": "t10" },
+    { "from": "t13", "to": "t11" },
+    { "from": "t13", "to": "t12" },
+    { "from": "t14", "to": "t12" },
+    { "from": "t14", "to": "t13" },
+    { "from": "t15", "to": "t13" },
+    { "from": "t15", "to": "t14" },
+    { "from": "t16", "to": "t9" },
+    { "from": "t16", "to": "t13" },
+    { "from": "t16", "to": "t14" },
+    { "from": "t17", "to": "t16" },
+    { "from": "t18", "to": "t16" }
   ],
   "cycles": [],
-  "topological_order": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"],
-  "critical_path": ["t0", "t1", "t4", "t5", "t6", "t7", "t8", "t9"]
+  "topological_order": ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12", "t13", "t14", "t15", "t16", "t17", "t18"],
+  "critical_path": ["t0", "t1", "t4", "t5", "t6", "t7", "t8", "t11", "t13", "t14", "t16", "t17"]
 }

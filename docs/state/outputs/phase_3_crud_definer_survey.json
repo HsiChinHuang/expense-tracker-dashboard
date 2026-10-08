@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t10",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_3_crud",
+    "issues_generated": ["t10", "t11", "t12", "t13", "t14", "t15", "t16", "t17", "t18"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-TECH-008 (date-fns 3, Should) - deliberately NOT adopted in phase_3: all phase_3 date work is YYYY-MM string keys and DATE-without-timezone values (REQ-SEC-051), fully expressible with stdlib; the merged t9 ac6 forbidden-dependency grep bans date-fns and recharts, and no on-tree REQ text admits date-fns before its own survey - phase_4 (month picker + chart labels) is the earliest admission point and is a phase_4 survey decision. Rationale repeated in t16/t17/t18 constraints.",
+        "REQ-TECH-004 (Recharts) - phase_4 by design (charts are the dashboard milestone).",
+        "REQ-PROD-036 partial (frontend edge cases): network-error presentation is now explicitly owned by t17 (ToastProvider + retry affordance, paying t9 carry-forward #4); loading/empty/invalid-form/long-note cases covered by t17/t18; remaining cases (empty dashboard, dashboard loading, rapid month switching) belong to phase_4.",
+        "REQ-DB-072 seeding-trigger full scope: t10 ac3/ac4 pins the idempotent seed + one merged-path trigger; the SQLite-fallback seeding path (FR-DB-1 / REQ-DB-083 'fallback does not use Alembic') is phase_5_infra work on database.py fallback code that does not exist yet.",
+        "REQ-PROD-035 (concurrent budget creation under load) - the DB-level guard (UNIQUE user_id/year_month) is pinned in t14 ac1; the operational concurrency scenario is verified in phase_5 ops/diagnosis per Chapter 2 §2.5.6.",
+        "REQ-FE-050 dashboard query keys + REQ-FE-051 dashboard-cache invalidation OBSERVABILITY: t16 implements the invalidation calls per spec but the ['dashboard'] keys only become observable in phase_4 (noted in t16 constraints).",
+        "REQ-PROD-020 (performance targets, Should) - measured at project exit, not phase_3."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 8,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "Rolling planning for a NEW milestone against merged reality (main @ 08bd245, t0-t9 closed). The plan placeholder became N=9 vertical slices t10..t18 mapped onto Chapter 17 §17.4.2 tasks 3.1..3.25: 3.1-3.2->t10, 3.3-3.5->t11, 3.16-3.17->t12, 3.6-3.11+3.18->t13, 3.12-3.15+3.19->t14, 3.20->t15, data-layer foundation for 3.21-3.25->t16, 3.21-3.22(+toast)->t17, 3.23-3.24-3.25->t18. batch_size=min(5,ceil(9/3))=3; batches [t10,t11,t12], [t13,t14,t15], [t16,t17,t18] - each file written in its own write call, every batch persisted before the next.",
+      "Alembic chain is the DAG backbone: revisions must stay linear 001(users, merged)->002(categories,t10)->003(audit_logs,t12)->004(expenses,t13)->005(budgets,t14). This is WHY t14 depends on t13 (migration ordering, not a domain dependency) and t12 depends on t10; each migration issue adds an ac asserting single-head + upgrade/downgrade/upgrade cleanliness so a branched head fails fast.",
+      "Design decisions pinned at survey (groom may refine status codes but not the shape): (1) validate_category_access (REQ-BE-063) lands with the categories service t11, not with expenses t13, so the t13 write path consumes a merged contract; (2) the audit machinery (model+migration+same-transaction logger+get_client_ip) is its own issue t12, proven atomic with a synthetic business write BEFORE any real business write exists - t13/t14 then only integrate; (3) user isolation gets a dedicated black-box two-user suite t15 (REQ-SEC-034, task 3.20) rather than scattering 404 assertions, doubling as the REQ-PLAN-031 Decimal-precision anchor; (4) frontend splits data-layer (t16) from pages (t17/t18) because the 11-endpoint api+hooks+MSW surface plus page UI cannot share one 6-AC issue; (5) ToastProvider + network-error presentation (t9 carry-forward #4: transport already normalizes to code NETWORK_ERROR) is explicitly assigned to t17 ac1 with a fail-once-then-succeed MSW retry test.",
+      "date-fns/recharts decision (spawn asked to verify REQ-TECH-006 wording on-tree): REQ-TECH-006 is React Hook Form 7 + Zod 3 only (already merged, exact pins react-hook-form 7.53.2 / zod 3.23.8). date-fns is REQ-TECH-008 (Should, 'frontend uses date-fns 3') with no phase gating in the REQ text, but the merged t9 ac6 verification grep actively REJECTS recharts and date-fns as forbidden, and phase_3 needs no date library (year_month is a string per REQ-DB-042; expense dates are DATE strings per REQ-SEC-051). Decision: phase_3 adds NO new frontend dependencies; the ban is restated in t16/t17/t18 ac5/ac6 gates; earliest reconsideration is phase_4 survey (month picker/chart labels).",
+      "Platform API: /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts (npx tsx broken on this host). Created with labels 'defined' and leading-newline bodies: t10=#13, t11=#14, t12=#15, t13=#16, t14=#17, t15=#18, t16=#19, t17=#20, t18=#21. All 9 verified via 'issue get' (open, labels [defined], correct titles). After writing platform_issue into frontmatter, every body was re-synced via 'issue update <n> --body' (all 200). No POST flakiness occurred this run (0 retries needed); no curl was used.",
+      "Granularity: max_acs=6 hit by t13/t14/t18 (warn_only per config_subset limits.issue_granularity.warn_only=true; each AC is mechanically checkable). max_files=4 exceeded nominally by t13 (~7-8 paths), t17 (~6-8), t18 (~6) and slightly by t10/t11/t12/t16 (tests counted); every affected issue states the warn_only deviation in Constraints so Builders/Verifiers do not split verticals (t8/t9 precedent). max_diff_lines=300 will likely be exceeded by t13/t17 - also warn_only, stated in-file.",
+      "Verification commands: every issue carries the survey PLACEHOLDER section (groom pins pytest node IDs / vitest cmd.exe --reporter=json per-title greps; NEVER vitest -t - the vacuous-pass trap and the t8/t9 command precedents are cited inside the placeholders). Contract-first (config contract_first.enabled, require_for backend/api/database) is honored: backend ACs pin endpoint/status/code/field shapes; frontend is allow_natural_for ui/ux but still test-pinned via frozen vitest titles.",
+      "Open questions deliberately deferred to groom (each flagged in its issue): t11 ac3 404-vs-409 mapping for DELETE of a system category (Chapter 7 §7.4.3 vs REQ-SEC-033 reading), t11 in-use 409 testing strategy before the expenses table exists, t12 exact audit payload per REQ-SEC-061, t13 pagination envelope keys from Chapter 7 §7.5.1, t14 ac2 invalid-year_month status (422 vs 404) and t18 12-month-history query-key strategy.",
+      "Milestone file: docs/state/milestones/phase_3_crud.json was NOT left on tree - the spawn instructions override survey.md Step 8 ('you will NOT write the phase_3 milestone file (Orchestrator does)'). A file written mid-run was removed; Orchestrator owns creation.",
+      "DAG: 19 nodes / 30 edges; DFS verified 0 cycles, 0 orphans (programmatic re-check after writing dag.json); topological order t0..t18; critical path t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17 (t18 is a sibling leaf off t16). t16's dependency on t13/t14 is a contract dependency (MSW fixtures mirror the merged backend), noted in t16 Dependencies.",
+      "Carry-forwards honored: t9 groom's network-error scoping -> t17; exact-pin dependency policy restated in all frontend issues; uv/cmd.exe/MSW literal-path/vitest -t trap precedents cited in every Verification-commands placeholder so groom pins against merged toolchain reality."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t10.md",
+      "docs/issues/t11.md",
+      "docs/issues/t12.md",
+      "docs/issues/t13.md",
+      "docs/issues/t14.md",
+      "docs/issues/t15.md",
+      "docs/issues/t16.md",
+      "docs/issues/t17.md",
+      "docs/issues/t18.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/outputs/phase_3_crud_definer_survey.json"
+    ],
+    "platform_issue": 13,
+    "output_path": "docs/state/outputs/phase_3_crud_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T05:16:00Z",
+  "retry_count": 0
+}
