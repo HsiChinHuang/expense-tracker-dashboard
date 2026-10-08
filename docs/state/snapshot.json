@@ -9,10 +9,10 @@
       "role": "definer",
       "phase": "survey",
       "spawn_at": "2026-10-08T13:34:31Z",
-      "last_activity_at": "2026-10-08T13:34:31Z",
-      "run_id": "1fdc39c4-0c3d-4f31-9ce0-d4c167198241",
+      "last_activity_at": "2026-10-08T13:35:16Z",
+      "run_id": "29201d86-239b-42f9-9c27-f61905c6bcf7",
       "worktree_path": "MAIN checkout",
-      "note": "tests-only e2e matrix; W16 bounds + W3 in-use-409 re-proof"
+      "note": "tests-only e2e matrix; AMOUNT_MAX contradiction flagged to survey (steer+interrupt+resume -> run 29201d86)"
     },
     {
       "slot": 2,
