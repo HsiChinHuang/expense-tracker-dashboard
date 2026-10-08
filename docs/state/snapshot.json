@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T17:33:55Z",
-  "last_seq": 342,
+  "updated_at": "2026-10-08T17:55:50Z",
+  "last_seq": 343,
   "slots": [
     {
       "role": "definer",
-      "phase": "verify_issue",
-      "run_id": "a2888dc9-ca40-4250-9ec7-197b2a896e82",
-      "note": "t17 verify on cffd62f (86-entry cumulative)",
-      "last_activity_at": "2026-10-08T17:33:55Z"
+      "phase": "verify_issue_handoff_remediation",
+      "run_id": "8aba75ba-8a28-4c56-b845-dac1289c1b70",
+      "note": "t17 PASS on substance; JSON handoff rewrite only",
+      "last_activity_at": "2026-10-08T17:55:50Z"
     },
     {
       "slot": 2,
@@ -25,8 +25,10 @@
   "active_issues": [
     {
       "issue_id": "t17",
-      "state": "built",
-      "modifiers": []
+      "state": "verified",
+      "modifiers": [
+        "handoff_invalid_json"
+      ]
     }
   ]
 }
