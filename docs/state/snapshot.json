@@ -10,7 +10,7 @@
       "phase": "verify_issue",
       "spawn_at": "2026-10-08T13:55:42Z",
       "last_activity_at": "2026-10-08T15:40:30Z",
-      "run_id": "pending",
+      "run_id": "f9262252-a1c7-4c32-a95b-ada2c8e742c8",
       "worktree_path": "../worktrees/t15",
       "note": "5 ACs + cumulative 82; eslint-disable + invalidation-proof audit"
     },
