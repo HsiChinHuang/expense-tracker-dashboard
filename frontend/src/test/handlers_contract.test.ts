@@ -7,6 +7,16 @@
 // request fails loudly through the onUnhandledRequest 'error' harness.
 
 import { describe, expect, it } from 'vitest';
+
+type RejectionListener = (reason: unknown, promise: Promise<unknown>) => void;
+
+interface NodeProcessLike {
+  listeners(event: 'unhandledRejection'): RejectionListener[];
+  on(event: 'unhandledRejection', listener: RejectionListener): void;
+  removeListener(event: 'unhandledRejection', listener: RejectionListener): void;
+}
+
+const nodeProcess = (globalThis as unknown as { process: NodeProcessLike }).process;
 import { listCategories, createCategory, deleteCategory } from '../api/categories';
 import {
   listExpenses,
@@ -74,14 +84,51 @@ describe('phase_3 MSW handler contract', () => {
     // No handler exists for this path: the t9 harness (listen with
     // onUnhandledRequest: 'error') errors the request instead of proxying
     // it, so the call must reject loudly rather than resolve.
+    //
+    // The loud failure surfaces twice: (1) the api call rejects with the
+    // normalized ApiError, and (2) msw 2.3.5's error strategy throws inside
+    // an async interceptor listener, which orphans a process-level rejected
+    // promise (InternalError: "Cannot bypass a request..."). We temporarily
+    // own the process 'unhandledRejection' listeners for the duration of
+    // this test only, so the msw rejection is consumed and asserted here
+    // instead of leaking to vitest's run-level counter after the test ends.
+    const borrowed = nodeProcess.listeners('unhandledRejection');
+    const consumed: unknown[] = [];
+    const consume: RejectionListener = (reason) => {
+      consumed.push(reason);
+    };
+    for (const listener of borrowed) {
+      nodeProcess.removeListener('unhandledRejection', listener);
+    }
+    nodeProcess.on('unhandledRejection', consume);
     let rejected = false;
     try {
-      await api.get('/api/v1/nonexistent-endpoint');
-    } catch (error) {
-      rejected = true;
-      const message = error instanceof Error ? error.message : JSON.stringify(error);
-      expect(message.length).toBeGreaterThan(0);
+      try {
+        await api.get('/api/v1/nonexistent-endpoint');
+      } catch (error) {
+        rejected = true;
+        const message = error instanceof Error ? error.message : JSON.stringify(error);
+        expect(message.length).toBeGreaterThan(0);
+      }
+      // Let the orphaned msw rejection land (it fires on a later
+      // macrotask) while our consume listener is still attached.
+      await new Promise((resolve) => {
+        setTimeout(resolve, 50);
+      });
+    } finally {
+      nodeProcess.removeListener('unhandledRejection', consume);
+      for (const listener of borrowed) {
+        nodeProcess.on('unhandledRejection', listener);
+      }
     }
     expect(rejected).toBe(true);
+    // The harness must fail loudly: the error strategy's InternalError is
+    // among the rejections we consumed (proof the request was NOT bypassed).
+    const mswLoudFailure = consumed.find(
+      (reason) =>
+        reason instanceof Error &&
+        reason.message.includes('Cannot bypass a request when using the "error" strategy')
+    );
+    expect(mswLoudFailure).toBeDefined();
   });
 });
