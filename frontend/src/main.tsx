@@ -2,7 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppShell } from './components/layout/app_shell';
+import { App } from './app';
+import { AuthProvider } from './context/auth_context';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -15,11 +16,15 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
+// Provider nesting per REQ-ARCH-013: QueryClientProvider -> BrowserRouter ->
+// AuthProvider -> App. MonthProvider/ToastProvider arrive with later phases.
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AppShell />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>
