@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-08T15:14:14Z",
+  "updated_at": "2026-10-08T17:01:20Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -166,6 +166,37 @@
       "backend_tests": 184,
       "regression_count": 0,
       "notes": "isolation+money-precision TESTS-ONLY (W16): 13 nodes in 2 files, zero production changes, zero baseline amendments, AMOUNT_MAX ratification honored, index 77->82 (5 command entries ac1-ac5, ac6 gate excluded), 9 post-merge false-reds = orchestrator PATH bug re-ran clean"
+    },
+    {
+      "merge_id": "t16-6dbf552b",
+      "issue_id": "t16",
+      "platform_issue": 19,
+      "merged_sha": "6dbf552bf54db313a011cd0e8fede6fc960b4e59",
+      "merged_tree": "15b95b8f349051061a5145e2b7913a47a80a02ef",
+      "merged_at": "2026-10-08T17:01:20Z",
+      "acs": [
+        "ac1",
+        "ac2",
+        "ac3",
+        "ac4",
+        "ac5"
+      ],
+      "smoke_tests": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0
+      },
+      "cumulative_tests": {
+        "total": 82,
+        "passed": 82,
+        "failed": 0
+      },
+      "backend_tests": {
+        "total": 184,
+        "passed": 184
+      },
+      "regression_count": 0,
+      "notes": "First frontend-touching issue of phase_3; first genuine chain regression caught pre-merge (merge-index #15/#26 default-reporter exit 1 from leaked MSW error-strategy unhandled rejection in handlers_contract.test.ts); fixed in fix_qa 01fb789 by borrowing/restoring process unhandledRejection listeners inside the test with a strictly stronger positive assertion; verify_issue PASS retry_count 1 via RESUMED verifier 1939a05f; pre-merge PASS incl. new permanent default-reporter leg; post-merge 5 ACs + 82/82 index rc=0 inline; index appended with ac1-ac4 (ac5 composite excluded per precedent) 82->86; merge tree differs from verifier dry-run ONLY by the tracked pre-merge handoff JSON (additive docs-only)."
     }
   ]
 }
