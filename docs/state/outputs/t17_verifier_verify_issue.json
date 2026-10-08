@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t17",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/context/toast_context.tsx && test -f frontend/src/context/toast_context.test.tsx && test -f frontend/src/pages/expenses_page.test.tsx && grep -qE \"export const ToastProvider\" frontend/src/context/toast_context.tsx && grep -qE \"export const useToast\" frontend/src/context/toast_context.tsx && grep -qE \"<ToastProvider\" frontend/src/main.tsx && D=$(wslpath -w \"$PWD/frontend\") && a=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/context/toast_context.test.tsx --reporter=json\" 2>/dev/null) && b=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/expenses_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$a\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$b\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"showToast renders the message in an accessible live region\" \"toasts auto-dismiss after three seconds\" \"the dismiss button removes the toast before the auto-dismiss window\" \"a network-error toast surfaces a retry action that invokes the retry callback\"; do printf \"%s\" \"$a\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; for t in \"a failed list query renders the offline error state with a retry button\" \"retrying the failed list query refetches through the handler and renders the table\"; do printf \"%s\" \"$b\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/t17v/ac1.out",
+        "note": "Reproduced independently: bash build/t17v/ac1.sh </dev/null from worktree root, rc=0. Retry proof audited non-vacuous (server.use once-then-succeed override, attempts 1->2 observed at handler; offline role=alert + Retry asserted; table absent from failed query)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/pages/expenses_page.tsx && grep -qE \"/expenses\" frontend/src/app.tsx && ! grep -RnE \"parseFloat|parseInt|toFixed\" frontend/src/pages frontend/src/components frontend/src/context --include=*.tsx --include=*.ts | grep -q . && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/expenses_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"the page sets the Expenses document title per the page title pattern\" \"a pending list query renders the loading status region\" \"an empty result renders the empty state message\" \"the expenses table renders date category amount note and actions columns\" \"the amount cell renders the two-decimal string exactly as the api returned it\" \"the month filter drives the year_month query param\" \"the category filter drives the category_id query param\" \"the next page control requests page two with the default page size\" \"a five hundred character note renders in full without truncation\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/t17v/ac2.out",
+        "note": "rc=0. year_month/category_id observed at handler via captured URLs; page=2 & page_size=20 asserted on second request; amount TD textContent === '125.50' verbatim; 500-char note textContent length 500; document.title === 'Expenses'; money-coercion grep clean."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/components/forms/expense_form.tsx && test -f frontend/src/components/forms/expense_form.test.tsx && grep -qE \"amountSchema\" frontend/src/utils/validation.ts && grep -qE \"expenseFormSchema\" frontend/src/utils/validation.ts && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/forms/expense_form.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"the create form posts the amount as a decimal string and resets on success\" \"the edit form prefills existing values and submits the changed amount\" \"an invalid amount blocks submission before any network request\" \"amount with three decimals fails validation on blur\" \"an amount above the maximum fails validation on blur\" \"submit is disabled while the mutation is pending\" \"a backend field error is mapped onto the named form field\" \"form values are preserved when the create mutation fails\" \"focus moves into the modal on open and returns to the trigger on close\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/t17v/ac3.out",
+        "note": "rc=0. Blocks-before-network node keeps the counted handler (callCount('expenses.create')===0, no POST override in that node); posted amount typeof 'string' asserted at handler; focus into modal + restore to trigger asserted."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/components/ui/confirm_dialog.tsx && grep -qE \"role=.dialog\" frontend/src/components/ui/confirm_dialog.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/expenses_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"clicking delete opens the confirm dialog without calling the delete handler\" \"confirming the delete calls the delete handler and refetches the list\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "exit_code": 0,
+        "output_path": "build/t17v/ac4.out",
+        "note": "rc=0. Delete-open callCount delta 0 asserted while role=dialog open; confirm -> delete delta +1 AND expenses.list refetch delta >0 via merged t16 counters; success toast 'Expense deleted' asserted."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/src/context/toast_context.test.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 78 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q .; node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}if(!/^5\\.56\\.2$/.test(d[\\\"@tanstack/react-query\\\"])){console.error(\\\"tanstack query must stay pinned at 5.56.2\\\");process.exit(1)}\"'",
+        "exit_code": 0,
+        "output_path": "build/t17v/ac5.out",
+        "note": "rc=0. json-reporter suite 78/78, numFailedTests:0 numPendingTests:0 numTodoTests:0, pinned count pipeline n=78 >= floor 78; tsc rc=0; lint rc=0; no-any grep clean; dependency-ban node -e leg rc=0 (TanStack Query 5.56.2, no recharts/date-fns)."
+      }
+    },
+    "test_summary": {
+      "total": 78,
+      "passed": 78,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 2
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "All ACs verified by the pinned commands (groom) with fail-before/pass-after evidence": true,
+      "Full frontend suite, tsc, lint green (json AND default reporter — merge-index #15/#26 run locally green)": true,
+      "Conventional commit feat(t17): ..., branch issue/t17-..., no force push": true
+    },
+    "verification_commands_source": "docs/issues/t17.md#verification-commands",
+    "notes": [
+      "RUN SCOPE/CWD: verifier verify_issue for t17 (platform #20, phase_3_crud 7/9). CWD verified: worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t17, branch issue/t17-expenses-page @ cffd62f5ce5754ffb07c92720111ebfa760bd1b5 == assigned branch_sha (git via cmd.exe /c git -C ...). node_modules present (374 dirs), npm ci NOT re-run. No state-changing git, no code/test/issue modification; writes limited to build/t17v/ (gitignored scratch) + handoff JSON. [VENV_UNAVAILABLE] logged: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty (Node project, no-op per skill).",
+      "EXTRACTION BYTE-VERIFY: 5 AC commands extracted VERBATIM from docs/issues/t17.md ## Verification commands via build/t17v/extract.cjs -> build/t17v/ac1..ac5.sh; byteEqual=true 5/5; all single-line, quoteCount=2 (bash -c wrapper only), bash -n clean. Builder ac_mapping.test == extracted source 5/5 MATCH (no [BUILDER_COMMAND_MISMATCH]). Builder rc NOT trusted: all 5 re-run independently as bash build/t17v/acN.sh </dev/null from worktree root, rc read immediately: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0 — 5/5 reproduced.",
+      "FROZEN-TITLE INVENTORY (fresh json-reporter full-suite run, independent): numTotalTests:78 numPassedTests:78 numFailedTests:0 numPendingTests:0 numTodoTests:0; pinned count pipeline = 78; 14 files. 26/26 new titles present AND passed case-exactly: 4 in toast_context.test.tsx, 13 in expenses_page.test.tsx, 9 in expense_form.test.tsx (machine check vs inventory, missing=[]). Baseline t9+t16 = 52 nodes, all passed, title set IDENTICAL to the groom baseline (build/t17g_baseline.json, sorted-set equality true) -> zero regression. No duplicate titles across the suite.",
+      "DEFAULT-REPORTER LEG (t16 lesson): cmd.exe /c \"cd /d $D && npx.cmd vitest run\" (NO --reporter) from worktree root: rc=0, Test Files 14 passed, Tests 78 passed, ZERO 'Unhandled Errors' occurrences in output.",
+      "CUMULATIVE MERGE INDEX: all 86 entries extracted verbatim from docs/state/merge_test_index.json to build/t17v/mt/01..86.sh (zero-padded seq), byteEqual 86/86, all bash -n clean; run synchronously in chunks from worktree root, rc read per entry: 86/86 rc=0. Git-embedded entries re-scanned from the index itself = {1,4,5,12,23,24,27} (matches expected set); run with PATH-prepended shim build/t17v/bin/git forwarding /usr/bin/git --git-dir=/mnt/c/.../expense-tracker-dashboard/.git/worktrees/t17 --work-tree=/mnt/c/.../worktrees/t17 (worktree admin-dir form — .git is a file pointer, direct worktree --git-dir form fails rc=128; shim validated first: rev-parse HEAD/branch + check-ignore all rc=0). PATH hygiene (t15 lesson): full original PATH restored for every entry (per-entry PATH=\"$ORIG_PATH\" prefix + shim path only for the 7 shimmed runs); cmd.exe on PATH re-asserted after every chunk (frontend entries 13,15,16,26,51-56 all rc=0). No [VENV_UNAVAILABLE] failures in backend entries (uv.exe on PATH; all uv legs rc=0).",
+      "PROOF-INTEGRITY (a) ac1 retry: server.use override on /api/v1/expenses returns HttpResponse.error() on attempt 1, envelope after; test asserts attempts===1 at offline state, Retry click -> attempts===2 + table renders + alert gone — re-invocation OBSERVED, not vacuous; offline role=alert text 'Could not load expenses' + Retry button asserted; toast-level node asserts retry callback called exactly 1x.",
+      "PROOF-INTEGRITY (b) ac4: open-dialog node asserts callCount('expenses.delete') === before AND === 0 (no DELETE while dialog open); confirm node asserts delete delta +1 via waitFor and expenses.list count STRICTLY greater than pre-confirm count (refetch observed at the counted handler, not code reading); success toast asserted. (c) ac3 callCount-0 node uses CreateHarness with onSubmit spy (no server.use on POST) so the counted merged handler is live: onSubmit not called AND callCount('expenses.create')===0 — the counted handler is kept, no override. Builder's disclosed edit-test override (PUT replaced counted handler, update count 0 by design there) is consistent and does not weaken any pinned proof.",
+      "PROOF-INTEGRITY (d) amountSchema string-space max: withinAmountMax scales to integer cents, compares digit-length FIRST then lexicographic only at equal length — verified correct across differing digit lengths by re-implementing the shipped function and running 11 cases: 10000000000.00 REJECTED (the naive-lexicographic bug the builder disclosed would WRONGLY accept it: '1000000000000' <= '999999999999' is true lexicographically), boundary 9999999999.99 ACCEPTED, 999999999999/999999999999.99 rejected, leading-zero form 0000000001.50 accepted, 11/11 PASS. The frozen over-max test ('an amount above the maximum fails validation on blur', value 10000000000.00) pins this in-suite.",
+      "PROOF-INTEGRITY (e) money-as-string: grep parseFloat|parseInt|toFixed over pages/components/context AND utils/validation.ts = comment-only hits (lines 52-53 of validation.ts), zero code hits; posted amount typeof 'string' asserted at the POST handler in the create test. (f) toast live region: aria-live=polite WITHOUT role=status does NOT weaken the frozen title ('...in an accessible live region' — the test asserts the aria-live attribute directly); role=status is deliberately avoided because the merged t9 spinner uses role=status and the ac2 loading test resolves a SINGLE role=status node — choice is behavior-preserving and prevents a cross-file selector collision. (g) LINT WARNINGS END-STATE RULE: eslint rc=0, 0 errors, 2 react-refresh/only-export-components warnings — one on the NEW toast_context.tsx (exports useToast beside the component), one on the MERGED auth_context.tsx (identical pattern, merged green at t9). RULING: ACCEPTABLE — identical structural pattern to the merged t9 precedent, warnings do not fail the pinned lint gate (ac5 runs `npm run lint` which exits 0), lint is non-blocking per skill. Not a regression: the auth_context warning predates t17.",
+      "BACKEND: git diff --name-only origin/main...HEAD (via validated shim) = exactly the 10 pinned frontend files PLUS 3 docs artifacts (docs/issues/t17.md, t17_definer_survey.json, t17_definer_groom.json — definer-phase files on the branch, not builder code); ZERO backend files -> backend pytest NOT required (stated per procedure). Commit cffd62f itself touches exactly the 10 frontend paths; working tree clean (build/ scratch gitignored).",
+      "BUILDER CLAIMS CHECKED: branch_sha matches assignment; ac_mapping verbatim 5/5; 78/78 json suite reproduced; default-reporter clean reproduced; #15/#26 green inside the 86-entry run; 26/26 frozen titles reproduced; lint warnings end-state reproduced (2, same files). Builder's disclosed first-attempt lexicographic bug: fix verified sound (see (d)). Cosmetic carry-over from builder: THREE identical build-report comments on #20 (builder retry-loop grep mismatch) — no cleanup performed, informational for the orchestrator.",
+      "PLATFORM SYNC END STATE: verdict comment posted on #20 (created_at 2026-10-08T17:54:23Z); label add verified rc=0; label remove built rc=0 (first remove raced the add, re-issued — end state verified); issue get 20 labels = [defined, surveyed, verified] — built removed, verified present. All platform calls via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts from the main checkout.",
+      "PRE-OUTPUT CHECKLIST: CWD verification PASS; shared venv [VENV_UNAVAILABLE] logged (Node project, no-op) PASS; inputs read (issue t17, builder handoff, commands.md, config_snapshot) PASS; ## Verification commands read + used VERBATIM (byte-verified 5/5, no substitution) PASS; branch_sha matches PASS; ac_mapping matches source 5/5 PASS; every AC has a verdict (5/5 PASS) PASS; no FAILs so no failure_type needed (null) PASS; Lint Report included (0 errors, 2 warnings, non-blocking) PASS; DoD verification included (3/3) PASS; Test Quality Warnings included (none) PASS; handoff written under docs/state/outputs/ only PASS; comment posted via scripts/platform.ts PASS; labels transitioned built->verified PASS; output conforms to schemas/verifier/verify_issue.json (validated via scripts/validate_handoff.ts) PASS; reached_state=verified PASS.",
+      "HANDOFF REMEDIATION (post-acceptance): the first-pass main-checkout handoff file was overwritten by a prose summary by the runtime capture and validate_handoff.ts rejected it ('Data file is not valid JSON'); this JSON copy is a remediation write ONLY — verification runs were NOT redone; all evidence above is from the completed verification pass at cffd62f. Validation re-run after this write: [OK] (see orchestrator reply)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t17_verifier_verify_issue.json"
+    ],
+    "platform_issue": 20,
+    "output_path": "docs/state/outputs/t17_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T17:56:15Z",
+  "retry_count": 0
+}
