@@ -10,7 +10,7 @@
       "phase": "groom",
       "spawn_at": "2026-10-08T13:55:42Z",
       "last_activity_at": "2026-10-08T15:23:27Z",
-      "run_id": "pending",
+      "run_id": "fa43384f-74f6-4faf-a4a3-706e5a0867bf",
       "worktree_path": "../worktrees/t15",
       "note": "t16 groom: ratify vitest commands + invalidation mechanism"
     },
