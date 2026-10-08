@@ -3,72 +3,72 @@
   "issue_id": "t8",
   "role": "builder",
   "phase": "implement",
-  "status": "BLOCKER",
-  "reached_state": "unchanged",
+  "status": "COMPLETE",
+  "reached_state": "built",
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t8-auth-endpoints",
-    "branch_sha": "86c1d7d",
+    "branch_sha": "e7098cc313833ca0b0f618934a15e02dab1e4bee",
     "ac_mapping": {
       "ac1": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac1.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_register_valid_returns_201_lowercase_email_no_password\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_email_case_insensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_username_case_sensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_invalid_bodies_return_422_validation_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac1.db; exit $rc'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       },
       "ac2": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac2.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_login_valid_returns_200_token_user_with_matching_sub\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_wrong_password_and_unknown_email_return_identical_401\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_inactive_user_returns_401_user_inactive\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_corrupt_stored_hash_returns_401_not_500\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_valid_returns_user_and_token_with_sub_user_id\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_unknown_email_invokes_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_wrong_password_does_not_invoke_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_corrupt_stored_hash_raises_invalid_credentials_not_value_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac2.db; exit $rc'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       },
       "ac3": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac3.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_returns_200_current_user\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_missing_header_returns_401_unauthorized\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_malformed_and_wrong_signature_return_401_token_invalid\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_expired_token_returns_401_token_expired\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_for_inactive_user_returns_401_user_inactive\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac3.db; exit $rc'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       },
       "ac4": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac4.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_openapi_lists_three_auth_paths_registered_after_health\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_login_me_end_to_end_flow\" \"tests/integration/test_auth_api.py::TestAuthApi::test_health_endpoint_still_returns_200_after_auth_wiring\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac4.db; exit $rc'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       },
       "ac5": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac5.db\" uv run pytest \"tests/unit/test_auth_service.py::TestAuthService::test_failed_login_logs_no_raw_email_and_no_password\" \"tests/unit/test_auth_service.py::TestAuthService::test_register_and_login_success_log_events_without_secrets\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac5.db; exit $rc'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       },
       "ac6": {
-        "commit": "86c1d7d",
+        "commit": "e7098cc",
         "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && ! grep -RnE \"^[[:space:]]*except Exception[[:space:]]*(:|as )\" app tests'",
-        "verdict": "FAIL"
+        "verdict": "PASS"
       }
     },
     "test_summary": {
       "total": 53,
-      "passed": 0,
+      "passed": 53,
       "failed": 0
     },
-    "lint_status": "ERRORS",
+    "lint_status": "CLEAN",
     "verification_commands_source": "docs/issues/t8.md#verification-commands",
     "ac_suggestions": [],
     "memory_applied": [],
     "notes": [
-      "BLOCKER is an ENVIRONMENT failure, not an implementation failure. Approximately 15 consecutive bash invocations over ~20 minutes — including bare `echo hello` — failed with `Bash/Service/CreateInstance/E_FAIL` (the WSL instance backing the bash tool cannot be spawned). No pytest/ruff/mypy/git command could be executed after that point, so per the builder skill's Pre-output checklist a BLOCKER handoff is required instead of claiming built.",
-      "IMPLEMENTATION IS CODE-COMPLETE in the worktree (uncommitted). Files written (all verified intact via the read tool): backend/app/core/errors.py (AppError + register_error_handlers: AppError/RequestValidationError->422 VALIDATION_ERROR with field/SQLAlchemyError->503 DATABASE_UNAVAILABLE), backend/app/schemas/auth.py (RegisterRequest/LoginRequest/UserResponse/LoginResponse; field_validator email pattern, username ^\\S{3,50}$, password 8-72 chars AND <=72 UTF-8 bytes; no EmailStr), backend/app/services/auth_service.py (register_user lowercases email BEFORE duplicate checks, 409 DUPLICATE_EMAIL/DUPLICATE_USERNAME; authenticate_user with the t7 carry-forward #1 `except ValueError` catch around verify_password — decision recorded in the module docstring; verify_dummy exactly once on the unknown-email and corrupt-hash paths, zero on wrong-password; byte-identical 401 INVALID_CREDENTIALS bodies via a shared detail constant; USER_INACTIVE 401; sha256 16-hex email identifier in every log record, never raw email/password/hash), backend/app/auth/dependencies.py (get_current_user consuming t7 decode_access_token; HTTPBearer(auto_error=False); four distinct 401 codes; TOKEN_EXPIRED detected via isinstance(exc.__cause__, ExpiredSignatureError) without re-running validation; file-level mypy import-untyped pragma), backend/app/routers/auth.py (Annotated[..., Depends(...)] form for ruff B008), backend/app/main.py (register_error_handlers + auth router included AFTER health), backend/tests/integration/test_auth_api.py (all 16 pinned TestAuthApi nodes; per-test tmp_path SQLite + Base.metadata.create_all + dependency_overrides[get_db]; never reads DATABASE_URL; generator override consumed via `with next(override()) as session:`), backend/tests/unit/test_auth_service.py (all 6 pinned TestAuthService nodes; verify_dummy monkeypatch spy installed on BOTH app.auth.password and app.services.auth_service).",
-      "BEFORE the WSL outage, a live smoke test of the production wiring (TestClient + tmp SQLite + get_db override) PASSED manually: register 201 with exactly the 5 public keys and lowercased email; case-insensitive email 409 DUPLICATE_EMAIL field=email; different-case username 201; malformed email/short password/whitespace username each 422 VALIDATION_ERROR with the right field; login 200 {access_token,token_type,user} bearer; /me 200; missing header 401 UNAUTHORIZED; garbage token 401 TOKEN_INVALID; wrong-password and unknown-email bodies identical INVALID_CREDENTIALS. The corrupt-hash ValueError shapes were separately reproduced against the locked passlib/bcrypt (all three raise plain ValueError). backend/dev.db was deleted once (it had been created by an early smoke run WITHOUT an override) and is gitignored, so the repo is unaffected; later runs used injected tmp URLs only.",
-      "ac_mapping verdicts are FAIL and lint_status ERRORS purely because the commands could not be EXECUTED (not because any was observed failing); test_summary total=53 reflects the expected collection (31 pre-existing + 22 new), passed/failed=0 because nothing ran. branch_sha 86c1d7d is the untouched branch head — the work is NOT committed and NOT pushed because git could not run. All six verification commands are recorded verbatim from docs/issues/t8.md#verification-commands for the rerun.",
-      "Known residual risks for the rerun (fix before/at rerun if tests complain): (1) ruff may flag a few >100-char lines or import order — run `ruff check --fix`; (2) mypy strict may flag `session.query(...)` untyped `.one()` in the two mutation sites — switch to `cast(Any, ...)` or `cast(User, ...)` if reported; (3) the expired-token test relies on get_settings.cache_clear() around create_access_token (t7 precedent) — verify; (4) the corrupt-hash shapes emit a PasslibHashWarning (not an error) — pytest is not configured with -W error so it should pass; (5) the unit-test autouse fixture imports jose only transitively — if mypy flags the jose import in the unit module, add the file-level `# mypy: disable-error-code=\"import-untyped\"` pragma (integration module already has it).",
-      "No AC issues found — the groom contract was implementable as written; no AC was modified. No files outside the Constraints list were touched. pyproject.toml/uv.lock/app/database.py/app/config.py/app/models/user.py/alembic untouched. The main checkout is clean (one file briefly mis-pathed there by the write tool was moved back into the worktree; `git status` in the main checkout was clean afterwards).",
-      "Platform steps NOT done (require bash): commit, push, issue comment, label transition groomed->built. Retry this run once the WSL/bash backend is healthy: `cd backend && uv sync`, run the six commands verbatim, `ruff check --fix`, `mypy .`, then commit/push/comment/label per the skill.",
-      "RECORD RECOVERY NOTE (orchestrator): original artifacts mirror was retention-pruned before this copy; this file was restored verbatim from the orchestrator's retained read of the mirror while bash was down (2026-10-07T22:10Z). Worktree verified intact post-restore: git status shows exactly the 8 builder files (1 modified main.py + 7 untracked), branch head 86c1d7d."
+      "Retry 1 (environment recovery): the previous attempt's 8 uncommitted files were verified intact via git status --porcelain (exactly the expected 8 paths) and NOT rewritten. This run fixed two mypy-strict errors only: app/core/errors.py:106 (dropped the `list[Any]` annotation on `exc.errors()`, which returns Sequence[Any]) and a file-level `# mypy: disable-error-code=\"import-untyped\"` pragma in tests/unit/test_auth_service.py (jose ships no py.typed; integration module already carried the pragma). Ruff --fix reported nothing to fix.",
+      "All six AC verification-command strings were extracted verbatim from docs/issues/t8.md (CRLF-normalized parsing) and executed from the worktree repository root via bash -c with </dev/null: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0. No /tmp/t8_ac*.db file survives any run.",
+      "Full suite `uv run pytest -q` in backend/: 53 passed (31 pre-existing t1/t3/t5/t6/t7 + 22 new t8 nodes). `uv run ruff check .`: All checks passed! `uv run mypy .` (strict): Success: no issues found in 36 source files.",
+      "backend/dev.db does NOT exist in this worktree and was not created by any run (told not to recreate it; it is gitignored). Nothing opened it.",
+      "Groom-documented traps handled by the on-disk implementation and confirmed by this run: Annotated[T, Depends(...)] form (no B008), field_validator email pattern instead of EmailStr, HTTPBearer(auto_error=False), TOKEN_EXPIRED via exc.__cause__ inspection, openapi()['paths'] key order for registration order, generator get_db override via next(override()), cast(User/Any) around session.query results, corrupt-hash ValueError caught in authenticate_user with the t7 carry-forward #1 decision recorded in the service docstring, verify_dummy monkeypatch spies (unknown path once, wrong-password path zero), sha256 email identifier in failed-login logs with no raw email/password/hash.",
+      "Commit e7098cc touches exactly the 8 constraint-list files (5 new app modules, 2 new test modules, main.py wiring: register_error_handlers + auth router included after health). pyproject.toml/uv.lock/app/database.py/app/config.py/app/models/user.py/alembic untouched. Pushed to origin issue/t8-auth-endpoints (new branch, no force).",
+      "Platform: comment posted on issue #11 (first attempt, rc=0), label groomed removed, label built added; verified via issue get 11 -> labels ['built'], state open.",
+      "Observation for the Orchestrator (not an AC, no code in t8): get_db() still constructs and disposes an engine per request; a module-level engine/session factory remains a later refactor (t5 carry-forward #2)."
     ]
   },
   "artifacts": {
     "files_written": [
+      "backend/app/main.py",
       "backend/app/core/errors.py",
       "backend/app/schemas/auth.py",
       "backend/app/services/auth_service.py",
       "backend/app/auth/dependencies.py",
       "backend/app/routers/auth.py",
-      "backend/app/main.py",
       "backend/tests/integration/test_auth_api.py",
       "backend/tests/unit/test_auth_service.py",
       "docs/state/outputs/t8_builder_implement.json"
@@ -76,23 +76,8 @@
     "platform_issue": 11,
     "output_path": "docs/state/outputs/t8_builder_implement.json"
   },
-  "error": {
-    "error_type": "environment_error",
-    "error_code": "WSL_BASH_BACKEND_DOWN",
-    "message": "The WSL instance backing the bash tool fails to spawn (Bash/Service/CreateInstance/E_FAIL) on every command, including `echo hello`, for ~20 minutes. Implementation is code-complete but pytest/ruff/mypy/git cannot run, so no AC could be verified and nothing could be committed or pushed.",
-    "context": {
-      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t8",
-      "branch_head": "86c1d7d",
-      "uncommitted_work": true,
-      "failing_command": "echo hello",
-      "failure_output": "Bash/Service/CreateInstance/E_FAIL",
-      "smoke_test_before_outage": "register/login/me flows returned the pinned 201/409/422/200/401 shapes in a manual TestClient run",
-      "retry_guidance": "Restore WSL, then rerun builder implement for t8: uv sync, run the six verification commands verbatim, ruff check --fix, mypy ., commit (feat(t8)), push -u origin issue/t8-auth-endpoints, comment, labels groomed->built."
-    },
-    "retryable": true,
-    "suggested_action": "rerun_same_role"
-  },
+  "error": null,
   "next_action": null,
-  "timestamp": "2026-10-07T22:05:00Z",
-  "retry_count": 0
+  "timestamp": "2026-10-08T00:56:00Z",
+  "retry_count": 1
 }
