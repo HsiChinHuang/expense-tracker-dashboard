@@ -8,6 +8,7 @@ test fixtures both rely on this). t6 registers ``User``; t10 adds
 
 from app.models.audit_log import AuditLog
 from app.models.category import Category
+from app.models.expense import Expense
 from app.models.user import Base, User
 
-__all__ = ["AuditLog", "Base", "Category", "User"]
+__all__ = ["AuditLog", "Base", "Category", "Expense", "User"]
