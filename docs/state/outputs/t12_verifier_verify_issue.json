@@ -1,0 +1,93 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t12",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_columns_nullability_python_uuid_pk_and_no_cascade_fk\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_entity_id_is_required\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_action_and_entity_type_checks_reject_out_of_set_values\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_json_variant_payload_roundtrips_and_old_new_are_independently_nullable\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_downgrade_003_to_002_drops_audit_logs_and_upgrade_roundtrip_restores\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t12v/ac1.out",
+        "note": "6 passed (model shape/nullability/no-cascade FK, entity_id NOT NULL, named CHECKs reject out-of-set, JSON round-trip; migration upgrade-head DDL + downgrade/round-trip)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_create_row_has_null_old_value_and_new_value_with_exact_expense_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_update_row_has_both_values_with_exact_budget_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_delete_row_has_old_value_and_null_new_value\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_logger_never_commits_row_visible_only_after_caller_commit\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_get_audit_logger_returns_write_audit_log\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t12v/ac2.out",
+        "note": "5 passed (CREATE/UPDATE/DELETE value-shape + exact payload keys, second-session no-commit probe, get_audit_logger identity)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestAuditAtomicity::test_action_check_violation_rolls_back_the_business_write\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t12v/ac3.out",
+        "note": "1 passed (PATCH-action injection: commit raises IntegrityError, rollback leaves neither business nor audit row)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_client_ip.py::TestGetClientIp::test_x_forwarded_for_first_hop_is_returned_and_stripped\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_direct_client_host_when_header_absent\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_empty_header_falls_back_to_client_host\" \"tests/unit/test_audit_logger.py::TestNoAuditApiSurface::test_openapi_has_no_path_containing_audit\" -q'",
+        "exit_code": 0,
+        "output_path": "build/t12v/ac4.out",
+        "note": "4 passed (XFF first-hop stripped, absent-header fallback, empty-header fall-through, openapi has no audit path)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_audit_migration.py::TestAuditMigration::test_alembic_heads_is_single_revision_003\" -q >/dev/null 2>&1'",
+        "exit_code": 0,
+        "output_path": "build/t12v/ac5.out",
+        "note": "Full suite 105 passed + ruff clean + mypy strict clean + single-head-003 test node all green (chained legs independently reproduced)."
+      }
+    },
+    "test_summary": {
+      "total": 105,
+      "passed": 105,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_5_acs_verified_by_pinned_commands": true,
+      "full_suite_ruff_mypy_green_alembic_heads_003": true,
+      "alembic_003_roundtrip_proven_fresh_sqlite": true,
+      "conventional_commit_and_branch": true
+    },
+    "verification_commands_source": "docs/issues/t12.md#verification-commands",
+    "notes": [
+      "Extraction discipline: all 5 AC commands extracted verbatim from docs/issues/t12.md ## Verification commands to build/t12v/acN.sh (CRLF stripped BEFORE backtick match per builder-discovered hazard); byte-verify reconstruction == source line: 5/5 match, 0 mismatches. Builder ac_mapping strings == ## Verification commands: 5/5 identical. Executed each script from the worktree root with </dev/null; rc captured immediately.",
+      "AC results (independently re-run, Builder rc claims NOT trusted): ac1 rc=0 (6 passed), ac2 rc=0 (5 passed), ac3 rc=0 (1 passed), ac4 rc=0 (4 passed), ac5 rc=0 (chained pytest+ruff+mypy+heads legs). All PASS.",
+      "17 pinned node IDs (ac1:6, ac2:5, ac3:1, ac4:4, ac5:1) collected verbatim via uv run pytest <ids> --collect-only -q -> 17 tests collected, rc=0. No renames.",
+      "Backend gates on branch @6b0e39b: uv run pytest -q -> 105 passed (matches builder claim; 88 baseline + 17 new); uv run ruff check . -> All checks passed! (0 errors); uv run mypy . -> Success: no issues found in 54 source files (strict); uv run alembic heads -> exactly '003 (head)'.",
+      "Cumulative regression: docs/state/merge_test_index.json (worktree copy) has 63 entries; every entry extracted to its own file under build/t12v/mt/ with byte-verify (63/63 reconstruction match, all bash -c wrapped). Git-needing entries re-scanned: {1,4,5,12,23,24,27} (1-indexed) confirmed, PATH-prepended build/t12v/bin/git shim (forwards to /usr/bin/git with --git-dir/--work-tree; validated via ls-files --error-unmatch e2e/.gitkeep rc=0). NOTE: the Windows-form path (C:/...) for --git-dir FAILED under WSL git ('not a git repository'); the /mnt/c form works \u2014 shim used /mnt/c equivalents of the same worktree/main paths. Batch run from WORKTREE ROOT in 3 chunks.",
+      "Entry 58 (t10 ac2) per orchestrator amendment alert: worktree copy is stale. STALE entry 58 run as-is on this branch: rc=1 (expected \u2014 it greps '002 (head)' and upgrades to head asserting the 002-era table set; head is 003 now; stale-index artifact, NOT a regression). AMENDED entry 58 fetched from main checkout docs/state/merge_test_index.json entry 58 (identical extraction discipline, byte-verified) run on this branch: rc=0. Tally: 63/63 exit 0 with orchestrator-amended entry 58 (stale version rc=1 documented).",
+      "Cross-issue test amendments audit (3 baseline tests forced by AuditLog registering on Base; t10/db1c4c9 precedent): (a) test_category_model.py: 'set(Base.metadata.tables) == {users,categories}' -> '{users,categories} <= set(...)' superset guard \u2014 intent (users+categories registered) preserved, only the accidental exclusivity of future tables relaxed: PRESERVES intent. (b) test_user_model.py: 'not tables & {expenses,budgets,audit_logs}' -> 'not tables & {expenses,budgets}' \u2014 drops ONLY audit_logs (which now legitimately exists), the expenses/budgets not-yet-exists guard is KEPT verbatim: PRESERVES intent. (c) test_category_migration.py: _migrate gains revision param default 'head' (existing callers unchanged); the revision-002-shape test now upgrades to revision='002' explicitly \u2014 it asserts the 002-era schema (table set == users+categories+alembic, version_num=='002') so pinning to 002 preserves its exact intent (same pattern as the t10 ac2 merge-index amendment): PRESERVES intent, none weaken.",
+      "Contract audits: write_audit_log body is exactly db.add(AuditLog(...)) \u2014 no commit, no flush, no own session (read in full; 8 params all keyword-named per Ch12 12.7.5); get_audit_logger() zero-arg returns write_audit_log itself (identity-asserted in test). get_client_ip matches Ch6 6.5.4 frozen rule verbatim: forwarded truthy -> split(',')[0].strip() (first-hop), falsy (absent OR empty) falls through to request.client.host if request.client else None; NO truncation logic invented; private _client_ip untouched. DDL inspected independently (fresh SQLite + alembic upgrade head + sqlite_master): CONSTRAINT ck_audit_action CHECK (action IN ('CREATE','UPDATE','DELETE')) and ck_audit_entity_type CHECK (entity_type IN ('expense','budget')) present; CREATE INDEX idx_audit_user_created ON audit_logs (user_id, created_at DESC) / idx_audit_entity / idx_audit_action all present; FOREIGN KEY(user_id) REFERENCES users (id) with NO ON DELETE CASCADE anywhere in DDL; entity_id CHAR(32) NOT NULL in revision-003 DDL and nullable=False in model (W5). JSONType = sa.JSON().with_variant(postgresql.JSONB(),'postgresql') defined ONCE in app/models/audit_log.py, imported by 003 (no duplicate definition). Independent round-trip: upgrade head -> audit_logs+3 indexes; downgrade 002 -> zero %audit% objects; re-upgrade -> all restored.",
+      "ac3 injection mechanism verified by reading the test: real Category business row + write_audit_log(action='PATCH', entity_type='expense') in ONE session, single commit raises IntegrityError, rollback; fresh session asserts probe.get(Category, business_id) is None AND AuditLog count == 0 (neither row survives). No monkeypatch, no out-of-CHECK entity_type. Payload key sets pinned in tests: expense exactly {amount,date,category_id,note}, budget exactly {amount,year_month}; assertions check persisted CONTENT through fresh sessions, never row counts.",
+      "Test quality: all 4 new test files carry meaningful assertions (36/27/15/8 assert statements); openapi absence test includes non-vacuous guard (len(paths)>=5); second-session no-commit probe proves flush-invisibility + rollback-zero-rows. No assert-True or count-only vacuity found.",
+      "branch_sha matches assignment: 6b0e39b7f4524fab57f8fb354d1e177786acd889 on issue/t12-audit-foundation, base b7ca6670b. Conventional commit 'feat(t12): ...' verified. Worktree clean except untracked builder handoff JSON (expected artifact).",
+      "Main-checkout residue (non-blocking, not code): main checkout still carries untracked docs/state/outputs/t12_builder_build.json (t10-incident remnant from builder's first-two-writes; the CODE files were correctly moved \u2014 main has no audit_log.py/logger.py and git status shows no tracked modifications). Flagging for orchestrator cleanup hygiene.",
+      "Shared venv: UV_PROJECT_ENVIRONMENT/PYTHONPATH not set in this spawn ([VENV_UNAVAILABLE] WARN, not failure); per-worktree uv env used via PATH=$HOME/.local/bin; no uv sync needed (env already present).",
+      "Git shim note for future verifiers: Windows-form (C:/...) --git-dir/--work-tree values fail under WSL /usr/bin/git; /mnt/c forms work. Builder's t10-incident + CRLF hazards both recurred/documented and were handled per protocol."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t12_verifier_verify_issue.json"
+    ],
+    "platform_issue": 15,
+    "output_path": "docs/state/outputs/t12_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T09:41:48Z",
+  "retry_count": 0
+}

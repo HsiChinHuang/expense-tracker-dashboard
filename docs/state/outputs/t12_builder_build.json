@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t12",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t12-audit-foundation",
+    "branch_sha": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+    "commits": [
+      "6b0e39b7f4524fab57f8fb354d1e177786acd889"
+    ],
+    "base_commit": "b7ca6670b0847f447f30e9fda2311121416add85",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_columns_nullability_python_uuid_pk_and_no_cascade_fk\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_entity_id_is_required\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_action_and_entity_type_checks_reject_out_of_set_values\" \"tests/unit/test_audit_log_model.py::TestAuditLogModel::test_json_variant_payload_roundtrips_and_old_new_are_independently_nullable\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes\" \"tests/integration/test_audit_migration.py::TestAuditMigration::test_downgrade_003_to_002_drops_audit_logs_and_upgrade_roundtrip_restores\" -q'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_create_row_has_null_old_value_and_new_value_with_exact_expense_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_update_row_has_both_values_with_exact_budget_payload_keys\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_delete_row_has_old_value_and_null_new_value\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_logger_never_commits_row_visible_only_after_caller_commit\" \"tests/unit/test_audit_logger.py::TestWriteAuditLog::test_get_audit_logger_returns_write_audit_log\" -q'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_audit_logger.py::TestAuditAtomicity::test_action_check_violation_rolls_back_the_business_write\" -q'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_client_ip.py::TestGetClientIp::test_x_forwarded_for_first_hop_is_returned_and_stripped\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_direct_client_host_when_header_absent\" \"tests/unit/test_client_ip.py::TestGetClientIp::test_empty_header_falls_back_to_client_host\" \"tests/unit/test_audit_logger.py::TestNoAuditApiSurface::test_openapi_has_no_path_containing_audit\" -q'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "6b0e39b7f4524fab57f8fb354d1e177786acd889",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_audit_migration.py::TestAuditMigration::test_alembic_heads_is_single_revision_003\" -q >/dev/null 2>&1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 105,
+      "passed": 105,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t12.md#verification-commands",
+    "self_verify": {
+      "ac1_rc": 0,
+      "ac2_rc": 0,
+      "ac3_rc": 0,
+      "ac4_rc": 0,
+      "ac5_rc": 0,
+      "full_suite": "uv run pytest -q -> 105 passed (merged 88 baseline + 17 new audit nodes; baseline count unchanged after amendments)",
+      "ruff": "uv run ruff check . -> All checks passed!",
+      "mypy": "uv run mypy . -> Success: no issues found in 54 source files (strict)",
+      "alembic_heads": "uv run alembic heads -> '003 (head)' (single head, linear chain 001->002->003)"
+    },
+    "fail_before_evidence": {
+      "base": "b7ca6670b0847f447f30e9fda2311121416add85 (worktree base, before any t12 file existed)",
+      "ac1_rc": 4,
+      "ac2_rc": 4,
+      "ac3_rc": 4,
+      "ac4_rc": 4,
+      "ac5_rc": 4,
+      "note": "All five pinned commands executed verbatim on base from the worktree root: rc=4 (pytest usage error \u2014 the four test modules absent; ac5's gate legs pass on base but the chained test_alembic_heads_is_single_revision_003 leg collects nothing -> rc=4), matching the groom's stated fail-before behavior (measured on main @ d278fea). After implementation the same five strings returned rc=0."
+    },
+    "files_changed": [
+      "backend/app/models/audit_log.py (new: AuditLog + ACTION_CHECK_SQL/ENTITY_TYPE_CHECK_SQL/JSONType defined once)",
+      "backend/app/models/__init__.py (re-export AuditLog)",
+      "backend/alembic/versions/003_audit_logs.py (new: revision 003, down 002, imports model constants)",
+      "backend/app/audit/logger.py (new: write_audit_log + get_audit_logger)",
+      "backend/app/auth/dependencies.py (public get_client_ip added; private _client_ip untouched)",
+      "backend/tests/unit/test_audit_log_model.py (new, 4 nodes)",
+      "backend/tests/integration/test_audit_migration.py (new, 3 nodes incl. single-head-003)",
+      "backend/tests/unit/test_audit_logger.py (new, 7 nodes: TestWriteAuditLog 5, TestAuditAtomicity 1, TestNoAuditApiSurface 1)",
+      "backend/tests/unit/test_client_ip.py (new, 3 nodes)",
+      "backend/tests/unit/test_category_model.py (amendment: metadata equality -> superset guard)",
+      "backend/tests/unit/test_user_model.py (amendment: audit_logs removed from not-yet-exists guard; expenses/budgets kept)",
+      "backend/tests/integration/test_category_migration.py (amendment: _migrate revision param; revision-002-shape test pinned to 002)"
+    ],
+    "notes": [
+      "No new dependencies (pyproject/uv.lock untouched). Frontend untouched. No Alembic revisions beyond 003. Category/expense services untouched \u2014 t13/t14 integrate the audit writer.",
+      "All 13 contractual pinned node IDs (17 collected nodes total) from the five pinned commands exist verbatim (each batch ran rc=0). test_audit_logger.py carries 7 nodes (5 ac2 + 1 ac3 + 1 ac4 openapi-absence); test_audit_log_model.py 4; test_audit_migration.py 3 (2 ac1 + 1 ac5); test_client_ip.py 3.",
+      "Cross-issue test amendments (t10/db1c4c9 precedent, forced by AuditLog registering on the shared Base \u2014 5 baseline tests failed without them): (1) test_category_model.py 'set(Base.metadata.tables) == {users,categories}' -> superset guard; (2) test_user_model.py 'not tables & {expenses,budgets,audit_logs}' -> drops audit_logs (it exists now by design), expenses/budgets guard KEPT; (3) test_category_migration.py revision-002-shape test now upgrades to revision='002' explicitly (head moved to 003; the test asserts the 002-era schema, intent preserved). All t6/t10 pinned commands re-verified green inside the full 105-node suite.",
+      "t10 incident recurrence: the first two writes (audit_log.py, logger.py) landed in the MAIN checkout because the write tool resolved relative paths against the inherited cwd, not the worktree. They were moved into the worktree and main verified pristine (git status clean). All later files were written via bash heredoc into the worktree with post-write verification.",
+      "JSONType import form in revision 003: sa.Column('old_value', JSONType, ...) passes the shared variant instance directly (JSONType is an instance, not a class \u2014 calling JSONType() raised TypeError under the migration). Model and migration still share the ONE definition (drift-prevention intent unchanged).",
+      "idx_audit_user_created DESC ordering expressed as sa.text('created_at DESC') in both the model Index and op.create_index; SQLite stores the index expression, PostgreSQL will get the DESC. Index NAME existence (the frozen contract) is asserted; DESC direction is DDL-level and Verifier-runnable via sqlite_master sql text.",
+      "get_client_ip unit tests use a minimal local FastAPI app (TestClient host is 'testclient'); the empty-header case proves falsy fall-through per the frozen Chapter 6 6.5.4 rule. No truncation logic invented (survey clause dropped per groom note 5).",
+      "ac3 injection is exactly the pinned W7 mechanism: real Category business row + write_audit_log(action='PATCH') in ONE session/transaction, single commit raises IntegrityError, rollback leaves NEITHER row (asserted via fresh session at content level).",
+      "Platform #15: comment posted (created_at 2026-10-08T09:15:28Z), labels groomed->built transitioned and re-verified via issue get 15 -> labels == ['built']. Note: the CLI's label remove requires --label (singular) while label add used --labels; both succeeded and final state re-verified.",
+      "Verification-command extraction hazard (no impact on results): docs/issues/t12.md has CRLF endings; the sed-extraction of the backtick-quoted commands must strip \\r BEFORE matching the trailing backtick, else the wrapper breaks with rc=2. Fail-before and pass-after batches both used the identical extraction expression; rc values 4->0 per AC as pinned."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/models/audit_log.py",
+      "backend/app/models/__init__.py",
+      "backend/alembic/versions/003_audit_logs.py",
+      "backend/app/audit/logger.py",
+      "backend/app/auth/dependencies.py",
+      "backend/tests/unit/test_audit_log_model.py",
+      "backend/tests/integration/test_audit_migration.py",
+      "backend/tests/unit/test_audit_logger.py",
+      "backend/tests/unit/test_client_ip.py",
+      "backend/tests/unit/test_category_model.py",
+      "backend/tests/unit/test_user_model.py",
+      "backend/tests/integration/test_category_migration.py",
+      "docs/state/outputs/t12_builder_build.json"
+    ],
+    "platform_issue": 15,
+    "output_path": "docs/state/outputs/t12_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T09:16:30Z",
+  "retry_count": 0
+}
