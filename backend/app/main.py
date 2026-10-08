@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI
 
+from app.core.errors import register_error_handlers
+from app.routers.auth import router as auth_router
 from app.routers.health import router as health_router
 
 
@@ -13,6 +15,8 @@ def create_app() -> FastAPI:
     """
     application = FastAPI(title="Expense Tracker Dashboard API", version="0.1.0")
 
+    register_error_handlers(application)
+
     @application.get("/")
     def read_root() -> dict[str, str]:
         """Serve the skeleton root endpoint.
@@ -23,6 +27,7 @@ def create_app() -> FastAPI:
         return {"status": "ok"}
 
     application.include_router(health_router)
+    application.include_router(auth_router)
 
     return application
 
