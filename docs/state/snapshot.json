@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T13:34:01Z",
-  "last_seq": 310,
+  "updated_at": "2026-10-08T13:48:46Z",
+  "last_seq": 313,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t15",
       "role": "definer",
-      "phase": "survey",
+      "phase": "survey-complete",
       "spawn_at": "2026-10-08T13:34:31Z",
-      "last_activity_at": "2026-10-08T13:35:16Z",
+      "last_activity_at": "2026-10-08T13:48:46Z",
       "run_id": "29201d86-239b-42f9-9c27-f61905c6bcf7",
       "worktree_path": "MAIN checkout",
-      "note": "tests-only e2e matrix; AMOUNT_MAX contradiction flagged to survey (steer+interrupt+resume -> run 29201d86)"
+      "note": "6 ACs 13 nodes; AMOUNT_MAX resolution pinned for groom ratification"
     },
     {
       "slot": 2,
