@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T18:40:54Z",
-  "last_seq": 345,
+  "updated_at": "2026-10-08T18:42:53Z",
+  "last_seq": 346,
   "slots": [
     {
-      "role": null,
-      "issue_id": null,
-      "agent": null,
-      "phase": null,
-      "run_id": null,
-      "note": "t17 CLOSED 8/9",
-      "last_activity_at": "2026-10-08T18:40:54Z"
+      "role": "definer",
+      "issue_id": "t18",
+      "agent": "definer",
+      "phase": "survey",
+      "run_id": "dd09871d-96f5-46af-b539-f9378cccb072",
+      "note": "t18 survey on t17-merged baseline (78 frontend tests)",
+      "last_activity_at": "2026-10-08T18:42:53Z"
     },
     {
       "slot": 2,
@@ -24,5 +24,11 @@
     }
   ],
   "merge_queue": [],
-  "active_issues": []
+  "active_issues": [
+    {
+      "issue_id": "t18",
+      "state": "defined",
+      "modifiers": []
+    }
+  ]
 }
