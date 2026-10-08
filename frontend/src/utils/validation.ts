@@ -96,3 +96,37 @@ export const expenseFormSchema = z.object({
 
 /** Values shape handled by the expense form (strings only — money stays text). */
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>;
+
+// ---------------------------------------------------------------------------
+// Budget + category form schemas (REQ-FE-080, t18).
+//
+// budgetFormSchema REUSES the merged amountSchema above — the amount rules
+// and their three messages are not restated here (t18 Notes Q7). Money
+// stays a decimal STRING end to end (REQ-PROD-023).
+// ---------------------------------------------------------------------------
+
+/** Budget upsert form: the single amount field, validated by amountSchema. */
+export const budgetFormSchema = z.object({ amount: amountSchema });
+
+/** Values shape handled by the budget form (one string field). */
+export type BudgetFormValues = z.infer<typeof budgetFormSchema>;
+
+/**
+ * Category create form (REQ-FE-065/080): name 1-100 per the merged
+ * CreateCategoryPayload, color a 6-digit HEX value per REQ-DB-070, icon
+ * optional end to end — an empty icon input OMITS the icon key from the
+ * payload entirely (t18 Notes Q7).
+ */
+export const categoryFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(100, 'Name must be 100 characters or fewer'),
+  color: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'Color must be a 6-digit HEX value'),
+  icon: z.string().optional()
+});
+
+/** Values shape handled by the inline category create form. */
+export type CategoryFormValues = z.infer<typeof categoryFormSchema>;

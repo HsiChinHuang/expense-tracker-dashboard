@@ -11,6 +11,8 @@ import { PublicOnlyRoute } from './components/common/public_only_route';
 import { LoginPage } from './pages/login_page';
 import { RegisterPage } from './pages/register_page';
 import { ExpensesPage } from './pages/expenses_page';
+import { BudgetPage } from './pages/budget_page';
+import { CategoriesPage } from './pages/categories_page';
 
 export const App = (): JSX.Element => (
   <Routes>
@@ -21,6 +23,8 @@ export const App = (): JSX.Element => (
     <Route element={<ProtectedRoute />}>
       <Route path="/" element={<AppShell />} />
       <Route path="/expenses" element={<ExpensesPage />} />
+      <Route path="/budgets" element={<BudgetPage />} />
+      <Route path="/categories" element={<CategoriesPage />} />
     </Route>
   </Routes>
 );
