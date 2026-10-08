@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t13",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t13-expenses-vertical",
+    "branch_sha": "10a877c715a4035e5e019a699365834d93223556",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_expense_model.py::TestExpenseModel::test_columns_types_python_uuid_pk_and_fk_cascade_restrict_semantics\" \"tests/unit/test_expense_model.py::TestExpenseModel::test_named_amount_and_currency_checks_reject_bad_values_on_sqlite\" \"tests/unit/test_expense_model.py::TestExpenseModel::test_amount_roundtrips_as_decimal_with_exact_two_dp_equality\" \"tests/unit/test_expense_model.py::TestExpenseModel::test_date_is_timezone_naive_and_note_is_nullable\" \"tests/integration/test_expense_migration.py::TestExpenseMigration::test_upgrade_head_creates_expenses_with_named_checks_and_four_indexes\" \"tests/integration/test_expense_migration.py::TestExpenseMigration::test_downgrade_004_to_003_drops_expenses_and_upgrade_roundtrip_restores\" \"tests/integration/test_expense_migration.py::TestExpenseMigration::test_raw_delete_of_used_category_violates_the_restrict_fk\" -q",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_valid_returns_201_with_exactly_the_ten_frozen_response_keys\" \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_amount_is_a_two_dp_string_never_a_json_float\" \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_invalid_amount_values_return_422_invalid_amount_field_amount\" \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_missing_amount_missing_category_invalid_date_long_note_or_bad_currency_return_422_validation_error\" \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_unknown_category_returns_404_category_not_found_field_category_id\" \"tests/integration/test_expense_api.py::TestExpenseCreate::test_create_with_other_users_custom_category_returns_404_and_persists_nothing\" -q",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_expense_api.py::TestExpenseList::test_list_envelope_has_exactly_items_total_page_page_size_with_frozen_types\" \"tests/integration/test_expense_api.py::TestExpenseList::test_list_excludes_other_users_expenses_and_reflects_the_caller_only\" \"tests/integration/test_expense_api.py::TestExpenseList::test_year_month_and_category_id_filters_combine_and_order_is_date_desc_created_at_desc\" \"tests/integration/test_expense_api.py::TestExpenseList::test_total_counts_all_matches_while_items_is_one_page_and_second_page_differs\" \"tests/integration/test_expense_api.py::TestExpenseList::test_out_of_range_page_returns_200_with_empty_items_and_full_total\" \"tests/integration/test_expense_api.py::TestExpenseList::test_empty_filter_result_returns_200_empty_items_and_zero_total\" \"tests/integration/test_expense_api.py::TestExpenseList::test_invalid_pagination_and_year_month_query_params_return_422_validation_error\" \"tests/integration/test_expense_api.py::TestExpenseGet::test_get_own_expense_returns_200_with_the_ten_frozen_keys\" \"tests/integration/test_expense_api.py::TestExpenseGet::test_get_unknown_and_other_user_ids_return_identical_404_not_found\" -q",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/integration/test_expense_api.py::TestExpenseUpdate::test_update_partial_body_returns_200_with_new_values\" \"tests/integration/test_expense_api.py::TestExpenseUpdate::test_update_with_other_users_category_returns_404_and_leaves_the_row_unchanged\" \"tests/integration/test_expense_api.py::TestExpenseUpdate::test_update_invalid_amount_returns_422_invalid_amount\" \"tests/integration/test_expense_api.py::TestExpenseUpdate::test_update_empty_body_returns_422_validation_error\" \"tests/integration/test_expense_api.py::TestExpenseUpdate::test_update_unknown_and_other_user_return_identical_404\" \"tests/integration/test_expense_api.py::TestExpenseDelete::test_delete_own_returns_204_and_the_row_is_gone\" \"tests/integration/test_expense_api.py::TestExpenseDelete::test_delete_unknown_and_other_user_return_identical_404_and_the_row_survives\" -q",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_create_persists_audit_row_with_create_action_null_old_value_and_exact_expense_payload\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_update_persists_audit_row_with_both_values_and_exact_payload_keys\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_delete_persists_audit_row_with_old_value_and_null_new_value\" \"tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_expense_write\" \"tests/unit/test_expense_service.py::TestCategoryInUseWithRealExpenses::test_deleting_a_category_with_a_real_expense_raises_409_category_in_use\" \"tests/unit/test_expense_service.py::TestCategoryInUseWithRealExpenses::test_deleting_an_unused_category_still_succeeds_after_the_real_count_lands\" \"tests/integration/test_expense_api.py::TestExpenseAudit::test_create_update_delete_audit_rows_persist_the_forwarded_client_ip\" -q && ! grep -q \"except ImportError\" app/services/category_service.py",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "10a877c715a4035e5e019a699365834d93223556",
+        "test": "export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && uv run pytest \"tests/integration/test_expense_api.py::TestExpenseOpenApi::test_openapi_lists_five_expense_operations_after_health_auth_categories\" \"tests/integration/test_expense_migration.py::TestExpenseMigration::test_alembic_heads_is_single_revision_004\" -q >/dev/null 2>&1",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 143,
+      "passed": 143,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t13.md#verification-commands",
+    "notes": "Builder t13 implement complete on branch issue/t13-expenses-vertical @ 10a877c.\n\nEXTRACTION BYTE-VERIFY: 6/6 AC commands extracted from docs/issues/t13.md (CRLF-stripped copy) via regex ^- (acN): `...`$, reconstructed 'bash -c <inner>' compared byte-for-byte to the source line; mismatches: 0. Each AC executed from its own script under gitignored build/t13b/ via `bash <file> </dev/null`, rc captured immediately; no inline re-quoting.\n\nFAIL-BEFORE (base 63146ab45, before implementation): ac1 rc=4, ac2 rc=4, ac3 rc=4, ac4 rc=4, ac5 rc=4, ac6 rc=4 (all collection errors; every pinned node lives in new files).\nAFTER (branch @ 10a877c, post-commit re-run): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0.\n\nSUITE: 143 passed / 0 failed (baseline 105 + 38 new nodes: model 4, migration 4, API 25 (Create 6, List 8 incl. 2 Get in own class, Update 5, Delete 2, Audit 1, OpenApi 1), service unit 6). ruff check . clean; strict mypy . clean (63 files). Single Alembic head 004; openapi lists 5 expense ops after health/auth/categories and no audit path.\n\nBASELINE TEST AMENDMENTS (2 files, minimal, intent-preserving; for Verifier audit):\n1. tests/integration/test_audit_migration.py::test_upgrade_head_creates_audit_logs_with_named_checks_and_three_indexes \u2014 its _migrate call now pins revision=\"003\" (t12's own amendment of t10's pattern, verbatim precedent): the node asserts revision 003's DDL SHAPE; with head=004 'upgrade head' lands 004 and the version_num=='003' assertion fails. Intent (003 creates audit_logs w/ named CHECKs + 3 indexes) is unchanged and still fully proven.\n2. tests/integration/test_audit_migration.py::test_alembic_heads_is_single_revision_003 \u2014 heads assertion updated [\"003\"] -> [\"004\"]. Node intent is 'chain linear, exactly ONE head'; the tip value is owned by whichever revision is head, and t13's own pinned node test_alembic_heads_is_single_revision_004 now pins the tip (t10/t12 W15 lesson: every link asserts its own head). Nothing weakened: still an exact single-element equality.\n3. tests/unit/test_user_model.py \u2014 not-yet-exists guard `not tables & {\"expenses\",\"budgets\"}` narrowed to `not tables & {\"budgets\"}`. Intent: phase_3 tables must not pre-exist at t6. audit_logs was already amended out at t12 with the same argument; expenses now LEGITIMATELY exists (t13 is the issue that creates it), so the guard must keep guarding budgets (t14's table) only. No other guard touched (t10's test_category_model superset guard already passes unchanged; budgets/audit_logs guards intact).\nNo other baseline test failed; failures were exactly these 3 nodes, all solely because expenses/004 exists.\n\nW3 SEAM REMOVAL EVIDENCE: `grep -c \"except ImportError\" app/services/category_service.py` -> 0 (also inside ac5's pinned `! grep -q` leg, rc=0). count_expenses_for_category now module-level-imports Expense and always runs the real count; ac5's TestCategoryInUseWithRealExpenses proves 409 CATEGORY_IN_USE with a REAL expense row and successful delete with zero rows (no monkeypatching of the count anywhere in the new modules).\n\nW7 MECHANISM (as frozen): tests/unit/test_expense_service.py::TestExpenseAuditIntegration::test_action_check_violation_in_the_service_transaction_rolls_back_the_expense_write monkeypatches app.services.expense_service.write_audit_log with a stub staging a real AuditLog(action=\"PATCH\", entity_type=\"expense\"); the service's single commit raises IntegrityError and a fresh session shows neither expense nor audit row. No other mechanism used.\n\nCONTRACT NOTES: amount kept as `str` in the schema and converted in expense_service.parse_amount so the five VALUE cases render 422 INVALID_AMOUNT/field amount (the merged RequestValidationError handler cannot emit custom codes); everything structural stays Pydantic -> VALIDATION_ERROR. AMOUNT_MAX pinned at Decimal(\"999999999.99\") = NUMERIC(12,2) capacity (Chapter 5 5.11.2): the AC's over-max case \"10000000000.00\" and all larger values 422 INVALID_AMOUNT; the AC text's looser \"9,999,999,999.99\" figure exceeds the frozen column capacity, so the column bound is the tie-break \u2014 no value can reach DB overflow. Update body minProperties:1 enforced via extra=forbid schema + router model_fields_set guard (empty {} -> 422 VALIDATION_ERROR, row untouched). PUT note semantics: note_sent flag forwards 'key present' so explicit null clears while absence keeps.\n\nDEFERRED LEGS: none \u2014 all 6 AC scripts have measured rc=0 on the branch; no positive-path leg deferred.\n\nPLATFORM SYNC: comment posted on issue #16 (API echoed the body, created_at 2026-10-08T10:53:46Z), labels transitioned groomed->built and re-verified via issue get 16 (labels == [\"built\"]). No push performed (not required per spawn notes); branch lives in the local worktree.\n"
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/models/expense.py",
+      "backend/app/models/__init__.py",
+      "backend/alembic/versions/004_expenses.py",
+      "backend/app/schemas/expense.py",
+      "backend/app/services/expense_service.py",
+      "backend/app/services/category_service.py",
+      "backend/app/routers/expenses.py",
+      "backend/app/main.py",
+      "backend/app/core/errors.py",
+      "backend/tests/unit/test_expense_model.py",
+      "backend/tests/unit/test_expense_service.py",
+      "backend/tests/integration/test_expense_migration.py",
+      "backend/tests/integration/test_expense_api.py",
+      "backend/tests/integration/test_audit_migration.py",
+      "backend/tests/unit/test_user_model.py",
+      "docs/state/outputs/t13_builder_build.json"
+    ],
+    "platform_issue": 16,
+    "output_path": "docs/state/outputs/t13_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T10:54:07Z",
+  "retry_count": 0
+}

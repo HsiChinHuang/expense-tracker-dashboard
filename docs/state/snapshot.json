@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-08T10:30:23Z",
-  "last_seq": 296,
+  "updated_at": "2026-10-08T10:55:19Z",
+  "last_seq": 297,
   "slots": [
     {
       "slot": 1,
       "issue_id": "t13",
       "role": "builder",
-      "phase": "build",
+      "phase": "verify_issue",
       "spawn_at": "2026-10-08T10:30:23Z",
-      "last_activity_at": "2026-10-08T10:30:23Z",
-      "run_id": "55439475-b4cb-4246-8b50-9421a5a74d28",
+      "last_activity_at": "2026-10-08T10:55:19Z",
+      "run_id": "pending",
       "worktree_path": "../worktrees/t13",
-      "note": "6 ACs; owns alembic 004; W3 seam retirement + W6 envelope + W7 integration"
+      "note": "6 ACs + cumulative 67; head-004 audits"
     },
     {
       "slot": 2,
@@ -29,7 +29,7 @@
   "active_issues": [
     {
       "issue_id": "t13",
-      "state": "groomed",
+      "state": "built",
       "modifiers": []
     }
   ]
