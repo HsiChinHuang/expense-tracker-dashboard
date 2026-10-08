@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t8",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 44,
+      "passed": 44,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "notes": [
+      "CWD verified as first action: worktree_path /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t8. HEAD == e7098cc313833ca0b0f618934a15e02dab1e4bee == spawn branch_sha == 'git ls-remote origin refs/heads/issue/t8-auth-endpoints' (pushed, branch head matches). Branch: issue/t8-auth-endpoints. All git access read-only via cmd.exe git -C (WSL git cannot resolve this worktree's gitdir pointer); git-internal steps of verbatim index commands satisfied through the /tmp/gitshim/git cmd.exe forwarding shim. No state-changing git command run; no checkout, no merge (merge performed by Orchestrator).",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH both unset in this spawn. WARN only per skill; per-worktree backend/.venv via 'uv sync --directory backend' (Resolved 54 packages, exit 0) was used. Command strings were NOT modified.",
+      "Runner discipline (per spawn mandate): every one of the 44 cumulative commands and 6 smoke commands was extracted with WSL python3 (CRLF-tolerant) to its OWN script file under gitignored build/verify_t8_premerge/ and executed with 'bash <file> </dev/null' - no inline eval/re-quoting anywhere (the t8 verify_issue first-pass $(...) eval bug was avoided). Extraction validated programmatically: reconstructing 'bash -c <single-quoted body>' from every stripped script body reproduces the source command byte-identically (0 mismatches across 44+6).",
+      "Cumulative suite: docs/state/merge_test_index.json from the t8 worktree (44 commands: t0 x6, t1 x5, t2 x6, t3 x5, t4 x6, t5 x6, t6 x5, t7 x5). All 44 executed verbatim in ONE clean runner pass: 44/44 exit 0. Notably #13 (t2 npm install) passed VERBATIM this run - the known host EALLOWSCRIPTS artifact did not recur because frontend/node_modules is already installed in this worktree (installed by the t8 verify_issue pass via the documented 'set npm_config_allow_scripts=' env workaround; no command string was modified in this run). No environment workaround was needed for any of the 44.",
+      "Smoke set: docs/plan.md has no '## Smoke tests' section and docs/commands.md defines no smoke commands. Per the skill's fallback guidance and the t0-t7 verify_pre_merge precedent, the 6 t8 AC verification commands from docs/issues/t8.md ## Verification commands were used as the smoke/regression set. All 6 executed VERBATIM from the worktree root in one pass: ac1..ac6 exit 0 (6/6). ac1 register 4 nodes, ac2 login 8 nodes, ac3 /me 5 nodes, ac4 openapi + e2e flow + health 3 nodes, ac5 log-hygiene 2 nodes, ac6 full suite (53 tests) + ruff + mypy strict + no-bare-except grep. No /tmp/t8_ac*.db leftovers after the run.",
+      "Merge-safety: 'git fetch origin' run from the main checkout; origin/main = 17dc9aafb096c7ba0a68c0a4a61b404ab4e7fbc0. merge-base(origin/main, e7098cc) = 86c1d7d968336d905e841c43a1d8f1ded960ada5 (the stated branch base). 'git merge-tree --write-tree origin/main e7098cc' exit 0, output a single tree OID (9a22cd44a1c35382037238cde8aa5508f65c83b0) with zero conflict entries - clean merge expected. origin/main is NOT an ancestor of e7098cc (main advanced with state-doc commits after the branch was cut), which is exactly the case merge-tree confirms as conflict-free. Dry-run only; the actual merge is the Orchestrator's step. Branch diff vs merge-base touches exactly the 8 allowed files: A backend/app/auth/dependencies.py (+101), A backend/app/core/errors.py (+156), M backend/app/main.py (+5 wiring), A backend/app/routers/auth.py (+77), A backend/app/schemas/auth.py (+171), A backend/app/services/auth_service.py (+290), A backend/tests/integration/test_auth_api.py (+467), A backend/tests/unit/test_auth_service.py (+255); 1522 insertions, 0 deletions. pyproject.toml / uv.lock / database.py / config.py / models/user.py / alembic / t7's password.py and jwt.py all untouched (absent from the diff). git status shows only the untracked builder/verifier handoff JSONs.",
+      "Platform: MERGE VERDICT PASS comment posted successfully on issue #11 (attempt 1, exit 0, comment created_at 2026-10-08T01:20:22Z) via scripts/platform.ts run with /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs from the main checkout (npx tsx broken on this host, established). No label transition performed (skill prescribes comment only for pre-merge; 'verified' label already set by verify_issue). No api_failures.",
+      "Verdict: PASS - no regression from t8's changes; t0-t7 cumulative suites (44/44) and t8's own 6 ACs (6/6, 53 backend tests) all green, merge-tree clean against advanced origin/main. Safe to merge."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t8_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 11,
+    "output_path": "docs/state/outputs/t8_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-08T01:22:00Z",
+  "retry_count": 0
+}

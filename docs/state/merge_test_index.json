@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T20:53:46Z",
+  "updated_at": "2026-10-08T01:26:43Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -177,6 +177,30 @@
     {
       "issue_id": "t7",
       "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && grep -Eq \"^[[:space:]]*\\\"bcrypt[>=<]\" pyproject.toml && uv run python -c \"import tomllib; d = tomllib.load(open(\\\"uv.lock\\\", \\\"rb\\\")); v = [p[\\\"version\\\"] for p in d[\\\"package\\\"] if p[\\\"name\\\"] == \\\"bcrypt\\\"][0]; parts = tuple(int(x) for x in v.split(\\\".\\\")[:2]); raise SystemExit(0 if (4, 0) <= parts < (4, 1) else 1)\"'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac1.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_register_valid_returns_201_lowercase_email_no_password\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_email_case_insensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_duplicate_username_case_sensitive_returns_409\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_invalid_bodies_return_422_validation_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac1.db; exit $rc'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac2.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_login_valid_returns_200_token_user_with_matching_sub\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_wrong_password_and_unknown_email_return_identical_401\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_inactive_user_returns_401_user_inactive\" \"tests/integration/test_auth_api.py::TestAuthApi::test_login_corrupt_stored_hash_returns_401_not_500\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_valid_returns_user_and_token_with_sub_user_id\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_unknown_email_invokes_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_wrong_password_does_not_invoke_verify_dummy\" \"tests/unit/test_auth_service.py::TestAuthService::test_login_corrupt_stored_hash_raises_invalid_credentials_not_value_error\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac2.db; exit $rc'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac3.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_returns_200_current_user\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_missing_header_returns_401_unauthorized\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_malformed_and_wrong_signature_return_401_token_invalid\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_expired_token_returns_401_token_expired\" \"tests/integration/test_auth_api.py::TestAuthApi::test_me_valid_token_for_inactive_user_returns_401_user_inactive\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac3.db; exit $rc'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac4.db\" uv run pytest \"tests/integration/test_auth_api.py::TestAuthApi::test_openapi_lists_three_auth_paths_registered_after_health\" \"tests/integration/test_auth_api.py::TestAuthApi::test_register_login_me_end_to_end_flow\" \"tests/integration/test_auth_api.py::TestAuthApi::test_health_endpoint_still_returns_200_after_auth_wiring\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac4.db; exit $rc'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && DATABASE_URL=\"sqlite:////tmp/t8_ac5.db\" uv run pytest \"tests/unit/test_auth_service.py::TestAuthService::test_failed_login_logs_no_raw_email_and_no_password\" \"tests/unit/test_auth_service.py::TestAuthService::test_register_and_login_success_log_events_without_secrets\" -q >/dev/null 2>&1; rc=$?; rm -f /tmp/t8_ac5.db; exit $rc'"
+    },
+    {
+      "issue_id": "t8",
+      "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend && uv run pytest -q >/dev/null 2>&1 && uv run ruff check . >/dev/null 2>&1 && uv run mypy . >/dev/null 2>&1 && ! grep -RnE \"^[[:space:]]*except Exception[[:space:]]*(:|as )\" app tests'"
     }
   ]
 }

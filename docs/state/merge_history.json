@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-07T20:53:46Z",
+  "updated_at": "2026-10-08T01:26:43Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -80,6 +80,16 @@
       "merged_at": "2026-10-07T20:53:46Z",
       "retries": 0,
       "tests_appended": 5,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t8",
+      "platform_issue": 11,
+      "branch": "issue/t8-auth-endpoints",
+      "merge_sha": "8298a0b",
+      "merged_at": "2026-10-08T01:26:43Z",
+      "retries": 1,
+      "tests_appended": 6,
       "regressions": 0
     }
   ]
