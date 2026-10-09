@@ -1,0 +1,105 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t22",
+  "role": "builder",
+  "phase": "fix_qa",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t22-dashboard-page-assembly",
+    "branch_sha": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'test -f frontend/src/pages/dashboard_page.tsx && test -f frontend/src/pages/dashboard_page_app.test.tsx && grep -qE \"from .\\./pages/dashboard_page.\" frontend/src/app.tsx && grep -qE \"path=\\\"/\\\"\" frontend/src/app.tsx && grep -qE \"element=\\{<AppShell />\\}\" frontend/src/app.tsx && grep -qE \"index element=\\{<DashboardPage />\\}\" frontend/src/app.tsx && grep -qE \"to=\\\"/\\\"\" frontend/src/components/layout/app_shell.tsx && grep -qE \"useOutlet\" frontend/src/components/layout/app_shell.tsx && cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- frontend/src/components/layout/app_shell.test.tsx\" || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/dashboard_page_app.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 2 ] || exit 1; for t in \"the authenticated shell mounts the dashboard with its document title\" \"the shell navigation links to the dashboard\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'test -f frontend/src/components/common/month_picker.tsx && test -f frontend/src/components/common/month_picker.test.tsx && grep -qE \"useMonth\" frontend/src/components/common/month_picker.tsx && grep -qE \"aria-label\" frontend/src/components/common/month_picker.tsx && grep -qE \"Previous month\" frontend/src/components/common/month_picker.tsx && grep -qE \"Next month\" frontend/src/components/common/month_picker.tsx && ! grep -qE \"useQuery|api/dashboard|from .react-router-dom\" frontend/src/components/common/month_picker.tsx && ! grep -qE \"from .date-fns.|toLocaleDateString|new Date\\(\" frontend/src/components/common/month_picker.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/common/month_picker.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 3 ] || exit 1; for t in \"the month picker labels the context month in human form\" \"the step buttons are keyboard-reachable controls with accessible names\" \"stepping the picker moves the shared context month by one\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'test -f frontend/src/pages/dashboard_page.tsx && test -f frontend/src/pages/dashboard_page.test.tsx && grep -qE \"document\\.title = .Dashboard.\" frontend/src/pages/dashboard_page.tsx && grep -qE \"role=.status\" frontend/src/pages/dashboard_page.tsx && grep -qE \"animate-pulse\" frontend/src/pages/dashboard_page.tsx && grep -qE \"ErrorState\" frontend/src/pages/dashboard_page.tsx && grep -qE \"No recent transactions\" frontend/src/pages/dashboard_page.tsx && grep -qE \"use_summary|use_by_category|use_trend|use_cumulative|use_heatmap|use_recent\" frontend/src/pages/dashboard_page.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/dashboard_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 11 ] || exit 1; for t in \"the four kpi cards render the summary strings verbatim\" \"a null percentage summary renders the no budget set affordance not nan\" \"pending dashboard queries render skeleton status regions\" \"a failed summary query renders the error state whose retry refetches\" \"the six dashboard endpoints are requested in parallel on mount\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'test -f frontend/src/components/common/budget_progress.tsx && test -f frontend/src/components/common/budget_progress.test.tsx && grep -qE \"CategoryPieChart\" frontend/src/pages/dashboard_page.tsx && grep -qE \"MonthlyTrendChart\" frontend/src/pages/dashboard_page.tsx && grep -qE \"CumulativeLineChart\" frontend/src/pages/dashboard_page.tsx && grep -qE \"WeeklyHeatmap\" frontend/src/pages/dashboard_page.tsx && grep -qE \"BudgetProgress\" frontend/src/pages/dashboard_page.tsx && grep -qE \"role=.progressbar\" frontend/src/components/common/budget_progress.tsx && grep -qE \"#22C55E\" frontend/src/components/common/budget_progress.tsx && grep -qE \"#EAB308\" frontend/src/components/common/budget_progress.tsx && grep -qE \"#EF4444\" frontend/src/components/common/budget_progress.tsx && grep -qE \"No budget set\" frontend/src/components/common/budget_progress.tsx && ! grep -qE \"useQuery|api/dashboard|recharts\" frontend/src/components/common/budget_progress.tsx && D=$(wslpath -w \"$PWD/frontend\") && p=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/common/budget_progress.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$p\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; m=$(printf \"%s\" \"$p\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$m\" -ge 5 ] || exit 1; for t in \"a percentage under eighty renders the green fill below the cap\" \"a percentage of exactly eighty renders the yellow fill\" \"a percentage of exactly one hundred renders yellow at the full cap\" \"an over budget percentage renders red with the width capped at one hundred\" \"a null percentage renders no budget set with verbatim amounts and no bar\"; do printf \"%s\" \"$p\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done; out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/dashboard_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; for t in \"the five charts and the recent list render from their own queries\" \"the recent list renders api order and verbatim amounts\" \"an empty recent payload renders the empty state not a blank page\" \"an empty month renders every chart empty state not a blank page\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'test -f frontend/src/pages/dashboard_page.tsx && test -f frontend/src/pages/dashboard_page.test.tsx && grep -qE \"MonthPicker\" frontend/src/pages/dashboard_page.tsx && grep -qE \"month_picker\" frontend/src/pages/dashboard_page.tsx && ! grep -qE \"ResponsiveContainer\" frontend/src/pages/dashboard_page.tsx && D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/pages/dashboard_page.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 11 ] || exit 1; for t in \"stepping the month refetches every month-driven dashboard query\" \"rapid month switching settles on the last selected month\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "4d96b5c8e3230c54683f4da6b78d38491c478391",
+        "test": "bash -c 'D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$n\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; cmd.exe /c \"cd /d $D && npm run lint\" >/dev/null 2>&1 || exit 1; grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src --include=*.ts --include=*.tsx | grep -q . && exit 1; grep -RnE \"parseFloat|parseInt|toFixed\" frontend/src/pages frontend/src/components frontend/src/context --include=*.tsx --include=*.ts --exclude=*.test.tsx --exclude=*.test.ts | grep -q . && exit 1; grep -nE \"(^|[^A-Za-z0-9_$.])(Number|parseFloat|parseInt)\\(|\\.toFixed\\(\" frontend/src/pages/dashboard_page.tsx frontend/src/components/common/month_picker.tsx frontend/src/components/common/budget_progress.tsx | grep -q . && exit 1; grep -RnE \"ResponsiveContainer\" frontend/src --include=*.tsx --include=*.ts | grep -q . && exit 1; node -e \"const p=require(\\\"./frontend/package.json\\\");const d=p.dependencies||{};const want=[\\\"@tanstack/react-query\\\",\\\"axios\\\",\\\"react\\\",\\\"react-dom\\\",\\\"react-hook-form\\\",\\\"react-router-dom\\\",\\\"recharts\\\",\\\"zod\\\"].sort().join(\\\",\\\");const got=Object.keys(d).sort().join(\\\",\\\");if(want!==got){console.error(\\\"dependency set drifted: \\\"+got);process.exit(1)}if(d.recharts!==\\\"2.15.4\\\"){console.error(\\\"recharts must stay at exactly 2.15.4, got: \\\"+d.recharts);process.exit(1)}if(\\\"date-fns\\\" in d){console.error(\\\"date-fns must stay absent\\\");process.exit(1)}\"'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 187,
+      "passed": 187,
+      "failed": 0
+    },
+    "lint_status": "WARNINGS",
+    "failed_acs_addressed": [
+      {
+        "ac_id": "ac4",
+        "fix_description": "dashboard_page.tsx CumulativeLineChart now receives budget={cumulative.data.budget} from the cumulative payload per the AC4 data-flow pin (\"CumulativeLineChart <- cumulative (budget from the cumulative payload)\"), replacing budget={summary.data?.budget_amount ?? '0.00'} from the summary query. The prop read sits inside the cumulative panel's state chain (cumulative.isPending -> skeleton, cumulative.isError -> ErrorState, cumulative.data === undefined -> null), so cumulative.data is narrowed defined where the chart renders - type-safe under noUncheckedIndexedAccess with no fallback and no assertion. The previous feed drew the ReferenceLine at $0.00 and turned the curve red for any positive spend while summary was pending and permanently when summary errored while cumulative succeeded (false over-budget signal, REQ-PROD-014/033). DashboardCumulative.budget (api/dashboard.ts DashboardCumulative, frozen three keys) carries the same 2-decimal string from the same backend _budget_amount() helper, so the fix is value-identical in steady state. BudgetProgress still feeds total/budget/percentage/is_over_budget from summary (page lines ~214-218) - untouched per AC4 and the Q-rulings."
+      }
+    ],
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_command_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "suite": {
+      "passed_nodes": 187,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "floor": 187,
+      "files": 30,
+      "tsc_rc": 0,
+      "lint_rc": 0,
+      "lint_warnings": 4
+    },
+    "ac_command_extraction": {
+      "method": "node regex over the 6 ```bash fenced blocks of the WORKTREE docs/issues/t22.md (CRLF-normalized), written to gitignored build/t22f/acN.sh, run via bash build/t22f/acN.sh </dev/null from the worktree root",
+      "bash_n": "all 6 clean",
+      "cr_bytes": 0
+    },
+    "notes": [
+      "SCOPE/RUN: builder FIX_QA for t22 (Platform #25) addressing the verifier FAIL handoff docs/state/outputs/t22_verifier_verify_issue.json (ac4 FAIL, failure_type implementation, error_code CUMULATIVE_BUDGET_DATA_FLOW). Worktree C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t22, branch issue/t22-dashboard-page-assembly, tip at spawn 31adae5 (verifier docs handoff), feat e17b7ee. CWD verification PASS (WSL pwd = /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard is the MAIN checkout; the assigned worktree path exists and all work ran there; ALL git via cmd.exe git -C with Windows paths - WSL git cannot open this worktree, t22 precedent). node_modules already installed (win32); nothing reinstalled; package.json/package-lock.json never touched. Branch NOT pushed (orchestrator merges). Inputs read: AGENTS.md, skills/builder/SKILL.md + details/fix_qa.md, schemas/builder/fix_qa.json + common/handoff.json, the FULL verifier FAIL handoff (AC4 FAILURE DETAIL + test-preserving proof + deviation adjudication (d)), WORKTREE docs/issues/t22.md AC4 prose, merged api/dashboard.ts DashboardCumulative wire shape, CumulativeLineChart props, dashboard_page.tsx.",
+      "FAILURE ANALYSIS (implementation): AC4 pins 'CumulativeLineChart <- cumulative (budget from the cumulative payload)'; dashboard_page.tsx:182 fed budget={summary.data?.budget_amount ?? '0.00'}. CumulativeLineChart computes overBudget = days.some(day => exceeds(day.cumulative, budget)) and ReferenceLine y={toNumber(budget)}; with the '0.00' fallback (summary pending on mount/every month switch - no keepPreviousData/placeholderData measured by the verifier - or summary permanently errored while cumulative succeeds, sections render independently per AC4) any positive cumulative day flipped the line red at a $0.00 reference: false over-budget signal, REQ-PROD-014/033. The pinned ac4 command is presence-grep only and stayed rc=0; AC prose is authoritative. Reproduced by reading (data-flow defect, not a crash); no [VERIFIER_MISJUDGMENT].",
+      "FIX (single-line, minimal, type-safe): budget={cumulative.data.budget} at the CumulativeLineChart call site inside the cumulative panel state chain. cumulative.data is narrowed to defined by the surrounding ternary chain (isPending / isError / data === undefined ? null), so no optional chaining, no fallback, no cast is needed and tsc --noEmit rc=0 under strict + noUncheckedIndexedAccess. Diff scope: EXACTLY ONE production line in frontend/src/pages/dashboard_page.tsx (1 insertion, 1 deletion, git commit stat). No test file, no pinned command, no package.json, no handlers.ts, no setup.ts, no docs/issues/t22.md touched (git status --short before commit showed only dashboard_page.tsx).",
+      "TEST-PRESERVING PROOF RE-VERIFIED: every frozen node that renders the chart with non-empty days uses the cumulative fixture budget 2000.00 equal to the summary fixture budget_amount (verifier proof: dashboard_page.test.tsx:109 vs :79); the empty-month node renders EmptyState before the prop matters; no node asserts the reference-line value. Measured here: full suite 187/187 with the fix in place - zero test changes were required, confirming the proof.",
+      "COMMAND EXTRACTION + RE-RUN: the 6 commands were extracted PROGRAMMATICALLY from the WORKTREE docs/issues/t22.md fenced ```bash blocks (CRLF-normalized) into gitignored build/t22f/acN.sh; bash -n clean x6, 0 CR bytes; run VERBATIM via bash build/t22f/acN.sh </dev/null from the worktree root AFTER the fix: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 - 6/6 rc=0. ac_mapping.test fields ARE those six verbatim extracted commands.",
+      "INDEPENDENT GATES AFTER THE FIX: full suite via cmd.exe npm.cmd run test -- --run (default reporter) rc=0: Test Files 30 passed (30), Tests 187 passed (187) - floor met exactly, no regressions (stderr only the pre-existing jsdom-navigation/client.ts harness noise, identical at baseline). tsc --noEmit rc=0 (empty output). npm run lint rc=0 with EXACTLY the 4 baseline react-refresh warnings (auth_context.tsx:110, toast_context.tsx:146, budget_page.tsx:46, budget_page.tsx:55), 0 errors, no warning from any t22 file.",
+      "GIT: fix commit 4d96b5c8e3230c54683f4da6b78d38491c478391 'fix(t22): feed cumulative chart budget from the cumulative payload' (body documents the AC4 pin + false-red defect + value-identity; trailer 'Addresses: ac4') on top of 31adae5; explicit path add (frontend/src/pages/dashboard_page.tsx only, never git add -A); message via .cm + git commit -F. The docs(t22) handoff commit follows this file and its SHA is intentionally not self-referenced. Scratch confined to gitignored build/t22f/ and .cm.",
+      "PLATFORM #25: fix-report comment posted via scripts/platform.ts from the MAIN checkout; labels: verifier_failed REMOVED, defined + built KEPT - end state [defined, built], which routes the issue back to Verifier: verify_issue (lifecycle step 7). Branch not pushed.",
+      "PRE-OUTPUT CHECKLIST: CWD/worktree verification PASS; Verifier FAIL report read (full, incl. AC4 FAILURE DETAIL + test-preserving proof) PASS; failure_history = the single latest FAIL read PASS; ## Verification commands read PASS; failure analyzed (implementation) PASS; all failed_acs addressed (ac4 only) PASS; all 6 pinned commands rc=0 re-run VERBATIM PASS; full suite 187/187 30 files PASS; no regressions PASS; tsc rc=0 PASS; lint rc=0 4-warning baseline PASS; all changes committed PASS; comment posted PASS; no memory_paths supplied (memory list N/A); verifier_failed removed PASS; built kept PASS; output conforms to schemas/builder/fix_qa.json (validated via scripts/validate_handoff.ts [OK] from MAIN) PASS; reached_state=built PASS. NOTE (deviation from details/fix_qa.md Step 7): branch NOT pushed - the assignment explicitly forbids pushing; the orchestrator merges (t18-t22 precedent)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "frontend/src/pages/dashboard_page.tsx",
+      "docs/state/outputs/t22_builder_fix_qa.json"
+    ],
+    "platform_issue": 25,
+    "output_path": "docs/state/outputs/t22_builder_fix_qa.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T11:15:24Z",
+  "retry_count": 0
+}
