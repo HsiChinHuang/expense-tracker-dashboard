@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t24",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docker-compose.yml || exit 1; test -f Dockerfile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run python -c \"import pathlib,yaml; d=yaml.safe_load(pathlib.Path(\\\"../docker-compose.yml\\\").read_text(encoding=\\\"utf-8\\\").replace(chr(13)+chr(10),chr(10))); assert \\\"version\\\" not in d, \\\"version-key drift\\\"; s=d[\\\"services\\\"]; assert set(s)=={\\\"db\\\",\\\"app\\\"}, sorted(s); db=s[\\\"db\\\"]; app=s[\\\"app\\\"]; assert db[\\\"image\\\"]==\\\"postgres:16-alpine\\\", db.get(\\\"image\\\"); assert isinstance(db.get(\\\"healthcheck\\\"),dict) and db[\\\"healthcheck\\\"].get(\\\"test\\\"), \\\"db healthcheck\\\"; assert list(db[\\\"volumes\\\"])==[\\\"db_data:/var/lib/postgresql/data\\\"], db.get(\\\"volumes\\\"); assert list(d[\\\"volumes\\\"]) == [\\\"db_data\\\"], d.get(\\\"volumes\\\"); assert app[\\\"build\\\"][\\\"context\\\"]==\\\".\\\" and app[\\\"build\\\"][\\\"dockerfile\\\"]==\\\"Dockerfile\\\", app.get(\\\"build\\\"); assert app[\\\"depends_on\\\"][\\\"db\\\"][\\\"condition\\\"]==\\\"service_healthy\\\", app.get(\\\"depends_on\\\"); assert [str(p) for p in app[\\\"ports\\\"]]==[\\\"8000:8000\\\"], app.get(\\\"ports\\\"); assert isinstance(app.get(\\\"healthcheck\\\"),dict) and \\\"/api/v1/health\\\" in str(app[\\\"healthcheck\\\"][\\\"test\\\"]), \\\"app healthcheck\\\"; e=app[\\\"environment\\\"]; assert all(k in e for k in (\\\"DATABASE_URL\\\",\\\"JWT_SECRET\\\",\\\"CORS_ORIGINS\\\")), sorted(e); assert \\\"db\\\" in e[\\\"DATABASE_URL\\\"] and \\\"5432\\\" in e[\\\"DATABASE_URL\\\"], e[\\\"DATABASE_URL\\\"]; dlines=[l for l in pathlib.Path(\\\"../Dockerfile\\\").read_text(encoding=\\\"utf-8\\\").replace(chr(13)+chr(10),chr(10)).split(chr(10)) if l.strip() and not l.strip().startswith(\\\"#\\\")]; last=dlines[-1]; assert last.startswith(\\\"CMD\\\"), last; assert \\\"alembic upgrade head\\\" in last and \\\"uvicorn\\\" in last and last.index(\\\"alembic upgrade head\\\") < last.index(\\\"uvicorn\\\"), \\\"CMD runs migrations before uvicorn\\\"; print(\\\"OK\\\")\" || exit 1; cd .. || exit 1; node -e \"const fs=require(\\\"fs\\\");const yaml=require(\\\"./frontend/node_modules/js-yaml\\\");const d=yaml.load(fs.readFileSync(\\\"docker-compose.yml\\\",\\\"utf8\\\"));const s=d.services;const k=Object.keys(s).sort().join(\\\",\\\");if(k!==\\\"app,db\\\"){console.error(\\\"services: \\\"+k);process.exit(1)}if(s.db.image!==\\\"postgres:16-alpine\\\"){console.error(\\\"db image: \\\"+s.db.image);process.exit(1)}if(!s.db.healthcheck||!s.db.healthcheck.test){console.error(\\\"db healthcheck\\\");process.exit(1)}if(!s.db.volumes||String(s.db.volumes)!==\\\"db_data:/var/lib/postgresql/data\\\"){console.error(\\\"db volume\\\");process.exit(1)}if(Object.keys(d.volumes||{})[0]!==\\\"db_data\\\"){console.error(\\\"named volume not declared\\\");process.exit(1)}if(s.app.build.context!==\\\".\\\"){console.error(\\\"app build context\\\");process.exit(1)}if(String(s.app.depends_on.db.condition)!==\\\"service_healthy\\\"){console.error(\\\"depends_on condition\\\");process.exit(1)}if(String(s.app.ports)!==\\\"8000:8000\\\"){console.error(\\\"app port: \\\"+s.app.ports);process.exit(1)}if(!s.app.healthcheck||String(s.app.healthcheck.test).indexOf(\\\"/api/v1/health\\\")<0){console.error(\\\"app healthcheck\\\");process.exit(1)}for(const k2 of [\\\"DATABASE_URL\\\",\\\"JWT_SECRET\\\",\\\"CORS_ORIGINS\\\"]){if(!(k2 in s.app.environment)){console.error(\\\"env \\\"+k2);process.exit(1)}}\" || exit 1'",
+        "exit_code": 0,
+        "note": "compose contract green under both PyYAML (uv run) and js-yaml (frontend/node_modules); stdout OK; Dockerfile CMD runs alembic upgrade head before uvicorn"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f Dockerfile || exit 1; grep -qE \"^FROM node:20-alpine AS frontend-build[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^FROM python:3.12-slim AS runtime[[:space:]]*$\" Dockerfile || exit 1; f=$(grep -cE \"^FROM[[:space:]]\" Dockerfile); [ \"$f\" -eq 2 ] || exit 1; grep -qE \"^WORKDIR /app/frontend[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN npm ci[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN npm run build[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^WORKDIR /app/backend[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN pip install --no-cache-dir uv==[0-9]+\\.[0-9]+\\.[0-9]+[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN uv sync --frozen --no-dev[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY backend/pyproject\\.toml backend/uv\\.lock \\./[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY backend/alembic\\.ini \\./alembic\\.ini[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY backend/alembic \\./alembic[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY backend/app \\./app[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY --from=frontend-build /app/frontend/dist \\./static[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN chown -R app:app /app/backend[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^USER app[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^EXPOSE 8000[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^CMD \\[\\\"sh\\\", \\\"-c\\\", \\\"uv run alembic upgrade head && uv run uvicorn app\\.main:app --host 0\\.0\\.0\\.0 --port 8000\\\"\\][[:space:]]*$\" Dockerfile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run python -c \"import pathlib; t=pathlib.Path(\\\"../Dockerfile\\\").read_text(encoding=\\\"utf-8\\\").replace(chr(13)+chr(10),chr(10)); lines=t.split(chr(10)); i=lambda p: [n for n,l in enumerate(lines) if l.startswith(p)]; assert i(\\\"FROM node:20-alpine\\\") and i(\\\"FROM python:3.12-slim\\\") and i(\\\"USER app\\\"); assert min(i(\\\"COPY --from=frontend-build\\\")) < min(i(\\\"USER app\\\")), \\\"static copy must precede USER\\\"; assert min(i(\\\"RUN chown -R app:app\\\")) < min(i(\\\"USER app\\\")), \\\"chown must precede USER\\\"; assert min(i(\\\"FROM python:3.12-slim\\\")) < min(i(\\\"COPY --from=frontend-build\\\")), \\\"copy belongs to the runtime stage\\\"; stage=t.split(\\\"FROM python:3.12-slim\\\",1)[1]; assert stage.count(\\\"COPY --from=frontend-build\\\")==1, \\\"exactly one frontend copy in the runtime stage\\\"; assert stage.count(\\\"USER \\\")==1, \\\"exactly one USER leg\\\"; assert stage.count(\\\"CMD \\\")==1, \\\"exactly one CMD leg\\\"; print(\\\"OK\\\")\" || exit 1; cd .. || exit 1'",
+        "exit_code": 0,
+        "note": "exactly two pinned FROM stages; all pinned legs present; stage-ordering assert OK (stdout OK)"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f .dockerignore || exit 1; for p in \"node_modules/\" \"**/node_modules/\" \".venv/\" \"dist/\" \"**/dist/\" \"build/\" \"backend/tests/\" \".env\" \"*.db\"; do tr -d \"\\r\" < .dockerignore | grep -qxF \"$p\" || exit 1; done; grep -qE \"^RUN uv sync --frozen --no-dev[[:space:]]*$\" Dockerfile || exit 1; grep -vE \"^[[:space:]]*#\" Dockerfile | grep -qE \"uv sync[^#]*--dev([[:space:]]|$)\" && exit 1; grep -vE \"^[[:space:]]*#\" Dockerfile | grep -qE \":latest\" && exit 1; grep -vE \"^[[:space:]]*#\" docker-compose.yml | grep -qE \":latest\" && exit 1; n=$(grep -cE \"^FROM (node|python):[0-9]\" Dockerfile); [ \"$n\" -eq 2 ] || exit 1; grep -qE \"^[[:space:]]*image: postgres:16-alpine[[:space:]]*$\" docker-compose.yml || exit 1; grep -qE \"^      JWT_SECRET: change-me-locally[[:space:]]*$\" docker-compose.yml || exit 1; grep -RnqE \"(ghp_[A-Za-z0-9]{4,}|github_pat_[A-Za-z0-9_]{4,}|AKIA[0-9A-Z]{16})\" Dockerfile docker-compose.yml .dockerignore && exit 1; grep -qE \"^dev = \\[[[:space:]]*$\" backend/pyproject.toml || exit 1'",
+        "exit_code": 0,
+        "note": "all 9 .dockerignore exact lines present; no --dev/:latest; placeholder secret; credential scan clean (verifier re-ran the token scan independently: no matches)"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f README.md || exit 1; grep -qE \"^## Local development modes[[:space:]]*$\" README.md || exit 1; grep -qE \"^### Mode A[[:space:]]*- full Docker stack[[:space:]]*$\" README.md || exit 1; grep -qE \"^### Mode B[[:space:]]*- hybrid[[:space:]]*\\\\(container database, host processes\\\\)[[:space:]]*$\" README.md || exit 1; grep -qE \"^### Development versus production[[:space:]]*$\" README.md || exit 1; grep -qE \"^docker compose up --build[[:space:]]\" README.md || exit 1; grep -qE \"^docker compose down[[:space:]]\" README.md || exit 1; grep -qE \"^docker compose up db[[:space:]]\" README.md || exit 1; grep -qE \"^make dev-backend[[:space:]]\" README.md || exit 1; grep -qE \"^make dev-frontend[[:space:]]\" README.md || exit 1; grep -qE \"make migrate\" README.md || exit 1; grep -qE \"uvicorn --reload\" README.md || exit 1; grep -qE \"Vite dev server\" README.md || exit 1; grep -qE \"REQ-CICD-025\" README.md || exit 1; grep -qE \"REQ-CICD-026\" README.md || exit 1; grep -qE \"REQ-DB-082\" README.md || exit 1; [ \"$(wc -l < README.md)\" -le 500 ] || exit 1'",
+        "exit_code": 0,
+        "note": "README 165 lines <= 500; the docker-compose strings are README grep patterns only - no docker command executed (plan.md phase_5 ruling 1 respected)"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f backend/static/.gitkeep || exit 1; test -f .dockerignore || exit 1; grep -qE \"^ENV UV_CACHE_DIR=/tmp/uv-cache[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^COPY --from=frontend-build /app/frontend/dist \\./static[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN chown -R app:app /app/backend[[:space:]]*$\" Dockerfile || exit 1; grep -qE \"^RUN uv sync --frozen --no-dev[[:space:]]*$\" Dockerfile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run python -c \"import pathlib; dl=[l.strip() for l in pathlib.Path(\\\"../.dockerignore\\\").read_text(encoding=\\\"utf-8\\\").replace(chr(13)+chr(10),chr(10)).split(chr(10)) if l.strip() and not l.strip().startswith(\\\"#\\\")]; banned=[\\\"frontend\\\",\\\"frontend/\\\",\\\"backend\\\",\\\"backend/\\\",\\\"*.toml\\\",\\\"*.lock\\\",\\\"*.ini\\\",\\\"app/\\\",\\\"alembic/\\\",\\\"**/app\\\",\\\"**/alembic\\\"]; hits=[p for p in dl if p in banned]; assert not hits, \\\"dockerignore starves a COPY source: \\\" + str(hits); assert pathlib.Path(\\\"static\\\").is_dir() and pathlib.Path(\\\"static/.gitkeep\\\").is_file(), \\\"committed static placeholder missing\\\"; assert not pathlib.Path(\\\"static/index.html\\\").exists(), \\\"build output must never be committed\\\"; t=pathlib.Path(\\\"../Dockerfile\\\").read_text(encoding=\\\"utf-8\\\").replace(chr(13)+chr(10),chr(10)); lines=t.split(chr(10)); i=lambda p: [n for n,l in enumerate(lines) if l.startswith(p)]; assert min(i(\\\"COPY --from=frontend-build\\\")) < min(i(\\\"RUN chown -R app:app\\\")) < min(i(\\\"USER app\\\")), \\\"copy then chown then non-root\\\"; assert min(i(\\\"ENV UV_CACHE_DIR\\\")) < min(i(\\\"USER app\\\")), \\\"cache dir set before dropping privileges\\\"; print(\\\"OK\\\")\" || exit 1; cd .. || exit 1'",
+        "exit_code": 0,
+        "note": "static placeholder committed (git ls-tree 90ff2eb backend/static shows ONLY .gitkeep, empty blob); copy<chown<USER ordering OK (stdout OK)"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f backend/app/main.py || exit 1; test -f backend/tests/unit/test_static_serving.py || exit 1; grep -qE \"^from fastapi\\.staticfiles import StaticFiles[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^from fastapi\\.responses import FileResponse[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^SPA_MOUNT_NAME: str = \\\"spa\\\"[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^SPA_MOUNT_PATH: str = \\\"/assets\\\"[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^SPA_FALLBACK_PATH: str = \\\"/\\{requested_path:path\\}\\\"[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^SPA_INDEX_FILE: str = \\\"index\\.html\\\"[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^def resolve_static_dir\\(\" backend/app/main.py || exit 1; grep -qE \"^def register_spa_static\\(\" backend/app/main.py || exit 1; grep -qE \"^    static_dir = resolve_static_dir\\(\\)[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^    if index_file\\.is_file\\(\\):[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^        register_spa_static\\(application, static_dir, index_file\\)[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^    @application\\.get\\(SPA_FALLBACK_PATH, include_in_schema=False\\)[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^    application\\.include_router\\(dashboard_router\\)[[:space:]]*$\" backend/app/main.py || exit 1; grep -qE \"^app = create_app\\(\\)[[:space:]]*$\" backend/app/main.py || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run pytest \"tests/unit/test_static_serving.py::TestStaticServing::test_create_app_without_static_dir_registers_no_spa_fallback_route\" \"tests/unit/test_static_serving.py::TestStaticServing::test_create_app_with_static_dir_mounts_assets_and_serves_index_fallback\" \"tests/unit/test_static_serving.py::TestStaticServing::test_spa_fallback_route_is_excluded_from_the_openapi_schema\" -q >/dev/null 2>&1 || exit 1; uv run python -c \"from fastapi.testclient import TestClient; from starlette.routing import Mount; from app.main import create_app, resolve_static_dir, SPA_FALLBACK_PATH; a=create_app(); p=[getattr(r,\\\"path\\\",\\\"\\\") for r in a.routes]; assert not [r for r in a.routes if isinstance(r,Mount)], \\\"static mount must stay gated\\\"; assert SPA_FALLBACK_PATH not in p and \\\"/*\\\" not in p, \\\"unconditional catch-all would shadow /openapi.json\\\"; assert p.count(\\\"/\\\")==1, p; c=TestClient(a); assert c.get(\\\"/api/v1/health\\\").status_code==200; assert c.get(\\\"/openapi.json\\\").status_code==200; assert c.get(\\\"/some/client/route\\\").status_code==404, \\\"committed tree must stay route-free\\\"; assert not resolve_static_dir().joinpath(\\\"index.html\\\").exists(), \\\"never commit the build output\\\"; print(\\\"OK\\\")\" || exit 1; cd .. || exit 1'",
+        "exit_code": 0,
+        "note": "3 frozen nodes pass; route-free premise executed (stdout OK); verifier independently confirmed the 3 frozen node ids byte-exact in collect-only (cat -A) and the new test file carries meaningful assertions (no assert True)"
+      },
+      "ac7": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; n=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); [ \"$n\" -ge 233 ] || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; (cd backend && uv run mypy . >/dev/null 2>&1) || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; lout=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1) || exit 1; w=$(printf \"%s\" \"$lout\" | tr -d \"\\r\" | grep -cE \"[[:space:]]warning[[:space:]]\"); [ \"$w\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<120){console.error(\\\"index shorter than 120\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "note": "composite rc=0; verifier additionally re-ran every leg independently outside the composite (see independent_legs)"
+      }
+    },
+    "test_summary": {
+      "total": 233,
+      "passed": 233,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_seven_acs_verified_by_pinned_commands": true,
+      "backend_233_green_ruff_mypy_head_005": true,
+      "frontend_187_0_0_0_tsc_0_lint_exactly_4_warnings": true,
+      "merge_index_120_anchors_17_t2_55_t9_green": true,
+      "merged_test_files_byte_identical_except_one_new_file": true,
+      "pyproject_and_package_json_diff_empty": true,
+      "conventional_commits_on_issue_branch": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:e2aa1246b1c1445deba2994163f0a1952e0ba8b0afc9d5998472dcdc068cbc42",
+    "ac_hash_match": true,
+    "ac_hash_canonical_variant": "heading-exclusive: text between '## Acceptance criteria\\n' and '\\n## Verification commands' of git show 90ff2eb:docs/issues/t24.md, CRLF->LF, per-line right-trim, join, outer trim",
+    "branch_sha": "90ff2eb8445986781f86fc77f5b5ec14e986df32",
+    "independent_legs": {
+      "backend_pytest": "233 passed / 0 failed (81.02s, uv run pytest -q)",
+      "backend_collect_only": "233 nodes (>= 233 floor)",
+      "ruff": "All checks passed!",
+      "mypy": "Success: no issues found in 81 source files",
+      "alembic_heads": "single line '005 (head)'",
+      "frontend_vitest": "187 passed / 0 failed / 0 pending / 0 todo (total 187)",
+      "tsc_noEmit": "rc=0",
+      "npm_run_lint": "rc=0, exactly 4 warnings (3 files, react-refresh/only-export-components)",
+      "merge_test_index": "120 entries; tests[16].issue_id=t2, tests[54].issue_id=t9; both stored commands re-executed rc=0"
+    },
+    "premise_checks": {
+      "delta_paths": "git diff --name-only cf666e0..90ff2eb == exactly the 7 delta paths (Dockerfile, docker-compose.yml, .dockerignore, README.md, backend/app/main.py, backend/static/.gitkeep, backend/tests/unit/test_static_serving.py) plus docs/state/outputs/t24_builder_build.json (builder handoff commit 90ff2eb, non-code documentation artifact - noted, not a product/test path)",
+      "backend_tests_diff": "only backend/tests/unit/test_static_serving.py added; zero edits to pre-existing test files",
+      "byte_identical_paths": "backend/app/database.py, backend/app/routers/health.py, frontend/**, docs/state/merge_test_index.json, backend/pyproject.toml all diff-empty vs cf666e0",
+      "issue_file_drift": "docs/issues/t24.md diff-empty cf666e0..90ff2eb (AC text and pinned commands unchanged since groom)",
+      "frozen_nodes": "3 frozen pytest node ids byte-exact in uv run pytest --collect-only -q (cat -A verified)",
+      "static_index_html": "NOT committed (git ls-tree -r 90ff2eb backend/static == .gitkeep only)",
+      "no_docker_execution": "no docker build/compose/run executed by any AC; ac4 docker-compose strings are README grep patterns only",
+      "secrets_scan": "no ghp_/github_pat_/AKIA tokens in Dockerfile, docker-compose.yml, .dockerignore, issue file, or builder handoff",
+      "ac_command_extraction": "7 fenced bash blocks extracted from git show 90ff2eb:docs/issues/t24.md (CRLF->LF), written to gitignored build/t24v/acN.sh; bash -n clean all 7; 0 CR bytes; executed byte-identical via bash build/t24v/acN.sh </dev/null from worktree root; builder ac_mapping.test fields byte-identical to extraction (modulo trailing newline)"
+    },
+    "notes": "Independent verification: all 7 pinned commands re-run from scratch at HEAD 90ff2eb (builder-claimed rc=7x0 confirmed, not trusted). Builder handoff branch_sha names 2c3c58b (code tip); HEAD 90ff2eb adds only the builder handoff JSON commit - AC-relevant tree identical, all commands re-run on 90ff2eb anyway. Worktree clean (git status --porcelain empty after runs; build/t24v is gitignored via build/). Groom handoff t24_definer_groom.json read from worktree docs/state/outputs (untracked at HEAD, present on disk); pinned ac_hash confirmed. Deviations per groom W11 (warn_only, non-blocking): 7 tracked paths vs max_files=4, ~361 diff lines vs max_diff_lines=300. Labels: platform #27 set to [defined,verified] via label set; verify-report comment posted (duplicate-checked: latest comment was the builder report before posting)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t24_verifier_verify_issue.json"
+    ],
+    "platform_issue": 27,
+    "output_path": "docs/state/outputs/t24_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T01:40:00Z",
+  "retry_count": 0
+}
