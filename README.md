@@ -65,6 +65,55 @@ Configuration lives in `.env` (never committed); `.env.example` lists every
 variable with placeholder values. See
 `docs/requirements/Chapter3_TechStack.md` §3.10 for the variable reference.
 
+## Local development modes
+
+Two sanctioned local modes exist (REQ-CICD-025, REQ-CICD-026); pick one per
+working session. Both read the same `.env` contract and target the same
+migration surface (REQ-DB-082).
+
+### Mode A - full Docker stack
+
+One command builds the multi-stage image and starts both compose services
+(`db` + `app`, REQ-CICD-023):
+
+```text
+docker compose up --build
+docker compose down
+```
+
+The app container runs `alembic upgrade head` in its start command before
+uvicorn serves the API and the built frontend from `backend/static`
+(REQ-DB-082, REQ-TECH-042). The API is on `http://localhost:8000` with the
+health contract at `/api/v1/health`.
+
+### Mode B - hybrid (container database, host processes)
+
+Only the database is containerized; the API and SPA run as host processes
+with hot reload:
+
+```text
+docker compose up db
+export DATABASE_URL=postgresql+psycopg://expense:change-me-locally@localhost:5432/expense_tracker
+make migrate
+make dev-backend
+make dev-frontend
+```
+
+`make migrate` is the manual REQ-DB-082 step in this mode — the host process
+has no container-start hook, so you run the migrations yourself after the
+exported `DATABASE_URL` points at the containerized database. The Vite dev
+server serves the SPA on `http://localhost:5173`, the API on `:8000`.
+
+### Development versus production
+
+Development uses the Vite dev server plus `uvicorn --reload` against a
+managed or containerized PostgreSQL. Production is the single container
+built by the `Dockerfile`: FastAPI serves the built frontend static files
+with an SPA fallback, and the same `alembic upgrade head` migration runs in
+the container start command (REQ-CICD-025, REQ-CICD-026, REQ-DB-082). Secrets
+never enter the build context (REQ-CICD-070); the compose placeholders are
+replaced by the platform at deploy time.
+
 ## Running tests
 
 ```bash

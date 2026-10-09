@@ -1,0 +1,44 @@
+# Build-context hygiene (REQ-CICD-070): dependency trees, build output,
+# dev artifacts, local databases and secrets never enter the context.
+# Everything the Dockerfile COPYs (frontend manifests + sources,
+# backend/pyproject.toml, backend/uv.lock, backend/alembic.ini,
+# backend/alembic, backend/app) must stay OUT of this file.
+
+# Dependency trees and virtual environments
+node_modules/
+**/node_modules/
+.venv/
+venv/
+
+# Build output (regenerated inside the image)
+dist/
+**/dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Backend dev artifacts and local databases
+backend/tests/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.db
+*.sqlite3
+
+# Secrets and local environment (placeholders never ship either)
+.env
+.env.*
+!.env.example
+
+# Repository metadata the image never needs
+.git/
+.gitignore
+docs/
+e2e/
+ops/
+security/
+*.md
+.dockerignore
