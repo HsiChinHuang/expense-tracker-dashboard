@@ -8,7 +8,7 @@
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t26-infra",
-    "branch_sha": "1b41ed26c6a15a5fd8c3cf0591dd86f70ab29097",
+    "branch_sha": "d60803a320524a1dce6665bbf405f776ec649a3e",
     "ac_mapping": {
       "ac1": {
         "commit": "d60803a320524a1dce6665bbf405f776ec649a3e",
