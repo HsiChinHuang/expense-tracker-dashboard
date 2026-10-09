@@ -185,3 +185,4 @@ RENDER_DEPLOY_HOOK
 build/
 coverage/
 .cm
+backend/tests/sqlite_fallback_evidence.txt
