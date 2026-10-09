@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t19",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 95,
+      "passed": 95,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "notes": "CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, WSL bash on Windows host). [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree venv used instead (uv at ~/.local/bin/uv; UV_PROJECT_ENVIRONMENT never set). No command string was modified. Candidate branch confirmed: worktree t19 branch = issue/t19-dashboard-backend-api @ 4dc41c1c72762148ba6509178bb204e4eccea195.\nOrigin/main drift check: fetch rc=0; origin/main moved from spawn-stated a52f1b2 to 420bc52 then 66d574a (orchestrator timer commits running concurrently during this gate). Delta a52f1b2..origin/main = docs-only: t19 groom/build/verify_issue handoff JSONs + docs/state/seq.txt runtime counter. ZERO code files in the drift -> safe to proceed per spawn instruction.\nMerge simulation (no checkout, no state change): cmd.exe git merge-tree --write-tree origin/main issue/t19-dashboard-backend-api rc=0, ZERO conflicts. Final merged tree sha fd64660e799a88d5016e8750b8c77b08a0b6d973 (against origin/main 66d574a; an earlier run against 420bc52 gave e5492faf - the two differ ONLY in docs/state/seq.txt, a runtime counter that origin/main and the branch both move independently; NOT a merge conflict - merge-tree rc=0 both times). Merged-tree delta vs origin/main = exactly the 6 backend files (main.py, routers/dashboard.py, schemas/dashboard.py, services/dashboard_service.py, tests/integration/test_dashboard_api.py, tests/unit/test_dashboard_service.py) + docs/issues/t19.md; ZERO frontend/ paths in the merged delta.\nFrontend untouched proof: cmd.exe git diff --name-only a52f1b2..HEAD on the branch = 10 files (6 backend code/test, docs/issues/t19.md, 3 branch-committed handoff JSONs); grep -c '^frontend/' = 0.\nSuites in the worktree (both legs run although t19 is backend-only, standing regression gate): backend uv run pytest -q -> 230 passed, 22 warnings, 0 failed, 137s (floor 230 = 184 baseline + 46 frozen, exact). Frontend deps were MISSING in this worktree; installed with cmd.exe npm.cmd ci (476 packages, rc=0, 15s; WSL npm never used). Frontend full suite via Windows node default reporter (npm.cmd run test -- --run, NO --reporter flag) -> rc=0, Test Files 17 passed (17), Tests 112 passed (112), ZERO Unhandled Errors sections.\nCumulative merge index: 95 entries (schema 1.0) extracted verbatim -> build/t19pm/mt/NN.sh (seq -w zero-padded 01..95), byte-verified 95/95 (node round-trip cmp, 0 mismatches), bash -n clean x95. Independent re-scan for git-embedded commands over ALL 95 returned exactly {01,04,05,12,23,24,27} (1-based; = 0-based {0,3,4,11,22,23,26}) - matches the historically shimmed set. Those 7 ran with the plain-git shim build/t19pm/shim/git (cmd.exe git with GIT_DIR=C:/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard/.git/worktrees/t19 + GIT_WORK_TREE=worktree root) because WSL git cannot follow the Windows drive-letter worktree pointer (verified: raw WSL git in the worktree fails not-a-git-repository, rc=128). The FULL ORIGINAL PATH was restored unconditionally after EVERY entry (export PATH=\"$SAVED_PATH\" per iteration in build/t19pm/run_chunk.sh); cmd.exe re-asserted after every chunk (no CMD_EXE_LOST). Ran in 7 chunks (01-10,11-20,21-30,31-45,46-60,61-75,76-95) from the worktree root, one script per entry, bash <file> </dev/null, per-entry rc captured immediately: 95/95 rc=0.\nSmoke accounting: docs/plan.md has NO ## Smoke tests section and docs/commands.md defines no smoke commands (established t0-t18 fallback precedent), so the smoke set = the 6 t19 AC verification commands extracted VERBATIM from the issue body fenced bash blocks (git blob lines 36/42/48/54/60/66) -> build/t19pm/acN.sh, byteEqual 6/6 against the HEAD blob, bash -n clean x6. Ran each as bash build/t19pm/acN.sh </dev/null from the worktree root: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (6/6; ac6 tail confirms 2 passed on the pinned OpenAPI+alembic nodes, ruff All checks passed, mypy Success 79 source files). config merge.smoke_tests_min=10 is unsatisfiable under this documented fallback (max available = the issue 6 ACs); the 95-entry cumulative batch + 112-test frontend + 230-test backend suites provide surplus coverage. Same accounting as t10-t18.\nPlatform sync: MERGE VERDICT PASS comment posted on issue #22 via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 22 --body (rc=0, attempt 1). Duplicate check BEFORE posting: latest-comment contained no MERGE VERDICT. Labels UNTOUCHED ([defined, verified] stay; post-merge close-out is orchestrator-owned).\nVerdict: PASS - pre-merge gate OPEN for the orchestrator real merge. Residual notes for orchestrator: (1) origin/main is moving with docs-only timer commits DURING this gate window (a52f1b2 -> 420bc52 -> 66d574a); the real merge must re-fetch and expect the same zero-conflict result since the drift is docs-only and disjoint from the branch delta; (2) merged-tree seq.txt differs from both parents purely because both sides move the runtime counter - merge-tree resolves it cleanly, do not treat as drift; (3) at close, append the 46 t19 frozen nodes to merge_test_index.json (currently 95) per plan ruling 11 the legacy-index amendment executes after t20's merge and before t21's pre-merge gate - t19 nodes themselves still need appending at close; (4) merge commit must never include docs/state/seq.txt runtime drift; (5) frontend suite timing is warm-cache dependent on this host (~56s cold)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t19_verifier_verify_pre_merge.json",
+      "build/t19pm/mt/ (95 files)",
+      "build/t19pm/shim/git",
+      "build/t19pm/run_chunk.sh",
+      "build/t19pm/ac1.sh",
+      "build/t19pm/ac2.sh",
+      "build/t19pm/ac3.sh",
+      "build/t19pm/ac4.sh",
+      "build/t19pm/ac5.sh",
+      "build/t19pm/ac6.sh",
+      "build/t19pm/logs/ (per-entry outputs, suite logs)"
+    ],
+    "platform_issue": 22,
+    "output_path": "docs/state/outputs/t19_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T00:02:25Z",
+  "retry_count": 0
+}
