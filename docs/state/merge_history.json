@@ -294,6 +294,39 @@
       },
       "regression_count": 0,
       "notes": "post-merge inline on main: 6/6 ACs rc=0 (11/9/6/13/6 + ac6 end-to-end mypy 79 files), backend full suite 230 passed 0 failed (184 baseline + 46 frozen), default-reporter frontend leg rc=0 17 files 112 passed, cumulative index 100/100 rc=0 after appending t19 ac1-ac5 (ac6 composite excluded per t17/t18 precedent; index 95->100; shim set re-scanned {01,04,05,12,23,24,27}, PATH restored per entry; entries 76-99 first batch rc=127 environment anomaly re-run green); merged via merge --no-ff 5d0165d parents 66d574a+da672da, merged tree a4d2ffcc == pre-merge simulated tree semantics (docs drift only); pre-merge gate: verify_issue PASS ceb90479 (3 prose-vs-title adjudications ACCEPTED incl. stale recent-key-list), verify_pre_merge PASS 1dcb974 (95/95, conflicts=0, tree fd64660e vs then-current origin/main)"
+    },
+    {
+      "merge_id": "t20-7b48199",
+      "issue_id": "t20",
+      "platform_issue": 23,
+      "merged_sha": "7b48199",
+      "merged_tree": "cc044e0d7a9abeaf52918b3754b5fe00bab9485f",
+      "merged_at": "2026-10-09T06:54:30Z",
+      "acs": [
+        "ac1",
+        "ac2",
+        "ac3",
+        "ac4",
+        "ac5",
+        "ac6"
+      ],
+      "smoke_tests": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      "cumulative_tests": {
+        "total": 100,
+        "passed": 100,
+        "failed": 0
+      },
+      "backend_tests": {
+        "total": 230,
+        "passed": 230,
+        "failed": 0
+      },
+      "regression_count": 0,
+      "notes": "frontend suite 141/141 default reporter post-merge; ac1-ac5 appended to index (100->105), ac6 composite excluded; MonthContext+dashboard api/query keys/hooks+EmptyState/ErrorState; recharts/date-fns absent gate green"
     }
   ]
 }
