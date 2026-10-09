@@ -402,6 +402,20 @@
       "backend_tests": 241,
       "regression_count": 0,
       "notes": "verify_issue PASS (e325bccb 6/6) + verify_pre_merge PASS (6fc91f53 zero-conflict tree 99c802fc, 120/120). Merged FIRST per merge-order adjudication (exact-241 composite arithmetic). Post-merge main: 6/6 pinned rc=0 incl exact-241 grep true; cumulative 120/120 machine-verified on post-merge main. Index-append ac1..ac5 (lengths 1570/1363/1414/1007/1389), composite ac6 EXCLUDED per precedent: 120->125. Delta exactly 7 files, no manifests, npm ci skipped."
+    },
+    {
+      "merge_id": "t24-e416bf1",
+      "issue_id": "t24",
+      "platform_issue": 27,
+      "merged_sha": "e416bf1",
+      "merged_tree": "5b55fca45633abd69d9ee60a9acf46ac6817b83c",
+      "merged_at": "2026-10-09T19:57:08Z",
+      "acs": 7,
+      "smoke_tests": 7,
+      "cumulative_tests": 125,
+      "backend_tests": 244,
+      "regression_count": 0,
+      "notes": "Merged SECOND per merge-order adjudication via MERGE-FIX chain: main.py content conflict (t24 static-mount vs t25 startup wiring) resolved by builder fix_merge 81dad5c6 merge_manual semantic union @ b4b4437 (244/244 integration, static registration after include_router so /api never shadowed). verify_issue PASS (82ba6aa2 7/7) + verify_pre_merge PASS (0338b546 zero-conflict vs pre-t25 base, 120/120). Post-merge main: t24 ac1..ac6 + ac7 composite rc=0 (>=233 immune to +11); t25 ac1..ac5 rc=0; t25 ac6 exact-241 composite EXPECTED-red on merged floor 244 by design (excluded from index). CUMULATIVE 125/125 machine-verified on post-t24 main. Index-append ac1..ac6 (lengths 3197/2555/1002/1050/1696/2773), composite ac7 excluded: 125->131."
     }
   ]
 }
