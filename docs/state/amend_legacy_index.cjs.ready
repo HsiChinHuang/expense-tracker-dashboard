@@ -1,0 +1,38 @@
+// LEGACY-INDEX AMENDMENT (review_plan W2, corrected window).
+// EXECUTE ONLY: AFTER t20 MERGE and BEFORE t21 PRE-MERGE GATE.
+// Entry #17 (t2): drop recharts from forbid regex (keep date-fns).
+// Entry #55 (t9): drop recharts from forbid, require recharts present EXACTLY 2.15.4.
+const fs = require('fs');
+const path = 'docs/state/merge_test_index.json';
+const idx = JSON.parse(fs.readFileSync(path, 'utf8'));
+
+function check(cond, msg) { if (!cond) { console.error('ABORT: ' + msg); process.exit(1); } }
+
+const forbid = "/^(recharts|date-fns)$/.test(k)";
+const e17 = idx.tests[16], e55 = idx.tests[54];
+check(e17.issue_id === 't2' && e17.command.includes(forbid), 'entry #17 pre-state mismatch');
+check(e55.issue_id === 't9' && e55.command.includes(forbid), 'entry #55 pre-state mismatch');
+
+// Quote discipline: commands are bash -c '...' with inner node -e "...".
+// Inner single quotes are IMPOSSIBLE (stripped by the outer quote pair) and
+// raw double quotes would close the node -e string; use a quote-free regex
+// leg (original style) and escaped \" doubles inside node -e (original style).
+// #17: forbid only date-fns now
+e17.command = e17.command.replace(forbid, "/^date-fns$/.test(k)");
+
+// #55: forbid only date-fns + require recharts present exactly 2.15.4
+e55.command = e55.command.replace(forbid, "/^date-fns$/.test(k)");
+const anchor55 = 'const need=[\\"react-hook-form\\",\\"zod\\"];';
+check(e55.command.includes(anchor55), 'entry #55 anchor missing');
+e55.command = e55.command.replace(
+  anchor55,
+  'if(d.recharts!==\\"2.15.4\\"){console.error(\\"recharts must be present at exactly 2.15.4, got: \\"+d.recharts);process.exit(1)}' + anchor55
+);
+
+check(!e17.command.includes('recharts'), '#17 still mentions recharts');
+check(e55.command.includes('d.recharts!==\\"2.15.4\\"'), '#55 version leg missing');
+idx.updated_at = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+fs.writeFileSync(path, JSON.stringify(idx, null, 2) + '\n');
+console.log('[AMENDED] entry #17 (t2): recharts no longer forbidden; date-fns still forbidden');
+console.log('[AMENDED] entry #55 (t9): recharts forbidden -> required present == 2.15.4; date-fns still forbidden');
+console.log('[OK] total entries:', idx.tests.length);
