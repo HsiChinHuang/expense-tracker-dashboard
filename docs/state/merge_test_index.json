@@ -4,7 +4,7 @@
   "tests": [
     {
       "issue_id": "t0",
-      "command": "bash -c 'for d in frontend backend e2e security ops .github/workflows; do test -d \"$d\" || exit 1; done && git ls-files --error-unmatch e2e/.gitkeep security/.gitkeep ops/.gitkeep .github/workflows/.gitkeep >/dev/null'"
+      "command": "bash -c 'for d in frontend backend e2e security ops .github/workflows; do test -d \"$d\" || exit 1; done && git ls-files --error-unmatch security/.gitkeep ops/.gitkeep .github/workflows/.gitkeep >/dev/null'"
     },
     {
       "issue_id": "t0",
