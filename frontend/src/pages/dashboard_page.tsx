@@ -179,7 +179,7 @@ export const DashboardPage = (): JSX.Element => {
             />
           ) : cumulative.data === undefined ? null : (
             <CumulativeLineChart
-              budget={summary.data?.budget_amount ?? '0.00'}
+              budget={cumulative.data.budget}
               days={cumulative.data.days}
             />
           )}
