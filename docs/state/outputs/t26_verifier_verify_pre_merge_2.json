@@ -1,0 +1,160 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t26",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 131,
+      "passed": 131,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verification_commands_source": "docs/issues/t26.md ## Verification commands (WORKTREE copy at branch HEAD cdcf549, CRLF->LF normalized, section boundary /^## (?!#)/ after '## Verification commands'); 6 fenced bash blocks re-extracted (1933/2948/3107/2404/1497/2246 bytes incl. trailing NL) and byte-compared against docs/state/outputs/t26_verifier_verify_issue.json evidence.ac_results acN.command -> 6/6 BYTE-IDENTICAL (lengths 1932/2947/3106/2403/1496/2245 modulo the fence's trailing newline).",
+    "verdict": "PASS",
+    "fixes_confirmed": {
+      "B1_merge_conflict": {
+        "status": "CONFIRMED_RESOLVED",
+        "fix_commit": "cfa54ff (orchestrator(t26): pre-merge FAIL ingest + B1 resolution - adopt branch handoff copy)",
+        "merge_tree_rc": 0,
+        "merged_tree": "f0912b19b37ab17bf5292e324cfde83c47cfbed5",
+        "merge_tree_stdout": "single line = tree oid only; stderr EMPTY; no CONFLICT line, no unmerged-stage lines (previous run emitted 2 stage lines + CONFLICT (add/add))",
+        "blob_equality": {
+          "main_working_file": "content md5 (LF-normalized) 48506c9ec43f3772d8d988b44d2c8e7c",
+          "branch_HEAD_blob": "4755f2dd3b3257c094cb7ee683ac532ed23326f2",
+          "main_HEAD_blob": "4755f2dd3b3257c094cb7ee683ac532ed23326f2",
+          "merged_tree_blob": "4755f2dd3b3257c094cb7ee683ac532ed23326f2",
+          "merged_tree_content_md5": "48506c9ec43f3772d8d988b44d2c8e7c (LF-normalized; raw git-show bytes 24063)",
+          "note": "core.autocrlf=true, so the MAIN working file is 24173 bytes on disk (CRLF) vs the 24063-byte LF blob; content is identical modulo CRLF. All three sources reduce to the SAME blob oid 4755f2dd (the branch copy), i.e. byte-identical adoption as claimed."
+        },
+        "conflict_markers_in_merged_tree": 0,
+        "conflict_marker_sweep": "git grep -nE '^(<<<<<<< |>>>>>>> |=======$)' over the merge commit tree -> 0 matches (rc=1); targeted grep of the previously conflicted file -> 0 matches for each of the three marker patterns"
+      },
+      "B2_stale_index_entry": {
+        "status": "CONFIRMED_RESOLVED",
+        "fix_commit": "6ab7da5 (orchestrator(t26): amend legacy index entry #5 (t0) - .github scaffold guard retargeted for ci/e2e/deploy workflows)",
+        "index_total_entries": 131,
+        "tests_5_command": "bash -c 'test -d frontend && test -z \"$(find security ops .github -type f ! -name .gitkeep ! -name __init__.py ! -name ci.yml ! -name e2e.yml ! -name deploy.yml 2>/dev/null)\"'",
+        "matches_orchestrator_stated_text": true,
+        "anchors_intact": {
+          "tests_16": "t2",
+          "tests_54": "t9"
+        },
+        "t0_entry_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "rc_main": 0,
+        "rc_t26_worktree": 0,
+        "rc_t27_worktree": 0,
+        "execution_methods": "WSL /usr/bin/node v18 execSync (build/t26pm2_b2.cjs, GIT_DIR/GIT_WORK_TREE exported per worktree) AND direct bash eval at each root - all 6 combinations rc=0",
+        "guard_not_vacuous_negative_tests": {
+          "baseline_only_3_workflows_plus_gitkeep": "rc=0 (expected 0)",
+          "fourth_workflow_evil_yml": "rc=1 (expected 1 - still fails)",
+          "fourth_arbitrary_file_other_txt": "rc=1 (expected 1 - still fails)",
+          "security_secret_py": "rc=1 (expected 1 - security arm preserved)",
+          "ops_runbook_md": "rc=1 (expected 1 - ops arm preserved)",
+          "security_init_py": "rc=0 (expected 0 - allowed arm preserved)",
+          "sandbox": "throwaway build/t26pm2_neg scaffold, removed after the test; no repo file touched"
+        },
+        "merged_index_equals_main_amended_index": "merged-tree index blob 59d70b1662e83086968309637cdfc9f2959c632d == MAIN working/HEAD index blob 59d70b16...; branch blob 20462995... == merge-base blob (branch never touched the index), so the merged state carries the AMENDED index and the scan read exactly the merged index content"
+      }
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "conflicted_paths": [],
+      "method": "real --no-ff merge in a throwaway worktree (cmd.exe git -C <MAIN> worktree add ..\\\\worktrees\\\\sim-t26b -b sim/t26b main; then git -C <sim> merge --no-ff --no-edit issue/t26-infra)",
+      "merge_commit": "d39082ede5935a25e30f5839317d6650a0f5addb",
+      "merge_commit_parents": [
+        "6ab7da5ee67117b089e3671c45a2ab8eecec084a (main)",
+        "cdcf54928bfa3f315ef614c1978d59c6749f4465 (issue/t26-infra)"
+      ],
+      "merge_commit_tree": "f0912b19b37ab17bf5292e324cfde83c47cfbed5",
+      "merge_commit_tree_equals_merge_tree_prediction": true,
+      "unmerged_paths": "git diff --name-only --diff-filter=U -> EMPTY",
+      "strategy": "ort; 7 files changed, 418 insertions(+), 25 deletions(-): .github/workflows/{ci,deploy,e2e}.yml (new), Makefile, README.md, docs/issues/t26.md, render.yaml (new)",
+      "conflict_marker_sweep_of_merge_commit": 0,
+      "merge_commit_index_blob": "59d70b1662e83086968309637cdfc9f2959c632d (== MAIN amended index)",
+      "merge_commit_handoff_blob": "4755f2dd3b3257c094cb7ee683ac532ed23326f2 (== branch copy)",
+      "not_pushed": true,
+      "main_untouched": "main still 6ab7da5ee67117b089e3671c45a2ab8eecec084a, porcelain EMPTY",
+      "cleanup": "cmd.exe git worktree remove --force (rc=0) + git branch -D sim/t26b (rc=0); git worktree list now MAIN + t26 + t27 only; no sim/* branch remains; NEVER ran git worktree prune from WSL"
+    },
+    "cumulative_scan": {
+      "total": 131,
+      "passed": 131,
+      "failed": 0,
+      "harness": "build/t26pm2_full_scan.cjs (WSL /usr/bin/node v18.19.1, execSync per entry, cwd=t26 worktree, timeout 900000, GIT_DIR=<main>/.git/worktrees/t26 + GIT_WORK_TREE=<t26 worktree> exported so git-plumbing entries resolve the worktree despite the forward-slash gitdir-pointer quirk (t25 precedent); PATH prefixed with $HOME/.local/bin for uv). Detached via setsid nohup, single blocking wait-loop on the done-marker.",
+      "index_source": "MAIN docs/state/merge_test_index.json (the AMENDED index, blob 59d70b16 == merged-tree index blob)",
+      "host": "/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t26 (provisioned: backend/.venv present, frontend/node_modules 399 entries)",
+      "merged_equivalence_proof": "git diff --name-only f0912b1 issue/t26-infra -> docs/log/2026_10_07.md, docs/state/merge_test_index.json, docs/state/outputs/{t26_verifier_verify_pre_merge,t27_builder_build,t27_definer_groom,t27_verifier_verify_issue}.json, docs/state/seq.txt. Machine grep of all 131 command strings for docs/state|docs/log|merge_test_index|seq.txt -> 0 hits (the only 5 'docs/' hits are docs/criteria/**, which is NOT in the delta), so every path any index command can read is byte-identical between the t26 worktree and the merged tree. Independently: git diff --name-only a224be8..main -- ':(exclude)docs' is EMPTY (no main product drift since merge base) and git diff --name-only main f0912b1 -- backend frontend is EMPTY.",
+      "wall_time": "21.5 min (2026-10-09T22:23:34Z -> 2026-10-09T22:45:04Z); sum of per-entry durations 1289.9 s",
+      "completeness": "machine-verified: 131 rows, indices 0..130 each exactly once, 0 missing, 0 duplicates; rc distribution {\"0\":131}",
+      "previously_failing_entries_now_green": [
+        "tests[5] (t0) rc=0 in 13 ms - the B2 amendment",
+        "all 130 entries that passed in the previous run remain green (no regressions)"
+      ],
+      "worktree_porcelain": "EMPTY before the scan and EMPTY after the scan (all scratch lives in gitignored MAIN build/t26pm2* files)"
+    },
+    "merged_state_gates": {
+      "backend_pytest": "244 passed / 0 failed in 76.45 s (explicit run for the record: cd t26 worktree backend && uv run pytest -q, rc=0; also covered by the scan's heavy backend entries)",
+      "backend_ruff": "All checks passed! (asserted inside the ac6 composite, rc=0)",
+      "backend_mypy": "Success: no issues found in 83 source files (ac6 composite)",
+      "alembic_heads": "single head 005 (ac6 composite)",
+      "workflows_inventory": "merged .github/workflows/ == exactly .gitkeep + ci.yml + deploy.yml + e2e.yml (4 entries, no fourth workflow)",
+      "makefile_targets": "all FOUR t26 targets present in the merged Makefile (test-backend-unit, test-backend-integration, test-backend-cov, test-frontend-cov) AND the ORIGINAL e2e target byte-identical to main (diff of the extracted target blocks is empty; t26 did not touch the e2e stub); .PHONY extended to list the new targets",
+      "readme_lines": "202 (<= 500)",
+      "merged_delta_vs_main": ".github/workflows/{ci,deploy,e2e}.yml, Makefile, README.md, docs/issues/t26.md, render.yaml - exactly the t26 product set (+ docs/issues/t26.md); ZERO backend/** and ZERO frontend/** paths",
+      "product_tree_purity": "main product tree == merge-base product tree (git diff --name-only a224be8..main -- ':(exclude)docs' EMPTY), so merged product content == branch product content",
+      "frontend_legs": "attested rather than re-run: merged frontend/** is byte-identical to main frontend/** (0 frontend paths in the delta), and the frontend legs executed green on merged-equivalent content - all cmd.exe/npm/npx index entries rc=0 in the 131-entry scan, plus the ac6 composite independently asserting 187 passed titles with numFailedTests/numPendingTests/numTodoTests all 0, tsc --noEmit rc=0 and exactly 4 react-refresh/only-export-components lint warnings"
+    },
+    "smoke_tests_detail": "ac1 rc=0 (375 ms), ac2 rc=0 (375 ms), ac3 rc=0 (377 ms), ac4 rc=0 (362 ms), ac5 rc=0 (162 ms), ac6 rc=0 (124.6 s composite: backend 244 green + ruff + mypy + single alembic head 005, zero product/manifest drift, frontend 187/0/0/0 + tsc + exactly-4 lint warnings, Makefile dry-runs, index 131 entries with anchors tests[16]=t2 and tests[54]=t9). Harness build/t26pm2_smoke.cjs, cwd=t26 worktree, GIT_DIR/GIT_WORK_TREE exported. t26 worktree porcelain EMPTY before and after.",
+    "platform": {
+      "issue": 29,
+      "comment_posted": "MERGE VERDICT: PASS posted via scripts/platform.ts issue comment 29 --body (rc=0, 3091-byte response)",
+      "dup_check": "latest-comment BEFORE posting = the previous MERGE VERDICT: FAIL comment (2977 bytes) - no pre-merge PASS duplicate existed",
+      "thread_head_after_post": "confirmed - latest-comment now returns the PASS body (3091 bytes)",
+      "labels": "UNCHANGED [defined, verified] (re-read after posting; state=open). Orchestrator applies 'merged' at merge time.",
+      "api": "scripts/platform.ts only (never raw curl)"
+    },
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge RE-RUN for t26 (Platform #29, phase_5_infra CI/CD pipeline definitions) after the orchestrator fixed the two orchestration blockers from the previous FAIL handoff docs/state/outputs/t26_verifier_verify_pre_merge.json (verdict FAIL, 130/131 cumulative, 6/6 smoke, merge conflict + stale index entry). CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, WSL bash). [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; the per-worktree uv venv was used instead (uv at $HOME/.local/bin, NEVER reinstalled). Read: AGENTS.md, skills/verifier/SKILL.md + details/verify_pre_merge.md, schemas/verifier/verify_pre_merge.json + common/handoff.json + common/evidence.json, docs/state/merge_test_index.json (131 entries, top key tests), docs/issues/t26.md (worktree copy at cdcf549), docs/commands.md, docs/config.yaml merge block (smoke_tests_min 10 / max 20), docs/plan.md (NO '## Smoke tests' section -> pinned AC commands used as the smoke set per the t25 precedent), t21 verify_pre_merge_2 precedent handoff (the _2 re-run naming precedent).",
+      "WHAT CHANGED SINCE THE FAIL RUN: MAIN advanced 38bbea9 -> cfa54ff (B1: MAIN copy of docs/state/outputs/t26_builder_build.json replaced with the byte-identical branch copy) -> 6ab7da5 (B2: index entry tests[5] retargeted). Both fixes were VERIFIED, not re-applied: the verifier modified no index, no issue, no product code.",
+      "B1 CONFIRMED INDEPENDENTLY: merge-tree rc=0 with the tree oid as its only stdout line and empty stderr (the FAIL run had rc=1 + two unmerged-stage lines + CONFLICT (add/add)); merged tree f0912b19 matches the orchestrator's pre-measurement exactly; all three copies of the previously conflicted file reduce to blob 4755f2dd (content md5 48506c9e LF-normalized); zero conflict markers anywhere in the merged tree. A REAL --no-ff merge then produced merge commit d39082e whose tree is f0912b19 (identical to the merge-tree prediction) with zero unmerged paths - the merge is genuinely clean, not merely conflict-free by prediction.",
+      "B2 CONFIRMED INDEPENDENTLY: entry #5's text matches the orchestrator's stated amendment verbatim; it returns rc=0 on MAIN, the t26 worktree and the t27 worktree by two execution methods each. Negative tests (throwaway sandbox) prove the retargeted guard is not vacuous: a fourth workflow file, a fourth arbitrary file, and files under security/ or ops/ all still fail it, while security/__init__.py still passes - i.e. the three t26 workflows are the ONLY new allowance, exactly as intended. Index integrity re-checked: exactly 131 entries, anchors tests[16]=t2 and tests[54]=t9 untouched, t0 entries still at indices 0..5.",
+      "MERGED-EQUIVALENCE OF THE SCAN HOST (re-verified per instruction, not inherited): the merged tree differs from the branch tree ONLY in docs/log + docs/state paths, and a machine grep of all 131 command strings for docs/state|docs/log|merge_test_index|seq.txt returns 0 hits, so no index command can observe the difference. The one delta file that is NOT under docs/state (docs/log/2026_10_07.md) is likewise unread by any command. The merged index blob equals the MAIN amended index blob, so the scan read the exact merged index. The t26 worktree is the only host that is provisioned (backend/.venv + frontend/node_modules) and therefore the only one on which the npm/cmd.exe entries and the backend suites can execute.",
+      "CUMULATIVE GATE: 131/131 rc=0 (previous run 130/131). Completeness machine-verified (131 rows, indices 0..130 each exactly once, 0 missing/0 duplicates, rc distribution {\"0\":131}). Wall time 21.5 min, single detached scan, one blocking wait-loop; the expected 240 s bash-open alert was benign and no retry was attempted.",
+      "SMOKE: 6/6 rc=0, commands re-extracted from the worktree issue file at cdcf549 and byte-identical to the verify_issue handoff commands, so the AC set is provably the pinned one. ac6 (~125 s composite) executed once.",
+      "MERGED-STATE GATES: backend pytest 244/244 re-run explicitly for the record (rc=0); ruff/mypy/alembic-single-head asserted inside ac6; workflows inventory exactly .gitkeep+ci+e2e+deploy; all four t26 Makefile targets present with the original e2e target byte-identical to main; README 202 lines; merged delta vs main == exactly the t26 product set + docs/issues/t26.md with zero backend/frontend paths; main product tree unchanged since the merge base.",
+      "PLATFORM: PASS comment posted to #29 after a dup-check (previous head was the FAIL comment). Labels left UNCHANGED at [defined, verified] per the t24/t25 precedent - the orchestrator applies 'merged' at merge time.",
+      "STATE/CLEANUP: NO merge into main, NO push, NO branch or worktree deletion of t26/t27, NO index/issue/product-code modification, NO checkout of any tracked branch, NO label change. The throwaway sim worktree (C:...worktreessim-t26b) and branch sim/t26b were created for the merge simulation and then removed via cmd.exe git worktree remove --force + git branch -D (both rc=0); git worktree list shows only MAIN + t26 + t27 and no sim/* branch. NEVER ran git worktree prune from WSL. MAIN, t26 and t27 worktrees all have EMPTY porcelain. All scratch lives in gitignored MAIN build/t26pm2* files.",
+      "OUTPUT NAMING: this re-run writes docs/state/outputs/t26_verifier_verify_pre_merge_2.json (the '_2' suffix follows the t21 precedent for a re-run pre-merge handoff) so the previous FAIL handoff is preserved for audit. The path is ABSENT from issue/t26-infra (verified via git ls-tree), so leaving it uncommitted on MAIN does not create a new add/add conflict for the merge; the orchestrator WAL-ingests it as usual.",
+      "REACHED_STATE: verified (status COMPLETE). Per schemas/common/handoff.json, error and next_action are null for status COMPLETE.",
+      "PRE-OUTPUT CHECKLIST: CWD verification PASS; shared venv N/A ([VENV_UNAVAILABLE] logged, worktree venv used); cumulative test index read PASS (131 entries, amended); candidate branch confirmed PASS (issue/t26-infra @ cdcf549, no checkout run); all 131 cumulative tests run PASS (131/131 rc=0, completeness machine-verified); smoke tests run PASS (6/6 pinned AC commands rc=0, byte-identical to the verify_issue handoff, porcelain clean before/after); failed tests: none; handoff JSON written under docs/state/outputs/ only PASS; comment posted via scripts/platform.ts PASS; output conforms to schemas/verifier/verify_pre_merge.json (validated via scripts/validate_handoff.ts from MAIN, [OK]); reached_state=verified PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t26_verifier_verify_pre_merge_2.json"
+    ],
+    "platform_issue": 29,
+    "output_path": "docs/state/outputs/t26_verifier_verify_pre_merge_2.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T22:50:48Z",
+  "retry_count": 0
+}
