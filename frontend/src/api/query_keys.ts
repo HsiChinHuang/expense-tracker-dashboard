@@ -6,7 +6,10 @@
 //   ["budgets"]  -> ["budgets","month",ym]
 // Invalidating a family root (e.g. ["expenses"]) therefore invalidates
 // every member key, which is exactly how the REQ-FE-051 mutation hooks
-// refetch mounted observers. Dashboard keys arrive in phase_4 (t16 AC2).
+// refetch mounted observers. The dashboard family arrived in phase_4
+// (t16 AC2 / t20 AC3):
+//   ["dashboard"] -> summary|by-category|cumulative nested by YYYY-MM,
+//                    trend|heatmap|recent under the same root.
 
 import type { ExpenseListParams } from './expenses';
 
@@ -53,5 +56,21 @@ export const queryKeys = {
     root: ['budgets'] as const,
     /** One month's key nested under the budgets root. */
     byMonth: (yearMonth: string) => ['budgets', 'month', yearMonth] as const
+  },
+  dashboard: {
+    /** Family root: invalidating it hits all six dashboard members. */
+    root: ['dashboard'] as const,
+    /** Month-driven summary key (REQ-FE-051 invalidation reaches it). */
+    summary: (yearMonth: string) => ['dashboard', 'summary', yearMonth] as const,
+    /** Category breakdown; the `by-category` key string is pinned (Q1). */
+    byCategory: (yearMonth: string) => ['dashboard', 'by-category', yearMonth] as const,
+    /** Trend key (param-driven; Builder choice under the root, Q2). */
+    trend: () => ['dashboard', 'trend'] as const,
+    /** Month-driven cumulative key. */
+    cumulative: (yearMonth: string) => ['dashboard', 'cumulative', yearMonth] as const,
+    /** Heatmap key (param-driven). */
+    heatmap: () => ['dashboard', 'heatmap'] as const,
+    /** Recent-items key (param-driven). */
+    recent: () => ['dashboard', 'recent'] as const
   }
 };
