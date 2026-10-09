@@ -374,6 +374,20 @@
       "backend_tests": 230,
       "regression_count": 0,
       "notes": "verify_issue FAIL(ac4 cumulative-budget data-flow)->fix_qa 4d96b5c->PASS retry 1; pre-merge 110/110+6/6+187 FE+230 BE; index 110->115 (ac1-ac5, ac6 composite excluded per t20/t21 precedent)"
+    },
+    {
+      "merge_id": "t23-5eb1368",
+      "issue_id": "t23",
+      "platform_issue": 26,
+      "merged_sha": "5eb13681a9fbae0c66466fbd08ccbf37c0cd3027",
+      "merged_tree": "81bd0a9949775edbbcb5d5d8c73e960a0f188706",
+      "merged_at": "2026-10-09T15:28:08Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 115,
+      "backend_tests": 230,
+      "regression_count": 0,
+      "notes": "verify_issue PASS (ac_hash heading-inclusive variant adjudicated ACCEPT documentation-deviation; 6/6 pinned rc=0); pre-merge 115/115+6/6+187 FE+230 BE; post-merge main 6/6+115/115 green; index 115->120 (ac1-ac5, ac6 composite excluded per t20/t21/t22 precedent); 0 new frozen nodes (14 re-cited); phase_4 LAST card"
     }
   ]
 }
