@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-09T00:36:49Z",
+  "updated_at": "2026-10-09T10:00:46Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -327,6 +327,39 @@
       },
       "regression_count": 0,
       "notes": "frontend suite 141/141 default reporter post-merge; ac1-ac5 appended to index (100->105), ac6 composite excluded; MonthContext+dashboard api/query keys/hooks+EmptyState/ErrorState; recharts/date-fns absent gate green"
+    },
+    {
+      "merge_id": "t21-1eebbca",
+      "issue_id": "t21",
+      "platform_issue": 24,
+      "merged_sha": "1eebbca",
+      "merged_tree": "63e48c5f4ce975a270d4e619440648dd7657775a",
+      "merged_at": "2026-10-09T10:00:46Z",
+      "acs": [
+        "ac1",
+        "ac2",
+        "ac3",
+        "ac4",
+        "ac5",
+        "ac6"
+      ],
+      "smoke_tests": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      "cumulative_tests": {
+        "total": 110,
+        "passed": 110,
+        "failed": 0
+      },
+      "backend_tests": {
+        "total": 230,
+        "passed": 230,
+        "failed": 0
+      },
+      "regression_count": 0,
+      "notes": "frontend suite 166/166 default reporter post-merge; ac1-ac5 appended to index (105->110), ac6 composite excluded; recharts 2.15.4 admission + 4 chart components + 25 frozen nodes + utils/chart_data.ts; legacy amendments this window: #17/#55 (W2) + #88 test-exemption (W3); pre-merge FAIL then PASS 105/105 after amendment"
     }
   ]
 }
