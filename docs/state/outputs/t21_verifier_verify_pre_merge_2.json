@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t21",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 105,
+      "passed": 105,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge RE-RUN for t21 (Platform #24) after the orchestrator's W2-precedent legacy-index amendment (Option A): stored entry #88 (0-based 87, issue t17) coercion grep now carries --exclude=*.test.tsx --exclude=*.test.ts. Amendment landed on MAIN as c8ca8a4 (pushed) and was cherry-picked onto the t21 branch (tip 9581ea4). No other file changed since the predecessor FAIL (docs/state/outputs/t21_verifier_verify_pre_merge.json). CWD verified first: /mnt/c/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (MAIN checkout, WSL bash on Windows host). [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn; per-worktree uv sync used instead (uv at ~/.local/bin, run in merged backend/ where pyproject.toml lives, rc=0). Read: AGENTS.md, skills/verifier/SKILL.md + details/verify_pre_merge.md, schemas/verifier/verify_pre_merge.json + common/handoff.json + evidence.json, docs/state/merge_test_index.json, WORKTREE docs/issues/t21.md (authoritative), docs/commands.md, predecessor + t20 pre-merge handoffs. ALL git via cmd.exe /c git -C <WinPath> (WSL git cannot open these Windows-drive worktree pointers).",
+      "STEP 1 MERGE-TREE SIMULATION: fresh git fetch rc=0. main == origin/main == da4842682fd6061b438e7f334bc588085beaab7a (WAL-only churn: diff c8ca8a4..da48426 touches docs/state/seq.txt ONLY, on top of the amendment c8ca8a4). Branch tip 9581ea43e182765e41f83dd705a902cbdfa15654; merge-base(main,branch)=31bf5a3 (groom base, unchanged); branch NOT already merged (merge-base --is-ancestor rc=1). merge-tree --write-tree main branch -> rc=0 (rc captured WSL-side per predecessor ENV-QUIRK note), stderr EMPTY, ZERO conflicts, merged tree 63e48c5f4ce975a270d4e619440648dd7657775a. AMENDED ENTRY VERIFIED IN THE MERGED TREE: git cat-file -p 63e48c5:docs/state/merge_test_index.json -> 105 tests, entry index 87 issue_id t17, command contains BOTH --exclude=*.test.tsx and --exclude=*.test.ts; merged index deep-equals the branch-tip index (JSON round-trip). Merge delta main->merged = 13 files = the 12 from the predecessor run PLUS docs/state/outputs/t21_verifier_verify_pre_merge.json (the FAIL handoff, which exists on the branch but not on main; additive, no conflict).",
+      "STEP 2 SIMULATED MERGED CHECKOUT (no merge, no branch, main untouched): cmd.exe git commit-tree 63e48c5 -p main -p branch -m sim-t21-premerge-2 -> UNREFERENCED commit e655a1d5762efd5582c5894bfbf2b8d48d76cf05; git worktree add --detach C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t21-premerge e655a1d rc=0. node_modules via robocopy /E from the t21 worktree (rc=1 = files-copied success code), machine-verified byte-complete: 399 top-level == 399, 15652 files == 15652, @esbuild/win32-x64 present, recharts present. WSL npm NEVER used. Backend venv: uv sync in merged backend/ rc=0.",
+      "STEP 3 SIX PINNED AC COMMANDS ON THE MERGED TREE: extracted programmatically from the merged docs/issues/t21.md '## Verification commands' fenced bash blocks (CRLF-normalized) -> 6 blocks; machine byte-compared vs predecessor verify_issue handoff evidence.ac_results[ac1..ac6].command: 6/6 BYTE-EQUAL after stripping the extraction trailing newline (ac1 1616B, ac2 1749B, ac3 1811B, ac4 1823B, ac5 1974B, ac6 1250B files; +1 byte = file newline, NO command-text mismatch). Ran each VERBATIM from the merged root, bash <file> </dev/null: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (6/6 GREEN).",
+      "STEP 4 FULL SUITES / QUALITY GATES ON THE MERGED TREE: frontend cmd.exe npm.cmd run test -- --run (DEFAULT reporter) rc=0 -> Test Files 26 passed (26), Tests 166 passed (166), 0 failed. npx tsc --noEmit rc=0 (empty output). npm run lint rc=0 with the 4-warning react-refresh baseline UNCHANGED (auth_context.tsx:110, toast_context.tsx:146, budget_page.tsx:46/:55; 0 errors, 4 warnings). Backend uv run pytest -q rc=0 -> 230 passed, 22 warnings, 0 failed in 82.64s.",
+      "STEP 5 CUMULATIVE 105-ENTRY RE-SCAN ON THE SIMULATED MERGED CHECKOUT: all 105 stored commands extracted verbatim from the MERGED index -> build/t21pm2/mt/NNN.sh (zero-padded 000..104), bash -n clean x105. Independent git-embedded re-scan over all 105 returned exactly {0,3,4,11,22,23,26} (0-based) — the same historically shimmed set as t20/predecessor; those 7 ran with GIT_DIR/GIT_WORK_TREE redirected at the t21-premerge worktree metadata (redirect verified working: git ls-files --error-unmatch e2e/.gitkeep rc=0), plain environment restored unconditionally for every other entry. Ran synchronously in 15-entry foreground batches (nohup-dies precedent), continue-on-fail, per-entry rc to /tmp/t21pm2_results.tsv. RESULT: 105/105 rc=0, 0 non-green lines. KEY ENTRIES: 087 (t17 coercion gate, THE amendment target) rc=0 — the amended grep with test-file exemptions is GREEN on the merged tree with t21's weekly_heatmap.test.tsx present; 016 (#17, t2) rc=0; 054 (#55, t9 recharts==2.15.4 requirement) rc=0.",
+      "SMOKE ACCOUNTING: docs/plan.md has NO '## Smoke tests' section and docs/commands.md defines no smoke commands (established t0-t20 fallback precedent), so the smoke set = the 6 t21 AC verification commands run verbatim on the merged tree: 6/6 rc=0. config merge.smoke_tests_min=10 unsatisfiable under this documented fallback (max available = the issue's 6 ACs); the 105-entry cumulative batch + 166-test frontend + 230-test backend suites provide surplus coverage. Same accounting as t10-t20 and the predecessor run.",
+      "PLATFORM SYNC: duplicate check BEFORE posting — latest comment on #24 was the predecessor's MERGE VERDICT: FAIL (104/105), no prior PASS. MERGE VERDICT: PASS comment posted via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 24 --body, rc=0, author HsiChinHuang, comment body confirms Total 105 / Passed 105 / Failed 0 + Smoke 6/6. Labels UNTOUCHED ([defined, verified] stay) — label/close-out changes belong to the orchestrator.",
+      "CLEANUP: temp worktree C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t21-premerge removed (git worktree remove --force), git worktree prune, worktree list shows only main + t21. No temp branch ever created (--detach used). Sim commit e655a1d unreferenced (subject to gc). NO merge, NO push, NO branch deletion performed. main stays da48426; branch gains ONLY the additive handoff commit (3961c1d, docs-only) per the t21 FAIL-handoff precedent 6395cb9.",
+      "VERDICT: PASS — pre-merge gate OPEN. reached_state verified. The single predecessor failure (entry #88 t17 coercion gate vs t21's weekly_heatmap.test.tsx parseInt hex->rgb helper) is resolved by the orchestrator-owned legacy-index amendment (Option A, W2 precedent), which is present in BOTH sides of the merge and therefore in the merged tree. Residual notes for the orchestrator: (1) the real merge should re-fetch and expect the same zero-conflict merge-tree result (origin/main == main == da48426 at gate time); (2) at close, append the 25 t21 frozen frontend nodes to merge_test_index.json (currently 105) per the plan ruling; (3) entry #88's amendment is now the binding cumulative contract — future issues may use parseInt in test files without tripping the t17 gate, production-dir coercion discipline is unchanged."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t21_verifier_verify_pre_merge_2.json"
+    ],
+    "platform_issue": 24,
+    "output_path": "C:\\Users\\tw097\\.pi\\agent\\sessions\\--C--Users-tw097-Desktop-261007_project01-expense-tracker-dashboard--\\subagent-artifacts\\outputs\\c9f9b2a5-560a-476e-b003-4b7fe33ce18f\\docs\\state\\outputs\\t21_verifier_verify_pre_merge_2.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T09:32:17Z",
+  "retry_count": 1
+}
