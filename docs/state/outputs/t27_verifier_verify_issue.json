@@ -1,0 +1,132 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t27",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/package.json || exit 1; test -f e2e/tsconfig.json || exit 1; test -f e2e/playwright.config.ts || exit 1; test -d e2e/tests || exit 1; test -d e2e/fixtures || exit 1; node -e \"const p=require(\\\"./e2e/package.json\\\");const d=p.dependencies||{};const k=Object.keys(d).sort().join(\\\",\\\");if(k!==\\\"@playwright/test\\\"){console.error(\\\"dependencies must be exactly @playwright/test, got: \\\"+k);process.exit(1)}if(d[\\\"@playwright/test\\\"]!==\\\"1.58.0\\\"){console.error(\\\"@playwright/test must be the exact pin 1.58.0, got: \\\"+d[\\\"@playwright/test\\\"]);process.exit(1)}for(const s of [\\\"devDependencies\\\",\\\"peerDependencies\\\",\\\"optionalDependencies\\\",\\\"overrides\\\",\\\"resolutions\\\"]){if(p[s]!==undefined){console.error(s+\\\" must be absent in the isolated e2e manifest\\\");process.exit(1)}}if(p.private!==true){console.error(\\\"e2e/package.json must be private: true\\\");process.exit(1)}\" || exit 1; grep -qE \"^  timeout: 60_000,[[:space:]]*$\" e2e/playwright.config.ts || exit 1; grep -qE \"^  retries: 1,[[:space:]]*$\" e2e/playwright.config.ts || exit 1; grep -qE \"^  workers: 1,[[:space:]]*$\" e2e/playwright.config.ts || exit 1; grep -qE \"^  reporter: .*html\" e2e/playwright.config.ts || exit 1; grep -qE \"trace: .on-first-retry\" e2e/playwright.config.ts || exit 1; grep -qE \"screenshot: .only-on-failure\" e2e/playwright.config.ts || exit 1; grep -qE \"baseURL: BASE_URL\" e2e/playwright.config.ts || exit 1; grep -qE \"E2E_BASE_URL\" e2e/playwright.config.ts || exit 1; grep -qE \"localhost:5173\" e2e/playwright.config.ts || exit 1; grep -qE \"REQ-TEST-040\" e2e/playwright.config.ts || exit 1; grep -qE \"REQ-TECH-075\" e2e/playwright.config.ts || exit 1; grep -qE \"testDir\" e2e/playwright.config.ts || exit 1'",
+        "exit_code": 0,
+        "note": "workspace skeleton + exact @playwright/test 1.58.0 admission + private:true + no other dep-section keys + REQ-TEST-040 config numerics line-anchored; re-extracted verbatim from HEAD blob, 0 CR, bash -n clean, run </dev/null from worktree root; wall 0.14s; porcelain empty after."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/fixtures/users.ts || exit 1; test -f e2e/fixtures/helpers.ts || exit 1; grep -qE \"^export const uniqueUser\" e2e/fixtures/users.ts || exit 1; grep -qE \"^export interface UniqueUser\" e2e/fixtures/users.ts || exit 1; grep -qE \"toISOString\" e2e/fixtures/users.ts || exit 1; grep -qE \"Math.random\" e2e/fixtures/users.ts || exit 1; grep -qE \"e2e\\+\" e2e/fixtures/users.ts || exit 1; grep -qE \"@example.test\" e2e/fixtures/users.ts || exit 1; grep -qE \"DELETE FROM users WHERE email LIKE\" e2e/fixtures/users.ts || exit 1; grep -qE \"REQ-TEST-045\" e2e/fixtures/users.ts || exit 1; grep -qE \"REQ-TEST-041\" e2e/fixtures/helpers.ts || exit 1; for fn in registerUser loginUser addExpense setBudget; do grep -qE \"^export const ${fn} = async\" e2e/fixtures/helpers.ts || exit 1; done; c=$(grep -cE \"^export const (uniqueUser = |registerUser = async |loginUser = async |addExpense = async |setBudget = async )\" e2e/fixtures/users.ts e2e/fixtures/helpers.ts | tr -d \"\\r\" | awk -F: \"{ s += \\$2 } END { print s }\"); [ \"$c\" -eq 5 ] || exit 1; for f in e2e/tests/happy-path.spec.ts e2e/tests/isolation.spec.ts e2e/tests/month-switch.spec.ts; do grep -qE \"uniqueUser|registerUser\" \"$f\" || exit 1; done; g=$(grep -cE \"sharedAccount|shared_user|beforeAll\\(.*login\" e2e/tests/*.ts | tr -d \"\\r\" | awk -F: \"{ s += \\$2 } END { print s + 0 }\"); [ \"$g\" -eq 0 ] || exit 1; grep -qE \"newContext\" e2e/tests/isolation.spec.ts || exit 1; ! grep -qE \"afterEach|afterAll\" e2e/tests/*.ts || exit 1'",
+        "exit_code": 0,
+        "note": "fixtures: uniqueUser + registerUser/loginUser/addExpense/setBudget anchored exports (count==5), cleanup SQL, REQ-TEST-045/041, no sharedAccount/beforeAll-login, no afterEach/afterAll, newContext in isolation spec; wall 0.10s; porcelain empty."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/tests/happy-path.spec.ts || exit 1; test -f e2e/tests/isolation.spec.ts || exit 1; test -f e2e/tests/month-switch.spec.ts || exit 1; h=e2e/tests/happy-path.spec.ts; grep -qE \"REQ-TEST-042\" \"$h\" || exit 1; for a in registerUser loginUser addExpense setBudget editFirstExpense deleteFirstExpense logout chartSurfaces kpi-total kpi-budget kpi-remaining kpi-categories recent-item; do grep -qF \"$a\" \"$h\" || exit 1; done; n=$(grep -cE \"await addExpense\\(\" \"$h\" | tr -d \"\\r\"); [ \"$n\" -eq 3 ] || exit 1; grep -qE \"toHaveCount\\(3\\)\" \"$h\" || exit 1; grep -qE \"toHaveCount\\(2\\)\" \"$h\" || exit 1; s=e2e/fixtures/helpers.ts; for a in \"Spending by category pie chart\" \"Monthly spending trend bar chart\" \"Cumulative spending line chart\" \"Weekly spending heatmap grid\" \"Budget usage\" \"Save changes\" \"Log out\" \"Add expense\" \"Register\" \"Log in\" \"Set budget\" \"Save budget\"; do grep -qF \"$a\" \"$s\" || exit 1; done; i=e2e/tests/isolation.spec.ts; grep -qE \"REQ-TEST-043\" \"$i\" || exit 1; n=$(grep -cE \"await browser.newContext\\(\\)\" \"$i\" | tr -d \"\\r\"); [ \"$n\" -eq 2 ] || exit 1; for a in registerUser addExpense \"toHaveCount\\(0\\)\" \"No recent transactions\" kpi-total; do grep -qE \"$a\" \"$i\" || exit 1; done; m=e2e/tests/month-switch.spec.ts; grep -qE \"REQ-TEST-044\" \"$m\" || exit 1; for a in currentMonth previousMonth \"Previous month\" \"Next month\" kpi-total; do grep -qE \"$a\" \"$m\" || exit 1; done; n=$(grep -cE \"await addExpense\\(\" \"$m\" | tr -d \"\\r\"); [ \"$n\" -eq 2 ] || exit 1; for f in e2e/tests/happy-path.spec.ts e2e/tests/isolation.spec.ts e2e/tests/month-switch.spec.ts; do grep -qE \"getByRole|getByLabel|getByTestId\" \"$f\" || exit 1; done; for a in getByRole getByLabel; do grep -qE \"$a\" e2e/fixtures/helpers.ts || exit 1; done; true'",
+        "exit_code": 0,
+        "note": "three pinned spec sequences: happy-path 3x addExpense + toHaveCount(3)/(2), isolation 2x browser.newContext + empty-state asserts, month-switch 2x addExpense + month nav; chart surfaces + 12 UI strings in helpers; getByRole/getByLabel; wall 0.13s; porcelain empty."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f Makefile || exit 1; make -n e2e >/dev/null 2>&1 || exit 1; r=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$r\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$r\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; ! grep -qE \"harness lands in phase_5_infra\" Makefile || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; if [ -f .github/workflows/e2e.yml ]; then grep -qE \"make e2e\" .github/workflows/e2e.yml || exit 1; fi; grep -qE \"^#.*npm ci\" Makefile || exit 1; grep -qE \"REQ-TEST-050\" Makefile || exit 1; for t in test test-backend test-frontend lint migrate; do make -n \"$t\" >/dev/null 2>&1 || exit 1; done; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- backend\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1'",
+        "exit_code": 0,
+        "note": "make -n e2e emits EXACTLY the two pinned lines (independently confirmed: exactly 2 lines, both pinned, nothing else); phase-5 stub echo gone; make -n test/test-backend/test-frontend/lint/migrate rc=0; backend diff+porcelain clean vs a224be8; wall 0.27s; porcelain empty."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/e2e-gate-types.d.ts || exit 1; test -f e2e/tsconfig.json || exit 1; node -e \"const c=require(\\\"./e2e/tsconfig.json\\\");const o=c.compilerOptions;if(o.noEmit!==true){console.error(\\\"e2e tsconfig must be noEmit\\\");process.exit(1)}if(o.strict!==true){console.error(\\\"e2e tsconfig must keep strict true\\\");process.exit(1)}if(o.skipLibCheck!==true){console.error(\\\"e2e tsconfig must be skipLibCheck\\\");process.exit(1)}if(JSON.stringify(o.types)!==\\\"[]\\\"){console.error(\\\"e2e tsconfig types must be the empty array, got: \\\"+JSON.stringify(o.types));process.exit(1)}for(const f of [\\\"playwright.config.ts\\\",\\\"e2e-gate-types.d.ts\\\",\\\"fixtures/**/*.ts\\\",\\\"tests/**/*.ts\\\"]){if((c.include||[]).indexOf(f)<0){console.error(\\\"include missing \\\"+f);process.exit(1)}}\" || exit 1; grep -qE \"declare module .@playwright/test.\" e2e/e2e-gate-types.d.ts || exit 1; grep -qE \"^declare var process\" e2e/e2e-gate-types.d.ts || exit 1; T=node_modules/typescript/bin/tsc; test -f \"$T\" || T=frontend/node_modules/typescript/bin/tsc; test -f \"$T\" || exit 1; v=$(node \"$T\" --version | tr -d \"\\r\"); printf \"%s\" \"$v\" | grep -qE \"^Version (5\\.3\\.3|5\\.5\\.4)$\" || exit 1; mkdir -p build || exit 1; node \"$T\" --noEmit --skipLibCheck -p e2e/tsconfig.json > build/t27_typecheck.txt 2>&1; rc=$?; [ \"$rc\" -eq 0 ] || exit 1; ! grep -qE \"error TS\" build/t27_typecheck.txt || exit 1; b=e2e/tests/t27_gate_probe.spec.ts; printf \"import { expect, test } from \\042@playwright/test\\042;\\n\\ntest(\\042probe\\042, async ({ page }) => {\\n  const n: number = \\042not a number\\042;\\n  await nopeSomething(page, n);\\n});\\n\" > \"$b\"; test -s \"$b\" || exit 1; node \"$T\" --noEmit --skipLibCheck -p e2e/tsconfig.json > build/t27_typecheck_broken.txt 2>&1; pr=$?; rm -f \"$b\"; [ \"$pr\" -ne 0 ] || exit 1; grep -qE \"error TS2322\" build/t27_typecheck_broken.txt || exit 1; grep -qE \"error TS2304\" build/t27_typecheck_broken.txt || exit 1; test ! -e \"$b\" || exit 1; node \"$T\" --noEmit --skipLibCheck -p e2e/tsconfig.json >/dev/null 2>&1 || exit 1; true'",
+        "exit_code": 0,
+        "note": "hermetic typecheck gate rc=0 zero error TS (compiler: frontend/node_modules/typescript 5.5.4 - root node_modules absent in this worktree, gate fallback leg); broken-fixture leg rc!=0 with TS2322+TS2304; probe e2e/tests/t27_gate_probe.spec.ts verified ABSENT after run (and after every other AC run); clean re-run rc=0; wall 3.35s; porcelain empty."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/package.json || exit 1; n=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") ls-files e2e\" | tr -d \"\\r\" | grep -cE \"package-lock.json|npm-shrinkwrap.json\"); [ \"$n\" -eq 0 ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- backend frontend\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend frontend\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- frontend/package.json package.json backend/pyproject.toml backend/uv.lock frontend/package-lock.json package-lock.json\" || exit 1; node -e \"const p=require(\\\"./package.json\\\");if(p.workspaces!==undefined){console.error(\\\"root package.json must not gain a workspaces key for e2e\\\");process.exit(1)}for(const t of [\\\"./tsconfig.json\\\",\\\"./frontend/tsconfig.json\\\"]){const c=require(t);for(const inc of c.include||[]){if(inc.indexOf(\\\"e2e\\\")>=0){console.error(\\\"tsconfig must not include e2e: \\\"+t+\\\" \\\"+inc);process.exit(1)}}}\" || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); [ \"$n\" -ge 244 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; uv run mypy . >/dev/null 2>&1 || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<131){console.error(\\\"index shorter than 131\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "note": "composite: no e2e lockfile in ls-files, backend+frontend diff+porcelain clean vs a224be8, six manifests diff-empty, no root workspaces key, no e2e in root/frontend tsconfig include, backend collect>=244 + pytest + ruff + mypy + single alembic head 005, frontend vitest numFailed/Pending/Todo=0 and >=187 passed, tsc rc=0, lint exactly 4 react-refresh, merge index >=131 with anchors tests[16]=t2/tests[54]=t9 executed; wall 142.19s (expected 2-4 min composite, NORMAL); porcelain empty."
+      }
+    },
+    "test_summary": {
+      "total": 244,
+      "passed": 244,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_six_acs_verified_by_pinned_commands_with_negative_controls": true,
+      "tsc_noEmit_p_e2e_tsconfig_rc0_zero_error_TS_and_broken_fixture_leg_nonzero_TS2322_TS2304_probe_deleted": true,
+      "make_n_e2e_exactly_two_pinned_lines_stub_gone_other_targets_rc0": true,
+      "zero_product_code_drift_backend_frontend_byte_identical_vs_a224be8_no_workspaces_no_e2e_tsconfig_no_lockfile_staged": true,
+      "backend_244_green_ruff_mypy_alembic_005_single_head_frontend_187_0_0_0_tsc_0_lint_exactly_4_index_131_anchors_green": true,
+      "conventional_commits_on_issue_t27_infra_no_push": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:39015f11facbb05d275d9a624622d4c0b17b08820ccccff2a28750a8c84fe346",
+    "ac_hash_match": true,
+    "ac_hash_canonical_variant": "heading-exclusive: text between \"## Acceptance criteria\\n\" and \"\\n## Verification commands\" of git show c1d624a:docs/issues/t27.md, CRLF->LF, per-line right-trim, join with \\n, outer trim, sha256 (segment len 5854, 6 ACs)",
+    "branch_sha": "c1d624ae321c30742e6418710b0d62c05758013e",
+    "independent_legs": {
+      "backend_pytest": "uv run pytest -q => 244 passed in 83.30s, rc=0 (per-worktree venv; [VENV_UNAVAILABLE] logged: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty)",
+      "backend_collect_only": "uv run pytest --collect-only -q | grep -c :: => 244",
+      "ruff": "uv run ruff check . => All checks passed! rc=0",
+      "mypy": "uv run mypy . => Success: no issues found in 83 source files, rc=0",
+      "alembic_heads": "uv run alembic heads => single line 005 (head)",
+      "frontend_vitest": "cmd.exe npx.cmd vitest run --reporter=json => numPassedTests 187, numFailedTests 0, numPendingTests 0, numTodoTests 0 (passed-title count 187)",
+      "tsc_noEmit": "cmd.exe npx tsc --noEmit rc=0",
+      "npm_run_lint": "react-refresh/only-export-components count exactly 4 (frozen baseline)",
+      "e2e_typecheck_independent": "node frontend/node_modules/typescript/bin/tsc --noEmit --skipLibCheck -p e2e/tsconfig.json => rc=0, zero error TS lines; compiler = frontend TypeScript 5.5.4 (root node_modules/typescript ABSENT in this worktree, matching the builder residual-risk note; the gate command itself prefers root 5.3.3 when installed)",
+      "merge_test_index": "131 entries; anchors tests[16].issue_id=t2, tests[54].issue_id=t9; ONLY the two anchor commands re-executed via execSync => both rc=0",
+      "ac_command_extraction": "6 fenced bash blocks re-extracted from git show HEAD:docs/issues/t27.md (CRLF->LF; section boundary /^## (?!#)/ after the heading so ### subheads excluded) to gitignored build/t27v/acN.sh; all 6: 0 CR bytes, bash -n clean; byte-compare vs builder ac_mapping.acN.test: exact=False x6 / identical-modulo-single-trailing-newline (relaxed) True x6 - commands are the same strings"
+    },
+    "premise_checks": {
+      "delta_vs_groom_base": "git diff --name-only 47c03cd..HEAD == exactly: .gitignore(M), Makefile(M), docs/state/outputs/t27_builder_build.json(A), e2e/.gitkeep(D), e2e/e2e-gate-types.d.ts, e2e/fixtures/helpers.ts, e2e/fixtures/users.ts, e2e/package.json, e2e/playwright.config.ts, e2e/tests/happy-path.spec.ts, e2e/tests/isolation.spec.ts, e2e/tests/month-switch.spec.ts, e2e/tsconfig.json (8 e2e artifacts + Makefile + .gitignore + .gitkeep deletion + builder handoff) - MATCH",
+      "zero_product_change": "git diff --quiet a224be8 -- backend rc=0 AND -- frontend rc=0; status --porcelain backend frontend EMPTY",
+      "no_lockfile_tracked": "git ls-files e2e => 9 files, no package-lock.json / npm-shrinkwrap.json",
+      "root_manifests": "root package.json has NO workspaces key; root tsconfig include [launcher,extensions,scripts] and frontend tsconfig include [src,vite.config.ts] contain NO e2e paths",
+      "make_n_e2e": "emits EXACTLY two lines: cd e2e && npm install --no-save / cd e2e && npx playwright test",
+      "stub_gone": "grep -c harness lands in phase_5_infra Makefile => 0",
+      "gitignore_e2e": ".gitignore lines 191-196: comment + e2e/node_modules/ + e2e/test-results/ + e2e/playwright-report/ + e2e/package-lock.json (4 artifact lines incl. package-lock per W6)",
+      "e2e_manifest": "e2e/package.json dependencies EXACTLY {@playwright/test: 1.58.0}, private:true, top keys name/version/private/description/dependencies - no devDependencies/peerDependencies/optionalDependencies/overrides/resolutions",
+      "fixture_export_count": "anchored count == 5 (uniqueUser = + 4 x = async); specs: afterEach/afterAll count 0, sharedAccount/shared_user/beforeAll-login count 0",
+      "crlf_at_head": "git show HEAD:<blob> for all 10 changed text files => CR=0 (blobs LF-normalized; core.autocrlf=true, no .gitattributes - repo-wide convention; working-tree files CRLF as expected, e.g. Makefile WT-CR=89)",
+      "branch_sha_match": "HEAD == c1d624ae321c30742e6418710b0d62c05758013e (tip docs(t27): build handoff; feat ae72c3a; base groom 47c03cd on main a224be8) - MATCHES assignment",
+      "worktree_porcelain": "EMPTY at every checkpoint (before, after each AC run, after all mutations restored)"
+    },
+    "negative_spot_checks": {
+      "mut1_e2e_package_devDependencies": "added devDependencies {typescript:5.5.4} to e2e/package.json => ac1 rc=1 (stderr: devDependencies must be absent in the isolated e2e manifest); restored byte-identical (cmp OK), ac1 re-run rc=0, porcelain empty",
+      "mut2_rename_setBudget": "sed setBudget -> setBudgetRenamed in e2e/fixtures/helpers.ts => ac2 rc=1; restored byte-identical (cmp OK), ac2 re-run rc=0, porcelain empty",
+      "mut3_makefile_npm_ci": "sed npm install --no-save -> npm ci in Makefile => ac4 rc=1; restored byte-identical (cmp OK), ac4 re-run rc=0, porcelain empty"
+    },
+    "notes": [
+      "SCOPE: verifier verify_issue for t27 (Platform #30, phase_5_infra, E2E harness, zero product code). Independent re-verification at HEAD c1d624a in worktrees/t27; builder claims NOT trusted - all 6 pinned commands re-extracted from the HEAD blob and re-executed verbatim (all rc=0), ac_hash recomputed (MATCH), every independent leg re-run from scratch.",
+      "BYTE-COMPARE nuance: builder ac_mapping.acN.test vs my re-extracted acN.sh differ by exactly one trailing newline each (fenced-block content ends with \\n; builder stored the string without it). Command strings otherwise byte-identical - no [BUILDER_COMMAND_MISMATCH].",
+      "ac5 probe hygiene: e2e/tests/t27_gate_probe.spec.ts verified ABSENT after EVERY AC run (all 6 checkpoints) and porcelain empty throughout.",
+      "ac6 wall time 142.19s = NORMAL for the composite (backend pytest ~83s + frontend vitest ~40s + legs).",
+      "CRLF report: HEAD blobs are LF (git normalizes with core.autocrlf=true; no .gitattributes in repo); working tree is CRLF per repo convention. ac greps with [[:space:]]*$ tails pass on CRLF working files.",
+      "PLATFORM #30: VERIFIER VERDICT PASS comment posted (dup-checked: latest comment was the builder report, no prior verifier verdict); labels set to EXACTLY [defined, verified] via label set, following the t24/t25/t26 lifecycle precedent (groomed+built dropped at verify end-state). Confirmed via issue get.",
+      "[VENV_UNAVAILABLE] logged (UV_PROJECT_ENVIRONMENT/PYTHONPATH empty); pre-existing per-worktree venvs used, NEVER reinstalled.",
+      "Scratch confined to gitignored build/t27v/ in the worktree (did not touch MAIN build/ - concurrent sim-t26 verifier respected). No state-changing git ops, no checkout, no push. docs/issues/t27.md untouched. Handoff committed to branch as docs(t27): verify handoff (git commit -F .cm, no push) and copied to MAIN docs/state/outputs/ (uncommitted).",
+      "PRE-OUTPUT CHECKLIST: CWD PASS; inputs read PASS; verification commands VERBATIM PASS; every AC has verdict PASS; lint report included PASS; DoD included PASS; no test-quality warnings; handoff JSON under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS; labels transitioned PASS; schema-validated [OK] PASS; reached_state=verified PASS."
+    ],
+    "residual_risks": [
+      "Specs are structurally verified only (execution deferred by plan.md phase_5 ruling 3): selector flows are unverified against a live stack until the first e2e.yml run (builder-recorded; t28 records the deferral).",
+      "The hermetic e2e-gate-types.d.ts stub types only the harness surface; real-API type errors surface in CI where genuine @playwright/test 1.58.0 resolves.",
+      "The ac5 gate used frontend TypeScript 5.5.4 (root node_modules absent in this worktree); the gate prefers root 5.3.3 when installed - both measured rc=0 at groom."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t27_verifier_verify_issue.json"
+    ],
+    "platform_issue": 30,
+    "output_path": "docs/state/outputs/t27_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T21:32:30Z",
+  "retry_count": 0
+}
