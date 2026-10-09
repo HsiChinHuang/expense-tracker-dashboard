@@ -186,3 +186,11 @@ build/
 coverage/
 .cm
 backend/tests/sqlite_fallback_evidence.txt
+
+# ============================================================
+# Playwright e2e workspace (t27 - e2e lockfile is NOT committed, W6)
+# ============================================================
+e2e/node_modules/
+e2e/test-results/
+e2e/playwright-report/
+e2e/package-lock.json

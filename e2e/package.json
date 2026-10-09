@@ -1,0 +1,9 @@
+{
+  "name": "expense-tracker-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E harness (REQ-TEST-040) - isolated workspace, t27",
+  "dependencies": {
+    "@playwright/test": "1.58.0"
+  }
+}
