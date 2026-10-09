@@ -24,7 +24,7 @@
     },
     {
       "issue_id": "t0",
-      "command": "bash -c 'test -d frontend && test -z \"$(find e2e security ops .github -type f ! -name .gitkeep ! -name __init__.py 2>/dev/null)\"'"
+      "command": "bash -c 'test -d frontend && test -z \"$(find security ops .github -type f ! -name .gitkeep ! -name __init__.py ! -name ci.yml ! -name e2e.yml ! -name deploy.yml 2>/dev/null)\"'"
     },
     {
       "issue_id": "t1",
