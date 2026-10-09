@@ -1,0 +1,44 @@
+# Local full-stack composition (REQ-TECH-041, REQ-CICD-023/024).
+# Exactly two services: db (postgres:16-alpine, healthchecked, named
+# volume) and app (this repo's Dockerfile, port 8000, starts only once
+# db is healthy). Migrations run inside the app container start command
+# via the Dockerfile CMD (REQ-DB-082). Every secret below is a local
+# placeholder only (REQ-CICD-070) — real values are injected by the
+# platform in production (t26).
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: expense
+      POSTGRES_PASSWORD: change-me-locally
+      POSTGRES_DB: expense_tracker
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U expense -d expense_tracker"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://expense:change-me-locally@db:5432/expense_tracker
+      JWT_SECRET: change-me-locally
+      CORS_ORIGINS: http://localhost:5173
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  db_data:
