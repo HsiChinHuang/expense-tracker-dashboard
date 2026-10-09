@@ -1,0 +1,39 @@
+# Render blueprint (REQ-CICD-031/032, REQ-OPS-015): one Docker web service on
+# the free plan (the same single image t24 builds, whose CMD runs migrations
+# per REQ-CICD-035) plus one free PostgreSQL instance. Secrets are generated
+# by Render or injected from the dashboard — never committed (REQ-CICD-070).
+services:
+  - type: web
+    name: expense-tracker-dashboard
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: expense-tracker-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 1440
+      - key: JWT_ISSUER
+        value: expense-tracker-dashboard
+      - key: JWT_AUDIENCE
+        value: expense-tracker-dashboard-web
+      - key: CORS_ORIGINS
+        value: https://expense-tracker-dashboard.onrender.com
+      - key: ENVIRONMENT
+        value: production
+      - key: APP_VERSION
+        value: 1.0.0
+
+databases:
+  - type: postgres
+    name: expense-tracker-db
+    plan: free
+    postgresVersion: 16
