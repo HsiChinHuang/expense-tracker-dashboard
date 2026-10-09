@@ -3,7 +3,8 @@
 # backend -> uv (Linux binary), frontend -> npm (Windows binaries under WSL).
 
 .PHONY: setup setup-backend setup-frontend dev dev-backend dev-frontend \
-        test test-backend test-frontend lint lint-backend lint-frontend \
+        test test-backend test-backend-unit test-backend-integration test-backend-cov \
+        test-frontend test-frontend-cov lint lint-backend lint-frontend \
         down migrate seed e2e security
 
 # Resolve the frontend directory relative to this Makefile (worktree-safe).
@@ -52,6 +53,20 @@ test-backend:
 
 test-frontend: frontend-deps
 	$(call FE,npm test -- --run)
+
+# Split backend runs for CI (REQ-TEST-050): unit and integration layers.
+test-backend-unit:
+	cd backend && uv run pytest tests/unit
+
+test-backend-integration:
+	cd backend && uv run pytest tests/integration
+
+# Coverage runs for CI (REQ-TEST-050): --cov backend / --coverage frontend.
+test-backend-cov:
+	cd backend && uv run pytest --cov=app --cov-report=term-missing
+
+test-frontend-cov: frontend-deps
+	$(call FE,npm test -- --run --coverage)
 
 # --- Lint ---
 

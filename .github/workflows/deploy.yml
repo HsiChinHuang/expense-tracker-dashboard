@@ -1,0 +1,44 @@
+# Deploy pipeline (REQ-TECH-050, REQ-CICD-013/014): fires only after the E2E
+# workflow run completes successfully, POSTs the Render deploy hook taken
+# EXCLUSIVELY from the RENDER_DEPLOY_HOOK secret (REQ-CICD-070 - the hook URL
+# is never committed), then verifies /api/v1/health with a bounded retry
+# loop and fails the run when the endpoint never turns ok (REQ-CICD-060).
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [E2E]
+    types: [completed]
+
+# Least-privilege token for the whole workflow (REQ-CICD-071).
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # Gate on the E2E run conclusion so only a green pipeline deploys
+    # (REQ-CICD-013/014).
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Render deploy hook
+        env:
+          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK secret is not configured"
+            exit 1
+          fi
+          curl -fsS -X POST "$RENDER_HOOK"
+
+      - name: Verify the deployed health endpoint
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS https://expense-tracker-dashboard.onrender.com/api/v1/health; then
+              echo "deploy verified: health endpoint is ok"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "health endpoint never turned ok after the deploy"
+          exit 1

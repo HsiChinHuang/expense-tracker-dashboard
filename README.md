@@ -163,3 +163,40 @@ See `docs/commands.md` for the raw toolchain commands and
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE)
 file for details.
+
+## Deployment on Render
+
+The pipeline in `.github/workflows/` ships this app to Render after a green
+E2E run; `render.yaml` is the Render Blueprint that declares the whole
+deployment as code (REQ-CICD-030, REQ-CICD-036).
+
+### Why Render
+
+Render hosts the single Docker web service and the managed PostgreSQL
+instance on the free tier from one Blueprint file, so the review team can
+deploy, review, and roll back without owning any infrastructure
+(REQ-CICD-030, REQ-TECH-061).
+
+### First deployment
+
+1. Push the branch and import the repository as a Render Blueprint.
+2. Add the `RENDER_DEPLOY_HOOK` value as a GitHub secret so `deploy.yml`
+   can trigger releases (the hook URL itself is never committed).
+3. Render builds the Docker image, runs migrations at container start, and
+   serves the app; verify `/api/v1/health` turns green (REQ-CICD-036).
+
+### Free tier
+
+The free PostgreSQL instance expires after 30 days and the free web service
+sleeps when idle, so the first request after a quiet period pays a cold start
+of tens of seconds (REQ-TECH-061, REQ-CICD-033, REQ-CICD-040). Budget the
+review window accordingly: expect one cold start per idle gap, keep the
+database plan within free limits, and treat any longer outage as a redeploy
+question, not an incident (REQ-CICD-042).
+
+### UptimeRobot
+
+Ping `/api/v1/health` from UptimeRobot every 10 min to keep the free service
+warm and to get an outside-the-platform view of availability (REQ-CICD-041).
+Reviewers should open the deployed URL early in the session so the reported
+latency is a warm-service number, not the cold start (REQ-CICD-043).

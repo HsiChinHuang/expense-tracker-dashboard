@@ -1,0 +1,74 @@
+# CI pipeline (REQ-TECH-050, REQ-CICD-011): backend-test and frontend-test
+# run in parallel, then compose-build gates the stack build. Delegating to
+# the Makefile targets keeps CI and local runs identical (REQ-TEST-051).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least-privilege token for the whole workflow (REQ-CICD-071).
+permissions:
+  contents: read
+
+# Newest run wins; superseded runs are cancelled (REQ-CICD-016).
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up uv with cache
+        uses: astral-sh/setup-uv@v4.5.1
+        with:
+          enable-cache: true
+      - name: Sync dependencies
+        working-directory: backend
+        run: uv sync
+      - name: Lint (ruff)
+        working-directory: backend
+        run: uv run ruff check .
+      - name: Type check (mypy)
+        working-directory: backend
+        run: uv run mypy .
+      - name: Unit tests
+        run: make test-backend-unit
+      - name: Integration tests
+        run: make test-backend-integration
+      - name: Coverage run
+        run: make test-backend-cov
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up Node with npm cache
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Lint
+        run: make lint-frontend
+      - name: Type check
+        working-directory: frontend
+        run: npx tsc --noEmit
+      - name: Unit tests
+        run: make test-frontend
+      - name: Coverage run
+        run: make test-frontend-cov
+
+  compose-build:
+    needs: [backend-test, frontend-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Build the application image
+        run: docker compose build
