@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App } from './app';
 import { AuthProvider } from './context/auth_context';
+import { MonthProvider } from './context/month_context';
 import { ToastProvider } from './context/toast_context';
 import './index.css';
 
@@ -17,17 +18,20 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-// Provider nesting per REQ-ARCH-013: QueryClientProvider -> BrowserRouter ->
-// AuthProvider -> ToastProvider -> App. MonthProvider arrives with later
-// phases and may be inserted between Auth and Toast.
+// Provider nesting per REQ-ARCH-013 (additive): QueryClientProvider ->
+// BrowserRouter -> AuthProvider -> MonthProvider -> ToastProvider -> App.
+// MonthProvider (REQ-FE-032, t20) is inserted exactly between Auth and Toast
+// as the merged comment promised; nothing is reordered or removed.
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
+          <MonthProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </MonthProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

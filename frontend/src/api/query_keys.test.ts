@@ -61,3 +61,70 @@ describe('queryKeys factory', () => {
     expect(isPrefixOf(['categories'], queryKeys.expenses.list({ page: 1 }))).toBe(false);
   });
 });
+
+// t20 AC3: the dashboard key family (REQ-FE-050). Two NEW nodes appended;
+// the five merged titles above stay byte-identical and are re-run by ac3 as
+// the regression proof.
+
+describe('dashboard query keys (ac3)', () => {
+  it('the six dashboard keys nest under the single dashboard root prefix', () => {
+    const members = [
+      queryKeys.dashboard.summary('2026-02'),
+      queryKeys.dashboard.byCategory('2026-02'),
+      queryKeys.dashboard.trend(),
+      queryKeys.dashboard.cumulative('2026-02'),
+      queryKeys.dashboard.heatmap(),
+      queryKeys.dashboard.recent()
+    ];
+    // ONE root shared by all six members (the merged invalidation target).
+    expect(queryKeys.dashboard.root).toEqual(['dashboard']);
+    for (const member of members) {
+      expect(isPrefixOf(queryKeys.dashboard.root, member)).toBe(true);
+    }
+    // The month-driven members nest the driving YYYY-MM (Q2); the
+    // `by-category` member key is the literal string, not byCategory.
+    expect(queryKeys.dashboard.summary('2026-02')).toEqual([
+      'dashboard',
+      'summary',
+      '2026-02'
+    ]);
+    expect(queryKeys.dashboard.byCategory('2026-02')).toEqual([
+      'dashboard',
+      'by-category',
+      '2026-02'
+    ]);
+    expect(queryKeys.dashboard.cumulative('2026-02')).toEqual([
+      'dashboard',
+      'cumulative',
+      '2026-02'
+    ]);
+    // Six distinct members: no two month-driven keys collide, and no
+    // dashboard key leaks into another resource's family.
+    expect(new Set(members.map((member) => JSON.stringify(member))).size).toBe(6);
+    expect(isPrefixOf(['dashboard'], queryKeys.budgets.byMonth('2026-02'))).toBe(false);
+    expect(isPrefixOf(['budgets'], queryKeys.dashboard.summary('2026-02'))).toBe(false);
+  });
+
+  it('invalidating the dashboard root prefix-matches every dashboard member key', () => {
+    // The merged hooks invalidate exactly this one-line root; prefix
+    // matching is what makes that single call cover all six endpoints.
+    const root = ['dashboard'];
+    const members = [
+      queryKeys.dashboard.summary('2026-01'),
+      queryKeys.dashboard.summary('2026-02'),
+      queryKeys.dashboard.byCategory('2026-02'),
+      queryKeys.dashboard.trend(),
+      queryKeys.dashboard.cumulative('2026-02'),
+      queryKeys.dashboard.heatmap(),
+      queryKeys.dashboard.recent()
+    ];
+    for (const member of members) {
+      expect(isPrefixOf(root, member)).toBe(true);
+    }
+    // Different months of the SAME member both stay under the root, and a
+    // sibling resource's key is never matched by the dashboard root.
+    expect(isPrefixOf(root, queryKeys.dashboard.summary('2099-12'))).toBe(true);
+    expect(isPrefixOf(root, queryKeys.expenses.detail('x'))).toBe(false);
+    expect(isPrefixOf(root, queryKeys.categories.all)).toBe(false);
+  });
+});
