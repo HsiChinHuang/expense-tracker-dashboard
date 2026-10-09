@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t24",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_5_infra",
+    "issues_generated": [
+      "t24",
+      "t25",
+      "t26",
+      "t27",
+      "t28"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-TECH-060 / REQ-CICD-036 / REQ-PLAN-051 'deploy works' + technical row 17 (Render deployment succeeds, open the live URL) - NOT EXECUTABLE from this harness (network egress forbidden by coding standards; no Render account token in scope). t26 ships the artifacts (render.yaml web+db free tier, healthCheckPath, deploy.yml hook+health-retry) and t28 records the row DEFERRED with the operator live-check command. Recorded deferral, never faked (plan.md phase_5 ruling 5).",
+        "REQ-TECH-062 / REQ-CICD-041 'UptimeRobot monitor exists' (Should) - the external monitor is a live-account artifact; t26 ships the README 10-minute-ping notice text (REQ-CICD-042/043 halves) and t28's deferral register carries the monitor row.",
+        "REQ-TECH-040/041/042 + REQ-CICD-020..024 EXECUTION half (docker build / docker compose up, technical rows 5/6, REQ-PLAN-051 'Docker build works; full stack runs') - MEASURED host fact: docker CLI 29.8.2 exists but the daemon is unreachable (npipe //./pipe/dockerDesktopLinuxEngine missing; WSL has no docker). Verification is structural (yaml/grep parses via already-installed PyYAML 6.0.3 + js-yaml 4.1.0) per ruling 1; t28 records the two live rows DEFERRED with the operator command.",
+        "REQ-TEST-042/043/044 'run E2E' execution half + REQ-PLAN-051 'E2E passes' + technical row 4 (make e2e) - WSL playwright CLI 1.58.0 exists but the browser store (~/.cache/ms-playwright) is ABSENT and downloading requires forbidden egress. t27 lands config/fixtures/three specs verified structurally (node --experimental-strip-types --check + pinned greps); first real run is the t26 e2e.yml on a browser-equipped runner; t28 records the deferral explicitly (ruling 3).",
+        "REQ-CICD-011/012/013 EXECUTION half (CI actually runs, workflow outputs observed; technical rows 7/8/9/10) - GitHub Actions cannot be triggered from this harness; the workflow YAMLs are gated structurally (js-yaml asserts of jobs/triggers/steps/caching/concurrency/permissions) and t28 maps rows 7-10 as structural attestation of the definitions.",
+        "REQ-TECH-061 / REQ-CICD-033/040 free-tier-limit and cold-start DOCUMENTATION rows - the README text lands in t26 ac5 (limits + cold-start + UptimeRobot + peer-review note); the live cold-start measurement (technical row 11, REQ-PROD-020 Should) stays a live-only row in t28's deferral register.",
+        "REQ-OPS chapter docs (runbook/health-check/diagnosis/logging, REQ-OPS-002/020..028/030) and ops/deployment-health.md records (REQ-CICD-061/062) - phase_7_security_ops owns the ops/ tree (survey ruling 6); only REQ-OPS-015 (render.yaml healthCheckPath) is consumed here, in t26 ac4.",
+        "REQ-PROD-035 concurrent-budget scenario - unchanged carry-forward from phase_3/phase_4 surveys; t25 covers the startup-unreachable/recovery-restart/fallback-database halves (the code path), the concurrency scenario stays an ops/phase_7-8 walkthrough row.",
+        "REQ-PLAN-050 tasks 5.13/5.14 (first deploy, UptimeRobot setup) - live-account tasks folded into the t28 deferral register, not into any builder card."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 8,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "GRANULARITY NOTE: max_acs=6 hit by every card (warn_only; each AC mechanically checkable). max_files=4 exceeded nominally by t24 (4 - at budget), t26 (6: 3 workflows + render.yaml + Makefile + README) and t27 (8: package.json + config + 2 fixtures + 3 specs + Makefile); every affected card states the warn_only deviation in Constraints - the pipeline and harness verticals must not be split. max_diff_lines=300 likely exceeded by t26/t27/t28 - warn_only, stated in-file.",
+      "ROLLING PLANNING for a NEW milestone against verified merged reality (main @ 1637162; premises re-verified at survey: merge_test_index has exactly 120 entries with anchors #17=t2/#55=t9 whose dependency legs cover ONLY the styled-family/date-fns/recharts surface (neither reads e2e/ or root package.json); backend 230 nodes / frontend 187 nodes in 30 files; lint baseline exactly 4 warnings; tsc rc=0; alembic single head 005; .github/workflows/, e2e/, ops/ contain only their t0 .gitkeep files; Makefile target set measured {setup,setup-backend,setup-frontend,frontend-deps,dev,dev-backend,dev-frontend,test,test-backend,test-frontend,lint,lint-backend,lint-frontend,down,migrate,seed,e2e,security} - the four REQ-TEST-050 split/cov targets are MISSING and e2e is a stub echo; routers/health.py:15 still carries the phase-1 constant DATABASE_BACKEND: Final = 'postgresql' and fallback_active=False; database.py docstring itself names phase_5_infra as the owner of the PostgreSQL/fallback branch; platform issues #22-#26 verified CLOSED so #27+ were free). N=5 issues t24..t28 mapped onto the 15 tasks of Chapter 17 section 17.6.2: 5.1/5.2->t24, 5.4->t25, 5.3/5.5/5.6/5.7/5.8/5.11/5.12(partial)/5.15(README half)->t26, 5.9/5.10 + Makefile e2e->t27, section 17.6.4 verification (5.13/5.14 folded into the deferral register)->t28. batch_size=min(5,max(1,ceil(5/3)))=2; batches [t24,t25],[t26,t27],[t28]; every file written in its own write call, each batch persisted before the next.",
+      "MANDATORY DECISION 1 (verification modality) - STATIC/STRUCTURAL + HERMETIC EXECUTION ONLY, ruled per-AC and pinned in plan.md phase_5 ruling 1. Measured host facts recorded at survey: docker CLI 29.8.2 (win32, C:/Program Files/Docker/Docker/resources/bin) with daemon DOWN ('failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine', rc=1) and WSL without docker ('could not be found in this WSL 2 distro'); GitHub Actions untriggerable; Render unreachable and egress forbidden. NO AC in the milestone has docker build/compose up/workflow execution as its gate. Structural gates use ONLY already-installed parsers (js-yaml 4.1.0 root dependency - measured require works, PyYAML 6.0.3 inside the merged backend venv - measured import works), so ZERO new dependencies. Executable behavior (fallback timing, live health states) runs hermetically via TestClient + private sqlite + pinned unroutable loopback PostgreSQL URL (the t23 recipe). Script-generated evidence docs (t23 precedent) are the accepted evidence form. Every gate is hermetic, deterministic, and fail-before-capable: RED at base 1637162 (artifacts absent / phase-1 constant present), GREEN after merge.",
+      "MANDATORY DECISION 2 (SQLite fallback) - ruled a PRODUCT-CODE change (not config-only) and owned SOLELY by t25; it is the only product-code delta of the milestone. Scope: create_db_engine PostgreSQL branch (5s timeout constant, WARNING log, pinned target sqlite:///./fallback.db, startup-only), startup create_all + merged seed routine (REQ-DB-083: never Alembic), live health (database from engine dialect, status from fallback_active). Contract safety verified at survey: merged test_health_api.py asserts only domain checks ({'postgresql','sqlite'} / {'ok','degraded'} / (status=='ok') is (fallback_active is False)) and the 4-field schema already admits the live values, so all merged health titles/assertions stay byte-identical and green; the fail-before anchor is the deletion of DATABASE_BACKEND at routers/health.py:15. New tests land in ONE new file with frozen byte-exact titles pinned at groom; index mutations append-only.",
+      "MANDATORY DECISION 3 (Playwright) - binary usable? NO for execution: WSL /usr/local/bin/playwright v1.58.0 exists but 'playwright install --dry-run' shows the browser store absent (~/.cache/ms-playwright nonexistent; chromium/firefox/webkit all uninstalled) and install requires forbidden network egress. RULING: offline/static alternative - specs/config/fixtures verified structurally (syntax via node 24.16.0 --experimental-strip-types --check, measured at survey: valid TS rc=0 / invalid rc=1, WITHOUT installing playwright types; pinned content greps), EXECUTION EXPLICITLY DEFERRED to the e2e.yml runner and recorded in t28's deferral register. Dev-tooling admission: @playwright/test pinned EXACTLY 1.58.0 (the version already in the WSL toolchain) in a NEW isolated e2e/package.json ONLY - root and frontend manifests frozen (t25/t26/t27/t28 all carry diff-empty manifest gates), so the amended index anchors #17/#55 dependency legs (styled-family+date-fns forbidden / recharts==2.15.4) cannot collide: neither entry reads e2e/. e2e/ stays outside root tsconfig include and both eslint scopes so tsc rc=0 and the exactly-4-warning baseline are provably unmoved (t27 ac5).",
+      "MANDATORY DECISION 4 (new deps policy) - ZERO new product deps. The single dev-tooling admission is the isolated e2e/package.json above. js-yaml and PyYAML are already installed (measured) and are the sanctioned YAML gate tooling - no install steps in any AC.",
+      "MANDATORY DECISION 5 (N and slicing) - N=5: t24 containers (Dockerfile/compose/.dockerignore/README modes), t25 fallback (product delta), t26 CI/CD+Render (3 workflows + render.yaml + Makefile completion + README deploy notice), t27 Playwright harness, t28 verification card (t15/t23 pattern: script-generated infra_verification.md with CHECK/ATTEST/DEFER tokens). One green gate per issue: every card ends with an ac6/ac5 no-drift composite (backend >=230 + ruff + mypy + head 005; frontend >=187/0/0/0 + tsc + 4-warning lint; index >=120 append-only with anchors #17/#55 byte-unchanged AND executing green).",
+      "DAG: 29 nodes / 45 edges; programmatic DFS: 0 cycles, 0 orphans, Kahn topological order covers all 29 nodes. t25 deliberately depends on t23 ONLY (not t24): the fallback vertical is pure product code sharing no artifact with the containers card, and this flattening keeps the longest dependency chain at 19 edges (t0..t28 critical path t0,t1,t4,t5,t6,t7,t8,t11,t13,t14,t16,t17,t20,t21,t22,t23,t24,t26,t27,t28) - exactly at limits.dep_chain_warn=10 (WARN ONLY, long surpassed in prior milestones) but BELOW dep_chain_halt=20 by one edge (a t25->t24 serial edge would have made it 20 = the halt threshold; the parallel t24/t25 fan-out from t23 is the recorded mitigation). t26 depends on both t24 (compose/Dockerfile are its workflow subjects) and t25 (health semantics); t27 on t26 (e2e.yml consumes make e2e); t28 on t26+t27 (transitively covers t24/t25).",
+      "Verification commands: every issue carries the survey PLACEHOLDER section with groom-pinned constraints (hermetic-only tooling, CRLF-tolerant [[:space:]]*$ greps, one-line commands, || exit 1 mechanics, NEVER vitest -t, pytest node IDs proven to exist, make -n for the e2e target, no docker/workflow execution, fail-before at 1637162). t28's placeholder pins the t23 evidence-doc pattern (backup/re-run/restore byte-stability, DEFERRED/PASS mutual-exclusion grep).",
+      "Platform API: bodies 5-8 KB each (well under the 32,767B Windows ceiling) so the direct node.exe -> node_modules/tsx/dist/cli.mjs -> platform.ts recipe was used from MAIN with win32 node (WSL node breaks esbuild - t18..t23 WAL note). Created with labels 'defined': t24=#27, t25=#28, t26=#29, t27=#30, t28=#31; ALL 5 verified open/[defined]/correct-title via issue get (the get projection omits body, matching every prior phase). The three dependency-section corrections (t25/t26/t28 DAG flattening) were synced back via 'issue update --body' (rc=0 x3).",
+      "Milestone file docs/state/milestones/phase_5_infra.json written (survey.md Step 8; triggers Orchestrator review_plan). Backlog: t19..t23 rows corrected 'defined'->'closed' (stale post-merge, same fix as the phase_4 survey) and t24..t28 appended. issue_map.json extended to t28->31. plan.md phase_5 section refined from the placeholder into the 5-card split + 6 pinned rulings (survey's plan.md mutation, same shape as the phase_4 precedent).",
+      "PRE-OUTPUT CHECKLIST: docs/requirements.md exists + non-empty + Tech stack/Core features present (plan.md already on tree -> Step 2 skipped, section refined in place per phase_4 precedent) PASS; factpack read (facts.tech_stack/commands_md/coding_standards_md/config_subset/issue_map used; requirements.md chapters read directly for REQ ids) PASS; N=5, batch_size=2, 3 batches, each file its own write call PASS; all 5 issues have frontmatter (id/title/depends/platform_issue) + Metadata/Goal/AC draft/Verification placeholder/Dependencies/Constraints/DoD PASS; DAG 0 cycles / 0 orphans / topo verified programmatically PASS; backlog + issue_map + milestone + dag.json + dag.mmd written PASS; 5 Platform issues created via scripts/platform.ts (no curl) and verified PASS; output conforms to schemas/definer/survey.json ([OK] validated below) PASS; reached_state=defined PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t24.md",
+      "docs/issues/t25.md",
+      "docs/issues/t26.md",
+      "docs/issues/t27.md",
+      "docs/issues/t28.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_5_infra.json",
+      "docs/state/outputs/t24_definer_survey.json"
+    ],
+    "platform_issue": 27,
+    "output_path": "docs/state/outputs/t24_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T15:55:00Z",
+  "retry_count": 0
+}

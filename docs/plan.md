@@ -356,9 +356,103 @@ REQ-FE-051 observability closes here).
 
 ## phase_5_infra — Container, CI/CD, Deployment (Phases 5 + 8 deploy items)
 
-Scope: Dockerfiles, Docker Compose (db + app), Render deployment, GitHub
-Actions ci.yml/e2e.yml, Playwright E2E, SQLite fallback (REQ-PROD-017,
-REQ-TECH-040 … 062). Refined by survey when this milestone begins.
+Survey (2026-10-09) refined this placeholder into five issues (t24..t28)
+mapped onto the 15 tasks of Chapter 17 §17.6.2 (5.1..5.15) against merged
+phase_4 reality (main @ 1637162: FastAPI + uv + alembic heads == 005, 230
+backend nodes / 187 frontend nodes in 30 files, merge_test_index 120 entries
+with amended anchors #17 (t2) / #55 (t9), lint baseline exactly 4 warnings,
+`tsc --noEmit` rc=0, `.github/workflows/` holds only the t0 `.gitkeep`,
+`e2e/` and `ops/` likewise, health.py reports the honest phase-1 statics
+(`DATABASE_BACKEND: Final = "postgresql"`, `fallback_active = False`),
+`create_db_engine` carries NO PostgreSQL branch — the docstring names
+phase_5_infra as its owner, and `Makefile` ships only {setup, setup-backend,
+setup-frontend, frontend-deps, dev, dev-backend, dev-frontend, test,
+test-backend, test-frontend, lint, lint-backend, lint-frontend, down,
+migrate, seed, e2e, security} — the REQ-TEST-050 `e2e` target is a stub echo
+and `test-backend-unit` / `test-backend-integration` / `*-cov` do not exist).
+
+**Survey rulings (pinned; groom may refine wording, not these decisions):**
+
+1. **VERIFICATION MODALITY = STATIC/STRUCTURAL + HERMETIC EXECUTION; the
+   docker daemon, GitHub Actions and Render are UNAVAILABLE on this host
+   (measured, not assumed).** `docker` CLI 29.8.2 exists under
+   `C:\Program Files\Docker\Docker\resources\bin` but `docker version` fails:
+   `npipe:////./pipe/dockerDesktopLinuxEngine … cannot find the file
+   specified` (Docker Desktop is not running) and WSL has no docker at all.
+   GitHub Actions cannot be triggered from this harness and Render cannot be
+   reached (network egress is forbidden by coding_standards). RULING: every
+   infra AC is verified by (a) file presence, (b) YAML parse + schema
+   assertions through the ALREADY-INSTALLED parsers — `js-yaml` ^4.1.0 is a
+   root dependency and PyYAML 6.0.3 is resolvable in the merged backend venv
+   (`uv run python -c "import yaml"`) — so NO new dependency is needed, and
+   (c) hermetic execution of the behavior the artifact encodes (TestClient
+   over `create_app` with a private sqlite `get_db` override, per the t23
+   recipe). Script-generated evidence documents (t23 precedent) are the
+   accepted evidence form for the live-later rows. `docker build` /
+   `docker compose up` are NOT verification commands for any AC in this
+   milestone; they become the operator's live check (recorded in
+   `ops/deployment-health.md`). Every gate stays hermetic, deterministic and
+   fail-before-capable: each AC command must be provably RED at base
+   `1637162` (the artifacts do not exist yet) and GREEN after the merge.
+2. **SQLite fallback (REQ-PROD-017 / REQ-BE-130..133) is a PRODUCT-CODE
+   change and is the ONLY product-code delta of the milestone. It is owned
+   SOLELY by t25** (`backend/app/database.py` + `backend/app/routers/health.py`
+   + one new test file). Contract safety: the merged four-field health schema
+   (`DatabaseBackend = Literal["postgresql","sqlite"]`) already admits the
+   live values, and the merged `test_health_api.py` assertions are
+   `database in {"postgresql","sqlite"}`, `status in {"ok","degraded"}` and
+   `(status=="ok") is (fallback_active is False)` — all of which stay
+   BYTE-IDENTICAL and GREEN once `database` is derived from the live engine
+   dialect and `status` is derived from `fallback_active`. The fail-before
+   anchor is the phase-1 constant `DATABASE_BACKEND: Final[DatabaseBackend] =
+   "postgresql"` (routers/health.py:15): a gate that asserts its absence is
+   RED at base and GREEN after t25. REQ-DB-083 is honored — fallback uses
+   `create_all()` + the merged `app.scripts.seed` routine, never Alembic.
+   Any NEW backend test lands with frozen byte-exact titles pinned at groom.
+3. **Playwright is a DEV TOOLING admission in a NEW isolated workspace
+   `e2e/package.json` (t27), pinned exactly `@playwright/test` 1.58.0** — the
+   version already present in WSL at `/usr/local/bin/playwright`. RULING on
+   executability: the browser store is ABSENT
+   (`~/.cache/ms-playwright` does not exist; `playwright install --dry-run`
+   shows chromium/firefox/webkit all uninstalled) and downloading browsers
+   requires network egress, which the coding standards forbid. Therefore the
+   three E2E specs are verified **structurally** in this milestone (config +
+   fixture + spec content gates via js-yaml/TS-source assertions) and
+   EXECUTION IS EXPLICITLY DEFERRED to the `e2e.yml` CI run on a
+   browser-equipped runner — recorded as a deferral in the survey
+   `coverage_check` and in `docs/criteria/infra_verification.md`. No new
+   dependency touches the root `package.json` or `frontend/package.json`, so
+   the amended index anchors #17 (t2) / #55 (t9) dependency legs
+   (styled-family + date-fns forbidden, recharts == 2.15.4) are untouched:
+   neither leg reads `e2e/package.json`, no index entry gains a dependency
+   leg, and the entry count only grows by append. `e2e/` is deliberately
+   excluded from the root tsconfig `include` and from `frontend/.eslintrc`
+   scope so `tsc --noEmit` rc=0 and the exactly-4-warning lint baseline stay
+   green without any Playwright type install.
+4. **N = 5 issues.** batch_size = min(5, max(1, ceil(5/3))) = 2 → batches
+   [t24,t25], [t26,t27], [t28]; each file written in its own write call.
+   Slices: t24 containers (Dockerfile + docker-compose.yml + .dockerignore +
+   README local-modes), t25 SQLite fallback + live health (the product
+   delta), t26 CI/CD + Render (three workflows + render.yaml + Makefile
+   targets), t27 Playwright harness (config, fixtures, three specs,
+   e2e/package.json), t28 milestone verification card (t15/t23-style
+   script-generated evidence doc).
+5. **Live-only requirements are DEFERRED with recorded evidence, never
+   faked.** REQ-TECH-060 (open the live URL), REQ-TECH-062 / REQ-CICD-041
+   (UptimeRobot monitor exists), REQ-CICD-036 (first deploy) and
+   REQ-PLAN-051's "deploy works / E2E passes / UptimeRobot active" rows
+   cannot be executed from this harness. t26 ships the artifacts they depend
+   on (`render.yaml` with `healthCheckPath`, deploy-hook + health-retry
+   `deploy.yml`, README cold-start notice) and t28 records each live row as
+   `DEFERRED <reason>` in `docs/criteria/infra_verification.md`. A deferred
+   row is never written as PASS.
+6. **Scope boundaries against later milestones (no card drift).**
+   `ops/` documentation (REQ-OPS-002/020..028/030/040 runbook, health-check,
+   diagnosis, logging) and every security-scan artifact stay with
+   phase_7_security_ops; the full README/docs tree and criteria-table
+   restatement stay with phase_8_docs. t24/t26 therefore add only the README
+   sections their own artifacts require (local dev modes; deploy + cold-start
+   notice), README staying under 500 lines (116 today).
 
 ## phase_6_agent — Agent Extension Pack (Phase 6)
 
