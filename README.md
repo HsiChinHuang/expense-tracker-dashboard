@@ -6,6 +6,31 @@ Chapter 17 for the development plan). This repository is under active
 development; phase 1 provides the project skeleton, health endpoint, and the
 command surface documented below.
 
+## Features
+
+| Feature | Status | Evidence |
+|---|---|---|
+| Expense tracking (auth, categories, expenses, budgets, audit) | merged | `docs/issues/closed/` |
+| Dashboard (KPI cards, five charts, month switch, recent list) | merged (phase 4) | `docs/criteria/dashboard_verification.md` |
+
+The dashboard feature is verified hermetically by
+`backend/scripts/dashboard_verification.py`, whose generated evidence lives in
+`docs/criteria/dashboard_verification.md` (REQ-PLAN-041 cross-checks,
+criteria-table rows 17-26/32, recorded REQ-PROD-020 timings).
+
+### Dashboard API endpoints
+
+All six endpoints require a bearer token and are read-only:
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/v1/dashboard/summary?year_month=YYYY-MM` | Seven-key monthly summary (total, budget, remaining, percentage, over-budget, category count) |
+| GET | `/api/v1/dashboard/by-category?year_month=YYYY-MM` | Category breakdown, amount-descending |
+| GET | `/api/v1/dashboard/trend?months=N` | Contiguous month trend (1..24, default 6), empty months included |
+| GET | `/api/v1/dashboard/cumulative?year_month=YYYY-MM` | One cumulative point per calendar day |
+| GET | `/api/v1/dashboard/heatmap?weeks=N` | Monday-aligned seven-day heatmap rows (1..52, default 12) |
+| GET | `/api/v1/dashboard/recent?limit=N` | Newest expenses (1..50, default 10) |
+
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) (provides `uv`; typically installed to `~/.local/bin`)
