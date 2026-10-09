@@ -1,0 +1,116 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t25",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run python -c \"from sqlalchemy.exc import SQLAlchemyError, TimeoutError as SQT; from app import database as d; assert issubclass(SQT, SQLAlchemyError); assert d.DB_CONNECT_TIMEOUT == 5; assert isinstance(d.DB_CONNECT_TIMEOUT, int); assert d.FALLBACK_DATABASE_URL == \\\"sqlite:///./fallback.db\\\"; assert d.IS_FALLBACK is False; assert callable(d.is_fallback); assert d.is_fallback() is False; assert callable(d.initialize_database); assert d.create_db_engine(\\\"sqlite:///:memory:\\\") is not None; assert d.is_fallback() is False\" >/dev/null 2>&1 || exit 1; cd .. || exit 1; grep -qE \"^import logging\" backend/app/database.py || exit 1; grep -qE \"^logger = logging.getLogger\" backend/app/database.py || exit 1; grep -qE \"\\.warning\\(\" backend/app/database.py || exit 1; grep -qE \"except \\(SQLAlchemyError, OSError, ImportError\\)\" backend/app/database.py || exit 1; grep -qE \"from app\\.database import.*is_fallback\" backend/app/routers/health.py || exit 1; grep -qE \"from app\\.database import.*initialize_database\" backend/app/main.py || exit 1; grep -qE \"initialize_database\\(engine\\)\" backend/app/main.py || exit 1; grep -qE \"startup\" backend/app/main.py || exit 1; grep -qE \"get_backend_name\\(\\)\" backend/app/routers/health.py || exit 1; grep -qE \"state\" backend/app/routers/health.py || exit 1; ! grep -qE \"DATABASE_BACKEND\" backend/app/routers/health.py || exit 1; ! grep -qE \"except Exception\" backend/app/database.py || exit 1; ! grep -qE \"from alembic|import alembic\" backend/app/database.py || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (1.9 s): symbol pins live-asserted (DB_CONNECT_TIMEOUT==5, FALLBACK_DATABASE_URL, IS_FALLBACK False at import, is_fallback()/initialize_database callable, sqlite engine builds); named catch except (SQLAlchemyError, OSError, ImportError) present; logger .warning present; health.py imports is_fallback + get_backend_name(), DATABASE_BACKEND token ABSENT (negative grep); main.py startup wiring; no except Exception / no alembic import in app/database.py"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest tests/unit/test_sqlite_fallback.py::test_refused_postgres_url_falls_back_under_five_seconds -q >/dev/null 2>&1 || exit 1; m=$(grep -oE \"FALLBACK_TIMING_REFUSED elapsed=[0-9]+\\.[0-9]+ fallback=true rc=0\" tests/sqlite_fallback_evidence.txt | head -1); [ -n \"$m\" ] || exit 1; s=$(printf \"%s\" \"$m\" | sed -E \"s/.*elapsed=([0-9]+\\.[0-9]+).*/\\1/\"); [ -n \"$s\" ] || exit 1; awk -v s=\"$s\" \"BEGIN { exit (s + 0 < 5) ? 0 : 1 }\" || exit 1; uv run pytest tests/unit/test_sqlite_fallback.py::test_startup_passes_connect_timeout_from_the_named_constant tests/unit/test_sqlite_fallback.py::test_startup_initializes_the_fallback_target_once -q >/dev/null 2>&1 || exit 1; grep -qE \"FALLBACK_SEED_COUNT 10 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_CREATE_ALL_CALLS 1 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_TABLES users,categories,expenses,budgets,audit_logs rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_CAPS connect_timeout=5 attempted=postgresql\\+psycopg fallback=true rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_NO_ALEMBIC_IMPORT alembic=absent rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; cd .. || exit 1; grep -qE \"backend/tests/sqlite_fallback_evidence\\.txt\" .gitignore || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (11.4 s): stale evidence file DELETED before run so all greps prove fresh execution; fresh evidence FALLBACK_TIMING_REFUSED elapsed=0.195 (parsed, awk-gated < 5), FALLBACK_CAPS connect_timeout=5 attempted=postgresql+psycopg, FALLBACK_SEED_COUNT 10, FALLBACK_CREATE_ALL_CALLS 1, FALLBACK_TABLES users,categories,expenses,budgets,audit_logs, FALLBACK_NO_ALEMBIC_IMPORT alembic=absent; .gitignore line present"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_degraded_sqlite_true_when_fallback_is_active\" \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_ok_sqlite_false_for_a_plain_sqlite_app\" \"tests/integration/test_sqlite_fallback_api.py::test_health_body_keeps_exactly_the_four_documented_fields\" -q >/dev/null 2>&1 || exit 1; uv run pytest tests/integration/test_health_api.py tests/integration/test_database.py -q >/dev/null 2>&1 || exit 1; cd .. || exit 1; test -f backend/tests/unit/test_sqlite_fallback.py || exit 1; test -f backend/tests/integration/test_sqlite_fallback_api.py || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") rev-parse HEAD:backend/tests/integration/test_health_api.py\" | tr -d \"\\r\" | grep -qE \"^2b71b7feab4152d1804b66e11dc0f3882bacb684$\" || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") rev-parse HEAD:backend/tests/integration/test_database.py\" | tr -d \"\\r\" | grep -qE \"^8cdb538e4f93c527cdbccf2840cee959311b9b7d$\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (17.7 s): 3 new health nodes green; merged test_health_api.py + test_database.py green; diff-clean AND porcelain-clean for both; rev-parse HEAD blobs == 2b71b7feab4152d1804b66e11dc0f3882bacb684 / 8cdb538e4f93c527cdbccf2840cee959311b9b7d (also re-verified independently outside the command)"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest \"tests/integration/test_sqlite_fallback_api.py::test_all_merged_endpoints_answer_their_contracts_while_fallback_is_active\" \"tests/integration/test_sqlite_fallback_api.py::test_restart_during_fallback_rebuilds_an_empty_but_seeded_database\" \"tests/integration/test_sqlite_fallback_api.py::test_startup_without_fallback_initializes_no_schema_and_seeds_nothing\" -q >/dev/null 2>&1 || exit 1; grep -qE \"FALLBACK_ENDPOINTS register=201 login=200 expense=201 budget=200 health=200 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_RESTART users=0 categories=10 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_STARTUP_PRIMARY users=0 categories=0 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; cd .. || exit 1; grep -qE \"^import logging\" backend/app/main.py || exit 1; grep -qE \"^logger = logging.getLogger\" backend/app/main.py || exit 1; grep -qE \"\\.info\\(\" backend/app/main.py || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (9.3 s): fresh evidence FALLBACK_ENDPOINTS register=201 login=200 expense=201 budget=200 health=200, FALLBACK_RESTART users=0 categories=10, FALLBACK_STARTUP_PRIMARY users=0 categories=0; main.py import logging / logger / .info present"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && n=$(uv run pytest --collect-only -q tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py 2>/dev/null | grep -c \"::\"); [ \"$n\" -eq 11 ] || exit 1; uv run pytest tests/unit/test_sqlite_fallback.py::test_sqlite_url_keeps_pragma_and_reports_no_fallback tests/unit/test_sqlite_fallback.py::test_startup_probes_the_primary_once_and_then_stops \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_degraded_sqlite_true_when_fallback_is_active\" -q >/dev/null 2>&1 || exit 1; uv run ruff check app/database.py app/routers/health.py app/main.py tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py >/dev/null 2>&1 || exit 1; uv run mypy app/database.py app/routers/health.py app/main.py tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py >/dev/null 2>&1 || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; f=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --name-only HEAD -- backend/alembic\" | tr -d \"\\r\"); [ -z \"$f\" ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (27.1 s): collect-only over the two new files counts exactly 11 '::' entries; sampled nodes green; ruff + mypy strict clean on all 5 touched files; alembic single head '005 (head)'; git diff --name-only HEAD -- backend/alembic empty; merged health/database test files diff-clean"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | grep -qE \"^241 tests collected\" || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); [ \"$n\" -ge 241 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; uv run mypy . >/dev/null 2>&1 || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/pyproject.toml backend/uv.lock frontend/package.json\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend/pyproject.toml backend/uv.lock frontend/package.json\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<120){console.error(\\\"index shorter than 120\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 (2 m 27 s): '241 tests collected' + >=241 '::' nodes; full backend suite green; ruff + mypy clean; single head 005; pyproject/uv.lock/package.json diff- AND porcelain-empty; vitest 187 passed/0 failed/0 pending/0 todo; tsc rc=0; lint exactly 4 react-refresh warnings; merge index 120 entries, tests[16]=t2 / tests[54]=t9, both stored commands re-executed green"
+      }
+    },
+    "test_summary": {
+      "total": 241,
+      "passed": 241,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_six_acs_verified_by_pinned_commands": true,
+      "five_files_plus_one_gitignore_line_zero_frontend_zero_manifests": true,
+      "backend_241_green_ruff_mypy_strict_alembic_single_head_005": true,
+      "merged_health_and_database_test_files_byte_identical_merged_nodes_green": true,
+      "frontend_187_0_0_0_tsc_0_lint_exactly_4_warnings_index_120_anchors_green": true,
+      "conventional_commit_feat_t25_on_issue_branch_no_push": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:2214430a83278552143b8c6c7cdcafabe0bc0a2749bc29b57ee05cd74c2e9077",
+    "ac_hash_match": true,
+    "ac_hash_canonical_variant": "heading-exclusive: text between '## Acceptance criteria\\n' and '\\n## Verification commands' of git show 8231db7:docs/issues/t25.md, CRLF->LF, per-line right-trim, join with \\n, outer trim, sha256",
+    "branch_sha": "8231db751b5b53a19f04d05449300cd7fe56b946",
+    "independent_legs": {
+      "backend_pytest": "241 passed / 0 failed (85.03 s, uv run pytest -q)",
+      "backend_collect_only": "prints '241 tests collected'; '::' node count = 241 (>= 241 floor)",
+      "ruff": "All checks passed! (rc=0, repo-wide)",
+      "mypy": "Success: no issues found in 82 source files (rc=0, repo-wide)",
+      "alembic_heads": "single line '005 (head)' (rc=0)",
+      "frontend_vitest": "187 passed / 0 failed / 0 pending / 0 todo (json reporter, rc=0)",
+      "tsc_noEmit": "rc=0 (cmd.exe, frontend worktree)",
+      "npm_run_lint": "rc=0, exactly 4 react-refresh/only-export-components warnings",
+      "merge_test_index": "120 entries; tests[16].issue_id=t2, tests[54].issue_id=t9; both stored commands re-executed rc=0",
+      "frozen_11_nodes": "issue-extracted ID list vs collect-only over the two new files: 11 vs 11, zero missing, zero extra (byte-exact)"
+    },
+    "premise_checks": {
+      "delta_paths": "git diff --name-only ffcad15..HEAD == exactly the 6 feat paths (.gitignore, backend/app/database.py, backend/app/main.py, backend/app/routers/health.py, backend/tests/integration/test_sqlite_fallback_api.py, backend/tests/unit/test_sqlite_fallback.py) plus docs/state/outputs/t25_builder_build.json (builder handoff commit 8231db7, non-code artifact)",
+      "merged_blob_hashes": "rev-parse HEAD:backend/tests/integration/test_health_api.py == 2b71b7feab4152d1804b66e11dc0f3882bacb684; HEAD:backend/tests/integration/test_database.py == 8cdb538e4f93c527cdbccf2840cee959311b9b7d",
+      "alembic_and_manifests": "git diff HEAD -- backend/alembic backend/pyproject.toml backend/uv.lock frontend/package.json empty; .gitignore diff ffcad15..HEAD == exactly one added line backend/tests/sqlite_fallback_evidence.txt",
+      "database_py_hygiene": "no 'except Exception', no alembic import in app/database.py (HEAD blob greps, rc=1); catch is the named tuple; engine built only inside the startup handler in main.py",
+      "health_py_negative_grep": "DATABASE_BACKEND token absent from HEAD blob of app/routers/health.py",
+      "uncommitted_artifacts": "git ls-tree -r HEAD contains NO sqlite_fallback_evidence.txt and NO fallback.db; backend/fallback.db absent on disk after runs (tests chdir to tmp_path)",
+      "worktree_clean": "git status --porcelain empty before AND after all AC executions (evidence file + build/ scratch gitignored)",
+      "feat_tip_ancestor": "7a4fbca is an ancestor of HEAD 8231db7; 8231db7 adds only the builder handoff JSON",
+      "ac_command_extraction": "6 fenced bash blocks extracted from git show 8231db7:docs/issues/t25.md (CRLF->LF), written to gitignored scratch acN.sh; bash -n clean all 6; 0 CR bytes; executed byte-identical via bash acN.sh </dev/null from worktree root; byte-identical to builder ac_mapping.test AND groom verification_commands (machine-compared, True x12)",
+      "evidence_freshness": "backend/tests/sqlite_fallback_evidence.txt (gitignored, test-written) DELETED before ac execution; 43 lines accumulated across the runs, every grep-anchored token freshly written",
+      "test_quality": "46 meaningful assertions across the two new files; no assert True; autouse fixture resets IS_FALLBACK + get_settings.cache_clear() before and after every node; 'with TestClient(' appears only in the two new files"
+    },
+    "notes": "Independent verification: all six pinned commands re-run from scratch at HEAD 8231db7 (builder-claimed 6/6 rc=0 CONFIRMED, not trusted). ac_hash recomputed heading-exclusive from the HEAD blob and MATCHES the groom-pinned 2214430a8327.... [VENV_UNAVAILABLE] logged (UV_PROJECT_ENVIRONMENT/PYTHONPATH empty); the pre-existing per-worktree backend/.venv was used, no reinstall. Deviations per issue Constraints (warn_only, recorded): max_files 4 exceeded by ONE new test file; max_diff_lines 300 exceeded (765 insertions) - both explicitly sanctioned in the issue Constraints section. Labels: platform #28 set to [defined,verified] via label set; verify-report comment posted (duplicate-checked: latest comment was the groom report, no prior VERIFIER verdict). No push performed; worktree not pruned; t24 worktree and MAIN working tree untouched."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t25_verifier_verify_issue.json"
+    ],
+    "platform_issue": 28,
+    "output_path": "docs/state/outputs/t25_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T18:00:02Z",
+  "retry_count": 0
+}
