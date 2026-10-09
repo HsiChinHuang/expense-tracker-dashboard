@@ -8,8 +8,14 @@
 // anchor when no router context exists (useInRouterContext), so the same
 // component renders real <Link>s in the app and inert anchors in the
 // router-less unit test.
+//
+// t22 ADDS exactly two things: the Dashboard nav link (same guard-wrapped
+// NavLink, now to "/") and the content outlet — useOutlet() renders the
+// nested index route (DashboardPage) inside the routed app and is null in
+// the router-less frozen test, where the ?? fallback keeps the original
+// placeholder <p> byte-for-byte. app_shell.test.tsx is NOT edited.
 
-import { Link, useInRouterContext } from 'react-router-dom';
+import { Link, useInRouterContext, useOutlet } from 'react-router-dom';
 
 interface NavLinkProps {
   to: string;
@@ -34,18 +40,21 @@ const NavLink = ({ to, children }: NavLinkProps): JSX.Element => {
   );
 };
 
-export const AppShell = (): JSX.Element => (
-  <div className="min-h-screen flex flex-col bg-slate-50">
-    <header className="flex items-center justify-between p-4 bg-white shadow">
-      <h1 className="text-xl font-semibold text-slate-900">Expense Tracker</h1>
-      <nav className="flex gap-4">
-        <span className="text-slate-500">Dashboard</span>
-        <NavLink to="/budgets">Budget</NavLink>
-        <NavLink to="/categories">Categories</NavLink>
-      </nav>
-    </header>
-    <main className="flex-1 p-4">
-      <p className="text-slate-600">Frontend skeleton is running.</p>
-    </main>
-  </div>
-);
+export const AppShell = (): JSX.Element => {
+  const outlet = useOutlet();
+  return (
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <header className="flex items-center justify-between p-4 bg-white shadow">
+        <h1 className="text-xl font-semibold text-slate-900">Expense Tracker</h1>
+        <nav className="flex gap-4">
+          <NavLink to="/">Dashboard</NavLink>
+          <NavLink to="/budgets">Budget</NavLink>
+          <NavLink to="/categories">Categories</NavLink>
+        </nav>
+      </header>
+      <main className="flex-1 p-4">
+        {outlet ?? <p className="text-slate-600">Frontend skeleton is running.</p>}
+      </main>
+    </div>
+  );
+};
