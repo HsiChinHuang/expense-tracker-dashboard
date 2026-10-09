@@ -416,6 +416,20 @@
       "backend_tests": 244,
       "regression_count": 0,
       "notes": "Merged SECOND per merge-order adjudication via MERGE-FIX chain: main.py content conflict (t24 static-mount vs t25 startup wiring) resolved by builder fix_merge 81dad5c6 merge_manual semantic union @ b4b4437 (244/244 integration, static registration after include_router so /api never shadowed). verify_issue PASS (82ba6aa2 7/7) + verify_pre_merge PASS (0338b546 zero-conflict vs pre-t25 base, 120/120). Post-merge main: t24 ac1..ac6 + ac7 composite rc=0 (>=233 immune to +11); t25 ac1..ac5 rc=0; t25 ac6 exact-241 composite EXPECTED-red on merged floor 244 by design (excluded from index). CUMULATIVE 125/125 machine-verified on post-t24 main. Index-append ac1..ac6 (lengths 3197/2555/1002/1050/1696/2773), composite ac7 excluded: 125->131."
+    },
+    {
+      "merge_id": "t26-d3e1845",
+      "issue_id": "t26",
+      "platform_issue": 29,
+      "merged_sha": "d3e1845",
+      "merged_tree": "80ebf32dfc7e9a979660158779f10018ec13f30f",
+      "merged_at": "2026-10-09T22:54:34Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 131,
+      "backend_tests": 244,
+      "regression_count": 0,
+      "notes": "Merged after pre-merge FAIL->fix->PASS re-run: B1 add/add on t26_builder_build.json resolved by adopting branch copy onto MAIN (cfa54ff); B2 stale t0 index entry #5 amended per W2/W3 precedent (6ab7da5, .github guard retargeted to exclude exactly ci/e2e/deploy.yml, e2e leg retired for t27). Real sim merge d39082e tree==merge-tree prediction f0912b19. Cumulative 131/131 + smoke 6/6 + BE 244/244 + mypy-83 + ruff + head-005. Index-append ac1..ac5 (131->136), composite ac6 excluded. Product: .github/workflows/{ci,e2e,deploy}.yml, render.yaml, Makefile 4 targets, README 202. Workflows structurally-verified only (no GH Actions runner; docker daemon down)."
     }
   ]
 }
