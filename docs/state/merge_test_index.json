@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-09T06:54:26Z",
+  "updated_at": "2026-10-09T06:55:22Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -68,7 +68,7 @@
     },
     {
       "issue_id": "t2",
-      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
+      "command": "bash -c 'test -f frontend/package.json && node -e \"const fs=require(\\\"fs\\\");const p=JSON.parse(fs.readFileSync(\\\"./frontend/package.json\\\",\\\"utf8\\\"));const d=Object.assign({},p.dependencies,p.devDependencies);const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^date-fns$/.test(k));if(bad.length){console.error(\\\"forbidden or deferred dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'",
       "note": "lifted react-hook-form+zod per REQ-TECH-006 / t9 ac5 (phase_2 allowance); applied by Orchestrator at t9 merge 2026-10-08; other arms unchanged"
     },
     {
@@ -222,7 +222,7 @@
     },
     {
       "issue_id": "t9",
-      "command": "bash -c 'test -f frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/login\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/register\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/me\" frontend/src/test/handlers.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);const need=[\\\"react-hook-form\\\",\\\"zod\\\"];for(const k of need){if(!d[k]||!/^[0-9]/.test(d[k])){console.error(\\\"missing or unpinned: \\\"+k);process.exit(1)}}const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^(recharts|date-fns)$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
+      "command": "bash -c 'test -f frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/login\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/register\" frontend/src/test/handlers.ts && grep -qE \"api/v1/auth/me\" frontend/src/test/handlers.ts && ! grep -RnE \"from .axios.|[^a-zA-Z0-9_.]fetch\\(\" frontend/src --include=*.ts --include=*.tsx --exclude-dir=api | grep -q . && node -e \"const p=require(\\\"./frontend/package.json\\\");const d=Object.assign({},p.dependencies,p.devDependencies);if(d.recharts!==\\\"2.15.4\\\"){console.error(\\\"recharts must be present at exactly 2.15.4, got: \\\"+d.recharts);process.exit(1)}const need=[\\\"react-hook-form\\\",\\\"zod\\\"];for(const k of need){if(!d[k]||!/^[0-9]/.test(d[k])){console.error(\\\"missing or unpinned: \\\"+k);process.exit(1)}}const bad=Object.keys(d).filter(k=>/^(styled-components|@emotion\\/|styled-jsx|@stitches\\/|@linaria\\/|react-native-css)/.test(k)||/^date-fns$/.test(k));if(bad.length){console.error(\\\"forbidden dependency: \\\"+bad.join(\\\", \\\"));process.exit(1)}\"'"
     },
     {
       "issue_id": "t9",
