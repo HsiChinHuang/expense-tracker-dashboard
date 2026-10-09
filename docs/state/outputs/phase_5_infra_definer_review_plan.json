@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t24",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_5_infra",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t24", "t25", "t26", "t27", "t28"],
+    "findings": [
+      {
+        "issue_id": "t24",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W1 UNREGISTERED MUST GAP — REQ-ARCH-071 ('In production, FastAPI serves the built frontend static files'; Verification: 'Read backend/app/main.py static mounting'; Must) and the SPA-fallback half of REQ-BE-140 (Verification: 'Read backend/app/main.py') are claimed by NO card and appear in NEITHER the survey uncovered_requirements register NOR plan.md's phase_5 rulings. t24's card text explicitly DISCLAIMS the wiring ('SPA static mounting is NOT wired here ... out unless groom rules otherwise') while shipping only the image-copy artifact, and no later milestone (phase_6 agent / phase_7 ops / phase_8 docs) owns backend/app/main.py product code. Verified on-tree: backend/app/main.py has NO static mount today, and no merge_test_index entry asserts one, so nothing regresses — but the Must requirement currently has no owner and no recorded deferral. REMEDY (groom, t24): either (a) add a hermetic ac to t24 wiring StaticFiles + SPA fallback in app/main.py with a TestClient gate (the merged create_app tests build their own route-free apps, so a mount is additive and safe), or (b) record the deferral explicitly in the t24 Requirements line AND in t28's deferral register with the owning phase named. Do not leave the third option (silent disclaimer) — REQ-TECH-042/REQ-CICD-020's own verification texts ('dist copied into the backend image', 'copies the built frontend into static/') ARE satisfied by t24 as written, so only the main.py-mount half is at risk."
+      },
+      {
+        "issue_id": "t24",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 CITATION-PIN GAP (t24) — REQ-DB-082 appears ONLY in t24's Requirements line and in no AC/Goal/Verification text. Its compose-runs-migrations half is de-facto pinned by ac1 (CMD alembic-upgrade-before-uvicorn) and ac2, so the substance is covered; the gap is the ID-to-AC trace. REMEDY (groom): cite REQ-DB-082 inside ac1/ac2 when pinning commands."
+      },
+      {
+        "issue_id": "t26",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 CITATION-PIN GAPS (t26) — programmatic trace of every claimed REQ id into the card bodies found five ids cited ONLY in the Requirements line: REQ-CICD-002 (pipeline overview), REQ-CICD-034 (deployment flow readable), REQ-CICD-037 (pushes-to-main trigger), REQ-TECH-061 (free-tier limits doc) and REQ-TEST-050 (cited in AC only via the 'REQ-TEST-051' sibling and the four-target list). Their substance IS pinned in ac1/ac2/ac5 (triggers, README deploy section, Makefile target list), so this is traceability, not coverage. REQ-CICD-035 in t26 is the accepted cross-attestation reference to t24's ac1 (its own Verification is 'Read Dockerfile CMD' — satisfied there). REMEDY (groom): attach the five ids to their owning ACs when pinning."
+      },
+      {
+        "issue_id": "t27",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 CITATION-PIN GAP (t27) — REQ-TECH-075 ('Playwright is the E2E tool') appears only in the Requirements line; the substance (the @playwright/test 1.58.0 admission) is pinned in Goal/ac1. REMEDY (groom): cite it in ac1."
+      },
+      {
+        "issue_id": "t27",
+        "category": "other",
+        "severity": "warning",
+        "description": "W5 THE PINNED TS SYNTAX GATE IS VACUOUS FOR ESM FILES — re-measured on this host (node v24.16.0 at /mnt/d/Program/nodejs/node.exe): `node --experimental-strip-types --check <file>.ts` exits 0 on files containing import/export statements EVEN WHEN THE CODE IS SYNTACTICALLY INVALID (verified: 'import { test } from \"@playwright/test\";\\ntest(\"flow\", async ({ page }) => {\\n  await page.goto(\"/register\";' -> rc=0; the same garbage without the import line -> rc=1). With a module marker present, node treats the .ts file as CJS-with-type-stripping and the check silently passes. t27 ac1/ac3 and the t27 Verification constraints therefore rest on a gate that would pass on broken specs — a fail-before-CAPABLE command that is actually vacuous. REMEDY (groom, t27): replace with the measured-working alternative `node node_modules/typescript/bin/tsc --noEmit --skipLibCheck --noResolve --target es2022 --module esnext --moduleResolution bundler <file>` (root typescript 5.3.3 is an EXISTING dependency — no new install) gated as 'every reported TS error must have code TS2307 (cannot find module) or TS2580 (process global)', verified working on both a valid and an invalid spec sample; or ship a 3-line ambient stub (declare module '@playwright/test'; declare var process) inside e2e/ and drop --noResolve. Pin the choice at groom with a fail-before demonstration on a deliberately broken fixture under build/."
+      },
+      {
+        "issue_id": "t27",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "W6 `npm ci` IN THE e2e TARGET CONTRADICTS THE NO-LOCKFILE RULING — t27 ac4 pins the e2e Makefile target as 'install-isolated: npm ci in e2e/ then npx playwright test', while the Constraints state 'no lockfile commit is required for this milestone (the CI runner installs fresh)'. `npm ci` FAILS HARD without a package-lock.json, so the pinned recipe is self-contradictory in exactly the no-lockfile branch the card sanctions (the CI e2e.yml runner is the only executor, and it would run exactly that command). REMEDY (groom): pick one and pin it — (a) commit e2e/package-lock.json (touches ONLY e2e/; index anchors #17/#55 read frontend/package.json and frontend/src/test/handlers.ts and the root tsconfig include is launcher/extensions/scripts, so a lockfile under e2e/ provably moves no merged gate — verified against all 120 index entries), or (b) pin `npm install --no-save` in the target. Record the reason either way, per the card's own 'groom may rule otherwise only with a recorded reason' clause."
+      },
+      {
+        "issue_id": "t28",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 (a) CONTRACT-FIRST HOLE: t28's ac1 fallback-timing leg 'reuses t25's pinned unroutable-URL recipe', but t25 has not yet pinned the fallback accessor/flag NAME that the script must import (ac1 says only 'the fallback decision is exposed to the app (flag/accessor)'). REMEDY (groom, t25 then t28): t25's groom MUST pin the exact symbol and module (e.g. a named function/constant in backend/app/database.py) and t28's groom cites it verbatim — no post-hoc discovery. (b) TIMING MECHANISM UNPINNED: the 5-second bound is only meaningful if the timeout is passed to the DBAPI (psycopg connect_args connect_timeout=5); a bare connect to 127.0.0.1:1 fails in milliseconds via ECONNREFUSED, which would make the '< 5 s' assertion pass without ever proving the timeout chain exists. REMEDY (groom, t25 ac2): pin BOTH legs — a refused-connection case (fast fallback proving the catch) and a connect_timeout-accepted case (the named constant equal to 5 is actually handed to create_engine), with the recorded measured value. (c) t28's script location backend/scripts/infra_verification.py correctly matches the t23 dashboard_verification.py precedent — no finding, recorded here for the Verifier's benefit."
+      },
+      {
+        "issue_id": "t28",
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 SUITE-FLOOR FORWARD REFERENCES UNPINNED — no card regresses the verified floors (backend >= 230 re-measured: `pytest --collect-only -q` = 230 collected; frontend >= 187 and index >= 120 re-measured: merge_test_index.json has exactly 120 entries with #17=issue t2 and #55=issue t9 confirmed), but t25 ac6 says '>= 230 + new nodes' and t28 ac5 says '>= (230 + t25 new nodes)' — the delta N is an unpinned variable at survey, so the milestone-exit floor is currently circular. REMEDY (groom, t25): pin the exact new-test count alongside the frozen byte-exact titles (t25 ac5 already promises the titles are pinned at groom — pin the count in the same breath); t28's groom then cites the concrete number (230 + N) rather than the expression."
+      },
+      {
+        "issue_id": "t26",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W9 §24.5 CRITERION-11 RANGE IDs REQ-CICD-080..083 UNREGISTERED — the Final Project Criteria table maps criterion 11 (CI/CD) to REQ-CICD-010 to REQ-CICD-083, and the four 08x ids (080 CI provider/parallel/E2E-only-on-main, 081 deploy hook + health verify + migrations-in-CMD, 082 single container/pinned/non-root/UptimeRobot/manual rollback, 083 scans-local-only/secrets-never-in-repo; all Must, verifications 'Read workflows / Dockerfile / README / security/') are cited by NO card and appear in NO register entry. The SUBSTANCE is fully owned (080 = t26 ac1/ac2, 081 = t26 ac3 + t24 ac1, 082 = t24 ac1-ac3 + t26 ac5, 083 = t26 ac2/ac3 with the security/ tree landing phase_7 per ruling 6), so this is an ID-mapping gap that would otherwise bite t28 ac4's one-row-per-criterion mapping. REMEDY (groom): cite 080/081/082/083 on t26's (and t24's) owning ACs and give each an evidence row in t28's ac4 mapping."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W10 ROLLBACK IDS REQ-CICD-050..053 UNREGISTERED — the survey register's phase_7 boundary names only REQ-OPS-002/020..028/030 and REQ-CICD-061/062 for the ops/ tree, but the rollback requirements REQ-CICD-050/051/052/053 (all verified by 'Read ops/runbook.md') are named nowhere, even though §24.5 criterion 10 spans REQ-CICD-030..062. Legitimately phase_7 work (ops/runbook.md does not exist and ruling 6 assigns the ops/ tree to phase_7_security_ops), but the register must carry the ids so the phase_7 survey inherits them explicitly. REMEDY: orchestrator adds the four ids to the register text at the next docs touch, or groom records them in t28's deferral-register preamble as phase_7 hand-offs. No card change needed."
+      },
+      {
+        "issue_id": "t26",
+        "category": "other",
+        "severity": "warning",
+        "description": "W11 MINOR CITATION FORM — REQ-CICD-040 and REQ-CICD-042 reach t26 only via the slash-list 'REQ-CICD-030/033/036/040/041/042/043' in the Requirements line and are not spelled out; they ARE pinned in ac5 (free-tier limits + cold-start note + README notice). Expand the AC citations at groom so the mechanical REQ-id cross-check finds them without slash-expansion. Also note t24's Constraints wording 'max_files=4 exceeded nominally (... = 4 — within budget)' is self-contradictory phrasing (4 files is AT the cap, not exceeding it); harmless, groom may reword."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete — programmatic both-direction REQ-id cross-check: all 61 distinct REQ ids cited across t24..t28 exist VERBATIM in docs/requirements.md (749 canonical ids; 0 phantom ids; slash-list forms expanded and validated). Reverse: every cited id traces to a phase_5-scope chapter family (Chapter 14 CICD, Chapter 15 testing, Chapter 10.14 fallback, Chapter 9.8/9.9, Chapter 17.2 health, Chapter 17.6.4/24.x verification, Tech-stack rows 040-062 + 075); no card cites an out-of-scope family. Survey uncovered/deferred register adjudicated line-by-line against the requirement texts: all six deferrals (Render live deploy, UptimeRobot monitor, docker build/compose execution, E2E execution, CI execution, live cold-start measurement) are legitimate live-only halves — nothing the register marks deferred is simultaneously claimed as executed in any card AC, and no card AC asserts a live check. Three register OMISSIONS found and filed as warnings: REQ-ARCH-071/REQ-BE-140 SPA-mount (W1, the only genuine unowned Must), REQ-CICD-080..083 (W9, content owned, ids unregistered), REQ-CICD-050..053 (W10, phase_7 content, ids unregistered). REQ-CICD-040/042 verified owned via ac5 (W11 citation form).",
+      "granularity_check": "complete — AC counts t24=5, t25=6, t26=6, t27=6, t28=5 (cap 6, warn_only; none at the 1-AC/0-file too-small extreme). max_files=4: t24=4 (at cap), t25=4, t28<=4 (in budget, stated); t26=6 and t27=8 with in-file warn_only statements per the standing precedent (pipeline and harness verticals must not be split). max_diff_lines=300 warn_only is stated in-file by t24/t25/t26/t27; t28 does not state it (its script+doc diff will likely exceed 300) — groom adds the note when pinning. All five cards carry survey PLACEHOLDER verification sections with explicit groom constraints and the fail-before base 1637162.",
+      "dependency_check": "complete — recomputed programmatically: dag.json = 29 nodes / 45 edges EXACTLY as claimed; frontmatter depends == DAG edges in BOTH directions for all 29 nodes (single benign artifact: docs/issues/closed/t19.md is a context-stripped closure summary with no frontmatter, so its t19->t14 edge is dag-only — the identical condition phase_4 was passed under, all 5 phase_5 cards match exactly); 0 cycles (DFS), 0 orphans (t0 excluded); Kahn topological order covers all 29 nodes and dag.json's stored order is valid for every edge; longest-path DP = 19 EDGES (t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17->t20->t21->t22->t23->t24->t26->t27->t28) == the 20-node critical_path stored in dag.json; 19 < limits.dep_chain_halt=20 verified arithmetically (the t24->t25 serial alternative would make it exactly 20 = halt, confirming the survey's flattening rationale); > dep_chain_warn=10 (WARN only, standing condition). Attach points verified against card Dependencies sections: t24->t23, t25->t23, t26->{t24,t25}, t27->t26, t28->{t26,t27} — all bidirectionally consistent.",
+      "duplicate_contradiction_check": "complete — no duplicate ACs (per-card no-drift composites are the accepted pattern; floors are identical BY DESIGN and consistent: FE >=187/0/0/0 + tsc rc=0 + exactly-4-warning lint and BE >=230 + ruff + mypy + head 005 + index >=120 append-only with anchors #17/#55 byte-unchanged appear on every card with no divergence). One latent contradiction found and filed: t27 ac4's `npm ci` vs its own no-lockfile constraint (W6). t26 ac5's 'e2e target exists (stub ok)' vs t27 ac4's 'e2e target is real' are ordered by the t26->t27 edge and non-contradictory. t24's 'no product code' vs t25's product delta vs t26/t27/t28's manifest-freeze gates are mutually consistent (t25 owns the ONLY product-code delta, per ruling 2). t24's SPA-mount disclaimer vs REQ-ARCH-071 is the W1 gap, not a card-vs-card contradiction.",
+      "ac_checkability_check": "complete — every AC is mechanically checkable once groom pins commands; the survey placeholders correctly pin hermetic-only tooling, CRLF-tolerant [[:space:]]*$ greps, one-line commands, || exit 1 mechanics, make -n (never make e2e), NEVER vitest -t, and composite-LAST ordering. Vacuity spot-check of the structural greps: the ac gates are anchored to files that DO NOT exist at base 1637162 (verified: no Dockerfile, no docker-compose.yml, no render.yaml; .github/workflows/, e2e/, ops/ hold only the t0 .gitkeep), so presence+structure greps are fail-before-capable, not vacuous; the one genuinely vacuous gate found is t27's node --experimental-strip-types --check for ESM .ts files (W5, re-measured today with both valid and invalid samples). t25's byte-safe health premise VERIFIED by reading backend/tests/integration/test_health_api.py: all four merged tests assert only domain checks ({'ok','degraded'}, {'postgresql','sqlite'}, isinstance bool/str, the 4-field key set, version==app.version and (status=='ok') is (fallback_active is False)) — NO literal 'postgresql' anywhere, so t25's live-value reporting keeps them byte-identical and green, and the DATABASE_BACKEND: Final[DatabaseBackend] = 'postgresql' anchor is present at backend/app/routers/health.py:15 exactly as the cards claim.",
+      "platform_check": "verified read-only via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue get (win32 node recipe from MAIN; </dev/null on every invocation): #27..#31 all state=open, labels ['defined'], titles match t24..t28 byte-for-byte; platform_issue frontmatter 27..31 agrees with the survey handoff; the get projection omits body exactly as in every prior phase. No label/body writes performed (review is read-only)."
+    },
+    "notes": [
+      "Six mandatory survey rulings verified in DURABLE artifacts (not just the survey handoff): (1) STATIC/STRUCTURAL + hermetic modality — plan.md phase_5 ruling 1 text + every card's Verification placeholder ('docker build is NOT an AC command', 'NO workflow is executed', 'playwright test is NEVER run here') + t28's DEFERRED-never-PASS register ac3 [PINNED; the one defective gate is t27's TS check -> W5]. (2) SQLite fallback owned SOLELY by t25 — plan.md ruling 2 names t25 + t24 Constraints disclaim product code + t25 Metadata 'the ONLY product-code delta' + t26/t27/t28 Constraints freeze manifests [PINNED]. (3) Playwright structural + execution deferral + isolated e2e/ @1.58.0 — plan.md ruling 3 + t27 Goal/ac1/ac5 + t27 Constraints exact pin; re-verified on host: WSL /usr/local/bin/playwright reports Version 1.58.0 and ~/.cache/ms-playwright does NOT exist [PINNED; gate mechanism -> W5, lockfile tension -> W6]. (4) ZERO new product deps — plan.md ruling 4 + t26/t27 diff-empty manifest gates; machine-checked BOTH already-installed premises: js-yaml resolves from root node_modules at 4.3.2 satisfying the ^4.1.0 range (require + yaml.load OK), PyYAML 6.0.3 imports in backend/.venv (CPython 3.12.3) via .venv/bin/python, uv 0.12.13 on PATH [PINNED]. (5) N=5 batching — plan.md ruling 4 states batch_size = min(5, max(1, ceil(5/3))) = 2 -> batches [t24,t25],[t26,t27],[t28], matching the survey.md formula (config.yaml has no batch_size key; the formula is the config) [PINNED]. (6) DAG numbers — recomputed and matched exactly (see dependency_check) [PINNED].",
+      "Premise re-verification TODAY (the static-modality ruling stands): `docker version` via cmd.exe with </dev/null printed Client 29.8.2 then 'failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; ... The system cannot find the file specified' with RC=1 (daemon DOWN — NOT a premise change); WSL `docker` is the interop stub ('could not be found in this WSL 2 distro'); ~/.cache/ms-playwright absent. Merged-reality floors re-measured: pytest --collect-only -q = 230 collected; merge_test_index.json = exactly 120 entries, #17 is issue t2 and #55 is issue t9; README.md = 116 lines (<500 cap); Makefile lacks the four REQ-TEST-050 split/cov targets and e2e is the stub echo (t26/t27 premises hold); root tsconfig include = launcher/extensions/scripts only (t27's e2e/ isolation premise holds); frontend/.eslintrc.cjs + package.json 'lint': 'eslint .' run only inside frontend/ (e2e/ isolation premise holds); the ONLY index entry touching e2e/ or .github/workflows/ is #1 (t0), which asserts directory existence + tracked .gitkeep files — adding files without deleting the .gitkeeps provably cannot red it, confirming every card's anchor-carry-forward claim.",
+      "Verdict arithmetic: 11 warnings, 0 errors -> PASS_WITH_WARNINGS per review_plan.md Step 5. No finding rises to error: W1 is a register/AC omission groom can close in t24's own pass (nothing on-tree contradicts it), W5/W6/W7/W8 are gate-mechanism pins squarely inside groom's remit, the rest are citation/registration hygiene. No plan regeneration is warranted.",
+      "Environment notes for groom/verifier: cmd.exe one-shot form is `cmd.exe /c \"...\" </dev/null` (the //c form echoed the interactive banner without executing in this shell); node --check semantics on .ts files depend on the CJS/ESM marker (W5); tsc 5.3.3 is available in root node_modules and is the sanctioned replacement syntax gate.",
+      "Milestone file docs/state/milestones/phase_5_infra.json updated: review_plan_status=passed, review_plan_verdict=PASS_WITH_WARNINGS, review_plan_completed_at=2026-10-09T15:59:53Z, review_plan_attempts 0->1. This handoff is written to the runtime-mandated artifact path and mirrored to docs/state/outputs/phase_5_infra_definer_review_plan.json in the same commit as the milestone file.",
+      "Pre-output checklist: coverage check complete (both directions + register adjudication) PASS; granularity check complete PASS; dependency check complete (frontmatter==dag, 0 cycles, 0 orphans, chain 19 < halt 20 arithmetic) PASS; duplicate/contradiction check complete PASS; verdict determined (PASS_WITH_WARNINGS) PASS; findings listed (11 warnings, 0 errors) PASS; milestone file updated PASS; output conforms to schemas/definer/review_plan.json ([OK] validated below) PASS; reached_state=defined PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_5_infra.json",
+      "docs/state/outputs/phase_5_infra_definer_review_plan.json"
+    ],
+    "platform_issue": 27,
+    "output_path": "docs/state/outputs/phase_5_infra_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T16:02:00Z",
+  "retry_count": 0
+}
