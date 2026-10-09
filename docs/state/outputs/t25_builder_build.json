@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t25",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t25-infra",
+    "branch_sha": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run python -c \"from sqlalchemy.exc import SQLAlchemyError, TimeoutError as SQT; from app import database as d; assert issubclass(SQT, SQLAlchemyError); assert d.DB_CONNECT_TIMEOUT == 5; assert isinstance(d.DB_CONNECT_TIMEOUT, int); assert d.FALLBACK_DATABASE_URL == \\\"sqlite:///./fallback.db\\\"; assert d.IS_FALLBACK is False; assert callable(d.is_fallback); assert d.is_fallback() is False; assert callable(d.initialize_database); assert d.create_db_engine(\\\"sqlite:///:memory:\\\") is not None; assert d.is_fallback() is False\" >/dev/null 2>&1 || exit 1; cd .. || exit 1; grep -qE \"^import logging\" backend/app/database.py || exit 1; grep -qE \"^logger = logging.getLogger\" backend/app/database.py || exit 1; grep -qE \"\\.warning\\(\" backend/app/database.py || exit 1; grep -qE \"except \\(SQLAlchemyError, OSError, ImportError\\)\" backend/app/database.py || exit 1; grep -qE \"from app\\.database import.*is_fallback\" backend/app/routers/health.py || exit 1; grep -qE \"from app\\.database import.*initialize_database\" backend/app/main.py || exit 1; grep -qE \"initialize_database\\(engine\\)\" backend/app/main.py || exit 1; grep -qE \"startup\" backend/app/main.py || exit 1; grep -qE \"get_backend_name\\(\\)\" backend/app/routers/health.py || exit 1; grep -qE \"state\" backend/app/routers/health.py || exit 1; ! grep -qE \"DATABASE_BACKEND\" backend/app/routers/health.py || exit 1; ! grep -qE \"except Exception\" backend/app/database.py || exit 1; ! grep -qE \"from alembic|import alembic\" backend/app/database.py || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest tests/unit/test_sqlite_fallback.py::test_refused_postgres_url_falls_back_under_five_seconds -q >/dev/null 2>&1 || exit 1; m=$(grep -oE \"FALLBACK_TIMING_REFUSED elapsed=[0-9]+\\.[0-9]+ fallback=true rc=0\" tests/sqlite_fallback_evidence.txt | head -1); [ -n \"$m\" ] || exit 1; s=$(printf \"%s\" \"$m\" | sed -E \"s/.*elapsed=([0-9]+\\.[0-9]+).*/\\1/\"); [ -n \"$s\" ] || exit 1; awk -v s=\"$s\" \"BEGIN { exit (s + 0 < 5) ? 0 : 1 }\" || exit 1; uv run pytest tests/unit/test_sqlite_fallback.py::test_startup_passes_connect_timeout_from_the_named_constant tests/unit/test_sqlite_fallback.py::test_startup_initializes_the_fallback_target_once -q >/dev/null 2>&1 || exit 1; grep -qE \"FALLBACK_SEED_COUNT 10 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_CREATE_ALL_CALLS 1 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_TABLES users,categories,expenses,budgets,audit_logs rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_CAPS connect_timeout=5 attempted=postgresql\\+psycopg fallback=true rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_NO_ALEMBIC_IMPORT alembic=absent rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; cd .. || exit 1; grep -qE \"backend/tests/sqlite_fallback_evidence\\.txt\" .gitignore || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_degraded_sqlite_true_when_fallback_is_active\" \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_ok_sqlite_false_for_a_plain_sqlite_app\" \"tests/integration/test_sqlite_fallback_api.py::test_health_body_keeps_exactly_the_four_documented_fields\" -q >/dev/null 2>&1 || exit 1; uv run pytest tests/integration/test_health_api.py tests/integration/test_database.py -q >/dev/null 2>&1 || exit 1; cd .. || exit 1; test -f backend/tests/unit/test_sqlite_fallback.py || exit 1; test -f backend/tests/integration/test_sqlite_fallback_api.py || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") rev-parse HEAD:backend/tests/integration/test_health_api.py\" | tr -d \"\\r\" | grep -qE \"^2b71b7feab4152d1804b66e11dc0f3882bacb684$\" || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") rev-parse HEAD:backend/tests/integration/test_database.py\" | tr -d \"\\r\" | grep -qE \"^8cdb538e4f93c527cdbccf2840cee959311b9b7d$\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest \"tests/integration/test_sqlite_fallback_api.py::test_all_merged_endpoints_answer_their_contracts_while_fallback_is_active\" \"tests/integration/test_sqlite_fallback_api.py::test_restart_during_fallback_rebuilds_an_empty_but_seeded_database\" \"tests/integration/test_sqlite_fallback_api.py::test_startup_without_fallback_initializes_no_schema_and_seeds_nothing\" -q >/dev/null 2>&1 || exit 1; grep -qE \"FALLBACK_ENDPOINTS register=201 login=200 expense=201 budget=200 health=200 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_RESTART users=0 categories=10 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; grep -qE \"FALLBACK_STARTUP_PRIMARY users=0 categories=0 rc=0\" tests/sqlite_fallback_evidence.txt || exit 1; cd .. || exit 1; grep -qE \"^import logging\" backend/app/main.py || exit 1; grep -qE \"^logger = logging.getLogger\" backend/app/main.py || exit 1; grep -qE \"\\.info\\(\" backend/app/main.py || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'cd backend && export PATH=\"$HOME/.local/bin:$PATH\" && n=$(uv run pytest --collect-only -q tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py 2>/dev/null | grep -c \"::\"); [ \"$n\" -eq 11 ] || exit 1; uv run pytest tests/unit/test_sqlite_fallback.py::test_sqlite_url_keeps_pragma_and_reports_no_fallback tests/unit/test_sqlite_fallback.py::test_startup_probes_the_primary_once_and_then_stops \"tests/integration/test_sqlite_fallback_api.py::test_health_reports_degraded_sqlite_true_when_fallback_is_active\" -q >/dev/null 2>&1 || exit 1; uv run ruff check app/database.py app/routers/health.py app/main.py tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py >/dev/null 2>&1 || exit 1; uv run mypy app/database.py app/routers/health.py app/main.py tests/unit/test_sqlite_fallback.py tests/integration/test_sqlite_fallback_api.py >/dev/null 2>&1 || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; f=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --name-only HEAD -- backend/alembic\" | tr -d \"\\r\"); [ -z \"$f\" ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/tests/integration/test_health_api.py backend/tests/integration/test_database.py\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "7a4fbca136aac0b1540a31763ec28bb462983b3c",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | grep -qE \"^241 tests collected\" || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); [ \"$n\" -ge 241 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; uv run mypy . >/dev/null 2>&1 || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet HEAD -- backend/pyproject.toml backend/uv.lock frontend/package.json\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend/pyproject.toml backend/uv.lock frontend/package.json\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<120){console.error(\\\"index shorter than 120\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 241,
+      "passed": 241,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_command_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "suite": {
+      "backend_pytest_collected": 241,
+      "backend_pytest_passed": 241,
+      "backend_pytest_failed": 0,
+      "backend_new_nodes": 11,
+      "backend_ruff_rc": 0,
+      "backend_mypy_rc": 0,
+      "alembic_heads": "005 (head) single",
+      "frontend_passed_nodes": 187,
+      "frontend_failed": 0,
+      "frontend_pending": 0,
+      "frontend_todo": 0,
+      "tsc_rc": 0,
+      "lint_react_refresh_warnings": 4,
+      "merge_index_entries": 120,
+      "amended_anchors": "#17 t2 + #55 t9 unmoved, both commands executed green inside ac6",
+      "merged_health_blob": "2b71b7feab4152d1804b66e11dc0f3882bacb684 (rev-parse verified)",
+      "merged_database_blob": "8cdb538e4f93c527cdbccf2840cee959311b9b7d (rev-parse verified)"
+    },
+    "ac_command_extraction": {
+      "method": "node regex over the 6 fenced bash blocks of the WORKTREE docs/issues/t25.md (CRLF-normalized), written to gitignored build/t25b/acN.sh, run via bash build/t25b/acN.sh </dev/null from the worktree root",
+      "bash_n": "all 6 clean, 0 CR bytes",
+      "frozen_node_ids": "11/11 byte-exact: collected :: IDs diffed against the 11 IDs extracted from the issue text -> zero diff"
+    },
+    "notes": [
+      "SCOPE/RUN: builder IMPLEMENT for t25 (Platform #28, phase_5_infra card 2/5 - the ONLY product-code delta of the milestone). Worktree C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t25, branch issue/t25-infra, base ffcad15 (groom). CWD verification PASS. ALL git via cmd.exe git -C, commit via printf > .cm + git commit -F, explicit paths only, never git add -A. Branch NOT pushed (orchestrator merges). Sibling t24 worktree and MAIN working tree NEVER touched.",
+      "FILES (feat commit 7a4fbca, 6 paths = the 5-file contract + exactly 1 .gitignore line): backend/app/database.py (DB_CONNECT_TIMEOUT: Final[int] = 5 handed to create_engine as connect_args connect_timeout; FALLBACK_DATABASE_URL: Final[str] = sqlite:///./fallback.db; IS_FALLBACK module flag False at import; is_fallback(); initialize_database(); named catch 'except (SQLAlchemyError, OSError, ImportError)' with logger.warning; latched startup-only - after fallback latches, non-SQLite calls return the fallback engine WITHOUT re-probing; no alembic import; no 'except Exception' anywhere); backend/app/routers/health.py (imports is_fallback, derives database from the bound engine url get_backend_name() with the make_url(get_settings().DATABASE_URL) fallback when no engine is bound, DATABASE_BACKEND constant DELETED); backend/app/main.py (logging + module logger + startup handler that creates the engine ONLY in the handler, stores application.state.db_engine, calls initialize_database(engine), logs primary initialization via .info); backend/tests/unit/test_sqlite_fallback.py (5 nodes); backend/tests/integration/test_sqlite_fallback_api.py (6 nodes, module-level so the frozen node IDs are byte-exact - no test class); .gitignore += backend/tests/sqlite_fallback_evidence.txt.",
+      "BYTE-IDENTITY: merged test_health_api.py and test_database.py UNTOUCHED - git diff --quiet clean, porcelain empty, and HEAD blob hashes rev-parse-verified equal to 2b71b7fe.../8cdb538e...; no merged test ever needed an edit (no BLOCKER). Merged health + PRAGMA nodes green. 'with TestClient(...)' appears only in the two new files; the engine is created only inside the startup handler, so every merged bare-TestClient test stayed green untouched (full suite 241/241).",
+      "W7b BOTH timing legs executed hermetically: refused loopback leg measured elapsed=0.001s (<5, parsed+gated by ac2) and the monkeypatched create_engine capture leg recorded FALLBACK_CAPS connect_timeout=5 attempted=postgresql+psycopg - the capture proves the timeout hand-off the refused leg (ModuleNotFoundError at dialect resolution, psycopg absent) cannot. Fallback init leg: create_all exactly once (class-level MetaData.create_all counter), 10 seed rows through the merged app.scripts.seed routine, five tables in the pinned order (dependency-respecting topological order of the INSPECTED persisted schema - the FK-declared create order users,audit_logs,budgets,categories,expenses is NOT the contract order, so the test topo-sorts and asserts the exact pinned sequence users,categories,expenses,budgets,audit_logs). No-Alembic leg: builtins.__import__ watcher recorded zero alembic-root imports across the whole fallback path.",
+      "STATE HYGIENE: autouse fixtures reset app.database.IS_FALLBACK (via monkeypatch) and get_settings.cache_clear() before AND after every node in both files. One real cross-file hazard was found and fixed: monkeypatch.setattr(Base.metadata, 'create_all', ...) patches through the metaclass __getattr__ descriptor path and LEAVES a permanent instance attribute on the shared MetaData singleton at teardown, which shadowed the unit test's class-level counter (full-suite-only failure); the primary-path guard now patches type(Base.metadata) and the full suite is green (241 passed).",
+      "PASS-AFTER (EXECUTED from the worktree root as bash build/t25b/acN.sh </dev/null on the COMMITTED tree 7a4fbca): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 - ALL SIX GREEN. ac6 executed FULLY: backend 241 tests collected (230 merged + 11 new) + full suite 241 passed / 0 failed + ruff rc=0 + mypy rc=0 + single alembic head 005; manifests (pyproject/uv.lock/package.json) diff-clean AND porcelain-clean; frontend 187 passed / 0 failed / 0 pending / 0 todo, tsc rc=0, lint exactly 4 react-refresh warnings; merge index 120 entries with amended anchors #17 (t2) and #55 (t9) executing green. ac1/ac5 re-run green after the negative-control restores; ac2/ac3/ac4 re-run green after restore too (final full-order sweep ac1..ac6 all rc=0 with a FRESH evidence file, plus a second full-suite run 241 passed).",
+      "NEGATIVE CONTROLS EXECUTED (fail-after proof): ac1 DB_CONNECT_TIMEOUT 5->3 -> rc=1, restore -> rc=0. ac2 connect_timeout hand-off swapped to a literal 2 -> FALLBACK_CAPS grep fails -> rc=1, restore -> rc=0. ac3 health hardcoded fallback_active=False -> degraded-assertion leg rc=1, restore -> rc=0. ac4 main.py primary log downgraded .info->.debug -> the pinned .info grep rc=1, restore -> rc=0. ac5 unused import in a touched file -> ruff leg rc=1, restore -> rc=0. ac6 same mutation breaks 'ruff check .' and an int-vs-str return breaks 'mypy .' (both measured nonzero), restore -> 0.",
+      "EVIDENCE FILE: backend/tests/sqlite_fallback_evidence.txt is gitignored (git check-ignore verified), append-only, written ONLY on success with absolute paths (Path(__file__).parent.parent), each node writing its own rc=0 lines - every pinned grep is fail-before-capable and any node subset runs in any order. Working tree porcelain-empty at handoff (evidence file + build/ + .cm all ignored).",
+      "FROZEN NODE INVENTORY: the 11 collected :: node IDs diff byte-exactly against the 11 IDs extracted from the issue text (diff empty); --collect-only -q over the two files counts exactly 11; milestone floor 230+11=241 met exactly ('241 tests collected').",
+      "PRE-OUTPUT CHECKLIST: CWD verification PASS; inputs read (worktree issue at ffcad15, skill + details, merged health/database/seed/router/test conventions) PASS; verification commands used VERBATIM (extracted programmatically from the worktree issue fenced blocks, bash -n clean, 0 CR bytes) PASS; all 6 ACs implemented, >=1 test each (11 new nodes; ac6 gated by the composite; no manual ACs) PASS; all pinned commands rc=0 PASS; full suite 241 green PASS; ruff + mypy strict clean on the 5 touched files and repo-wide PASS; alembic untouched single head PASS; committed as feat(t25) with Closes: t25 (explicit paths) PASS; scratch confined to gitignored build/t25b/ + .cm PASS; no AC edited, no self-approval, no pushes, no blacklisted commands, no secrets; output conforms to schemas/builder/implement.json (validated by scripts/validate_handoff.ts [OK] from MAIN) PASS; reached_state=built PASS. NOT DONE BY DESIGN (harness-orchestrator-owned): branch push and Platform label transitions/comment - the harness instruction 'do NOT push' overrides the skill's push step, per the t22/t23 precedent.",
+      "RESIDUAL RISKS: (1) the refused-loopback elapsed leg measures ms-scale because the absent psycopg driver raises ModuleNotFoundError at dialect resolution BEFORE any socket - the pinned ac2 gate (<5) passes honestly and the W7b capture leg carries the timeout proof, but on a host WITH psycopg installed the same leg would measure a real refused-socket time (still ms-scale on loopback port 1, far under 5); (2) the FALLBACK_TABLES assertion reads the topological order of the inspected schema (users,categories,expenses,budgets,audit_logs) rather than SQLAlchemy's declaration order, which differs (audit_logs is declared second) - if the Definer intended a literal metadata-order reading, the test-side helper is the only place that would change; the product code is order-agnostic; (3) main.py uses the deprecated on_event('startup') API (functional in the installed fastapi 0.142.2, DeprecationWarnings only) because the issue pins the literal token 'startup' in main.py and a lifespan refactor would churn create_app semantics for zero AC gain; (4) at real deployment the startup fallback writes ./fallback.db relative to the server cwd - by design per REQ-BE-133, but ops-visible (the ops doc is phase_7 scope)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/database.py",
+      "backend/app/routers/health.py",
+      "backend/app/main.py",
+      "backend/tests/unit/test_sqlite_fallback.py",
+      "backend/tests/integration/test_sqlite_fallback_api.py",
+      ".gitignore",
+      "docs/state/outputs/t25_builder_build.json"
+    ],
+    "platform_issue": 28,
+    "output_path": "docs/state/outputs/t25_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T17:48:30Z",
+  "retry_count": 0
+}
