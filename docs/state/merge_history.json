@@ -360,6 +360,20 @@
       },
       "regression_count": 0,
       "notes": "frontend suite 166/166 default reporter post-merge; ac1-ac5 appended to index (105->110), ac6 composite excluded; recharts 2.15.4 admission + 4 chart components + 25 frozen nodes + utils/chart_data.ts; legacy amendments this window: #17/#55 (W2) + #88 test-exemption (W3); pre-merge FAIL then PASS 105/105 after amendment"
+    },
+    {
+      "merge_id": "t22-d589c4e",
+      "issue_id": "t22",
+      "platform_issue": 25,
+      "merged_sha": "d589c4e1d7a939cdc395237e729fa416c6d07bd5",
+      "merged_tree": "71ba7ff65c8de60d530a121f96178426b74bad4e",
+      "merged_at": "2026-10-09T12:23:18Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 110,
+      "backend_tests": 230,
+      "regression_count": 0,
+      "notes": "verify_issue FAIL(ac4 cumulative-budget data-flow)->fix_qa 4d96b5c->PASS retry 1; pre-merge 110/110+6/6+187 FE+230 BE; index 110->115 (ac1-ac5, ac6 composite excluded per t20/t21 precedent)"
     }
   ]
 }
