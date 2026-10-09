@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t24",
+  "role": "builder",
+  "phase": "fix_merge",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/MERGE-FIX-t24-static-mount",
+    "branch_sha": "b4b4437e1c4215fc71f90992af61aca84fd258ef",
+    "test_summary": {
+      "total": 244,
+      "passed": 244,
+      "failed": 0
+    },
+    "lint_status": "WARNINGS",
+    "conflicts_resolved": [
+      {
+        "file": "backend/app/main.py",
+        "resolution": "merge_manual semantic union: kept BOTH t25 startup wiring (logging import, module logger, create_db_engine/initialize_database import, FastAPI startup handler building the engine and calling initialize_database(engine) exactly once) AND t24 static-mount wiring (resolve_static_dir, register_spa_static, SPA constants, StaticFiles mount + SPA fallback gated on backend/static/index.html). Deduplicated shared imports and ruff-isorted them; static registration is placed after all include_router calls so /assets and the catch-all fallback cannot shadow /api routes.",
+        "strategy": "merge_manual"
+      }
+    ],
+    "integration_tests_passed": true,
+    "verification_commands_source": "docs/issues/t24.md#verification-commands",
+    "ac_command_rc": {
+      "t24_ac1": 0,
+      "t24_ac6": 0,
+      "t24_ac7": 0,
+      "t25_ac1": 0
+    },
+    "notes": "Backend: 244 passed / 0 failed (241 t25 base + 3 t24 static nodes), collect-only 244 >= 244, ruff clean, mypy clean (83 files), alembic single head 005. Frontend: vitest 187 passed / 0 failed / 0 pending / 0 todo, tsc rc=0, npm run lint rc=0 with exactly 4 react-refresh warnings and 0 errors. Residual: t25 ac6 no-drift composite greps exact '^241 tests collected' and fails solely on merged-floor arithmetic post-merge (244 = 241 + 3 t24 nodes); all single-AC gates and every other leg pass. Issue #27 labels [defined, verified] left unchanged — no merge_conflict label exists on the platform issue."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/main.py",
+      "docs/state/outputs/t24_builder_fix_merge.json"
+    ],
+    "platform_issue": 27,
+    "output_path": "docs/state/outputs/t24_builder_fix_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-09T19:13:21Z",
+  "retry_count": 0
+}
