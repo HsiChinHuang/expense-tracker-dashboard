@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "milestone": "phase_6_agent",
   "survey_completed_at": "2026-10-10T03:40:00Z",
-  "review_plan_status": "pending",
+  "review_plan_status": "passed",
   "issues_generated": [
     "t29",
     "t30",
@@ -12,5 +12,8 @@
     "t34",
     "t35"
   ],
-  "survey_attempts": 0
+  "survey_attempts": 0,
+  "review_plan_completed_at": "2026-10-10T03:55:00Z",
+  "review_plan_verdict": "PASS_WITH_WARNINGS",
+  "review_plan_attempts": 1
 }
