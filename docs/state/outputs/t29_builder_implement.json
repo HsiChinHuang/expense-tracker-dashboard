@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t29",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t29-skills",
+    "branch_sha": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'test -f agent-capabilities/monthly-report/SKILL.md || exit 1; test -f agent-capabilities/add-expense/SKILL.md || exit 1; test -f agent-capabilities/budget-check/SKILL.md || exit 1; n=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name SKILL.md | wc -l); [ \"$n\" -eq 3 ] || exit 1; d=$(find agent-capabilities -mindepth 1 -maxdepth 1 -type d | wc -l); [ \"$d\" -eq 3 ] || exit 1; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./node_modules/js-yaml\\\");const F=[\\\"monthly-report\\\",\\\"add-expense\\\",\\\"budget-check\\\"];const bad=[];const CR=String.fromCharCode(13);for(const f of F){const p=\\\"agent-capabilities/\\\"+f+\\\"/SKILL.md\\\";const t=fs.readFileSync(p,\\\"utf8\\\").split(CR).join(\\\"\\\");const m=t.match(/^---[\\\\r\\\\n]([\\\\s\\\\S]*?)[\\\\r\\\\n]---[\\\\r\\\\n]/);if(!m){bad.push(f+\\\" no frontmatter block\\\");continue}let fm;try{fm=y.load(m[1])}catch(e){bad.push(f+\\\" frontmatter parse: \\\"+e.message);continue}const k=Object.keys(fm||{}).sort().join(\\\"+\\\");if(k!==\\\"description+name\\\"){bad.push(f+\\\" keys=\\\"+k)}if(!fm||fm.name!==f){bad.push(f+\\\" name=\\\"+String(fm&&fm.name))}if(typeof(fm&&fm.description)!==\\\"string\\\"||fm.description.length<10){bad.push(f+\\\" description missing or too short\\\")}}if(bad.length){console.error(bad.join(\\\" | \\\"));process.exit(1)}\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'test -f agent-capabilities/monthly-report/SKILL.md || exit 1; s=agent-capabilities/monthly-report/SKILL.md; grep -qE \"^name:[[:space:]]+monthly-report[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## When to Use[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Steps[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Report Template[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Warnings[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Notes[[:space:]]*$\" \"$s\" || exit 1; c=$(grep -cE \"^[0-9]+[.] \" \"$s\"); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" \"$s\" | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"list_expenses+monthly_summary+\" ] || exit 1; grep -qE \"80\" \"$s\" || exit 1; grep -qE \"exceeded your budget|over_amount\" \"$s\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'test -f agent-capabilities/add-expense/SKILL.md || exit 1; s=agent-capabilities/add-expense/SKILL.md; grep -qE \"^name:[[:space:]]+add-expense[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## When to Use[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Steps[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Constraints[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Example[[:space:]]*$\" \"$s\" || exit 1; c=$(grep -cE \"^[0-9]+[.] \" \"$s\"); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" \"$s\" | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"add_expense+\" ] || exit 1; grep -qE \"validate_amount\" \"$s\" || exit 1; v=$(grep -nE \"validate_amount\" \"$s\" | head -1 | cut -d: -f1); a=$(grep -nE \"add_expense\" \"$s\" | head -1 | cut -d: -f1); [ -n \"$v\" ] || exit 1; [ -n \"$a\" ] || exit 1; [ \"$v\" -lt \"$a\" ] || exit 1; grep -qE \"positive\" \"$s\" || exit 1; grep -qE \"decimal\" \"$s\" || exit 1; grep -qE \"[Cc]onfirm success|success from the response\" \"$s\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'test -f agent-capabilities/budget-check/SKILL.md || exit 1; s=agent-capabilities/budget-check/SKILL.md; grep -qE \"^name:[[:space:]]+budget-check[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## When to Use[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Steps[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^## Output Template[[:space:]]*$\" \"$s\" || exit 1; c=$(grep -cE \"^[0-9]+[.] \" \"$s\"); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" \"$s\" | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"get_budget_status+\" ] || exit 1; grep -qE \"80\" \"$s\" || exit 1; grep -qE \"exceeded your budget|over_amount\" \"$s\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'G=$(wslpath -w \"$PWD\"); for f in monthly-report add-expense budget-check; do e=$(cmd.exe /c \"git -C $G ls-files -s .agents/skills/$f.md\" | tr -d \"\\r\"); [ -n \"$e\" ] || exit 1; printf \"%s\" \"$e\" | grep -qE \"^120000 [0-9a-f]{40} [0-9]+\" || exit 1; r=${e#120000 }; sha=${r%% *}; t=$(cmd.exe /c \"git -C $G cat-file blob $sha\" | tr -d \"\\r\"); [ \"$t\" = \"../../agent-capabilities/$f/SKILL.md\" ] || exit 1; cmp -s \".agents/skills/$f.md\" \"agent-capabilities/$f/SKILL.md\" || exit 1; done; n=$(cmd.exe /c \"git -C $G ls-files .agents/skills\" | tr -d \"\\r\" | grep -cE \"^[.]agents/skills/[a-z-]+[.]md$\"); [ \"$n\" -eq 3 ] || exit 1; s=$(find .agents -mindepth 1 -maxdepth 1 | grep -vE \"^[.]agents/(skills|agents)$\" | wc -l); [ \"$s\" -eq 0 ] || exit 1; c=$(find .agents/skills -maxdepth 1 -type l | wc -l); [ \"$c\" -eq 3 ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "2287d98dabb0f3e92a0e15e4c5942bad5d6c42c3",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; a=$(cmd.exe /c \"git -C $G status --porcelain package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json\" | tr -d \"\\r\"); [ -z \"$a\" ] || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | grep -qE \"^244 tests collected\" || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | grep -c \"::\"); [ \"$n\" -ge 244 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; mm=$(uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 244,
+      "passed": 244,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_command_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "ac_command_extraction": {
+      "method": "node regex over the 6 single-line fenced bash blocks of the WORKTREE docs/issues/t29.md (CRLF->LF), written to /tmp/t29/acN.sh, executed VERBATIM via bash /tmp/t29/acN.sh </dev/null from the worktree root",
+      "runs": "all six executed on the COMMITTED tree 2287d98 (ac1..ac5 instant, ac6 full composite 4m20s); negative controls executed post-commit and every gate restored green; worktree porcelain-clean before and after"
+    },
+    "symlink_modes": {
+      "git_ls_files_s": "120000 b76c9d735c9065479119fe5d3eea127b5ebdc2fc 0\t.agents/skills/add-expense.md | 120000 82ee814218c8d627188dcd826d2ef765fb3dbe4d 0\t.agents/skills/budget-check.md | 120000 90f2578ab56be5d8b614c0ff78c760458718125f 0\t.agents/skills/monthly-report.md | 100644 518d779d19ec4770fd454ef755b21859e9654b8f 0\tagent-capabilities/add-expense/SKILL.md | 100644 f328da71e6b2a208dfef17c7a50f4f43c1261820 0\tagent-capabilities/budget-check/SKILL.md | 100644 e1f7fc13eb5b0b1dd156fee22d0b3f3109c65539 0\tagent-capabilities/monthly-report/SKILL.md",
+      "target_blobs": "each mode-120000 blob equals exactly ../../agent-capabilities/<name>/SKILL.md (depth-2 file-level, verified inside ac5 via git cat-file blob)",
+      "cat_proof": "cmp -s .agents/skills/<name>.md agent-capabilities/<name>/SKILL.md rc=0 for all three, executed in-worktree (WSL materializes real symlinks)"
+    },
+    "suite": {
+      "backend_pytest_collected": 244,
+      "backend_pytest_passed": 244,
+      "backend_pytest_failed": 0,
+      "backend_ruff": "clean",
+      "backend_mypy": "no issues found in 84 source files (>= 83 floor)",
+      "alembic_heads": "005 (head) single",
+      "frontend_passed": 187,
+      "frontend_failed": 0,
+      "frontend_pending": 0,
+      "frontend_todo": 0,
+      "tsc": "rc=0",
+      "lint_react_refresh_warnings": 4,
+      "readme_lines": 202,
+      "workflows": "exactly {ci.yml,e2e.yml,deploy.yml,.gitkeep}",
+      "manifests": "five named manifests byte-untouched (HEAD blob == git hash-object)",
+      "merge_index": ">= 146 entries, anchors tests[16]==t2 / tests[54]==t9 SHA-256 byte-unchanged, both stored commands executed green inside ac6"
+    },
+    "negative_controls": [
+      "ac1: fourth skill dir agent-capabilities/extra-skill/SKILL.md -> rc=1; removed -> rc=0",
+      "ac2: '## Notes' heading renamed -> rc=1; git checkout restore -> rc=0",
+      "ac3: line prepended mentioning add_expense before validate_amount -> rc=1; restore -> rc=0",
+      "ac4: 'monthly_summary' appended to budget-check -> rc=1; restore -> rc=0",
+      "ac5: sibling .agents/tools/ dir -> rc=1; removed -> rc=0"
+    ],
+    "verifier_notes": "Run all six pinned commands from the WORKTREE root on the merged tree (ac5 needs cmd.exe git + WSL-real symlinks; ac6 needs frontend/node_modules provisioned via cmd.exe npm ci in the worktree, backend venv via uv sync offline — both already present in worktrees/issue-t29-skills). t29 adds ZERO test nodes: backend stays EXACTLY 244 collected, index stays 146 (ac6 excluded from append). Line-anchored greps are CRLF-tolerant by design; the committed blobs are LF (autocrlf normalizes on add).",
+    "notes": "IMPLEMENTATION: created EXACTLY the 6 contracted files and nothing else (no README, no manifest, no product code, no dependency changes). The 3 SKILL.md docs carry frontmatter with exactly name+description (name==dir, description>=10 chars), the pinned '## ' heading sets per skill (monthly-report: When to Use/Steps/Report Template/Warnings/Notes; add-expense: When to Use/Steps/Constraints/Example; budget-check: When to Use/Steps/Output Template), >=3 numbered steps each, and the frozen-tool EXACT sets per the substring-trap rule: monthly-report mentions only monthly_summary+list_expenses, add-expense only add_expense with validate_amount on an earlier line than the first add_expense mention plus positive/decimal/Confirm-success wording, budget-check only get_budget_status (step 4 warns from the get_budget_status response data per the groom's recorded interpretation, NOT the Chapter 10 sample). '80' and 'exceeded your budget'/over_amount vocabulary appear in BOTH monthly-report and budget-check. The 3 discovery links are real git symlinks (ln -s, git add via cmd.exe), mode 120000, depth-2 file-level targets, .agents/ contains only skills/. Commit 2287d98 'feat(t29): agent skills + discoverability symlinks' pushed to origin/issue/t29-skills (no force). Platform issue 32: full builder comment posted, label defined->built (issue carried 'defined', not 'groomed'; the groom state label was never applied on the platform — recorded, orchestrator may want a groomed-label backfill policy).",
+    "residual_risks": [
+      "Skill bodies are structurally verified only; runtime execution by a real agent session is deferred to t35 per the issue's Out-of-scope register.",
+      "budget-check step 4 wording is the groom's recorded interpretation (get_budget_status response data carries the over_amount); if t31's real tool response shape differs, the wording may need a doc touch in t34/t35."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "agent-capabilities/monthly-report/SKILL.md",
+      "agent-capabilities/add-expense/SKILL.md",
+      "agent-capabilities/budget-check/SKILL.md",
+      ".agents/skills/monthly-report.md",
+      ".agents/skills/add-expense.md",
+      ".agents/skills/budget-check.md",
+      "docs/state/outputs/t29_builder_implement.json"
+    ],
+    "platform_issue": 32,
+    "output_path": "docs/state/outputs/t29_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T04:59:37Z",
+  "retry_count": 0
+}

@@ -1,0 +1,1 @@
+../../agent-capabilities/monthly-report/SKILL.md
