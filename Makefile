@@ -92,8 +92,13 @@ migrate:
 seed:
 	@echo "Seed data script lands in phase_3."
 
+# Real Playwright harness target (REQ-TEST-050): the pinned dependency is
+# installed with npm install --no-save (W6 ruling - the e2e lockfile is NOT
+# committed, so the earlier "# ... npm ci" draft recipe is forbidden: npm ci
+# fails hard without a lockfile), then the suite runs with the HTML report.
 e2e:
-	@echo "Playwright e2e harness lands in phase_5_infra."
+	cd e2e && npm install --no-save
+	cd e2e && npx playwright test
 
 security:
 	@echo "gitleaks/semgrep/trivy scans land in phase_7_security_ops."
