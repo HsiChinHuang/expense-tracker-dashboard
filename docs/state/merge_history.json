@@ -514,6 +514,20 @@
       "backend_tests": 258,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT fourth merge per re-ranked order t29->t31->t33->t30->t32 (t31-before-t30 strict pin honored: t31 merged b873053 first; t30 EXACT-258 delta card satisfied AT ITS MERGE MOMENT: 244+14 test_agent_hooks nodes = EXACTLY 258 collected + 258/258 green re-executed on merged MAIN by orchestrator 86.61s). ZERO index entries (t30 ACs are composite/gate-style, not per-file pytest pins) - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (c7e776a2, WAL-496 protocol executed cleanly): 146/146 detached scan 32.98 min zero failures, sim tree 9d49f31 == prediction EXACT through one bookkeeping-only MAIN advance (432bfcd), smoke 6/6 with ac6 EXACT vs re_groom pin (17-byte surgical delta vs builder = bb38a83 fix, disclosed), gates green (EXACT-258, mypy 85, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). First merge to move backend floor: 244 -> 258."
+    },
+    {
+      "merge_id": "t32-127d7bd",
+      "issue_id": "t32",
+      "platform_issue": 35,
+      "merged_sha": "127d7bd",
+      "merged_tree": "64375acf9769e777533c97b24a1fd8c5c3e0b6b1",
+      "merged_at": "2026-10-10T10:55:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 150,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT fifth merge per re-ranked order t29->t31->t33->t30->t32 (t30+t31-before-t32 strict pin honored: EXACT-270 delta card satisfied AT ITS MERGE MOMENT - 258+12 test_mcp_tools nodes = EXACTLY 270 collected + 270/270 green re-executed on merged MAIN by orchestrator 78.06s). INDEX APPEND per verifier disposition ruling: ac1-ac4 appended (146->150) - ac3 per-file pytest pin (12 frozen node IDs) + ac1/ac2/ac4 single-file gates per t27/t28 precedent; ac5/ac6 EXCLUDED (exact-270 equality legs = false-failure landmines outside merge moment, W10). All 4 new entries re-executed GREEN on merged MAIN; anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Pre-merge PASS (f5297d70): 146/146 detached scan 27.6 min zero failures (npm ci silent-death + hang diagnosed/remediated via WAL-496 protocol - scan correctly gated, never executed against unprovisioned host), sim trees dc19045/64375ac == predictions EXACT through bookkeeping-only MAIN advance (46c4caf), smoke 6/6 on final tree with byte-identity 6/6 vs builder branch-blob ac_mapping, gates 15/15 green. Backend floor 258 -> 270."
     }
   ]
 }

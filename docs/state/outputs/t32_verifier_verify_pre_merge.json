@@ -1,0 +1,159 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t32",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "verifier verify_pre_merge for t32 (Platform #35, MCP tools card: mcp-server/ 4 tools + 2 __init__ + README + backend/tests/integration/test_mcp_tools.py 12 nodes + M docs/issues/t32.md + in-branch handoff blobs) against MAIN @ b681581 (== origin/main at spawn; ALL siblings merged: t29 23019ff, t31 b873053, t33 ff76141, t30 c5e4fdb; backend floor 258 on main NOW). Candidate branch issue/t32-mcp-tools @ 4864453 (remote tip = handoff commit; 5 commits main..branch; merge-base 2a6ec11 ancestor of MAIN). DELTA CARD: ac6 pins EXACTLY '270 tests collected' (258 + 12 test_mcp_tools nodes) - SATISFIED at this merge moment, re-executed on the REAL merged sim tree (verify_issue PASS 63cef660 was composition-verified at branch tips). TIME PROTOCOL (WAL-496) executed: 146-entry scan launched immediately as detached setsid-nohup harness; NPMCI parent-marker written BEFORE child launch; scan gated on NPMCI_RC; 15-s liveness checks; polls <=540s; continuous checkpointing to build/. [VENV_UNAVAILABLE] WARN: shared venv env vars empty; sim backend/.venv via uv sync --offline rc=0.",
+    "orchestrator_prechecks": {
+      "main_eq_origin": "MAIN b681581 == origin/main at spawn (ls-remote b681581).",
+      "branch_pushed": "ls-remote refs/heads/issue/t32-mcp-tools == 4864453b48616317240c18d6aea5fdfc84082fe9 (matches handoff commit; local ref b43ae51 is its parent).",
+      "branch_contains": "EXACTLY 5 commits: 7fcb346 groom, 39e0675 groom-handoff, c6fc999 feat, b43ae51 build-handoff, 4864453 verify_issue-handoff.",
+      "index_shape": "146 entries, ZERO t32 entries (t29/t30/t31/t33 added none); known pre-existing extra 'note' keys at indices 16/35 (non-blocking); anchors tests[16]=t2/tests[54]=t9 byte-match.",
+      "merge_history": "33 entries, last t30-c5e4fdb (cumulative 146, backend 258). t32 merge appends entry 34, backend_tests 270 (258 -> 270 floor move).",
+      "platform_issue_35": "open, labels EXACTLY [defined, verified]; no prior MERGE VERDICT comment (dup-check clear).",
+      "shared_venv": "[VENV_UNAVAILABLE] logged; per-worktree uv sync --offline rc=0."
+    },
+    "merge_simulation": {
+      "merge_tree_prediction_v1": "merge-tree --write-tree main branch rc=0 -> dc19045fedef4b0178834bc37c06f6fd587357da, ZERO conflict markers (sweep across all 11 delta files clean).",
+      "sim_merge_v1": "cmd.exe worktree add sim-t32 -b sim/t32 main; merge --no-ff -> 3ad0d31 (parents b681581+4864453), tree dc19045 == prediction EXACTLY, porcelain EMPTY. (First attempt: cmd.exe -m quoting usage error, no state change; retried single-token message.)",
+      "merged_delta_vs_main": "EXACTLY A test_mcp_tools.py + A mcp-server/{README.md,__init__.py,tools/__init__.py,4 tools} + M docs/issues/t32.md + A 2 in-branch handoff blobs. ZERO manifest/.github/frontend/e2e/backend-app/README touches.",
+      "main_advance": "b681581 -> 46c4caf mid-run; delta = docs/log/2026_10_07.md + docs/state/seq.txt ONLY; index blob byte-identical (5dd15ab); 0/146 commands read those paths (machine-grep).",
+      "merge_tree_prediction_v2": "merge-tree --write-tree 46c4caf branch rc=0 -> 64375acf9769e777533c97b24a1fd8c5c3e0b6b1, ZERO markers.",
+      "sim_re_merge": "re-merge -> 18a67ae (parents 3ad0d31+46c4caf), tree 64375ac == NEW prediction EXACTLY, porcelain EMPTY; product delta dc19045..64375ac == docs/log + seq.txt ONLY (ZERO product delta; t32.md blob e2381d0 identical in both).",
+      "delta_axis_grep_proof": "All 146 commands: mcp-server 0, test_mcp_tools 0, docs/issues 0, docs/log 0, seq.txt 0, merge_history 0 => single-host scan sound (t29/t30/t31/t33 precedent)."
+    },
+    "provisioning_incidents": {
+      "npm_ci": "TWO failed attempts (WAL-496-class, documented): (1) first setsid-nohup child died silently before first log line - caught by 15-s liveness + parent-marker protocol; (2) relaunched cmd.exe npm ci exited rc=1 mid-reify (npm _logs 2026-10-10T09_38_31Z), partial node_modules (13,288 files, no .package-lock.json), bash wrapper HUNG on dead cmd bridge ~28 min; diagnosed via npm _logs + file-mtime stall. Remediation: killed hung procs (scan still correctly gated, had NOT executed), cmd.exe rd /s /q partial tree (5.8s), npm ci SYNCHRONOUSLY via cmd.exe -> rc=0, 512 packages, 10s. NPMCI_RC=0 marker written before scan release.",
+      "gates_harness": "First gates launch died silently (WAL-496 class); relaunched with startup marker - 15/15 gates green.",
+      "scan_ordering_note": "Scan/gates relaunches (10:07:45/10:08:06Z) crossed the re-merge (10:08:46Z): early rows on dc19045, later on 64375ac - sound, delta is docs/log+seq.txt only, read by 0/146 commands and zero gate targets (all gate blobs byte-identical across trees). Smoke ran ENTIRELY on final tree 64375ac."
+    },
+    "cumulative_scan": {
+      "harness": "build/t32pm_full_scan.cjs detached setsid-nohup (pid 1190128); TSV + done marker + log; timeout 900000; GIT_DIR=<main>/.git/worktrees/sim-t32 + GIT_WORK_TREE=/mnt/c exported; PATH $HOME/.local/bin prefix.",
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "completeness": "Machine-verified: 146 rows, idx unique 0..145, issue_id matches index every row, zero nonzero rc, host uniformly sim.",
+      "wall": "27.6 min (10:07:45 -> 10:35:19Z); sum per-entry 1,653,007 ms; slowest idx9(t1) 104.5s; no timeouts."
+    },
+    "merged_state_gates": {
+      "backend_collect_header": "EXACTLY '270 tests collected in 5.41s' on sim merged tree - DELTA CARD SATISFIED (258 + 12 == 270 EXACT at this merge moment)",
+      "backend_collect_nodes": "270 (>=270)",
+      "backend_full_suite": "rc=0, '270 passed, 268 warnings in 94.17s' green",
+      "backend_ruff": "rc=0 'All checks passed!'",
+      "backend_mypy": "Success: no issues found in 86 source files (>=83)",
+      "backend_alembic": "single head '005 (head)'",
+      "frontend_vitest": "187 passed / 0 failed / 0 pending / 0 todo, rc=0 (cmd.exe npx.cmd FROM frontend/)",
+      "frontend_tsc": "rc=0, 0 errors",
+      "frontend_lint": "react-refresh/only-export-components EXACTLY 4",
+      "readme": "202 lines <= 500; CR-stripped sha256 8d141fb27377...abce MATCHES pin; blob 7623dc58 identical main/base/merged - untouched",
+      "workflows": "EXACTLY 4: .gitkeep, ci.yml, deploy.yml, e2e.yml",
+      "manifests_5": "all 5 rev-parse HEAD:<p> == hash-object <p> (e5e9287 / f20ea2d / e23af07 / 75971c0 / 10ad0e1)",
+      "index_146_anchors": "146 entries; tests[16]=t2 cfb84edc... MATCH; tests[54]=t9 cf5babc0... MATCH; both execSync rc=0",
+      "gate_host_note": "All gates on sim merged tree; frontend gates ONLY via cmd.exe npx.cmd FROM frontend/; NO junctions; JSON checkpoint build/t32pm_gates.json 15/15 green"
+    },
+    "smoke": {
+      "extraction": "git show 64375ac:docs/issues/t32.md (FINAL merged tree), CRLF->LF, heading-exclusive /^## (?!#)/m, 6 fenced bash blocks, trailing newline trimmed, executed VERBATIM.",
+      "results": {
+        "ac1": "rc=0 0.16s",
+        "ac2": "rc=0 0.05s",
+        "ac3": "rc=0 13.9s",
+        "ac4": "rc=0 0.07s",
+        "ac5": "rc=0 35.7s",
+        "ac6": "rc=0 157.2s (EXACT-270 composite, ran LAST)"
+      },
+      "byte_identity": "ALL SIX EXACT vs builder ac_mapping from BRANCH BLOB docs/state/outputs/t32_builder_implement.json @ 4864453 (blob exists on-branch, unlike t30): 1353/1001/1656/1168/1662/2667 bytes (build/t32pm_ac_identity.json)."
+    },
+    "ac6_delta_card": "Every ac6 leg independently gate-verified on the merged tree BEFORE ac6 ran; ac6 itself rc=0.",
+    "index_disposition_ruling": {
+      "question": "t32 ac3 is a per-file pytest pin (12 frozen node IDs, backend/tests/integration/test_mcp_tools.py) - unlike t29/t31/t33 structural cards. Which non-composite ACs qualify for merge-time index append?",
+      "precedents": "(a) t27/t28: 5+5 entries appended = ALL non-composite ACs, pattern = single-line bash -c single-file gates (idx136-140 t27 e2e-file gates; idx142-145 t28 single-file greps on docs/criteria/infra_verification.md). (b) t30 (same milestone, same card shape): appended ZERO despite ac4 being a structurally identical 14-node per-file pytest pin (merge_history note: 'composite/gate-style'). (c) Card text: Constraints 'ac1..ac5 appendable, ac6 never'; W10 REMEDY: exact-equality collection gates legal SOLELY in delta cards at their own merge moment.",
+      "ruling": "RECOMMEND appending ac1, ac2, ac3, ac4 (index 146 -> 150) and EXCLUDING ac5 and ac6. ac3 = the per-file pytest pin (permanently stable; its negated 270-header leg is a per-file guard that stays true forever). ac1/ac2/ac4 = pure file-scope content greps on frozen deliverable files - exactly the t27/t28 single-file bash -c precedent, zero drift risk (t34/t35 attest but never edit mcp-server). ac5 MUST NOT be appended: its final leg pins EXACT-270 collection EQUALITY - baking it into the permanent index is a false-failure landmine for every future backend-test-adding card, exactly what W10 forbids outside the merge moment (same rationale as ac6). Strict t30-consistency (zero appends) is the defensible alternative; orchestrator's bookkeeping call. EXACT entry objects provided in evidence.index_disposition_ruling.exact_entry_objects_for_orchestrator (also build/t32pm_index_append_entries.json). Verifier did NOT mutate the index (blob 5dd15ab unchanged).",
+      "exact_entry_objects_for_orchestrator": [
+        {
+          "issue_id": "t32",
+          "command": "bash -c 'test -d mcp-server/tools || exit 1; for f in add_expense get_budget_status monthly_summary list_expenses; do test -f mcp-server/tools/$f.py || exit 1; done; a=mcp-server/tools/add_expense.py; g=mcp-server/tools/get_budget_status.py; m=mcp-server/tools/monthly_summary.py; l=mcp-server/tools/list_expenses.py; grep -qE \"\\\"/expenses\\\"\" \"$a\" || exit 1; grep -qE \"\\.post\\(\" \"$a\" || exit 1; grep -qE \"\\\"/dashboard/summary\\\"\" \"$g\" || exit 1; grep -qE \"\\.get\\(\" \"$g\" || exit 1; grep -qE \"\\\"/dashboard/by-category\\\"\" \"$m\" || exit 1; grep -qE \"\\.get\\(\" \"$m\" || exit 1; grep -qE \"\\\"/expenses\\\"\" \"$l\" || exit 1; grep -qE \"\\.get\\(\" \"$l\" || exit 1; for f in \"$a\" \"$g\" \"$m\" \"$l\"; do n=$(grep -cE \"\\.(get|post|put|patch|delete)\\(\" \"$f\"); [ \"$n\" -eq 1 ] || exit 1; grep -qE \"Authorization\" \"$f\" || exit 1; grep -qE \"Bearer\" \"$f\" || exit 1; grep -qE \"get_user_token\" \"$f\" || exit 1; grep -qE \"verify_jwt\" \"$f\" || exit 1; grep -qE \"McpToolError\" \"$f\" || exit 1; grep -qE \"status_code\" \"$f\" || exit 1; grep -qE \"^import httpx[[:space:]]*$\" \"$f\" || exit 1; ! grep -qE \"^(import|from) (requests|urllib)\" \"$f\" || exit 1; ! grep -qE \"except Exception\" \"$f\" || exit 1; ! grep -qE \"^(import|from) (socket|sqlalchemy|psycopg|sqlite3|fastapi|uvicorn)\" \"$f\" || exit 1; done; grep -qE \"^class McpToolError\\(Exception\\):[[:space:]]*$\" mcp-server/tools/__init__.py || exit 1'"
+        },
+        {
+          "issue_id": "t32",
+          "command": "bash -c 'a=mcp-server/tools/add_expense.py; g=mcp-server/tools/get_budget_status.py; m=mcp-server/tools/monthly_summary.py; l=mcp-server/tools/list_expenses.py; test -f \"$a\" || exit 1; grep -qE \"importlib\" \"$a\" || exit 1; grep -qE \"SourceFileLoader|spec_from_file_location|module_from_spec\" \"$a\" || exit 1; grep -qE \"agent-hooks\" \"$a\" || exit 1; grep -qE \"validate-amount\\.py\" \"$a\" || exit 1; grep -qE \"validate_amount\" \"$a\" || exit 1; h=$(grep -nE \"=[_a-zA-Z ]*(load_validator|validate_amount)\\(\" \"$a\" | head -1 | cut -d: -f1); r=$(grep -nE \"\\.post\\(\" \"$a\" | head -1 | cut -d: -f1); [ -n \"$h\" ] && [ -n \"$r\" ] && [ \"$h\" -lt \"$r\" ] || exit 1; grep -qE \"\\\"total_spent\\\"\" \"$g\" || exit 1; grep -qE \"\\\"total_budget\\\"\" \"$g\" || exit 1; grep -qE \"\\\"remaining\\\"\" \"$g\" || exit 1; grep -qE \"\\\"percentage\\\"\" \"$g\" || exit 1; grep -qE \"categories\" \"$m\" || exit 1; grep -qE \"\\\"page_size\\\"\" \"$l\" || exit 1; grep -qE \"category_id\" \"$l\" || exit 1; grep -qE \"year_month\" \"$l\" || exit 1; grep -qE \"limit\" \"$l\" || exit 1'"
+        },
+        {
+          "issue_id": "t32",
+          "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; t=backend/tests/integration/test_mcp_tools.py; grep -qE \"MockTransport\" \"$t\" || exit 1; grep -qE \"create_access_token\" \"$t\" || exit 1; grep -qE \"from jose import|import jose\" \"$t\" || exit 1; grep -qE \"verify_jwt|AuthError\" \"$t\" || exit 1; grep -qE \"== 0\" \"$t\" || exit 1; ! grep -qE \"httpx\\.Client\\(|httpx\\.AsyncClient\\(\" \"$t\" || exit 1; ! grep -qE \"uvicorn|socket\\.socket|listen\\(|docker\" \"$t\" || exit 1; cd backend || exit 1; c=$(uv run pytest --collect-only -q tests/integration/test_mcp_tools.py 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\\n\" \"$c\" | grep -c \"::\"); [ \"$n\" -eq 12 ] || exit 1; printf \"%s\\n\" \"$c\" | grep -qE \"^270 tests collected\" && exit 1; for id in test_valid_token_reaches_transport_with_bearer_header test_get_budget_status_calls_summary_and_simplifies test_monthly_summary_returns_by_category_rows test_list_expenses_limit_maps_to_page_size test_list_expenses_category_filter_maps_to_category_id test_invalid_signature_is_rejected_before_any_transport_call test_expired_token_is_rejected_before_any_transport_call test_wrong_audience_is_rejected_before_any_transport_call test_wrong_type_claim_is_rejected_before_any_transport_call test_non_2xx_response_raises_mcp_tool_error test_over_max_amount_raises_value_error_with_zero_requests test_three_decimal_amount_raises_value_error_with_zero_requests; do printf \"%s\\n\" \"$c\" | grep -qE \"^tests/integration/test_mcp_tools\\.py::${id}[[:space:]]*$\" || exit 1; done; uv run pytest tests/integration/test_mcp_tools.py -q >/dev/null 2>&1 || exit 1'"
+        },
+        {
+          "issue_id": "t32",
+          "command": "bash -c 'test -f mcp-server/README.md || exit 1; d=mcp-server/README.md; grep -qiE \"^#{1,6}[[:space:]].*tools[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*authentication[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*environment variables[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*running[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*design notes[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"MCP_JWT_SECRET\" \"$d\" || exit 1; grep -qE \"MCP_API_BASE_URL\" \"$d\" || exit 1; grep -qE \"MCP_USER_TOKEN\" \"$d\" || exit 1; grep -qE \"MCP_JWT_SECRET=.*MCP_API_BASE_URL=.*MCP_USER_TOKEN=\" \"$d\" || exit 1; grep -qiE \"subprocess\" \"$d\" || exit 1; grep -qiE \"stdio\" \"$d\" || exit 1; grep -qiE \"not the database|never touches the database|not database\" \"$d\" || exit 1; for tool in add_expense get_budget_status monthly_summary list_expenses; do grep -qE \"$tool\" \"$d\" || exit 1; done; grep -qE \"/expenses\" \"$d\" || exit 1; grep -qE \"/dashboard/summary\" \"$d\" || exit 1; grep -qE \"/dashboard/by-category\" \"$d\" || exit 1; grep -qE \"Bearer\" \"$d\" || exit 1; grep -qE \"page_size\" \"$d\" || exit 1; grep -qE \"validate-amount\" \"$d\" || exit 1'"
+        }
+      ]
+    },
+    "no_mutation": "NO merge into main (branch --contains 4864453 --list main EMPTY), NO push, NO index/label/log/seq mutation. MAIN porcelain clean at 46c4caf == origin/main.",
+    "cleanup_verified": {
+      "worktree_remove": "cmd.exe git worktree remove --force ..\\worktrees\\sim-t32 rc=0; absent from worktree list AND disk.",
+      "branch_delete": "cmd.exe git branch -D sim/t32 -> 'Deleted branch sim/t32 (was 18a67ae)' rc=0; branch --list EMPTY.",
+      "labels_after": "issue get 35 post-comment: open, labels EXACTLY [defined, verified] - UNCHANGED.",
+      "main_untouched": "main 46c4caf == origin/main; t32 NOT merged by verifier."
+    },
+    "comment": {
+      "posted": "MERGE VERDICT: PASS on Platform #35 via scripts/platform.ts issue comment 35 --body at 2026-10-10T10:44:33Z.",
+      "dup_check": "latest-comment 35 pre-post = verify_issue PASS (08:31:26Z); zero prior MERGE VERDICT comments."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t32_verifier_verify_pre_merge.json",
+      "build/t32pm_full_scan.cjs",
+      "build/t32pm_full_results.tsv",
+      "build/t32pm_full.log",
+      "build/t32pm_full.done",
+      "build/t32pm_full_scan.out",
+      "build/t32pm_scan.pid",
+      "build/t32pm_npmci.sh",
+      "build/t32pm_npmci.log",
+      "build/t32pm_npmci.nohup",
+      "build/t32pm_gates.cjs",
+      "build/t32pm_gates.json",
+      "build/t32pm_gates.log",
+      "build/t32pm_gates.nohup",
+      "build/t32pm_gates.pid",
+      "build/t32pm_extract_ac.cjs",
+      "build/t32pm_cmds.json",
+      "build/t32pm_ac_identity.json",
+      "build/t32pm_builder_branch.json",
+      "build/t32pm_smoke.cjs",
+      "build/t32pm_smoke.log",
+      "build/t32pm_smoke_results.json",
+      "build/t32pm_smoke.nohup",
+      "build/t32pm_smoke.pid",
+      "build/t32pm_mtree.out",
+      "build/t32pm_mtree.err",
+      "build/t32pm_mtree2.out",
+      "build/t32pm_mtree2.err",
+      "build/t32pm_issue35.json",
+      "build/t32pm_issue_lf.md",
+      "build/t32pm_index_append_entries.json",
+      "build/t32pm_verdict.md"
+    ],
+    "platform_issue": 35,
+    "output_path": "docs/state/outputs/t32_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T10:47:59Z",
+  "retry_count": 0
+}
