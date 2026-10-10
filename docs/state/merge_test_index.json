@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-09T09:37:12Z",
+  "updated_at": "2026-10-10T02:18:23Z",
   "tests": [
     {
       "issue_id": "t0",
@@ -562,7 +562,7 @@
     },
     {
       "issue_id": "t27",
-      "command": "bash -c 'test -f Makefile || exit 1; make -n e2e >/dev/null 2>&1 || exit 1; r=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$r\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$r\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; ! grep -qE \"harness lands in phase_5_infra\" Makefile || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; if [ -f .github/workflows/e2e.yml ]; then grep -qE \"make e2e\" .github/workflows/e2e.yml || exit 1; fi; grep -qE \"^#.*npm ci\" Makefile || exit 1; grep -qE \"REQ-TEST-050\" Makefile || exit 1; for t in test test-backend test-frontend lint migrate; do make -n \"$t\" >/dev/null 2>&1 || exit 1; done; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- backend\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1'"
+      "command": "bash -c 'test -f Makefile || exit 1; make -n e2e >/dev/null 2>&1 || exit 1; r=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$r\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$r\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$r\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; ! grep -qE \"harness lands in phase_5_infra\" Makefile || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; if [ -f .github/workflows/e2e.yml ]; then grep -qE \"make e2e\" .github/workflows/e2e.yml || exit 1; fi; grep -qE \"^#.*npm ci\" Makefile || exit 1; grep -qE \"REQ-TEST-050\" Makefile || exit 1; for t in test test-backend test-frontend lint migrate; do make -n \"$t\" >/dev/null 2>&1 || exit 1; done; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- backend/app\" || exit 1; s=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") status --porcelain backend\" | tr -d \"\\r\"); [ -z \"$s\" ] || exit 1'"
     },
     {
       "issue_id": "t27",
