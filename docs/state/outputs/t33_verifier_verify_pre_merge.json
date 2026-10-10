@@ -1,0 +1,90 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t33",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "verifier verify_pre_merge for t33 (Platform #36, phase_6_agent fifth card - subagent definitions vertical: custom-agent/finance-analyst.md + qa-reviewer.md markdown + 2 git-tracked mode-120000 .agents/agents symlinks, ZERO product code, ZERO new deps, ZERO test nodes, ZERO index entries) against MAIN @ c6a8cfd (== origin/main at spawn; t29 merged). Candidate branch issue/t33-subagents @ ab407ab (groom 069e5b9, groom handoff 87cfa42, re_groom 57c57aa, feat ab407ab; merge-base 2a6ec11). CWD verified first: MAIN. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; per-worktree venv provisioned via uv sync --offline. RUN-INTERRUPTION NOTE: the verifier agent process TIMED OUT during the scan-poll phase; the DETACHED scan harness (setsid nohup node build/t33pm_full_scan.cjs, pid 1041730) survived and kept running healthy; per orchestrator resume directive the existing scan was NOT restarted - the resumed session polled the same TSV to completion, then ran smoke/gates/schemas/comment/cleanup. (An earlier first launch pid 1038630 had died silently pre-write before the timeout; the 15-second post-launch liveness check on the relaunch confirmed START + rows writing - that relaunch IS the surviving pid 1041730.) Concurrent sibling: verify_pre_merge t31 ran on its own sim-t31 worktree in the same window - sim-t33 never touched it; contention showed up as scan wall-clock inflation (43.2 min vs 23.0 baseline), zero failures (t29 precedent).",
+    "orchestrator_prechecks": {
+      "main_eq_origin": "MAIN c6a8cfd == origin/main c6a8cfd at spawn. MAIN advanced TWICE mid-run: c6a8cfd -> 41dd0a3 (1 orchestrator t29-closeout WAL ingest) and 41dd0a3 -> 60528c8 (6 orchestrator ingest commits for t31/t33/t34/t35 bookkeeping). Both advances machine-verified inert: docs/log/2026_10_07.md + docs/state/seq.txt ONLY; merge_test_index.json byte-unchanged (git diff --name-only 0 lines for both hops).",
+      "branch_pushed": "ls-remote refs/heads/issue/t33-subagents == ab407abbd32e1ec0652d25217626d0b222a98056 (matches local tip).",
+      "branch_contains": "git log main..issue/t33-subagents == EXACTLY 4 commits: 069e5b9 docs(t33): groom - pin verification commands (touches ONLY docs/issues/t33.md), 87cfa42 docs(t33): groom handoff (t33_builder_groom.json), 57c57aa fix(t33): re_groom - ac6 body floor 270 -> 244 per W4 (docs/issues/t33.md), ab407ab feat(t33): subagent definitions + symlinks (exactly 4 product files: 2 custom-agent/*.md + 2 mode-120000 symlinks). merge-base(main,branch) == 2a6ec11 which IS an ancestor of MAIN.",
+      "index_shape": "docs/state/merge_test_index.json: top keys schema_version,updated_at,tests; tests length 146; issue_id distribution t0:6 t1:5 t2:6 t3:5 t4:6 t5:6 t6:5 t7:5 t8:6 t9:6 t10:3 t11:4 t12:4 t13:5 t14:5 t15:5 t16:4 t17:4 t18:5 t19:5 t20:5 t21:5 t22:5 t23:5 t24:6 t25:5 t26:5 t27:5 t28:5 == 146. Known pre-existing FINDING (recorded since t29, NOT t33-introduced): entries 16 (t2) and 35 (t6) carry an extra 'note' bookkeeping key beyond {issue_id,command} - annotation-only; anchors tests[16]=t2/tests[54]=t9 SHA-256 pins RECOMPUTED this run and byte-match cfb84edc91df3a3b.../cf5babc0049e8c30... exactly.",
+      "merge_history": "docs/state/merge_history.json entries == 30 (last: t29-23019ff, merged_tree 4276cc0, cumulative 146, regression_count 0).",
+      "platform_readonly": "issue get 36: state open, labels [defined, verified], updated_at 2026-10-10T07:01:27Z (read before scan and again before comment; labels never mutated by this verifier)."
+    },
+    "single_host_equivalence_proof": "The scan ran SINGLE-HOST on the SIM MERGED TREE (t29-precedent protocol - the strictly most faithful host; merged content IS the scanned content). Equivalence chain machine-verified this run: (1) git diff --name-status main..merged-tree(1cd7f97) == EXACTLY A custom-agent/{finance-analyst,qa-reviewer}.md + A .agents/agents/{finance-analyst,qa-reviewer}.md (mode 120000) + M docs/issues/t33.md + A docs/state/outputs/t33_builder_groom.json - ZERO pre-existing MAIN paths modified except the issue file; ZERO backend/**, frontend/**, e2e/**, .github/**, manifest touches (grep of the delta == 0 lines); (2) machine-grep of ALL 146 index command strings: custom-agent|.agents/agents -> 0 hits (t33 paths unread by any legacy entry) AND docs/state|docs/log|merge_test_index|seq.txt -> 0 hits (bookkeeping unread - the mid-run MAIN advances are inert for every entry); (3) index diff main..branch == 0 lines (t33 adds ZERO test nodes and ZERO index entries - the 146-entry index is a pure regression gate here). Host-agnosticism: every index command executed with cwd=sim root; git access verified working BOTH via GIT_DIR=<main>/.git/worktrees/sim-t33 + GIT_WORK_TREE=/mnt/c form AND via the in-command cmd.exe /c git -C $(wslpath -w $PWD) recipe (both probed green on sim pre-scan, rc=0).",
+    "cumulative_scan": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "harness": "build/t33pm_full_scan.cjs (WSL /usr/bin/node v18.19.1, execSync per entry cwd=/mnt/c/.../worktrees/sim-t33, GIT_DIR=<main>/.git/worktrees/sim-t33 + GIT_WORK_TREE=/mnt/c form exported, PATH prefixed $HOME/.local/bin, timeout 900000, TSV + done-marker, setsid nohup detach). Results build/t33pm_full_results.tsv, log build/t33pm_full.log, done-marker build/t33pm_full.done.",
+      "wall_time": "43.2 min (2026-10-10T07:25:11Z -> 08:08:22Z), sum of per-entry durations 2589499 ms. Slower than the t28 23.0-min baseline due to concurrent sibling pipelines (t31 pre-merge scan et al.) sharing the host; no entry hit the 900 s timeout, all rc=0.",
+      "completeness": "machine-verified: 146 rows, indices 0..145 each exactly once, 0 missing, 0 duplicates; issue_id column matches the index entry-by-entry (0 mismatches); per-issue counts identical to the index distribution; anchors tests[16]=t2 / tests[54]=t9 position-confirmed in the TSV.",
+      "nonzero_rows": "NONE. All 146 rows rc=0.",
+      "failure_decomposition": "N/A - zero failures. No stale-guard class hit: t33 touches no path any legacy entry reads (0/146 read custom-agent|.agents/agents; the only non-add delta is docs/issues/t33.md which 0/146 commands read)."
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "main_sha": "c6a8cfd (spawn) / 41dd0a3 (first advance, at prediction time) / 60528c8 (second advance, post-scan re-verified)",
+      "branch_sha": "ab407abbd32e1ec0652d25217626d0b222a98056",
+      "merge_tree_prediction": "git merge-tree --write-tree main issue/t33-subagents -> rc=0, tree 1cd7f97fc93c928199ef061e8f88376f668b9bb5 against 41dd0a3 (local main had fast-forwarded via fetch), stderr empty; conflict-marker sweep git grep -I -E '^(<<<<<<<|=======$|>>>>>>>)' over that tree -> 0 matches. AFTER the second advance to 60528c8: re-run -> rc=0, tree 7d89ab1196f03db23010625fdfefe3b948dfcad8, sweep 0 matches; diff 1cd7f97..7d89ab1 == docs/log/2026_10_07.md + docs/state/seq.txt ONLY (ZERO product-path delta) - the mid-run advances are inert for t33 (ingest-only drift precedent).",
+      "merge_commit": "5115c5813b348b7be99bbcd8295b8bab4fef2d15 (parents 41dd0a3 + ab407ab); re-merge commit 9eeea7d8ed5a159985c41293990b6cb6e0ec4bce (parents 5115c58 + 60528c8) after the second MAIN advance",
+      "merge_commit_tree": "5115c58 tree == 1cd7f97 (== merge-tree prediction, byte-exact simulation); re-merge 9eeea7d tree == 7d89ab1 == the NEW prediction against advanced MAIN. Both merges 'Merge made by the ort strategy', rc=0, status --porcelain EMPTY after each.",
+      "sim": "cmd.exe git -C <MAIN> worktree add ..\\worktrees\\sim-t33 -b sim/t33 main; git -C sim-t33 merge --no-ff --no-edit issue/t33-subagents -> 6 files changed 342 insertions 31 deletions, create mode 120000 x2. NO node_modules junction into sim (t27 lesson honored). Sim provisioned: root node_modules via cmd.exe npm ci (js-yaml 4.x readable - ac1 dependency), frontend/node_modules via cmd.exe npm ci FROM frontend/ (512 pkgs), backend/.venv via uv sync --offline (rc=0). Symlinks materialized as REAL Linux symlinks (find .agents/agents -type l == 2, cmp cat-through-symlink byte-equality proven pre-scan AND re-proven after the re-merge)."
+    },
+    "merged_state_gates": {
+      "merged_delta_vs_main": "git diff --name-status main 1cd7f97 -> EXACTLY A custom-agent/finance-analyst.md + A custom-agent/qa-reviewer.md (100644) + A .agents/agents/finance-analyst.md + A .agents/agents/qa-reviewer.md (120000) + M docs/issues/t33.md + A docs/state/outputs/t33_builder_groom.json. The t33 handoff JSONs already in MAIN (t33_builder_implement, t33_definer_groom, t33_definer_re_groom, t33_verifier_verify_issue) are untouched by the merge; the branch's t33_builder_groom.json is a plain add (absent from MAIN) so the merge introduces no add/add.",
+      "t33_pinned_commands": "6/6 rc=0 executed verbatim on the merged sim tree (see smoke_tests_detail); these ARE t33's merged-state gates per the card (ac6 is the composite).",
+      "backend": "EXACTLY '244 tests collected' (parsed header) + 244 collected nodes (>= 244 floor per the re-groomed W4 pin - EXACTLY 244 at this stage, t30's +14 unmerged) + full suite '244 passed' rc=0 (84.83 s) + ruff 'All checks passed!' + mypy 'Success: no issues found in 84 source files' (>= 83 floor) + alembic single head '005 (head)' - all measured independently on sim.",
+      "frontend": "187 passed / 0 failed / 0 pending / 0 todo via cmd.exe npx.cmd vitest run --reporter=json FROM frontend/ (root-level vitest trap avoided); tsc --noEmit rc=0; EXACTLY 4 react-refresh/only-export-components lint warnings.",
+      "readme": "202 lines <= 500 (merged tree blob).",
+      "workflows": "git ls-tree merged .github/workflows == exactly {.gitkeep, ci.yml, deploy.yml, e2e.yml} (exactly-4 + forbidden-name leg green).",
+      "manifests": "5/5 byte-identical vs MAIN blobs: package.json, frontend/package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json (git rev-parse main:<p> == git rev-parse 1cd7f97:<p> for all five).",
+      "index_anchors": "tests[16]=t2 sha256-over-JSON.stringify == cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3 MATCH; tests[54]=t9 == cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4 MATCH; both stored commands re-executed green on sim (rc=0 each, independent of the scan rows)."
+    },
+    "smoke_tests_detail": "6/6 rc=0 on the merged sim tree: ac1 720 ms, ac2 44 ms, ac3 36 ms, ac4 27 ms, ac5 538 ms (incl. EXECUTED cat-through-symlink cmp + mode-120000 accounting), ac6 136307 ms (no-drift composite, run LAST per pin). Source: 6 fenced bash blocks re-extracted from git show 1cd7f97:docs/issues/t33.md (merged tree; CRLF->LF, section boundary /^## (?!#)/m after '## Verification commands'). BYTE-IDENTITY vs builder ac_mapping (MAIN docs/state/outputs/t33_builder_implement.json): 6/6 EXACT after the fence-capture trailing-newline trim (identical convention to the t29 precedent; sha256 2dcdee0c7387/41cb581cabdb/6eae62de84be/67d5e750f3d6/00491036f6ce/df24b86df9af, chars 1282/950/937/443/746/2837) - no BUILDER_COMMAND_MISMATCH. Harness build/t33pm_smoke.cjs; results build/t33pm_smoke_results.json + log build/t33pm_smoke.log. After the smoke run the sim porcelain == EMPTY (ac6 writes nothing tracked); MAIN porcelain EMPTY throughout.",
+    "verdict": "PASS",
+    "platform": "MERGE VERDICT: PASS comment posted on issue #36 via scripts/platform.ts issue comment 36 --body (dup-check first: latest comment was the builder implement COMPLETE from 06:38:24Z - no prior MERGE VERDICT existed; posted via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs). Labels UNCHANGED [defined, verified] (issue re-read after comment; state open).",
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge for t33 (Platform #36, phase_6_agent fifth card - subagent definitions vertical: 2 custom-agent markdown files + 2 git-tracked mode-120000 file-level symlinks, ZERO product code, ZERO new deps, ZERO test nodes, ZERO index entries). CWD verified first. [VENV_UNAVAILABLE] WARN logged; per-worktree venv via uv sync --offline.",
+      "AGENT-TIMEOUT + DETACHED-SCAN SURVIVAL + RESUME (run-context, per orchestrator directive): the original verifier process timed out mid-poll while the detached scan (pid 1041730) was healthy at 55/146 rows all rc=0. The orchestrator resumed this session with explicit instructions NOT to restart the scan; the resumed session polled the same TSV to the 146-row + done-marker completion, machine-verified completeness, then executed smoke/gates/handoff/comment/cleanup. No scan row was re-run; no duplicate harness ever ran concurrently (the pre-timeout first-launch pid 1038630 had died silently before writing any file, confirmed by empty build dir at diagnosis time).",
+      "VERDICT RATIONALE: PASS - cumulative 146/146 rc=0 (machine-verified completeness: 146 unique idx rows, 0 missing/dup, issue_id matches, per-issue distribution identical), smoke 6/6 rc=0 (byte-identity vs builder 6/6), merge simulation clean on BOTH advanced MAINs (tree==prediction both times, 0 conflict markers, porcelain empty), merged-state gates all green (backend EXACTLY 244 + ruff + mypy 84 + head 005; frontend 187/0/0/0 + tsc 0 + lint exactly-4; README 202; workflows exactly-4; manifests 5/5 byte-identical; index 146 with both SHA-pinned anchors byte-matching AND execSync green). t33's ac6 >= 244 floor is satisfied at EXACTLY 244 (t30's +14 remains unmerged - the W4 re-groom floor was pinned precisely for this).",
+      "MID-RUN MAIN ADVANCES (recorded, neutralized): MAIN moved c6a8cfd -> 41dd0a3 -> 60528c8 during the run (7 orchestrator ingest commits total). Machine-verified inert: (a) merge_test_index.json byte-unchanged by both hops, so the 146-entry scan ran against the authoritative index; (b) the advances touch ONLY docs/log + seq.txt - paths 0/146 index commands read; (c) merge-tree re-run against 60528c8 rc=0 tree 7d89ab1, sim re-merged (9eeea7d), tree == prediction, product delta 1cd7f97..7d89ab1 == ZERO. The orchestrator may merge issue/t33-subagents against current MAIN directly; expect a 7d89ab1-class tree (re-run merge-tree at merge time per standard practice).",
+      "SINGLE-HOST SCAN: executed on the SIM MERGED TREE itself (t29 precedent). Provisioned root+frontend node_modules via cmd.exe npm ci and backend/.venv via uv sync --offline; NO junctions anywhere. Scan 43.2 min vs 23.0 baseline - host contention from concurrent sibling pipelines (t31 pre-merge scanning sim-t31 concurrently) measured in the same window; every entry rc=0, no timeouts; sim-t31 never touched.",
+      "FINDING (pre-existing, non-blocking, carried since t29): index entries 16/35 carry an extra 'note' key beyond {issue_id,command} - historical amendment annotations, anchors' SHA-256 pins recomputed this run match cfb84edc/cf5babc0 exactly. Not t33-introduced; audit trail only.",
+      "RESIDUAL CARRY-FORWARD (do NOT re-open): the ac6 body floor 270 -> 244 correction was the re_groom 57c57aa spec_gap closure per W4 (this card's declared ancestors cap the reachable floor at 244; the >= 270 floor belongs to cards depending on t32). Subagent RUNTIME execution by a real agent session remains out-of-scope per the card (phase_8 halves of REQ-AI-073/074).",
+      "PLATFORM: dup-check #36 (latest was builder COMPLETE) then PASS verdict posted with full evidence summary. Labels untouched [defined, verified]. No other platform mutation (no close, no label change - orchestrator owns merge+close).",
+      "CLEANUP/STATE: NO merge into main, NO push, NO index/issue/label/product modification, NO checkout, NO worktree prune. sim-t33 worktree removed via cmd.exe git worktree remove --force AFTER all measurements; branch sim/t33 deleted (was 9eeea7d). MAIN working tree porcelain EMPTY. Only gitignored build/t33pm* scratch added under MAIN. The MAIN docs/state/outputs/t33_verifier_verify_pre_merge.json copy is left UNCOMMITTED per protocol (orchestrator ingests); it is absent from the branch so the merge introduces no add/add on it.",
+      "HANDOFF PATH: authoritative runtime copy at the configured subagent-artifacts output path; MAIN-relative copy at docs/state/outputs/t33_verifier_verify_pre_merge.json - both byte-identical, both schema-validated [OK] via win32 node scripts/validate_handoff.ts.",
+      "REACHED_STATE: PASS => verified (issue stays [defined,verified]; orchestrator proceeds to merge + index-append decision - t33 appends ZERO entries per the card, merge_history entry 31 expected with cumulative 146).",
+      "PRE-OUTPUT CHECKLIST: CWD PASS; venv WARN logged PASS; index read PASS (146, anchors machine-confirmed, distribution matches); candidate branch confirmed PASS (issue/t33-subagents @ ab407ab, no checkout run); all 146 cumulative entries run PASS (146 green, failed_tests empty); smoke PASS 6/6 (byte-identity vs builder 6/6); failed tests recorded N/A PASS (none); handoff under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS; labels untouched PASS; schema-validated [OK] PASS; reached_state=verified PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t33_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 36,
+    "output_path": "docs/state/outputs/t33_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T08:35:00Z",
+  "retry_count": 0
+}
