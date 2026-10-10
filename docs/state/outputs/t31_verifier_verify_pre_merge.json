@@ -1,0 +1,86 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t31",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "verifier verify_pre_merge for t31 (Platform #34, phase_6_agent third issue - MCP server core: NEW top-level mcp-server/ workspace with config.py, auth.py, server.py, copy-only pyproject.toml; structural+syntax modality card, server never spawned) against MAIN @ c6a8cfd at spawn (== origin/main). AGENT-TIMEOUT + DETACHED-SCAN RESUME: the first agent run timed out during the cumulative scan; the setsid-nohup detached harness build/t31pm_full_scan.cjs (node pid 1036318) survived and kept writing build/t31pm_full_results.tsv; the resumed run polled the existing TSV to completion (NEVER restarted the scan), then proceeded with smoke/gates/handoff. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; per-worktree venv via uv sync --offline (uv from $HOME/.local/bin). t31 adds ZERO index entries and ZERO test nodes (index diff main..branch == 0 lines; 0/146 commands reference mcp-server) - the 146-entry index is a pure regression gate and the ac6 EXACT-244 backend floor remains satisfiable (independently re-measured: '244 tests collected' on the sim).",
+    "orchestrator_prechecks": {
+      "main_eq_origin": "MAIN c6a8cfddaf4266a51a2bac25ad8f8d535140dd35 == origin/main at spawn (contains t29 merge 23019ff tree 4276cc0 + closeout c6a8cfd). MAIN advanced TWICE mid-run: c6a8cfd -> 41dd0a3 (t29 closeout ingest: docs/log + seq.txt only) and 41dd0a3 -> a8d1d9d (t31-resume + t34-resume orchestrator bookkeeping: docs/log + seq.txt only). Both advances machine-verified inert (see merge_simulation).",
+      "branch_pushed": "ls-remote refs/heads/issue/t31-mcp-core == 827c5c7042d797e33a3fa9f851d64be628f29aa9 (matches local tip).",
+      "branch_contains": "git log main..issue/t31-mcp-core == EXACTLY 3 commits: b28a431 docs(t31): groom - pin verification commands, feb12b3 docs(t31): re_groom - ac6 body floor 258 -> >= 244 per W3, 827c5c7 feat(t31): MCP server core (4 mcp-server files). merge-base(main,branch) == 1a68016 which IS an ancestor of MAIN.",
+      "index_shape": "docs/state/merge_test_index.json: top keys schema_version,updated_at,tests; tests length 146; entry keysets {issue_id,command} plus extra 'note' on exactly 2 entries (idx 16 t2, idx 35 t6). FINDING (pre-existing, non-blocking, t29-precedent): the task briefing said '16/35' - machine check shows the entries with the extra note key are INDICES 16 and 35 (issue_ids t2 and t6), i.e. '16/35' denotes the index positions, matching the t29 handoff's identical observation. merge_history lives in docs/state/merge_history.json: exactly 30 entries, last t29-23019ff (merged_tree 4276cc0, cumulative 146, regression_count 0).",
+      "platform_readonly": "issue get 34: state open, labels [defined, verified] (read before scan, after comment - never mutated)."
+    },
+    "single_host_equivalence_proof": "Scan ran SINGLE-HOST on the SIM MERGED TREE (merged content IS the scanned content). Equivalence chain machine-verified: (1) git diff --name-status main..merged-tree(20bf433) == M docs/issues/t31.md + A mcp-server/{auth,config,server}.py + A mcp-server/pyproject.toml - ZERO pre-existing MAIN product paths modified; (2) index diff main..branch == 0 lines (merged-tree index blob 5dd15ab5 == MAIN's, byte-identical); (3) machine-grep of all 146 command strings: mcp-server -> 0 hits (the single 'mcp' substring hit is entry 22/t4 grepping MCP_* variable NAMES inside .env.example, a file the merge does not touch); docs/state|docs/log|merge_test_index|seq.txt -> 0 hits (bookkeeping paths unread by any entry - the proof that both mid-run MAIN advances are inert for the scan). Harness ran each command with cwd=sim root, GIT_DIR=<main>/.git/worktrees/sim-t31 + GIT_WORK_TREE=/mnt/c form exported, PATH $HOME/.local/bin prefix.",
+    "cumulative_scan": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "harness": "build/t31pm_full_scan.cjs (WSL node v18.19.1, execSync per entry cwd=sim root, GIT_DIR/GIT_WORK_TREE worktree form exported, timeout 900000, TSV + done marker, setsid nohup detach). Results build/t31pm_full_results.tsv, log build/t31pm_full.log, marker build/t31pm_full.done.",
+      "wall_time": "41.0 min (2026-10-10T07:18:18Z -> 07:59:19Z, sum of per-entry durations 2460534 ms). The scan ran to completion UNDER THE DETACHED HARNESS ACROSS THE AGENT TIMEOUT: first run reached ~94 rows, resumed run polled the surviving TSV to 146 rows + DONE marker without restart.",
+      "completeness": "machine-verified: 146 rows, indices 0..145 each exactly once (set size 146, min 0, max 145, 0 missing, 0 duplicates), issue_id column matches the index entry-by-entry (0 mismatches), per-issue distribution identical to the index, anchors idx16=t2 / idx54=t9 position-confirmed, entries 141..145 = t28 appends present.",
+      "nonzero_rows": "NONE. All 146 rows rc=0.",
+      "failure_decomposition": "N/A - zero failures. t31 touches no path any legacy entry guards (0/146 read mcp-server/**; the only merged-file overlap with guarded paths is docs/issues/t31.md, read by 0 entries)."
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "main_sha": "c6a8cfd (spawn) / 41dd0a3 (first advance) / a8d1d9d (second advance, post-resume)",
+      "branch_sha": "827c5c7042d797e33a3fa9f851d64be628f29aa9",
+      "merge_tree_prediction": "git merge-tree --write-tree main issue/t31-mcp-core -> rc=0, stderr EMPTY. At spawn MAIN c6a8cfd: tree ee1c6ef, conflict-marker sweep 0. After first advance 41dd0a3: re-run -> tree 20bf433, sweep 0, delta vs ee1c6ef == docs/log + seq.txt ONLY (zero product delta). After second advance a8d1d9d (during the detached-scan window): re-run -> tree ffaeee3, sweep 0, delta vs 20bf433 == docs/log + seq.txt ONLY (zero product delta). Both mid-run advances are orchestrator bookkeeping (t29 closeout ingest; t31-resume + t34-resume WAL entries) touching exactly docs/log/2026_10_07.md + docs/state/seq.txt; merge_test_index.json byte-unchanged by both (0-line diff); 0/146 index commands read either path.",
+      "sim": "cmd.exe git -C <MAIN> worktree add ..\\worktrees\\sim-t31 -b sim/t31 main (checkout 41dd0a3); merge --no-ff issue/t31-mcp-core -> merge commit e66f0c1, tree 20bf433 == prediction byte-exact, 'Merge made by the ort strategy', status --porcelain EMPTY. AFTER the second MAIN advance: re-merge main into sim/t31 -> commit 2ae7bd8, tree ffaeee3 == the NEW prediction byte-exact, porcelain EMPTY (t29-precedent re-merge; diff of the two merged trees == the two bookkeeping files, zero product delta). Provisioned: backend/.venv via uv sync --offline, frontend/node_modules via cmd.exe npm ci FROM frontend/ (512 pkgs). NO junctions (t27 lesson). Root node_modules NOT needed: machine-grep proved no index command requires a root-installed package (t26 js-yaml entries resolve ./frontend/node_modules).",
+      "worktree_path_note": "worktrees live at <parent>/worktrees/sim-t31 (../worktrees relative to MAIN), NOT under MAIN/worktrees - the briefing's ..\\worktrees\\sim-t31 path resolved as designed."
+    },
+    "merged_state_gates": {
+      "merged_delta_vs_main": "git diff --name-status main 20bf433 -> EXACTLY M docs/issues/t31.md + A mcp-server/{auth.py,config.py,server.py,pyproject.toml}. ZERO backend/**, frontend/**, e2e/**, .github/**, manifest, README, Makefile touches. backend/tests diff main..merged == 0 files (t31 added ZERO test nodes - confirmed).",
+      "backend": "EXACTLY '244 tests collected in 5.93s' (parsed header) + 244 collected nodes (>= 244) + full suite green (ac6 composite rc=0) + ruff rc=0 + mypy 'no issues found in 84 source files' (>= 83 floor) + single alembic head '005 (head)' - measured independently on the re-merged sim (build/t31pm_gates.json).",
+      "frontend": "187 passed / 0 failed / 0 pending / 0 todo via cmd.exe npx.cmd vitest run --reporter=json FROM frontend/; tsc --noEmit rc=0; EXACTLY 4 react-refresh/only-export-components lint warnings.",
+      "readme": "202 lines <= 500.",
+      "workflows": "git ls-tree merged == exactly {.gitkeep, ci.yml, deploy.yml, e2e.yml} (exactly 4).",
+      "manifests": "5/5 HEAD-blob==hash-object AND LF-normalized SHA-256 match the ac6 pins: package.json 28feee52..., frontend/package.json a1310bd5..., backend/pyproject.toml 4a99de9c..., backend/uv.lock 203e7ee7..., e2e/package.json b5fde7b8... (main vs merged tree both sides).",
+      "router_pins": "Merged-tree router files hash to the feat-branch SHAs quoted in the briefing: backend/app/routers/expenses.py ebd31f1ad2de2fb789306a03b3b4eadbec7019b71176d448fe3b1a1b47fa6663, backend/app/routers/dashboard.py c1526009b9aaa7bca35a826fee38c6476662c1a47f103b572e02b32255f729af (LF-normalized sha256, == the values ac5 pins).",
+      "index_anchors": "Merged-tree index: 146 entries; tests[16]=t2 hash cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3 EXACT; tests[54]=t9 hash cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4 EXACT; BOTH stored commands execSync green on the sim (rc=0 each)."
+    },
+    "smoke_tests_detail": "6/6 rc=0 on the re-merged sim tree (build/t31pm_smoke_res.json): ac1 1214 ms, ac2 79 ms, ac3 102 ms, ac4 19009 ms, ac5 98 ms, ac6 222850 ms (EXACT-244 no-drift composite, run LAST per protocol; includes the in-sim backend full suite + frontend vitest/tsc/lint legs + anchor execSyncs). Source: 6 fenced bash blocks re-extracted VERBATIM from git show 20bf433:docs/issues/t31.md (merged tree; CRLF->LF; heading-exclusive /^## (?!#)/m boundary after '## Verification commands'). BYTE-IDENTITY vs builder ac_mapping: 6/6 EXACT (chars 1304/1110/1427/1284/1642/2885; sha256 prefixes 007c7db6d7eb/32910b8c575b/731e62816884/f05c0fa65907/78654060ec83/63b2801239c5) - no BUILDER_COMMAND_MISMATCH. Builder handoff source note: t31_builder_implement.json is NOT a branch blob (branch carries only t31_builder_groom + t31_definer_re_groom); the ac_mapping was read from the builder's runtime-artifact copy (session 985e2a44) - byte-identity proves the pinned commands in the merged issue file are exactly what the builder executed. After the smoke run the sim porcelain == EMPTY (ac6 writes nothing tracked).",
+    "verdict": "PASS",
+    "platform": "MERGE VERDICT: PASS comment posted on issue #34 via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts issue comment 34 --body (execFileSync arg-array, cmd.exe quoting trap avoided) at 2026-10-10T08:25Z. Dup-check first: issue latest-comment 34 == null (no prior comments at all - no prior MERGE VERDICT). Labels UNCHANGED [defined, verified] (issue get re-read after comment; state open).",
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge for t31 (Platform #34, phase_6_agent third card - MCP server core: mcp-server/{config,auth,server}.py + copy-only pyproject.toml; structural+syntax modality, server never spawned on this host; mcp SDK deliberately absent, hand-rolled JSON-RPC 2.0 over stdio). ZERO new deps installed, ZERO test nodes, ZERO index entries.",
+      "AGENT TIMEOUT + DETACHED-SCAN SURVIVAL (run-context, orchestrator-instructed resume): the first agent process timed out mid-scan; the setsid-nohup harness (pid 1036318) survived and continued writing the TSV. The resumed run did NOT restart the scan: it polled the existing TSV to 146 rows + done marker (07:59:19Z), machine-verified completeness, then ran smoke/gates/handoff. Total scan wall 41.0 min vs t29's 44.4-min baseline - within contention-noise range.",
+      "VERDICT RATIONALE: PASS - cumulative 146/146 rc=0 (machine-verified completeness: 146 rows, idx 0..145 unique, issue_id column matches index, 0 nonzero), smoke 6/6 rc=0 with 6/6 byte-identity vs builder ac_mapping, merge simulation clean on ALL THREE MAIN states (spawn c6a8cfd, 41dd0a3, a8d1d9d; merge-commit tree == merge-tree prediction every time, 0 conflict markers, porcelain empty), merged-state gates all green (backend EXACTLY 244 + green + ruff + mypy 84 >= 83 + head 005; frontend 187/0/0/0 + tsc 0 + lint exactly-4; README 202; workflows exactly 4; 5 manifests byte-identical; anchors byte-exact + both execSync green).",
+      "MID-RUN MAIN ADVANCES x2 (recorded, neutralized per t29 precedent): c6a8cfd -> 41dd0a3 -> a8d1d9d, both orchestrator bookkeeping (docs/log + seq.txt ONLY; merge_test_index.json byte-unchanged both times; 0/146 index commands read either path; 0/146 use git status). merge-tree re-run + sim re-merge after the second advance: tree ffaeee3 == prediction, product delta between the two merged trees == ZERO. The orchestrator may merge issue/t31-mcp-core against current MAIN directly; expect the ffaeee3-class tree modulo further bookkeeping drift (re-run merge-tree at merge time per standard practice).",
+      "FINDING (pre-existing, non-blocking): index entries at INDICES 16 (t2) and 35 (t6) carry an extra 'note' key beyond {issue_id,command} - historical amendment annotations, byte-identical to the t29-pre-merge observation; anchors' SHA-256 pins recomputed this run match cfb84edc/cf5babc0 exactly. Not t31-introduced; recorded for the audit trail only.",
+      "FINDING (non-blocking): t31_builder_implement.json is absent from the branch tree (branch carries groom/re_groom handoffs only); byte-identity was therefore checked against the builder's runtime-artifact copy. The merged docs/issues/t31.md commands match the builder's executed ac_mapping EXACTLY, so the pin chain is intact.",
+      "CLEANUP/STATE: NO merge into main, NO push, NO index/label/log/seq/issue mutation, NO checkout of MAIN. sim-t31 worktree removed via cmd.exe git worktree remove --force AFTER all measurements; branch sim/t31 deleted. MAIN working tree porcelain EMPTY. Only gitignored build/t31pm* scratch added under MAIN.",
+      "HANDOFF PATH: docs/state/outputs/t31_verifier_verify_pre_merge.json is ABSENT from both MAIN and the branch (merged tree carries neither t31_verifier_* nor t31_builder_implement) so the merge introduces no add/add on it; MAIN copy left UNCOMMITTED per protocol (orchestrator ingests). Authoritative runtime copy at the configured subagent-artifacts output path; both copies byte-identical, both schema-validated [OK].",
+      "REACHED_STATE: PASS => verified (issue stays [defined,verified]; orchestrator proceeds to merge + index-append decision - t31 appends ZERO entries per the card; merge_history entry 31 expected with cumulative 146, backend_tests 244, regression_count 0).",
+      "PRE-OUTPUT CHECKLIST: CWD PASS (MAIN); venv WARN logged PASS ([VENV_UNAVAILABLE], per-worktree uv sync --offline); index read PASS (146, anchors machine-confirmed); candidate branch confirmed PASS (issue/t31-mcp-core @ 827c5c7, pushed, no checkout run); all 146 cumulative entries run PASS (146 green, failed_tests empty); smoke PASS 6/6 (byte-identity 6/6); failed tests N/A PASS (none); handoff under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS (dup-check: no prior comment); labels untouched PASS; schema-validated [OK] PASS; reached_state=verified PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t31_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 34,
+    "output_path": "docs/state/outputs/t31_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T08:30:00Z",
+  "retry_count": 0
+}
