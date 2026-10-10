@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t33",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t33-subagents",
+    "branch_sha": "ab407ab",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "ab407ab",
+        "test": "bash -c 'test -d custom-agent || exit 1; test -f custom-agent/finance-analyst.md || exit 1; test -f custom-agent/qa-reviewer.md || exit 1; n=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l); [ \"$n\" -eq 2 ] || exit 1; o=$(find custom-agent -mindepth 1 -maxdepth 1 | grep -vE \"^custom-agent/(finance-analyst|qa-reviewer)[.]md$\" | wc -l); [ \"$o\" -eq 0 ] || exit 1; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./node_modules/js-yaml\\\");const F=[\\\"finance-analyst\\\",\\\"qa-reviewer\\\"];const bad=[];const CR=String.fromCharCode(13);for(const f of F){const p=\\\"custom-agent/\\\"+f+\\\".md\\\";if(!fs.existsSync(p)){bad.push(f+\\\" file missing\\\");continue}const t=fs.readFileSync(p,\\\"utf8\\\").split(CR).join(\\\"\\\");const m=t.match(/^---[\\\\r\\\\n]([\\\\s\\\\S]*?)[\\\\r\\\\n]---[\\\\r\\\\n]/);if(!m){bad.push(f+\\\" no frontmatter block\\\");continue}let fm;try{fm=y.load(m[1])}catch(e){bad.push(f+\\\" frontmatter parse: \\\"+e.message);continue}const k=Object.keys(fm||{}).sort().join(\\\"+\\\");if(k!==\\\"description+name\\\"){bad.push(f+\\\" keys=\\\"+k)}if(!fm||fm.name!==f){bad.push(f+\\\" name=\\\"+String(fm&&fm.name))}if(typeof(fm&&fm.description)!==\\\"string\\\"||fm.description.length<10){bad.push(f+\\\" description missing or too short\\\")}}if(bad.length){console.error(bad.join(\\\" | \\\"));process.exit(1)}\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "ab407ab",
+        "test": "bash -c 'test -f custom-agent/finance-analyst.md || exit 1; s=custom-agent/finance-analyst.md; grep -qE \"^name:[[:space:]]+finance-analyst[[:space:]]*$\" \"$s\" || exit 1;grep -qiE \"^## Input[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Steps[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Output Template[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Limitations[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Rules[[:space:]]*$\" $s || exit 1; c=$(grep -cE \"^[0-9]+[.] \" $s); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" $s | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"get_budget_status+list_expenses+monthly_summary+\" ] || exit 1; grep -qiE \"read-only\" \"$s\" || exit 1; grep -qiE \"raw ID\" \"$s\" || exit 1; y=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Limitations/{f=1;next} /^## /{f=0} f&&NF\" | wc -l); [ \"$y\" -ge 1 ] || exit 1; z=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Rules/{f=1;next} /^## /{f=0} f&&NF\" | wc -l); [ \"$z\" -ge 1 ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "ab407ab",
+        "test": "bash -c 'test -f custom-agent/qa-reviewer.md || exit 1; s=custom-agent/qa-reviewer.md; grep -qE \"^name:[[:space:]]+qa-reviewer[[:space:]]*$\" \"$s\" || exit 1;grep -qiE \"^## Steps[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Output Format[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Rules[[:space:]]*$\" $s || exit 1; c=$(grep -cE \"^[0-9]+[.] \" $s); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" $s | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"\" ] || exit 1; grep -qiE \"do not fix|never fix\" \"$s\" || exit 1; grep -qiE \"do not modify|never modify\" \"$s\" || exit 1; y=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Output Format/{f=1;next} /^## /{f=0} f\"); printf \"%s\" \"$y\" | grep -qiE \"PASS[[:space:]]*/[[:space:]]*FAIL\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"acceptance criterion|acceptance criteria\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"evidence\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"test command\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "ab407ab",
+        "test": "bash -c 'for f in custom-agent/finance-analyst.md custom-agent/qa-reviewer.md; do test -f \"$f\" || exit 1; grep -qiE \"fresh context\" \"$f\" || exit 1; grep -qiE \"no orchestrator history\" \"$f\" || exit 1; grep -qiE \"posted back to the orchestrator\" \"$f\" || exit 1;done; grep -qiE \"[Ll]aunch finance analyst for [0-9]{4}-[0-9]{2}\" custom-agent/finance-analyst.md || exit 1;grep -qiE \"[Ll]aunch QA for #[0-9]+\" custom-agent/qa-reviewer.md || exit 1;'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "ab407ab",
+        "test": "bash -c 'G=$(wslpath -w \"$PWD\"); for n in finance-analyst qa-reviewer; do e=$(cmd.exe /c \"git -C $G ls-files -s .agents/agents/$n.md\" | tr -d \"\\r\"); [ -n \"$e\" ] || exit 1; printf \"%s\" \"$e\" | grep -qE \"^120000 [0-9a-f]{40} [0-9]+\" || exit 1; r=${e#120000 }; sha=${r%% *}; t=$(cmd.exe /c \"git -C $G cat-file blob $sha\" | tr -d \"\\r\"); [ \"$t\" = \"../../custom-agent/$n.md\" ] || exit 1; cmp -s \".agents/agents/$n.md\" \"custom-agent/$n.md\" || exit 1; done; m=$(cmd.exe /c \"git -C $G ls-files .agents/agents\" | tr -d \"\\r\" | wc -l); [ \"$m\" -eq 2 ] || exit 1; s=$(find .agents -mindepth 1 -maxdepth 1 | grep -vE \"^[.]agents/(skills|agents)$\" | wc -l); [ \"$s\" -eq 0 ] || exit 1; l=$(find .agents/agents -maxdepth 1 -type l | wc -l); [ \"$l\" -eq 2 ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "ab407ab",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; out=$(cd backend && uv run pytest -q 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"^[0-9]+ passed\" | grep -oE \"[0-9]+\" | tail -1); [ -n \"$n\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; a=$(cd backend && uv run ruff check . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; m=$(cd backend && uv run mypy . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; mm=$(printf \"%s\" \"$m\" | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; cd backend || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 431,
+      "passed": 431,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured": {
+      "backend_collected": 244,
+      "backend_passed": 244,
+      "backend_failed": 0,
+      "mypy_source_files": 84,
+      "mypy_issues": 0,
+      "alembic_head": "005 (head)",
+      "frontend_passed": 187,
+      "frontend_failed": 0,
+      "frontend_pending": 0,
+      "frontend_todo": 0,
+      "tsc_rc": 0,
+      "lint_react_refresh_warnings": 4,
+      "readme_lines": 202,
+      "workflow_entries": 4,
+      "index_entries": 146,
+      "ruff": "All checks passed!"
+    },
+    "fail_before": {
+      "base": "2a6ec11",
+      "ac1": 1,
+      "ac2": 1,
+      "ac3": 1,
+      "ac4": 1,
+      "ac5": 1,
+      "method": "throwaway detached worktree at base, deleted after capture"
+    },
+    "notes": [
+      "Symlink mode proof: git ls-files -s .agents/agents shows exactly 2 entries, both mode 120000 (finance-analyst.md blob 96add70..., qa-reviewer.md blob 92094d1...); git cat-file blob of each sha equals the exact target string ../../custom-agent/<name>.md; cmp -s of .agents/agents/<name>.md vs custom-agent/<name>.md byte-equal for both (ac5 executed gate rc=0). Symlinks created via WSL ln -s (core.symlinks=true) then git add via cmd.exe per the t29 recipe; no junctions, node_modules never linked.",
+      "NO D-substitution was required: the worktree frontend/ HAS node_modules (full install present; vitest/tsc/eslint all executed FROM the worktree frontend/ via cmd.exe + npx.cmd). Disclosed check anyway: git ls-tree -r frontend of MAIN@7e2830d vs branch@ab407ab is identical (tracked frontend tree byte-identical), so results would be equivalent either way. ac6 ran green against the worktree's own frontend.",
+      "Backend collected 244 at this base as expected per W4 re_groom (t30 +14 not merged); ac6 floor >=244 PARSED passed. mypy observed 84 source files (floor >=83 kept per ruling 5, not raised).",
+      "Index NOT appended: ac1..ac5 are structural markdown/symlink ACs with zero new executable test nodes to reference (no pytest/vitest nodes added); merge_test_index.json untouched at 146 entries, anchors #17/#55 sha-verified byte-unchanged and both stored commands executed green inside ac6. ac6 index-append-excluded per pin.",
+      "One implementation iteration: first qa-reviewer.md draft failed ac3 because the fenced output template contained a '## Evidence' heading that terminated the awk Output-Format region before the 'test command' clause; fixed by re-stating 'test command' in the region prose and de-leveling the template heading to '###'. Pinned commands were NOT modified.",
+      "Platform comment posted twice by accident: first post sent the file PATH string as body (win32 node cannot read WSL /tmp via the --body arg path); the correct full-body comment and label transitions (groomed removed, built added) followed. Platform issue 36 labels now [defined, built]. The stray path-text comment is cosmetic noise on issue #36.",
+      "Files delivered are EXACTLY the four contracted: custom-agent/finance-analyst.md, custom-agent/qa-reviewer.md, .agents/agents/finance-analyst.md (120000), .agents/agents/qa-reviewer.md (120000). No backend/app, manifest, docs-log, seq.txt or index mutations. Commit feat(t33): ... pushed to issue/t33-subagents (57c57aa..ab407ab, no force)."
+    ],
+    "verification_commands_actual": "docs/issues/t33.md#verification-commands (pinned at 57c57aa; schema const is the literal placeholder, historical handoffs like t0 fail the same const check)"
+  },
+  "artifacts": {
+    "files_written": [
+      "custom-agent/finance-analyst.md",
+      "custom-agent/qa-reviewer.md",
+      ".agents/agents/finance-analyst.md",
+      ".agents/agents/qa-reviewer.md"
+    ],
+    "platform_issue": 36,
+    "output_path": "docs/state/outputs/t33_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T06:38:52.073Z",
+  "retry_count": 0
+}

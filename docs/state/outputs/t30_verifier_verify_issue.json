@@ -1,0 +1,111 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t30",
+ "role": "verifier",
+ "phase": "verify_issue",
+ "status": "COMPLETE",
+ "reached_state": "verified",
+ "evidence": {
+  "evidence_type": "verification",
+  "ac_results": {
+   "ac1": {
+    "verdict": "PASS",
+    "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f agent-hooks/validate-amount.py || exit 1; a=agent-hooks/validate-amount.py; grep -qE \"^MAX_AMOUNT = Decimal\\(\\\"999999999\\.99\\\"\\)[[:space:]]*$\" \"$a\" || exit 1; grep -qE \"^def validate_amount\\(value: object\\) -> Decimal[[:space:]]*:[[:space:]]*$\" \"$a\" || exit 1; r=$(grep -cE \"raise ValueError\" \"$a\"); [ \"$r\" -ge 6 ] || exit 1; i=$(grep -cE \"^(import |from )\" \"$a\") || exit 1; e=$(grep -cE \"^(import decimal|from decimal import)\" \"$a\") || exit 1; [ \"$i\" -ge 1 ] || exit 1; [ \"$i\" -eq \"$e\" ] || exit 1; ! grep -qE \"^(import |from ) (os|sys|pathlib|json|subprocess|socket|urllib|httpx|requests)\" \"$a\" || exit 1; ! grep -qE \"open\\(|print\\(|subprocess|requests\\.|socket\\.\" \"$a\" || exit 1; (cd backend && uv run python -m py_compile ../agent-hooks/validate-amount.py) >/dev/null 2>&1 || exit 1; (cd backend && uv run ruff check --config pyproject.toml ../agent-hooks/validate-amount.py 2>&1) | grep -qE \"All checks passed\" || exit 1; (cd backend && uv run mypy --strict --ignore-missing-imports ../agent-hooks/validate-amount.py 2>&1) | grep -qE \"Success: no issues found in 1 source file\" || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac1.sh",
+    "note": "verbatim extraction from worktree docs/issues/t30.md ## Verification commands (heading-exclusive /^## (?!#)/ boundary, CRLF->LF); ran in FRESH detached worktree verify-t30 @ bb38a83 with verifier-provisioned backend/.venv (uv sync --offline, 31s); wall 14s, empty stdout/stderr, rc=0. MAX_AMOUNT Decimal(\"999999999.99\") + validate_amount signature + >=6 ValueError + decimal-only imports + no-I/O + py_compile + ruff + mypy --strict all green."
+   },
+   "ac2": {
+    "verdict": "PASS",
+    "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f agent-hooks/validate-ownership.py || exit 1; o=agent-hooks/validate-ownership.py; grep -qE \"^def validate_ownership\\(owner_id: object, user_id: object\\) -> None[[:space:]]*:[[:space:]]*$\" \"$o\" || exit 1; p=$(grep -cE \"raise PermissionError\" \"$o\"); [ \"$p\" -ge 2 ] || exit 1; i=$(grep -cE \"^(import |from )\" \"$o\"); [ \"$i\" -eq 0 ] || exit 1; ! grep -qE \"open\\(|print\\(|subprocess|requests\\.|socket\\.|input\\(\" \"$o\" || exit 1; (cd backend && uv run python -m py_compile ../agent-hooks/validate-ownership.py) >/dev/null 2>&1 || exit 1; (cd backend && uv run ruff check --config pyproject.toml ../agent-hooks/validate-ownership.py 2>&1) | grep -qE \"All checks passed\" || exit 1; (cd backend && uv run mypy --strict --ignore-missing-imports ../agent-hooks/validate-ownership.py 2>&1) | grep -qE \"Success: no issues found in 1 source file\" || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac2.sh",
+    "note": "verbatim, worktree, wall 6s, rc=0. validate_ownership(owner_id, user_id) -> None, >=2 PermissionError, zero imports, no I/O, py_compile+ruff+mypy --strict green."
+   },
+   "ac3": {
+    "verdict": "PASS",
+    "command": "bash -c 'test -f agent-hooks/README.md || exit 1; d=agent-hooks/README.md; grep -qiE \"^#{1,6}[[:space:]].*trigger[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*checks[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*failure behavior[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*agent behavior[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*design notes[[:space:]]*$\" \"$d\" || exit 1; h=$(grep -cE \"^#{1,6}[[:space:]]\" \"$d\"); [ \"$h\" -ge 5 ] || exit 1; grep -qE \"validate-amount\\.py\" \"$d\" || exit 1; grep -qE \"validate-ownership\\.py\" \"$d\" || exit 1; grep -qE \"validate_amount|validate-amount\" \"$d\" || exit 1; grep -qE \"validate_ownership|validate-ownership\" \"$d\" || exit 1; grep -qiE \"before (every|each|any) MCP tool call\" \"$d\" || exit 1; grep -qiE \"schema\" \"$d\" || exit 1; grep -qiE \"service\" \"$d\" || exit 1; grep -qiE \"999999999\\.99\" \"$d\" || exit 1; for l in hook MCP schema service test database; do grep -qiE \"$l\" \"$d\" || exit 1; done; ! grep -qiE \"permissions\\.md|agent-extension-pack\\.md\" \"$d\" || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac3.sh",
+    "note": "verbatim, worktree, wall 0s, rc=0. Five REQ-EXT-024 headings, both hook filenames, both trigger points, ceiling value, six layer names, no forbidden doc refs."
+   },
+   "ac4": {
+    "verdict": "PASS",
+    "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f agent-hooks/validate-amount.py || exit 1; test -f agent-hooks/validate-ownership.py || exit 1; t=backend/tests/integration/test_agent_hooks.py; grep -qE \"importlib\" \"$t\" || exit 1; grep -qE \"SourceFileLoader|spec_from_file_location|module_from_spec\" \"$t\" || exit 1; grep -qE \"agent-hooks\" \"$t\" || exit 1; grep -qE \"validate-amount\\.py\" \"$t\" || exit 1; grep -qE \"validate-ownership\\.py\" \"$t\" || exit 1; grep -qE \"from app\\.schemas\\.expense import AMOUNT_MAX\" \"$t\" || exit 1; cd backend || exit 1; c=$(uv run pytest --collect-only -q tests/integration/test_agent_hooks.py 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\\n\" \"$c\" | grep -c \"::\"); [ \"$n\" -eq 14 ] || exit 1; printf \"%s\\n\" \"$c\" | grep -qE \"^258 tests collected\" && exit 1; for id in test_amount_rejects_none_and_empty_string test_amount_rejects_non_numeric_strings test_amount_rejects_negative_amount test_amount_rejects_zero_amount test_amount_rejects_values_above_max_amount test_amount_rejects_more_than_two_decimal_places test_amount_returns_decimal_for_valid_input test_ownership_raises_when_owner_id_is_none test_ownership_raises_when_user_id_is_none test_ownership_raises_when_ids_differ test_ownership_returns_without_error_when_ids_match test_ownership_error_type_is_permission_error test_max_amount_constant_equals_backend_amount_max test_hook_modules_stay_side_effect_free_on_import; do printf \"%s\\n\" \"$c\" | grep -qE \"^tests/integration/test_agent_hooks\\.py::${id}[[:space:]]*$\" || exit 1; done; uv run pytest tests/integration/test_agent_hooks.py -q >/dev/null 2>&1 || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac4.sh",
+    "note": "verbatim, worktree, wall 18s, rc=0. importlib path-load contract, EXACTLY 14 collected nodes with all 14 pinned IDs re-grepped, no 258-header leak in the single-file run, run green. Independently re-confirmed: 'uv run pytest tests/integration/test_agent_hooks.py -q' => 14 passed in 0.77s."
+   },
+   "ac5": {
+    "verdict": "PASS",
+    "command": "bash -c 'test -f backend/app/schemas/expense.py || exit 1; test -f backend/app/services/expense_service.py || exit 1; test -f backend/app/auth/dependencies.py || exit 1; test -f agent-hooks/README.md || exit 1; s=backend/app/schemas/expense.py; v=backend/app/services/expense_service.py; dp=backend/app/auth/dependencies.py; d=agent-hooks/README.md; grep -qE \"^AMOUNT_MAX = Decimal\\(\\\"999999999\\.99\\\"\\)[[:space:]]*$\" \"$s\" || exit 1; grep -qE \"^AMOUNT_MAX = Decimal\\(\\\"999999999\\.99\\\"\\)[[:space:]]*$\" \"$v\" || exit 1; grep -qE \"^def get_current_user\\(\" \"$dp\" || exit 1; g=$(grep -cE \"Expense\\.user_id == user\\.id\" \"$v\"); [ \"$g\" -ge 2 ] || exit 1; grep -qE \"AMOUNT_MAX\" \"$d\" || exit 1; grep -qE \"get_current_user\" \"$d\" || exit 1; grep -qE \"999999999\\.99\" \"$d\" || exit 1; ! grep -qE \"validate_amount|validate_ownership\" \"$s\" || exit 1; ! grep -qE \"validate_amount|validate_ownership\" \"$v\" || exit 1; ! grep -qE \"validate_amount|validate_ownership\" \"$dp\" || exit 1; m=$(grep -oE \"AMOUNT_MAX = Decimal\\(\\\"[0-9.]+\\\"\\)\" \"$s\" \"$v\" | grep -oE \"[0-9]+\\.[0-9]+\" | sort -u); [ \"$m\" = \"999999999.99\" ] || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac5.sh",
+    "note": "verbatim, worktree, wall 0s, rc=0. AMOUNT_MAX ceiling present in merged schema+service (single unique value 999999999.99), get_current_user + >=2 per-user filters, README grep-consistent, NEITHER hook symbol leaks into any merged backend module."
+   },
+   "ac6": {
+    "verdict": "PASS",
+    "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -qE \"^258 tests collected[[:space:]]\" || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$n\" -ge 258 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; mm=$(uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"$mm\" -ge 83 ] || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; [ \"$(wc -l < README.md | tr -dc 0-9)\" -le 500 ] || exit 1; cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet 1a68016 -- package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json\" || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+    "exit_code": 0,
+    "output_path": "/tmp/t30v/ac6.sh",
+    "note": "KEY POINT OF THIS RE-VERIFY: the re_groomed ac6 (2522 bytes, spurious 'cd .. || exit 1;' before the merge-index leg removed) ran FULLY and VERBATIM with ZERO substitutions in MY provisioned worktree (own backend/.venv + own frontend/node_modules via cmd.exe npm ci, 512 packages/17s). Wall 243s, stdout/stderr EMPTY, rc=0. All legs green in-worktree: EXACTLY 258 collected + 258 nodes, full suite green, ruff clean, mypy 85 (>=83), single head 005 (head), workflows exactly .gitkeep+ci+deploy+e2e, README 202<=500, 5 manifests quiet vs 1a68016, frontend 187/0/0/0, tsc rc=0, lint exactly-4 react-refresh, index 146 with anchors tests[16]=t2 cfb84edc.../tests[54]=t9 cf5babc0... SHA-pinned and BOTH stored commands green. Fail-before of the OLD command also proven: git show cd2d521 pinned ac6 (2539 bytes) at the same repo root => rc=1 MODULE_NOT_FOUND (Cannot find module ./docs/state/merge_test_index.json)."
+   }
+  },
+  "test_summary": {
+   "total": 258,
+   "passed": 258,
+   "failed": 0
+  },
+  "failure_type": null,
+  "lint_report": {
+   "errors": 0,
+   "warnings": 0
+  },
+  "test_quality_warnings": [],
+  "dod_verified": {
+   "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": true,
+   "backend_exactly_258_collected_green_ruff_clean_mypy_ge_83_observed_85_single_head_005_frontend_187_0_0_0_tsc_0_lint_exactly_4_readme_202_le_500_workflows_exactly_3_manifests_untouched_index_146_anchors_byte_unchanged_and_green": true,
+   "hook_semantics_proven_equal_to_merged_backend_money_ceiling": true,
+   "conventional_commit_feat_t30_branch_issue_t30_hooks_no_force_push_index_append_only_ac6_excluded": true
+  },
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "ac_hash": "sha256:9368f3a3ba87e8c4c76046e3b39a4531bea2ca4994f9bf3c052cc48aa9aad789",
+  "ac_hash_match": true,
+  "ac_hash_canonical_variant": "heading-EXCLUSIVE (the declared t30 variant, per groom/re_groom handoffs): git show HEAD:docs/issues/t30.md from the verify worktree @ bb38a83, CRLF->LF, text between '## Goal' + newline and '## Verification commands', per-line right-trim, outer trim, sha256 => 9368f3a3ba87e8c4c76046e3b39a4531bea2ca4994f9bf3c052cc48aa9aad789 - MATCHES the re_groom-pinned value EXACTLY (ac_count=6). Invariance across the re_groom is BY DESIGN: the defect lived inside '## Verification commands', outside the hashed AC bodies; the operative integrity checks are the ac1..ac5 command byte-identity plus the documented single ac6 delta below.",
+  "branch_sha": "bb38a83e03dfc4270da91fd146e16ef1a1e8d1e4",
+  "command_integrity": {
+   "ac1_ac5_builder_byte_identity": "extracted ac1..ac5 (1184/932/1065/1699/1098 bytes) are BYTE-IDENTICAL to the builder handoff ac_mapping test commands (run bf047fee, commit cd2d521) - no drift.",
+   "ac6_delta": "extracted ac6 (2522 bytes) is BYTE-IDENTICAL to the re_groom handoff verification_commands.ac6; against the builder's pinned ac6 (2539 bytes) the ONLY difference is the removal of the final 'cd .. || exit 1; ' token group (17 bytes) before the node -e merge-index leg - exactly the documented single delta, confirmed by git diff cd2d521..bb38a83 --word-diff (one deletion, nothing else in the command body)."
+  },
+  "fail_before": {
+   "ac1_ac5_at_main": "new detached worktree @ current main 1de8741 (no agent-hooks/, no test_agent_hooks.py): all five pinned commands rc=1 (x5 RED) - fail-before proven.",
+   "old_ac6_at_verify_worktree": "builder-pinned OLD ac6 (git show cd2d521 extraction) at the verify worktree repo root: rc=1 with MODULE_NOT_FOUND / Cannot find module ./docs/state/merge_test_index.json - the groom-owned defect, reproduced independently."
+  },
+  "independent_legs": {
+   "backend_pytest": "independent collect-only: '258 tests collected in 9.74s' (EXACTLY 258 = 244 merged + 14 new), 258 '::' nodes; full suite '258 passed' in 112s; hook file alone 14 passed.",
+   "ruff": "uv run ruff check --output-format=json . => 0 violations (backend); --config pyproject.toml ../agent-hooks/ => 0 violations (hooks).",
+   "mypy": "uv run mypy . => 'Success: no issues found in 85 source files' (floor >=83 UNCHANGED; 85 observed = groom-recorded merge-moment value).",
+   "alembic_heads": "single head '005 (head)'.",
+   "frontend": "worktree-local cmd.exe npx.cmd vitest run --reporter=json: numPassedTests 187 / numFailedTests 0 / numPendingTests 0 / numTodoTests 0 (187 passed-title count); npx tsc --noEmit rc=0; npm run lint => exactly 4 react-refresh/only-export-components warnings.",
+   "readme_workflows_manifests": "README 202 lines <=500; .github/workflows exactly {.gitkeep, ci.yml, deploy.yml, e2e.yml}; git diff --quiet 1a68016 -- the five named manifests rc=0 (also verified via cmd.exe inside ac6).",
+   "merge_index": "146 entries; tests[16].issue_id=t2 sha256 cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3; tests[54].issue_id=t9 sha256 cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4; both stored commands execSync green; index byte-unchanged vs 1a68016 (diff --quiet rc=0).",
+   "branch_diff_shape": "git diff --name-status 1a68016..cd2d521: exactly A agent-hooks/README.md, A agent-hooks/validate-amount.py, A agent-hooks/validate-ownership.py, A backend/tests/integration/test_agent_hooks.py, M docs/issues/t30.md - NEW files only in the two contracted trees, backend/app untouched."
+  },
+  "notes": "Environment: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty -> [VENV_UNAVAILABLE] WARN, per-worktree provisioning used per task procedure (uv sync --offline 31s from warm cache; cmd.exe npm ci 512 packages 17s). Fresh detached worktree verify-t30 @ bb38a83 created via cmd.exe git worktree add --detach; builder/regroom worktrees NOT reused; NO junction/symlink node_modules. All six commands executed VERBATIM from worktree root with zero substitutions. Platform issue 33 comment/label transitions intentionally SKIPPED per dispatch instruction 'NO platform mutations (orchestrator owns #33)'. Worktrees verify-t30 and fb-t30 removed after verification.",
+  "residual_risks": [
+   "ac6 wall time 243s in this environment (backend suite ~112s + frontend legs ~90s); well inside budget but the composite is the slowest AC in the milestone - cold caches could push it toward 5-6 min.",
+   "The verify worktree's .git gitdir is a Windows-style path (cmd.exe-created), so WSL git cannot operate inside it; ac6's manifest-diff leg uses cmd.exe git by design and passed, but any future tooling that assumes in-worktree WSL git must not be added to t30-family commands."
+  ]
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/state/outputs/t30_verifier_verify_issue.json"
+  ],
+  "platform_issue": 33,
+  "output_path": "docs/state/outputs/t30_verifier_verify_issue.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-10T06:45:00Z",
+ "retry_count": 0
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t33",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -d custom-agent || exit 1; test -f custom-agent/finance-analyst.md || exit 1; test -f custom-agent/qa-reviewer.md || exit 1; n=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l); [ \"$n\" -eq 2 ] || exit 1; o=$(find custom-agent -mindepth 1 -maxdepth 1 | grep -vE \"^custom-agent/(finance-analyst|qa-reviewer)[.]md$\" | wc -l); [ \"$o\" -eq 0 ] || exit 1; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./node_modules/js-yaml\\\");const F=[\\\"finance-analyst\\\",\\\"qa-reviewer\\\"];const bad=[];const CR=String.fromCharCode(13);for(const f of F){const p=\\\"custom-agent/\\\"+f+\\\".md\\\";if(!fs.existsSync(p)){bad.push(f+\\\" file missing\\\");continue}const t=fs.readFileSync(p,\\\"utf8\\\").split(CR).join(\\\"\\\");const m=t.match(/^---[\\\\r\\\\n]([\\\\s\\\\S]*?)[\\\\r\\\\n]---[\\\\r\\\\n]/);if(!m){bad.push(f+\\\" no frontmatter block\\\");continue}let fm;try{fm=y.load(m[1])}catch(e){bad.push(f+\\\" frontmatter parse: \\\"+e.message);continue}const k=Object.keys(fm||{}).sort().join(\\\"+\\\");if(k!==\\\"description+name\\\"){bad.push(f+\\\" keys=\\\"+k)}if(!fm||fm.name!==f){bad.push(f+\\\" name=\\\"+String(fm&&fm.name))}if(typeof(fm&&fm.description)!==\\\"string\\\"||fm.description.length<10){bad.push(f+\\\" description missing or too short\\\")}}if(bad.length){console.error(bad.join(\\\" | \\\"));process.exit(1)}\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Ran VERBATIM from FRESH verify worktree verify-t33 @ ab407ab (root node_modules provisioned via cmd.exe npm ci from the worktree ROOT - root package.json declares js-yaml ^4.1.0 and package-lock.json exists, so ./node_modules/js-yaml is the established recipe, NO substitution of MAIN's tree). rc=0. Fail-before at base 2a6ec11: rc=1 (custom-agent/ absent)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f custom-agent/finance-analyst.md || exit 1; s=custom-agent/finance-analyst.md; grep -qE \"^name:[[:space:]]+finance-analyst[[:space:]]*$\" \"$s\" || exit 1;grep -qiE \"^## Input[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Steps[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Output Template[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Limitations[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Rules[[:space:]]*$\" $s || exit 1; c=$(grep -cE \"^[0-9]+[.] \" $s); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" $s | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"get_budget_status+list_expenses+monthly_summary+\" ] || exit 1; grep -qiE \"read-only\" \"$s\" || exit 1; grep -qiE \"raw ID\" \"$s\" || exit 1; y=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Limitations/{f=1;next} /^## /{f=0} f&&NF\" | wc -l); [ \"$y\" -ge 1 ] || exit 1; z=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Rules/{f=1;next} /^## /{f=0} f&&NF\" | wc -l); [ \"$z\" -ge 1 ] || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "VERBATIM rc=0; fail-before at base rc=1."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f custom-agent/qa-reviewer.md || exit 1; s=custom-agent/qa-reviewer.md; grep -qE \"^name:[[:space:]]+qa-reviewer[[:space:]]*$\" \"$s\" || exit 1;grep -qiE \"^## Steps[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Output Format[[:space:]]*$\" $s || exit 1;grep -qiE \"^## Rules[[:space:]]*$\" $s || exit 1; c=$(grep -cE \"^[0-9]+[.] \" $s); [ \"$c\" -ge 3 ] || exit 1; o=$(grep -oE \"add_expense|get_budget_status|monthly_summary|list_expenses\" $s | sort -u | tr \"\\n\" \"+\"); [ \"$o\" = \"\" ] || exit 1; grep -qiE \"do not fix|never fix\" \"$s\" || exit 1; grep -qiE \"do not modify|never modify\" \"$s\" || exit 1; y=$(tr -d \"\\r\" < \"$s\" | awk \"/^## Output Format/{f=1;next} /^## /{f=0} f\"); printf \"%s\" \"$y\" | grep -qiE \"PASS[[:space:]]*/[[:space:]]*FAIL\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"acceptance criterion|acceptance criteria\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"evidence\" || exit 1;printf \"%s\" \"$y\" | grep -qiE \"test command\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "VERBATIM rc=0; fail-before at base rc=1."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'for f in custom-agent/finance-analyst.md custom-agent/qa-reviewer.md; do test -f \"$f\" || exit 1; grep -qiE \"fresh context\" \"$f\" || exit 1; grep -qiE \"no orchestrator history\" \"$f\" || exit 1; grep -qiE \"posted back to the orchestrator\" \"$f\" || exit 1;done; grep -qiE \"[Ll]aunch finance analyst for [0-9]{4}-[0-9]{2}\" custom-agent/finance-analyst.md || exit 1;grep -qiE \"[Ll]aunch QA for #[0-9]+\" custom-agent/qa-reviewer.md || exit 1;'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "VERBATIM rc=0; fail-before at base rc=1."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'G=$(wslpath -w \"$PWD\"); for n in finance-analyst qa-reviewer; do e=$(cmd.exe /c \"git -C $G ls-files -s .agents/agents/$n.md\" | tr -d \"\\r\"); [ -n \"$e\" ] || exit 1; printf \"%s\" \"$e\" | grep -qE \"^120000 [0-9a-f]{40} [0-9]+\" || exit 1; r=${e#120000 }; sha=${r%% *}; t=$(cmd.exe /c \"git -C $G cat-file blob $sha\" | tr -d \"\\r\"); [ \"$t\" = \"../../custom-agent/$n.md\" ] || exit 1; cmp -s \".agents/agents/$n.md\" \"custom-agent/$n.md\" || exit 1; done; m=$(cmd.exe /c \"git -C $G ls-files .agents/agents\" | tr -d \"\\r\" | wc -l); [ \"$m\" -eq 2 ] || exit 1; s=$(find .agents -mindepth 1 -maxdepth 1 | grep -vE \"^[.]agents/(skills|agents)$\" | wc -l); [ \"$s\" -eq 0 ] || exit 1; l=$(find .agents/agents -maxdepth 1 -type l | wc -l); [ \"$l\" -eq 2 ] || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "VERBATIM rc=0; fail-before at base rc=1. Symlinks materialized as TRUE symlinks in the fresh worktree (core.symlinks=true repo config; ls -la shows lrwxrwxrwx -> ../../custom-agent/<n>.md)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; out=$(cd backend && uv run pytest -q 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"^[0-9]+ passed\" | grep -oE \"[0-9]+\" | tail -1); [ -n \"$n\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; a=$(cd backend && uv run ruff check . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; m=$(cd backend && uv run mypy . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; mm=$(printf \"%s\" \"$m\" | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; cd backend || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Ran FULLY VERBATIM with ZERO substitutions against my OWN provisioning: backend/.venv via 'uv sync --offline' (cache-only, ~20s) + frontend/node_modules via cmd.exe npm ci FROM the worktree frontend/ (512 packages, ~30s, t31 recipe). Wall 4m54s, rc=0, stderr empty. Builder claimed no D-substitution needed; independently confirmed ac6 green in-worktree."
+      }
+    },
+    "test_summary": {
+      "total": 244,
+      "passed": 244,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": true,
+      "backend_ge_244_green_ruff_mypy_ge_83_head_005_frontend_187_0_0_0_tsc_0_lint_4_readme_500_workflows_4_manifests_untouched_index_146_anchors_green": true,
+      "exactly_2_definitions_plus_2_git_tracked_mode_120000_symlinks_cat_through_byte_equality_proven_finance_analyst_read_only_by_grep": true,
+      "conventional_commit_feat_t33_branch_issue_t33_subagents_no_force_push_index_append_only_ac6_excluded": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:077122c4add4a41a93f5a09342504d0cc276e3e7f74e00b0677a75e03f91fb99",
+    "ac_hash_match": true,
+    "ac_hash_canonical_variant": "Heading-EXCLUSIVE Goal-section canonical per the re_groom-declared recipe: git show ab407ab:docs/issues/t33.md, CRLF->LF, text between '## Goal'+newline and newline+'## Verification commands', per-line right-trim, newline-join, outer-trim, sha256. Recomputed at ab407ab = 077122c4... == the re_groom (57c57aa) pin EXACTLY; the groom value 75238531... changed BY DESIGN with the ac6 body amendment (independently reproduced 75238531... at 87cfa42). Corroboration: docs/issues/t33.md blob at ab407ab is byte-identical to 57c57aa (06cb5a7cca0d0506c7ca9458b52eb3af40eacc4a) - the feat commit does NOT touch the issue file.",
+    "branch_sha": "ab407ab",
+    "independent_legs": {
+      "symlink_mode_proof": "git ls-files -s .agents/agents => exactly 2 entries, both mode 120000 (finance-analyst.md 96add70..., qa-reviewer.md 92094d1...); git cat-file blob of each sha == exact target '../../custom-agent/<name>.md'; cmp -s .agents/agents/<n>.md custom-agent/<n>.md BYTE-EQUAL for both.",
+      "backend": "244 collected (>=244 W4 floor; t30 +14 unmerged as expected, NOT 258), 244 passed / 0 failed full suite green, ruff 'All checks passed!' rc=0, mypy 'no issues found in 84 source files' rc=0 (>=83 floor, observed 84), alembic single head '005 (head)'.",
+      "frontend": "vitest 187 passed / 0 failed / 0 pending / 0 todo (187 passed-title markers), tsc --noEmit rc=0, npm run lint => exactly 4 react-refresh/only-export-components warnings.",
+      "readme_workflows_manifests": "README 202 lines (<=500); .github/workflows exactly {.gitkeep, ci.yml, deploy.yml, e2e.yml} (4 entries); all 5 manifests (package.json, frontend/package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json) rev-parse HEAD:<p> == hash-object byte-match.",
+      "index": "merge_test_index.json 146 entries; tests[16].issue_id==t2, tests[54].issue_id==t9; sha256 of JSON.stringify matches cfb84edc.../cf5babc0... pins; BOTH stored commands executed green independently.",
+      "no_index_append": "zero test nodes added by this card (structural markdown+symlink ACs) - index unchanged at 146, consistent with builder claim.",
+      "commit_shape": "feat commit ab407ab touches EXACTLY the 4 contracted files (custom-agent/finance-analyst.md, custom-agent/qa-reviewer.md, .agents/agents/finance-analyst.md, .agents/agents/qa-reviewer.md); 57c57aa is an ancestor of ab407ab (fast-forward, no force push); conventional-commit subject 'feat(t33): ...'."
+    },
+    "premise_checks": {
+      "builder_handoff_location": "docs/state/outputs/t33_builder_implement.json is NOT committed on the branch or in MAIN (same as t31 precedent - handoffs live under session subagent-artifacts); read from the builder run's artifact dir; status COMPLETE, branch_sha ab407ab matches assignment.",
+      "command_byte_identity": "6/6 extracted VERBATIM from worktree docs/issues/t33.md '## Verification commands' (heading-exclusive /^## (?!#)/m, CRLF->LF) are byte-identical to builder ac_mapping tests.",
+      "fail_before": "throwaway detached worktree fb-t33 @ 2a6ec11: ac1..ac5 all rc=1 (custom-agent/ and .agents/agents absent at base).",
+      "venv": "[VENV_UNAVAILABLE] logged: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty at spawn; per-worktree 'uv sync --offline' provisioning used (WARN, not failure, per skill Step 0.5)."
+    },
+    "notes": [
+      "FRESH detached worktree verify-t33 @ ab407ab created via cmd.exe git worktree add --detach; no other worktree reused; no junction/symlink of node_modules - root and frontend provisioned by npm ci in-place, backend by offline uv sync.",
+      "ac1's ./node_modules/js-yaml resolved from the worktree's OWN root node_modules (root package.json declares js-yaml ^4.1.0, package-lock.json present, npm ci rc=0) - no MAIN substitution (D2) was needed.",
+      "ac6 ran FULLY VERBATIM (zero substitutions), rc=0, wall 4m54s - the builder's 'no D-substitution needed' claim independently confirmed.",
+      "ac_hash: recomputed heading-exclusive Goal-section canonical at ab407ab = 077122c4... == re_groom pin; the 75238531 -> 077122c4 change is BY DESIGN (ac6 body amendment in 57c57aa) and the feat commit leaves the issue-file blob byte-identical to 57c57aa.",
+      "Platform comment/label steps (skill Steps 7/9) are orchestrator-owned per the standing offline override (t26/t28/t31/t33-groom precedent): no network egress from this role lane; issue #36 label transition built->verified deferred to the orchestrator.",
+      "Cleanup: verify-t33 and fb-t33 worktrees removed with git worktree remove --force after evidence capture; no mutations to docs/log, seq.txt, merge_test_index.json, merge_history.json, or any issue file."
+    ],
+    "residual_risks": [
+      "Platform issue #36 still carries [defined, built] labels and a stale body until the orchestrator syncs (role-lane override); the stray path-text comment on #36 noted in the builder handoff remains cosmetic noise.",
+      "Backend floor is >=244 by W4 design (t30/t32 unmerged siblings); the >=270 attestation must be re-run at t34/t35 after those merges - not a t33 defect."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t33_verifier_verify_issue.json"
+    ],
+    "platform_issue": 36,
+    "output_path": "docs/state/outputs/t33_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T06:53:45.339Z",
+  "retry_count": 0
+}
