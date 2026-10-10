@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t30",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "verifier verify_pre_merge for t30 (Platform #33, hooks layer card: agent-hooks/validate-amount.py + validate-ownership.py + agent-hooks/README.md + backend/tests/integration/test_agent_hooks.py (14 nodes) + M docs/issues/t30.md) against MAIN @ ebcde29 (== origin/main at spawn; t29+t31+t33 already merged, merge-order ruling t30 merges NOW, t32 after). Candidate branch issue/t30-hooks @ bb38a83 (groom 49230bf, feat cd2d521, re_groom bb38a83 carrying the 17-byte surgical fix to pinned ac6; ac_hash sha256:9368f3a3ba87e8c4c76046e3b39a4531bea2ca4994f9bf3c052cc48aa9aad789 recorded in re_groom, invariant across the fix by design because the defect lived inside '## Verification commands', outside the hashed AC bodies). verify_issue PASS already on record; labels [defined,verified]. CWD verified first: MAIN. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; per-worktree venv provisioned via uv sync --offline. TIME PROTOCOL (WAL-496 lesson) executed: 146-entry cumulative scan launched IMMEDIATELY as detached setsid-nohup harness (build/t30pm_full_scan.cjs, WSL node, execSync per entry cwd=sim root, GIT_DIR=MAIN/.git/worktrees/sim-t30 + GIT_WORK_TREE=/mnt/c form, PATH $HOME/.local/bin prefix, timeout 900000, TSV + done marker + log); 15-second liveness check confirmed pid + START + rows writing; all polls <=540 s. FIRST-LAUNCH INCIDENT: the initial cmd.exe npm ci wrapper (setsid nohup pattern) died silently BEFORE writing its log (WAL-496-class silent death); the scan correctly gated on the NPMCI_RC marker and never started against an unprovisioned host; relaunched with parent-written marker + child-append pattern -> npm ci rc=0 (512 packages, 10 s), scan released 08:45:53Z. Scan wall 32.98 min (08:45:53 -> 09:18:52Z), sum of per-entry durations 1978797 ms, no entry hit the 900 s timeout, zero failures.",
+    "orchestrator_prechecks": {
+      "main_eq_origin": "MAIN ebcde29 == origin/main at spawn (ls-remote refs/heads/main ebcde29). MAIN advanced ONCE mid-run to 432bfcd (1 orchestrator commit 't34 implement + t30 pre-merge dispatches (WAL 505)') - machine-verified inert: touches ONLY docs/log/2026_10_07.md + docs/state/seq.txt; merge_test_index.json byte-unchanged (blob 5dd15ab identical in both predicted trees); 0/146 index commands read either path (machine-grep).",
+      "branch_pushed": "ls-remote refs/heads/issue/t30-hooks == bb38a83e03dfc4270da91fd146e16ef1a1e8d1e4 (matches local tip).",
+      "branch_contains": "EXACTLY 3 commits: 49230bf groom, cd2d521 feat (hooks + README + 14-node suite), bb38a83 re_groom (17-byte ac6 fix). merge-base(main,branch) == 1a68016 (manifest baseline), an ancestor of MAIN.",
+      "index_shape": "146 entries; distribution t0:6 t1:5 t2:6 t3:5 t4:6 t5:6 t6:5 t7:5 t8:6 t9:6 t10:3 t11:4 t12:4 t13:5 t14:5 t15:5 t16:4 t17:4 t18:5 t19:5 t20:5 t21:5 t22:5 t23:5 t24:6 t25:5 t26:5 t27:5 t28:5 == 146; ZERO t30 entries. Known pre-existing FINDING (non-blocking, recorded since t29): extra 'note' key at INDICES 16 (t2) and 35 (t6); anchors tests[16]=t2/tests[54]=t9 SHA pins recomputed and byte-match.",
+      "merge_history": "32 entries, last t33-ff76141 (merged_at 2026-10-10T08:40:33Z, cumulative 146, backend 244). t30 merge expected to append entry 33 with cumulative 146 and backend_tests 258 (first merge to move the backend count: +14).",
+      "platform_issue_33": "open, labels EXACTLY [defined, verified]; latest-comment == null pre-post (dup-check clear).",
+      "shared_venv": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; sim backend/.venv via uv sync --offline rc=0."
+    },
+    "merge_simulation": {
+      "merge_tree_prediction_v1": "merge-tree --write-tree main issue/t30-hooks rc=0 -> 693bc2a6cba4505e599cb7b68563294c403d6334, ZERO conflict markers.",
+      "sim_merge_v1": "cmd.exe worktree add ..\\worktrees\\sim-t30 -b sim/t30 main; merge --no-ff issue/t30-hooks -> ort rc=0, commit 323e697 (parents ebcde29+bb38a83), tree 693bc2a == prediction EXACTLY, porcelain EMPTY. Provisioning: backend/.venv uv sync --offline; frontend/node_modules cmd.exe npm ci FROM frontend/ (512 pkgs, NO junctions); root node_modules NOT provisioned - machine-grep proved no index command needs it (t31 precedent).",
+      "main_advance": "ebcde29 -> 432bfcd mid-run; delta = docs/log/2026_10_07.md + docs/state/seq.txt ONLY; 0/146 commands read those paths (machine-grep).",
+      "merge_tree_prediction_v2": "merge-tree --write-tree 432bfcd issue/t30-hooks rc=0 -> 9d49f310bf1d5d1b0468086175c2ee8c817a9151, ZERO markers.",
+      "sim_re_merge": "re-merge -> 5536f69 (parents 323e697+432bfcd), tree 9d49f31 == NEW prediction EXACTLY, porcelain EMPTY. Product delta 693bc2a..9d49f31 == docs/log + seq.txt ONLY (ZERO product delta); all 5 manifests + agent-hooks/* + test_agent_hooks.py + t30.md blobs byte-identical across trees.",
+      "merged_delta_vs_main": "EXACTLY A agent-hooks/README.md, A agent-hooks/validate-amount.py, A agent-hooks/validate-ownership.py, A backend/tests/integration/test_agent_hooks.py, M docs/issues/t30.md. ZERO manifest/.github/frontend/e2e/backend-app/docs-state touches.",
+      "delta_axis_grep_proof": "All 146 command strings: agent-hooks 0 hits, test_agent_hooks 0, docs/issues 0, docs/log 0, seq.txt 0, merge_history 0 => 0/146 entries read merged-modified paths; merged host strictly most faithful; scan SINGLE-HOST (t29/t31/t33 precedent)."
+    },
+    "cumulative_scan": {
+      "harness": "build/t30pm_full_scan.cjs detached setsid-nohup (pid 1124509); 15-s liveness passed; TSV build/t30pm_full_results.tsv; done marker build/t30pm_full.done.",
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "completeness": "Machine-verified: 146 rows; idx unique 0..145; issue_id matches index every row; zero nonzero rc; host uniformly 'sim'.",
+      "wall": "32.98 min; sum per-entry 1978797 ms; slowest idx38(t6) 133.6 s; no 900 s timeouts.",
+      "failure_decomposition": "No failures; decomposition axis pre-proven 0/146 by machine-grep."
+    },
+    "merged_state_gates": {
+      "backend_collect_header": "EXACTLY '258 tests collected in 9.36s' on the SIM MERGED TREE - DELTA CARD SATISFIED: 244 (main alone) + 14 (test_agent_hooks.py independently: '14 tests collected', 14 '::' nodes) == 258 EXACT at this merge moment.",
+      "backend_collect_nodes": "258 (>=258)",
+      "backend_full_suite": "rc=0, '258 passed, 268 warnings in 98.85s' - green",
+      "backend_ruff": "rc=0 'All checks passed!'",
+      "backend_mypy": "Success: no issues found in 85 source files (>=83)",
+      "backend_alembic": "single head '005 (head)'",
+      "frontend_vitest_via_cmd_exe_npx_cmd_from_frontend": "187 passed / 0 failed / 0 pending / 0 todo, rc=0",
+      "frontend_tsc_via_cmd_exe_from_frontend": "rc=0, 0 errors",
+      "frontend_lint_via_cmd_exe_from_frontend": "react-refresh/only-export-components EXACTLY 4",
+      "readme": "202 lines <= 500",
+      "workflows": "EXACTLY 4: .gitkeep, ci.yml, deploy.yml, e2e.yml",
+      "manifests_5_byte_identical_vs_1a68016": "rc=0 (package.json, frontend/package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json)",
+      "index_146_anchors": "length 146; tests[16]=t2 sha cfb84edc... MATCH; tests[54]=t9 sha cf5babc0... MATCH; both stored commands execSync rc=0",
+      "gate_host_note": "All gates on sim-t30 merged tree; ALL frontend gates ONLY via cmd.exe npx.cmd/npm FROM frontend/ (shared root-node_modules WSL esbuild binary corrupted - 'data' not ELF; windows node.exe + tsx cli for platform.ts/validator; NO junctions)."
+    },
+    "smoke": {
+      "extraction": "git show 9d49f31:docs/issues/t30.md (merged tree, post re-merge), CRLF->LF, heading-exclusive /^## (?!#)/m boundary, 6 fenced bash blocks, trailing newline trimmed; executed VERBATIM.",
+      "results": {
+        "ac1": "rc=0 5.9s",
+        "ac2": "rc=0 3.1s",
+        "ac3": "rc=0 0.06s",
+        "ac4": "rc=0 10.5s",
+        "ac5": "rc=0 0.05s",
+        "ac6": "rc=0 155.4s (EXACT-258 composite, ran LAST)"
+      },
+      "byte_identity": "ac1-ac5 EXACT vs builder ac_mapping AND re_groom pin; ac6 EXACT vs re_groom pin, differs from builder ac_mapping by EXACTLY the 17-byte surgical fix (' || exit 1; cd ..' removed before the merge-index node -e leg) = bb38a83 re_groom change, as expected. Builder source: RUNTIME ARTIFACT build/t30_builder_implement.json - branch blob docs/state/outputs/t30_builder_implement.json does NOT exist on issue/t30-hooks (disclosed)."
+    },
+    "ac6_delta_card": "ac6 pins EXACTLY '^258 tests collected' + >=258 nodes + full-suite green + ruff + mypy >=83 (85) + single head 005 + workflows exactly 4 + README <=500 (202) + 5 manifests byte-identical vs 1a68016 + frontend 187/0/0/0 + tsc 0 + lint exactly-4 + index 146 anchors + both anchor execs green. Every leg independently gate-verified on the merged tree BEFORE ac6 ran; ac6 itself rc=0.",
+    "no_mutation": "NO merge into main (branch --contains bb38a83 --list main EMPTY), NO push, NO index/label/log/seq mutation. MAIN porcelain clean at 432bfcd; verifier worktree clean, nothing staged; #33 labels unchanged.",
+    "cleanup_verified": {
+      "worktree_remove": "cmd.exe git worktree remove --force ..\\worktrees\\sim-t30 rc=0; absent from worktree list AND disk.",
+      "branch_delete": "cmd.exe git branch -D sim/t30 -> 'Deleted branch sim/t30 (was 5536f69)' rc=0; branch --list EMPTY.",
+      "labels_after": "issue get 33 post-comment: open, labels EXACTLY [defined, verified] - UNCHANGED.",
+      "main_untouched": "main 432bfcd == origin/main; t30 NOT merged by verifier."
+    },
+    "comment": {
+      "posted": "MERGE VERDICT: PASS on Platform #33 via scripts/platform.ts issue comment 33 --body at 2026-10-10T09:25:34Z (windows node.exe + tsx cli).",
+      "dup_check": "latest-comment 33 == null before posting (zero prior comments)."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t30_verifier_verify_pre_merge.json",
+      "build/t30pm_full_scan.cjs",
+      "build/t30pm_full_results.tsv",
+      "build/t30pm_full.log",
+      "build/t30pm_full.done",
+      "build/t30pm_scan.pid",
+      "build/t30pm_npmci.sh",
+      "build/t30pm_npmci2.sh",
+      "build/t30pm_npmci.log",
+      "build/t30pm_gates.cjs",
+      "build/t30pm_gates.json",
+      "build/t30pm_gates.log",
+      "build/t30pm_anchor_check.cjs",
+      "build/t30pm_smoke.cjs",
+      "build/t30pm_smoke.log",
+      "build/t30pm_smoke_results.json",
+      "build/t30pm_smoke_identity.json",
+      "build/t30pm_cmds.json",
+      "build/t30pm_head_t30.md",
+      "build/t30pm_head_t30_lf.md",
+      "build/t30pm_mt.out",
+      "build/t30pm_mt.err",
+      "build/t30pm_verdict.md"
+    ],
+    "platform_issue": 33,
+    "output_path": "docs/state/outputs/t30_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T09:26:30Z",
+  "retry_count": 0
+}

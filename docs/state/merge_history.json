@@ -500,6 +500,20 @@
       "backend_tests": 244,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT third merge (ORDER DEVIATION recorded WAL 502: t33 merged before t30 - machine-proven safe: t33 adds ZERO test nodes + ZERO index entries, 0/146 index commands read custom-agent|.agents/agents, strict pins only require t31-before-t30 and t30+t31-before-t32). t33 = subagent definitions: 2 custom-agent/*.md + 2 mode-120000 .agents/agents symlinks, ZERO product code/deps/tests. ZERO index entries appended - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (48555801+resume 426c411d): 146/146 scan rc=0 (43.2 min contention, detached-harness survival + resume no restart), smoke 6/6 byte-identity 6/6, sim clean both MAIN advances (1cd7f97/7d89ab1 == predictions), gates green (EXACTLY-244 vs >=244 W4 pin, mypy 84, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). MERGE-TREE PREDICTION 1d62bc0 == ACTUAL TREE 1d62bc0 EXACT; symlinks materialized mode-120000 x2 real-links on MAIN checkout."
+    },
+    {
+      "merge_id": "t30-c5e4fdb",
+      "issue_id": "t30",
+      "platform_issue": 33,
+      "merged_sha": "c5e4fdb",
+      "merged_tree": "9d49f310bf1d5d1b0468086175c2ee8c817a9151",
+      "merged_at": "2026-10-10T09:35:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 146,
+      "backend_tests": 258,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT fourth merge per re-ranked order t29->t31->t33->t30->t32 (t31-before-t30 strict pin honored: t31 merged b873053 first; t30 EXACT-258 delta card satisfied AT ITS MERGE MOMENT: 244+14 test_agent_hooks nodes = EXACTLY 258 collected + 258/258 green re-executed on merged MAIN by orchestrator 86.61s). ZERO index entries (t30 ACs are composite/gate-style, not per-file pytest pins) - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (c7e776a2, WAL-496 protocol executed cleanly): 146/146 detached scan 32.98 min zero failures, sim tree 9d49f31 == prediction EXACT through one bookkeeping-only MAIN advance (432bfcd), smoke 6/6 with ac6 EXACT vs re_groom pin (17-byte surgical delta vs builder = bb38a83 fix, disclosed), gates green (EXACT-258, mypy 85, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). First merge to move backend floor: 244 -> 258."
     }
   ]
 }
