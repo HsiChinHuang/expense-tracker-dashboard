@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t28",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 141,
+      "passed": 141,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "RE-RUN #2 of verifier verify_pre_merge for t28 (Platform #31, phase_5 milestone-exit verification card) after orchestrator INDEX_AMENDMENT (WAL seq 467 FAIL record / 468 amendment). MAIN @ 9799598 (== origin/main, 141-entry index, entry #139 AMENDED). Candidate branch issue/t28-infra @ c243275 (unchanged - amendment is index-only, contract layer). Provisioned t28 worktree C:/Users/tw097/Desktop/261007_project01/worktrees/t28 (backend/.venv + frontend/node_modules, never reinstalled). CWD verified first: MAIN. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; per-worktree venv used. Handoff path _2 suffix: prior FAIL record (t28_verifier_verify_pre_merge.json) preserved; _2 path confirmed ABSENT from branch (git ls-tree -r issue/t28-infra -> 0 rows).",
+    "amendment_verification": {
+      "changed_entries": "python3 diff of MAIN index (9799598) vs prior-FAIL index (c583608): changed entry list == [139] ONLY; len 141 unchanged; updated_at 2026-10-09T09:37:12Z -> 2026-10-10T02:18:23Z; anchors tests[16]=t2 / tests[54]=t9 untouched.",
+      "amendment_text": "entry #139 (t27) leg 'cmd.exe /c \"git -C $(wslpath -w \"$PWD\") diff --quiet a224be8 -- backend\"' -> '... -- backend/app' (exactly the orchestrator-stated change; nothing else in the 15-leg command differs).",
+      "green_legs": "Full amended entry #139 re-executed on THREE hosts: MAIN rc=0, t28-branch host rc=0, merged sim host (ecfa1ad worktree) rc=0.",
+      "non_vacuity": "RED check re-run: git diff --quiet a224be8 7a4fbca~1 -- backend/app rc=1 with drift set backend/app/database.py, backend/app/main.py, backend/app/routers/health.py -> the narrowed guard still bites on real product-code drift (not vacuous). Amended leg rc=0 on MAIN and on branch (backend/app drift a224be8..branch == 0 files); old leg rc=1 on branch (drift == exactly backend/scripts/infra_verification.py, the t28-permitted deliverable) - confirms the amendment is the minimal correct fix.",
+      "branch_index_note": "issue/t28-infra carries the PRE-amendment index (entry #139 with '-- backend'); the merged tree carries the MAIN (amended) index because the path changed only on the main side since the merge base. Cumulative scan therefore ran against the MAIN amended index with the branch worktree as cwd (single-host proof below)."
+    },
+    "orchestrator_prechecks": {
+      "merge_tree": "git merge-tree --write-tree main(9799598) issue/t28-infra(c243275) -> rc=0, stdout == single tree oid c9f797f117a638db45a3bb55188617ec9af63836 (NEW oid vs the FAIL-run 68e01a3 - expected: main advanced c583608 -> 9799598), stderr EMPTY. Conflict-marker sweep git grep -I -E '^(<<<<<<<|=======$|>>>>>>>)' over c9f797f -> 0 matches.",
+      "handoff_add_add": "t28_builder_build.json byte-identical main-vs-branch (sha256 prefix 72cb1b6d3aee8a0a both sides) and t28_verifier_verify_issue.json byte-identical (bd511bfc43f1130b both sides) -> add/add auto-resolves. t28_verifier_verify_pre_merge.json is now MAIN-ONLY (branch_rows=0, main_rows=1) -> plain add from main, no conflict. t28_definer_groom.json main-only (plain add). t28_verifier_verify_pre_merge_2.json ABSENT from BOTH refs (branch_rows=0, main_rows=0) - the _2 path will not exist on the branch at merge time.",
+      "main_advance_since_fail_run": "git diff --name-only c583608..9799598 -> docs/log/2026_10_07.md, docs/state/merge_test_index.json, docs/state/outputs/t28_verifier_verify_pre_merge.json, docs/state/seq.txt (FAIL handoff copy + index amendment + WAL; docs/state + docs/log only).",
+      "issue_file_untouched_after_groom": "carried from FAIL run: git diff --name-only 7ddda68 issue/t28-infra -- docs/issues/t28.md -> 0 lines; branch tip unchanged at c243275 this run, so the finding still holds."
+    },
+    "single_host_equivalence_proof": "Re-machine-verified this run against main @ 9799598 (same recipe as the FAIL run, re-executed because main advanced): (1) git diff --name-only c583608..main == EXACTLY docs/log/2026_10_07.md, docs/state/merge_test_index.json, docs/state/outputs/t28_verifier_verify_pre_merge.json, docs/state/seq.txt - main advanced ONLY via orchestrator ingest/amend commits (and b1b5876..main adds only the three t28 handoff JSONs); (2) machine-grep of ALL 141 index command strings for docs/state|docs/log|merge_test_index|seq.txt -> 0 hits (re-run against the AMENDED index); (3) git diff --name-status issue/t28-infra c9f797f (merged tree) -> M docs/log/2026_10_07.md, M docs/state/merge_test_index.json, A docs/state/outputs/t28_definer_groom.json, A docs/state/outputs/t28_verifier_verify_pre_merge.json, M docs/state/seq.txt - none read by any of the 141 entries. Therefore the provisioned t28 worktree (branch content) is merged-equivalent for every one of the 141 entries -> single-host scan, no delta-reading entries needing the merged tree. The sim merge was STILL performed separately (step 4) for the merge-simulation and merged-state gates.",
+    "cumulative_scan": {
+      "total": 141,
+      "passed": 141,
+      "failed": 0,
+      "harness": "build/t28pm2_full_scan.cjs (WSL /usr/bin/node v18.19.1, execSync per entry cwd=t28 worktree, GIT_DIR=<main>/.git/worktrees/t28 + GIT_WORK_TREE=/mnt/c/.../worktrees/t28 exported in /mnt/c form, execSync cwd=worktree, timeout 900000, TSV + done-marker, setsid nohup detach, ONE blocking wait-loop). Index source: MAIN docs/state/merge_test_index.json @ 9799598 (AMENDED). Results build/t28pm2_full_results.tsv, log build/t28pm2_full.log.",
+      "wall_time": "23.0 min (2026-10-10T02:21:40Z -> 02:44:41Z), sum of per-entry durations 1380.5 s",
+      "completeness": "machine-verified: 141 rows, indices 0..140 each exactly once, 0 missing, 0 duplicates; per-issue counts t0:6 t1:5 t2:6 t3:5 t4:6 t5:6 t6:5 t7:5 t8:6 t9:6 t10:3 t11:4 t12:4 t13:5 t14:5 t15:5 t16:4 t17:4 t18:5 t19:5 t20:5 t21:5 t22:5 t23:5 t24:6 t25:5 t26:5 t27:5; anchors tests[16]=t2, tests[54]=t9 machine-confirmed; entries 131..135=t26 appends, 136..140=t27 appends all present.",
+      "nonzero_rows": "NONE. All 141 rows rc=0, including the amended entry idx=139 issue=t27 rc=0 ms=247.",
+      "comparison_to_fail_run": "The FAIL run's sole nonzero row (idx=139 rc=1) is resolved by the index amendment; no new failures introduced - identical 141-row green profile otherwise."
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "main_sha": "979959892bfa9dc01df74484e85c633cd01691ff",
+      "branch_sha": "c2432755a6cd5e776c90cc50d4daf3edcdccc238",
+      "merge_tree_prediction": "git merge-tree --write-tree main issue/t28-infra -> rc=0, stdout = single tree oid c9f797f117a638db45a3bb55188617ec9af63836, stderr EMPTY; conflict-marker sweep over that tree -> 0 matches.",
+      "merge_commit": "ecfa1ad17f45552ce69ef24f52156f63e01dda81",
+      "merge_commit_tree": "c9f797f117a638db45a3bb55188617ec9af63836 (== merge-tree prediction; byte-exact simulation)",
+      "sim": "cmd.exe git -C <MAIN> worktree add ..\\worktrees\\sim-t28 -b sim/t28 main (HEAD 9799598); git -C sim-t28 merge --no-ff --no-edit issue/t28-infra -> 'Merge made by the ort strategy', rc=0, 3 files changed 1062 insertions(+), 17 deletions(-); status --porcelain EMPTY. NO node_modules junction into sim (t27 lesson honored - structural greps only, no node deps needed)."
+    },
+    "merged_state_gates": {
+      "merged_delta_vs_main": "git diff --name-status main ecfa1ad -> EXACTLY A backend/scripts/infra_verification.py + A docs/criteria/infra_verification.md + M docs/issues/t28.md (3 rows). The FAIL handoff JSON (docs/state/outputs/t28_verifier_verify_pre_merge.json) is already ON the main side (ingested at 9799598), so it is NOT a delta-vs-main row; it appears in the branch->merged delta as an ADD from main. ZERO frontend/**, ZERO e2e/**, ZERO backend paths outside backend/scripts/, ZERO docs/state|docs/log rows in the merged-vs-main delta.",
+      "workflows_unchanged": "git diff --name-only main ecfa1ad -- .github -> EMPTY (0 lines).",
+      "makefile_unchanged": "git diff --name-only main ecfa1ad -- Makefile -> EMPTY (0 lines).",
+      "structural_spot_greps_on_sim_tree": "5/5 green against the sim worktree: (1) Dockerfile FROM count == 2; (2) docker-compose healthcheck: count == 2; (3) .github/workflows *.yml count == 3; (4) e2e config=1 (playwright.config.ts) + fixtures=2 (helpers.ts, users.ts) + specs=3 (happy-path, isolation, month-switch); (5) render.yaml '- key:' env entries == 9. Matches the script-parsed tokens in docs/criteria/infra_verification.md (DOCKERFILE_STAGES 2 / COMPOSE_HEALTHCHECKS 2 / WORKFLOWS 3 / E2E_ARTIFACTS config=1 fixtures=2 specs=3 / RENDER_ENV_KEYS 9)."
+    },
+    "smoke_tests_detail": "6/6 rc=0 on the t28 worktree: ac1 14337 ms (incl. backup/re-run/restore byte-stability legs), ac2 34 ms, ac3 48 ms, ac4 101 ms, ac5 74 ms, ac6 141088 ms (milestone-exit composite, run once). Source: 6 fenced bash blocks re-extracted from git show issue/t28-infra:docs/issues/t28.md @ c243275 (CRLF->LF, section boundary /^## (?!#)/m after '## Verification commands'). BYTE-IDENTITY: all 6 extracted commands byte-identical to builder ac_mapping acN.test (6/6 exact; sha256 prefixes b4df540a / bab8624d / e533e575 / c13d3c90 / d2aaf6b2 / 6dedcb61 match both sides). After ac1/ac6 the t28 worktree porcelain == EMPTY (ac1 restores the generated doc itself; no manual checkout needed); MAIN porcelain EMPTY throughout.",
+    "verdict": "PASS",
+    "platform": "Dup-check #31 first: latest comment == the prior MERGE VERDICT: FAIL (created_at 2026-10-10T02:14:39Z) - matches the expected FAIL record, no intervening MERGE VERDICT. Then MERGE VERDICT: PASS posted via scripts/platform.ts issue comment 31 --body at 2026-10-10T02:48:06Z (141/141 cumulative + 6/6 smoke + amendment noted + non-vacuity re-proof). Labels UNCHANGED [defined, verified] (issue get re-read after posting: state open, labels [defined, verified]).",
+    "notes": [
+      "SCOPE/RUN: RE-RUN #2 of verifier verify_pre_merge for t28 (Platform #31, phase_5 milestone-exit verification card) against MAIN @ 9799598 (== origin/main, 141-entry index with entry #139 AMENDED). CWD verified first. [VENV_UNAVAILABLE] WARN logged; pre-existing per-worktree venv used, NEVER reinstalled.",
+      "AMENDMENT CARRY-FORWARD (accepted, NOT re-opened): WAL seq 468 INDEX_AMENDMENT narrowed entry #139's stale pin 'git diff --quiet a224be8 -- backend' -> '-- backend/app'. Independently re-verified this run: only entry #139 changed (machine diff vs c583608 index), amended leg GREEN on MAIN + branch + merged hosts, RED non-vacuity rc=1 vs 7a4fbca~1 (database.py/main.py/health.py would bite) so the guard retains teeth. Rationale sound: backend/ over-froze backend/scripts/** which t28 explicitly permits; backend/app is the true product-code freeze surface.",
+      "VERDICT RATIONALE: PASS. Cumulative gate 141/141 rc=0 (machine-verified completeness), smoke 6/6 rc=0, merge simulation clean (merge-tree rc=0 tree c9f797f == REAL sim merge ecfa1ad tree, 0 conflict markers), merged-state gates all green (delta == exactly the 3 t28 product paths, .github + Makefile untouched, 5/5 structural spot greps).",
+      "MERGE TREE OID CHANGED vs the FAIL run (c9f797f vs 68e01a3) - expected and explained: main advanced c583608 -> 9799598 (FAIL handoff ingest + index amendment + WAL, docs/state + docs/log only). The orchestrator pre-check tree from the FAIL brief (71b782e) remains stale/superseded.",
+      "SINGLE-HOST SCAN: proof re-run verbatim against 9799598 (three legs machine-verified: main-vs-branch delta names, 0/141 docs-reads, branch-vs-mergedtree delta). The t28 worktree IS merged-equivalent for all 141 entries; sim host used only for the merge-simulation + merged-state gates and for the third-host amended-entry #139 execution. Scan 23.0 min.",
+      "INDEX HOST NOTE (for the orchestrator's awareness, no action needed): the branch carries the PRE-amendment index file; the merged tree carries the amended (main-side) index because the path changed only on main since the merge base. The scan used the MAIN amended index with the branch worktree as cwd, which is exactly the merged-state configuration any post-merge host would use.",
+      "ACCEPTED RESIDUAL (do NOT re-open): the ac_hash 4150dab0 unreproducibility remains the ACCEPTED RESIDUAL ruled at verify_issue. This run independently re-corroborated command integrity: 6/6 smoke commands byte-identical to builder ac_mapping (sha256 both sides).",
+      "RESIDUAL (from verify_issue, carried): DEFERRED rows are honest host-fact records (docker/CI/Render/UptimeRobot live-checks remain operator actions); ac6 composite hard-codes floors 244/187/141/4/83/005 - a future card changing any floor must refresh the AC; fallback elapsed ~0.09s bound 5s is host-dependent.",
+      "PLATFORM: dup-check (latest == prior FAIL comment 02:14:39Z) then PASS verdict posted 02:48:06Z. Labels untouched [defined, verified].",
+      "CLEANUP/STATE: NO merge into main, NO push, NO index/issue/label/product modification, NO checkout of the candidate worktree, NO worktree prune from WSL (t28 worktree shows 'prunable' in git worktree list - benign WSL drive-letter pointer artifact, verified functional via GIT_DIR/GIT_WORK_TREE env access; prune-from-WSL is forbidden). sim-t28 worktree + branch sim/t28 removed via cmd.exe AFTER all measurements (no junction involved). t28 worktree porcelain EMPTY; MAIN working tree untouched except gitignored build/t28pm2* scratch + the uncommitted handoff copy in docs/state/outputs/.",
+      "HANDOFF PATHS: docs/state/outputs/t28_verifier_verify_pre_merge.json (FAIL record) preserved untouched; this run writes ..._verify_pre_merge_2.json, confirmed ABSENT from issue/t28-infra (git ls-tree -r -> 0 rows) so the merge introduces no add/add on it. MAIN copy left UNCOMMITTED per protocol (orchestrator ingests).",
+      "REACHED_STATE: PASS => verified (issue stays [defined,verified], ready for orchestrator merge).",
+      "PRE-OUTPUT CHECKLIST: CWD PASS; venv WARN logged PASS; index read PASS (141, amended entry #139 diffed, anchors machine-confirmed); candidate branch confirmed PASS (issue/t28-infra @ c243275, no checkout run); all 141 cumulative entries run PASS (141/141 rc=0); smoke PASS 6/6 (byte-identity vs builder 6/6 sha256); failed tests none; handoff under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS; labels untouched PASS; schema-validated from MAIN [OK] PASS; reached_state=verified PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t28_verifier_verify_pre_merge_2.json"
+    ],
+    "platform_issue": 31,
+    "output_path": "docs/state/outputs/t28_verifier_verify_pre_merge_2.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T02:50:00Z",
+  "retry_count": 1
+}

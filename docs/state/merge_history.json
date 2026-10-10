@@ -444,6 +444,20 @@
       "backend_tests": 244,
       "regression_count": 0,
       "notes": "Merged after pre-merge FAIL->fix->PASS re-run: sole failure was stale legacy index entry tests[0] (t0) requiring e2e/.gitkeep tracked while branch deletes it per explicit issue-file permission - amended per 6ab7da5 precedent (0aee30f), confirmed non-vacuous. Re-run 136/136 + smoke 6/6 incl ac4 e2e.yml cross-attestation activated on merged host (t26 e2e.yml invokes make e2e). Makefile dual-region byte-identity (t26 442B + t27 451B). Sim merge a468860 tree==prediction cc22f6a. Index-append ac1..ac5 (136->141), composite ac6 excluded. Product: e2e/ 8 artifacts (config, tsconfig, 2 fixtures, 3 specs, gate types), Makefile e2e target, .gitignore region; e2e/.gitkeep deleted. INCIDENT: sim junction cleanup emptied MAIN frontend/node_modules (gitignored), repaired via npm ci (512 pkgs). Specs structurally verified only - live Playwright run deferred to t28/first CI (selector/kpi asserts may need live tuning)."
+    },
+    {
+      "merge_id": "t28-feb7352",
+      "issue_id": "t28",
+      "platform_issue": 31,
+      "merged_sha": "feb7352",
+      "merged_tree": "c9f797f117a638db45a3bb55188617ec9af63836",
+      "merged_at": "2026-10-10T02:49:46Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 141,
+      "backend_tests": 244,
+      "regression_count": 0,
+      "notes": "PHASE_5_INFRA MILESTONE EXIT. Merged after pre-merge FAIL->index amendment->PASS re-run: sole failure was stale legacy index entry tests[139] (t27) backend no-drift guard pinned at a224be8 -- backend, mutually exclusive by construction with t28-permitted backend/scripts/infra_verification.py (issue line 196) - narrowed to backend/app per t26#5/t27#0 precedent (9799598), non-vacuity re-proved (rc=1 vs 7a4fbca~1). Re-run 141/141 + smoke 6/6. Sim merge ecfa1ad tree==prediction c9f797f. Index-append ac1..ac5 (141->145), composite ac6 excluded. ACCEPTED RESIDUAL: groom ac_hash 4150dab0 unreproducible (t28.md has no ## Acceptance criteria heading; recipe inapplicable; AC/command integrity proven by three-way command byte-identity + untouched issue file) - orchestrator ruling at verify_issue. Product: backend/scripts/infra_verification.py (hermetic, no subprocess) + generated docs/criteria/infra_verification.md (23 PASS, 7 DEFERRED host-fact rows, 12 criteria-mapping rows). mypy floor now counts 84 files. DEFERRED live-checks (docker build/compose up, CI/E2E runs, Render deploy, UptimeRobot, live cold start) remain operator actions per the deferral register."
     }
   ]
 }
