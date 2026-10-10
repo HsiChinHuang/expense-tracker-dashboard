@@ -486,6 +486,20 @@
       "backend_tests": 244,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT second merge (merge order ruling t29->t31->t30->t33->t32). t31 = MCP server core: mcp-server/{config,auth,server}.py + copy-only pyproject.toml; structural+syntax modality, server never spawned (mcp SDK deliberately absent, hand-rolled JSON-RPC 2.0 stdio). ZERO test nodes, ZERO index entries appended (index diff main..branch == 0 lines; 0/146 index commands reference mcp-server) - index stays 146, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 re-verified byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (verifier run b8e10309 + resume c5370b10): agent timed out mid-scan, detached harness survived, resumed run polled existing TSV to 146/146 rc=0 (41.0 min, no restart); smoke 6/6 rc=0 with 6/6 byte-identity vs builder ac_mapping; merge simulation clean on THREE MAIN states (c6a8cfd/41dd0a3/a8d1d9d, trees ee1c6ef/20bf433/ffaeee3, mid-run advances proven inert bookkeeping-only); merged-state gates green: backend EXACTLY 244 collected + full green + ruff + mypy 84 + head 005, frontend 187/0/0/0 + tsc + exactly-4 lint, README 202, workflows 4, 5 manifests byte-identical. MERGE-TREE PREDICTION b07ca8cd == ACTUAL MERGE TREE b07ca8cd EXACT (against post-WAL-500 tip 60528c8; bookkeeping-only drift from verifier predictions, same-class as t29 precedent). EXACT-244 backend floor now LOCKED GREEN on merged main - t30 (its +14 tests) merges NEXT so the exact-258 delta gate evaluates at t30 merge moment per ruling. FINDINGS (non-blocking): index note-key at INDICES 16(t2)/35(t6); t31_builder_implement.json absent from branch tree (byte-identity checked vs builder runtime-artifact copy - pin chain intact)."
+    },
+    {
+      "merge_id": "t33-ff76141",
+      "issue_id": "t33",
+      "platform_issue": 36,
+      "merged_sha": "ff76141",
+      "merged_tree": "1d62bc0f9c856d302e64824451adce2921063486",
+      "merged_at": "2026-10-10T08:40:33Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 146,
+      "backend_tests": 244,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT third merge (ORDER DEVIATION recorded WAL 502: t33 merged before t30 - machine-proven safe: t33 adds ZERO test nodes + ZERO index entries, 0/146 index commands read custom-agent|.agents/agents, strict pins only require t31-before-t30 and t30+t31-before-t32). t33 = subagent definitions: 2 custom-agent/*.md + 2 mode-120000 .agents/agents symlinks, ZERO product code/deps/tests. ZERO index entries appended - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (48555801+resume 426c411d): 146/146 scan rc=0 (43.2 min contention, detached-harness survival + resume no restart), smoke 6/6 byte-identity 6/6, sim clean both MAIN advances (1cd7f97/7d89ab1 == predictions), gates green (EXACTLY-244 vs >=244 W4 pin, mypy 84, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). MERGE-TREE PREDICTION 1d62bc0 == ACTUAL TREE 1d62bc0 EXACT; symlinks materialized mode-120000 x2 real-links on MAIN checkout."
     }
   ]
 }
