@@ -456,8 +456,174 @@ and `test-backend-unit` / `test-backend-integration` / `*-cov` do not exist).
 
 ## phase_6_agent — Agent Extension Pack (Phase 6)
 
-Scope: agent-capabilities/, agent-hooks/, mcp-server/, custom-agent/ per
-REQ-PROD / REQ-AI / REQ-EXT chapters. Refined by survey when this milestone begins.
+Survey (2026-10-10) refined this placeholder into seven issues (t29..t35)
+mapped onto the 17 tasks of Chapter 17 §17.7.2 (6.1..6.17) against merged
+phase_5 reality (main @ 1dccd15: backend 244 pytest collected / ruff clean /
+mypy 84 source files clean / single alembic head 005; frontend 187 vitest /
+`tsc --noEmit` rc=0 / lint exactly 4 `react-refresh/only-export-components`
+warnings; merge_test_index 146 entries with SHA-pinned amended anchors
+tests[16]=t2 / tests[54]=t9; README 202 lines; `.github/workflows/` holds
+exactly ci.yml + e2e.yml + deploy.yml + .gitkeep; `agent-capabilities/`,
+`agent-hooks/`, `mcp-server/`, `custom-agent/`, `.agents/`, `CLAUDE.md` and
+`docs/permissions.md` all measured ABSENT at repo root; platform issues #3..#31
+consumed, so #32+ are free).
+
+**Survey rulings (pinned; groom may refine wording, not these decisions):**
+
+1. **VERIFICATION MODALITY = PER-CLASS RULING (executed / structural /
+   deferred), measured not assumed.** Re-measured host facts at survey: no
+   network egress (coding_standards forbids `curl`/`wget` AND `uv` resolves
+   nothing offline — measured: a probe project declaring `httpx>=0.27` fails
+   with "Connection Failed"), no GH runner (Actions untriggerable from this
+   harness), docker daemon DOWN (`docker` not present in the WSL distro; the
+   win32 CLI's `dockerDesktopLinuxEngine` npipe is absent), WSL node v18.19.1
+   and win32 node v24.16.0 both available (js-yaml requireable under BOTH —
+   measured), backend uv venv green (244 collected, ruff clean, mypy 84 files,
+   head `005`), `httpx` 0.28.1 / `python-jose` 3.5.0 / `pydantic` 2.13.5 /
+   `uvicorn` 0.54.0 / PyYAML 6.0.3 already installed, **`mcp` NOT installed
+   and NOT installable** (probe: `ModuleNotFoundError`). RULING by class:
+   (a) **EXECUTED** — hooks and MCP tools: `agent-hooks/*.py` semantics and
+   the four MCP tools' auth-before-dispatch/request-shape behavior run as real
+   pytest nodes inside the merged backend suite (`backend/tests/integration/
+   test_agent_hooks.py`, `test_mcp_tools.py`) with httpx `MockTransport`
+   standing in for the backend — so criteria row 8 ("Hook tests pass") and
+   REQ-PLAN-061's "hooks importable / hook tests pass / MCP tools work" rows
+   are satisfied by execution; (b) **STRUCTURAL** — skills, subagents,
+   symlinks, MCP transport core, the two documents: frontmatter/section/manifest
+   parses via the already-installed js-yaml + `python -m py_compile` + TOML
+   `tomllib` + line-anchored greps, because their requirement text is
+   `Read <file>` / `List <dir>`; (c) **DEFERRED** — live agent-session
+   discovery/invocation, the live MCP subprocess against a running backend
+   (REQ-PLAN-060 task 6.17 "manual MCP test") and live subagent launch: t35
+   records each as `DEFERRED <measured reason>` with the operator live-check
+   command. A deferred row is never written as PASS (the phase_5 ruling-5
+   discipline, carried forward). Every gate stays hermetic, deterministic and
+   fail-before-capable: RED at the pre-merge base (all five new paths measured
+   absent) and GREEN after the merge.
+2. **NO NEW WORKFLOW FILE — the exactly-3 workflow guard is honored, not
+   refreshed.** Measured: index entry tests[131] (t26) asserts
+   `ls -A .github/workflows | grep -vE "^(ci|e2e|deploy)\.yml$|^\.gitkeep$"` is
+   empty, i.e. adding any sibling breaks a GREEN merged entry. No phase_6
+   requirement asks for a workflow (REQ-PLAN-060's 17 tasks name none), so
+   phase_6 adds ZERO workflows and every card's composite re-attests the
+   exactly-3 set. `mcp-server/pyproject.toml` is therefore a DECLARATION for a
+   future network-equipped runner, never a CI step in this milestone (t31
+   Constraints). If phase_7/8 ever needs a workflow, that survey must ship a
+   card that refreshes tests[131]-class ACs first — recorded here so the next
+   survey does not rediscover it.
+3. **DEPENDENCY POLICY = ZERO new dependency INSTALLED; exactly one new
+   manifest DECLARED, and the `mcp` SDK is BANNED.** Measured: `uv` cannot
+   resolve even `httpx` offline, so no card may contain an install step (it
+   would be a permanently red gate). `mcp-server/pyproject.toml` declares
+   `httpx>=0.27` + `python-jose[cryptography]>=3.3` (REQ-TECH-026 names that
+   file as a verification target) and is never synced on this host. Because the
+   `mcp` package is uninstallable here, t31 hand-rolls the minimal MCP wire
+   protocol (newline-delimited JSON-RPC 2.0: `initialize`/`tools/list`/
+   `tools/call`) over stdio — the recorded trade-off of the offline host, which
+   also makes the server importable and therefore EXECUTABLY testable in t32.
+   The five existing manifests (`package.json`, `frontend/package.json`,
+   `backend/pyproject.toml`, `backend/uv.lock`, `e2e/package.json`) are
+   byte-frozen for every phase_6 card, so the amended anchors' dependency legs
+   (tests[16] styled-family/date-fns forbidden; tests[54] recharts == 2.15.4 +
+   react-hook-form/zod pinned) cannot collide: neither entry reads `mcp-server/`,
+   `agent-*/`, `custom-agent/` or `.agents/` (verified by scanning all 146
+   entries at survey), no entry gains a dependency leg, and the index grows
+   only by append.
+4. **DISCOVERY SYMLINKS ARE GIT-TRACKED FILE LINKS (mode 120000), FILE-LEVEL
+   ONLY.** Measured on this host: `ln -s` works under WSL git, `git add` stores
+   mode `120000`, and a `git clone --no-local` performed through **cmd.exe**
+   (the same git the pipeline uses) materializes real links whose `cat` returns
+   the canonical bytes. RULING: `.agents/skills/<name>.md ->
+   ../../agent-capabilities/<name>/SKILL.md` and `.agents/agents/<name>.md ->
+   ../../custom-agent/<name>.md` — file-level, link depth exactly 2, never
+   directory-level links (a directory link would make the REQ-EXT-004
+   `ls -la .agents/skills/` verification list the link instead of the skills).
+   Every discovery AC is TWO-part: `git ls-files -s` mode-120000 count + the
+   EXECUTED `cat`-through-symlink byte-equality (`cmp`), so "discoverable" is
+   proven, not asserted.
+5. **NEW TOP-LEVEL DIRECTORIES ARE SAFE FOR EVERY EXISTING INDEX ENTRY —
+   verified by scan, not by hope.** All 146 index entries were scanned at
+   survey: tests[0] (t0) enumerates ONLY `frontend backend e2e security ops
+   .github/workflows` + three tracked `.gitkeep` files (no exhaustive root-dir
+   list), so adding `agent-capabilities/`, `agent-hooks/`, `mcp-server/`,
+   `custom-agent/`, `.agents/` cannot break it; no entry enumerates the repo
+   root exhaustively; the only exactly-count guards are tests[131] (workflows,
+   handled by ruling 2) and the t27 e2e-file guards (scoped to `e2e/`).
+   `git check-ignore` returns rc=1 (not ignored) for every planned path, so no
+   `.gitignore` edit is needed — and `.gitignore` stays byte-untouched.
+   Floor policy: mypy stays `>= 83` for the whole milestone (84 observed
+   pre-milestone; the two new backend test files raise the OBSERVED count,
+   which groom records — t24..t28 all pinned `>= 83` and none refreshed it, so
+   this survey does not either). The backend collection floor moves by explicit
+   in-text refresh: 244 → **258** at t30 (+14 hook nodes) → **270** at t32
+   (+12 MCP nodes); t29/t33/t34/t35 add no test node, and the LAST composite AC
+   of every card is excluded from the index append (standing rule).
+6. **SCOPE BOUNDARIES against later milestones (no card drift).** The
+   AI-workflow documentation set — `docs/ai-workflow.md` (REQ-AI-001..052,
+   110..143), `docs/process.md` prose, `docs/team/*`, `CLAUDE.md`
+   (REQ-AI-021/REQ-DOC-013) and the criteria-table restatement — stays with
+   phase_8_docs; `security/ai-tool-data-policy.md` (REQ-AI-130..134) stays with
+   phase_7_security_ops (it is a `security/` artifact and REQ-DOC-030 counts
+   that tree at 8 files). phase_6 therefore ships EXACTLY the Criterion-12
+   evidence set: the four agent directories + `.agents/` +
+   `docs/agent-extension-pack.md` + `docs/permissions.md`. REQ-AI rows whose
+   verification target is one of those deferred files are listed uncovered in
+   the survey handoff with the owning milestone, never silently dropped.
+7. **NO BROAD NO-DRIFT GUARDS (hard-won lesson, WAL seq 467/468 / t28 entry
+   #139 class defect).** No phase_6 AC may pin `git diff --quiet <sha> --
+   backend`, `-- .github`, or any other broad-path freeze: later milestones
+   legitimately touch those paths. Freeze assertions are scoped to the
+   NARROWEST real product path (the five named manifest files, individual
+   router files) or omitted entirely. Every card ends with its no-drift
+   composite as the LAST AC (index-append-excluded), which is where the
+   suite/lint/mypy/alembic/index floors are re-attested — the mechanism the
+   t24..t28 cards proved green.
+
+**The seven cards (single-responsibility, per the t20..t28 precedent):**
+
+| card | vertical | modality | depends | new nodes |
+|---|---|---|---|---|
+| t29 | skills: 3 `SKILL.md` + `.agents/skills/` symlinks | structural + executed `cat`-through | t28 | 0 |
+| t30 | hooks: `validate-amount.py`, `validate-ownership.py`, `agent-hooks/README.md` + backend hook tests | EXECUTED (14 nodes) | t28 | +14 |
+| t31 | MCP core: `config.py`, `auth.py`, `server.py`, copy-only manifest | structural (syntax/ruff/mypy/TOML/greps) | t29 | 0 |
+| t32 | MCP tools: 4 modules + hook wiring + README + hermetic `MockTransport` tests | EXECUTED (12 nodes) | t30, t31 | +12 |
+| t33 | subagents: `custom-agent/finance-analyst.md`, `qa-reviewer.md` + `.agents/agents/` symlinks | structural + executed `cat`-through | t29 | 0 |
+| t34 | docs: `docs/agent-extension-pack.md` + `docs/permissions.md` (separate files, REQ-EXT-083) | structural + count/path cross-gates | t29, t30, t32, t33 | 0 |
+| t35 | verification card: script-generated `docs/criteria/agent_pack_verification.md` + 3-row deferral register + composite | executed + attested + deferred | t29, t30, t32, t33, t34 | 0 |
+
+Task mapping (§17.7.2): 6.1–6.3 → t29; 6.4–6.7 → t30; 6.8–6.9 → t31;
+6.10–6.13 → t32; 6.12(subagents)/6.13 + `.agents/agents/` → t33; 6.15–6.16 →
+t34; 6.14 (symlinks, split with t29/t33) + 6.17 (manual MCP test → t35 deferral
+register) + §17.7.4 verification → t35. N = 7; batch_size =
+min(5, max(1, ceil(7/3))) = 3 → batches [t29,t30,t31], [t32,t33,t34], [t35];
+each file written in its own write call. DAG: 36 nodes / 60 edges.
+
+**RULING 8 — DEPENDENCY-CHAIN MEASUREMENT IS MILESTONE-LOCAL (orchestrator
+ruling, 2026-10-10; recorded here because it changes how every future survey
+reports the chain).** Measured after this survey's DAG extension
+(programmatic longest-path DP over dag.json, 36 nodes / 60 edges, 0 cycles,
+0 orphans, Kahn order covering all 36 nodes): the **cumulative** critical path
+is **24 edges** — t0,t1,t4,t5,t6,t7,t8,t11,t13,t14,t16,t17,t20,t21,t22,t23,
+t24,t26,t27,t28,t29,t31,t32,t34,t35 — while `limits.dep_chain_warn = 10` and
+`limits.dep_chain_halt = 20` (docs/config.yaml, which is operator-owned and
+MUST NOT be edited by any role). The **milestone-local** maximum chain for
+phase_6 is **5 edges** (t28→t29→t31→t32→t34→t35). RULING: `dep_chain_warn` /
+`dep_chain_halt` are evaluated on the MILESTONE-LOCAL chain; the cumulative
+path is carried as a **WARN-class standing condition**, exactly as
+`warn = 10` has been carried since it was surpassed in phase_2. Grounds: the
+cumulative reading makes the limit structurally unsatisfiable for ANY
+post-phase_5 milestone (the chain grows monotonically; the mandated
+milestone-exit verification card alone pushes 19 → 21 even if every card is
+attached flat to t28), so under that reading the limit could only ever produce
+a guaranteed halt — and `docs/config.yaml` is not editable at role authority
+level. phase_5's own review_plan already scored the chain in milestone terms
+(19 edges). Consequence for this and every later survey: report BOTH numbers
+(milestone-local and cumulative), state which reading the threshold is judged
+against, and do not flatten a card graph to chase the cumulative figure —
+flattening would break the t15/t23/t28 verification-card precedent and still
+breach. `definer:review_plan` MUST evaluate `dep_chain` under the
+milestone-local reading with the cumulative path recorded as a standing WARN,
+not a blocker.
 
 ## phase_7_security_ops — Security and Operations (Phase 7)
 
