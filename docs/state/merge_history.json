@@ -458,6 +458,20 @@
       "backend_tests": 244,
       "regression_count": 0,
       "notes": "PHASE_5_INFRA MILESTONE EXIT. Merged after pre-merge FAIL->index amendment->PASS re-run: sole failure was stale legacy index entry tests[139] (t27) backend no-drift guard pinned at a224be8 -- backend, mutually exclusive by construction with t28-permitted backend/scripts/infra_verification.py (issue line 196) - narrowed to backend/app per t26#5/t27#0 precedent (9799598), non-vacuity re-proved (rc=1 vs 7a4fbca~1). Re-run 141/141 + smoke 6/6. Sim merge ecfa1ad tree==prediction c9f797f. Index-append ac1..ac5 (141->146), composite ac6 excluded. ACCEPTED RESIDUAL: groom ac_hash 4150dab0 unreproducible (t28.md has no ## Acceptance criteria heading; recipe inapplicable; AC/command integrity proven by three-way command byte-identity + untouched issue file) - orchestrator ruling at verify_issue. Product: backend/scripts/infra_verification.py (hermetic, no subprocess) + generated docs/criteria/infra_verification.md (23 PASS, 7 DEFERRED host-fact rows, 12 criteria-mapping rows). mypy floor now counts 84 files. DEFERRED live-checks (docker build/compose up, CI/E2E runs, Render deploy, UptimeRobot, live cold start) remain operator actions per the deferral register."
+    },
+    {
+      "merge_id": "t29-23019ff",
+      "issue_id": "t29",
+      "platform_issue": 32,
+      "merged_sha": "23019ff",
+      "merged_tree": "4276cc083b779de843dd9ec2f9b32970100a5928",
+      "merged_at": "2026-10-10T07:11:52Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 146,
+      "backend_tests": 244,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT first merge. MERGE ORDER RE-RANKED by orchestrator ruling: t29 -> t31 -> t30 -> (t33/t32 per DAG) - t31 pinned ac6 EXACT 244 collected goes red if t30 (+14) merges first; t30 exact-258 gate then evaluates correctly at its own merge moment. Pre-merge PASS (946282ac): 146/146 scan green on SIM MERGED TREE (single-host, 44.4 min under 4-pipeline contention), smoke 6/6 byte-identity, merge-tree prediction == actual tree 4276cc0 (re-verified after mid-run MAIN advance e34f598 - ingest-only, index byte-unchanged). ZERO index entries appended: t29 adds no executable test nodes (card: appends AT MOST ac1..ac5; builder+verifier measured zero test nodes; ac1..ac5 are structural file/symlink greps). FINDING (pre-existing, non-blocking): index entries 16/35 carry historical extra note key - anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 SHA pins recomputed and byte-match. Product: 3 SKILL.md + 3 mode-120000 symlinks. Skill runtime execution deferred to t35 register."
     }
   ]
 }
