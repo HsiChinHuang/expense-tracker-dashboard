@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t32",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t32-mcp-tools",
+    "branch_sha": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'test -d mcp-server/tools || exit 1; for f in add_expense get_budget_status monthly_summary list_expenses; do test -f mcp-server/tools/$f.py || exit 1; done; a=mcp-server/tools/add_expense.py; g=mcp-server/tools/get_budget_status.py; m=mcp-server/tools/monthly_summary.py; l=mcp-server/tools/list_expenses.py; grep -qE \"\\\"/expenses\\\"\" \"$a\" || exit 1; grep -qE \"\\.post\\(\" \"$a\" || exit 1; grep -qE \"\\\"/dashboard/summary\\\"\" \"$g\" || exit 1; grep -qE \"\\.get\\(\" \"$g\" || exit 1; grep -qE \"\\\"/dashboard/by-category\\\"\" \"$m\" || exit 1; grep -qE \"\\.get\\(\" \"$m\" || exit 1; grep -qE \"\\\"/expenses\\\"\" \"$l\" || exit 1; grep -qE \"\\.get\\(\" \"$l\" || exit 1; for f in \"$a\" \"$g\" \"$m\" \"$l\"; do n=$(grep -cE \"\\.(get|post|put|patch|delete)\\(\" \"$f\"); [ \"$n\" -eq 1 ] || exit 1; grep -qE \"Authorization\" \"$f\" || exit 1; grep -qE \"Bearer\" \"$f\" || exit 1; grep -qE \"get_user_token\" \"$f\" || exit 1; grep -qE \"verify_jwt\" \"$f\" || exit 1; grep -qE \"McpToolError\" \"$f\" || exit 1; grep -qE \"status_code\" \"$f\" || exit 1; grep -qE \"^import httpx[[:space:]]*$\" \"$f\" || exit 1; ! grep -qE \"^(import|from) (requests|urllib)\" \"$f\" || exit 1; ! grep -qE \"except Exception\" \"$f\" || exit 1; ! grep -qE \"^(import|from) (socket|sqlalchemy|psycopg|sqlite3|fastapi|uvicorn)\" \"$f\" || exit 1; done; grep -qE \"^class McpToolError\\(Exception\\):[[:space:]]*$\" mcp-server/tools/__init__.py || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'a=mcp-server/tools/add_expense.py; g=mcp-server/tools/get_budget_status.py; m=mcp-server/tools/monthly_summary.py; l=mcp-server/tools/list_expenses.py; test -f \"$a\" || exit 1; grep -qE \"importlib\" \"$a\" || exit 1; grep -qE \"SourceFileLoader|spec_from_file_location|module_from_spec\" \"$a\" || exit 1; grep -qE \"agent-hooks\" \"$a\" || exit 1; grep -qE \"validate-amount\\.py\" \"$a\" || exit 1; grep -qE \"validate_amount\" \"$a\" || exit 1; h=$(grep -nE \"=[_a-zA-Z ]*(load_validator|validate_amount)\\(\" \"$a\" | head -1 | cut -d: -f1); r=$(grep -nE \"\\.post\\(\" \"$a\" | head -1 | cut -d: -f1); [ -n \"$h\" ] && [ -n \"$r\" ] && [ \"$h\" -lt \"$r\" ] || exit 1; grep -qE \"\\\"total_spent\\\"\" \"$g\" || exit 1; grep -qE \"\\\"total_budget\\\"\" \"$g\" || exit 1; grep -qE \"\\\"remaining\\\"\" \"$g\" || exit 1; grep -qE \"\\\"percentage\\\"\" \"$g\" || exit 1; grep -qE \"categories\" \"$m\" || exit 1; grep -qE \"\\\"page_size\\\"\" \"$l\" || exit 1; grep -qE \"category_id\" \"$l\" || exit 1; grep -qE \"year_month\" \"$l\" || exit 1; grep -qE \"limit\" \"$l\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; t=backend/tests/integration/test_mcp_tools.py; grep -qE \"MockTransport\" \"$t\" || exit 1; grep -qE \"create_access_token\" \"$t\" || exit 1; grep -qE \"from jose import|import jose\" \"$t\" || exit 1; grep -qE \"verify_jwt|AuthError\" \"$t\" || exit 1; grep -qE \"== 0\" \"$t\" || exit 1; ! grep -qE \"httpx\\.Client\\(|httpx\\.AsyncClient\\(\" \"$t\" || exit 1; ! grep -qE \"uvicorn|socket\\.socket|listen\\(|docker\" \"$t\" || exit 1; cd backend || exit 1; c=$(uv run pytest --collect-only -q tests/integration/test_mcp_tools.py 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\\n\" \"$c\" | grep -c \"::\"); [ \"$n\" -eq 12 ] || exit 1; printf \"%s\\n\" \"$c\" | grep -qE \"^270 tests collected\" && exit 1; for id in test_valid_token_reaches_transport_with_bearer_header test_get_budget_status_calls_summary_and_simplifies test_monthly_summary_returns_by_category_rows test_list_expenses_limit_maps_to_page_size test_list_expenses_category_filter_maps_to_category_id test_invalid_signature_is_rejected_before_any_transport_call test_expired_token_is_rejected_before_any_transport_call test_wrong_audience_is_rejected_before_any_transport_call test_wrong_type_claim_is_rejected_before_any_transport_call test_non_2xx_response_raises_mcp_tool_error test_over_max_amount_raises_value_error_with_zero_requests test_three_decimal_amount_raises_value_error_with_zero_requests; do printf \"%s\\n\" \"$c\" | grep -qE \"^tests/integration/test_mcp_tools\\.py::${id}[[:space:]]*$\" || exit 1; done; uv run pytest tests/integration/test_mcp_tools.py -q >/dev/null 2>&1 || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'test -f mcp-server/README.md || exit 1; d=mcp-server/README.md; grep -qiE \"^#{1,6}[[:space:]].*tools[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*authentication[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*environment variables[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*running[[:space:]]*$\" \"$d\" || exit 1; grep -qiE \"^#{1,6}[[:space:]].*design notes[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"MCP_JWT_SECRET\" \"$d\" || exit 1; grep -qE \"MCP_API_BASE_URL\" \"$d\" || exit 1; grep -qE \"MCP_USER_TOKEN\" \"$d\" || exit 1; grep -qE \"MCP_JWT_SECRET=.*MCP_API_BASE_URL=.*MCP_USER_TOKEN=\" \"$d\" || exit 1; grep -qiE \"subprocess\" \"$d\" || exit 1; grep -qiE \"stdio\" \"$d\" || exit 1; grep -qiE \"not the database|never touches the database|not database\" \"$d\" || exit 1; for tool in add_expense get_budget_status monthly_summary list_expenses; do grep -qE \"$tool\" \"$d\" || exit 1; done; grep -qE \"/expenses\" \"$d\" || exit 1; grep -qE \"/dashboard/summary\" \"$d\" || exit 1; grep -qE \"/dashboard/by-category\" \"$d\" || exit 1; grep -qE \"Bearer\" \"$d\" || exit 1; grep -qE \"page_size\" \"$d\" || exit 1; grep -qE \"validate-amount\" \"$d\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f mcp-server/__init__.py || exit 1; test -f mcp-server/tools/__init__.py || exit 1; (cd backend && uv run python -m py_compile ../mcp-server/__init__.py ../mcp-server/tools/__init__.py ../mcp-server/tools/add_expense.py ../mcp-server/tools/get_budget_status.py ../mcp-server/tools/monthly_summary.py ../mcp-server/tools/list_expenses.py) >/dev/null 2>&1 || exit 1; (cd backend && uv run ruff check --config pyproject.toml ../mcp-server/ 2>&1) | grep -qE \"All checks passed\" || exit 1; d=$(mktemp -d); cp -r mcp-server \"$d/mcp_server\"; rm -rf \"$d/mcp_server/__pycache__\" \"$d/mcp_server/tools/__pycache__\"; (cd backend && uv run mypy --strict --ignore-missing-imports \"$d/mcp_server/__init__.py\" \"$d/mcp_server/tools/__init__.py\" \"$d/mcp_server/tools/add_expense.py\" \"$d/mcp_server/tools/get_budget_status.py\" \"$d/mcp_server/tools/monthly_summary.py\" \"$d/mcp_server/tools/list_expenses.py\" 2>&1) | grep -qE \"Success: no issues found in 6 source files\" || { rm -rf \"$d\"; exit 1; }; rm -rf \"$d\"; for f in $(find mcp-server -name \"*.py\"); do ! grep -qE \"^(import|from) (socket|sqlalchemy|psycopg|sqlite3|fastapi|uvicorn)\" \"$f\" || exit 1; ! grep -qE \"create_engine\" \"$f\" || exit 1; ! grep -qE \"^(import|from) mcp([. ]|$)\" \"$f\" || exit 1; ! grep -qE \"^(import|from) (backend|app)([. ]|$)\" \"$f\" || exit 1; done; c2=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"mcp-server/\"); [ \"$c2\" -eq 0 ] || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -qE \"^270 tests collected\" || exit 1; cd .. || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "c6fc999ca6205b949e40e8a374d9fb14f7b8dfda",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -qE \"^270 tests collected\" || exit 1; n=$(uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$n\" -ge 270 ] || exit 1; uv run pytest -q >/dev/null 2>&1 || exit 1; uv run ruff check . >/dev/null 2>&1 || exit 1; mm=$(uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${mm:-0}\" -ge 83 ] || exit 1; h=$(uv run alembic heads 2>/dev/null | tr -d \"\\r\" | wc -l); [ \"$h\" -eq 1 ] || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; [ \"$(wc -l < README.md | tr -dc 0-9)\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $(wslpath -w \"$PWD\") hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\");const i=require(\\\"./docs/state/merge_test_index.json\\\");if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 270,
+      "passed": 270,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "files_committed": [
+      "mcp-server/__init__.py",
+      "mcp-server/tools/__init__.py",
+      "mcp-server/tools/add_expense.py",
+      "mcp-server/tools/get_budget_status.py",
+      "mcp-server/tools/monthly_summary.py",
+      "mcp-server/tools/list_expenses.py",
+      "mcp-server/README.md",
+      "backend/tests/integration/test_mcp_tools.py"
+    ],
+    "commit_subject": "feat(t32): four MCP tool modules, package wiring, README and hermetic in-process test suite",
+    "handoff_commit": "SECOND docs(t32) commit follows this feat commit in-branch (docs/state/outputs/t32_builder_implement.json), t32/t33 groom precedent",
+    "measured": {
+      "composition_backend_collection": "270 tests collected EXACTLY (244 base + 14 t30 test_agent_hooks.py + 12 test_mcp_tools.py), parsed header 270",
+      "composition_backend_full_suite": "270 passed, 0 failed (124.19s)",
+      "composition_mcp_tools_file": "12 tests collected, 12 passed (node ids byte-identical to the frozen inventory, diff-verified)",
+      "composition_mypy": "Success: no issues found in 86 source files (>= 83 floor; observed 86 as groom predicted)",
+      "composition_ruff_backend": "All checks passed (rc=0)",
+      "composition_ruff_mcp_server": "All checks passed via external-dir recipe (ruff check --config pyproject.toml ../mcp-server/ from backend/)",
+      "composition_alembic_heads": "single head 005 (head)",
+      "composition_frontend": "vitest 187 passed / 0 failed / 0 pending / 0 todo via cmd.exe npx.cmd; tsc --noEmit rc=0; exactly 4 react-refresh lint warnings",
+      "composition_readme_lines": 202,
+      "composition_workflows": ".gitkeep,ci.yml,deploy.yml,e2e.yml (exactly 4)",
+      "composition_manifests": "five named manifests rev-parse HEAD:<p> == hash-object <p> MATCH (also re-verified at own commit c6fc999: package.json e5e92875, frontend/package.json f20ea2dd, backend/pyproject.toml e23af076, backend/uv.lock 75971c07, e2e/package.json 10ad0e19)",
+      "composition_merge_index": "146 entries, anchors tests[16]==t2 / tests[54]==t9 SHA-pinned green (executed inside ac6 rc=0)",
+      "own_commit_self_contained": "ac1 rc=0, ac2 rc=0, ac4 rc=0 executed against the pushed commit c6fc999 WITHOUT any composed sibling files present",
+      "mypy_copy_recipe": "ac5 renamed-copy gate passes: Success: no issues found in 6 source files (the two __init__.py + four tools)"
+    },
+    "fail_before": {
+      "base_sha": "2a6ec11",
+      "method": "executed at worktree tip 39e0675, which is diff-equivalent to base 2a6ec11 for every path the six commands touch (git diff --name-only 2a6ec11..39e0675 = docs/issues/t32.md + docs/state/outputs/t32_builder_groom.json only; mcp-server/, agent-hooks/ and the test file are absent on both)",
+      "ac1": "rc=1",
+      "ac2": "rc=1",
+      "ac3": "rc=1",
+      "ac4": "rc=1",
+      "ac5": "rc=1",
+      "ac6": "rc=1"
+    },
+    "composition_disclosure": "ac3/ac5/ac6 require the t30 and t31 sibling files, which are ABSENT pre-merge (t31 not merged; depends [t30,t31] govern merge order only). They were executed green in a THROWAWAY COMPOSITION in this worktree: the real t31 mcp-server core (config.py/auth.py/server.py/pyproject.toml via cmd.exe git show origin/issue/t31-mcp-core) + the real t30 agent-hooks pair and test_agent_hooks.py (git show origin/issue/t30-hooks) + this card's 8 files. Composition results: ac3 rc=0 (12/12 green), ac5 rc=0, ac6 rc=0 IN FULL (exact-270 + 270 green + ruff + mypy 86 + head 005 + frontend 187/0/0/0 + tsc + exactly-4 lint + README + workflows + five manifests + index anchors). All composed files were DELETED before the feat commit; git status at commit time showed ONLY the 8 owned files. The verifier re-runs everything at the merged state where 270 is reachable.",
+    "node_id_freeze_proof": "diff of the 12 ids extracted from docs/issues/t32.md against pytest --collect-only -q of the new file: byte-identical, zero missing, zero extra (12 pinned / 12 collected)",
+    "git_status_purity": "cmd.exe git status --porcelain immediately before the feat commit listed exactly: backend/tests/integration/test_mcp_tools.py + mcp-server/ (8 files total in the commit: 4 tools + 2 __init__.py + README.md + test file); no t31/t30-owned file was ever staged or committed; no manifest, backend/app, README.md root, .github or agent-hooks path touched (git diff --name-only 39e0675..HEAD = the 8 files only)",
+    "contract_compliance": {
+      "tool_shape": "each tool: exactly one .get(/.post( call (count==1 equality holds), frozen path literals, Authorization + Bearer from get_user_token(), verify_jwt before dispatch, status_code checked, McpToolError raised, 'import httpx' at line start, no requests/urllib, no except Exception, no anchored forbidden imports",
+      "add_expense_ordering": "validate_amount = load_validator() assignment line precedes the first client.post( line (ac2 ordering leg green); hook loaded via importlib spec_from_file_location/module_from_spec by path agent-hooks/validate-amount.py",
+      "shapes": "get_budget_status returns exactly total_spent/total_budget/remaining/percentage; monthly_summary returns year_month/total/categories rows; list_expenses maps limit->page_size, category->category_id, month->year_month literal strings",
+      "test_file": "first line is the mypy import-untyped disable (ac6 mypy leg stays green on jose stubs); import-only httpx (no Client/AsyncClient construction), MockTransport recorder + create_access_token + jose, four == 0 call-count asserts, no uvicorn/socket/docker strings",
+      "ruff_i001": "import httpx and from auth import ... are same-tier adjacent lines with no blank-line separation in all four tools",
+      "sibling_import_style": "tools import their siblings as 'from auth import ...' / 'from config import ...' / 'from tools import McpToolError' matching the REAL t31 core flat-bare-name style (server.py: 'from auth import ...', 'from config import ...', importlib.import_module('tools.<name>')) — NOT relative imports; run through server.call_tool the modules resolve via the mcp-server cwd; in tests sys.path gains mcp-server/ and modules import as tools.<name>",
+      "transport_parameter": "every run() accepts an optional trailing httpx transport (4th positional) so the hermetic tests inject MockTransport without touching config.MCP_API_BASE_URL; base_url defaults to config.MCP_API_BASE_URL (3rd parameter, matching the t31 server call shape run(arguments, endpoint, base_url))"
+    },
+    "notes": "Environment notes: (1) ac3/ac5/ac6 cannot pass on this branch pre-merge WITHOUT the composed siblings — that is the groom-stated expected pre-merge behavior (groom itself verified against the same throwaway composition); PASS verdicts for ac3/ac5/ac6 are composition-verified and the verifier re-executes at the merged state. (2) ac1/ac2/ac4 (and the self-contained legs of ac5's py_compile/ruff/mypy/purity) were re-run green against the pushed commit itself with siblings absent. (3) uv provisions the backend venv offline from the cache; frontend legs ran through cmd.exe npx.cmd against the worktree's own frontend/node_modules (groom's npm ci reused, no junction). (4) The worktree is Windows-mounted: git plumbing goes through cmd.exe (WSL git rc=128 on gitdir pointers); no rebase, no force push, fast-forward push 39e0675..c6fc999. (5) CRLF normalization warnings at git add are the repo's standard autocrlf behavior; committed blobs are LF-clean and the manifest-hash gate compares clean blobs.",
+    "verification_commands_note": "bodies extracted byte-identically from the committed docs/issues/t32.md Verification commands section (heading-exclusive /^## (?!#)/m, CRLF->LF); the literal <id> placeholder is the schema const"
+  },
+  "artifacts": {
+    "files_written": [
+      "mcp-server/__init__.py",
+      "mcp-server/tools/__init__.py",
+      "mcp-server/tools/add_expense.py",
+      "mcp-server/tools/get_budget_status.py",
+      "mcp-server/tools/monthly_summary.py",
+      "mcp-server/tools/list_expenses.py",
+      "mcp-server/README.md",
+      "backend/tests/integration/test_mcp_tools.py",
+      "docs/state/outputs/t32_builder_implement.json"
+    ],
+    "platform_issue": 35,
+    "output_path": "docs/state/outputs/t32_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T07:59:00Z",
+  "retry_count": 0
+}
