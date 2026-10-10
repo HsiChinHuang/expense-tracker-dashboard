@@ -1,0 +1,173 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t34",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t34-docs",
+    "branch_sha": "b0eecf83e2958431d38150f069bcb719a34ef142",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; for w in \"Skills\" \"Hooks\" \"MCP Server\" \"Subagents\" \"Permissions\" \"Design Principles\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$p\" || exit 1; done; grep -qiE \"five components\" \"$p\" || exit 1; grep -qiE \"three skills\" \"$p\" || exit 1; grep -qiE \"two hooks\" \"$p\" || exit 1; grep -qiE \"four MCP tools\" \"$p\" || exit 1; grep -qiE \"two subagents\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Discovery\" \"$p\" || exit 1; for w in \"agent-capabilities/\" \"agent-hooks/\" \"mcp-server/\" \"custom-agent/\" \".agents/skills/\" \".agents/agents/\"; do grep -qF \"$w\" \"$p\" || exit 1; done; grep -qiE \"auto-discovery\" \"$p\" || exit 1; grep -qiE \"natural.language\" \"$p\" || exit 1; grep -qiE \"explicit command\" \"$p\" || exit 1; grep -qiE \"stdio\" \"$p\" || exit 1; grep -qiE \"JWT\" \"$p\" || exit 1; grep -qiE \"not the database|never touches the database|not database\" \"$p\" || exit 1; grep -qiE \"read-only\" \"$p\" || exit 1; grep -qiE \"do not fix|never fix\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch finance analyst for [0-9]{4}-[0-9]{2}\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch QA for #[0-9]+\" \"$p\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Criterion 12\" \"$p\" || exit 1; for w in \"project instructions\" \"reusable workflow\" \"subagent\" \"MCP tool\" \"guardrail\" \"permission notes\"; do grep -qiE \"$w\" \"$p\" || exit 1; done; grep -qiE \"^#{1,6}[[:space:]]+Verification Checklist\" \"$p\" || exit 1; s=$(tr -d \"\\r\" < \"$p\" | awk \"/^#{1,6}[[:space:]]+Verification Checklist/{f=1;next} /^#{1,6} /{f=0} f\"); b=$(printf \"%s\\n\" \"$s\" | grep -cE \"^[-*][[:space:]]\"); [ \"$b\" -ge 6 ] || exit 1; bad=$(printf \"%s\\n\" \"$s\" | grep -E \"^[[:space:]]*[-*][[:space:]]\" | grep -vcE \"find agent-capabilities|ls-files -s [.]agents/skills|find custom-agent|ls-files -s [.]agents/agents|agent-hooks|mcp-server|docs/permissions[.]md|agent-extension-pack\"); [ \"$bad\" -eq 0 ] || exit 1; for w in skills hooks MCP subagent symlink documentation; do printf \"%s\\n\" \"$s\" | grep -qiE \"$w\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/permissions.md || exit 1; q=docs/permissions.md; for w in \"User Roles\" \"Resource Permissions\" \"Agent Permissions\" \"Skill Permissions\" \"Subagent Permissions\" \"Enforcement Layers\" \"Forbidden Actions\" \"Escalation Rules\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$q\" || exit 1; done; grep -qiE \"role\" \"$q\" || exit 1; grep -qiE \"enforcement\" \"$q\" || exit 1; grep -qiE \"escalation\" \"$q\" || exit 1; grep -qF \"agent-hooks/validate-amount.py\" \"$q\" || exit 1; grep -qF \"mcp-server/auth.py\" \"$q\" || exit 1; grep -qF \"backend/app/auth/dependencies.py\" \"$q\" || exit 1; grep -qF \"backend/app/services/expense_service.py\" \"$q\" || exit 1; grep -qF \"backend/tests/integration/test_agent_hooks.py\" \"$q\" || exit 1; grep -qF \"backend/alembic/versions\" \"$q\" || exit 1; for f in agent-hooks/validate-amount.py mcp-server/auth.py backend/app/auth/dependencies.py backend/app/services/expense_service.py backend/tests/integration/test_agent_hooks.py backend/alembic/versions; do test -e \"$f\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; p=docs/agent-extension-pack.md; q=docs/permissions.md; grep -qE \"docs/permissions[.]md\" \"$p\" || exit 1; ! grep -qiE \"^#{1,6}[[:space:]]+(User Roles|Forbidden Actions|Escalation Rules)\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; [ \"$S\" -eq 3 ] || exit 1; [ \"$H\" -eq 2 ] || exit 1; [ \"$T\" -eq 4 ] || exit 1; [ \"$A\" -eq 2 ] || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1; [ \"$(wc -l < README.md | tr -dc 0-9)\" -le 500 ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64)\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "b0eecf83e2958431d38150f069bcb719a34ef142",
+        "test": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; grep -qE \"permissions[.]md\" docs/agent-extension-pack.md || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; out=$(cd backend && uv run pytest -q 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"^[0-9]+ passed\" | grep -oE \"[0-9]+\" | tail -1); [ -n \"$n\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; a=$(cd backend && uv run ruff check . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; m=$(cd backend && uv run mypy . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; mm=$(printf \"%s\" \"$m\" | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; cd backend || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 431,
+      "passed": 431,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_actual": [
+      "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; for w in \"Skills\" \"Hooks\" \"MCP Server\" \"Subagents\" \"Permissions\" \"Design Principles\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$p\" || exit 1; done; grep -qiE \"five components\" \"$p\" || exit 1; grep -qiE \"three skills\" \"$p\" || exit 1; grep -qiE \"two hooks\" \"$p\" || exit 1; grep -qiE \"four MCP tools\" \"$p\" || exit 1; grep -qiE \"two subagents\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1'",
+      "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Discovery\" \"$p\" || exit 1; for w in \"agent-capabilities/\" \"agent-hooks/\" \"mcp-server/\" \"custom-agent/\" \".agents/skills/\" \".agents/agents/\"; do grep -qF \"$w\" \"$p\" || exit 1; done; grep -qiE \"auto-discovery\" \"$p\" || exit 1; grep -qiE \"natural.language\" \"$p\" || exit 1; grep -qiE \"explicit command\" \"$p\" || exit 1; grep -qiE \"stdio\" \"$p\" || exit 1; grep -qiE \"JWT\" \"$p\" || exit 1; grep -qiE \"not the database|never touches the database|not database\" \"$p\" || exit 1; grep -qiE \"read-only\" \"$p\" || exit 1; grep -qiE \"do not fix|never fix\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch finance analyst for [0-9]{4}-[0-9]{2}\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch QA for #[0-9]+\" \"$p\" || exit 1'",
+      "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Criterion 12\" \"$p\" || exit 1; for w in \"project instructions\" \"reusable workflow\" \"subagent\" \"MCP tool\" \"guardrail\" \"permission notes\"; do grep -qiE \"$w\" \"$p\" || exit 1; done; grep -qiE \"^#{1,6}[[:space:]]+Verification Checklist\" \"$p\" || exit 1; s=$(tr -d \"\\r\" < \"$p\" | awk \"/^#{1,6}[[:space:]]+Verification Checklist/{f=1;next} /^#{1,6} /{f=0} f\"); b=$(printf \"%s\\n\" \"$s\" | grep -cE \"^[-*][[:space:]]\"); [ \"$b\" -ge 6 ] || exit 1; bad=$(printf \"%s\\n\" \"$s\" | grep -E \"^[[:space:]]*[-*][[:space:]]\" | grep -vcE \"find agent-capabilities|ls-files -s [.]agents/skills|find custom-agent|ls-files -s [.]agents/agents|agent-hooks|mcp-server|docs/permissions[.]md|agent-extension-pack\"); [ \"$bad\" -eq 0 ] || exit 1; for w in skills hooks MCP subagent symlink documentation; do printf \"%s\\n\" \"$s\" | grep -qiE \"$w\" || exit 1; done'",
+      "bash -c 'test -f docs/permissions.md || exit 1; q=docs/permissions.md; for w in \"User Roles\" \"Resource Permissions\" \"Agent Permissions\" \"Skill Permissions\" \"Subagent Permissions\" \"Enforcement Layers\" \"Forbidden Actions\" \"Escalation Rules\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$q\" || exit 1; done; grep -qiE \"role\" \"$q\" || exit 1; grep -qiE \"enforcement\" \"$q\" || exit 1; grep -qiE \"escalation\" \"$q\" || exit 1; grep -qF \"agent-hooks/validate-amount.py\" \"$q\" || exit 1; grep -qF \"mcp-server/auth.py\" \"$q\" || exit 1; grep -qF \"backend/app/auth/dependencies.py\" \"$q\" || exit 1; grep -qF \"backend/app/services/expense_service.py\" \"$q\" || exit 1; grep -qF \"backend/tests/integration/test_agent_hooks.py\" \"$q\" || exit 1; grep -qF \"backend/alembic/versions\" \"$q\" || exit 1; for f in agent-hooks/validate-amount.py mcp-server/auth.py backend/app/auth/dependencies.py backend/app/services/expense_service.py backend/tests/integration/test_agent_hooks.py backend/alembic/versions; do test -e \"$f\" || exit 1; done'",
+      "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; p=docs/agent-extension-pack.md; q=docs/permissions.md; grep -qE \"docs/permissions[.]md\" \"$p\" || exit 1; ! grep -qiE \"^#{1,6}[[:space:]]+(User Roles|Forbidden Actions|Escalation Rules)\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; [ \"$S\" -eq 3 ] || exit 1; [ \"$H\" -eq 2 ] || exit 1; [ \"$T\" -eq 4 ] || exit 1; [ \"$A\" -eq 2 ] || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1; [ \"$(wc -l < README.md | tr -dc 0-9)\" -le 500 ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64)\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1'",
+      "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; grep -qE \"permissions[.]md\" docs/agent-extension-pack.md || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; out=$(cd backend && uv run pytest -q 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"^[0-9]+ passed\" | grep -oE \"[0-9]+\" | tail -1); [ -n \"$n\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; a=$(cd backend && uv run ruff check . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; m=$(cd backend && uv run mypy . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; mm=$(printf \"%s\" \"$m\" | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; cd backend || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'"
+    ],
+    "commit_subject": "docs(t34): agent extension pack overview + permissions matrix",
+    "handoff_commit": "second commit docs(t34): builder implement handoff adds ONLY docs/state/outputs/t34_builder_implement.json on top of the feat/docs commit; pushed to refs/heads/issue/t34-docs fast-forward from a92d8dd (no force)",
+    "measured": {
+      "backend": "244 passed on the FINAL post-deletion tree (branch tip content = base 10d0c87 + two docs; no test node added by t34); ruff clean; mypy Success no issues found in 84 source files (>= 83 floor); alembic single head 005 (head) - all re-executed green inside the ac6 pass-after run against the composition and the backend suite re-run standalone after composition deletion",
+      "frontend": "vitest >= 187 passed / 0 failed / 0 pending / 0 todo via cmd.exe npx.cmd FROM frontend/ (npm ci 512 packages in this worktree); tsc --noEmit rc=0; exactly 4 react-refresh/only-export-components lint warnings - all executed green inside the ac6 pass-after run",
+      "readme": "202 lines <= 500; SHA-256 of CR-stripped bytes 8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce (byte-untouched, verified by ac5/ac6 legs and directly before committing)",
+      "workflows": "exactly 4 entries {ci.yml, e2e.yml, deploy.yml, .gitkeep}",
+      "merge_index": "146 entries; anchors tests[16]==t2 / tests[54]==t9 at pinned SHA-256; both stored commands executed green inside ac6",
+      "docs": "docs/agent-extension-pack.md + docs/permissions.md = the ONLY new files; committed count block - Skills: 3 / - Hooks: 2 / - MCP tools: 4 / - Subagents: 2 equals the gate-time measured S/H/T/A (3/2/4/2) in BOTH docs",
+      "test_summary_basis": "431 = 244 backend (final tree) + 187 frontend (pinned floor observed in the ac6 run); t34 adds ZERO test nodes (documentation-only card)"
+    },
+    "fail_before": {
+      "ac1": 1,
+      "ac2": 1,
+      "ac3": 1,
+      "ac4": 1,
+      "ac5": 1,
+      "ac6": 1,
+      "note": "6/6 rc=1 at base 10d0c87 basis: the groom EXECUTED all six rc=1 at 10d0c87 (docs absent; recorded in docs/state/outputs/t34_builder_groom.json on this branch). RE-MEASURED this implement: with the composition fully deleted and only the two new docs temporarily removed from the branch-tip tree, all six commands ran rc=1 again (ac1/ac2/ac3/ac5 die on the pack-doc test -f leg, ac4 on the permissions-doc leg, ac6 on its first doc leg). The branch tip differs from base ONLY by the two docs, so the base red is exactly reproduced."
+    },
+    "pass_after": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0,
+      "note": "all six EXECUTED rc=0 against the read-only sibling composition (see composition_disclosure); ac6 ran in full green (backend suite + ruff + mypy + alembic + frontend gates via cmd.exe + manifest freeze + merge-index anchors)"
+    },
+    "composition_disclosure": {
+      "why": "siblings t30/t31/t32/t33 are NOT merged to MAIN at dispatch; the groom pass-after ran against a read-only composition and instructed implement to do the same. Nothing was merged or committed from the composition.",
+      "sources": [
+        {
+          "ref": "23019ff",
+          "desc": "MAIN tip post-t29-merge (t29 skills merged)",
+          "paths": [
+            "agent-capabilities/add-expense/SKILL.md",
+            "agent-capabilities/budget-check/SKILL.md",
+            "agent-capabilities/monthly-report/SKILL.md"
+          ]
+        },
+        {
+          "ref": "bb38a83",
+          "desc": "origin/issue/t30-hooks",
+          "paths": [
+            "agent-hooks/README.md",
+            "agent-hooks/validate-amount.py",
+            "agent-hooks/validate-ownership.py",
+            "backend/tests/integration/test_agent_hooks.py"
+          ]
+        },
+        {
+          "ref": "827c5c7",
+          "desc": "origin/issue/t31-mcp-core",
+          "paths": [
+            "mcp-server/auth.py",
+            "mcp-server/config.py",
+            "mcp-server/server.py",
+            "mcp-server/pyproject.toml"
+          ]
+        },
+        {
+          "ref": "c6fc999",
+          "desc": "origin/issue/t32-mcp-tools (stub set per groom: tools + mcp-server README/__init__)",
+          "paths": [
+            "mcp-server/README.md",
+            "mcp-server/__init__.py",
+            "mcp-server/tools/__init__.py",
+            "mcp-server/tools/add_expense.py",
+            "mcp-server/tools/get_budget_status.py",
+            "mcp-server/tools/list_expenses.py",
+            "mcp-server/tools/monthly_summary.py"
+          ]
+        },
+        {
+          "ref": "ab407ab",
+          "desc": "origin/issue/t33-subagents",
+          "paths": [
+            "custom-agent/finance-analyst.md",
+            "custom-agent/qa-reviewer.md"
+          ]
+        }
+      ],
+      "symlinks": "throwaway .agents/skills/*.md -> ../../agent-capabilities/<name>/SKILL.md and .agents/agents/*.md -> ../../custom-agent/<name>.md recreated locally (mirroring the t29/t33 git-symlink mode-120000 surface) for count/discovery fidelity",
+      "fetch_method": "cmd.exe /c git -C <MAIN WinPath> show <ref>:<path> > <worktree path> (read-only; no merge, no checkout, no commit of composed files)",
+      "deletion_proof": "after the six green runs + the fail-before re-measure: rm -rf agent-capabilities agent-hooks mcp-server custom-agent .agents backend/tests/integration/test_agent_hooks.py; ls of all five dirs: No such file or directory; cmd.exe git status --porcelain then listed EXACTLY the two owned docs (?? docs/agent-extension-pack.md, ?? docs/permissions.md) and nothing else"
+    },
+    "git_status_purity": "cmd.exe git -C <worktree> status --porcelain after composition deletion and before committing: exactly two lines - ?? docs/agent-extension-pack.md and ?? docs/permissions.md (the two owned files); commit b0eecf8 --name-only confirms exactly those two paths; both docs are the ONLY files the card touches (no README, no manifest, no workflow, no code, no docs/state besides the handoff)",
+    "role_disclosure": "ACTUAL ROLE builder (phase implement). The GROOM handoff on this branch (docs/state/outputs/t34_builder_groom.json) was authored by a builder but emitted with role=definer/phase=groom ONLY because the validator registers no builder:groom key (established t29..t33 workaround, orchestrator ruling); this implement handoff is emitted under the real builder:implement key.",
+    "notes": [
+      "OWNED FILES ONLY: the two docs the pins reference. docs/issues/*, backend/, frontend/, mcp-server/, agent-hooks/, custom-agent/, README.md, .github/, docs/state/* (except this handoff) untouched - git diff a92d8dd..feat-commit = the two doc additions, nothing else.",
+      "Pinned commands were NOT edited; the six commands were extracted byte-verbatim from the ## Verification commands section (heading-exclusive /^## (?!#)/m slice, six bash fenced blocks) and executed as-is; the ac_mapping test strings ARE those extracted strings (byte-identical).",
+      "No exact collection counts appear in any doc content: the docs state directory counts (3/2/4/2) which the gates MEASURE at run time; no pytest count is asserted in the docs and ac6 pins only the >= 244 floor (W10).",
+      "CRLF-safe: files written with LF in the worktree, autocrlf converts on commit (git warned LF->CRLF on add); the pinned greps tolerate both endings; no .gitattributes touched.",
+      "Content is facts-derived: every table/path/behavior was read from the real artifacts at the composed refs (skill frontmatter/steps, hook README trigger contract, server.py frozen four-endpoint map, auth.py JWT checks, tool modules single-frozen-request contract, subagent fresh-context/read-only rules, backend model/service/migration facts).",
+      "Windows/WSL discipline: every git read/write in the worktree and MAIN went through cmd.exe /c git -C <WinPath> ... </dev/null with tr -d \\r; commit messages via git commit -F <winpath-file> (the groom-recorded cmd.exe -m quoting trap avoided); frontend gates ran only via cmd.exe npx.cmd/npm FROM frontend/ after npm ci (512 packages); uv ran offline from the cache.",
+      "STATE HYGIENE: docs/log, seq.txt, merge_test_index.json, merge_history.json, other issue files and MAIN untouched. Platform #37 mutated ONLY via the sanctioned label/comment steps at handoff time.",
+      "test_summary basis: backend 244/244 on the final tree (standalone re-run) + frontend 187 passed floor observed in the ac6 run = 431/431/0; t34 adds zero test nodes.",
+      "ac6 is LAST and NOT index-appended; ac1..ac5 appendable candidates were NOT appended by this card (index untouched per the card Constraint and the groom collision sweep)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/agent-extension-pack.md",
+      "docs/permissions.md",
+      "docs/state/outputs/t34_builder_implement.json"
+    ],
+    "platform_issue": 37,
+    "output_path": "docs/state/outputs/t34_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T08:47:48Z",
+  "retry_count": 0
+}
