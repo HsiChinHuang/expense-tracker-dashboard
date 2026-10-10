@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t27",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 136,
+      "passed": 136,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "RE-RUN of verify_pre_merge for t27 (Platform #30) after the orchestrator amended cumulative index entry tests[0] at main 0aee30f (WAL seq 461) to resolve the single FAIL of the previous run (docs/state/outputs/t27_verifier_verify_pre_merge.json). Candidate branch issue/t27-infra @ 4647905 (unchanged); main 0aee30f == origin/main.",
+    "fixes_confirmed": {
+      "index_entry_0_amendment": "MAIN docs/state/merge_test_index.json tests[0] (issue_id t0) now reads, verbatim: bash -c 'for d in frontend backend e2e security ops .github/workflows; do test -d \"$d\" || exit 1; done && git ls-files --error-unmatch security/.gitkeep ops/.gitkeep .github/workflows/.gitkeep >/dev/null' - the e2e/.gitkeep pathspec is DROPPED, matching the orchestrator amendment exactly (kept legs: 6 directory checks + security/.gitkeep + ops/.gitkeep + .github/workflows/.gitkeep tracking). Executed verbatim: MAIN rc=0 (42 ms via scan, standalone rc=0 too) and t27-worktree host rc=0 (GIT_DIR/GIT_WORK_TREE exported in /mnt/c form). NEGATIVE CONTROL: the OLD entry (with e2e/.gitkeep) still rc=1 on the branch host ('pathspec e2e/.gitkeep did not match') -> the fix is what flips the gate, non-vacuous. Index still 136 entries; anchors tests[16]=t2, tests[54]=t9 machine-confirmed.",
+      "no_product_change": "Branch HEAD unchanged at 4647905; product code untouched (verifier made zero modifications)."
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "main_sha": "0aee30f3d35b5e99ea1fdd4405636db23da50343",
+      "branch_sha": "46479055e27f66216e023146d0942584e5908dc7",
+      "merge_tree_prediction": "git merge-tree --write-tree main issue/t27-infra -> rc=0, stdout = single tree oid cc22f6a238e3eff0f2a3de93c5048b9bde179702, stderr EMPTY; conflict-marker sweep git grep -I -E '^(<<<<<<<|=======$|>>>>>>>)' over that tree -> 0 matches (rc=1).",
+      "merge_commit": "a4688607cf6c307e0613c126115ce25036a3d261",
+      "merge_commit_tree": "cc22f6a238e3eff0f2a3de93c5048b9bde179702 (== merge-tree prediction; byte-exact simulation)",
+      "sim": "cmd.exe git -C <MAIN> worktree add ..\\worktrees\\sim-t27c -b sim/t27c main (HEAD 0aee30f); git -C sim-t27c merge --no-ff --no-edit issue/t27-infra -> 'Merge made by the ort strategy', rc=0, Auto-merging Makefile, 13 files changed; status --porcelain EMPTY (only the untracked frontend/node_modules junction). sim frontend/node_modules provisioned as an NTFS junction to MAIN frontend/node_modules (js-yaml resolvable for entries 132/133/134) - removed with the worktree.",
+      "tree_delta_vs_previous_run": "git diff --name-only 63bf9ed (previous FAIL-run merged tree) cc22f6a (this run) -> exactly 4 paths: docs/log/2026_10_07.md, docs/state/merge_test_index.json, docs/state/outputs/t27_verifier_verify_pre_merge.json, docs/state/seq.txt - i.e. the FAIL handoff ingest + index amendment only; ZERO product (backend/frontend/e2e/.github/Makefile/render.yaml) differences, as expected since main advanced 3597b57 -> 0aee30f only in docs/state + docs/log."
+    },
+    "cumulative_scan": {
+      "total": 136,
+      "passed": 136,
+      "failed": 0,
+      "harness": "build/t27pm2_full_scan.cjs (WSL /usr/bin/node v18, execSync per entry, timeout 900000, setsid nohup detached, TSV + done-marker; GIT_DIR=<main>/.git/worktrees/<name> + GIT_WORK_TREE exported per host in /mnt/c form). Results build/t27pm2_full_results.tsv, log build/t27pm2_full.log.",
+      "host_split": "machine-derived (build/t27pm_split.json rebuilt by build/t27pm_classify.cjs against the amended index - identical 12/124 split to the FAIL run): the 12 entries whose commands read any path that DIFFERS between branch and merged trees (.github/**, Makefile, README, render.yaml, docs/state, docs/log) ran on the REAL merged worktree sim-t27c @ a468860 (indices 0,5,23,27,32,119,128,131,132,133,134,135 - includes BOTH t0 guards #0/#5, the t26-amended guard #5, and all five t26 appends 131..135); the other 124 ran on the provisioned t27 worktree (backend/.venv + frontend/node_modules present, never reinstalled).",
+      "equivalence_proof": "git diff --name-only main cc22f6a -- backend frontend -> EMPTY (0 paths); git diff --name-only issue/t27-infra cc22f6a -- e2e -> EMPTY (branch e2e tracked content == merged); therefore backend/**, frontend/** and e2e/** are byte-identical across branch and merged trees and the t27 worktree is merged-equivalent for every heavy entry. The only branch-vs-merged differing paths are docs/state + docs/log bookkeeping, which the sim host executes directly.",
+      "wall_time": "~21.2 min (2026-10-09T23:38:57Z -> 2026-10-10T00:02:45Z), sum of per-entry durations 1408.5 s",
+      "completeness": "machine-verified: 136 rows, indices 0..135 each exactly once, 0 missing, 0 duplicates; hosts={sim:12,t27:124}; all 12 sim rows rc=0 (0:0 5:0 23:0 27:0 32:0 119:0 128:0 131:0 132:0 133:0 134:0 135:0); entry #0 row rc=0 host=sim ms=42.",
+      "delta_vs_fail_run": "FAIL run: 135/136 (sole failure entry #0 on sim). THIS run: 136/136 with entry #0 rc=0 on the merged host after the amendment. No previously-green entry regressed (per-entry rc comparison: zero non-zero rows)."
+    },
+    "merged_state_gates": {
+      "makefile_regions": "merged Makefile carries BOTH t26's 4 targets (test-backend-unit/test-backend-integration/test-backend-cov/test-frontend-cov + the .PHONY continuation lines; region from '# Split backend runs for CI' to '# --- Lint ---' byte-identical main vs merged, 442 bytes, cmp-verified -> T26_REGION_BYTE_IDENTICAL) AND t27's e2e target region (4-line comment block + 'e2e:' + 2-line recipe; byte-identical branch vs merged, 451 bytes, cmp-verified -> T27_E2E_REGION_BYTE_IDENTICAL). Makefile blobs: main 8a27ecc, branch a65b5cd, merged 5b9ddce (three-way merge combined both regions).",
+      "workflows_inventory": "merged .github/workflows == exactly .gitkeep + ci.yml + e2e.yml + deploy.yml (ls-tree on merged tree cc22f6a; exactly 4 entries).",
+      "e2e_inventory": "merged e2e/ == exactly t27's 8 artifacts (e2e-gate-types.d.ts, package.json, playwright.config.ts, tsconfig.json, fixtures/{helpers,users}.ts, tests/{happy-path,isolation,month-switch}.spec.ts); e2e/.gitkeep DELETED by the branch - now CONSISTENT with the amended index entry #0 (which no longer requires it; docs/issues/t27.md line 90 'may be deleted or kept'). node_modules/test-results/report/package-lock gitignored via the merged .gitignore region (4 added lines, byte-identical branch-vs-merged).",
+      "merged_delta_vs_main": ".gitignore, Makefile, docs/issues/t27.md, e2e/** (10 paths: 1 deletion + 9 additions... precisely D e2e/.gitkeep + A 8 e2e files + M .gitignore/Makefile/docs/issues/t27.md = 13 diff rows) - exactly the t27 product set, ZERO backend/** and ZERO frontend/** paths (git diff --name-only main cc22f6a -- backend | wc -l == 0, frontend == 0).",
+      "backend_pytest": "attested via ac6 composite (uv run pytest -q + ruff + mypy + alembic single-head leg, rc=0, part of the 122.2 s composite) executed on merged-equivalent backend/** (byte-identity proof above); not re-run on sim (no venv there by design).",
+      "frontend_legs": "attested via ac6 composite (vitest + tsc --noEmit + lint legs, rc=0) on merged-equivalent frontend/**.",
+      "worktree_hygiene": "porcelain EMPTY on t27 (0 bytes) and on MAIN (0 bytes) after all scan+smoke runs; sim-t27c porcelain shows only the untracked frontend/node_modules junction (removed with the worktree)."
+    },
+    "smoke_tests_detail": "ac1 rc=0 (110 ms), ac2 rc=0 (69 ms), ac3 rc=0 (125 ms), ac4 rc=0 (1880 ms), ac5 rc=0 (2862 ms, real tsc gate + broken-fixture leg), ac6 rc=0 (122187 ms composite) - all on the t27 worktree. Source: 6 fenced bash blocks re-extracted from WORKTREE docs/issues/t27.md at 4647905 (git show HEAD:docs/issues/t27.md, CRLF->LF, section boundary /^## (?!#)/ after '## Verification commands'; extracted file byte-identical to the FAIL run's t27pm_issue_lf.md) -> 1707/1478/1734/1124/2009/2560 bytes, all 6 BYTE-IDENTICAL to docs/state/outputs/t27_verifier_verify_issue.json evidence.ac_results acN.command. ac4 DUAL-HOST: additionally executed on sim-t27c (MERGED content where .github/workflows/e2e.yml EXISTS, so the conditional leg 'grep -qE make e2e .github/workflows/e2e.yml' ACTIVATES - grep confirms 2 'make e2e' occurrences in the merged e2e.yml) -> rc=0 (241 ms). This is the t26 cross-attestation leg.",
+    "verdict": "PASS",
+    "platform": "MERGE VERDICT: PASS comment posted on issue #30 via scripts/platform.ts issue comment 30 --body at 2026-10-10T00:05:33Z (dup-check first: latest comment was the previous MERGE VERDICT: FAIL from 23:35:33Z - no duplicate PASS existed). Labels UNCHANGED [defined, verified] (issue get re-read after posting; state open).",
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge RE-RUN for t27 (Platform #30, phase_5_infra Playwright e2e workspace) against MAIN @ 0aee30f (== origin/main; contains merged t26 + the index amendment). CWD verified first: /mnt/c/.../expense-tracker-dashboard. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; pre-existing per-worktree venvs used, NEVER reinstalled. Read: AGENTS.md, skills/verifier/SKILL.md + details/verify_pre_merge.md, schemas/verifier/verify_pre_merge.json + common handoff/evidence/error, docs/state/merge_test_index.json (136 entries, anchors tests[16]=t2, tests[54]=t9 machine-confirmed), the previous FAIL handoff (full recipe reused), t27 verify_issue handoff.",
+      "VERDICT RATIONALE: PASS. The orchestrator's amendment of index entry #0 (per the 6ab7da5 entry-#5 precedent, WAL seq 461) is confirmed verbatim and non-vacuously effective (MAIN rc=0, branch-host rc=0, old-entry negative control rc=1). The merge is CLEAN against the NEW main (merge-tree prediction == sim merge commit tree cc22f6a, zero conflict markers, porcelain clean). The full 136-entry cumulative gate is green (136/136 rc=0, completeness machine-verified, dual-host union covers every index exactly once). All 6 pinned AC commands green on the t27 worktree and byte-identical to the verify_issue handoff; ac4's e2e.yml cross-attestation leg activates and passes on the merged host; all merged-state gates (Makefile dual-region byte-identity, workflows inventory, e2e inventory + .gitkeep deletion now permitted, merged delta == t27 product set with zero backend/frontend paths) green.",
+      "MERGED-EQUIVALENCE PROOF (host split validity): the t27 worktree lacks t26's product files (.github/workflows, render.yaml, README t26 sections, Makefile t26 targets) and the sim worktree lacks venv/node_modules. Split: 12 delta-reading entries on the REAL merged tree (sim-t27c @ a468860), 124 heavy entries on the provisioned t27 worktree. Equivalence: backend/** and frontend/** byte-identical main-vs-merged (EMPTY diff) and e2e/** tracked content byte-identical branch-vs-merged (EMPTY diff); the 5 t26 index appends + both t0 guards + infra greps all executed on the true merged tree. Union covers all 136 entries exactly once.",
+      "TREE-DELTA SANITY vs FAIL run: merged tree moved 63bf9ed -> cc22f6a solely because main advanced 3597b57 -> 0aee30f; the 4-path diff (docs/log/2026_10_07.md, docs/state/merge_test_index.json, docs/state/outputs/t27_verifier_verify_pre_merge.json, docs/state/seq.txt) confirms the only change is the FAIL-handoff ingest + index amendment - no product drift between the two verification runs.",
+      "PLATFORM: dup-check #30 latest comment (was the FAIL verdict) then PASS posted; labels untouched [defined, verified].",
+      "CLEANUP/STATE: NO merge into main, NO push, NO index/issue/label/product modification, NO checkout, NO worktree prune from WSL. sim-t27c worktree + junction + branch sim/t27c removed via cmd.exe (git worktree remove --force; git branch -D) AFTER all measurements. t27 worktree left at 4647905 with EMPTY porcelain; MAIN working tree untouched except gitignored build/t27pm2* scratch + the uncommitted handoff copy in docs/state/outputs/.",
+      "_2 SUFFIX: this file is t27_verifier_verify_pre_merge_2.json (t21/t26 precedent) to preserve the FAIL handoff t27_verifier_verify_pre_merge.json for audit. The _2 path is ABSENT from both main and issue/t27-infra (git ls-tree -> 0 rows) so the merge introduces no new add/add on it.",
+      "REACHED_STATE: PASS => verified (schema enum [verified, unchanged]); error=null, next_action=null per handoff envelope rules for status=COMPLETE.",
+      "PRE-OUTPUT CHECKLIST: CWD PASS; venv WARN logged PASS; index read PASS (136, amended entry #0 confirmed); candidate branch confirmed PASS (issue/t27-infra @ 4647905, no checkout run); all 136 cumulative entries run PASS (136/136, completeness machine-verified); smoke PASS (6/6 + ac4 dual-host, 6/6 byte-identical); failed tests: none; handoff under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS; labels untouched PASS; schema-validated [OK] PASS; reached_state=verified PASS.",
+      "ENVIRONMENT INCIDENT + REPAIR (residual-risk disclosure): during CLEANUP, cmd.exe git worktree remove --force sim-t27c TRAVERSED the frontend/node_modules NTFS junction and emptied MAIN frontend/node_modules (gitignored environment dir; tracked files untouched, MAIN porcelain stayed clean, t27 worktree node_modules unaffected). Repaired immediately per the build/fixt24_npuci.log precedent: cmd.exe npm ci in MAIN frontend -> rc=0, 512 packages, node_modules restored (399 top-level entries, js-yaml resolvable, byte-count parity with the t27 worktree copy). MAIN porcelain after repair: only the uncommitted handoff copy. LESSON for future runs: do not junction node_modules into a sim worktree that will be worktree-remove --force-d; copy or skip instead. No product, index, issue, or label state was affected."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t27_verifier_verify_pre_merge_2.json"
+    ],
+    "platform_issue": 30,
+    "output_path": "docs/state/outputs/t27_verifier_verify_pre_merge_2.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T00:06:00Z",
+  "retry_count": 1
+}
