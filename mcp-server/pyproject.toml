@@ -1,0 +1,6 @@
+[project]
+name = "expense-tracker-mcp"
+version = "0.1.0"
+description = "MCP server for the Expense Tracker agent layer (stdio JSON-RPC + JWT + API-only access)"
+requires-python = ">=3.12"
+dependencies = ["httpx>=0.27", "python-jose[cryptography]>=3.3"]
