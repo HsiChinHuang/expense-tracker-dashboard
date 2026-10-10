@@ -1,0 +1,288 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t34",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; for w in \"Skills\" \"Hooks\" \"MCP Server\" \"Subagents\" \"Permissions\" \"Design Principles\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$p\" || exit 1; done; grep -qiE \"five components\" \"$p\" || exit 1; grep -qiE \"three skills\" \"$p\" || exit 1; grep -qiE \"two hooks\" \"$p\" || exit 1; grep -qiE \"four MCP tools\" \"$p\" || exit 1; grep -qiE \"two subagents\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Discovery\" \"$p\" || exit 1; for w in \"agent-capabilities/\" \"agent-hooks/\" \"mcp-server/\" \"custom-agent/\" \".agents/skills/\" \".agents/agents/\"; do grep -qF \"$w\" \"$p\" || exit 1; done; grep -qiE \"auto-discovery\" \"$p\" || exit 1; grep -qiE \"natural.language\" \"$p\" || exit 1; grep -qiE \"explicit command\" \"$p\" || exit 1; grep -qiE \"stdio\" \"$p\" || exit 1; grep -qiE \"JWT\" \"$p\" || exit 1; grep -qiE \"not the database|never touches the database|not database\" \"$p\" || exit 1; grep -qiE \"read-only\" \"$p\" || exit 1; grep -qiE \"do not fix|never fix\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch finance analyst for [0-9]{4}-[0-9]{2}\" \"$p\" || exit 1; grep -qiE \"[Ll]aunch QA for #[0-9]+\" \"$p\" || exit 1'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; p=docs/agent-extension-pack.md; grep -qiE \"^#{1,6}[[:space:]]+Criterion 12\" \"$p\" || exit 1; for w in \"project instructions\" \"reusable workflow\" \"subagent\" \"MCP tool\" \"guardrail\" \"permission notes\"; do grep -qiE \"$w\" \"$p\" || exit 1; done; grep -qiE \"^#{1,6}[[:space:]]+Verification Checklist\" \"$p\" || exit 1; s=$(tr -d \"\\r\" < \"$p\" | awk \"/^#{1,6}[[:space:]]+Verification Checklist/{f=1;next} /^#{1,6} /{f=0} f\"); b=$(printf \"%s\\n\" \"$s\" | grep -cE \"^[-*][[:space:]]\"); [ \"$b\" -ge 6 ] || exit 1; bad=$(printf \"%s\\n\" \"$s\" | grep -E \"^[[:space:]]*[-*][[:space:]]\" | grep -vcE \"find agent-capabilities|ls-files -s [.]agents/skills|find custom-agent|ls-files -s [.]agents/agents|agent-hooks|mcp-server|docs/permissions[.]md|agent-extension-pack\"); [ \"$bad\" -eq 0 ] || exit 1; for w in skills hooks MCP subagent symlink documentation; do printf \"%s\\n\" \"$s\" | grep -qiE \"$w\" || exit 1; done'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/permissions.md || exit 1; q=docs/permissions.md; for w in \"User Roles\" \"Resource Permissions\" \"Agent Permissions\" \"Skill Permissions\" \"Subagent Permissions\" \"Enforcement Layers\" \"Forbidden Actions\" \"Escalation Rules\"; do grep -qiE \"^#{1,6}[[:space:]]+$w\" \"$q\" || exit 1; done; grep -qiE \"role\" \"$q\" || exit 1; grep -qiE \"enforcement\" \"$q\" || exit 1; grep -qiE \"escalation\" \"$q\" || exit 1; grep -qF \"agent-hooks/validate-amount.py\" \"$q\" || exit 1; grep -qF \"mcp-server/auth.py\" \"$q\" || exit 1; grep -qF \"backend/app/auth/dependencies.py\" \"$q\" || exit 1; grep -qF \"backend/app/services/expense_service.py\" \"$q\" || exit 1; grep -qF \"backend/tests/integration/test_agent_hooks.py\" \"$q\" || exit 1; grep -qF \"backend/alembic/versions\" \"$q\" || exit 1; for f in agent-hooks/validate-amount.py mcp-server/auth.py backend/app/auth/dependencies.py backend/app/services/expense_service.py backend/tests/integration/test_agent_hooks.py backend/alembic/versions; do test -e \"$f\" || exit 1; done'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; p=docs/agent-extension-pack.md; q=docs/permissions.md; grep -qE \"docs/permissions[.]md\" \"$p\" || exit 1; ! grep -qiE \"^#{1,6}[[:space:]]+(User Roles|Forbidden Actions|Escalation Rules)\" \"$p\" || exit 1; S=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name \"SKILL.md\" | wc -l | tr -dc 0-9); H=$(find agent-hooks -maxdepth 1 -type f | grep -vcE \"README[.]md$\" | tr -dc 0-9); T=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" | grep -vcE \"__init__[.]py$\" | tr -dc 0-9); A=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l | tr -dc 0-9); for v in \"$S\" \"$H\" \"$T\" \"$A\"; do [ -n \"$v\" ] || exit 1; done; [ \"$S\" -eq 3 ] || exit 1; [ \"$H\" -eq 2 ] || exit 1; [ \"$T\" -eq 4 ] || exit 1; [ \"$A\" -eq 2 ] || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$q\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Skills:[[:space:]]*$S([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Hooks:[[:space:]]*$H([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+MCP tools:[[:space:]]*$T([[:space:]]|$)\" \"$p\" || exit 1; grep -qiE \"^[[:space:]]*[-*][[:space:]]+Subagents:[[:space:]]*$A([[:space:]]|$)\" \"$p\" || exit 1; [ \"$(wc -l < README.md | tr -dc 0-9)\" -le 500 ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64)\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/agent-extension-pack.md || exit 1; test -f docs/permissions.md || exit 1; grep -qE \"permissions[.]md\" docs/agent-extension-pack.md || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); c=$(wc -l < README.md | tr -dc \"0-9\"); [ \"$c\" -le 500 ] || exit 1; k=$(ls -A .github/workflows | wc -l); [ \"$k\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | grep -vE \"^(ci|e2e|deploy)[.]yml$|^\\.gitkeep$\" | wc -l); [ \"$w\" -eq 0 ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; out=$(cd backend && uv run pytest -q 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; n=$(printf \"%s\" \"$out\" | grep -oE \"^[0-9]+ passed\" | grep -oE \"[0-9]+\" | tail -1); [ -n \"$n\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; a=$(cd backend && uv run ruff check . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; m=$(cd backend && uv run mypy . 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; mm=$(printf \"%s\" \"$m\" | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ -n \"$mm\" ] || exit 1; [ \"$mm\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; cd backend || exit 1; uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\" || exit 1; cd .. || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "note": "verbatim from fc757ae:docs/issues/t34.md ## Verification commands; byte-identical to builder ac_mapping; executed on the read-only sibling composition (composite LAST; rc=0 in 5m45s; parsed floor >=244 satisfied by 270 collected/passed on the composed tree; W10: no exact count pinned)"
+      }
+    },
+    "test_summary": {
+      "total": 270,
+      "passed": 270,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": true,
+      "backend_ge_244_floor_green_ruff_mypy_ge_83_head_005_frontend_187_0_0_0_tsc_0_lint_4_readme_500_untouched_workflows_4_index_146_anchors_green": true,
+      "every_documented_count_path_layer_claim_machine_verified": true,
+      "conventional_commit_docs_t34_branch_issue_t34_docs_no_force_push_index_untouched_ac6_excluded": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:2e33e9cbd70125867c420f56b7af0637dd65d02db34820548aefb1ff5172b165",
+    "ac_hash_match": true,
+    "ac_hash_canonical_variant": "heading-EXCLUSIVE Goal-section canonical (the declared t34 variant): git show fc757ae:docs/issues/t34.md, CRLF->LF, text between '## Goal'+newline and newline+'## Verification commands', per-line right-trim, newline-join, outer-trim, sha256 => 2e33e9cbd70125867c420f56b7af0637dd65d02db34820548aefb1ff5172b165 - MATCHES the groom pin EXACTLY (ac_count=6); issue-file blob unchanged by the feat commit (a68f056b at both a92d8dd and fc757ae).",
+    "ac_command_byte_identity_vs_builder": {
+      "ac1": true,
+      "ac2": true,
+      "ac3": true,
+      "ac4": true,
+      "ac5": true,
+      "ac6": true
+    },
+    "branch_sha": "fc757aef12669a5d685006fbd87bf1d689ab2564",
+    "commit_sha": "fc757aef12669a5d685006fbd87bf1d689ab2564",
+    "feat_commit_sha": "b0eecf83e2958431d38150f069bcb719a34ef142",
+    "composition_manifest": {
+      "why": "t30/t32 not merged anywhere; t31/t33 merged to MAIN tip 432bfcd but NOT reachable from fc757ae - fc757ae tree carries ZERO pack-component paths (git ls-tree -r fc757ae). Composed READ-ONLY via cmd.exe git -C <MAIN WinPath> show <ref>:<path>; files untracked, never staged, worktree-only.",
+      "byte_identity_all": true,
+      "files": [
+        {
+          "ref": "23019ff",
+          "path": "agent-capabilities/add-expense/SKILL.md",
+          "sha256_lf": "54243524c401a20b6c3e157866d99c28216d2f2709d04cb3df894963ef5886a7",
+          "byte_identity": true
+        },
+        {
+          "ref": "23019ff",
+          "path": "agent-capabilities/budget-check/SKILL.md",
+          "sha256_lf": "8fdf7cc9b748e259296954cd7934adec86d78d0530265d203987f9be555be2dd",
+          "byte_identity": true
+        },
+        {
+          "ref": "23019ff",
+          "path": "agent-capabilities/monthly-report/SKILL.md",
+          "sha256_lf": "c4c9fe3ea7009ae9e7472c42ffd0758004c228dbbf04dc9a9bc97ed4b2f9c1ae",
+          "byte_identity": true
+        },
+        {
+          "ref": "bb38a83",
+          "path": "agent-hooks/README.md",
+          "sha256_lf": "e45e65b3a586afaae7c4883a23ce0055e0cf638c2b080a32f11abbffbd94c914",
+          "byte_identity": true
+        },
+        {
+          "ref": "bb38a83",
+          "path": "agent-hooks/validate-amount.py",
+          "sha256_lf": "98247a326e67ee0a4788a719ca537222e0df0052952f45e52c566c17923d5a89",
+          "byte_identity": true
+        },
+        {
+          "ref": "bb38a83",
+          "path": "agent-hooks/validate-ownership.py",
+          "sha256_lf": "f5a32e7ec46ea7e996135cb023800ce7fc45fe04453dbae797296b3a5c6c4daf",
+          "byte_identity": true
+        },
+        {
+          "ref": "bb38a83",
+          "path": "backend/tests/integration/test_agent_hooks.py",
+          "sha256_lf": "021b95880c05c7a7c4e6199888965b938f24410a73a6b2129386a713ed83c177",
+          "byte_identity": true
+        },
+        {
+          "ref": "827c5c7",
+          "path": "mcp-server/config.py",
+          "sha256_lf": "504edad5564aa6389d5002e9f18ceb48fe639db440403385511ee6a5a925add3",
+          "byte_identity": true
+        },
+        {
+          "ref": "827c5c7",
+          "path": "mcp-server/auth.py",
+          "sha256_lf": "b75d621b9c69c2cfa8240d58d3a0bd163b2c5166d53b1c2b1503543e3f2d826e",
+          "byte_identity": true
+        },
+        {
+          "ref": "827c5c7",
+          "path": "mcp-server/server.py",
+          "sha256_lf": "1b16039fdde31c5ec32268e1e727082100ef35a4bc7685cf0fd43ebada2a4dee",
+          "byte_identity": true
+        },
+        {
+          "ref": "827c5c7",
+          "path": "mcp-server/pyproject.toml",
+          "sha256_lf": "a175d731c8482b42c191a277996c09b9c9428a5dfb52e43610ed4396f0c74e07",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/README.md",
+          "sha256_lf": "b65c4eaae52799f1f1a3810d27a5d21b060ff264bd4900b79d63ae6f21f2061c",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/__init__.py",
+          "sha256_lf": "438da65a003ff59226831227882cf309c28d88a74ee1000ae7c8a7022c10a143",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/tools/__init__.py",
+          "sha256_lf": "b3d34b53519e92a5791fb2221d1890f0b6f6e72aa99790e2cbdc787c3fc0471e",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/tools/add_expense.py",
+          "sha256_lf": "2e850f7ed10ed3a80fdc56fcaf920e12dcf15db1b4c121dd49e34d7e6f659451",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/tools/get_budget_status.py",
+          "sha256_lf": "e60216abeee2d530222d3f5d130cc9b17fd4a1e042702fe1aa4931dcbabd286c",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/tools/list_expenses.py",
+          "sha256_lf": "74bef2030293443f264932023964d0a9220fcdd51be30ccdd96ec44b388e890c",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "mcp-server/tools/monthly_summary.py",
+          "sha256_lf": "0d40ac5bc674c6ed261909888a42b69c943343a48f0c4174523523a3cc768c68",
+          "byte_identity": true
+        },
+        {
+          "ref": "c6fc999",
+          "path": "backend/tests/integration/test_mcp_tools.py",
+          "sha256_lf": "6ea0c151376a25f8f7c1d98c401ca956d4b96ba3abdf93c3cb437fc01747b11f",
+          "byte_identity": true
+        },
+        {
+          "ref": "ab407ab",
+          "path": "custom-agent/finance-analyst.md",
+          "sha256_lf": "4ba71f68ab70f36601e872bdbfe3fd96db79afb3c7ef3928f30cbd5ea3bf2676",
+          "byte_identity": true
+        },
+        {
+          "ref": "ab407ab",
+          "path": "custom-agent/qa-reviewer.md",
+          "sha256_lf": "77db90fa09d54e1551ec8093fe136c087bff3618fbf6422561b5a77a2340e5ca",
+          "byte_identity": true
+        }
+      ],
+      "symlinks": [
+        {
+          "path": ".agents/skills/add-expense.md",
+          "target": "../../agent-capabilities/add-expense/SKILL.md",
+          "mirrors_mode": "120000 blob b76c9d735c9065479119fe5d3eea127b5ebdc2fc"
+        },
+        {
+          "path": ".agents/skills/budget-check.md",
+          "target": "../../agent-capabilities/budget-check/SKILL.md",
+          "mirrors_mode": "120000 blob 82ee814218c8d627188dcd826d2ef765fb3dbe4d"
+        },
+        {
+          "path": ".agents/skills/monthly-report.md",
+          "target": "../../agent-capabilities/monthly-report/SKILL.md",
+          "mirrors_mode": "120000 blob 90f2578ab56be5d8b614c0ff78c760458718125f"
+        },
+        {
+          "path": ".agents/agents/finance-analyst.md",
+          "target": "../../custom-agent/finance-analyst.md",
+          "mirrors_mode": "120000 blob 96add70674ce3035a1bd3a13b4195adefda6d6a0"
+        },
+        {
+          "path": ".agents/agents/qa-reviewer.md",
+          "target": "../../custom-agent/qa-reviewer.md",
+          "mirrors_mode": "120000 blob 92094d1a29c51c2c5af34ef525c191c79579b7ac"
+        }
+      ],
+      "untracked_proof": "git status --porcelain in the verify worktree: exactly ?? .agents/ agent-capabilities/ agent-hooks/ backend/tests/integration/test_agent_hooks.py backend/tests/integration/test_mcp_tools.py custom-agent/ mcp-server/; git diff --cached empty."
+    },
+    "independent_legs": {
+      "backend": "270 collected / 270 passed / 0 failed (244 ancestors + 14 t30 + 12 t32; >= 244 W10 floor), ruff All checks passed rc=0, mypy Success no issues found in 86 source files rc=0 (>=83), alembic single head '005 (head)'.",
+      "frontend": "vitest 187 passed-title markers, numFailedTests:0 numPendingTests:0 numTodoTests:0; tsc --noEmit rc=0; npm run lint exactly 4 react-refresh/only-export-components warnings (all via cmd.exe FROM frontend/ after npm ci).",
+      "readme_workflows_manifests": "README 202 lines <= 500, CR-stripped sha256 8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce byte-untouched; .github/workflows exactly 4 entries {.gitkeep,ci.yml,deploy.yml,e2e.yml}; five manifests (package.json, frontend/package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json) rev-parse HEAD:<p> == hash-object.",
+      "index": "merge_test_index.json 146 entries; tests[16]==t2 @ cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3, tests[54]==t9 @ cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4; both stored commands executed green (ac6 execSync legs).",
+      "docs_content_truthfulness": "sample cross-checks 100% TRUE - see notes[9] (skill/hook/tool/subagent names, frozen endpoint map server.py:47-50, JWT checks, MCP_* config triple, error classes, 14-node hook test, NUMERIC(12,2)+FK ondelete migrations, two-role user model, 80% budget warning, no delete tool, stdio-only server)."
+    },
+    "premise_checks": {
+      "branch_sha_matches_assignment": "fc757ae == assigned; feat commit b0eecf8 touches EXACTLY docs/agent-extension-pack.md + docs/permissions.md (git show --stat), handoff commit fc757ae adds ONLY docs/state/outputs/t34_builder_implement.json.",
+      "ac_mapping_matches_verification_commands": "6/6 byte-identical (no [BUILDER_COMMAND_MISMATCH]).",
+      "fail_before": "re-measured 6/6 rc=1 with the two docs removed from the fc757ae tree; docs restored byte-identical.",
+      "venv": "[VENV_UNAVAILABLE] logged (both env vars empty); per-worktree provisioning used (WARN not failure, skill Step 0.5).",
+      "issue_file_untouched_by_feat": "docs/issues/t34.md blob identical at a92d8dd and fc757ae."
+    },
+    "notes": [
+      "Environment: UV_PROJECT_ENVIRONMENT/PYTHONPATH both empty at spawn -> [VENV_UNAVAILABLE] WARN; per-worktree provisioning per task procedure (backend/.venv via 'uv sync --offline' 29s from warm cache; frontend/node_modules via cmd.exe 'npm ci' FROM frontend/ - 512 packages, no junction/symlink).",
+      "FRESH detached worktree verify-t34 @ fc757ae created via cmd.exe git worktree add --detach from MAIN; no other worktree reused; no state-changing git op in any shared worktree; MAIN untouched.",
+      "ac_hash: recomputed heading-exclusive Goal-section canonical (git show fc757ae:docs/issues/t34.md, CRLF->LF, text between '## Goal'+newline and newline+'## Verification commands', per-line right-trim, newline-join, outer-trim, sha256) = 2e33e9cbd70125867c420f56b7af0637dd65d02db34820548aefb1ff5172b165 == the groom pin (docs/state/outputs/t34_builder_groom.json evidence.ac_hash, ac_count=6) EXACTLY. The feat commit b0eecf8 does NOT touch the issue file: docs/issues/t34.md blob at fc757ae == at a92d8dd (a68f056bc012160adbcbf970edc4a48855829ac1).",
+      "Command provenance: the six commands were re-extracted VERBATIM from the branch-tip blob fc757ae:docs/issues/t34.md '## Verification commands' (heading-exclusive /^## (?!#)/m slice, six bash fenced blocks, CRLF->LF) - NOT from builder claims. 6/6 byte-identical to builder ac_mapping tests.",
+      "All six commands executed VERBATIM from the verify-worktree root with ZERO substitutions: ac1..ac5 rc=0 in seconds; ac6 (composite, LAST) rc=0 in 5m45s wall.",
+      "COMPOSITION (read-only, untracked, never staged): siblings t30/t31/t32/t33 are NOT merged to MAIN (merge-base --is-ancestor checks: bb38a83 NO, c6fc999 NO; t31 827c5c7 and t33 ab407ab ARE on MAIN tip 432bfcd but NOT on the fc757ae base - fc757ae tree carries ZERO agent-capabilities/agent-hooks/mcp-server/custom-agent/.agents paths, verified by git ls-tree -r fc757ae). Composed 21 files via cmd.exe git -C <MAIN WinPath> show <ref>:<path> with per-file byte-identity (sha256 of CRLF-stripped local bytes == sha256 of CRLF-stripped source blob): 21/21 True. Included t32's backend/tests/integration/test_mcp_tools.py (c6fc999) so the composed backend tree reaches the task-stated 244+14+12=270 expectation. Throwaway .agents/skills/*.md (3) and .agents/agents/*.md (2) symlinks recreated mirroring the mode-120000 surface (targets byte-matched against git cat-file of the MAIN blob shas b76c9d73/82ee8142/90f2578a/96add706/92094d1a). git status --porcelain in the verify worktree shows ONLY the 7 untracked composition paths; git diff --cached empty (nothing staged).",
+      "W10 compliance: ac6 verified against the parsed floor >= 244 ONLY (no exact-count pin anywhere in this card); the composed tree measured 270 collected / 270 passed which satisfies the floor - the exact-270 gate belongs to t32's merge moment only.",
+      "Independent legs (beyond the verbatim runs): backend 270 collected / 270 passed / 0 failed, ruff 'All checks passed!' rc=0, mypy 'Success: no issues found in 86 source files' rc=0 (>=83), alembic single head '005 (head)'; frontend vitest 187 passed-title markers / numFailedTests:0 / numPendingTests:0 / numTodoTests:0, tsc --noEmit rc=0, npm run lint exactly 4 react-refresh/only-export-components; README 202 lines, CR-stripped sha256 8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce (byte-untouched); .github/workflows exactly 4 entries {.gitkeep,ci.yml,deploy.yml,e2e.yml}; all five manifests rev-parse HEAD:<p> == hash-object; merge index 146 entries, tests[16].issue_id==t2 sha256 cfb84edc..., tests[54].issue_id==t9 sha256 cf5babc0... (both byte-unchanged; both stored commands executed green inside the ac6 execSync legs).",
+      "Fail-before RE-MEASURED in the verify worktree: with the two docs temporarily removed from the fc757ae tree (composition kept), all six commands ran rc=1 (ac1/ac2/ac3/ac5 die on the pack-doc test -f leg, ac4 on the permissions-doc leg, ac6 on its first doc leg); docs restored byte-identical (sha256 4302f40f.../4629309a... unchanged) and tracked tree confirmed clean afterwards.",
+      "Doc CONTENT truthfulness cross-check (sample greps against the composed tree, all TRUE): skill names add-expense/budget-check/monthly-report == agent-capabilities/*/SKILL.md frontmatter; hook names validate-amount.py/validate-ownership.py exist and raise ValueError/PermissionError as documented; the four tool names add_expense/get_budget_status/monthly_summary/list_expenses and their frozen endpoint pairs POST /expenses, GET /dashboard/summary, GET /dashboard/by-category, GET /expenses == server.py TOOL map lines 47-50 and each tool module's FROZEN_PATH guard; server.py implements initialize/tools/list/tools/call + PROTOCOL_VERSION 2024-11-05, stdio-only (single 'listener' hit is the docstring 'no network listener'), stdlib+auth/config imports only (no ORM/connection string anywhere in mcp-server/); auth.py verify_jwt checks signature/expiry/audience/issuer/type==access; config.py MCP_JWT_SECRET/MCP_API_BASE_URL/MCP_USER_TOKEN triple confirmed; failure classes AuthError (auth.py:21) / ValueError (hook path) / McpToolError (tools/__init__.py:11) confirmed; additionalProperties:false on all four tool schemas (server.py:76/88/100/120); subagent names finance-analyst/qa-reviewer == custom-agent/*.md frontmatter, read-only + fresh-context + 'Do not fix anything' phrases confirmed; all six enforcement-layer paths exist (test -e) and their documented behaviors are greppable (validate-amount MAX 999999999.99 == expense_service AMOUNT_MAX; dependencies.py get_current_user -> 401; expense_service user_id filtering; test_agent_hooks.py exactly 14 test defs == the doc's '14 nodes'; alembic 004/005 sa.Numeric(precision=12,scale=2) + ondelete FKs == the NUMERIC(12,2)/NOT NULL/FK claim); user model carries no admin/role/group column == the two-role claim; budget-check 80% warning confirmed in SKILL.md; no delete tool anywhere in mcp-server/ == the 'no delete tool' forbidden-actions claim.",
+      "Platform #37 (dup-checked: latest comment is the builder implement note, no prior VERIFIER verdict): 'VERIFIER VERDICT: PASS' comment posted via scripts/platform.ts issue comment 37 --body, then label set 37 --labels defined,verified (built swapped out, t32 precedent) - run via cmd.exe D:\\Program\\nodejs\\node.exe from the session worktree (WSL node cannot exec the Windows tsx/esbuild toolchain).",
+      "Handoff committed into issue/t34-docs as the second commit on fc757ae and fast-forward pushed to refs/heads/issue/t34-docs (no force). Validate [OK] for verifier:verify_issue via scripts/validate_handoff.ts before committing.",
+      "STATE HYGIENE: docs/log, seq.txt, merge_test_index.json, merge_history.json, other issue files and MAIN untouched; the composition (agent-capabilities/, agent-hooks/, mcp-server/, custom-agent/, .agents/, backend/tests/integration/test_agent_hooks.py, backend/tests/integration/test_mcp_tools.py) lives ONLY in the throwaway verify worktree and dies with it (git worktree remove --force after evidence capture); nothing from the composition was ever staged or committed.",
+      "test_summary basis: backend 270/270 on the composed tree (244 ancestors-reachable + 14 t30 + 12 t32); frontend 187 passed / 0 failed observed independently and inside ac6; t34 adds ZERO test nodes (documentation-only card).",
+      "DoD wording note: the DoD line 'workflows exactly 3' counts the three ci/deploy/e2e yml files; the pinned ac6 gate measures exactly 4 entries including .gitkeep - both readings are satisfied by the measured {.gitkeep,ci.yml,deploy.yml,e2e.yml}."
+    ],
+    "residual_risks": [
+      "Backend floor is >=244 by W10 design; the composed-tree measurement (270) is verifier-side evidence only - the exact-270 attestation belongs to t32's merge moment and t35's composite.",
+      "Platform label transition set #37 to [defined,verified]; the local branch ref issue/t34-docs in the shared repo remains at a92d8dd (checked out in the issue-t34-docs worktree) while origin carries the handoff commit - the orchestrator merge must use origin/issue/t34-docs.",
+      "Docs state 'the pack ships ... plus the permissions matrix' counts the docs component as the fifth without a numeric count row for it; gates pin only the 3/2/4/2 rows - no drift risk."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t34_verifier_verify_issue.json"
+    ],
+    "platform_issue": 37,
+    "output_path": "docs/state/outputs/t34_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T09:19:46.000Z",
+  "retry_count": 0
+}
