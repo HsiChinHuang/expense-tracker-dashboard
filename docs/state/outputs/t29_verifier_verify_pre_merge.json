@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t29",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": "verifier verify_pre_merge for t29 (Platform #32, phase_6_agent first issue - skills vertical, documentation + git-tracked symlinks only) against MAIN @ dffd709397be2134d13b9a812ed5cb91c505d32f (== origin/main at spawn). Candidate branch issue/t29-skills @ 0bfffa4238fbbf2acaad0a64e894df74c9fc2ec2 (groom pin 3327808 -> groom handoff 40775cb -> feat 2287d98 -> implement handoff 0bfffa4). MAIN ADVANCED mid-run to e34f598 (7 orchestrator ingest commits for t30/t31/t32/t33 bookkeeping: docs/log, docs/state/outputs, seq.txt ONLY - merge_test_index.json byte-unchanged, verified via git diff --name-only dffd709..HEAD -- docs/state/merge_test_index.json == 0 lines); impact assessed and neutralized by re-running merge-tree + re-merging the sim against e34f598 (see merge_simulation). CWD verified first: MAIN. [VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT/PYTHONPATH empty; per-worktree venv provisioned via uv sync --offline (uv 0.12.13 via $HOME/.local/bin). t29 adds ZERO test nodes and ZERO index entries (index diff main..branch == 0 lines) - the 146-entry index is a pure regression gate here.",
+    "orchestrator_prechecks": {
+      "main_eq_origin": "MAIN dffd709397be2134d13b9a812ed5cb91c505d32f == origin/main dffd709 (ls-remote refs/heads/main dffd709...). Mid-run MAIN advanced to e34f598 == origin/main e34f598 (ingest commits only, index/anchors untouched).",
+      "branch_pushed": "ls-remote refs/heads/issue/t29-skills == 0bfffa4238fbbf2acaad0a64e894df74c9fc2ec2 (matches local tip).",
+      "branch_contains": "git log main..issue/t29-skills == EXACTLY 4 commits: 3327808 docs(t29): groom - pin verification commands (touches ONLY docs/issues/t29.md), 40775cb docs(t29): groom handoff (t29_builder_groom.json), 2287d98 feat(t29): agent skills + discoverability symlinks (exactly 6 product files: 3 SKILL.md + 3 mode-120000 symlinks), 0bfffa4 docs(t29): implement handoff (t29_builder_implement.json). None is an ancestor of MAIN; merge-base(main,branch) == 1a68016 which IS an ancestor of MAIN.",
+      "index_shape": "docs/state/merge_test_index.json: top keys schema_version,updated_at,tests; tests length 146; issue_id distribution t0:6 t1:5 t2:6 t3:5 t4:6 t5:6 t6:5 t7:5 t8:6 t9:6 t10:3 t11:4 t12:4 t13:5 t14:5 t15:5 t16:4 t17:4 t18:5 t19:5 t20:5 t21:5 t22:5 t23:5 t24:6 t25:5 t26:5 t27:5 t28:5 == 146. FINDING (pre-existing, NOT t29-introduced, index byte-identical spawn-MAIN vs current MAIN): entries 16 (t2) and 35 (t6) carry an extra 'note' bookkeeping key beyond {issue_id,command} - annotation-only, anchors tests[16]=t2/tests[54]=t9 SHA-pinned hashes RECOMPUTED this run and byte-match the t28-era pins cfb84edc91df3a3b.../cf5babc0049e8c30....",
+      "merge_history": "docs/state/merge_history.json entries == 29 (last: t28-feb7352, cumulative 141->146 index, regression_count 0).",
+      "platform_readonly": "issue get 32: state open, labels [defined, verified], updated_at 2026-10-10T05:28:57Z (read twice - before scan and before comment; labels never mutated by this verifier)."
+    },
+    "single_host_equivalence_proof": "The scan ran SINGLE-HOST on the SIM MERGED TREE - the strictly most faithful host (every entry observes the merged content, no equivalence leap needed). Equivalence chain machine-verified this run: (1) git diff --name-status main..merged-tree(b6e53de) == the 6 t29 product paths (all A=adds of brand-new paths agent-capabilities/**, .agents/skills/**) + M docs/issues/t29.md + 2 A docs/state/outputs handoff JSONs - ZERO pre-existing MAIN paths modified except the issue file; (2) machine-grep of ALL 146 index command strings: docs/state|docs/log|merge_test_index|seq.txt -> 0 hits (bookkeeping unread, t26/t27/t28 precedent proof re-run against the 146-entry index) AND agent-capabilities|.agents|SKILL.md -> 0 hits (t29 paths unread by any legacy entry - t29 appends no entries itself); (3) MAIN's mid-run advance dffd709..e34f598 == docs/log + docs/state/outputs + seq.txt only, index byte-unchanged. Host-agnosticism: every index command is executed from the repo root with cwd=sim root; git access verified working BOTH bare (GIT_DIR=<main>/.git/worktrees/sim-t29 + GIT_WORK_TREE=/mnt/c form, the t26-scan protocol) AND via the in-command cmd.exe /c git -C $(wslpath -w $PWD) recipe (entry-139-class probes re-executed green on sim pre-scan).",
+    "cumulative_scan": {
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "harness": "build/t29pm_full_scan.cjs (WSL /usr/bin/node v18.19.1, execSync per entry cwd=/mnt/c/.../worktrees/sim-t29, GIT_DIR=<main>/.git/worktrees/sim-t29 + GIT_WORK_TREE=/mnt/c form exported, PATH prefixed $HOME/.local/bin, timeout 900000, TSV + done-marker, setsid nohup detach, blocking wait). Results build/t29pm_full_results.tsv, log build/t29pm_full.log.",
+      "wall_time": "44.4 min (2026-10-10T06:00:34Z -> 06:44:57Z), sum of per-entry durations 2662204 ms. SLOWER than the t28 23.0-min baseline because concurrent t30/t31/t32/t33 pipelines shared the host during the window; no entry hit the 900 s timeout, all rc=0.",
+      "completeness": "machine-verified: 146 rows, indices 0..145 each exactly once, 0 missing, 0 duplicates; per-issue counts identical to the index distribution; issue_id column matches the index entry-by-entry (0 mismatches); anchors tests[16]=t2 / tests[54]=t9 position-confirmed; entries 141..145 = t28 appends present.",
+      "nonzero_rows": "NONE. All 146 rows rc=0.",
+      "failure_decomposition": "N/A - zero failures. No stale-guard class hit this run: t29 touches no path any legacy entry guards (0/146 read agent-capabilities|.agents; the t28 entry-#139-class broad no-drift trap was pre-empted at groom per plan.md ruling 7 / survey ruling 7)."
+    },
+    "merge_simulation": {
+      "clean": true,
+      "conflicts": 0,
+      "main_sha": "dffd709397be2134d13b9a812ed5cb91c505d32f (spawn) / e34f598991f8d2c9b0be8cfb79ea164c906cbfcf (post-advance, re-verified)",
+      "branch_sha": "0bfffa4238fbbf2acaad0a64e894df74c9fc2ec2",
+      "merge_tree_prediction": "git merge-tree --write-tree main issue/t29-skills -> rc=0, stdout = single tree oid b6e53de5ad6ce64df54bedfb608cd9e08856dc51 at spawn MAIN dffd709, stderr EMPTY; conflict-marker sweep git grep -I -E '^(<<<<<<<|=======$|>>>>>>>)' over that tree -> 0 matches (grep rc=1). AFTER MAIN advanced to e34f598: re-run -> rc=0, tree 4276cc083b779de843dd9ec2f9b32970100a5928, sweep 0 matches; diff b6e53de..4276cc0 == docs/log + 8 ingest handoff JSONs + seq.txt ONLY (ZERO product-path delta) - the mid-run advance is inert for t29.",
+      "merge_commit": "62073e12ba1ebf31bdc8c91ad8c6dacdfe2f8d79 (parents dffd709 + 0bfffa4); re-merge commit bccb28e (parents 62073e1 + e34f598) after MAIN advanced",
+      "merge_commit_tree": "62073e1 tree == b6e53de5ad6ce64df54bedfb608cd9e08856dc51 (== merge-tree prediction, byte-exact simulation); re-merge tree == 4276cc083b779de843dd9ec2f9b32970100a5928 == the NEW prediction against advanced MAIN. Both merges 'Merge made by the ort strategy', rc=0, status --porcelain EMPTY after each.",
+      "sim": "cmd.exe git -C <MAIN> worktree add ..\\worktrees\\sim-t29 -b sim/t29 main (HEAD dffd709); git -C sim-t29 merge --no-ff --no-edit issue/t29-skills -> 9 files changed 359 insertions 38 deletions, create mode 120000 x3. NO node_modules junction into sim (t27 lesson honored). Sim provisioned for gates: root node_modules via cmd.exe npm ci (rc=0), frontend/node_modules via cmd.exe npm ci (512 pkgs), backend/.venv via uv sync --offline (rc=0). Symlinks materialized as REAL Linux symlinks on the sim checkout (find -type l == 3, cmp cat-through-symlink byte-equality proven pre-scan)."
+    },
+    "merged_state_gates": {
+      "merged_delta_vs_main": "git diff --name-status main 4276cc0 -> EXACTLY A .agents/skills/{add-expense,budget-check,monthly-report}.md (mode 120000) + A agent-capabilities/{add-expense,budget-check,monthly-report}/SKILL.md + M docs/issues/t29.md + A docs/state/outputs/t29_builder_{groom,implement}.json. ZERO backend/**, ZERO frontend/**, ZERO e2e/**, ZERO .github/**, ZERO manifest, ZERO Makefile/README rows. Handoff JSONs are plain adds (absent from MAIN - git ls-tree main -> 0 rows) so the merge introduces no add/add; t29_definer_survey.json blob-identical main-vs-branch (bb3737aa) - no conflict.",
+      "t29_pinned_commands": "6/6 rc=0 executed verbatim on the merged sim tree (see smoke_tests_detail); these ARE t29's merged-state gates per the card (ac6 is the composite).",
+      "backend": "EXACTLY '244 tests collected' (parsed header) + 244 collected nodes (>= 244) + full suite rc=0 + ruff clean + mypy 'no issues found in 84 source' (>= 83 floor) + alembic single head '005 (head)' - all measured independently on sim (build/t29pm_gates.json).",
+      "frontend": "187 passed / 0 failed / 0 pending / 0 todo via cmd.exe npx.cmd vitest run --reporter=json FROM frontend/ (root-level vitest trap avoided); tsc --noEmit rc=0; EXACTLY 4 react-refresh/only-export-components lint warnings.",
+      "readme": "202 lines <= 500.",
+      "workflows": "ls -A .github/workflows == exactly {.gitkeep, ci.yml, deploy.yml, e2e.yml} (exactly-4 + forbidden-name leg green).",
+      "manifests": "5/5 byte-identical vs MAIN blobs: package.json, frontend/package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json (git rev-parse main:<p> == git rev-parse 4276cc0:<p> for all five).",
+      "structural_spot_greps": "Dockerfile FROM==2, docker-compose healthcheck==2, render.yaml env keys==9, e2e artifacts {config,tsconfig,gate-types,fixtures,tests,package.json} - all unchanged vs t28-era merged state (delta shows zero touches)."
+    },
+    "smoke_tests_detail": "6/6 rc=0 on the merged sim tree: ac1 1067 ms, ac2 49 ms, ac3 54 ms, ac4 35 ms, ac5 952 ms (incl. EXECUTED cat-through-symlink cmp + mode-120000 accounting), ac6 169553 ms (no-drift composite, run once). Source: 6 fenced bash blocks re-extracted from git show b6e53de:docs/issues/t29.md (merged tree; CRLF->LF, section boundary /^## (?!#)/m after '## Verification commands'). BYTE-IDENTITY vs builder ac_mapping (branch copy of t29_builder_implement.json): 6/6 EXACT (chars 1271/769/978/648/819/2909; sha256 3bfd9d5c56b5/2c1bb25864af/59c815ce6f29/ce530d3cc45a/ffd662e37619/707890489ad8) - no BUILDER_COMMAND_MISMATCH, no backslash-unescape caveat needed (unlike the t28 handoff-formatting finding). After the smoke run the sim porcelain == EMPTY (ac6 writes nothing tracked); MAIN porcelain EMPTY throughout.",
+    "verdict": "PASS",
+    "platform": "MERGE VERDICT: PASS comment posted on issue #32 via scripts/platform.ts issue comment 32 --body at 2026-10-10T07:06:32Z (dup-check first: latest comment was the builder implement COMPLETE from 04:58:34Z - no prior MERGE VERDICT existed; posted via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs execFileSync arg-array to dodge the cmd.exe quoting trap). Labels UNCHANGED [defined, verified] (issue get re-read after comment; state open).",
+    "notes": [
+      "SCOPE/RUN: verifier verify_pre_merge for t29 (Platform #32, phase_6_agent first card - skills vertical: 3 SKILL.md + 3 git-tracked mode-120000 file-level symlinks, ZERO product code, ZERO new deps, ZERO test nodes, ZERO index entries). CWD verified first. [VENV_UNAVAILABLE] WARN logged; per-worktree venv via uv sync --offline, NEVER reinstalled elsewhere.",
+      "VERDICT RATIONALE: PASS - cumulative 146/146 rc=0 (machine-verified completeness), smoke 6/6 rc=0 (byte-identity vs builder 6/6), merge simulation clean on BOTH the spawn MAIN and the advanced MAIN (tree==prediction both times, 0 markers, porcelain empty), merged-state gates all green with t29's own ac6 composite plus independent per-gate measurements. No stale-guard hit: t29's zero-delta-to-guarded-paths design (survey ruling 7 / groom no-broad-guards rule) means the 146-entry index acted as the pure regression gate the verify_issue handoff predicted.",
+      "MID-RUN MAIN ADVANCE (recorded, neutralized): MAIN moved dffd709 -> e34f598 during the scan window (7 orchestrator ingest commits for t30/t31/t32/t33). Machine-verified inert for this verification: (a) merge_test_index.json byte-unchanged by the advance (0-line diff), so the 146-entry scan ran against the authoritative index; (b) the advance touches ONLY docs/log + docs/state/outputs + seq.txt - paths 0/146 index commands read; (c) merge-tree re-run against e34f598 rc=0 tree 4276cc0, sim re-merged, tree == prediction, product delta between b6e53de and 4276cc0 == ZERO. The orchestrator may merge issue/t29-skills against current MAIN e34f598 directly; expect tree 4276cc0-class (bookkeeping drift may accumulate further - re-run merge-tree at merge time per standard practice).",
+      "SINGLE-HOST SCAN: executed on the SIM MERGED TREE itself (t28 ran on the branch worktree under an equivalence proof; here the sim host makes the proof moot - merged content IS the scanned content). Provisioned root+frontend node_modules via cmd.exe npm ci and backend/.venv via uv sync --offline; NO junctions anywhere (t27 incident lesson). Scan 44.4 min vs 23.0 baseline - host contention from 4 concurrent sibling pipelines (t30/t31/t32/t33) measured in the same window; every entry rc=0, no timeouts.",
+      "FINDING (pre-existing, non-blocking): index entries 16/35 carry an extra 'note' key beyond {issue_id,command} - historical amendment annotations (entry 16: the t9-react-hook-form lift note), byte-identical on spawn and current MAIN, anchors' SHA-256 pins recomputed this run match cfb84edc/cf5babc0 exactly. Not t29-introduced; recorded for the audit trail only.",
+      "RESIDUAL CARRY-FORWARD (do NOT re-open): the verify_issue-recorded negative-control transparency note (two first-pass CRLF no-op mutations, CRLF-safe re-run rc=1 every control) stands; budget-check step-4 wording interpretation (groom ruling: AC body authoritative over Chapter 10 sample, monthly_summary banned there) is a documented interpretation, revisit only if t32's get_budget_status response shape differs (t34/t35 doc touch). Skill RUNTIME execution by a real agent session remains deferred per t29 Out-of-scope (t35 register).",
+      "PLATFORM: dup-check #32 (latest was builder COMPLETE) then PASS verdict posted with full evidence summary. Labels untouched [defined, verified]. No other platform mutation (no close, no label change - orchestrator owns merge+close).",
+      "CLEANUP/STATE: NO merge into main, NO push, NO index/issue/label/product modification, NO checkout, NO worktree prune. sim-t29 worktree removed via cmd.exe git worktree remove --force AFTER all measurements (no junction involved - MAIN frontend/node_modules verified intact: 399 top-level entries, js-yaml 4.3.2 readable); branch sim/t29 deleted (was bccb28e). MAIN working tree porcelain EMPTY, HEAD e34f598 == origin/main, index untouched. Only gitignored build/t29pm* scratch added under MAIN.",
+      "HANDOFF PATH: docs/state/outputs/t29_verifier_verify_pre_merge.json is ABSENT from issue/t29-skills (branch carries only t29_builder_groom/implement + survey) so the merge introduces no new add/add on it; MAIN copy left UNCOMMITTED per protocol (orchestrator ingests). Authoritative runtime copy at the configured subagent-artifacts output path; both copies byte-identical, both schema-validated [OK].",
+      "REACHED_STATE: PASS => verified (issue stays [defined,verified]; orchestrator proceeds to merge + index-append decision - t29 appends ZERO entries per the card, merge_history entry 30 expected with cumulative 146).",
+      "PRE-OUTPUT CHECKLIST: CWD PASS; venv WARN logged PASS; index read PASS (146, anchors machine-confirmed, distribution matches); candidate branch confirmed PASS (issue/t29-skills @ 0bfffa4, no checkout run); all 146 cumulative entries run PASS (146 green, failed_tests empty); smoke PASS 6/6 (byte-identity vs builder 6/6); failed tests recorded N/A PASS (none); handoff under docs/state/outputs only PASS; comment posted via scripts/platform.ts PASS; labels untouched PASS; schema-validated [OK] PASS; reached_state=verified PASS."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t29_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 32,
+    "output_path": "docs/state/outputs/t29_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-10T07:10:00Z",
+  "retry_count": 0
+}
