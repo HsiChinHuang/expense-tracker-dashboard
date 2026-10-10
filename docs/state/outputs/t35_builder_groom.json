@@ -28,7 +28,7 @@
     "branch": "issue/t35-pack-verify",
     "base_sha": "ebcde29",
     "groom_commit": "f2682c5",
-    "pushed": false,
+    "pushed": true,
     "measured_at_base": {
       "backend_collected": "244 tests collected; 244 passed (suite rc=0) at clean base ebcde29; composite floor pinned >= 244 (parsed, never exact). Composed tree measures 270 collected / 270 passed — recorded as observation ONLY (W10: floor must never be rewritten to >= 270 or any exact value).",
       "hook_suite": "14/14 collected, 14 passed (t30 test_agent_hooks.py @ bb38a83)",
@@ -119,7 +119,9 @@
       "t34 deliverable docs/permissions.md must be present in the merged tree for ac3 PERMISSIONS_ROWS to be meaningful (paths_exist=6 leg checks documented paths exist). Groom pass-after used a hand-written stand-in because the doc exists at no pushed ref as of this groom.",
       "W10: never rewrite the composite floor to >= 270 or to any exact count, even though the composed tree measures 270. Floor stays parsed >= 244.",
       "W12: pins only READ docs/state/merge_test_index.json; anchors tests[16]/tests[54] must stay byte-unchanged (ac6 re-hashes and re-executes them)."
-    ]
+    ],
+    "branch_sha": "f2682c5",
+    "push_note": "Branch issue/t35-pack-verify pushed (no force): f2682c5 = groom commit (docs/issues/t35.md ONLY), then handoff commits. branch_sha pins the groom commit because this handoff file is committed AFTER it; the remote head is the handoff commit itself (append-only history — the task forbids force-push, so the pushed:true correction is a follow-up commit rather than an amend+force)."
   },
   "artifacts": {
     "files_written": [
