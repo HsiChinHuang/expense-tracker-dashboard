@@ -1,0 +1,1 @@
+../../agent-capabilities/add-expense/SKILL.md
