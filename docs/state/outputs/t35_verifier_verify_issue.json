@@ -3,48 +3,54 @@
   "issue_id": "t35",
   "role": "verifier",
   "phase": "verify_issue",
-  "status": "FAIL",
-  "reached_state": "unchanged",
+  "status": "COMPLETE",
+  "reached_state": "verified",
   "evidence": {
     "evidence_type": "verification",
     "verification_commands_source": "docs/issues/<id>.md#verification-commands",
-    "handoff_artifact": "docs/state/outputs/t35_verifier_verify_issue.json (32280 B, validated [OK] verifier:verify_issue)",
-    "ac_results_note": "each ac_results entry in the persisted handoff carries the FULL verbatim pinned command text re-extracted from the f83de81 blob; command digests shown here for brevity",
+    "handoff_artifact": "docs/state/outputs/t35_verifier_verify_issue.json (this file; re-run after fix_qa, supersedes the prior FAIL run recorded at commit 505cfcd lineage / archived copy)",
+    "ac_results_note": "each ac_results entry carries the FULL verbatim pinned command text re-extracted from the 2634ce1 branch blob of docs/issues/t35.md (CRLF->LF, heading-exclusive /^## (?!#)/m); all 6 digests match the pinned values e44abc1781bc/2bc943fbf133/393ec9117d39/c02262562aee/1457c518ba56/286d1e1f5f63 and are byte-identical to groom verification_commands and builder ac_mapping. No substitution in any run.",
     "ac_results": {
       "ac1": {
-        "verdict": "FAIL",
-        "exit_code": 1,
-        "note": "FAIL, deterministic 3/3 runs. Failing leg = the first raw 'cmp -s docs/criteria/agent_pack_verification.md \"$b\"'. core.autocrlf=true (machine-wide D:/Program/Git/Git/etc/gitconfig AND repo .git/config) smudges the LF-committed doc to CRLF at checkout (113 CR bytes / 5309 B) while the generator writes LF (output.write_bytes(document.encode('utf-8')), 0 CR bytes / 5196 B) -> cmp fails at byte 51 / line 1. Content differs by LINE ENDINGS ONLY: cmp after tr -d '\\r' on both sides rc=0; regenerated doc byte-identical to the committed blob (cmp rc=0, sha256 69df80d6...). Same verbatim ac1 returns rc=0 when the working doc is already LF, i.e. green only in the builder's pre-existing worktree, never on a fresh checkout.",
+        "verdict": "PASS",
+        "exit_code": 0,
+        "output_path": "/tmp/t35v/ac1.out (+ac1.run2/3.out)",
+        "note": "PASS rc=0, 3/3 consecutive runs on a FRESH detached worktree (verify-t35-r2) of 2634ce1 created for this re-run; first run executed BEFORE any line-ending touch (checked-out doc 5309 B / 113 CR bytes). The prior FAIL (run ab349a16, ac1 rc=1 deterministic) is resolved: generator now emits CRLF (f351e92, t28 precedent) so the regenerated doc byte-matches the core.autocrlf=true CRLF-smudged checkout. Determinism: run1-vs-run2 cmp rc=0 AND regenerated == checked-out (CRLF) doc cmp rc=0; content-normalized (tr -d CR) sha256 69df80d608ee02f42acea9d4c44dc78fd6f30dd0d67ced688947c532c81ad1d8 == prior measurement (line-ending-only delta, content unchanged). ALL_CHECKS_PASS 19 PASS (n=19 >= 18).",
         "command": "bash -c 'test -f backend/scripts/agent_pack_verification.py || exit 1; test -f docs/criteria/agent_pack_verification.md || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; s=backend/scripts/agent_pack_verification.py; grep -qE \"importlib\" \"$s\" || exit 1; grep -qE \"MockTransport\" \"$s\" || exit 1; grep -qE \"tempfile|TemporaryDirectory|mkdtemp\" \"$s\" || exit 1; for t in SKILL_ROWS HOOK_TEST_ROWS MCP_TEST_ROWS MCP_CONTRACT_ROWS SUBAGENT_ROWS SYMLINK_ROWS COUNT_ROWS PERMISSIONS_ROWS DEFERRAL_REGISTER ALL_CHECKS_PASS; do grep -q \"$t\" \"$s\" || exit 1; done; ! grep -qE \"^[[:space:]]*(import|from)[[:space:]]+(subprocess|requests|uvicorn|socket|sqlalchemy)([[:space:]]|[.]|$)\" \"$s\" || exit 1; (cd backend && uv run ruff check scripts/agent_pack_verification.py >/dev/null 2>&1) || exit 1; (cd backend && uv run mypy scripts/agent_pack_verification.py >/dev/null 2>&1) || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; b=$(mktemp) || exit 1; cp docs/criteria/agent_pack_verification.md \"$b\" || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; cmp -s docs/criteria/agent_pack_verification.md \"$b\" || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; cmp -s docs/criteria/agent_pack_verification.md \"$b\" || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; rm -f \"$b\" \"$c\" \"$l\"; grep -qE \"^ALL_CHECKS_PASS [0-9]+ PASS[[:space:]]*$\" docs/criteria/agent_pack_verification.md || exit 1; n=$(grep -E \"^ALL_CHECKS_PASS [0-9]+ PASS\" docs/criteria/agent_pack_verification.md | head -1 | tr -d \"\\r\" | sed -E \"s/^ALL_CHECKS_PASS ([0-9]+) PASS/\\1/\"); [ \"${n:-0}\" -ge 18 ] || exit 1'"
       },
       "ac2": {
         "verdict": "PASS",
         "exit_code": 0,
-        "note": "rc=0 (33s). HOOK_TEST_ROWS 14 PASS, MCP_TEST_ROWS 12 PASS, MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS, SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS; BACKEND_COLLECTION 270 == independently counted 270, >= 244.",
+        "output_path": "/tmp/t35v/ac2.out",
+        "note": "PASS rc=0. HOOK_TEST_ROWS 14 PASS, MCP_TEST_ROWS 12 PASS, MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS, SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS; BACKEND_COLLECTION 270 == independently counted 270, >= 244 floor (W10 respected, no exact-total pin).",
         "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; hc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_agent_hooks.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$hc\" -eq 14 ] || exit 1; (cd backend && uv run pytest tests/integration/test_agent_hooks.py -q >/dev/null 2>&1) || exit 1; mc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_mcp_tools.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$mc\" -eq 12 ] || exit 1; (cd backend && uv run pytest tests/integration/test_mcp_tools.py -q >/dev/null 2>&1) || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^HOOK_TEST_ROWS 14 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_TEST_ROWS 12 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS[[:space:]]*$\" \"$d\" || exit 1; m=$(grep -c \"::\" \"$c\"); n=$(grep -E \"^BACKEND_COLLECTION [0-9]+ floor=\" \"$d\" | head -1 | tr -d \"\\r\" | sed -E \"s/^BACKEND_COLLECTION ([0-9]+) .*/\\1/\"); [ -n \"$n\" ] || exit 1; [ \"$n\" -eq \"$m\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; rm -f \"$c\" \"$l\"'"
       },
       "ac3": {
         "verdict": "PASS",
         "exit_code": 0,
-        "note": "rc=0 (16s). All structure tokens present; doc COUNT_ROWS line byte-equal to an independent find-based recount (skills=3 hooks=2 tools=4 subagents=2).",
+        "output_path": "/tmp/t35v/ac3.out",
+        "note": "PASS rc=0. All structure tokens present; doc COUNT_ROWS line byte-equal to an independent find-based recount (skills=3 hooks=2 tools=4 subagents=2).",
         "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; rm -f \"$c\" \"$l\"; d=docs/criteria/agent_pack_verification.md; grep -qE \"^SKILL_ROWS 3 frontmatter=3 whentouse=3 steps=3 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SUBAGENT_ROWS 2 frontmatter=2 readonly=1 nofix=1 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^AGENT_DIRS agent-capabilities,agent-hooks,mcp-server,custom-agent,[.]agents 5 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MANIFEST_DEPS httpx,python-jose 2 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^WORKFLOWS ci,e2e,deploy 3 PASS[[:space:]]*$\" \"$d\" || exit 1; s=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name SKILL.md | wc -l); [ \"$s\" -eq 3 ] || exit 1; h=$(find agent-hooks -maxdepth 1 -type f ! -name README.md | wc -l); [ \"$h\" -eq 2 ] || exit 1; t=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" ! -name \"__init__.py\" | wc -l); [ \"$t\" -eq 4 ] || exit 1; a=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l); [ \"$a\" -eq 2 ] || exit 1; line=$(grep -E \"^COUNT_ROWS \" \"$d\" | head -1 | tr -d \"\\r\"); [ \"$line\" = \"COUNT_ROWS skills=$s hooks=$h tools=$t subagents=$a PASS\" ] || exit 1'"
       },
       "ac4": {
         "verdict": "PASS",
         "exit_code": 0,
-        "note": "rc=0. DEFERRAL_REGISTER 3 DEFERRED header, exactly 3 DEFERRED_ROW lines with pinned artifact/reason/live_check triples, 0 PASS lines naming any deferred key (0/0/0).",
+        "output_path": "/tmp/t35v/ac4.out",
+        "note": "PASS rc=0. DEFERRAL_REGISTER 3 DEFERRED header, exactly 3 DEFERRED_ROW lines with pinned artifact/reason/live_check triples, 0 PASS lines naming any deferred key (0/0/0).",
         "command": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^DEFERRAL_REGISTER 3 DEFERRED PASS[[:space:]]*$\" \"$d\" || exit 1; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\"); [ \"$r\" -eq 3 ] || exit 1; grep -qE \"^DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Generate a monthly report for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server[.]py reason=egress_forbidden_no_live_backend live_check=MCP_JWT_SECRET=[.][.][.] MCP_API_BASE_URL=[.][.][.] MCP_USER_TOKEN=[.][.][.] python mcp-server/server[.]py[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Launch finance analyst for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; for k in LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\"); [ \"$c\" -eq 0 ] || exit 1; done'"
       },
       "ac5": {
         "verdict": "PASS",
         "exit_code": 0,
-        "note": "rc=0. CRITERIA_NUMBERS 7,9,12 PASS, 8 pinned mapping rows, REQ-PLAN-061_ROWS with mcp_start=deferred, every cited token grep-present.",
+        "output_path": "/tmp/t35v/ac5.out",
+        "note": "PASS rc=0. CRITERIA_NUMBERS 7,9,12 PASS, 8 pinned mapping rows, REQ-PLAN-061_ROWS with mcp_start=deferred, every cited token grep-present.",
         "command": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^CRITERIA_NUMBERS 7,9,12 PASS[[:space:]]*$\" \"$d\" || exit 1; n=$(grep -cE \"^\\| (7|9|10|11|12|31|32|discovery) \\| REQ-[A-Z]+-[0-9]+ \\| executed \\| [A-Z_]+ \\|\" \"$d\"); [ \"$n\" -eq 8 ] || exit 1; grep -qE \"^\\| 7 \\| REQ-EXT-001 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 9 \\| REQ-EXT-060 \\| executed \\| PERMISSIONS_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 10 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 11 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 12 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 31 \\| REQ-PLAN-061 \\| executed \\| MCP_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 32 \\| REQ-EXT-072 \\| executed \\| HOOK_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| discovery \\| REQ-AI-064 \\| executed \\| SYMLINK_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^REQ-PLAN-061_ROWS skills=executed hooks=executed hook_tests=executed mcp_start=deferred mcp_tools=executed subagents=structural permissions=structural PASS[[:space:]]*$\" \"$d\" || exit 1; for t in COUNT_ROWS PERMISSIONS_ROWS MCP_TEST_ROWS HOOK_TEST_ROWS SYMLINK_ROWS; do grep -qE \"^${t} .*PASS[[:space:]]*$\" \"$d\" || exit 1; done'"
       },
       "ac6": {
         "verdict": "PASS",
         "exit_code": 0,
-        "note": "Run LAST, rc=0 (2m11s), with the disclosed </dev/null stdin-detach on cmd.exe legs (pinned text unchanged). 270 collected >= 244, 26 frozen ids present, hook+MCP green, full suite green, ruff clean, mypy 87 >= 83, head 005, README 202, workflows exactly 4 entries, 5 manifests byte-identical, frontend 187/0/0/0 + tsc 0 + exactly 4 lint warnings, index 146 >= 146 with anchors #17/#55 byte-exact and execSync green.",
+        "output_path": "/tmp/t35v/ac6.out",
+        "note": "PASS rc=0 (4m11s, run LAST), with the disclosed </dev/null stdin-detach on cmd.exe legs (pinned text unchanged). 270 collected >= 244, all 26 frozen ids matched in pinned '^<file>::<id>$' form, hook+MCP green, full backend suite 270 passed / 0 failed (75s), ruff clean, mypy 87 >= 83, alembic single head 005, README 202 lines (<=500, blob 8d141fb2 == branch/MAIN), workflows exactly 4 entries (.gitkeep,ci.yml,deploy.yml,e2e.yml), 5 manifests byte-identical (rev-parse == hash-object via cmd.exe), frontend vitest 187/0/0/0 + tsc rc=0 + exactly 4 react-refresh lint warnings via cmd.exe npx.cmd/npm.cmd FROM frontend/, index 146-view >= 146 with anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 byte-exact and execSync green.",
         "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; G=$(wslpath -w \"$PWD\"); [ \"$(wc -l < README.md | tr -dc \"0-9\")\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); [ \"$n\" -ge 244 ] || exit 1; for id in test_amount_returns_decimal_for_valid_input test_amount_rejects_zero_amount test_amount_rejects_negative_amount test_amount_rejects_more_than_two_decimal_places test_amount_rejects_values_above_max_amount test_amount_rejects_non_numeric_strings test_amount_rejects_none_and_empty_string test_ownership_returns_without_error_when_ids_match test_ownership_raises_when_ids_differ test_ownership_raises_when_owner_id_is_none test_ownership_raises_when_user_id_is_none test_ownership_error_type_is_permission_error test_max_amount_constant_equals_backend_amount_max test_hook_modules_stay_side_effect_free_on_import; do printf \"%s\" \"$c\" | grep -qE \"^tests/integration/test_agent_hooks[.]py::${id}[[:space:]]*$\" || exit 1; done; for id in test_valid_token_reaches_transport_with_bearer_header test_get_budget_status_calls_summary_and_simplifies test_monthly_summary_returns_by_category_rows test_list_expenses_limit_maps_to_page_size test_list_expenses_category_filter_maps_to_category_id test_invalid_signature_is_rejected_before_any_transport_call test_expired_token_is_rejected_before_any_transport_call test_wrong_audience_is_rejected_before_any_transport_call test_wrong_type_claim_is_rejected_before_any_transport_call test_non_2xx_response_raises_mcp_tool_error test_over_max_amount_raises_value_error_with_zero_requests test_three_decimal_amount_raises_value_error_with_zero_requests; do printf \"%s\" \"$c\" | grep -qE \"^tests/integration/test_mcp_tools[.]py::${id}[[:space:]]*$\" || exit 1; done; (cd backend && uv run pytest tests/integration/test_agent_hooks.py tests/integration/test_mcp_tools.py -q >/dev/null 2>&1) || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'"
       }
     },
@@ -53,43 +59,71 @@
       "passed": 457,
       "failed": 0
     },
-    "failure_type": "implementation",
+    "failure_type": null,
     "lint_report": {
       "errors": 0,
       "warnings": 0
     },
     "test_quality_warnings": [],
     "dod_verified": {
-      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": false,
-      "backend_270_collected_ge_270_green_with_26_phase6_nodes_ruff_mypy_ge_83_head_005": true,
+      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": true,
+      "backend_270_collected_ge_270_green_with_26_phase_6_nodes_ruff_mypy_ge_83_head_005": true,
       "frontend_ge_187_0_0_0_tsc_rc0_exactly_4_lint_warnings": true,
-      "readme_le_500_workflows_exactly_3_five_manifests_byte_untouched_index_ge_146_anchors_17_55_byte_unchanged_and_green": true,
+      "readme_le_500_workflows_gate_five_manifests_byte_untouched_index_ge_146_anchors_17_55_byte_unchanged_and_green": true,
       "every_req_plan_061_row_executed_structural_or_deferred_with_measured_reason_and_live_check_never_faked": true,
       "conventional_commit_branch_issue_t35_no_force_push_index_append_only_ac6_excluded": true
     },
-    "key_findings": [
-      "ac1 root cause isolated and proven (see ac1 note). Remediation option 1 (preferred, no AC/ac_hash churn): emit CRLF like the merged t28 precedent (infra_verification.py documents 'The full document text with CRLF newlines') so the generator matches a fresh checkout. Option 2: groom-amend ac1's cmp legs to the t28 sed/`tr -d '\\r'`-normalised shape + recompute ac_hash.",
-      "Precedent proof this is a real defect, not env noise: t28 emits CRLF deliberately; t23's LF script passed only because its pinned ac1 contains NO 'cmp -s' (token greps only, verified in t23_definer_groom.json). t35 is the first card combining an LF generator with a raw whole-file cmp.",
-      "ac_hash REPRODUCES: recomputed heading-exclusive '## Goal' body from the f83de81 blob == pinned sha256:e4437c7ff729b6af... (ac_count=6). No t23/t28-style hash residual. docs/issues/t35.md blob identical at 94ef23f/f76a9d4/f83de81 (eb2fa180) -> zero AC drift.",
-      "Commands: 6/6 re-extracted VERBATIM from the f83de81 blob (heading-exclusive /^## (?!#)/m, CRLF->LF, 0 CR), bash -n clean, byte-identical to BOTH groom verification_commands and builder ac_mapping. No substitution in any run.",
-      "Prechecks: exactly groom 94ef23f + feat f76a9d4 + handoff f83de81, linear ff (parents verified via --pretty=%H_%P, not the cmd.exe '^'-mangled form); remote tip == local == f83de81. Purity: 94ef23f..f76a9d4 == EXACTLY the 2 deliverables; f76a9d4..f83de81 == handoff only. REQ-ARCH-053 x2, REQ-AI-053 x0.",
-      "Composition: 14/14 files composed read-only via git cat-file blob <ref>:<path>, each sha256 == ref blob (46c4caf x4, 4864453 x8, 680f65f x2); 5 .agents symlinks materialise natively (mode 120000 confirmed via cmd.exe git ls-files -s) with cat-through byte-equality 5/5. Nothing staged (git diff --cached empty).",
-      "Artifact integrity: generator run TWICE -> run1 vs run2 cmp rc=0 (sha256 69df80d608ee02f4...), and run2 == committed blob cmp rc=0. Deterministic and faithful.",
-      "EXECUTED-not-hand-typed audit + negative controls: truncated collection -> 'BACKEND_COLLECTION 265'; empty ls-files -> 'SYMLINK_ROWS skills=0 ... FAIL'; removed skill dir -> 'COUNT_ROWS skills=2 ... FAIL' + 'ALL_CHECKS_PASS 19 FAIL'. State restored, committed doc reproduced.",
-      "PASS accounting: 19 == 20 unique PASS lines - 1 summary; script has EXACTLY 19 v.record() call sites -> non-inflated. Exactly 3 DEFERRED_ROW; 0 PASS lines name a deferred id.",
-      "Independent gates: collect 270 (>= 244, W10 respected, no exact-total pin asserted); all 26 phase_6 ids matched in pinned '^<file>::<id>$' form; hook+MCP 26 passed; full backend 270 passed / 0 failed (75s); ruff 'All checks passed!' 0/0 (script and whole tree); mypy 'no issues in 87 source files'; alembic single '005 (head)'.",
-      "Frontend (cmd.exe npx.cmd/npm FROM frontend/, </dev/null): 187 total / 187 passed / 0 failed / 0 pending / 0 todo; tsc rc=0; exactly 4 react-refresh warnings.",
-      "No-drift: README 202 lines, blob 7623dc58 identical at base/tip/main, committed blob sha256 == 8d141fb27377 == pin (working copy 5d32bd25 differs only by the same CRLF smudge); workflows exactly .gitkeep,ci.yml,deploy.yml,e2e.yml; 5 manifests byte-identical (e5e92875 / f20ea2dd / e23af076 / 75971c07 / 10ad0e19).",
-      "Index: branch tree carries the groom-base 146-entry index (blob 5dd15ab5) so ac6's leg reads 146 and satisfies its '>= 146' floor; MAIN @ 505cfcd carries 154. Counts recorded, NOT failed on legitimate growth. Anchors byte-exact: tests[16]=t2 cfb84edc91df..., tests[54]=t9 cf5babc0049e...; both stored commands execSync rc=0.",
-      "Script review: hermetic as pinned (importlib path-loading, MockTransport on every MCP leg, tempfile scratch, no subprocess/requests/uvicorn/socket/sqlalchemy import). MIN_CHECKS=18 gated on 'checks >= MIN_CHECKS and not failures'. SKILL_ROWS iterates the frozen SKILL_DIRS tuple (structural attestation, gate still bites per negative control) while COUNT_ROWS is the live find-based recount."
-    ],
-    "platform_38": {
-      "dup_check": "issue get 38 -> open, labels [defined, groomed, built]; latest-comment was the builder COMPLETE report, no prior verifier verdict -> no duplicate.",
-      "verdict_comment": "FAIL verdict POSTED via scripts/platform.ts (7865 B body, confirmed as latest comment).",
-      "labels": "UNCHANGED at [defined, groomed, built] per the explicit task instruction 'read-only labels / NO label mutation'. The skill's default FAIL modifier-label step was intentionally NOT applied; the Orchestrator owns this transition."
+    "candidate": {
+      "branch": "issue/t35-pack-verify",
+      "branch_sha": "2634ce1a72f97d5b43d9eaa9f5182a533fcdd0a3",
+      "remote_tip_equals_local": true,
+      "main_sha": "113ffd2b7513d3b39754f129e10a196494acf0cd",
+      "chain": "groom 94ef23f -> feat f76a9d4 -> handoff f83de81 -> fix f351e92 -> handoff 2634ce1 (linear ff; parents verified via --pretty=%H_%P)",
+      "ac_hash": "sha256:e4437c7ff729b6af2ae863328fab88a30c63dfa46f9069e6832956faea54fae1",
+      "ac_hash_recomputed_match": true,
+      "ac_count": 6
     },
-    "cleanup": "Scratch worktrees scratch-t35-crlf and /tmp/wslwt-t35 removed via cmd.exe 'git worktree remove --force' (no prune run from WSL; /tmp/wslwt-t35 now shows 'prunable' for the Orchestrator). verify-t35 @ f83de81 RETAINED for inspection. MAIN untouched @ 505cfcd; no merge, no push, no index/history/log/seq mutation; builder worktree never written to.",
-    "notes": "Full 19-item notes array (environment [VENV_UNAVAILABLE], prechecks, ac_hash, provenance, composition, execution, root cause, precedent, artifact integrity, spot audit + negative controls, PASS accounting, independent gates, frontend, no-drift, index, script review, 3 residuals, platform, cleanup) is stored verbatim in the persisted validated handoff."
+    "prechecks": [
+      "5-commit linear chain parents exact (2634ce1<-f351e92<-f83de81<-f76a9d4<-94ef23f); remote tip == local == 2634ce1 after fetch.",
+      "Purity: f83de81..f351e92 == ONLY backend/scripts/agent_pack_verification.py (10+/5-: docstring x2, join LF->CRLF, comment; committed doc blob b62931d1 byte-UNCHANGED at f351e92 and 2634ce1 - clean filter maps the CRLF working file back to the same LF blob, loop closed). f351e92..2634ce1 == docs/state/outputs/t35_builder_fix_qa.json only.",
+      "docs/issues/t35.md blob eb2fa180 identical at f83de81/f351e92/2634ce1 -> zero AC drift; ac_hash recompute == pin (heading-exclusive recipe, ac_count=6).",
+      "Commands: 6/6 re-extracted VERBATIM from the 2634ce1 blob; digests 6/6 MATCH pinned values; byte-identical to groom verification_commands and builder ac_mapping.",
+      "Builder fix_qa claims independently reproduced: ac1 rc=0 3/3 fresh, run1==run2 cmp rc=0, regenerated==checked-out cmp rc=0, normalized sha 69df80d6 unchanged, CRLF-safety of ac2-ac6 greps confirmed empirically 6/6 rc=0."
+    ],
+    "environment": [
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT/PYTHONPATH unset -> per-worktree 'uv sync --offline' in backend/ (provisioned cleanly, uv 0.12.13).",
+      "FRESH worktree verify-t35-r2 @ 2634ce1 created via cmd.exe git worktree add --detach; the old verify-t35 worktree was NOT reused (per FAIL-report mandate).",
+      "npm ci run synchronously from frontend/ via cmd.exe </dev/null (no junction): 512 packages, rc=0, 9s.",
+      "Composition: 14/14 read-only files via git cat-file blob <ref>:<path> (46c4caf x4 agent-hooks+hook tests, 4864453 x8 mcp-server+mcp tests, 680f65f x2 docs), each sha256 == manifest value; 5/5 .agents symlinks mode 120000 with cat-through byte-equality; NOTHING staged (git diff --cached empty).",
+      "All cmd.exe legs run with </dev/null stdin-detach (disclosed); no leg stalls; no taskkill needed."
+    ],
+    "determinism": "Generator run twice standalone: run1 vs run2 cmp rc=0; run2 == checked-out CRLF doc cmp rc=0 (5309 B, 113 CR); tr -d CR sha256 == 69df80d608ee02f42acea9d4c44dc78fd6f30dd0d67ced688947c532c81ad1d8 (content unchanged vs prior LF run). Deferral register: exactly 3 DEFERRED_ROW, 0 PASS lines naming deferred ids.",
+    "gates": {
+      "backend_collect": 270,
+      "backend_passed": 270,
+      "frozen_ids_present": 26,
+      "ruff": "All checks passed! (0 errors / 0 warnings)",
+      "mypy_sources": 87,
+      "alembic_head": "005 (head) single",
+      "readme_lines": 202,
+      "readme_blob": "7623dc58 (== MAIN 113ffd2 blob; content sha256 8d141fb2... == pinned)",
+      "workflows": ".gitkeep,ci.yml,deploy.yml,e2e.yml (exactly 4 entries)",
+      "manifests_byte_identical": 5,
+      "frontend": "vitest 187 passed / 0 failed / 0 pending / 0 todo; tsc rc=0; exactly 4 react-refresh lint warnings",
+      "index": "branch view 146 tests >= 146 floor; anchors tests[16]=t2 (cfb84edc...) and tests[54]=t9 (cf5babc0...) byte-exact, execSync green. MAIN carries 154 tests (growth recorded per instruction, not a failure; MAIN anchors also byte-exact)."
+    },
+    "platform_38": {
+      "dup_check": "issue get 38 -> open, labels [defined, groomed, built]; latest-comment was the builder fix_qa COMPLETE report; no prior PASS verdict -> no duplicate.",
+      "verdict_comment": "PASS verdict POSTED via scripts/platform.ts issue comment 38 (3274 B body, confirmed in API response, created_at 2026-10-11T13:18:06Z).",
+      "labels": "label set 38 --labels defined,verified -> confirmed [defined, verified] (built and groomed removed per explicit task instruction)."
+    },
+    "cleanup": "verify-t35-r2 @ 2634ce1 RETAINED for orchestrator inspection (mirrors prior-run retention of verify-t35 @ f83de81); no worktree prune run from WSL. No merge, no push, no index/history/log/seq mutation. MAIN untouched @ 113ffd2. Scratch files under /tmp/t35v only.",
+    "residual_risks": [
+      "The DoD line 'workflows exactly 3' is stale vs the pinned ac6 gate (exactly 4 entries incl. .gitkeep); ac6 is authoritative and green - same wording artifact recorded in the prior run, no action needed.",
+      "DoD first bullet's fail-before/pass-after at BASE (ac1..ac5 RED at base) is orchestrator-merge-phase evidence; this card's fail-before evidence is the prior verifier FAIL (ac1 rc=1 3/3) vs this PASS (rc=0 3/3).",
+      "fix commit f351e92 message is 'fix(t35)' while DoD bullet 4 names 'test(t35)' - conventional-commit form is satisfied by the fix type; cosmetic only.",
+      "MAIN merge_test_index carries 154 tests vs branch 146 (append-only growth on MAIN); anchors byte-exact on both - orchestrator should expect the branch view to be superseded at merge."
+    ]
   },
   "artifacts": {
     "files_written": [
@@ -98,33 +132,8 @@
     "platform_issue": 38,
     "output_path": "docs/state/outputs/t35_verifier_verify_issue.json"
   },
-  "error": {
-    "error_type": "business_failure",
-    "error_code": "AC_ONE_BYTE_STABILITY_CMP_CRLF_MISMATCH",
-    "message": "ac1 rc=1 deterministically (3/3) on a fresh checkout of f83de81: the pinned raw 'cmp -s' compares the CRLF-smudged checked-out evidence doc (core.autocrlf=true; 113 CR bytes) against the LF output the generator writes (0 CR bytes), so cmp fails at byte 51/line 1. Content differs by line endings only (cmp after tr -d '\\r' rc=0) and the regenerated doc is byte-identical to the committed blob. ac2-ac6 all rc=0; 457/457 tests green.",
-    "context": {
-      "failure_type": "implementation",
-      "failing_ac": "ac1",
-      "failing_leg": "cmp -s docs/criteria/agent_pack_verification.md \"$b\" (first of two byte-stability cmp legs)",
-      "root_cause": "generator emits LF (output.write_bytes(document.encode('utf-8'))) while git checkout smudges the committed doc to CRLF under core.autocrlf=true (D:/Program/Git/Git/etc/gitconfig + repo .git/config)",
-      "proof_line_endings_only": "checked-out 113 CR bytes / 5309 B vs regenerated 0 CR bytes / 5196 B; raw cmp rc=1 at byte 51 line 1; cmp after tr -d '\\r' rc=0; regenerated == committed blob (cmp rc=0, sha256 69df80d6...); same verbatim ac1 rc=0 when the working doc is already LF",
-      "reproducibility": "fails in every fresh clone/worktree and on Windows CI; green only in the builder's pre-existing worktree where the file was LF before the commit",
-      "precedent": "t28 infra_verification.py emits CRLF deliberately; t23's LF script passed because its pinned ac1 had no 'cmp -s'",
-      "recommended_fix_preferred": "emit CRLF like the t28 precedent so the regenerated doc matches a fresh checkout; pinned command + ac_hash stay frozen",
-      "alternative_fix": "normalise line endings in ac1's cmp legs (t28's sed-normalised shape) - needs a definer groom amendment + ac_hash recompute",
-      "unaffected": "ac2-ac6 rc=0 verbatim; backend 270/270, frontend 187/0/0/0, ruff 0/0, mypy 87, head 005, 5 manifests byte-identical, index anchors byte-exact and green",
-      "product_code_change_needed": "line-ending emission in backend/scripts/agent_pack_verification.py only; generated content itself is correct and deterministic"
-    },
-    "retryable": true,
-    "suggested_action": "rerun_with_role",
-    "suggested_role": "builder",
-    "suggested_phase": "fix_qa"
-  },
-  "next_action": {
-    "role": "builder",
-    "phase": "fix_qa",
-    "reason": "ac1's pinned byte-stability cmp is unsatisfiable on any fresh checkout: the generator writes LF while git checkout smudges the committed doc to CRLF under core.autocrlf=true (cmp fails at byte 51/line 1; content differs by line endings only). Preferred fix, no AC/ac_hash churn: make backend/scripts/agent_pack_verification.py emit CRLF like the merged t28 precedent, then re-run ac1 verbatim from a FRESH worktree (not the existing one) and re-run ac2-ac6 to confirm no regression. Alternative if the builder prefers LF output: escalate for a definer groom amendment normalising the ac1 cmp legs and recompute ac_hash. Everything else is green: ac2-ac6 rc=0 verbatim, 457/457 tests, ruff 0/0, mypy 87, head 005, frontend 187/0/0/0 + tsc 0 + exactly 4 lint warnings, 5 manifests byte-identical, index 146 with anchors #17/#55 byte-exact and green."
-  },
-  "retry_count": 0,
-  "timestamp": "2026-10-11T12:34:30Z"
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-11T13:19:30Z",
+  "retry_count": 1
 }
