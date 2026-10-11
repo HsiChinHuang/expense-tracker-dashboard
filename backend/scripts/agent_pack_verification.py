@@ -34,9 +34,12 @@ MCP against a running backend = REQ-PLAN-060 task 6.17, live subagent launch)
 land in the DEFERRAL REGISTER - a deferred row is NEVER written as PASS, and
 ac4's per-key grep gate enforces that mutual exclusion.
 
-The document is written with LF newlines so ac1's byte-stability ``cmp`` holds
-and ``git hash-object`` (clean filter, ``core.autocrlf=true``) equals the
-committed blob.
+The document is written with CRLF newlines (the merged t28 precedent) so
+ac1's byte-stability ``cmp`` holds against a FRESH checkout, where
+``core.autocrlf=true`` smudges the committed LF blob to CRLF in the working
+tree. The clean filter maps the CRLF working file back to the committed LF
+blob, so ``git hash-object`` equals the blob and the checkout/emit pair is a
+byte-exact closed loop on every host.
 
 Usage (from ``backend/``):
 
@@ -888,7 +891,7 @@ def render_document(tokens: list[str], collection: int) -> str:
         collection: Measured backend collection count (prose context only).
 
     Returns:
-        str: The full document text (LF newlines).
+        str: The full document text with CRLF newlines.
     """
     root = repo_root()
     pack_doc = read_text(root / "docs" / "agent-extension-pack.md")
@@ -1036,7 +1039,7 @@ def render_document(tokens: list[str], collection: int) -> str:
     lines.extend(pick(tokens, ("ALL_CHECKS_PASS", "CHECK_FAILURES")))
     lines.append("```")
     lines.append("")
-    return "\n".join(lines)
+    return "\r\n".join(lines)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -1089,6 +1092,8 @@ def main(argv: list[str] | None = None) -> int:
     document = render_document(tokens, collection)
     output = repo_root() / "docs" / "criteria" / "agent_pack_verification.md"
     output.parent.mkdir(parents=True, exist_ok=True)
+    # write_bytes keeps the explicit CRLF joins byte-exact on every platform
+    # (no newline translation), matching the CRLF-smudged fresh checkout.
     output.write_bytes(document.encode("utf-8"))
     for token in tokens:
         print(token)
