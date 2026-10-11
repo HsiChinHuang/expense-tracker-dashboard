@@ -528,6 +528,20 @@
       "backend_tests": 270,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT fifth merge per re-ranked order t29->t31->t33->t30->t32 (t30+t31-before-t32 strict pin honored: EXACT-270 delta card satisfied AT ITS MERGE MOMENT - 258+12 test_mcp_tools nodes = EXACTLY 270 collected + 270/270 green re-executed on merged MAIN by orchestrator 78.06s). INDEX APPEND per verifier disposition ruling: ac1-ac4 appended (146->150) - ac3 per-file pytest pin (12 frozen node IDs) + ac1/ac2/ac4 single-file gates per t27/t28 precedent; ac5/ac6 EXCLUDED (exact-270 equality legs = false-failure landmines outside merge moment, W10). All 4 new entries re-executed GREEN on merged MAIN; anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Pre-merge PASS (f5297d70): 146/146 detached scan 27.6 min zero failures (npm ci silent-death + hang diagnosed/remediated via WAL-496 protocol - scan correctly gated, never executed against unprovisioned host), sim trees dc19045/64375ac == predictions EXACT through bookkeeping-only MAIN advance (46c4caf), smoke 6/6 on final tree with byte-identity 6/6 vs builder branch-blob ac_mapping, gates 15/15 green. Backend floor 258 -> 270."
+    },
+    {
+      "merge_id": "t34-6510b60",
+      "issue_id": "t34",
+      "platform_issue": 37,
+      "merged_sha": "6510b60",
+      "merged_tree": "6823caef9cdd3b5b181c10a06a61a9c43073638f",
+      "merged_at": "2026-10-11T12:20:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 154,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT sixth merge: docs-only card (EXACTLY docs/agent-extension-pack.md + docs/permissions.md; ZERO test nodes - backend stays 270 collected + 270/270 green re-executed on merged MAIN 73.41s). Pre-merge PASS (e2995cf1 restart-resumed): 150/150 scan machine-verified & REUSED (artifacts survived restart; scan-validity delta vs pre-restart prediction c6192e98 proven bookkeeping-only - WAL/seq), fresh prediction dc4a669 == recreated sim tree, gates 14/14 green, smoke 6/6 byte-identity vs builder branch blob, ac6 LAST rc=0. INDEX DISPOSITION (verifier ruling adopted): ac1-ac4 appended (150->154, verbatim card commands machine-checked, all 4 GREEN on merged MAIN); ac5 EXCLUDED (README byte-pin 8d141fb2 + absolute count equalities = W10 false-failure landmine class - phase_8 owns README); ac6 composite never appended. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Backend floor unchanged 270."
     }
   ]
 }
