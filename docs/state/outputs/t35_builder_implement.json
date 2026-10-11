@@ -1,0 +1,125 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t35",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t35-pack-verify",
+    "branch_sha": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'test -f backend/scripts/agent_pack_verification.py || exit 1; test -f docs/criteria/agent_pack_verification.md || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; s=backend/scripts/agent_pack_verification.py; grep -qE \"importlib\" \"$s\" || exit 1; grep -qE \"MockTransport\" \"$s\" || exit 1; grep -qE \"tempfile|TemporaryDirectory|mkdtemp\" \"$s\" || exit 1; for t in SKILL_ROWS HOOK_TEST_ROWS MCP_TEST_ROWS MCP_CONTRACT_ROWS SUBAGENT_ROWS SYMLINK_ROWS COUNT_ROWS PERMISSIONS_ROWS DEFERRAL_REGISTER ALL_CHECKS_PASS; do grep -q \"$t\" \"$s\" || exit 1; done; ! grep -qE \"^[[:space:]]*(import|from)[[:space:]]+(subprocess|requests|uvicorn|socket|sqlalchemy)([[:space:]]|[.]|$)\" \"$s\" || exit 1; (cd backend && uv run ruff check scripts/agent_pack_verification.py >/dev/null 2>&1) || exit 1; (cd backend && uv run mypy scripts/agent_pack_verification.py >/dev/null 2>&1) || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; b=$(mktemp) || exit 1; cp docs/criteria/agent_pack_verification.md \"$b\" || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; cmp -s docs/criteria/agent_pack_verification.md \"$b\" || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; cmp -s docs/criteria/agent_pack_verification.md \"$b\" || { cp \"$b\" docs/criteria/agent_pack_verification.md; rm -f \"$b\" \"$c\" \"$l\"; exit 1; }; rm -f \"$b\" \"$c\" \"$l\"; grep -qE \"^ALL_CHECKS_PASS [0-9]+ PASS[[:space:]]*$\" docs/criteria/agent_pack_verification.md || exit 1; n=$(grep -E \"^ALL_CHECKS_PASS [0-9]+ PASS\" docs/criteria/agent_pack_verification.md | head -1 | tr -d \"\\r\" | sed -E \"s/^ALL_CHECKS_PASS ([0-9]+) PASS/\\1/\"); [ \"${n:-0}\" -ge 18 ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; hc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_agent_hooks.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$hc\" -eq 14 ] || exit 1; (cd backend && uv run pytest tests/integration/test_agent_hooks.py -q >/dev/null 2>&1) || exit 1; mc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_mcp_tools.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$mc\" -eq 12 ] || exit 1; (cd backend && uv run pytest tests/integration/test_mcp_tools.py -q >/dev/null 2>&1) || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^HOOK_TEST_ROWS 14 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_TEST_ROWS 12 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS[[:space:]]*$\" \"$d\" || exit 1; m=$(grep -c \"::\" \"$c\"); n=$(grep -E \"^BACKEND_COLLECTION [0-9]+ floor=\" \"$d\" | head -1 | tr -d \"\\r\" | sed -E \"s/^BACKEND_COLLECTION ([0-9]+) .*/\\1/\"); [ -n \"$n\" ] || exit 1; [ \"$n\" -eq \"$m\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; rm -f \"$c\" \"$l\"'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; rm -f \"$c\" \"$l\"; d=docs/criteria/agent_pack_verification.md; grep -qE \"^SKILL_ROWS 3 frontmatter=3 whentouse=3 steps=3 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SUBAGENT_ROWS 2 frontmatter=2 readonly=1 nofix=1 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^AGENT_DIRS agent-capabilities,agent-hooks,mcp-server,custom-agent,[.]agents 5 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MANIFEST_DEPS httpx,python-jose 2 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^WORKFLOWS ci,e2e,deploy 3 PASS[[:space:]]*$\" \"$d\" || exit 1; s=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name SKILL.md | wc -l); [ \"$s\" -eq 3 ] || exit 1; h=$(find agent-hooks -maxdepth 1 -type f ! -name README.md | wc -l); [ \"$h\" -eq 2 ] || exit 1; t=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" ! -name \"__init__.py\" | wc -l); [ \"$t\" -eq 4 ] || exit 1; a=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l); [ \"$a\" -eq 2 ] || exit 1; line=$(grep -E \"^COUNT_ROWS \" \"$d\" | head -1 | tr -d \"\\r\"); [ \"$line\" = \"COUNT_ROWS skills=$s hooks=$h tools=$t subagents=$a PASS\" ] || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^DEFERRAL_REGISTER 3 DEFERRED PASS[[:space:]]*$\" \"$d\" || exit 1; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\"); [ \"$r\" -eq 3 ] || exit 1; grep -qE \"^DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Generate a monthly report for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server[.]py reason=egress_forbidden_no_live_backend live_check=MCP_JWT_SECRET=[.][.][.] MCP_API_BASE_URL=[.][.][.] MCP_USER_TOKEN=[.][.][.] python mcp-server/server[.]py[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Launch finance analyst for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; for k in LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\"); [ \"$c\" -eq 0 ] || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^CRITERIA_NUMBERS 7,9,12 PASS[[:space:]]*$\" \"$d\" || exit 1; n=$(grep -cE \"^\\| (7|9|10|11|12|31|32|discovery) \\| REQ-[A-Z]+-[0-9]+ \\| executed \\| [A-Z_]+ \\|\" \"$d\"); [ \"$n\" -eq 8 ] || exit 1; grep -qE \"^\\| 7 \\| REQ-EXT-001 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 9 \\| REQ-EXT-060 \\| executed \\| PERMISSIONS_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 10 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 11 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 12 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 31 \\| REQ-PLAN-061 \\| executed \\| MCP_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 32 \\| REQ-EXT-072 \\| executed \\| HOOK_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| discovery \\| REQ-AI-064 \\| executed \\| SYMLINK_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^REQ-PLAN-061_ROWS skills=executed hooks=executed hook_tests=executed mcp_start=deferred mcp_tools=executed subagents=structural permissions=structural PASS[[:space:]]*$\" \"$d\" || exit 1; for t in COUNT_ROWS PERMISSIONS_ROWS MCP_TEST_ROWS HOOK_TEST_ROWS SYMLINK_ROWS; do grep -qE \"^${t} .*PASS[[:space:]]*$\" \"$d\" || exit 1; done'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "f76a9d4ce484a69ff4ac751971e36c11362e2e41",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; G=$(wslpath -w \"$PWD\"); [ \"$(wc -l < README.md | tr -dc \"0-9\")\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); [ \"$n\" -ge 244 ] || exit 1; for id in test_amount_returns_decimal_for_valid_input test_amount_rejects_zero_amount test_amount_rejects_negative_amount test_amount_rejects_more_than_two_decimal_places test_amount_rejects_values_above_max_amount test_amount_rejects_non_numeric_strings test_amount_rejects_none_and_empty_string test_ownership_returns_without_error_when_ids_match test_ownership_raises_when_ids_differ test_ownership_raises_when_owner_id_is_none test_ownership_raises_when_user_id_is_none test_ownership_error_type_is_permission_error test_max_amount_constant_equals_backend_amount_max test_hook_modules_stay_side_effect_free_on_import; do printf \"%s\" \"$c\" | grep -qE \"^tests/integration/test_agent_hooks[.]py::${id}[[:space:]]*$\" || exit 1; done; for id in test_valid_token_reaches_transport_with_bearer_header test_get_budget_status_calls_summary_and_simplifies test_monthly_summary_returns_by_category_rows test_list_expenses_limit_maps_to_page_size test_list_expenses_category_filter_maps_to_category_id test_invalid_signature_is_rejected_before_any_transport_call test_expired_token_is_rejected_before_any_transport_call test_wrong_audience_is_rejected_before_any_transport_call test_wrong_type_claim_is_rejected_before_any_transport_call test_non_2xx_response_raises_mcp_tool_error test_over_max_amount_raises_value_error_with_zero_requests test_three_decimal_amount_raises_value_error_with_zero_requests; do printf \"%s\" \"$c\" | grep -qE \"^tests/integration/test_mcp_tools[.]py::${id}[[:space:]]*$\" || exit 1; done; (cd backend && uv run pytest tests/integration/test_agent_hooks.py tests/integration/test_mcp_tools.py -q >/dev/null 2>&1) || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<146){console.error(\\\"index shorter than 146\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 457,
+      "passed": 457,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "per_ac_evidence": {
+      "ac1": "ruff+mypy CLEAN on backend/scripts/agent_pack_verification.py; hermetic greps (importlib/MockTransport/tempfile, no subprocess/requests/uvicorn/socket/sqlalchemy); two consecutive script runs regenerate docs/criteria/agent_pack_verification.md byte-identically (cmp); ALL_CHECKS_PASS 19 PASS (>=18). rc=0.",
+      "ac2": "hook suite collected=14 executed green, MCP suite collected=12 executed green; HOOK_TEST_ROWS 14 PASS, MCP_TEST_ROWS 12 PASS, MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS, SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS; BACKEND_COLLECTION 270 equals live collection count and >=244. rc=0.",
+      "ac3": "COUNT_ROWS skills=3 hooks=2 tools=4 subagents=2 PASS re-counted live via find and compared byte-equal to the doc line; SKILL_ROWS 3, SUBAGENT_ROWS 2 readonly=1 nofix=1, AGENT_DIRS 5, PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6, MANIFEST_DEPS httpx,python-jose 2, WORKFLOWS ci,e2e,deploy 3. rc=0.",
+      "ac4": "literal DEFERRAL_REGISTER 3 DEFERRED PASS header; exactly 3 DEFERRED_ROW lines (LIVE_AGENT_SESSION, LIVE_MCP_SUBPROCESS, LIVE_SUBAGENT_LAUNCH) with artifact/reason/live_check; zero PASS lines name a deferred id. rc=0.",
+      "ac5": "CRITERIA_NUMBERS 7,9,12 PASS; 8-row REQ mapping table (7,9,10,11,12,31,32,discovery) all executed; REQ-PLAN-061_ROWS with mcp_start=deferred. rc=0.",
+      "ac6": "milestone-exit composite: 270 collected (>=244), 26 phase_6 node ids present, hook+MCP suites green, full backend suite 270 passed, ruff clean, mypy no issues in 90 sources (>=83), alembic 005 (head) single, README 137 lines (<=500), workflows .gitkeep,ci.yml,deploy.yml,e2e.yml, five manifests byte-identical to HEAD, frontend vitest 187 passed/0 failed/0 pending/0 todo, tsc --noEmit 0 errors, npm lint exactly 4 react-refresh warnings, merge_test_index 146 tests with anchors tests[16]=t2 cfb84edc.../tests[54]=t9 cf5babc0... byte-unchanged and execSync green. rc=0 (run LAST, at committed tip f76a9d4)."
+    },
+    "constraint_compliance": {
+      "pinned_commands_unmodified": "all six commands extracted VERBATIM from branch-tip blob docs/issues/t35.md (CRLF->LF, heading-exclusive /^## (?!#)/) and stored byte-identical in ac_mapping; acN.sh files compared byte-equal to the extracted blobs.",
+      "owned_paths_only": "feat commit f76a9d4 contains EXACTLY backend/scripts/agent_pack_verification.py and docs/criteria/agent_pack_verification.md (git show --name-only verified); composed files stay untracked.",
+      "deferred_rows_never_pass": "no DEFERRED_ROW key appears on any PASS line; register is exactly 3 rows.",
+      "no_product_behavior": "verification script + generated evidence document only; no app/, mcp-server/, agent-hooks/, frontend/ source changes."
+    },
+    "fail_before": {
+      "note": "recorded at base 94ef23f BEFORE deliverables existed (script/artifact absent)",
+      "ac1": 1,
+      "ac2": 1,
+      "ac3": 1,
+      "ac4": 1,
+      "ac5": 1,
+      "ac6": 1
+    },
+    "pass_after": {
+      "note": "ac6 re-run AFTER the feat commit at tip f76a9d4; ac1-ac5 executed against the same tree/content",
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "composition_manifest": {
+      "note": "t32/t34 (and t30 hook files, which the groom base 94ef23f lacked - base is 7 commits behind main tip 46c4caf) are NOT merged into this branch. They were composed READ-ONLY into the worktree via cmd.exe git show <ref>:<path> and stay UNTRACKED (never staged, never committed). sha256 below is the worktree file hash; each was verified byte-identical to the ref blob.",
+      "refs": {
+        "t30_or_main_tip": "46c4cafdf29ade02effa9012366bd13c257b0afa",
+        "t32": "4864453b48616317240c18d6aea5fdfc84082fe9",
+        "t34": "680f65f14558346452ba32158a5a838c304b1458",
+        "groom_base": "94ef23f159b242c936e03feb5472e167aab4a0cf",
+        "main_tip_at_run": "c579a5f (== origin/main)"
+      },
+      "files": [
+        "46c4caf agent-hooks/README.md blob=0825cdd33f0ad613a41568448f56e04dc8e6a458 sha256=e45e65b3a586afaae7c4883a23ce0055e0cf638c2b080a32f11abbffbd94c914 BYTE-IDENTICAL",
+        "46c4caf agent-hooks/validate-amount.py blob=c843342bbfe251a0aaf6ff1443b02312d469ba33 sha256=98247a326e67ee0a4788a719ca537222e0df0052952f45e52c566c17923d5a89 BYTE-IDENTICAL",
+        "46c4caf agent-hooks/validate-ownership.py blob=283480f5a709e14e3d7539d929d41e7266bad197 sha256=f5a32e7ec46ea7e996135cb023800ce7fc45fe04453dbae797296b3a5c6c4daf BYTE-IDENTICAL",
+        "46c4caf backend/tests/integration/test_agent_hooks.py blob=71f51ad48ad95f6de19c5ac2c011439cf1749c71 sha256=021b95880c05c7a7c4e6199888965b938f24410a73a6b2129386a713ed83c177 BYTE-IDENTICAL",
+        "4864453 mcp-server/README.md blob=21c2a93ed05a32c5446df408769854e29d9deae7 sha256=b65c4eaae52799f1f1a3810d27a5d21b060ff264bd4900b79d63ae6f21f2061c BYTE-IDENTICAL",
+        "4864453 mcp-server/__init__.py blob=ea399f5c206e5ecee23776ff881226e19bfdd1cc sha256=438da65a003ff59226831227882cf309c28d88a74ee1000ae7c8a7022c10a143 BYTE-IDENTICAL",
+        "4864453 mcp-server/tools/__init__.py blob=dc89ab42259a6736911c653457a472210186bf36 sha256=b3d34b53519e92a5791fb2221d1890f0b6f6e72aa99790e2cbdc787c3fc0471e BYTE-IDENTICAL",
+        "4864453 mcp-server/tools/add_expense.py blob=c27878b9dcfdce6ee5720dd079aa7c899862b8d7 sha256=2e850f7ed10ed3a80fdc56fcaf920e12dcf15db1b4c121dd49e34d7e6f659451 BYTE-IDENTICAL",
+        "4864453 mcp-server/tools/get_budget_status.py blob=5cb32190cedbee6408f0f31a9c5eafca04d8c4f5 sha256=e60216abeee2d530222d3f5d130cc9b17fd4a1e042702fe1aa4931dcbabd286c BYTE-IDENTICAL",
+        "4864453 mcp-server/tools/list_expenses.py blob=1b2f3fae5dbff8108e4c655ce99e0b9b89becc9d sha256=74bef2030293443f264932023964d0a9220fcdd51be30ccdd96ec44b388e890c BYTE-IDENTICAL",
+        "4864453 mcp-server/tools/monthly_summary.py blob=037050b95b846e987f13ebbadec4026008bf1082 sha256=0d40ac5bc674c6ed261909888a42b69c943343a48f0c4174523523a3cc768c68 BYTE-IDENTICAL",
+        "4864453 backend/tests/integration/test_mcp_tools.py blob=17133253a577f738dfc8ecd3c4d3df98e7e5b18b sha256=6ea0c151376a25f8f7c1d98c401ca956d4b96ba3abdf93c3cb437fc01747b11f BYTE-IDENTICAL",
+        "680f65f docs/agent-extension-pack.md blob=6aeaf72e3a47f8a9bb9b7e2c36b87e1594cfdacc sha256=db061178638e23ad4f779c4f820823d6a811bd6989d84f8840a41a1f9b4ffcd5 BYTE-IDENTICAL",
+        "680f65f docs/permissions.md blob=669764215803d008a385af0fa8464f9e50bda7bf sha256=685816e4b1d56ee855b09bb8c9b1bcfa27fcd17c63280f4bdff49c3cae1fd072 BYTE-IDENTICAL"
+      ],
+      "symlinks": ".agents/skills/{add-expense,budget-check,monthly-report}.md and .agents/agents/{finance-analyst,qa-reviewer}.md recreated as real symlinks mirroring tracked mode 120000; cat-through byte-equality proven in SYMLINK_ROWS cateq=5."
+    },
+    "notes": "Machine restart mid-run: ac1-ac5 rc=0 recorded pre-restart, ac6 (which had hung on the cmd.exe stdin bridge during the lint leg) re-run post-restart. Execution-harness disclosure: the ac6 one-liner was executed as `bash /tmp/t35/ac6.sh </dev/null` (stdin detached) because cmd.exe legs block forever on an interactive stdin in this WSL harness; the pinned command text is unchanged and stored VERBATIM in ac_mapping.ac6.test. Frontend legs run only via cmd.exe npx.cmd/npm from frontend/ per house rule. backend/.venv provisioned via uv sync --offline; frontend/node_modules via cmd.exe npm ci from frontend/."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/scripts/agent_pack_verification.py",
+      "docs/criteria/agent_pack_verification.md",
+      "docs/state/outputs/t35_builder_implement.json"
+    ],
+    "platform_issue": 38,
+    "output_path": "docs/state/outputs/t35_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-11T11:59:48Z",
+  "retry_count": 0
+}
