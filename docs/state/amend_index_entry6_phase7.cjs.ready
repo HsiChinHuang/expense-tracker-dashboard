@@ -1,0 +1,139 @@
+#!/usr/bin/env node
+// t36 deliverable: strict-window amendment of merge_test_index.json entry #6.
+//
+// Entry #6 (tests[5], issue_id t0) is the phase_0 find-guard that today rejects
+// ANY file under security/ or ops/ beyond .gitkeep. phase_7 lands the eight
+// REQ-SEC-003 security/ names and the five REQ-OPS-002 ops/ names, so the guard
+// must be retargeted to exclude EXACTLY those thirteen paths (plus .gitkeep)
+// while keeping every original exclusion (.github ci.yml/e2e.yml/deploy.yml and
+// __init__.py) and still rejecting every other file. Precedent: 6ab7da5 /
+// 0aee30f / t28 pre-emptive amendment (plan.md phase_7 ruling 3).
+//
+// USAGE (the .ready suffix is not a node-loadable extension; invoke via -e):
+//   node -e "require(\"./docs/state/amend_index_entry6_phase7.cjs.ready\")" /tmp/copy.json
+//   # the index path argument is MANDATORY, for the live file too:
+//   node -e "require(\"./docs/state/amend_index_entry6_phase7.cjs.ready\")" docs/state/merge_test_index.json
+//   There is NO default path and NO environment-variable escape hatch: a call
+//   with no explicit .json argument aborts (AMEND_ABORT, rc=1). The orchestrator
+//   performs the live amendment in the strict window AFTER t36 merges and BEFORE
+//   the t37 pre-merge gate by passing the live path EXPLICITLY; builder/verifier
+//   pass a /tmp copy.
+//
+// SAFETY: ABORTS with rc=1 unless the pre-state guard matches byte-exactly
+// (tests[5].issue_id === "t0" AND tests[5].command === the original find text).
+// The mutation is a single raw-text replacement of the JSON-encoded command
+// string, so the other 157 entries (and every byte of the file around them,
+// including CRLF line endings) stay byte-identical.
+'use strict';
+
+const fs = require('fs');
+
+// Deliberately NO default index path: an argument is mandatory (see the argv
+// guard below), so the literal live path can never be reached implicitly.
+
+// The exact stored pre-state of entry #6 (verified against the live index).
+const EXPECTED_ISSUE_ID = 't0';
+const ORIGINAL_COMMAND =
+  "bash -c 'test -d frontend && test -z \"$(find security ops .github " +
+  "-type f ! -name .gitkeep ! -name __init__.py ! -name ci.yml ! -name e2e.yml " +
+  "! -name deploy.yml 2>/dev/null)\"'";
+
+// The retargeted command: original text verbatim, plus one directory-anchored
+// -path exclusion per REQ-SEC-003 security/ name and per REQ-OPS-002 ops/ name.
+const AMENDED_COMMAND = ORIGINAL_COMMAND.replace(
+  ' 2>/dev/null)"\'',
+  ' ! -path security/pr-audit.md ! -path security/gitleaks-report.json' +
+    ' ! -path security/semgrep-report.json ! -path security/trivy-report.json' +
+    ' ! -path security/pip-audit-report.txt ! -path security/npm-audit-report.txt' +
+    ' ! -path security/agent-security-notes.md ! -path security/ai-tool-data-policy.md' +
+    ' ! -path ops/runbook.md ! -path ops/health-check.md ! -path ops/diagnosis.md' +
+    ' ! -path ops/logging.md ! -path ops/deployment-health.md 2>/dev/null)"\''
+);
+
+function fail(msg) {
+  console.error('AMEND_ABORT: ' + msg);
+  process.exit(1);
+}
+
+// The index path argument is MANDATORY for every invocation shape (direct
+// require of the .ready file, or `node -e require(...)` where argv[1] IS the
+// first user argument): the first trailing argument that looks like a .json path
+// wins, and if there is none the script ABORTS. There is deliberately no default
+// path and no environment-variable override, so a missing argument can NEVER
+// fall back to the live index (measured hazard: a groom-time test run whose temp
+// path lacked the .json suffix DID mutate the live file before being restored
+// byte-exact; this guard makes that entire class of accident impossible).
+const argPath =
+  process.argv.slice(1).find((a) => a !== __filename && /[.]json$/.test(a)) ||
+  null;
+if (argPath === null) {
+  fail("no explicit .json index-path argument: argv is MANDATORY and there is no live-index default (pass a /tmp copy for a dry-run, or the live path explicitly in the orchestrator strict window)");
+}
+const indexPath = argPath;
+
+if (!fs.existsSync(indexPath)) {
+  fail('index file not found: ' + indexPath);
+}
+
+const raw = fs.readFileSync(indexPath, 'utf8');
+
+let parsed;
+try {
+  parsed = JSON.parse(raw);
+} catch (e) {
+  fail('index is not valid JSON: ' + e.message);
+}
+
+const tests = parsed && parsed.tests;
+if (!Array.isArray(tests)) {
+  fail('index has no tests array');
+}
+
+const entry = tests[5];
+if (!entry) {
+  fail('entry #6 (tests[5]) missing');
+}
+if (entry.issue_id !== EXPECTED_ISSUE_ID) {
+  fail('pre-state guard: tests[5].issue_id is ' + JSON.stringify(entry.issue_id) + ', expected ' + JSON.stringify(EXPECTED_ISSUE_ID));
+}
+if (entry.command !== ORIGINAL_COMMAND) {
+  fail('pre-state guard: tests[5].command does not match the original t0 find guard text');
+}
+if (entry.command === AMENDED_COMMAND) {
+  fail('entry #6 is already amended (idempotency guard)');
+}
+
+// Raw-text replacement of the single JSON-encoded command string: everything
+// else in the file stays byte-identical (no re-serialization).
+const rawOld = JSON.stringify(ORIGINAL_COMMAND);
+const rawNew = JSON.stringify(AMENDED_COMMAND);
+const hits = raw.split(rawOld).length - 1;
+if (hits !== 1) {
+  fail('expected exactly 1 occurrence of the encoded original command, found ' + hits);
+}
+
+const out = raw.replace(rawOld, rawNew);
+
+let reparsed;
+try {
+  reparsed = JSON.parse(out);
+} catch (e) {
+  fail('post-amend text is not valid JSON: ' + e.message);
+}
+
+if (reparsed.tests[5].command !== AMENDED_COMMAND) {
+  fail('post-amend entry #6 command mismatch');
+}
+if (reparsed.tests.length !== tests.length) {
+  fail('entry count changed');
+}
+for (let i = 0; i < tests.length; i++) {
+  if (i === 5) continue;
+  if (JSON.stringify(reparsed.tests[i]) !== JSON.stringify(tests[i])) {
+    fail('entry ' + i + ' changed (only entry #6 may change)');
+  }
+}
+
+fs.writeFileSync(indexPath, out);
+
+console.log('AMEND_OK index=' + indexPath + ' entries=' + reparsed.tests.length + ' entry6=retargeted');

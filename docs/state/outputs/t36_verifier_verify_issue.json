@@ -1,0 +1,125 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t36",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_source_note": "Authoritative source is docs/issues/t36.md#verification-commands (schema const is the literal template). Six commands extracted with the heading-exclusive recipe (slice from \"## Verification commands\" to the next /^## (?!#)/ heading; ```bash fences in ac order; sha256 over JSON.stringify of the six command strings).",
+    "ac_hash_pinned": "sha256:3542bd26f17a8ad72364e8cf79f209e0f808cffe1d35362f38ed2fd569af13cc",
+    "ac_hash_computed": "sha256:3542bd26f17a8ad72364e8cf79f209e0f808cffe1d35362f38ed2fd569af13cc",
+    "ac_hash_match": true,
+    "byte_identity_vs_builder": "6/6 (each extracted command byte-identical to docs/state/outputs/t36_builder_implement.json evidence.ac_mapping.acN.test; lengths 781/718/1276/4335/1725/2810)",
+    "verified_tip": "6d75088c358c8f345a3f644e07e26d4eb86ce5fe (branch tip; run tip addb71c0eaccd80fb8b42cbf730161299bd39928; base b313d07566f0eae67ae512630bc379064375f3ff). Deliverable blobs (Makefile cc9edf5, amend script 27f4d76) are byte-identical between run tip and HEAD, so the executed tree matches the builder-measured tree.",
+    "execution_mode": "All six pinned commands executed VERBATIM from /tmp files (bash-heredoc/node extraction only; edit-tool /tmp divergence respected per task). ac6 executed LAST. Working tree pristine (git status --porcelain empty) before and after all runs and negative controls.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f Makefile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; out=$(make -n security 2>/dev/null | tr -d \"\\r\") || exit 1; [ -n \"$out\" ] || exit 1; ! grep -qE \"gitleaks/semgrep/trivy scans land in phase_7_security_ops\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; grep -qE \"^security:[[:space:]]*security-gitleaks[[:space:]]+security-semgrep[[:space:]]+security-trivy[[:space:]]+security-pip-audit[[:space:]]+security-npm-audit[[:space:]]*$\" Makefile || exit 1; for t in gitleaks semgrep trivy pip-audit npm-audit; do printf \"%s\" \"$out\" | grep -qE \"security/${t}-report\" || exit 1; done; echo \"ac1 PASS: security: umbrella real (all five sub-target commands expand), stub gone, .PHONY adjacency kept\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac1.out",
+        "note": "make -n security umbrella expands all five security/<tool>-report paths; stub echo gone; .PHONY e2e/security adjacency kept."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; test -f Makefile || exit 1; c=$(grep -cE \"^security-[a-z-]+:\" Makefile); [ \"$c\" -eq 5 ] || { echo \"sub-target count $c != 5\"; exit 1; }; for p in \"gitleaks:security/gitleaks-report.json\" \"semgrep:security/semgrep-report.json\" \"trivy:security/trivy-report.json\" \"pip-audit:security/pip-audit-report.txt\" \"npm-audit:security/npm-audit-report.txt\"; do t=security-${p%%:*}; f=${p##*:}; o=$(make -n \"$t\" 2>/dev/null | tr -d \"\\r\") || exit 1; [ -n \"$o\" ] || exit 1; printf \"%s\" \"$o\" | grep -q \"$f\" || { echo \"$t does not name $f\"; exit 1; }; done; echo \"ac2 PASS: exactly five sub-targets, each make -n green naming its frozen report path\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac2.out",
+        "note": "Exactly five ^security-*: targets; each make -n green naming its frozen report path."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; command -v uvx >/dev/null || exit 1; grep -qE \"gitleaks_8[.]30[.]1_linux_x64[.]tar[.]gz\" Makefile || exit 1; grep -qE \"uvx pip-audit\" Makefile || exit 1; grep -qE \"uvx semgrep\" Makefile || exit 1; grep -qE \"uv export --no-hashes --frozen --format requirements-txt\" Makefile || exit 1; grep -qE \"npm[.]cmd audit\" Makefile || exit 1; command -v gitleaks >/dev/null 2>&1 || { curl -fsSL -o /tmp/t36-gitleaks.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz && tar -xzf /tmp/t36-gitleaks.tgz -C /tmp gitleaks && mkdir -p \"$HOME/.local/bin\" && install -m 0755 /tmp/gitleaks \"$HOME/.local/bin/gitleaks\"; } || exit 1; gitleaks version | tr -d \"\\r\" | head -1 | grep -qE \"^8[.]30[.]1$\" || exit 1; uvx pip-audit --version >/dev/null 2>&1 || exit 1; uvx semgrep --version >/dev/null 2>&1 || exit 1; q=$(mktemp) || exit 1; (cd backend && uv export --no-hashes --frozen --format requirements-txt) > \"$q\" 2>/dev/null || exit 1; n=$(grep -cE \"^[A-Za-z0-9._-]+==\" \"$q\"); echo \"ac3 evidence: gitleaks 8.30.1 on PATH; uvx pip-audit + uvx semgrep runnable; uv export requirement lines=$n (floor 50; measured 53 at groom)\"; [ \"$n\" -ge 50 ] || exit 1; rm -f \"$q\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac3.out",
+        "note": "gitleaks 8.30.1 on PATH; uvx pip-audit/semgrep runnable; uv export requirement lines=53 (floor 50)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/state/amend_index_entry6_phase7.cjs.ready || exit 1; cat docs/state/amend_index_entry6_phase7.cjs.ready | node --check --input-type=commonjs || exit 1; d=$(mktemp /tmp/t36-idx-XXXXXX.json) || exit 1; cp docs/state/merge_test_index.json \"$d\" || exit 1; node -e \"const fs=require(\\\"fs\\\");const INS=\\\" ! -path security/pr-audit.md ! -path security/gitleaks-report.json ! -path security/semgrep-report.json ! -path security/trivy-report.json ! -path security/pip-audit-report.txt ! -path security/npm-audit-report.txt ! -path security/agent-security-notes.md ! -path security/ai-tool-data-policy.md ! -path ops/runbook.md ! -path ops/health-check.md ! -path ops/diagnosis.md ! -path ops/logging.md ! -path ops/deployment-health.md\\\";let s=fs.readFileSync(process.argv[1],\\\"utf8\\\");if(s.includes(INS)){s=s.split(INS).join(\\\"\\\");fs.writeFileSync(process.argv[1],s)}const t=JSON.parse(fs.readFileSync(process.argv[1],\\\"utf8\\\")).tests[5];if(t.issue_id!==\\\"t0\\\"||t.command.indexOf(\\\"deploy.yml 2>/dev/null)\\\")<0){console.error(\\\"normalized pre-state is not the original t0 guard\\\");process.exit(1)}\" \"$d\" || exit 1; base=$(mktemp /tmp/t36-base-XXXXXX.json) || exit 1; cp \"$d\" \"$base\" || exit 1; node -e \"require(\\\"$PWD/docs/state/amend_index_entry6_phase7.cjs.ready\\\")\" \"$d\" | grep -qE \"^AMEND_OK index=.* entry6=retargeted$\" || exit 1; node -e \"const fs=require(\\\"fs\\\");const a=JSON.parse(fs.readFileSync(process.argv[1],\\\"utf8\\\"));const b=JSON.parse(fs.readFileSync(process.argv[2],\\\"utf8\\\"));if(a.tests.length!==b.tests.length||a.tests.length<158){process.exit(1)}const ch=[];a.tests.forEach((t,i)=>{if(JSON.stringify(t)!==JSON.stringify(b.tests[i]))ch.push(i)});if(ch.length!==1||ch[0]!==5){console.error(\\\"entries changed: \\\"+JSON.stringify(ch));process.exit(1)}if(a.tests[5].issue_id!==\\\"t0\\\"||a.tests[5].command===b.tests[5].command){process.exit(1)}for(const p of [\\\"security/pr-audit.md\\\",\\\"security/gitleaks-report.json\\\",\\\"security/semgrep-report.json\\\",\\\"security/trivy-report.json\\\",\\\"security/pip-audit-report.txt\\\",\\\"security/npm-audit-report.txt\\\",\\\"security/agent-security-notes.md\\\",\\\"security/ai-tool-data-policy.md\\\",\\\"ops/runbook.md\\\",\\\"ops/health-check.md\\\",\\\"ops/diagnosis.md\\\",\\\"ops/logging.md\\\",\\\"ops/deployment-health.md\\\"]){if(a.tests[5].command.indexOf(p)<0){console.error(\\\"missing exclusion \\\"+p);process.exit(1)}}for(const p of [\\\"ci.yml\\\",\\\"e2e.yml\\\",\\\"deploy.yml\\\",\\\"__init__.py\\\"]){if(a.tests[5].command.indexOf(p)<0){console.error(\\\"lost original exclusion \\\"+p);process.exit(1)}}\" \"$d\" \"$base\" || exit 1; am=$(node -e \"process.stdout.write(JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\")).tests[5].command)\" \"$d\"); or=$(node -e \"process.stdout.write(JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\")).tests[5].command)\" \"$base\"); bash -c \"$or\" || exit 1; bash -c \"$am\" || exit 1; s=$(mktemp -d) || exit 1; mkdir -p \"$s/frontend\" \"$s/security\" \"$s/ops\" \"$s/.github/workflows\" || exit 1; : > \"$s/security/.gitkeep\"; : > \"$s/ops/.gitkeep\"; : > \"$s/.github/workflows/.gitkeep\"; : > \"$s/.github/workflows/ci.yml\"; : > \"$s/.github/workflows/e2e.yml\"; : > \"$s/.github/workflows/deploy.yml\"; for f in pr-audit.md gitleaks-report.json semgrep-report.json trivy-report.json pip-audit-report.txt npm-audit-report.txt agent-security-notes.md ai-tool-data-policy.md; do : > \"$s/security/$f\"; done; for f in runbook.md health-check.md diagnosis.md logging.md deployment-health.md; do : > \"$s/ops/$f\"; done; (cd \"$s\" && bash -c \"$am\") || exit 1; : > \"$s/security/extra.md\"; (cd \"$s\" && bash -c \"$am\") && exit 1; rm -f \"$s/security/extra.md\"; : > \"$s/ops/extra.md\"; (cd \"$s\" && bash -c \"$am\") && exit 1; rm -f \"$s/ops/extra.md\"; (cd \"$s\" && bash -c \"$or\") && exit 1; node -e \"require(\\\"$PWD/docs/state/amend_index_entry6_phase7.cjs.ready\\\")\" \"$d\" >/dev/null 2>&1 && exit 1; cmp -s \"$base\" docs/state/merge_test_index.json || { rm -f \"$d\" \"$base\"; rm -rf \"$s\"; exit 1; }; rm -f \"$d\" \"$base\"; rm -rf \"$s\"; echo \"ac4 PASS: amend script authored + check-green; dry-run retargets ONLY entry #6 (13 new exclusions, originals kept); original green on today-tree; amended green on today AND simulated post-t37 trees; extra files rejected; ORIGINAL guard RED on the simulated post-t37 tree (fail-before proof that the amendment is needed); re-run aborts; live index untouched\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac4.out",
+        "note": "node --check green; dry-run retargets ONLY entry #6 (13 exclusions, originals kept); amended command green on today AND simulated post-t37 trees; extras rejected; re-run aborts; live index byte-untouched."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; cfg=/tmp/t36-ac5-gitleaks-config.toml; rep=/tmp/t36-ac5-gitleaks-report.json; s=$(mktemp -d); GITLEAKS_CONFIG=$cfg GITLEAKS_SRC=$s GITLEAKS_REPORT=$rep make security-gitleaks || exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!Array.isArray(a)){console.error(\\\"report is not a JSON array\\\");process.exit(1)}if(a.length!==0){console.error(\\\"gitleaks findings: \\\"+a.length+\\\" - zero-leak invariant broken\\\");process.exit(1)}console.log(\\\"gitleaks tracked-tree sweep: valid JSON array, ZERO findings (rc=0)\\\")\" \"$rep\" || exit 1; p=$(mktemp -d); printf \"aws_secret_access_key = \\\"ZgV6H1CJxKkgdxhwZuPk4ryRfxClNzTfI3Lz\\\"\\n\" > \"$p/probe_secret.txt\"; GITLEAKS_CONFIG=$cfg GITLEAKS_SRC=$p GITLEAKS_REPORT=$rep make security-gitleaks && exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!(Array.isArray(a)&&a.length>=1)){console.error(\\\"negative control NOT detected\\\");process.exit(1)}console.log(\\\"negative control: synthetic secret detected through the SAME allowlist config (findings \\\"+a.length+\\\")\\\")\" \"$rep\" || exit 1; rm -rf \"$s\" \"$p\"; test -z \"$(find security ops -type f ! -name .gitkeep 2>/dev/null)\" || exit 1; G=$(wslpath -w \"$PWD\"); a=$(cmd.exe /c \"git -C $G rev-parse HEAD:.gitignore\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object .gitignore\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; echo \"ac5 PASS: zero-leak proven by parse + negative control + tree discipline\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac5.out",
+        "note": "Tracked-tree sweep ZERO findings (rc=0); negative-control synthetic secret detected through the SAME allowlist config (rc=1, findings 1); security/ ops/ .gitkeep-only; .gitignore byte-untouched; workflows exactly the frozen four."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); [ \"$(wc -l < README.md | tr -dc \"0-9\")\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; test -z \"$(find security ops -type f ! -name .gitkeep 2>/dev/null)\" || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac6 evidence: backend collected=$n (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); echo \"ac6 evidence: frontend passed=$f (floor 187)\"; [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<158){console.error(\\\"index shorter than 158\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1; echo \"ac6 PASS: no-drift composite green\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t36ver/ac6.out",
+        "note": "backend collected=270 green, ruff clean, mypy >= 83, alembic head 005; frontend 187 passed/0 failed/0 pending/0 todo, tsc rc=0, exactly 4 react-refresh lint warnings; README <= 500; five manifests byte-untouched; index 158 entries, anchors #17/#55 byte-unchanged and green. Executed LAST per card."
+      }
+    },
+    "test_summary": {
+      "total": 457,
+      "passed": 457,
+      "failed": 0
+    },
+    "test_summary_note": "backend 270 collected (all green via pytest rc=0) + frontend 187 passed / 0 failed / 0 pending / 0 todo, measured inside ac6.",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "ruff check clean inside ac6 (rc=0); frontend lint shows exactly the 4 pinned react-refresh/only-export-components warnings (AC-pinned shape, non-blocking).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after_evidence": true,
+      "make_n_security_and_five_subtargets_rc0_real_recipes_frozen_report_paths_stub_gone_phony_adjacency": true,
+      "gitleaks_8_30_1_fetched_executed_zero_leaks_pip_audit_semgrep_uv_export_bootstrap_green": true,
+      "amend_script_authored_node_check_green_dry_run_only_entry6_changed_amended_command_green_on_current_tree": true,
+      "backend_270_ruff_mypy_83_head_005_frontend_187_0_0_0_tsc_exactly_4_lint_readme_500_manifests_frozen_workflows_four_index_158_anchors_green": true,
+      "conventional_commit_branch_issue_t36_no_force_push_index_append_only_ac6_excluded": true
+    },
+    "cross_checks": {
+      "delta_purity": "git diff --stat b313d07..HEAD (cmd.exe git) == EXACTLY 3 files: Makefile (+38/-2), docs/state/amend_index_entry6_phase7.cjs.ready (+139), docs/state/outputs/t36_builder_implement.json (+97). Matches task expectation.",
+      "amend_script_blob_sha256": "git show HEAD:docs/state/amend_index_entry6_phase7.cjs.ready | sha256sum == e1020b81114461f15c0d47a4d8cb93996043feac8e8cb4a4b71c21a8ebaae4c2 == pinned. Worktree file differs only by CRLF checkout (core.autocrlf=true); tr -d CR reproduces the pinned hash exactly.",
+      "gitleaks_negative_control_independent": "INDEPENDENT re-proof (not reusing the ac5 run): tracked-tree sweep via make security-gitleaks into a temp dir -> report valid JSON, 0 findings; separate throwaway dir with a random (non-doc-example) AWS-shaped secret swept with the SAME gate-built allowlist config -> gitleaks rc=1, 1 finding (rule generic-api-key). Gate bites.",
+      "live_index_byte_identity": "merge_test_index.json blob hash identical across worktree file, HEAD, and origin/main == b259674e5c4ebec6804819d7db17767d140b59bb (pristine).",
+      "security_ops_gitkeep_only": "git ls-files security ops == ops/.gitkeep, security/.gitkeep only; find confirms no extra files.",
+      "negative_controls": [
+        "ac1a: stub echo line restored -> ac1 rc=1 (bites)",
+        "ac1b: one sub-target dropped from umbrella -> ac1 rc=1 (bites)",
+        "ac2a: sixth security-* target added -> ac2 rc=1 \"sub-target count 6 != 5\" (bites)",
+        "ac2b: semgrep report path renamed (substring-breaking) -> ac2 rc=1 \"security-semgrep does not name security/semgrep-report.json\" (bites). NOTE: a suffix-only rename (.json -> .json.bak) does NOT bite because the pinned check is a substring grep; recorded as AC-strictness observation, not a defect (the frozen path IS named).",
+        "ac3a: gitleaks pin flipped to 8.29.0 -> ac3 rc=1 (bites)",
+        "ac3b: \"uvx semgrep\" text removed -> ac3 rc=1 (bites)",
+        "ac4a: tampered entry #6 command -> amend script AMEND_ABORT pre-state guard rc=1 (bites)",
+        "ac4b: amend script with no argv -> AMEND_ABORT (no live-index default) rc=1 (bites); live index hash unchanged after all NC runs",
+        "ac5a: extra workflow file in scratch tree -> workflow-set gate rc=1 (bites); pristine set green on the same segment (gate is specific, not always-red)",
+        "ac6a: index anchor #17 command tampered by one trailing space -> \"anchor #17 bytes changed\" rc=1 (bites); same spliced segment rc=0 on pristine index"
+      ]
+    },
+    "environment": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT/PYTHONPATH unset; uv created backend/.venv on first uv run (per-worktree sync path, blessed). frontend/node_modules absent in fresh worktree -> blessed bootstrap make frontend-deps (rc=0, 512 packages, byte-frozen lockfile; node_modules gitignored) run as prerequisite before ac6, per builder precedent. gitleaks 8.30.1 already present at $HOME/.local/bin (idempotent fetch leg skipped). uv/uvx on PATH at $HOME/.local/bin.",
+    "platform_39": "labels set to defined,verified via direct GitHub API PATCH (task-mandated; API_TOKEN read from main-repo .env with CR stripped); read-back verified. Verdict comment posted via API.",
+    "deviations": [
+      "Platform mutation used the direct GitHub API PATCH per the explicit task instruction; scripts/platform.ts could not run in this worktree because .env lives only in the main checkout and copying it into the worktree would violate the verifier write scope. Disclosed deviation from the skill default (scripts/platform.ts).",
+      "ac5 negative-control secret: the AWS documentation-example key is allowlisted upstream by gitleaks; the pinned ac5 probe (a random-shaped key) and my independent probe both detect. Informational only."
+    ],
+    "residual_risks": [
+      "ac2 report-path check is a substring grep: a path with the frozen path as a strict prefix (e.g. .json.bak) would pass. Cosmetic AC strictness only; the committed Makefile names the exact frozen paths.",
+      "Mutable-data tools (pip-audit/semgrep/npm audit) resolve latest at run time by design (W10 floors); report content is not pinned, only shapes/paths.",
+      "trivy leg (5m18s cold cache) is not exercised by any pinned command beyond make -n parse (card design: trivy re-run lives in make security-trivy)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t36_verifier_verify_issue.json"
+    ],
+    "platform_issue": 39,
+    "output_path": "docs/state/outputs/t36_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T04:45:53.868Z",
+  "retry_count": 0
+}
