@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T15:09:50.312Z",
-  "last_seq": 600,
+  "updated_at": "2026-10-12T15:14:05.213Z",
+  "last_seq": 602,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -10,16 +10,16 @@
       "phase": "implement",
       "run_id": "45d1ad96-c861-4058-a197-2a1cbf1d5110",
       "spawn_at": "2026-10-13T03:18:00Z",
-      "last_activity_at": "2026-10-12T15:09:50.312Z"
+      "last_activity_at": "2026-10-12T15:14:05.213Z"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
-      "last_activity_at": "2026-10-12T15:09:50.312Z"
+      "issue_id": "t47",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "47392b21-7b78-4b8b-8bd4-75294cc6e942",
+      "spawn_at": "2026-10-13T04:08:00Z",
+      "last_activity_at": "2026-10-12T15:14:05.213Z"
     }
   ],
   "merge_queue": [],
@@ -43,7 +43,7 @@
       "issue_id": "t47",
       "state": "defined",
       "modifiers": [
-        "unblocked_t46_merged"
+        "groom_in_flight"
       ]
     },
     {
@@ -55,7 +55,7 @@
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
-  "dispatch_frozen": false,
-  "freeze_reason": "slot_2 free after t46 merge; t47 groom dispatch next",
+  "dispatch_frozen": true,
+  "freeze_reason": "MAX_SLOTS=2 (t41 implement + t47 groom)",
   "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol."
 }
