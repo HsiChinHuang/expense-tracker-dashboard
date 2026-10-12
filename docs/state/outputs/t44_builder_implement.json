@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t44",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t44-semgrep-metrics-flag",
+    "branch_sha": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+    "base_sha": "1a160057e806222fe44ed4775d193c0e430236d6",
+    "groom_tip": "112bb515962364550a951209e77558245f8cac8c",
+    "ac_hash": "sha256:b6e4d660d64abf2c5ad3f20dd5aa97744d02ac4e4a1ed6773a163634370b585b",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uvx >/dev/null || exit 1; command -v node >/dev/null || exit 1; grep -qE \"^security-semgrep:\" Makefile || exit 1; if grep -qF -- \"--metrics off\" Makefile; then echo \"ac1: --metrics off still present - target is RED at base (rc=2 in about 2s: Cannot create auto config when metrics are off)\"; exit 1; fi; rm -f /tmp/t44-semgrep-report.json; SEMGREP_REPORT=/tmp/t44-semgrep-report.json timeout 600 make security-semgrep || exit 1; node -e \"const r=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-semgrep-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(r.results)){console.error(\\\"ac1: results is not an array\\\");process.exit(1)}if(r.results.length<1){console.error(\\\"ac1: results array is empty\\\");process.exit(1)}if(r.version!==\\\"1.180.0\\\"){console.error(\\\"ac1: semgrep version drift: \\\"+r.version);process.exit(1)}console.log(\\\"ac1 GREEN: rc=0, findings=\\\"+r.results.length)\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+        "test": "bash -c 'node -e \"const b=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-semgrep-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(b.results)||b.results.length<1){console.error(\\\"ac2: runtime report findings < 1\\\");process.exit(1)}console.log(\\\"ac2 findings=\\\"+b.results.length+\\\" groom-time-measured-32 verifier-flags-drift\\\")\" || exit 1; G=$(wslpath -w \"$PWD\"); d=$(cmd.exe /c \"git -C $G diff --name-only 1a160057e806222fe44ed4775d193c0e430236d6 HEAD\" </dev/null | tr -d \"\\r\"); if printf \"%s\" \"$d\" | grep -qE \"^security/\"; then echo \"ac2: security/ path inside the delta\"; exit 1; fi; for f in gitleaks-report.json npm-audit-report.txt pip-audit-report.txt semgrep-report.json; do a=$(cmd.exe /c \"git -C $G rev-parse 1a160057e806222fe44ed4775d193c0e430236d6:security/$f\" </dev/null | tr -d \"\\r\"); b2=$(cmd.exe /c \"git -C $G rev-parse HEAD:security/$f\" </dev/null | tr -d \"\\r\"); if [ \"$a\" != \"$b2\" ]; then echo \"ac2: committed report blob changed: $f\"; exit 1; fi; done; echo \"ac2 GREEN: findings>=1, no security/ delta, committed report blobs unchanged\"'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v curl >/dev/null || exit 1; command -v tar >/dev/null || exit 1; command -v node >/dev/null || exit 1; rm -f /tmp/t44-gitleaks-report.json; GITLEAKS_REPORT=/tmp/t44-gitleaks-report.json timeout 900 make security-gitleaks || exit 1; node -e \"const b=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-gitleaks-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(b)||b.length!==0){console.error(\\\"ac3: gitleaks runtime report is not the zero-findings array\\\");process.exit(1)}\" || exit 1; G=$(wslpath -w \"$PWD\"); cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:security/gitleaks-report.json\" </dev/null > /tmp/t44-gitleaks-base.json || exit 1; cmp <(tr -d \"\\r\" < /tmp/t44-gitleaks-base.json) <(tr -d \"\\r\" < security/gitleaks-report.json) || exit 1; echo \"ac3 GREEN: security-gitleaks rc=0, zero findings, committed report byte-identical\"'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+        "test": "bash -c 'G=$(wslpath -w \"$PWD\"); h=$(cmd.exe /c \"git -C $G hash-object Makefile\" </dev/null | tr -d \"\\r\"); if [ \"$h\" != \"55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\" ]; then echo \"ac4: Makefile blob $h != pinned 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\"; exit 1; fi; p=$(cmd.exe /c \"git -C $G diff --name-only 1a160057e806222fe44ed4775d193c0e430236d6 HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); if [ \"$p\" != \"Makefile,\" ]; then echo \"ac4: non-docs delta is [$p] - Option B: must be exactly Makefile\"; exit 1; fi; cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:Makefile\" </dev/null > /tmp/t44-mk-base || exit 1; node -e \"const fs=require(\\\"fs\\\");const L=p=>fs.readFileSync(p,\\\"utf8\\\").replace(/\\r/g,\\\"\\\").split(\\\"\\n\\\");const a=L(\\\"/tmp/t44-mk-base\\\"),b=L(\\\"Makefile\\\");if(a.length!==b.length){console.error(\\\"ac4: Makefile line-count drift\\\");process.exit(1)}let c=0,d=-1;for(let j=0;j<a.length;j++){if(a[j]!==b[j]){c++;d=j}}if(c!==1){console.error(\\\"ac4: \\\"+c+\\\" lines differ, expected exactly 1\\\");process.exit(1)}if(b.join(\\\"\\\").includes(\\\"--metrics off\\\")){console.error(\\\"ac4: --metrics off survives the repair\\\");process.exit(1)}if(a[d]!==b[d].replace(\\\"--json --quiet\\\",\\\"--json --metrics off --quiet\\\")){console.error(\\\"ac4: repair is not the exact single-token deletion on line \\\"+(d+1));process.exit(1)}\" || exit 1; for f in security/gitleaks-report.json security/npm-audit-report.txt security/pip-audit-report.txt .github/workflows/ci.yml .github/workflows/e2e.yml .github/workflows/deploy.yml; do cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:$f\" </dev/null > /tmp/t44-frozen.bin || exit 1; cmp /tmp/t44-frozen.bin \"$f\" || { echo \"ac4: frozen file drifted: $f\"; exit 1; }; done; echo \"ac4 GREEN: Makefile blob pinned, delta is Makefile-only, repair is the exact single-token deletion, frozen files cmp-clean\"'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "692576254c7af526c3c5290cdf6cd480a4d8d27f",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; command -v node >/dev/null || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); if [ \"$n\" -lt 270 ]; then echo \"ac5: backend collected $n < 270\"; exit 1; fi; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; G=$(wslpath -w \"$PWD\"); D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<178){console.error(\\\"ac5: index below the 178-entry floor\\\");process.exit(1)}for(const n of [131,132,133,135]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac5: missing index entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"ac5: anchors moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"ac5: anchor tests[16] bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"ac5: anchor tests[54] bytes changed\\\");process.exit(1)}if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac5: entry 139 identity changed (its hash is amendment-pending, NOT pinned)\\\");process.exit(1)}\" || exit 1; echo \"ac5 GREEN: no-drift composite holds\"'",
+        "verdict": "PASS"
+      }
+    },
+    "ac_results": {
+      "ac1": {
+        "rc": 0,
+        "summary": "RED-at-base demonstrated first (make -f base-Makefile: rc=2 in ~2s, stderr \"Cannot create auto config when metrics are off\"); repaired target rc=0 in ~163s, findings=32, version 1.180.0, results array valid"
+      },
+      "ac2": {
+        "rc": 0,
+        "summary": "findings=32 (no drift from groom-measured 32); no security/ path in delta; four committed security report blobs unchanged vs base"
+      },
+      "ac3": {
+        "rc": 0,
+        "summary": "make security-gitleaks rc=0 in ~4s, runtime report is the zero-findings array, committed gitleaks-report.json byte-identical (CR-normalized)"
+      },
+      "ac4": {
+        "rc": 0,
+        "summary": "Makefile blob 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28 pinned; non-docs delta exactly Makefile; exact single-token deletion on line 123 verified byte-reconstructable; six frozen files cmp byte-identical vs base"
+      },
+      "ac5": {
+        "rc": 0,
+        "summary": "backend >=270 collected + suite green (uv); frontend 187 passed/0 failed/0 pending/0 todo, tsc rc=0, lint exactly 4 react-refresh warnings; README 8d141fb2 <=500 lines; workflows exactly .gitkeep,ci.yml,deploy.yml,e2e.yml; index >=178 (178), byte-pins 131/132/133/135 executed verbatim, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 hold, entry 139 issue_id==t27 hash-left-unpinned"
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "lint_status": "WARNINGS",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": {
+      "option_b_compliance": "The non-docs delta vs base 1a16005 is EXACTLY Makefile (ac4 arbiter, rc=0). Only files touched by this builder: Makefile (the repair) + docs/state/outputs/t44_builder_implement.json (this handoff, governance-excluded). No security/, docs/state/merge_test_index.json, README, .github/workflows, frontend/, ops/, backend/, or e2e/ file was edited.",
+      "makefile_blob_before_after": "before (base, normalized): cc9edf5050773fe032147a4ec94c96628e02a23d (byte-identical at 0255037 and 1a16005); after (repaired, normalized): 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28 = the pinned target. Repair = deletion of the single \"--metrics off\" token from line 123 (--config auto --json --metrics off --quiet -> --config auto --json --quiet); line count 139 unchanged; --metrics off appears nowhere in the repaired file.",
+      "frozen_files": "six frozen files (security/gitleaks-report.json, security/npm-audit-report.txt, security/pip-audit-report.txt, .github/workflows/ci.yml, .github/workflows/e2e.yml, .github/workflows/deploy.yml) cmp byte-identical vs base commit 1a16005 (ac4 legs, all OK). Base blobs are byte-identical at 0255037 per the factpack; ac4 pins against 1a16005 which the card designates as base.",
+      "crlf_environment_note": "Environment workaround (no committed-bytes impact): this worktree checked out with core.autocrlf=true, so tracked text files were CRLF in the working tree while the repo stores LF; ac4 byte-cmp and the Makefile hash-object pin initially failed on CRLF. Fixed WITHOUT any commit or file-content change: git show <base>:<f> > <f> rewrites of the six frozen files with their exact base bytes (LF), verified git diff vs HEAD empty for them (only autocrlf smudge warnings). Committed tree untouched; ac2/ac4/ac5 all pass. core.autocrlf was left at true.",
+      "red_at_base": "ac1 RED-at-base demonstrated at gate time on this worktree: make -f <base Makefile> security-semgrep -> rc=2 in ~2s with stderr \"Cannot create auto config when metrics are off\" (matches card measurement).",
+      "prerequisites": "frontend/node_modules was missing; installed via cmd.exe /c \"cd /d <winpath> && npm.cmd ci\" </dev/null (foreground, rc=0, 526 packages, 15s). backend venv synced via uv sync (rc=0). uv/uvx from $HOME/.local/bin.",
+      "merge_before_t41": "HARD: t44 MUST merge BEFORE t41 verification (t41 make security umbrella gate depends on this repair). tests[159] must go green UNAMENDED; index untouched by this branch.",
+      "durability": "Branch issue/t44-semgrep-metrics-flag created from origin groom tip 112bb51; single repair commit 6925762 pushed; handoff committed separately after validation."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "Makefile",
+      "docs/state/outputs/t44_builder_implement.json"
+    ],
+    "platform_issue": 47,
+    "output_path": "docs/state/outputs/t44_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T10:39:11Z",
+  "retry_count": 0
+}
