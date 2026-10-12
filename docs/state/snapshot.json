@@ -1,58 +1,51 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:33:07.824Z",
-  "last_seq": 560,
+  "updated_at": "2026-10-12T10:26:52.902Z",
+  "last_seq": 571,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t38",
+      "issue_id": "t44",
       "role": "builder",
       "phase": "implement",
-      "run_id": "3ead80f3-70bb-49f8-8cf4-86d2a406ea7b",
-      "spawn_at": "2026-10-12T09:16:29.784Z",
-      "last_activity_at": "2026-10-12T09:16:29.784Z"
+      "run_id": "4fc480d6-fc28-4b04-a5c4-7918a9b4f9b5",
+      "spawn_at": "2026-10-12T10:26:52.902Z",
+      "last_activity_at": "2026-10-12T10:26:52.902Z",
+      "note": "timeoutMs 60m explicit"
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t43",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "7bb6d7ea-18cb-4082-b6f1-298d494ec247",
-      "spawn_at": "2026-10-12T09:33:07.824Z",
-      "last_activity_at": "2026-10-12T09:33:07.824Z",
-      "note": "retry 3/3 transcription-only"
-    },
-    {
-      "slot_id": "queued_1",
-      "issue_id": "t44",
-      "role": "definer",
-      "phase": "groom",
-      "status": "QUEUED",
-      "note": "fresh definer with Option-B ruling digest when slot frees"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "2b6252f2-af18-4605-ac6d-1b1859f13590",
+      "spawn_at": "2026-10-12T17:10:00Z",
+      "last_activity_at": "2026-10-12T10:26:52.902Z",
+      "note": "resumed from 93923ef8 timeout"
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
     {
-      "issue_id": "t38",
+      "issue_id": "t43",
+      "state": "groomed",
+      "modifiers": [
+        "implement_resumed_in_flight"
+      ]
+    },
+    {
+      "issue_id": "t44",
       "state": "groomed",
       "modifiers": [
         "implement_in_flight"
       ]
     },
     {
-      "issue_id": "t43",
+      "issue_id": "t40",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight_option_A_ter_amendment_pending"
-      ]
-    },
-    {
-      "issue_id": "t44",
-      "state": "defined",
-      "modifiers": [
-        "groom_queued"
+        "ready_queued"
       ]
     }
   ],

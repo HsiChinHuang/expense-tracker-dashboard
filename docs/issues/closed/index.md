@@ -44,3 +44,4 @@ Runtime-maintained by Orchestrator.
 | t37 | Dependency and secret scan reports - gitleaks/pip-audit/npm-audit committed artifacts as real measured runs |  | 0 |  |
 | t42 |  |  | 0 |  |
 | t39 | Ops runbook core - ops/runbook.md + health-check.md + logging.md | 2026-10-12 | 0 | e62b919 |
+| t38 | Code and container scan reports - semgrep + trivy artifacts | 2026-10-12 | 0 | 2c9081f |

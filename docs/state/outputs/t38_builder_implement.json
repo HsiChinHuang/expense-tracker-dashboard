@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t38",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t38-code-container-scans",
+    "branch_sha": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+    "base_commit": "5006798287a5e317120b8e2ffe9c2cbfbf4c33c9",
+    "branch_choice": "Created issue/t38-code-container-scans FROM origin/groom/t38-code-container-scans tip 5006798 per the skill's branch convention and the DoD branch naming (DoD names issue/t38-scan-reports-code-container but the schema pattern and the orchestrator instruction pin issue/t38-code-container-scans; the schema pattern ^issue/t[0-9]+-[a-z0-9-]+$ is satisfied).",
+    "ac_hash_recomputed": "sha256:9218bde4ff7187daccefed6c82e6e50ea71be45a8676234e497fdcc9eefe260b recomputed from the committed card bytes (CR-stripped per the R4 autocrlf discipline; the worktree checkout is CRLF so extraction CR-strips before slicing the six bash blocks) - matches the card pin and the groom handoff pin exactly.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/semgrep-report.json || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac1 block, executed verbatim from /tmp extraction of the committed card bytes]",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/trivy-report.json || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac2 block, executed verbatim]",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'test -z \"$(find security -type f ! -name .gitkeep ...)\" || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac3 block, executed verbatim]",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'test -f security/semgrep-report.json || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac4 block, executed verbatim]",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac5 block, executed verbatim]",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "c887a5ffb9b6f023fb08faa9576dc47818ba23d8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; ... [full command from docs/issues/t38.md ## Verification commands, ac6 block, executed verbatim]",
+        "verdict": "PASS"
+      }
+    },
+    "per_ac_results": {
+      "ac1": "rc=0 (59s). Committed report parses: results=32 errors=1 rulesKey=false version=1.180.0. subprocess/spawn grep hits: report=1 register=0. Regeneration conditional: make security-semgrep measured rc=2 (the known semgrep 1.180.0 --metrics off vs --config auto conflict); the rc=2 substitution branch executed the direct-equivalent 'uvx semgrep --config auto --json --quiet --timeout 60' rc=0 and its output is schema-verified (identical 32/1 schema parse). Negative control re-run: schema-drifted report (results key deleted) -> ac1 rc=1 with 'semgrep report missing array results' (the gate bites); artifact restored byte-identical afterwards (git status clean).",
+      "ac2": "rc=0 (14s). Committed report: SchemaVersion=2 targets=4 vulnerabilities=41 misconfigurations=1 distinctIds=41 (identical to groom measurement; report 247708 bytes). Provenance commit-message leg green on 'feat(t38): commit measured trivy 0.75.0 and semgrep 1.180.0 scan reports'. Register absent (pre-t40) - per-id loop vacuously green for 41 ids. Live bounded re-run with TRIVY_CACHE_DIR=/tmp/t38-trivy-cache outside the tree: rc=0 schema-verified targets=4. trivy binary on PATH is the pinned 0.75.0.",
+      "ac3": "rc=0 (1s). security/ holds exactly .gitkeep + the five reports; parsed counts: gitleaks=0 semgrep=32 trivy=42 pip-audit=3 npm-audit=22 (the numbers the t40 register must match).",
+      "ac4": "rc=0 (1s). 51 distinct finding ids parsed across the semgrep and trivy reports; register absent (pre-t40) - closed-loop gate vacuously green.",
+      "ac5": "rc=0 (4s). make security-gitleaks re-executed end-to-end: regenerated report parses as a ZERO-findings JSON array and byte-matches the CR-normalized committed artifact. ops/ .gitkeep-only, new reports NUL-free, workflows the frozen four, .gitignore byte-untouched (HEAD blob == hash-object).",
+      "ac6": "rc=0 (234s). backend collected=270 (floor 270) pytest green, ruff clean, mypy no-issues-in-87-source (floor 83), alembic head 005 (head); frontend vitest 187 passed / numFailedTests=0 / numPendingTests=0 / numTodoTests=0, tsc --noEmit rc=0, react-refresh lint warnings exactly 4; README <= 500; five manifests byte-untouched; index >= 168 with anchors tests[16]==t2 cfb84edc / tests[54]==t9 cf5babc0 byte-pinned and both stored commands executed green."
+    },
+    "measured_runs": {
+      "trivy": "make security-trivy rc=0 in 10.5s (warm cache); trivy v0.75.0 bootstrapped per the frozen Makefile pin; TRIVY_CACHE_DIR=/tmp/t38-trivy-cache (outside tree); output security/trivy-report.json 247708 bytes, SchemaVersion=2, 4 targets, 41 vulnerability rows + 1 Dockerfile misconfiguration row - byte-profile identical to the groom measurement (image/DB index did not move).",
+      "semgrep": "make security-semgrep measured rc=2 (deterministic 'Cannot create auto config when metrics are off'); per the supervisor ruling the direct-equivalent 'uvx semgrep --config auto --json --quiet --timeout 60 --output security/semgrep-report.json .' ran rc=0 in 62s (warm ruleset cache): 32 findings, errors=1, rules key absent (measured behavior of 1.180.0 --config auto), 10 rule ids, subprocess/spawn class present via detect-child-process + spawn-shell-true."
+    },
+    "substitution_disclosure": "DISCLOSED (ac1 measured-rc conditional, supervisor-ruled branch): make security-semgrep returned measured rc=2 (frozen t36 recipe's --metrics off flag vs --config auto is a semgrep 1.180.0 hard conflict; repair card t44 scheduled, Makefile frozen and untouched by this card). The committed semgrep-report.json therefore comes from the card-sanctioned direct-equivalent command 'uvx semgrep --config auto --json --quiet --timeout 60' (rc=0), which is the Makefile recipe's command minus the conflicting --metrics off flag. This is the rc=2 branch the card pins and negative-controls; it is NOT an AC-command substitution (the ## Verification commands ac1 gate was executed verbatim including its built-in conditional).",
+    "delta_constraint_compliance": "Only security/semgrep-report.json and security/trivy-report.json added (plus this handoff). Makefile, README, .github/workflows, docs/state/* (except this output), backend/, frontend/, ops/, e2e/, docker-compose.yml, Dockerfile, .gitignore all byte-untouched - verified by ac3/ac5/ac6 legs (manifest hash-object equality, .gitignore equality, ops/ exact-set, workflow listing).",
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "test_detail": "Six card verification commands executed: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0. Additionally the underlying suites ran green inside ac6: backend pytest 270 collected all passed, frontend vitest 187 passed / 0 failed / 0 pending / 0 todo. Negative control (this spawn): schema-drifted semgrep report -> ac1 rc=1 (gate bites), restored byte-identical.",
+    "lint_status": "CLEAN",
+    "lint_detail": "backend ruff clean (ac6); frontend eslint exits with the milestone's standing exactly-4 react-refresh/only-export-components warnings (ac6 pin ==4, green); mypy 87 source files no issues.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "environment_fixes": [
+      "Worktree .git pointer was an absolute Windows path (C:/...) that WSL git could not resolve ('not a git repository' on every command); rewritten to the equivalent relative path ../../../expense-tracker-dashboard/.git/worktrees/pi-worktree-3ead80f3-70bb-49f8-8cf4-86d2a406ea7b-s0-0 which resolves under BOTH WSL git and Windows cmd.exe git (ac2/ac5/ac6 cmd.exe legs depend on it). Not a repo file; not part of the diff.",
+      "frontend node_modules initially installed by WSL npm produced symlinked .bin shims that Windows npx.cmd cannot resolve ('vitest is not recognized'); reinstalled via cmd.exe npm ci (Windows-native) after which the ac6 vitest/tsc/lint legs execute as pinned."
+    ],
+    "notes": "ac_hash recomputed from committed card bytes matches the pinned 9218bde4. No index mutation (none required by this card; ac6 excluded). No force push; branch pushed -u origin issue/t38-code-container-scans. No new tests authored: this card's deliverables are the two measured scan artifacts themselves and the card's DoD defines verification through the six pinned gate commands (no pytest/vitest test file can live in the two allowed files)."
+  },
+  "artifacts": {
+    "files_written": [
+      "security/semgrep-report.json",
+      "security/trivy-report.json",
+      "docs/state/outputs/t38_builder_implement.json"
+    ],
+    "platform_issue": 41,
+    "output_path": "docs/state/outputs/t38_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T09:40:00Z",
+  "retry_count": 0
+}

@@ -1,29 +1,26 @@
 # Status
 
-Updated: 2026-10-12T12:10Z
+Updated: 2026-10-12T16:00Z
 
-## Active slots (cap: .env MAX_SLOTS=2, top precedence)
+## Active slots (cap: .env MAX_SLOTS=2)
 
-| Slot | Issue | Role | Phase | Run | Note |
-|---|---|---|---|---|---|
-| 1 | t38 | definer | groom | 698207a0 | Option-A conditional ac1; long-running, active 37s ago |
-| 2 | t43 | definer | groom | f5e11980 | fresh after ce11ea09 worktree-recycle; Option-A digest, 45-min timebox |
-| QUEUE | t44 | definer | groom | (157e4352 dead) | retry 1/3; zero commits; dispatch when slot_1 frees |
+| Slot | Issue | Role | Phase | Run |
+|---|---|---|---|---|
+| 1 | t44 | definer | groom | a48a58e6 (transcription-only, 45-min box, Option B digest) |
+| 2 | t43 | builder | implement | 93923ef8 (E2E unblocker, 4-file delta, 180-min box) |
 
-**DISPATCH FREEZE** until active <= 2.
+**DISPATCH FREEZE** at cap.
 
-## Merge queue
+## Ready / queued
 
-(empty)
-
-## Ready issues
-
-t38 (#41) / t43 (#46) groom in flight. t44 (#47) resume queued. t40 (#43) blocked on t38. t41 (#44) blocked on t38,t40,t44. #45 (t42) verified - merge-gate = first live E2E green, requires t43.
-
-## Live CI/E2E
-
-CI #93 / E2E #93 pending on `6335f31`. E2E expected FAILURE until t43 lands (psycopg absent). Acceptance polled on FINAL post-merge SHA.
+- t40 (#43): deps t37+t38+t39 ALL closed → READY, queued for next slot free.
+- t41 (#44): needs t40 + t44 (t44 must merge before t41).
+- #45 (t42, verified): merge-gate = first live E2E green → requires t43 merge.
 
 ## Recent
 
-t39 CLOSED `e62b919` (index 173, history 40, #42 closed). Spec re-read complete incl. recovery/human_review/preflight; recovery reconciliation clean, no DRIFT. WAL 553.
+t38 CLOSED `2c9081f` (index 178, history 41, #41 closed; verifier handoff transcript-recovered, gate3 PASS). t39 CLOSED `e62b919`. t43 groomed `d1d2547` (ac_hash 4b5f875e, gate1 PASS). WAL 566.
+
+## Live CI/E2E
+
+E2E still expected FAILURE pre-t43 (psycopg absent). Acceptance = first green on final post-t43 SHA → close #45.
