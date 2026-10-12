@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:16:29.784Z",
-  "last_seq": 557,
+  "updated_at": "2026-10-12T09:30:13.518Z",
+  "last_seq": 558,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -44,7 +44,7 @@
       "issue_id": "t43",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight_option_A_bis"
+        "groom_in_flight_option_A_ter_amendment_pending"
       ]
     },
     {
