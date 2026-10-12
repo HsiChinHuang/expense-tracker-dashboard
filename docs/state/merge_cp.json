@@ -1,0 +1,9 @@
+{
+  "issue_id": "t47",
+  "step": 5,
+  "state": "tested",
+  "timestamp": "2026-10-13T13:55:00Z",
+  "pre_merge_sha": "757f39831d9e37ce02530ca076f377a69e6e6db1",
+  "merge_sha": "fddadeb08ecdc77b92fa9518ac83a9cb9e48a8b5",
+  "test_result": { "total": 456, "passed": 457, "failed": 0, "note": "backend 270 passed + frontend 187 passed (0 failed/0 pending/0 todo); ruff clean; mypy Success 88 files; single head 005; tsc rc=0; lint exactly 4 warnings; README 8d141fb2; workflows exact; index entries 35/57/124 + AMENDED 139 executed rc=0 on merged MAIN; index appended ac1..ac5 (188->193) per card disposition (ac6 composite never appended), anchors/pins byte-verified after append" }
+}
