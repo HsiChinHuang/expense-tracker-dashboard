@@ -1,26 +1,25 @@
 # Status
 
-Updated: 2026-10-12T16:00Z
+Updated: 2026-10-12T19:20Z
 
 ## Active slots (cap: .env MAX_SLOTS=2)
 
 | Slot | Issue | Role | Phase | Run |
 |---|---|---|---|---|
-| 1 | t44 | definer | groom | a48a58e6 (transcription-only, 45-min box, Option B digest) |
-| 2 | t43 | builder | implement | 93923ef8 (E2E unblocker, 4-file delta, 180-min box) |
+| 1 | t40 | definer | groom | 17e8f20a (fresh-design register loop, 60m) |
+| 2 | t43 | verifier | verify_issue | b22de86f (E2E unblocker verification) |
 
 **DISPATCH FREEZE** at cap.
 
 ## Ready / queued
 
-- t40 (#43): deps t37+t38+t39 ALL closed → READY, queued for next slot free.
-- t41 (#44): needs t40 + t44 (t44 must merge before t41).
+- t41 (#44): blocked on t40 (t44 CLOSED a64a3a2 → merge-order constraint satisfied).
 - #45 (t42, verified): merge-gate = first live E2E green → requires t43 merge.
 
 ## Recent
 
-t38 CLOSED `2c9081f` (index 178, history 41, #41 closed; verifier handoff transcript-recovered, gate3 PASS). t39 CLOSED `e62b919`. t43 groomed `d1d2547` (ac_hash 4b5f875e, gate1 PASS). WAL 566.
+t44 CLOSED `a64a3a2` (Makefile repair; index UNAMENDED per card; tests[159] t36 contract green; history 42; #47 closed). t43 → built `54789bc` (gate2 PASS, verify in flight). t38 CLOSED `2c9081f` (index 178). WAL 578.
 
 ## Live CI/E2E
 
-E2E still expected FAILURE pre-t43 (psycopg absent). Acceptance = first green on final post-t43 SHA → close #45.
+E2E expected FAILURE until t43 merges. First green on final post-t43 SHA → close #45.
