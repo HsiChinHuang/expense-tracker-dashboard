@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T23:59:00Z",
-  "last_seq": 651,
+  "updated_at": "2026-10-14T00:40:00Z",
+  "last_seq": 652,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -29,16 +29,31 @@
       "issue_id": "t51",
       "state": "defined",
       "modifiers": [
-        "card_on_platform_54_not_local"
+        "platform_54"
       ]
     },
     {
-      "issue_id": "phase_8_docs",
-      "state": "pending",
+      "issue_id": "t52",
+      "state": "defined",
       "modifiers": [
-        "readme_pin1_carried",
-        "t52_pin2_next",
-        "t53_reattest"
+        "platform_55",
+        "readme_pin2"
+      ]
+    },
+    {
+      "issue_id": "t53",
+      "state": "defined",
+      "modifiers": [
+        "platform_57",
+        "reattest"
+      ]
+    },
+    {
+      "issue_id": "t55",
+      "state": "defined",
+      "modifiers": [
+        "platform_59",
+        "first_ever_e2e_green_final_blocker"
       ]
     }
   ],
