@@ -1,16 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:02:49.737Z",
-  "last_seq": 553,
+  "updated_at": "2026-10-12T09:14:28.098Z",
+  "last_seq": 555,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t38",
       "role": "definer",
       "phase": "groom",
-      "run_id": "698207a0-7f6a-4254-a90d-0d1e51441caa",
-      "spawn_at": "2026-10-12T07:30:00Z",
-      "last_activity_at": "2026-10-12T09:01:55.673Z"
+      "run_id": "ff8eeeba-8eaa-4640-ac2d-d117d6488c62",
+      "spawn_at": "2026-10-12T09:14:28.098Z",
+      "last_activity_at": "2026-10-12T09:14:28.098Z",
+      "note": "gate1 heading fix resume of 698207a0"
     },
     {
       "slot_id": "slot_2",
