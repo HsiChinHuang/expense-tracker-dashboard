@@ -46,6 +46,8 @@ jobs:
           done
           echo "health endpoint never turned ok"
           exit 1
+      - name: Start the frontend dev server
+        run: cd frontend && npm ci && (nohup npm run dev -- --host 127.0.0.1 --port 5173 > /tmp/vite-dev.log 2>&1 &)
       - name: Install Playwright browsers
         run: cd e2e && npm install --no-save && npx playwright install --with-deps
       - name: Run the E2E suite
