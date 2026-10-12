@@ -40,7 +40,11 @@
     "t34",
     "t35",
     "t36",
-    "t37",
+    {
+      "id": "t37",
+      "status": "closed",
+      "milestone": "phase_7_security_ops"
+    },
     "t38",
     "t39",
     "t40",
