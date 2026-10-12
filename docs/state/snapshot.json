@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T20:40:00Z",
-  "last_seq": 638,
+  "updated_at": "2026-10-13T21:20:00Z",
+  "last_seq": 640,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t50",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "b1d84998-6a3e-439d-b620-50d7c72dcbad",
-      "spawn_at": "2026-10-13T20:25:00Z",
-      "last_activity_at": "2026-10-13T20:40:00Z"
+      "role": "builder",
+      "phase": "build",
+      "run_id": "182e9e84-f394-4101-b226-95aeb9458fd1",
+      "spawn_at": "2026-10-13T21:20:00Z",
+      "last_activity_at": "2026-10-13T21:20:00Z"
     },
     {
       "slot_id": "slot_2",
@@ -27,9 +27,9 @@
   "active_issues": [
     {
       "issue_id": "t50",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight"
+        "build_in_flight"
       ]
     },
     {
@@ -37,7 +37,7 @@
       "state": "defined",
       "modifiers": [
         "groom_in_flight",
-        "docker_recovery"
+        "docker_free_redesign"
       ]
     },
     {
