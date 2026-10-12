@@ -1,0 +1,135 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t48",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t48-process-ownership-docs",
+    "branch_sha": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+    "base_sha": "d8e964f5f240a094af953c4daf839757a8cfc592",
+    "card_tip": "d8e964f5f240a094af953c4daf839757a8cfc592",
+    "main_merge_base": "ee4fd22c1672eb32bbdb6769bc117bbc3e6261e8",
+    "ac_hash": "sha256:cb4feed3c5b816d36638316a90e63f47f3bdb651f9342d7fab88fd24adb6e8e7",
+    "ac_hash_verified": "Recomputed from the committed card bytes at the branch tip (git show HEAD:docs/issues/t48.md, line-anchored segment from the exact line ## Verification commands to the next exact line ## Out of scope, 6 bash fences in ac1..ac6 order, each trimmed, sha256 over JSON.stringify(array), no CR stripping): sha256:cb4feed3c5b816d36638316a90e63f47f3bdb651f9342d7fab88fd24adb6e8e7 - equals the groom pin. Fence lengths 1069,933,1104,902,1289,6437.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'P=docs/process.md; test -f \"$P\" || { echo \"ac1 RED: docs/process.md does not exist - the process document is the deliverable\"; exit 1; }; B=$(tr -d \"\\r\" < \"$P\" | wc -l | tr -dc \"0-9\"); [ \"${B:-0}\" -ge 60 ] || { echo \"ac1 RED: docs/process.md body only ${B:-0} lines (floor 60)\"; exit 1; }; for s in \"^## Roles$\" \"^## Orchestrator$\" \"^## Lifecycle$\" \"^## Rules$\"; do tr -d \"\\r\" < \"$P\" | grep -qE \"$s\" || { echo \"ac1 RED: missing REQ-DOC-022 section heading $s\"; exit 1; }; done; for r in definer builder verifier orchestrator reviewer; do tr -d \"\\r\" < \"$P\" | grep -q \"$r\" || { echo \"ac1 RED: real pipeline role $r not named\"; exit 1; }; done; tr -d \"\\r\" < \"$P\" | grep -q \"schemas/\" || { echo \"ac1 RED: the handoff-schema gate is not named (no schemas/ reference)\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -q \"defined -> groomed -> built -> verified -> closed\" || { echo \"ac1 RED: the real state lifecycle chain is not stated\"; exit 1; }; echo \"ac1 GREEN: process.md $B lines, four REQ-DOC-022 headings, five real roles, handoff-schema gate + real lifecycle stated\"'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'P=docs/task-template.md; test -f \"$P\" || { echo \"ac2 RED: docs/task-template.md does not exist - the template is the deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$P\" | grep -cE \"^## Goal$\"); A=$(tr -d \"\\r\" < \"$P\" | grep -cE \"^## Acceptance criteria$\"); O=$(tr -d \"\\r\" < \"$P\" | grep -cE \"^## Out of scope$\"); C=$(tr -d \"\\r\" < \"$P\" | grep -cE \"^## Constraints$\"); echo \"ac2 evidence: H2 counts Goal=$T AC=$A OutOfScope=$O Constraints=$C\"; [ \"$T\" = 1 ] && [ \"$A\" = 1 ] && [ \"$O\" = 1 ] && [ \"$C\" = 1 ] || { echo \"ac2 RED: the four REQ-DOC-028 grooming sections must each appear EXACTLY once as an unqualified H2\"; exit 1; }; for k in \"id: tNN\" \"title:\" \"depends: [tXX, tYY]\" \"platform_issue:\"; do tr -d \"\\r\" < \"$P\" | grep -qF \"$k\" || { echo \"ac2 RED: frontmatter convention token missing: $k\"; exit 1; }; done; echo \"ac2 GREEN: four grooming sections exactly once + frontmatter convention (id / title / depends / platform_issue)\"'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'test -d docs/team || { echo \"ac3 RED: docs/team/ does not exist\"; exit 1; }; S=$(ls -A docs/team | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); echo \"ac3 evidence: docs/team set = $S\"; [ \"$S\" = \"pm.md,qa-engineer.md,software-engineer.md,\" ] || { echo \"ac3 RED: docs/team must be EXACTLY pm.md, qa-engineer.md, software-engineer.md (REQ-DOC-029)\"; exit 1; }; for f in pm software-engineer qa-engineer; do for h in \"^## Responsibilities$\" \"^## Inputs$\" \"^## Outputs$\" \"^## Hand-off points$\"; do tr -d \"\\r\" < \"docs/team/$f.md\" | grep -qE \"$h\" || { echo \"ac3 RED: docs/team/$f.md lacks heading $h\"; exit 1; }; done; tr -d \"\\r\" < \"docs/team/$f.md\" | grep -q \"REQ-DOC-029\" || { echo \"ac3 RED: docs/team/$f.md does not cite REQ-DOC-029\"; exit 1; }; done; for pair in \"pm.md definer\" \"software-engineer.md builder\" \"qa-engineer.md verifier\"; do set -- $pair; tr -d \"\\r\" < \"docs/team/$1\" | grep -q \"$2\" || { echo \"ac3 RED: docs/team/$1 does not name the pipeline role $2\"; exit 1; }; done; echo \"ac3 GREEN: exact REQ-DOC-029 set, four role-definition sections in each file, definer/builder/verifier mapping stated\"'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'P=docs/ownership.md; test -f \"$P\" || { echo \"ac4 RED: docs/ownership.md does not exist - the ownership table is the deliverable\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -qE \"^## Ownership table$\" || { echo \"ac4 RED: no ## Ownership table heading\"; exit 1; }; for row in \"| Root documents (README.md\" \"| docs/ detailed documents\" \"| docs/criteria/ verification evidence\" \"| security/ security artifacts\" \"| ops/ operations artifacts\" \"| screenshots/ reviewer evidence images\"; do tr -d \"\\r\" < \"$P\" | grep -qF \"$row\" || { echo \"ac4 RED: no ownership table row for family $row\"; exit 1; }; done; tr -d \"\\r\" < \"$P\" | grep -qF \"| Artifact family | Owner | Update trigger (REQ-DOC-062) |\" || { echo \"ac4 RED: table header is not (Artifact family | Owner | Update trigger)\"; exit 1; }; echo \"ac4 GREEN: ownership table has one row per REQ-DOC-002 family with owning role and REQ-DOC-062 update trigger\"'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'L=\"docs/process.md docs/task-template.md docs/ownership.md docs/team/pm.md docs/team/software-engineer.md docs/team/qa-engineer.md\"; for f in $L; do test -f \"$f\" || { echo \"ac5 RED: $f missing\"; exit 1; }; LC_ALL=C grep -q \"[^[:print:][:space:]]\" \"$f\" && { echo \"ac5 RED: non-ASCII byte in $f (REQ-DOC-060 English-only)\"; exit 1; }; tr -d \"\\r\" < \"$f\" | grep -q \"^####\" && { echo \"ac5 RED: forbidden heading depth #### in $f (docs/documentation_standards.md)\"; exit 1; }; done; for l in \"(team/pm.md)\" \"(team/software-engineer.md)\" \"(team/qa-engineer.md)\" \"(ownership.md)\"; do tr -d \"\\r\" < docs/process.md | grep -qF \"$l\" || { echo \"ac5 RED: process.md does not link $l\"; exit 1; }; done; for t in pm software-engineer qa-engineer; do tr -d \"\\r\" < \"docs/team/$t.md\" | grep -qF \"(../process.md)\" || { echo \"ac5 RED: docs/team/$t.md does not link back to process.md\"; exit 1; }; done; tr -d \"\\r\" < docs/team/pm.md | grep -qF \"(../task-template.md)\" || { echo \"ac5 RED: task-template.md would be an orphan - nothing links it\"; exit 1; }; tr -d \"\\r\" < docs/ownership.md | grep -qF \"(process.md)\" || { echo \"ac5 RED: ownership.md links to nothing\"; exit 1; }; echo \"ac5 GREEN: six artifacts ASCII, heading depth <= ###, zero orphans (every new document linked from at least one other)\"'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac6: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac6: node missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || { echo \"ac6 RED: README digest drifted - this card does NOT touch README (t49 owns the README delta)\"; exit 1; }; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || { echo \"ac6 RED: README line floor\"; exit 1; }; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac6 evidence: backend collected=${n:-0} (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && timeout 900 uv run pytest -q >/dev/null 2>&1) || { echo \"ac6 RED: backend suite\"; exit 1; }; (cd backend && uv run ruff check . >/dev/null 2>&1) || { echo \"ac6 RED: ruff\"; exit 1; }; m=$(cd backend && timeout 300 uv run mypy . 2>&1 | tr -d \"\\r\" | tail -1); printf \"%s\" \"$m\" | grep -qE \"Success: no issues found\" || { echo \"ac6 RED: mypy - $m\"; exit 1; }; mf=$(printf \"%s\" \"$m\" | grep -oE \"[0-9]+ source files\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: mypy files=${mf:-0} (floor 87)\"; [ \"${mf:-0}\" -ge 87 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac6 RED: alembic head drifted from 005\"; exit 1; }; D=$(wslpath -w \"$PWD/frontend\"); timeout 600 cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null >/tmp/t48_ac6_vitest.json 2>/dev/null; out=$(tr -d \"\\r\" < /tmp/t48_ac6_vitest.json); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac6 RED: frontend failures present - if numPassedTests is 186 with a handlers_contract failure the Docker daemon is up: stop Docker Desktop and re-run, that interference is NOT a real failure\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; fp=$(printf \"%s\" \"$out\" | grep -oE \"\\\"numPassedTests\\\":[0-9]+\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: frontend passed=${fp:-0} (floor 187)\"; [ \"${fp:-0}\" -ge 187 ] || exit 1; timeout 300 cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || { echo \"ac6 RED: tsc\"; exit 1; }; l=$(timeout 300 cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); echo \"ac6 evidence: react-refresh warnings=$l (exactly 4)\"; [ \"$l\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac6 RED: workflows set drifted: $w\"; exit 1; }; sec=$(ls -A security | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$sec\" = \".gitkeep,agent-security-notes.md,ai-tool-data-policy.md,gitleaks-report.json,npm-audit-report.txt,pip-audit-report.txt,pr-audit.md,semgrep-report.json,trivy-report.json,\" ] || { echo \"ac6 RED: security/ set drifted\"; exit 1; }; ops=$(ls -A ops | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$ops\" = \".gitkeep,deployment-health.md,diagnosis.md,health-check.md,logging.md,runbook.md,\" ] || { echo \"ac6 RED: ops/ set drifted\"; exit 1; }; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || { echo \"ac6 RED: manifest $p changed\"; exit 1; }; done; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<188){console.error(\\\"ac6 RED: index below the 188-entry floor\\\");process.exit(1)}const P={131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"};for(const n of [131,132,133,135]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac6 RED: missing index entry \\\"+n);process.exit(1)}if(h.createHash(\\\"sha256\\\").update(JSON.stringify(t)).digest(\\\"hex\\\")!==P[n]){console.error(\\\"ac6 RED: byte-pin entry \\\"+n+\\\" changed\\\");process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"ac6 RED: anchors tests[16]/tests[54] identity moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"ac6 RED: anchor tests[16] bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"ac6 RED: anchor tests[54] bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"});if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac6 RED: entry 139 identity changed (hash NOT pinned - Option A-ter precedent)\\\");process.exit(1)}\" || exit 1; echo \"ac6 evidence: merge_test_index >= 188 with anchors tests[16]=t2 / tests[54]=t9 byte-pinned and executed green, entries 131/132/133/135 byte-pinned and executed green, entry 139 identity-only\"; B=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || { echo \"ac6 RED: no merge-base\"; exit 1; }; p=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); if [ -n \"$p\" ]; then echo \"ac6 RED: non-docs delta is [$p] - this card is docs-only\"; exit 1; fi; d=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/(issues|state)/\" | sort | tr \"\\n\" \",\"); EXP=\"docs/ownership.md,docs/process.md,docs/task-template.md,docs/team/pm.md,docs/team/qa-engineer.md,docs/team/software-engineer.md,\"; if [ \"$d\" != \"$EXP\" ]; then echo \"ac6 RED: deliverable delta is [$d] - must be exactly the six card files\"; exit 1; fi; echo \"ac6 GREEN: MAIN floors composite + delta purity (README byte-identical at 8d141fb2, docs-only six-file delta)\"'",
+        "verdict": "PASS"
+      }
+    },
+    "ac_results": {
+      "ac1": {
+        "layer": "docs-structure gate (existence + body floor + required H2 headings + role vocabulary + lifecycle chain)",
+        "base_rc": 1,
+        "base_red": "rc=1 - ac1 RED: docs/process.md does not exist - the process document is the deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac1 GREEN: process.md 93 lines, four REQ-DOC-022 headings, five real roles, handoff-schema gate + real lifecycle stated"
+      },
+      "ac2": {
+        "layer": "docs-structure gate (template sections counted exactly once + frontmatter convention)",
+        "base_rc": 1,
+        "base_red": "rc=1 - ac2 RED: docs/task-template.md does not exist - the template is the deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac2 evidence: H2 counts Goal=1 AC=1 OutOfScope=1 Constraints=1; ac2 GREEN: four grooming sections exactly once + frontmatter convention (id / title / depends / platform_issue)"
+      },
+      "ac3": {
+        "layer": "docs-structure gate (exact directory set + per-file role headings + role mapping)",
+        "base_rc": 1,
+        "base_red": "rc=1 - ac3 RED: docs/team/ does not exist",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac3 evidence: docs/team set = pm.md,qa-engineer.md,software-engineer.md,; ac3 GREEN: exact REQ-DOC-029 set, four role-definition sections in each file, definer/builder/verifier mapping stated"
+      },
+      "ac4": {
+        "layer": "docs-content gate (ownership table heading + one fixed-string row per artifact family)",
+        "base_rc": 1,
+        "base_red": "rc=1 - ac4 RED: docs/ownership.md does not exist - the ownership table is the deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac4 GREEN: ownership table has one row per REQ-DOC-002 family with owning role and REQ-DOC-062 update trigger"
+      },
+      "ac5": {
+        "layer": "docs-quality gate (ASCII/English, heading depth, zero orphan documents)",
+        "base_rc": 1,
+        "base_red": "rc=1 - ac5 RED: docs/process.md missing",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac5 GREEN: six artifacts ASCII, heading depth <= ###, zero orphans (every new document linked from at least one other)"
+      },
+      "ac6": {
+        "layer": "COMPOSITE floors + delta purity (run LAST; index-append-excluded)",
+        "base_rc": 1,
+        "base_red": "rc=1 at the delta-purity leg while every floor leg printed green evidence in the same run: backend collected=270 (floor 270), mypy Success on 88 source files (floor 87, current MAIN truth), frontend passed=187 (floor 187) with the Docker daemon verified down, react-refresh warnings=4 (exactly 4), merge_test_index >= 188 with anchors tests[16]=t2 / tests[54]=t9 byte-pinned and executed green, entries 131/132/133/135 byte-pinned and executed green, entry 139 identity-only - then ac6 RED: deliverable delta is [] - must be exactly the six card files.",
+        "fixture_rc": 0,
+        "fixture_green": "rc=0 - ac6 GREEN: MAIN floors composite + delta purity (README byte-identical at 8d141fb2, docs-only six-file delta); evidence legs in the same run: backend collected=270, mypy files=88, frontend passed=187, react-refresh warnings=4, merge_test_index >= 188 with anchors and byte-pins executed green, entry 139 identity-only."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "files_changed": [
+      "docs/process.md",
+      "docs/task-template.md",
+      "docs/ownership.md",
+      "docs/team/pm.md",
+      "docs/team/software-engineer.md",
+      "docs/team/qa-engineer.md"
+    ],
+    "environment": "Prerequisites executed in this fresh worktree before the vitest legs: cd frontend && cmd.exe npm.cmd ci (526 packages, rc=0) and cd backend && uv sync --offline (rc=0; [VENV_UNAVAILABLE] from scripts/venv_path.py is expected). Docker daemon verified DOWN before both ac6 runs (tasklist shows no docker process; docker info and docker version fail to connect). No 186/1 handlers_contract interference was observed in either the base or fixture ac6 run (passed=187 both times). Frontend gates ran only via cmd.exe /c cd /d <WinPath> && npx.cmd/npm.cmd with </dev/null. Git WRITE ops only via cmd.exe /c git -C <WinPath> ... </dev/null.",
+    "delta_purity": "Fix commit 3a8bb12 touches exactly the six deliverable files. merge-base HEAD origin/main = ee4fd22c1672eb32bbdb6769bc117bbc3e6261e8; the delta from that base to HEAD is the six docs files plus docs/issues/t48.md and docs/state/outputs/t48_definer_groom.json carried by the card-tip ancestor (excluded by the gates docs/(issues|state) filter). Non-docs delta EMPTY. README byte-unchanged at 8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce. merge_test_index.json untouched. The handoff copy is committed in a SEPARATE docs-only commit after the fix commit (t46/t47 precedent) so ac6 delta purity holds at HEAD.",
+    "summary": "Authored the six REQ-DOC-022/028/029/063 artifacts describing the real pipeline: docs/process.md (Roles/Orchestrator/Lifecycle/Rules, five real roles, schemas/ handoff gate, defined -> groomed -> built -> verified -> closed), docs/task-template.md (four grooming H2 exactly once + id/title/depends/platform_issue frontmatter convention), docs/team/{pm,software-engineer,qa-engineer}.md (four role-definition headings, REQ-DOC-029 citations, pm->definer / software-engineer->builder / qa-engineer->verifier), docs/ownership.md (## Ownership table with the pinned header and one grep -F matchable row per REQ-DOC-002 family). All six card gates measured base RED rc=1 then fixture GREEN rc=0 at the fix commit, commands run verbatim.",
+    "disclosures": [
+      "Branch was created from the card tip d8e964f as instructed. Note: d8e964f is NOT an ancestor of origin/main 757f398 - the merge-base is ee4fd22, which is exactly the base the definer groomed and measured against, and the two commits main gained since (t47 state files) do not touch the card, docs/issues/t48.md is byte-identical between d8e964f and origin/main (tree 4dadfc0), and merge_test_index.json is identical (tree 11dccac). The ac6 delta-purity legs were executed against the real merge-base by the gate itself and passed.",
+      "The remote groom branch tip has advanced to 23d4036 (t48_handoff_durability_update) which only rewrites docs/state/outputs/t48_definer_groom.json relative to d8e964f; the card and the pin are unchanged, so building from d8e964f per the task instruction is content-equivalent for the gates.",
+      "docs/config.yaml.example limits.issue_granularity.max_files is 4 with warn_only true; the six-file overrun is the W10 disclosure already carried in the card, not a new deviation.",
+      "The six deliverable files were written with LF in the worktree; git smudges them to CRLF on checkout per .gitattributes-style behavior. All gates are CRLF-tolerant via tr -d CR and passed as executed."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/process.md",
+      "docs/task-template.md",
+      "docs/ownership.md",
+      "docs/team/pm.md",
+      "docs/team/software-engineer.md",
+      "docs/team/qa-engineer.md",
+      "docs/state/outputs/t48_builder_implement.json"
+    ],
+    "platform_issue": 51,
+    "output_path": "docs/state/outputs/t48_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T17:32:11.647Z",
+  "retry_count": 0
+}
