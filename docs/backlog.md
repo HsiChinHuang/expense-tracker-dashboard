@@ -45,5 +45,5 @@
 | t40 | Security documents - pr-audit record, agent-security-notes with accepted-findings register, ai-tool-data-policy | [t37, t38, t39] | #43 | defined |
 | t41 | Security and ops verification - criteria 13 evidence generator, ops diagnosis + deployment-health, deferral register, milestone-exit composite | [t36, t37, t38, t39, t40] | #44 | defined |
 | t42 | CI/E2E runner repair - setup-uv pin, coverage-v8 devDep, actions/cache v5, E2E wait diagnostics | [t35] | #45 | closed |
-| t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | defined |
+| t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | closed |
 

@@ -1,16 +1,15 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T10:41:51.639Z",
-  "last_seq": 575,
+  "updated_at": "2026-10-12T10:59:59.831Z",
+  "last_seq": 577,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t44",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "e744a6d1-130c-4a84-b814-9d34f92e43a4",
-      "spawn_at": "2026-10-12T18:10:00Z",
-      "last_activity_at": "2026-10-12T10:41:51.639Z"
+      "issue_id": "t40",
+      "role": "definer",
+      "phase": "groom",
+      "status": "DISPATCHING",
+      "note": "slot freed by t44 verify completion"
     },
     {
       "slot_id": "slot_2",
@@ -18,8 +17,8 @@
       "role": "verifier",
       "phase": "verify_issue",
       "run_id": "b22de86f-8518-4e19-92c5-ae6cba783dc8",
-      "spawn_at": "2026-10-12T10:41:51.639Z",
-      "last_activity_at": "2026-10-12T10:41:51.639Z"
+      "spawn_at": "2026-10-12T18:40:00Z",
+      "last_activity_at": "2026-10-12T10:59:59.831Z"
     }
   ],
   "merge_queue": [],
@@ -33,17 +32,17 @@
       ]
     },
     {
-      "issue_id": "t44",
-      "state": "built",
-      "modifiers": [
-        "verify_in_flight"
-      ]
-    },
-    {
       "issue_id": "t40",
       "state": "defined",
       "modifiers": [
-        "ready_queued"
+        "groom_dispatching"
+      ]
+    },
+    {
+      "issue_id": "t41",
+      "state": "defined",
+      "modifiers": [
+        "blocked_t40"
       ]
     }
   ],

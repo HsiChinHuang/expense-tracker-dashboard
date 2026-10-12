@@ -45,3 +45,4 @@ Runtime-maintained by Orchestrator.
 | t42 |  |  | 0 |  |
 | t39 | Ops runbook core - ops/runbook.md + health-check.md + logging.md | 2026-10-12 | 0 | e62b919 |
 | t38 | Code and container scan reports - semgrep + trivy artifacts | 2026-10-12 | 0 | 2c9081f |
+| t44 | Makefile security-semgrep --metrics off repair | 2026-10-12 | 0 | a64a3a2 |
