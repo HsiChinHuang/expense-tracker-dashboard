@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-09T10:00:46Z",
+  "updated_at": "2026-10-12T06:25:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -570,6 +570,20 @@
       "backend_tests": 270,
       "regression_count": 0,
       "notes": "PHASE_7 SECURITY OPS: security umbrella + 5 sub-targets (gitleaks 8.30.1 Option-A allowlist gate-time /tmp emission, negative control proven), amend script landed + STRICT-WINDOW executed post-merge (entry#6 retargeted, 13 exclusions, originals kept), verify PASS 5587a67 (457 tests, 10 negative controls bite), index ac1-ac5 appended per disposition (ac6 excluded)"
+    },
+    {
+      "merge_id": "t42-0f37141",
+      "issue_id": "t42",
+      "platform_issue": 45,
+      "merged_sha": "0f37141",
+      "merged_tree": "0791716dfdebe637efeae02cd7af80b06e8d130c",
+      "merged_at": "2026-10-12T06:25:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 163,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "CI/E2E REPAIR (user-reported defect): setup-uv v4.5.1->v5.0.0 (404 root cause), cache v4.1.2->v4.2.4 (runner-deprecation root cause), @vitest/coverage-v8 1.6.0 (Coverage-report root cause). Re-groom index-timing (floor 163 + 5 byte-pins, hash 0acc538a). Verify PASS cb34daf 6/6 + 5 negative controls. NO index mutation per DoD. FINAL ACCEPTANCE: live CI+E2E on merge commit polled by orchestrator."
     }
   ]
 }
