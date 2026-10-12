@@ -35,7 +35,7 @@
     "ac_hash_recipe": "sha256 over JSON.stringify(array of the trimmed bash-fenced command strings under ## Verification commands, in ac1..ac6 order); recomputed from git show HEAD:docs/issues/t41.md committed bytes, twice, after commit",
     "branch": "groom/t41-security-ops-verification",
     "base_sha": "2c49262",
-    "branch_sha": "861e886848c8e1803771b305e27a3c5a6d040a8f",
+    "branch_sha": "ede03dce3e0c620870f3fce3ed0453a2283c8752",
     "measurements": {
       "base_red": {
         "ac1": 1,
@@ -91,6 +91,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-12T14:40:48Z",
+  "timestamp": "2026-10-12T14:41:37Z",
   "retry_count": 0
 }
