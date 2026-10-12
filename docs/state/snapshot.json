@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-14T04:55:00Z",
-  "last_seq": 665,
+  "updated_at": "2026-10-14T05:10:00Z",
+  "last_seq": 666,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t55",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "e9992368-702f-4431-a7d2-69f6a3c9768b"
+      "role": null,
+      "phase": null,
+      "run_id": null
     },
     {
       "slot_id": "slot_2",
