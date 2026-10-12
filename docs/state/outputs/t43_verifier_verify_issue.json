@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t43",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_pinned": "sha256:4b5f875ecd9f381fb301048a68c483401293570d8eec374367d9f1755b08bfb0",
+    "ac_hash_computed": "sha256:4b5f875ecd9f381fb301048a68c483401293570d8eec374367d9f1755b08bfb0",
+    "ac_hash_match": true,
+    "ac_hash_recipe": "Independent R1 extraction: git show 54789bc:docs/issues/t43.md via cmd.exe (assigned WSL git broken by Windows-path .git pointer), LF-normalized, slice from first /^## Verification commands\\b/ line to next /^## (?!#)/, all ```bash fences in ac order, each trimmed, sha256 over JSON.stringify(array of 5). Per-command sha256: ac1=5d211bdf9e3a6603274c8f2650ffbe4167d23013c59fbdd28c0d6127b5d44c6c, ac2=7baf1bc6d0ea1bcd4d19a025cba9858a50f88df36f125bcdfbb85aaa70f8c6d1, ac3=8ee1f28bc8276ba062c8dc589a8b1c4aaac16ef5969a5d0ce3df912c69bbb95a, ac4=d2e83253888006fe0ff03a4fc7bc495140e2ed79f27e52e90d07af7163062acf, ac5=a7a06c24b0aac698b45a9ca9464c60753cb3becaa6a0a0d142d038aebfcc5e6f.",
+    "byte_identity_vs_builder": "Committed docs/state/outputs/t43_builder_implement.json at tip 54789bc: all five evidence.ac_mapping[*].test strings byte-equal to the independent extraction (ac1 1243B, ac2 540B, ac3 777B, ac4 1321B, ac5 3302B); builder ac_hash field == 4b5f875e.",
+    "verified_tip": "54789bc2652f84196333437698824b1cbd9802fc (ls-remote origin issue/t43-psycopg-driver; code tip 6aba3d3 = merge of origin/main b743689 for purity; 54789bc adds docs-only handoff commits a324bad+54789bc)",
+    "base_for_delta": "d1d2547ad6e6bc8e0db3bed421f84fdc79eb13c2 (origin/groom/t43-psycopg-driver); merge-base(main,tip)=b743689",
+    "delta_purity": "Non-docs diff main(112cedb, dispatch-time)..tip == EXACTLY backend/app/database.py,backend/pyproject.toml,backend/uv.lock,e2e/psycopg-connect-probe.py. Same vs merge-base b743689. Branch never touched Makefile (merge-base..HEAD Makefile diff empty).",
+    "execution_mode": "Each AC command written byte-exact from the independent extraction to its own script file, run as bash <file> </dev/null foreground from a scratch worktree at the exact tip, ac1->ac2->ac3->ac4->ac5 order (ac5 LAST).",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; node -e \"const fs=require(\\\"fs\\\");const t=fs.readFileSync(\\\"pyproject.toml\\\",\\\"utf8\\\");const seg=(t.split(\\\"[project]\\\")[1]||\\\"\\\").split(/\\[dependency-groups\\]|\\[tool\\./)[0];if(!/psycopg/.test(seg)){console.error(\\\"ac1: psycopg absent from [project] dependencies\\\");process.exit(1)}\" || exit 1; node -e \"const fs=require(\\\"fs\\\");const t=fs.readFileSync(\\\"uv.lock\\\",\\\"utf8\\\");const c=t.split(\\\"[[package]]\\\");const ps=c.find(x=>/^name = \\\"psycopg\\\"$/m.test(x.trim()));const pb=c.find(x=>/^name = \\\"psycopg-binary\\\"$/m.test(x.trim()));if(!ps){console.error(\\\"ac1: uv.lock has no psycopg package\\\");process.exit(1)}if(!/\\.whl/.test(ps)){console.error(\\\"ac1: psycopg has no wheel entry\\\");process.exit(1)}if(!pb){console.error(\\\"ac1: uv.lock has no psycopg-binary package\\\");process.exit(1)}if(!/cp312/.test(pb)||!/manylinux/.test(pb)||!/\\.whl/.test(pb)){console.error(\\\"ac1: psycopg-binary lacks a cp312 manylinux wheel\\\");process.exit(1)}\" || exit 1; uv lock --check >/dev/null 2>&1 || exit 1; out=$(uv run python -c \"import psycopg; print(\\\"PSYCOPG_IMPORT_OK\\\")\" 2>&1) || exit 1; printf \"%s\" \"$out\" | grep -q \"PSYCOPG_IMPORT_OK\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0: psycopg[binary]>=3.1 in [project] deps; uv.lock carries psycopg + psycopg-binary with wheels incl. cp312 manylinux; uv lock --check rc=0; import prints PSYCOPG_IMPORT_OK (psycopg 3.3.6)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; cd backend || exit 1; out=$(uv export --frozen --no-dev --no-hashes --format requirements-txt 2>/dev/null) || exit 1; printf \"%s\" \"$out\" | grep -qiE \"^psycopg\" || exit 1; printf \"%s\" \"$out\" | grep -qiE \"^psycopg(\\[binary\\]|-binary)\" || exit 1; cd .. || exit 1; grep -qE \"uv sync --frozen --no-dev\" Dockerfile || exit 1; grep -qE \"docker compose up -d --build\" .github/workflows/e2e.yml || exit 1; grep -qE \"postgresql\\+psycopg\" docker-compose.yml || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0: uv export --frozen --no-dev lists psycopg + psycopg-binary; Dockerfile uv sync --frozen --no-dev, e2e.yml docker compose up -d --build, compose postgresql+psycopg greps pass. Offline proof substitute per card ruling."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f e2e/psycopg-connect-probe.py || exit 1; for pat in \"REPAIR_PG_HOST\" \"DATABASE_URL\" \"dpg-placeholder-a\\.postgres\\.render\\.com\" \"port=5432\" \"connect_timeout=15\" \"psycopg\\.Error\" \"psycopg_driver_missing\" \"psycopg_connect_ok\"; do grep -qE \"$pat\" e2e/psycopg-connect-probe.py || exit 1; done; grep -qE \"import psycopg\" e2e/psycopg-connect-probe.py || exit 1; grep -qE \"except \\(SQLAlchemyError, OSError, ImportError\\):\" backend/app/database.py || exit 1; rm -f e2e/psycopg-import.log; (cd backend && uv run python ../e2e/psycopg-connect-probe.py) || exit 1; test -f e2e/psycopg-import.log || exit 1; grep -qE \"^psycopg_connect_ok mode=(connected|driver_ok)\" e2e/psycopg-import.log || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0: probe exists with all 8 patterns + import psycopg + byte-identical except tuple; ran via uv run from backend/; e2e/psycopg-import.log line: 'psycopg_connect_ok mode=driver_ok host=dpg-placeholder-a.postgres.render.com error=OperationalError' (honest naming per Option A-bis: wire-reached, not authenticated). Log gitignored (git check-ignore confirms), never committed."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f e2e/psycopg-connect-probe.py || exit 1; node -e \"const t=require(\\\"fs\\\").readFileSync(\\\"backend/app/database.py\\\",\\\"utf8\\\").split(/\\r?\\n/);let tr=-1,ex=-1,pr=-1;for(let j=0;j<t.length;j++){if(tr<0&&/^\\s*try:\\s*$/.test(t[j])){tr=j}if(tr>=0&&ex<0&&/except \\(SQLAlchemyError, OSError, ImportError\\):/.test(t[j])){ex=j}if(tr>=0&&ex<0&&/psycopg_connect_probe\\s*\\(/.test(t[j])){pr=j}}if(tr<0||ex<0||pr<0||!(tr<pr&&pr<ex)){console.error(\\\"ac4: connect probe is not inside the create_db_engine try block\\\");process.exit(1)}\" || exit 1; (cd backend && uv run pytest tests/unit/test_sqlite_fallback.py::test_sqlite_url_keeps_pragma_and_reports_no_fallback -q >/dev/null 2>&1) || exit 1; grep -qE \"url\\.get_backend_name\\(\\) == \\\"sqlite\\\"\" backend/app/database.py || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<173){console.error(\\\"ac4: index below the 173-entry floor\\\");process.exit(1)}for(const n of [121,122,123,124]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac4: missing index entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\" || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0: analyzer confirms psycopg_connect_probe call sits between try: and the except tuple line; test_sqlite_url_keeps_pragma_and_reports_no_fallback green; sqlite short-circuit grep green; index 178>=173; entries 121-124 (t25) executed verbatim rc=0. Independent re-run: tests/unit/test_sqlite_fallback.py + tests/integration/test_sqlite_fallback_api.py = 11 passed."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); [ \"$n\" -ge 270 ] || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || exit 1; G=$(wslpath -w \"$PWD\"); D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<173){console.error(\\\"ac5: index below the 173-entry floor\\\");process.exit(1)}for(const n of [131,132,133,135]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac5: missing index entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\" || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"ac5: amended anchors moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"ac5: anchor tests[16] bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"ac5: anchor tests[54] bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1; B=$(cmd.exe /c \"git -C $G rev-parse main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || exit 1; p=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); [ \"$p\" = \"backend/app/database.py,backend/pyproject.toml,backend/uv.lock,e2e/psycopg-connect-probe.py,\" ] || exit 1'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 VERBATIM at dispatch-time main 112cedb (first full run): 270 collected + suite green, ruff clean, mypy 87 source files, single head 005 (head), frontend 187/0/0/0, tsc rc=0, lint exactly 4 react-refresh warnings, README 8d141fb2 + 202 lines, workflows frozen-four, index 178>=173, pins 131/132/133/135 verbatim rc=0, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 byte-unchanged, purity == exactly the 4 authorized files. DISCLOSED: verbatim re-run after main advanced to 5cbe4b2 (t44 Makefile merge landed mid-verification) exits 1 on the FINAL purity leg ONLY, solely due to main-side Makefile drift - branch never touched Makefile (merge-base diff empty); all other ac5 legs re-verified green on the tip. Orchestrator merge (which absorbs main) resolves this; consistent with Option A-ter merge-time work."
+      }
+    },
+    "test_summary": {
+      "total": 457,
+      "passed": 457,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_only_4_authorized_files": true,
+      "dod2_five_commands_verbatim_rc0": true,
+      "dod3_tuple_identical_probe_in_try_sqlite_shortcircuit": true,
+      "dod4_probe_offline_safe_log_not_committed": true,
+      "dod5_index_entries_anchors_entry139_untouched": true,
+      "dod6_platform_46_body_mirror": true,
+      "dod7_branch_pushed": true
+    },
+    "dod_note": "dod2: all five verbatim rc=0 at dispatch-time main; ac5 re-run after mid-verify main advance fails only the purity leg on main-side drift (disclosed, non-gating). dod6 evaluated at groom-verified body mirror; label state is now verified (verifier transition this run). dod7: ls-remote origin issue/t43-psycopg-driver == 54789bc.",
+    "tuple_byte_identity": {
+      "method": "git show d1d2547:backend/app/database.py vs tip working tree, tuple lines compared as JSON-encoded strings (CRLF-normalized)",
+      "base_line": "    except (SQLAlchemyError, OSError, ImportError):",
+      "tip_line": "    except (SQLAlchemyError, OSError, ImportError):",
+      "occurrences_base": 1,
+      "occurrences_tip": 1,
+      "byte_identical": true
+    },
+    "negative_controls": [
+      "(i) remove psycopg line from pyproject [project] deps -> ac1 rc=1 (stderr 'ac1: psycopg absent from [project] dependencies'). Restored byte-exact (sha256 871c0391...), ac1 re-green rc=0. BITES.",
+      "(ii) delete psycopg_connect_probe(database_url) call from the try-block -> ac4 rc=1 ('ac4: connect probe is not inside the create_db_engine try block'). NOTE: first sed silently no-oped on CRLF endings (recorded); redone CRLF-aware. Restored byte-exact (c16608ae...), ac4 re-green rc=0. BITES.",
+      "(iii) alter except tuple (drop ImportError) -> ac4 analyzer rc=1 AND ac3 rc=1 (tuple grep leg) AND t25 BEHAVIOR CHANGE: tests/unit/test_sqlite_fallback.py::test_startup_passes_connect_timeout_from_the_named_constant FAILED (1 failed/10 passed). Restored byte-exact, t25 re-green 11 passed. BITES (both analyzer and behavior).",
+      "(iv) rename probe script import (import psycopg_nonexistent as psycopg) -> probe prints 'psycopg_driver_missing', rc=1, writes NO log. Restored byte-exact (27375755...), ac3 re-green rc=0. BITES."
+    ],
+    "restore_verification": "Final sha256 of all 4 authorized files == baseline recorded before mutations (871c0391/029a593b/c16608ae/27375755); scratch worktree git status --porcelain EMPTY (clean); e2e/psycopg-import.log gitignored, untracked.",
+    "index_evidence": {
+      "total_entries": 178,
+      "floor": ">=173 satisfied",
+      "entries_121_124": "t25 entries, executed verbatim inside ac4 rc=0",
+      "entries_131_132_133_135": "t26 pins, executed verbatim inside ac5 rc=0",
+      "anchors": "tests[16]=t2 sha cfb84edc91df3a3b... / tests[54]=t9 sha cf5babc0049e8c30... byte-unchanged, commands rc=0",
+      "entry_139": "UNCHANGED (sha c285dc15... identical to main; NOT amended by branch, NOT pinned by ac5) - Option A-ter amendment is orchestrator merge-time work"
+    },
+    "environment_notes": {
+      "venv": "[VENV_UNAVAILABLE] (UV_PROJECT_ENVIRONMENT/PYTHONPATH empty) -> per-worktree uv sync --frozen (uv 0.12.13 at $HOME/.local/bin); psycopg 3.3.6",
+      "worktree": "Assigned worktree sat on 2b329fc (not tip) and its .git pointer (Windows path) is unresolvable from WSL -> scratch worktree created at exact tip 54789bc (t38/t44 precedent). First scratch (t43-verifier-scratch) was EXTERNALLY DELETED mid-run (orchestrator worktree-prune during t44 merge-closure also removed t44-verifier-scratch); recreated as t43-verifier-scratch2 at the same tip, rebuilt venv + frontend node_modules junction (410 dirs, package.json byte-identical to builder worktree), and re-ran ALL five positives and ALL four negatives there. Positives additionally completed on scratch1 before deletion.",
+      "git_ops": "All git ops via cmd.exe /c git -C <WinPath> ... </dev/null (WSL-native git broken in these worktrees).",
+      "frontend_gates": "cmd.exe npx.cmd/npm.cmd only, foreground, </dev/null; no background npm (t43 incident rule).",
+      "crlf": "Worktree files are CRLF (autocrlf); byte comparisons LF-normalized (tr -d '\\r' / split(/\\r?\\n/)); CRLF-aware sed required for negative mutations.",
+      "platform": "scripts/platform.ts run from the MAIN checkout via node+tsx cli.mjs (shell:false; the first shell:true attempt posted a body truncated to '##' - that comment 6123172659 was deleted, full verdict comment posted). Labels: built removed, verified added; #46 now exactly [verified].",
+      "main_advance": "main advanced 112cedb -> 5cbe4b2 during verification (t44 merge + snapshots). Only effect: ac5 purity leg on re-run (main-side Makefile drift; branch clean).",
+      "scratch_left": "t43-verifier-scratch2 (detached 54789bc) left registered for orchestrator inspection/prune."
+    },
+    "residual_risks": [
+      "ac5 verbatim at CURRENT main exits 1 on the purity leg solely due to main-side Makefile drift (t44 merged mid-verify); orchestrator merge of this branch absorbs main and re-runs ac5 green - merge-time rebase/merge required, same window as the Option A-ter entry-139 amendment.",
+      "Entry 139 amendment (Option A-ter) remains orchestrator merge-time work; its leg git diff --quiet a224be8 -- backend/app :!backend/app/database.py was measured by the definer, not re-measured here.",
+      "Probe log ephemeral by design; live docker-compose E2E green is the orchestrator post-merge gate (this merge is what should turn live E2E green for the first time)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t43_verifier_verify_issue.json"
+    ],
+    "platform_issue": 46,
+    "output_path": "docs/state/outputs/t43_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T11:18:17.000Z",
+  "retry_count": 0
+}
