@@ -36,6 +36,29 @@ a restart after connectivity returns restores the primary backend.
 - **Smoke**: the same REQ-CICD-061 sequence (open URL, register, add expense, set budget, verify the five charts, switch month) re-executed on 2026-10-12 with the same results as the initial record - all six API steps returned their expected codes and the dashboard `total` matched the posted expense; the front-end register/budget/charts/month legs stay green in the merged suite.
 - **Notes**: The fallback is startup-only by design (REQ-BE-133): the flag is latched once by `create_db_engine` in `backend/app/database.py`, so expiry recovery requires a restart, and the runbook's database sections carry the operator clauses. The 60-second UptimeRobot probe (`ops/health-check.md`) is the external witness for this cycle; its live readings remain covered by the t28 `LIVE_COLD_START` deferral.
 
+## Accepted Deviation: render.yaml versus the Chapter 14 §14.4.2 template
+
+The stored `render.yaml` diverges from the Chapter 14 §14.4.2 blueprint
+template. This is an **accepted deviation**, recorded here rather than
+fixed in the blueprint: the stored positive blueprint gate
+(`docs/state/merge_test_index.json` tests[134], issue t26) validates the
+current file, and adding template keys the gate does not require would
+risk that green gate for no measured benefit (t49 card, ac5; render.yaml
+is NOT modified by this card - it stays byte-identical at the digest
+pinned in ac6). Divergent keys, named one by one:
+
+| §14.4.2 template key | Template value | Committed `render.yaml` | Why the deviation is accepted |
+|---|---|---|---|
+| `region` (service and database) | `oregon` | absent (Render default region) | Region is a deployment-time choice, not a contract; the gate does not require it and the free-plan resource set is unchanged. |
+| `autoDeploy` | `false` | absent (platform default) | Releases are gated by `.github/workflows/deploy.yml` (workflow_run), so the platform default does not change the shipped path. |
+| `databaseName` | `expense` | absent (Render generates it) | The app consumes only the `connectionString` property; no code or migration depends on the database name. |
+| `user` (database) | `expense` | absent (Render generates it) | Same reason: credentials come from the generated connection string, never from the blueprint. |
+| `CORS_ORIGINS` | JSON array `'["https://expense-tracker-dashboard.onrender.com"]'` | bare URL string | The merged settings parser accepts the plain URL (the t46 compose fix already aligned the container path with this shape); the JSON-array literal would double-encode against the merged parser. |
+
+The database name in the committed file is `expense-tracker-db` (the
+template's `expense-db`); it is referenced consistently by the service's
+`fromDatabase` pointer, so renaming it would only break the blueprint.
+
 ## Live comparison (DEFERRED pointer)
 
 The operator command that closes the deferred live fields is recorded in

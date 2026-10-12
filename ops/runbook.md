@@ -235,7 +235,7 @@ occasionally the CI environment itself (dependency install, Docker build).
 ### Diagnosis
 
 - Read the failing job log and reproduce locally with the same gates:
-  `make test-backend`, `make test-frontend`, `make test-e2e` (the Makefile
+  `make test-backend`, `make test-frontend`, `make e2e` (the Makefile
   is the single command vocabulary).
 - If it reproduces locally, it is the change; if not, re-run the job once to
   rule out infrastructure flake.
