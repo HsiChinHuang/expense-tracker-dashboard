@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T12:33:08.760Z",
-  "last_seq": 590,
+  "updated_at": "2026-10-12T12:47:03.004Z",
+  "last_seq": 591,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t40",
-      "role": "builder",
-      "phase": "implement-rerun-ac6",
-      "run_id": "caab0994-e8e9-453f-908c-9e02836be2ac",
-      "spawn_at": "2026-10-12T22:15:00Z",
-      "last_activity_at": "2026-10-12T12:33:08.760Z"
+      "role": "verifier",
+      "phase": "verify",
+      "run_id": "f465a8a3-c831-4742-a6de-fa124493d666",
+      "spawn_at": "2026-10-12T23:15:00Z",
+      "last_activity_at": "2026-10-12T12:47:03.004Z"
     },
     {
       "slot_id": "slot_2",
@@ -19,7 +19,7 @@
       "phase": "groom",
       "run_id": "cc7e5aa0-9e6c-4681-a246-2894399fe77d",
       "spawn_at": "2026-10-12T21:15:00Z",
-      "last_activity_at": "2026-10-12T12:33:08.760Z"
+      "last_activity_at": "2026-10-12T12:47:03.004Z"
     }
   ],
   "merge_queue": [],
@@ -29,14 +29,16 @@
       "issue_id": "t40",
       "state": "built",
       "modifiers": [
-        "ac6_rerun_in_flight"
+        "verify_in_flight",
+        "gate2_green"
       ]
     },
     {
       "issue_id": "t41",
       "state": "defined",
       "modifiers": [
-        "blocked_t40"
+        "blocked_t40",
+        "factpack_ready"
       ]
     },
     {
@@ -70,6 +72,6 @@
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (t40 ac6 re-run + t46 groom writing card per decision B)",
-  "environment_note": "Docker Desktop killed to clear vitest interference; t46 groomer finished all docker measurements before kill (card-writing phase, docker-free); t47 groom will need daemon restarted then killed again before frontend floors"
+  "freeze_reason": "MAX_SLOTS=2 (t40 verify + t46 groom)",
+  "environment_note": "Docker Desktop DOWN (vitest interference clearance). t46 groomer doing docker-free card work; docker go-ahead steer queued for after t40 verifier finishes its vitest legs."
 }
