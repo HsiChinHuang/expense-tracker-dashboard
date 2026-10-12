@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T18:30:00Z",
-  "last_seq": 631,
+  "updated_at": "2026-10-13T19:05:00Z",
+  "last_seq": 633,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,11 +15,11 @@
     {
       "slot_id": "slot_2",
       "issue_id": "t49",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "0c8d092d-3b47-48be-a326-53f411f2296f",
-      "spawn_at": "2026-10-13T18:30:00Z",
-      "last_activity_at": "2026-10-13T18:30:00Z"
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "044f2872-c01c-4410-8fdc-9bcb07a1dadc",
+      "spawn_at": "2026-10-13T19:05:00Z",
+      "last_activity_at": "2026-10-13T19:05:00Z"
     }
   ],
   "merge_queue": [],
@@ -27,9 +27,9 @@
   "active_issues": [
     {
       "issue_id": "t49",
-      "state": "groomed",
+      "state": "built",
       "modifiers": [
-        "implement_in_flight"
+        "verify_in_flight"
       ]
     },
     {
