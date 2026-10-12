@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T12:05:13.000Z",
+  "updated_at": "2026-10-12T12:05:34.562Z",
   "last_seq": 583,
   "slots": [
     {
@@ -14,11 +14,12 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "none",
-      "role": null,
-      "phase": null,
-      "status": "FREE",
-      "note": "t41 blocked on t40; t45 (#48) dispatchable next when a slot frees"
+      "issue_id": "t45",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "fc6b3b98-d57b-4434-aca5-f8a92689785c",
+      "spawn_at": "2026-10-12T20:20:00Z",
+      "last_activity_at": "2026-10-12T12:05:34.562Z"
     }
   ],
   "merge_queue": [],
@@ -60,5 +61,7 @@
       ]
     }
   ],
-  "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)"
+  "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
+  "dispatch_frozen": true,
+  "freeze_reason": "MAX_SLOTS=2 reached (t40 implement + t45 groom)"
 }
