@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T13:15:04.282Z",
-  "last_seq": 594,
+  "updated_at": "2026-10-12T13:32:04.158Z",
+  "last_seq": 595,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -9,17 +9,17 @@
       "role": "definer",
       "phase": "groom",
       "run_id": "08f13010-d4bf-43c6-b8fb-9e0da65e79eb",
-      "spawn_at": "2026-10-12T13:15:04.282Z",
-      "last_activity_at": "2026-10-12T13:15:04.282Z"
+      "spawn_at": "2026-10-13T00:55:00Z",
+      "last_activity_at": "2026-10-12T13:32:04.158Z"
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t46",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "348fb3af-635b-47ef-b72b-134e105c0b1c",
-      "spawn_at": "2026-10-12T13:15:04.282Z",
-      "last_activity_at": "2026-10-12T13:15:04.282Z"
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "29282d70-1274-41d0-967e-dcf44c0c11f5",
+      "spawn_at": "2026-10-12T13:32:04.158Z",
+      "last_activity_at": "2026-10-12T13:32:04.158Z"
     }
   ],
   "merge_queue": [],
@@ -29,8 +29,7 @@
       "issue_id": "t41",
       "state": "defined",
       "modifiers": [
-        "t40_now_merged",
-        "factpack_ready"
+        "groom_in_flight"
       ]
     },
     {
@@ -42,9 +41,10 @@
     },
     {
       "issue_id": "t46",
-      "state": "groomed",
+      "state": "built",
       "modifiers": [
-        "dispatch_implement"
+        "verify_in_flight",
+        "gate2_green"
       ]
     },
     {
@@ -64,6 +64,6 @@
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (t41 groom + t46 implement)",
-  "environment_note": "Docker Desktop DOWN (vitest interference clearance). t46 groomer doing docker-free card work; docker go-ahead steer queued for after t40 verifier finishes its vitest legs."
+  "freeze_reason": "MAX_SLOTS=2 (t41 groom + t46 verify)",
+  "environment_note": "Docker daemon DOWN; t46 verifier holds minimal docker window for ac3 then kills daemon again; t41 groomer told never to touch daemon."
 }
