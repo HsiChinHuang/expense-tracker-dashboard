@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-12T11:22:40.194Z",
+  "updated_at": "2026-10-12T15:09:35.445Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -645,6 +645,16 @@
       "test_suite": "full",
       "entry_id": "t40-3c4036d",
       "notes": "docs-only security trio; index append ac1..ac5 at closure (5 entries, ac6 composite excluded per card); gate2+gate3 green; ac6 env-interference disclosed+re-measured green; entry 139 untouched"
+    },
+    {
+      "issue_id": "t46",
+      "merge_sha": "bb2eae11adfaf3e36eb3cecff53031a1a5f7ecc0",
+      "pre_merge_sha": "c145b6df81f2502ef9dbdc3a810befb1971adf16",
+      "timestamp": "2026-10-12T15:09:35.445Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "verifier_run": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
+      "notes": "index byte-unchanged 183 per card DoD (no append); ac3 real compose round-trip verified by verifier; DatatypeMismatch accepted t47 residual"
     }
   ]
 }

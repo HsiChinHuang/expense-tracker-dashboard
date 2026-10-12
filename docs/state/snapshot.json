@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T15:00:10.584Z",
-  "last_seq": 599,
+  "updated_at": "2026-10-12T15:09:50.312Z",
+  "last_seq": 600,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -10,16 +10,16 @@
       "phase": "implement",
       "run_id": "45d1ad96-c861-4058-a197-2a1cbf1d5110",
       "spawn_at": "2026-10-13T03:18:00Z",
-      "last_activity_at": "2026-10-12T15:00:10.584Z"
+      "last_activity_at": "2026-10-12T15:09:50.312Z"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t46",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
-      "spawn_at": "2026-10-13T02:53:00Z",
-      "last_activity_at": "2026-10-12T15:00:10.584Z"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
+      "spawn_at": null,
+      "last_activity_at": "2026-10-12T15:09:50.312Z"
     }
   ],
   "merge_queue": [],
@@ -40,17 +40,10 @@
       ]
     },
     {
-      "issue_id": "t46",
-      "state": "built",
-      "modifiers": [
-        "verify_recovery_in_flight"
-      ]
-    },
-    {
       "issue_id": "t47",
       "state": "defined",
       "modifiers": [
-        "blocked_t46"
+        "unblocked_t46_merged"
       ]
     },
     {
@@ -62,7 +55,7 @@
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
-  "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (t41 implement + t46 verify recovery)",
+  "dispatch_frozen": false,
+  "freeze_reason": "slot_2 free after t46 merge; t47 groom dispatch next",
   "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol."
 }
