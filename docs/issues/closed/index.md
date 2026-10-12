@@ -50,3 +50,4 @@ Runtime-maintained by Orchestrator.
 | t40 | Security documents - pr-audit, agent-security-notes (accepted-findings register), AI tool data policy | 2026-10-13 | 0 | 3c4036d |
 | t46 | E2E uv-cache permission + CORS_ORIGINS JSON startup-config fix | 2026-10-13 | 0 | bb2eae1 |
 | t41 | Security/ops verification generator + ops diagnosis & deployment-health records | 2026-10-13 | 0 | eba386e |
+| t47 | Postgres migration portability - boolean defaults + portable year_month CHECK (E2E final blocker) | 2026-10-13 | 0 | fddadeb |

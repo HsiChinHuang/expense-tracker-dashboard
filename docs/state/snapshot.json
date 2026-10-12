@@ -1,42 +1,42 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T15:45:54.175Z",
-  "last_seq": 606,
+  "updated_at": "2026-10-12T17:28:54.237Z",
+  "last_seq": 621,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "phase_8_docs",
-      "role": "definer",
-      "phase": "survey",
-      "run_id": "08e23afd-77d2-4033-a96a-c197ad3c2063",
-      "spawn_at": "2026-10-12T15:45:54.175Z",
-      "last_activity_at": "2026-10-12T15:45:54.175Z"
+      "issue_id": "t48",
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "7322afda-55a8-4c94-a30c-238611d8c713",
+      "spawn_at": "2026-10-13T13:15:00Z",
+      "last_activity_at": "2026-10-13T13:15:00Z"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t47",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "47392b21-7b78-4b8b-8bd4-75294cc6e942",
-      "spawn_at": "2026-10-13T04:08:00Z",
-      "last_activity_at": "2026-10-12T15:44:36.093Z"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
+      "spawn_at": null,
+      "last_activity_at": "2026-10-13T13:10:00Z"
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
     {
-      "issue_id": "t42",
-      "state": "verified",
+      "issue_id": "t48",
+      "state": "groomed",
       "modifiers": [
-        "awaiting_first_e2e_green"
+        "implement_in_flight"
       ]
     },
     {
-      "issue_id": "t47",
+      "issue_id": "t49",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight"
+        "groom_queued_slot_wait"
       ]
     },
     {
@@ -48,7 +48,7 @@
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
-  "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (phase_8_docs survey + t47 groom)",
+  "dispatch_frozen": false,
+  "freeze_reason": "slot_2 freed on t47 verifier completion; slot_1 held by t48 builder implement 7322afda; t49 groom dispatches when capacity allows within MAX_SLOTS=2",
   "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol."
 }
