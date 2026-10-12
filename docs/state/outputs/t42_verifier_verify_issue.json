@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t42",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "branch": "issue/t42-ci-e2e-repair-v2",
+    "branch_sha": "6505accb7b8e8403ca923d72cc1d14d9966f397a",
+    "repair_commit": "21202b055eaab4f5600172894dba55d2b50ab260",
+    "base_sha": "c2f265c8744bda6e43dd431d07e9e3adecad24e9",
+    "ac_hash_recomputed": "sha256:0acc538a3004cc3bcbdaa45cbac37678e13ac6b10b6a435f0a0d12b3f81614be",
+    "ac_hash_match": true,
+    "ac_hash_recipe": "LINE-ANCHORED /^## Verification commands\\b/ (first matching line, NOT indexOf - the Metadata prose mentions the heading name) slice to next /^## (?!#)/, LF-normalized, ```bash fences in ac order, each trimmed to one line, sha256 over JSON.stringify(array). 6 fences, 1 line each. Extractor: node script writing /tmp/t42v/ac1..6.sh + commands.json (bash heredoc only, no edit tools).",
+    "byte_identity_vs_builder": "6/6: builder ac_mapping.test strings === extracted commands (strict equality). Also 6/6 === docs/state/outputs/t42_definer_re_groom.json verification_commands.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f .github/workflows/ci.yml || exit 1; n=$(grep -c \"astral-sh/setup-uv@\" .github/workflows/ci.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"astral-sh/setup-uv@[A-Za-z0-9._-]+\" .github/workflows/ci.yml | head -1 | sed \"s|astral-sh/setup-uv@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/astral-sh/setup-uv/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; echo \"$ref\" | grep -qE \"^(v5[.]0[.]0|v6[.]0[.]0|v7[.]0[.]0|v8[.]0[.]0|v9[.]0[.]0|v10[.]3[.]0)$\" || exit 1; grep -qE \"enable-cache: true[[:space:]]*$\" .github/workflows/ci.yml || exit 1'",
+        "exit_code": 0,
+        "note": "rc=0 on first run and rc=0 re-run after negative controls. ref=v5.0.0, API 200, in expected set, enable-cache: true present."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f .github/workflows/e2e.yml || exit 1; n=$(grep -c \"actions/cache@\" .github/workflows/e2e.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"actions/cache@[A-Za-z0-9._-]+\" .github/workflows/e2e.yml | head -1 | sed \"s|actions/cache@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/actions/cache/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; grep -qE \"uses: actions/cache@v4[.]1[.]2[[:space:]]*$\" .github/workflows/e2e.yml && exit 1; : measured-runner-fact-DENYLIST-v4.1.2-refs-tags-v4.1.2-answers-200-but-the-runner-auto-fails-the-job-not-an-API-fact; echo \"$ref\" | grep -qE \"^(v4[.]2[.]4|v6[.]1[.]0)$\" || exit 1'",
+        "exit_code": 0,
+        "note": "rc=0 on first run and rc=0 re-run after negative controls. ref=v4.2.4, API 200, denylist v4.1.2 absent, in expected set; runner-fact DENYLIST marker leg present in command body."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f frontend/package.json || exit 1; test -f frontend/package-lock.json || exit 1; node -e \"const p=require(\\\"./frontend/package.json\\\");const v=p.devDependencies[\\\"@vitest/coverage-v8\\\"];const t=p.devDependencies.vitest;if(v!==\\\"1.6.0\\\"||t!==\\\"1.6.0\\\"||v!==t){process.exit(1)}\" || exit 1; grep -q \"@vitest/coverage-v8\" frontend/package-lock.json || exit 1; D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest --run --coverage\" </dev/null 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; printf \"%s\" \"$out\" | tr -d \"\\r\" | grep -qE \"Coverage report|All files\" || exit 1'",
+        "exit_code": 0,
+        "note": "rc=0 single run (coverage smoke ~2 min, foreground, timeout 900). devDeps @vitest/coverage-v8===vitest===1.6.0 exact, lock contains package, cmd.exe npx.cmd vitest --run --coverage rc=0 with Coverage report from v8 + All files output."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f docs/state/merge_test_index.json || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),hs=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<163){console.error(\\\"index below 163-entry floor\\\");process.exit(1)}const P={131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\",139:\\\"c285dc1575eeb0149232314beb954da07c53189056a720f39ce3c3091382f4a5\\\"};for(const n of [131,132,133,135,139]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"missing entry \\\"+n);process.exit(1)}const g=hs.createHash(\\\"sha256\\\").update(JSON.stringify(t)).digest(\\\"hex\\\");if(g!==P[n]){console.error(\\\"entry \\\"+n+\\\" bytes changed\\\");process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\"'",
+        "exit_code": 0,
+        "note": "rc=0. Index 163 entries >= floor, five byte-pins match, all five stored entries execSync green, index read-only (HEAD-vs-worktree hash equal ca885091e9d60e5838b7705f2fd2f6f53901b5d1). Prerequisite frontend/node_modules (js-yaml) present via npm.cmd ci."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f Makefile || exit 1; r=$(make -n test-frontend-cov 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"npm test -- --run --coverage\" || exit 1; e=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$e\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$e\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1'",
+        "exit_code": 0,
+        "note": "rc=0 on first run and rc=0 re-run after negative controls. Makefile byte-unchanged by this branch (no Makefile in delta); test-frontend-cov coverage leg and e2e two-line contract hold."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f .github/workflows/ci.yml || exit 1; n=$(grep -c \"astral-sh/setup-uv@\" .github/workflows/ci.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"astral-sh/setup-uv@[A-Za-z0-9._-]+\" .github/workflows/ci.yml | head -1 | sed \"s|astral-sh/setup-uv@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/astral-sh/setup-uv/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; echo \"$ref\" | grep -qE \"^(v5[.]0[.]0|v6[.]0[.]0|v7[.]0[.]0|v8[.]0[.]0|v9[.]0[.]0|v10[.]3[.]0)$\" || exit 1; grep -qE \"enable-cache: true[[:space:]]*$\" .github/workflows/ci.yml || exit 1; test -f .github/workflows/e2e.yml || exit 1; n=$(grep -c \"actions/cache@\" .github/workflows/e2e.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"actions/cache@[A-Za-z0-9._-]+\" .github/workflows/e2e.yml | head -1 | sed \"s|actions/cache@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/actions/cache/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; grep -qE \"uses: actions/cache@v4[.]1[.]2[[:space:]]*$\" .github/workflows/e2e.yml && exit 1; : measured-runner-fact-DENYLIST-v4.1.2-refs-tags-v4.1.2-answers-200-but-the-runner-auto-fails-the-job-not-an-API-fact; echo \"$ref\" | grep -qE \"^(v4[.]2[.]4|v6[.]1[.]0)$\" || exit 1; test -f frontend/package.json || exit 1; test -f frontend/package-lock.json || exit 1; node -e \"const p=require(\\\"./frontend/package.json\\\");const v=p.devDependencies[\\\"@vitest/coverage-v8\\\"];const t=p.devDependencies.vitest;if(v!==\\\"1.6.0\\\"||t!==\\\"1.6.0\\\"||v!==t){process.exit(1)}\" || exit 1; grep -q \"@vitest/coverage-v8\" frontend/package-lock.json || exit 1; D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest --run --coverage\" </dev/null 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; printf \"%s\" \"$out\" | tr -d \"\\r\" | grep -qE \"Coverage report|All files\" || exit 1; test -f docs/state/merge_test_index.json || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),hs=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<163){console.error(\\\"index below 163-entry floor\\\");process.exit(1)}const P={131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\",139:\\\"c285dc1575eeb0149232314beb954da07c53189056a720f39ce3c3091382f4a5\\\"};for(const n of [131,132,133,135,139]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"missing entry \\\"+n);process.exit(1)}const g=hs.createHash(\\\"sha256\\\").update(JSON.stringify(t)).digest(\\\"hex\\\");if(g!==P[n]){console.error(\\\"entry \\\"+n+\\\" bytes changed\\\");process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\"; test -f Makefile || exit 1; r=$(make -n test-frontend-cov 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"npm test -- --run --coverage\" || exit 1; e=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$e\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$e\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; grep -q \"uses: actions/checkout@v4[.]2[.]2\" .github/workflows/ci.yml || exit 1; grep -q \"uses: actions/setup-node@v4[.]1[.]0\" .github/workflows/ci.yml || exit 1; grep -q \"uses: actions/upload-artifact@v4[.]4[.]3\" .github/workflows/e2e.yml || exit 1; for p in package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do  a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null 2>/dev/null | tr -d \"\\r\");  b=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); [ \"$n\" -ge 270 ] || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" </dev/null >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" </dev/null 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<163){console.error(\\\"index below 163\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors 17-55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor 17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor 55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'",
+        "exit_code": 0,
+        "note": "rc=0 VERIFIED IN FOREGROUND CHUNKS per long-leg discipline: body split at top-level semicolons (80 parts), rejoin proven byte-identical to the pinned body (rejoin_identical=true, named_rejoin_identical=true). Chunks c1_static(32 parts incl. coverage smoke) rc=0, c2_make(12) rc=0, c3_meta(16: PATH/uv/README sha/frozen-four/non-repaired pins/4-manifest HEAD-vs-worktree) rc=0, c4_backend(10: 270 collected, full suite, ruff, mypy>=83, alembic 005 head) rc=0, c5f frontend+anchors(10: vitest json 0 failed/pending/todo >=187 passed, tsc, exactly-4 lint, anchors tests[16]/tests[54] sha+execSync green) rc=0. Two intermediate rc=1 runs were chunk-boundary artifacts (export PATH and $out/$D are set in earlier chunks of the monolithic body); faithful re-runs with monolithic variable scoping returned rc=0. Never detached, every cmd.exe leg </dev/null, every call under timeout 900."
+      }
+    },
+    "test_summary": {
+      "total": 457,
+      "passed": 457,
+      "failed": 0
+    },
+    "test_summary_breakdown": "backend 270 collected + full suite green (uv run pytest -q rc=0); frontend vitest 187 passed / 0 failed / 0 pending / 0 todo; index 163 entries with 5 pinned + 2 anchors executed green. 270+187=457 executed test nodes, 0 failed.",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "ruff check --output-format=json: 0 findings (rc=0). Frontend eslint: EXACTLY 4 react-refresh/only-export-components warnings = the by-design ac6 contract (ac6 asserts -eq 4), not a lint defect.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_acs_verified_fail_before_pass_after": true,
+      "exactly_four_files_changed": true,
+      "pins_exact_resolvable_non_deprecated_enable_cache_survives": true,
+      "stored_entries_verbatim_green_index_unchanged": true,
+      "backend_frontend_readme_workflows_floors_hold": true,
+      "conventional_commit_and_branch": true,
+      "orchestrator_live_merge_gate": false
+    },
+    "dod_notes": "DoD commit convention fix(t42) verified (repair commit 21202b0 fix(t42): ...). Branch is issue/t42-ci-e2e-repair-v2 vs the card DoD literal issue/t42-ci-e2e-repair: the -v2 suffix is the orchestrator-provisioned worktree branch and this verification task pins it explicitly; recorded as deviation note, not a failure. Live post-merge CI/E2E success is the orchestrator merge gate per the card Constraints. The orchestrator_live_merge_gate DoD item is false here BY DESIGN: it is the live post-merge CI/E2E gate owned by the orchestrator (card Constraints), not verifiable at verify_issue time.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "cross_checks": {
+      "delta_purity": "git diff --stat c2f265c..HEAD via cmd.exe git = exactly 5 files: ci.yml(2), e2e.yml(2), frontend/package.json(1), frontend/package-lock.json(188), docs/state/outputs/t42_builder_implement.json(111 handoff). The 4-file repair delta + builder handoff; no other file touched.",
+      "lock_purity": "numstat 188 added / 0 removed; grep of diff removed-lines = 0 (pure addition); npm.cmd ci --no-audit --no-fund rc=0 afterwards (lockfile consistency).",
+      "workflow_byte_purity": "git diff --unified=0: ci.yml EXACTLY one line (-uses: astral-sh/setup-uv@v4.5.1 +uses: astral-sh/setup-uv@v5.0.0 at L26); e2e.yml EXACTLY one line (-actions/cache@v4.1.2 +actions/cache@v4.2.4 at L32); non-repaired pins byte-present in working tree: checkout@v4.2.2 (x3 ci.yml), setup-node@v4.1.0, upload-artifact@v4.4.3.",
+      "live_api_remeasure": "setup-uv v5.0.0 -> 200; cache v4.2.4 -> 200; setup-uv v4.5.1 -> 404 (original defect reproduced); cache v4.1.2 -> 200 but denylisted (runner-fact; the AC encodes this via the explicit marker comment which survives in the card (2 occurrences) and in the ac2/ac6 command bodies).",
+      "coverage_smoke_independent": "cmd.exe npx.cmd vitest --run --coverage rc=0; output contains Coverage report from v8 and All-files table (94.62% stmts); 30 files / 187 tests passed. This is the user-facing CI defect (MISSING DEPENDENCY) proven fixed.",
+      "index_independent": "163 entries (>=163 floor); five byte-pins 131/132/133/135/139 recomputed and match; anchors tests[16](t2)/tests[54](t9) sha match + execSync rc=0; index HEAD-vs-worktree byte-identical.",
+      "negative_controls": "5/5 bite, all in /tmp copies (worktree untouched): NC1 ci.yml v5.0.0->v4.5.1 => ac1 rc=1 (404 leg); NC2 e2e.yml v4.2.4->v4.1.2 => ac2 rc=1 (denylist leg); NC3 coverage-v8 removed from package.json copy => ac3 rc=1 (node devDeps leg); NC4 index truncated to 162 => ac4 rc=1 (floor leg, stderr index below 163-entry floor); NC5 third line added to make e2e recipe copy => ac5 rc=1 (recipe-count leg). Post-NC worktree git status --porcelain EMPTY; ac1/ac2/ac5 re-run rc=0 from the real worktree."
+    },
+    "prerequisites": "backend uv sync --offline rc=0 (per-worktree; UV_PROJECT_ENVIRONMENT/PYTHONPATH empty -> [VENV_UNAVAILABLE] shared venv not provided, blessed fallback used). frontend npm.cmd ci --no-audit --no-fund via cmd.exe </dev/null rc=0 (526 packages, node_modules incl. @vitest/coverage-v8 and js-yaml). uv at $HOME/.local/bin (PATH exported as the ac6 body itself does).",
+    "measurements": {
+      "backend": "270 collected (>=270 floor), pytest -q green, ruff 0 findings, mypy Success no issues found in 87 source files (>=83), alembic single head 005 (head)",
+      "frontend": "vitest 187 passed / 0 failed / 0 pending / 0 todo (>=187), tsc --noEmit rc=0, lint exactly 4 react-refresh/only-export-components, coverage smoke rc=0 with Coverage report",
+      "readme_sha": "8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce verified in c3_meta chunk",
+      "workflows_dir": ".gitkeep,ci.yml,deploy.yml,e2e.yml frozen four verified in c3_meta chunk",
+      "manifests": "package.json, backend/pyproject.toml, backend/uv.lock, e2e/package.json rev-parse==hash-object via cmd.exe git (frontend pair is this card committed delta per card note)"
+    },
+    "deviations": [
+      "UV_PROJECT_ENVIRONMENT/PYTHONPATH empty: [VENV_UNAVAILABLE] logged, per-worktree uv sync --offline used (blessed fallback per verifier skill Step 0.5).",
+      "ac6 executed as byte-identical foreground chunks (long-leg discipline, fatal-hang precedent) instead of one monolithic invocation; rejoin equality proves chunk-set == pinned command body; two intermediate rc=1 chunk runs were variable-scoping artifacts across the chunk boundary (export PATH, $out, $D set in earlier chunks) and resolved to rc=0 with faithful monolithic scoping.",
+      "Branch name issue/t42-ci-e2e-repair-v2 vs card DoD literal issue/t42-ci-e2e-repair: orchestrator-provisioned -v2 worktree branch, pinned explicitly by this verification assignment."
+    ],
+    "residual_risks": [
+      "Live post-merge CI and E2E runs on the merge commit are the orchestrator merge gate (card Constraints); static green here is NOT merge acceptance - #45 closes only after both live runs reach conclusion success.",
+      "setup-uv v5.0.0 is the minimal in-set upgrade; the same deprecation class could recur upstream later (v10.3.0 was the measured alternative, rejected for diff-friendliness).",
+      "frontend/package-lock.json gained 188 lines of transitive istanbul/coverage-v8 closure - pure addition, npm ci proven, but eyeball the hunk at merge time.",
+      "API legs are unauthenticated (60/hr budget); this verification consumed ~10 calls across gates + re-measure + negative controls. Repeat runs on a fresh hour are safe; same-hour re-runs stay well inside budget."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t42_verifier_verify_issue.json"
+    ],
+    "platform_issue": 45,
+    "output_path": "docs/state/outputs/t42_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T05:48:53Z",
+  "retry_count": 0
+}
