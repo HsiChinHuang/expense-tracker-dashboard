@@ -1,0 +1,210 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t49",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:178cf8a149a8fe279e58d25b6b84dadd89f653c856cc3f716c84a01bca4880f3",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'test -f CLAUDE.md || { echo \"ac1 RED: CLAUDE.md does not exist - REQ-DOC-013 deliverable\"; exit 1; }; C=$(tr -d \"\\r\" < CLAUDE.md); [ \"$C\" = \"@AGENTS.md\" ] || { echo \"ac1 RED: CLAUDE.md content is [$C] - REQ-DOC-013 requires the single line @AGENTS.md\"; exit 1; }; L=$(tr -d \"\\r\" < CLAUDE.md | wc -l | tr -dc \"0-9\"); [ \"$L\" -le 1 ] || { echo \"ac1 RED: CLAUDE.md has $L lines - the single-line rule (REQ-DOC-013/REQ-AI-021) forbids more\"; exit 1; }; test -f AGENTS.md || { echo \"ac1 RED: AGENTS.md missing - CLAUDE.md would point at nothing\"; exit 1; }; A=$(tr -d \"\\r\" < AGENTS.md | wc -l | tr -dc \"0-9\"); echo \"ac1 evidence: AGENTS.md lines=${A:-0} (floor 60, REQ-DOC-012/080)\"; [ \"${A:-0}\" -le 60 ] || { echo \"ac1 RED: AGENTS.md exceeds the 60-line ceiling\"; exit 1; }; h=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$h\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac1 RED: AGENTS.md was rewritten - this card does NOT touch it (t48 precedent)\"; exit 1; }; echo \"ac1 GREEN: CLAUDE.md is exactly the single line @AGENTS.md and AGENTS.md is untouched at 19 lines <= 60\"'",
+      "ac2": "bash -c 'P=product-spec.md; test -f \"$P\" || { echo \"ac2 RED: product-spec.md does not exist - REQ-DOC-011 deliverable\"; exit 1; }; B=$(tr -d \"\\r\" < \"$P\" | wc -l | tr -dc \"0-9\"); echo \"ac2 evidence: product-spec.md lines=${B:-0} (floor 60)\"; [ \"${B:-0}\" -ge 60 ] || { echo \"ac2 RED: product-spec.md body only ${B:-0} lines\"; exit 1; }; for s in \"^## Problem statement$\" \"^## Target users$\" \"^## User stories$\" \"^## Functional requirements$\" \"^## Non-functional requirements$\" \"^## Edge cases$\" \"^## Success criteria$\" \"^## Scope boundaries$\"; do tr -d \"\\r\" < \"$P\" | grep -qE \"$s\" || { echo \"ac2 RED: missing REQ-DOC-011 section heading $s\"; exit 1; }; done; tr -d \"\\r\" < \"$P\" | grep -qE \"REQ-PROJ-00[1-9]\" || { echo \"ac2 RED: problem section does not anchor its Chapter 1 requirement ids (REQ-PROJ-001..009)\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -qE \"REQ-PROD-00[1-7]\" || { echo \"ac2 RED: functional section does not anchor REQ-PROD-001..007\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -qE \"REQ-TECH-001\" || { echo \"ac2 RED: non-functional section does not anchor the REQ-TECH-001..REQ-ARCH-082 range\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -qE \"REQ-DOC-080\" || { echo \"ac2 RED: file does not state the minimal-root-docs rule (REQ-DOC-080) or its README pointer\"; exit 1; }; tr -d \"\\r\" < \"$P\" | grep -qE \"README\" || { echo \"ac2 RED: product-spec.md does not point at README as the reviewer entry point\"; exit 1; }; echo \"ac2 GREEN: eight REQ-DOC-011 sections present, anchored to real Chapter 1/2 ids, README named as entry point\"'",
+      "ac3": "bash -c 'test -f openapi.yaml || { echo \"ac3 RED: openapi.yaml does not exist at the repository root - REQ-DOC-014 deliverable\"; exit 1; }; tr -d \"\\r\" < openapi.yaml | grep -qE \"^openapi: 3[.]1\" || { echo \"ac3 RED: openapi.yaml does not declare an OpenAPI 3.1.x version (REQ-DOC-014)\"; exit 1; }; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac3 RED: uv missing - the export leg needs the hermetic backend env\"; exit 1; }; p=$(mktemp); (cd backend && uv run python -c \"import json,sys;from app.main import app;json.dump(sorted(app.openapi()[\\\"paths\\\"].keys()),open(sys.argv[1],\\\"w\\\"))\" \"$p\") >/dev/null 2>&1 || { echo \"ac3 RED: the merged app schema could not be read\"; exit 1; }; node -e \"const y=require(\\\"./frontend/node_modules/js-yaml\\\"),fs=require(\\\"fs\\\");let d;try{d=y.load(fs.readFileSync(\\\"openapi.yaml\\\",\\\"utf8\\\"))}catch(e){console.error(\\\"ac3 RED: openapi.yaml is not valid YAML: \\\"+e.message);process.exit(1)}const a=JSON.parse(fs.readFileSync(process.argv[1],\\\"utf8\\\"));const b=Object.keys((d&&d.paths)||{}).sort();const miss=a.filter(x=>b.indexOf(x)<0);const extra=b.filter(x=>a.indexOf(x)<0);if(miss.length||extra.length){console.error(\\\"ac3 RED: path-set mismatch - merged app missing from file [\\\"+miss+\\\"] file-only not in merged app [\\\"+extra+\\\"] - the contract must be RE-EXPORTED, never hand-edited\\\");process.exit(1)}console.log(\\\"ac3 evidence: exported path count=\\\"+b.length);if(b.length!==16){console.error(\\\"ac3 RED: \\\"+b.length+\\\" paths, expected the 16 measured at base\\\");process.exit(1)}for(const q of [\\\"summary\\\",\\\"by-category\\\",\\\"trend\\\",\\\"cumulative\\\",\\\"heatmap\\\",\\\"recent\\\"]){if(b.indexOf(\\\"/api/v1/dashboard/\\\"+q)<0){console.error(\\\"ac3 RED: dashboard contract path /api/v1/dashboard/\\\"+q+\\\" absent (REQ-DOC-084)\\\");process.exit(1)}}for(const q of [\\\"/api/v1/health\\\",\\\"/api/v1/auth/register\\\",\\\"/api/v1/auth/login\\\",\\\"/api/v1/auth/me\\\",\\\"/api/v1/categories\\\",\\\"/api/v1/expenses\\\",\\\"/api/v1/budgets/{year_month}\\\"]){if(b.indexOf(q)<0){console.error(\\\"ac3 RED: contract path \\\"+q+\\\" absent\\\");process.exit(1)}}\" \"$p\" || exit 1; rm -f \"$p\"; echo \"ac3 GREEN: openapi.yaml is a valid OpenAPI 3.1 document whose path set EQUALS the merged app app.openapi() paths (16 paths, measured set equality via the hermetic export - REQ-DOC-014/084)\"'",
+      "ac4": "bash -c 'R=README.md; test -f \"$R\" || { echo \"ac4 RED: README.md missing\"; exit 1; }; T=$(tr -d \"\\r\" < \"$R\"); M=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Criteria mapping/,/^## /p\" | grep -cE \"^\\|[[:space:]]*(1|2|3|4|5|6|7|8|9|10|11|12|13|14|15)[[:space:]]*\\|.*REQ-.*\\|\"); echo \"ac4 evidence: Chapter 24.3 criteria-mapping rows=${M:-0} (exactly 15 required)\"; [ \"$M\" = \"15\" ] || { echo \"ac4 RED: the Chapter 24.3 criteria-mapping table needs EXACTLY 15 data rows each naming a requirement id (REQ-DOC-081/REQ-PROJ-005)\"; exit 1; }; for k in \"README under 500 lines\" \"All docs present\" \"Screenshots present\" \"Criteria mapping present\" \"AI workflow documented with real sessions\" \"Correction log present\" \"Agent Extension Pack functional\" \"Hook tests pass\" \"Permissions documented\" \"Security artifacts present\" \"Ops artifacts present\" \"Diagnosis reproducible\" \"Deployment record present\" \"Peer reviewer can reproduce in < 10 min\" \"README 5-minute verification path\"; do printf \"%s\\n\" \"$T\" | sed -n \"/^## Criteria mapping/,/^## /p\" | grep -qF \"$k\" || { echo \"ac4 RED: criteria-mapping table has no row for Chapter 24.3 check: $k\"; exit 1; }; done; E=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Evidence checklist/,/^## Live verification/p\" | grep -cE \"^\\|[[:space:]]*(1|2|3|4|5|6|7|8|9|10|11|12|13|14)[[:space:]]*\\|.*REQ-.*\\|.*\\|\"); echo \"ac4 evidence: Chapter 24.5 evidence-checklist rows=${E:-0} (exactly 14 required)\"; [ \"$E\" = \"14\" ] || { echo \"ac4 RED: the REQ-DOC-072 evidence checklist (Chapter 24.5 criteria 1-14) needs EXACTLY 14 data rows naming a file to open\"; exit 1; }; for k in \"Problem Description\" \"AI Workflow\" \"Architecture\" \"Frontend\" \"API Contract\" \"Backend\" \"Database\" \"Containerization\" \"Integration Testing\" \"Deployment\" \"CI/CD\" \"Agent Extension Pack\" \"Security/Audit/DevOps\" \"Reproducibility\"; do printf \"%s\\n\" \"$T\" | sed -n \"/^## Evidence checklist/,/^## Live verification/p\" | grep -qF \"$k\" || { echo \"ac4 RED: evidence checklist has no row for Chapter 24.5 criterion: $k\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"^## Live verification in five minutes[[:space:]]*$\" || { echo \"ac4 RED: the live 5-minute path section (REQ-DOC-070) is missing\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^## Local verification in five minutes[[:space:]]*$\" || { echo \"ac4 RED: the local 5-minute path section (REQ-DOC-071) is missing\"; exit 1; }; for k in \"register\" \"Add an expense\" \"budget\" \"five charts\" \"Switch month\" \"Log out\"; do printf \"%s\\n\" \"$T\" | sed -n \"/^## Live verification in five minutes/,/^## /p\" | grep -qiF \"$k\" || { echo \"ac4 RED: live path (REQ-DOC-070) omits the step: $k\"; exit 1; }; done; for k in \"git clone\" \"cp .env.example .env\" \"docker compose up --build\" \"localhost:8000\" \"Register an account\" \"five charts\" \"Switch month\" \"Log out\"; do printf \"%s\\n\" \"$T\" | sed -n \"/^## Local verification in five minutes/,/^## /p\" | grep -qiF \"$k\" || { echo \"ac4 RED: local path (REQ-DOC-071) omits the step: $k\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | sed -n \"/^## Live verification in five minutes/,/^## /p\" | grep -qiE \"DEFERRED|not attestable|without claiming\" || { echo \"ac4 RED: the live path must state its measured status honestly (no claim that the deployment is verified live)\"; exit 1; }; L=$(printf \"%s\\n\" \"$T\" | wc -l | tr -dc \"0-9\"); echo \"ac4 evidence: README lines=${L:-0} (ceiling 500)\"; [ \"${L:-0}\" -le 500 ] || { echo \"ac4 RED: README exceeds 500 lines\"; exit 1; }; for tok in \"cp .env.example .env\" \"make setup\" \"make dev-backend\" \"make dev-frontend\" \"make test\" \"make lint\" \"prerequisite\" \"MIT\"; do printf \"%s\\n\" \"$T\" | grep -qiF \"$tok\" || { echo \"ac4 RED: W1 survival check - tests[27]=t4 token deleted from README: $tok\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"^#{1,6}[[:space:]].*[Qq]uick [Ss]tart\" || { echo \"ac4 RED: W1 survival check - tests[27]=t4 Quick Start heading pattern broken\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^#{1,6}[[:space:]].*[Rr]unning [Tt]ests\" || { echo \"ac4 RED: W1 survival check - tests[27]=t4 Running tests heading pattern broken\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^## Features[[:space:]]*$\" || { echo \"ac4 RED: W1 survival check - tests[119]=t23 heading ## Features deleted\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"docs/criteria/dashboard_verification[.]md\" || { echo \"ac4 RED: W1 survival check - tests[119]=t23 evidence pointer deleted\"; exit 1; }; for p in summary by-category trend cumulative heatmap recent; do printf \"%s\\n\" \"$T\" | grep -qE \"/api/v1/dashboard/${p}\\b\" || { echo \"ac4 RED: W1 survival check - tests[119]=t23 dashboard path token deleted: /api/v1/dashboard/${p}\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"^## Local development modes[[:space:]]*$\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 heading deleted\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^### Mode A[[:space:]]*- full Docker stack[[:space:]]*$\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 Mode A heading deleted\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^### Mode B[[:space:]]*- hybrid[[:space:]]*\\(container database, host processes\\)[[:space:]]*$\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 Mode B heading deleted\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^### Development versus production[[:space:]]*$\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 Development versus production heading deleted\"; exit 1; }; for c in \"docker compose up --build\" \"docker compose down\" \"docker compose up db\" \"make dev-backend\" \"make dev-frontend\"; do grep -qE \"^${c}[[:space:]]\" \"$R\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 line-anchored command deleted: ${c}\"; exit 1; }; done; for tok in \"make migrate\" \"uvicorn --reload\" \"Vite dev server\" \"REQ-CICD-025\" \"REQ-CICD-026\" \"REQ-DB-082\"; do printf \"%s\\n\" \"$T\" | grep -qE \"$tok\" || { echo \"ac4 RED: W1 survival check - tests[128]=t24 token deleted: $tok\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"^## Deployment on Render\" || { echo \"ac4 RED: W1 survival check - tests[135]=t26 heading deleted\"; exit 1; }; for tok in \"^### Why Render\" \"^### First deployment\" \"^### Free tier\" \"^### UptimeRobot\"; do printf \"%s\\n\" \"$T\" | grep -qE \"$tok\" || { echo \"ac4 RED: W1 survival check - tests[135]=t26 heading deleted: $tok\"; exit 1; }; done; for tok in \"Blueprint\" \"cold start\" \"10 min\" \"REQ-CICD-030\" \"REQ-CICD-036\" \"REQ-CICD-040\" \"REQ-CICD-041\" \"REQ-CICD-042\" \"REQ-CICD-043\" \"REQ-TECH-061\"; do printf \"%s\\n\" \"$T\" | grep -qE \"$tok\" || { echo \"ac4 RED: W1 survival check - tests[135]=t26 token deleted: $tok\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"UptimeRobot\" || { echo \"ac4 RED: W1 survival check - tests[144]=t28 token deleted: UptimeRobot\"; exit 1; }; echo \"ac4 GREEN: 24.3 mapping table (15 rows) + 24.5 evidence checklist (14 rows) + both 5-minute paths + every machine-extracted W1 token survives + README <= 500\"'",
+      "ac5": "bash -c 'test -f ops/runbook.md || { echo \"ac5 RED: ops/runbook.md missing\"; exit 1; }; tr -d \"\\r\" < ops/runbook.md | grep -qF \"make test-e2e\" && { echo \"ac5 RED: the steered typo survives - ops/runbook.md still says make test-e2e (the Makefile vocabulary is make e2e)\"; exit 1; }; tr -d \"\\r\" < ops/runbook.md | grep -qF \"make e2e\" || { echo \"ac5 RED: ops/runbook.md does not name make e2e\"; exit 1; }; rs=$(grep -cE \"^## [1-7][.] \" ops/runbook.md | tr -dc \"0-9\"); echo \"ac5 evidence: runbook numbered sections=${rs:-0} (exactly 7)\"; [ \"$rs\" = \"7\" ] || { echo \"ac5 RED: runbook section count drifted from 7 - the fix must be one prose line only\"; exit 1; }; cl=$(grep -cE \"^### (Symptom|Cause|Diagnosis|Action)\" ops/runbook.md | tr -dc \"0-9\"); echo \"ac5 evidence: runbook clause headings=${cl:-0} (exactly 28)\"; [ \"$cl\" = \"28\" ] || { echo \"ac5 RED: runbook clause count drifted from 28\"; exit 1; }; for s in \"^## Quick Reference[[:space:]]*$\" \"^## Escalation[[:space:]]*$\" \"^## Incident Response\" \"^## Monitoring[[:space:]]*$\" \"^## Alerting[[:space:]]*$\"; do tr -d \"\\r\" < ops/runbook.md | grep -qE \"$s\" || { echo \"ac5 RED: runbook section heading deleted: $s\"; exit 1; }; done; ev=$(grep -cE \"^\\| [a-z_]+[.][a-z_]+ \\|\" ops/logging.md | tr -dc \"0-9\"); [ \"$ev\" = \"17\" ] || { echo \"ac5 RED: logging event table drifted from 17 rows\"; exit 1; }; grep -qE \"ops/health-check[.]md\" ops/runbook.md || { echo \"ac5 RED: runbook lost its health-check cross-reference\"; exit 1; }; test -f ops/deployment-health.md || { echo \"ac5 RED: ops/deployment-health.md missing - the render residual must be recorded somewhere\"; exit 1; }; tr -d \"\\r\" < ops/deployment-health.md | grep -qiE \"deviation\" || { echo \"ac5 RED: ops/deployment-health.md records no accepted deviation (the Chapter 14 14.4.2 divergence is unresolved)\"; exit 1; }; for k in \"region\" \"autoDeploy\" \"databaseName\" \"CORS_ORIGINS\"; do tr -d \"\\r\" < ops/deployment-health.md | grep -qF \"$k\" || { echo \"ac5 RED: the deviation record does not name the divergent 14.4.2 key: $k\"; exit 1; }; done; tr -d \"\\r\" < ops/deployment-health.md | grep -qE \"^## Purpose\" || { echo \"ac5 RED: deployment-health lost its Purpose section (stored tests[186]=t41 gate)\"; exit 1; }; tr -d \"\\r\" < ops/deployment-health.md | grep -qE \"^## Initial Deployment\" || { echo \"ac5 RED: deployment-health lost its Initial Deployment record\"; exit 1; }; tr -d \"\\r\" < ops/deployment-health.md | grep -qE \"^## Post-Expiry Deployment\" || { echo \"ac5 RED: deployment-health lost its Post-Expiry Deployment record\"; exit 1; }; for pair in \"134 t26\" \"168 t39\" \"169 t39\" \"170 t39\" \"185 t41\"; do set -- $pair; id=$(node -e \"console.log((require(\\\"./docs/state/merge_test_index.json\\\").tests[${1}]||{}).issue_id||\\\"missing\\\")\"); [ \"$id\" = \"$2\" ] || { echo \"ac5 RED: index tests[$1] identity is $id, not $2 (0-based tests[] + issue_id identity, W2)\"; exit 1; }; cmd=$(node -e \"console.log(require(\\\"./docs/state/merge_test_index.json\\\").tests[${1}].command)\"); bash -c \"$cmd\" >/dev/null 2>&1 || { echo \"ac5 RED: stored gate tests[$1] ($2) failed after the residual fixes\"; exit 1; }; done; echo \"ac5 GREEN: runbook typo fixed with counts intact (7 sections / 28 clauses), render divergence recorded as an accepted deviation in ops/deployment-health.md, stored gates tests[134]/[168]/[169]/[170]/[185] re-executed green by index+issue_id identity\"'",
+      "ac6": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac6: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac6: node missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); echo \"ac6 evidence: README digest=$k\"; [ \"$k\" = \"5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943\" ] || { echo \"ac6 RED: README digest is not the pin-1 digest - t49 PINS it and t50/t51 carry it, t52 makes pin-2, t53 re-attests\"; exit 1; }; [ \"$k\" != \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || { echo \"ac6 RED: README is still the pre-change digest - this card must amend README (pin-1, disclosed)\"; exit 1; }; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || { echo \"ac6 RED: README line ceiling\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac6 RED: AGENTS.md changed - not this card\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac6 RED: render.yaml changed - the residual is a recorded deviation, not a blueprint edit\"; exit 1; }; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac6 evidence: backend collected=${n:-0} (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && timeout 900 uv run pytest -q >/dev/null 2>&1) || { echo \"ac6 RED: backend suite\"; exit 1; }; (cd backend && uv run ruff check . >/dev/null 2>&1) || { echo \"ac6 RED: ruff\"; exit 1; }; m=$(cd backend && timeout 300 uv run mypy . 2>&1 | tr -d \"\\r\" | tail -1); printf \"%s\" \"$m\" | grep -qE \"Success: no issues found\" || { echo \"ac6 RED: mypy - $m\"; exit 1; }; mf=$(printf \"%s\" \"$m\" | grep -oE \"[0-9]+ source files\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: mypy files=${mf:-0} (floor 87)\"; [ \"${mf:-0}\" -ge 87 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac6 RED: alembic head\"; exit 1; }; D=$(wslpath -w \"$PWD/frontend\"); timeout 600 cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null >/tmp/t49_ac6_vitest.json 2>/dev/null; out=$(tr -d \"\\r\" < /tmp/t49_ac6_vitest.json); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac6 RED: frontend failed - 186 passed + handlers_contract means the Docker daemon is UP: stop it and re-run (interference, not failure)\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; fp=$(printf \"%s\" \"$out\" | grep -oE \"\\\"numPassedTests\\\":[0-9]+\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: frontend passed=${fp:-0} (floor 187)\"; [ \"${fp:-0}\" -ge 187 ] || exit 1; timeout 300 cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || { echo \"ac6 RED: tsc\"; exit 1; }; l=$(timeout 300 cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); echo \"ac6 evidence: react-refresh warnings=$l (exactly 4)\"; [ \"$l\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac6 RED: workflows drifted: $w\"; exit 1; }; sec=$(ls -A security | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$sec\" = \".gitkeep,agent-security-notes.md,ai-tool-data-policy.md,gitleaks-report.json,npm-audit-report.txt,pip-audit-report.txt,pr-audit.md,semgrep-report.json,trivy-report.json,\" ] || { echo \"ac6 RED: security set drifted\"; exit 1; }; ops=$(ls -A ops | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$ops\" = \".gitkeep,deployment-health.md,diagnosis.md,health-check.md,logging.md,runbook.md,\" ] || { echo \"ac6 RED: ops set drifted\"; exit 1; }; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do x=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null 2>/dev/null | tr -d \"\\r\"); y=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null 2>/dev/null | tr -d \"\\r\"); [ -n \"$x\" ] || exit 1; [ \"$x\" = \"$y\" ] || { echo \"ac6 RED: manifest $p changed\"; exit 1; }; done; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<188){console.error(\\\"ac6 RED: index below 188\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\"),P={16:\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\",54:\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\",131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"};for(const q in P){const t=i.tests[q];if(!t||H(t)!==P[q]){console.error(\\\"ac6 RED: byte-pin \\\"+q+\\\" changed\\\");process.exit(1)}ex(t.command)}const A=i.tests[16],B=i.tests[54];if(!A||A.issue_id!==\\\"t2\\\"||!B||B.issue_id!==\\\"t9\\\"){console.error(\\\"ac6 RED: anchor identity moved\\\");process.exit(1)}if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac6 RED: entry 139 identity (Option A-ter)\\\");process.exit(1)}for(const[q,id]of[[27,\\\"t4\\\"],[119,\\\"t23\\\"],[128,\\\"t24\\\"],[135,\\\"t26\\\"],[144,\\\"t28\\\"],[149,\\\"t32\\\"],[150,\\\"t34\\\"],[134,\\\"t26\\\"],[168,\\\"t39\\\"],[169,\\\"t39\\\"],[170,\\\"t39\\\"],[185,\\\"t41\\\"]]){const t=i.tests[q];if(!t||t.issue_id!==id){console.error(\\\"ac6 RED: tests[\\\"+q+\\\"] is not \\\"+id+\\\" (0-based + issue_id, W2)\\\");process.exit(1)}ex(t.command)}const w=i.tests[155];if(!w||w.issue_id!==\\\"t35\\\"||(w.command||\\\"\\\").indexOf(\\\"agent_pack_verification.py\\\")<0){console.error(\\\"ac6 RED: tests[155] identity - identity-checked NOT executed (it rewrites docs/criteria, outside the allow-list)\\\");process.exit(1)}\" || exit 1; echo \"ac6 evidence: index >= 188, anchors tests[16]/[54] + pins 131/132/133/135 executed, 139 identity, gates 27/119/128/135/144/149/150/134/168/169/170/185 executed verbatim, 155 identity-only\"; B=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || { echo \"ac6 RED: no merge-base\"; exit 1; }; p=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^(docs/|README[.]md$|CLAUDE[.]md$|product-spec[.]md$|openapi[.]yaml$|ops/)\" | sort | tr \"\\n\" \",\"); if [ -n \"$p\" ]; then echo \"ac6 RED: delta touches forbidden paths [$p]\"; exit 1; fi; d=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); EXP=\"CLAUDE.md,README.md,openapi.yaml,ops/deployment-health.md,ops/runbook.md,product-spec.md,\"; if [ \"$d\" != \"$EXP\" ]; then echo \"ac6 RED: deliverable delta is [$d] - must be exactly the six root/ops deliverables\"; exit 1; fi; dd=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -E \"^docs/\" | sort | tr \"\\n\" \",\"); printf \"%s\" \"$dd\" | grep -q \"docs/issues/t49[.]md,\" || { echo \"ac6 RED: docs delta lacks docs/issues/t49.md\"; exit 1; }; printf \"%s\" \"$dd\" | grep -q \"docs/state/outputs/t49_definer_groom[.]json,\" || { echo \"ac6 RED: docs delta lacks the handoff copy\"; exit 1; }; echo \"ac6 GREEN: pin-1 digest holds, AGENTS.md and render.yaml byte-frozen, MAIN floors green, README/render/runbook gates re-executed, delta pure\"'"
+    },
+    "ac_mapping": {
+      "ac1": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "root-doc (CLAUDE.md single line + AGENTS.md untouched)",
+        "base_rc": 1,
+        "base_red": "ac1 RED: CLAUDE.md does not exist - REQ-DOC-013 deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "ac1 GREEN: CLAUDE.md is exactly the single line @AGENTS.md and AGENTS.md is untouched at 19 lines <= 60",
+        "fix": "Create CLAUDE.md whose entire content is the single line @AGENTS.md; do not touch AGENTS.md.",
+        "requirement_refs": [
+          "REQ-DOC-013",
+          "REQ-AI-021",
+          "REQ-DOC-012",
+          "REQ-DOC-080"
+        ]
+      },
+      "ac2": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "root-doc (product-spec.md 8 sections anchored)",
+        "base_rc": 1,
+        "base_red": "ac2 RED: product-spec.md does not exist - REQ-DOC-011 deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "ac2 GREEN: eight REQ-DOC-011 sections present, anchored to real Chapter 1/2 ids, README named as entry point",
+        "fix": "Create product-spec.md (>= 60 body lines) with the eight REQ-DOC-011 H2 sections, anchored to real requirement ids, pointing at README.",
+        "requirement_refs": [
+          "REQ-DOC-011",
+          "REQ-DOC-080",
+          "REQ-PROJ-001",
+          "REQ-PROD-001",
+          "REQ-TECH-001"
+        ]
+      },
+      "ac3": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "contract export (openapi.yaml path-set equality vs merged app)",
+        "base_rc": 1,
+        "base_red": "ac3 RED: openapi.yaml does not exist at the repository root - REQ-DOC-014 deliverable",
+        "fixture_rc": 0,
+        "fixture_green": "ac3 GREEN: openapi.yaml is a valid OpenAPI 3.1 document whose path set EQUALS the merged app app.openapi() paths (16 paths, measured set equality via the hermetic export - REQ-DOC-014/084)",
+        "fix": "Export openapi.yaml from the merged app: cd backend && uv run python with yaml.safe_dump(app.openapi(), sort_keys=True, width=4096) plus the 5-line provenance header; never hand-edit.",
+        "requirement_refs": [
+          "REQ-DOC-014",
+          "REQ-DOC-084"
+        ]
+      },
+      "ac4": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "README amendment (criteria map 15 + checklist 14 + 5-minute paths + W1 token survival)",
+        "base_rc": 1,
+        "base_red": "ac4 RED: the Chapter 24.3 criteria-mapping table needs EXACTLY 15 data rows each naming a requirement id (REQ-DOC-081/REQ-PROJ-005)",
+        "fixture_rc": 0,
+        "fixture_green": "ac4 GREEN: 24.3 mapping table (15 rows) + 24.5 evidence checklist (14 rows) + both 5-minute paths + every machine-extracted W1 token survives + README <= 500",
+        "fix": "Amend README.md: add ## Criteria mapping (15 rows, Chapter 24.3), ## Evidence checklist (14 rows, Chapter 24.5 criteria 1-14), ## Live verification in five minutes and ## Local verification in five minutes before ## License; keep every existing section and line-anchored command block byte-familiar; 286 lines measured.",
+        "requirement_refs": [
+          "REQ-DOC-010",
+          "REQ-DOC-070",
+          "REQ-DOC-071",
+          "REQ-DOC-072",
+          "REQ-DOC-081",
+          "REQ-PROJ-005",
+          "REQ-PROJ-009"
+        ]
+      },
+      "ac5": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "residuals (runbook typo fix + render deviation record)",
+        "base_rc": 1,
+        "base_red": "ac5 RED: the steered typo survives - ops/runbook.md still says make test-e2e (the Makefile vocabulary is make e2e)",
+        "fixture_rc": 0,
+        "fixture_green": "ac5 GREEN: runbook typo fixed with counts intact (7 sections / 28 clauses), render divergence recorded as an accepted deviation in ops/deployment-health.md, stored gates tests[134]/[168]/[169]/[170]/[185] re-executed green by index+issue_id identity",
+        "fix": "One-line fix in ops/runbook.md (make test-e2e -> make e2e) and append an accepted-deviation section to ops/deployment-health.md naming region/autoDeploy/databaseName/CORS_ORIGINS; render.yaml NOT modified.",
+        "requirement_refs": [
+          "REQ-OPS-002",
+          "REQ-CICD-031",
+          "REQ-CICD-032"
+        ]
+      },
+      "ac6": {
+        "command": "see evidence.verification_commands.acN - byte-identical to the fenced command in docs/issues/t49.md",
+        "layer": "composite (pin-1 README digest + MAIN floors + stored-gate re-execution + delta purity) - index-append-excluded",
+        "base_rc": 1,
+        "base_red": "ac6 RED: README digest is not the pin-1 digest - t49 PINS it and t50/t51 carry it, t52 makes pin-2, t53 re-attests (base evidence line: README digest=8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce)",
+        "fixture_rc": 0,
+        "fixture_green": "ac6 GREEN: pin-1 digest holds, AGENTS.md and render.yaml byte-frozen, MAIN floors green, README/render/runbook gates re-executed, delta pure (fixture evidence lines: README digest=5f6e235e..., backend collected=270, mypy files=88, frontend passed=187, react-refresh warnings=4, index gates executed)",
+        "fix": "No additional work: the composite asserts the pin-1 digest 5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 computed from the fixture README, re-executes the stored gates by tests[] index + issue_id identity, and proves the delta is exactly the six root/ops deliverables plus the card and handoff under docs/.",
+        "requirement_refs": [
+          "REQ-PLAN-080",
+          "REQ-DOC-010"
+        ]
+      }
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "ac_hash_recipe": "git show HEAD:docs/issues/t49.md (faithful bytes from the pin commit; NO CR stripping - the card is LF in the object store and git show returns those bytes), extract every ```bash fence, trim each fence, keep ac1..ac6 order, sha256 over JSON.stringify(array). Recomputed from the pin-commit bytes: identical.",
+    "branch": "groom/t49-root-reviewer-docs",
+    "base_sha": "91b528e853d1393bb4a0bd57c9d7c30af3b5d195",
+    "card_path": "docs/issues/t49.md",
+    "readme_pin": {
+      "role": "pin-1 of the phase_8 README digest chain (this card is the FIRST README-touching card of phase_8)",
+      "chain": "8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce (pre-change, 202 lines) -> pin1 5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 (t49, 286 lines, pinned in ac6) -> carry byte-unchanged (t50/t51) -> pin2 FINAL (t52) -> re-attest (t53)",
+      "pre_change_digest_asserted_only_as_base_state": true,
+      "note": "8d141fb2... is NOT a stored pin: zero of the 193 merge_test_index tests[] entries contain it; it lives only in phase_7 card composites."
+    },
+    "negative_controls": [
+      {
+        "id": "NC-A",
+        "assertion": "CLAUDE.md with @AGENTS.md plus extra notes makes ac1 RED rc=1 (ac1 RED: CLAUDE.md content is [@AGENTS.md ...] - REQ-DOC-013 requires the single line @AGENTS.md) - the single-line rule is measured, not decorative."
+      },
+      {
+        "id": "NC-B",
+        "assertion": "Renaming the /api/v1/health path to /api/v1/healthz in openapi.yaml makes ac3 RED rc=1 (ac3 RED: path-set mismatch - merged app missing from file [/api/v1/health] file-only not in merged app [/api/v1/healthz]) - the equality is a real set comparison against the merged app, so a hand-edited contract cannot pass."
+      },
+      {
+        "id": "NC-C",
+        "assertion": "Deleting the criterion-7 (Database) row from the README evidence checklist makes ac4 RED rc=1 (ac4 RED: the REQ-DOC-072 evidence checklist (Chapter 24.5 criteria 1-14) needs EXACTLY 14 data rows naming a file to open) - the 14-row count is exact."
+      },
+      {
+        "id": "NC-D",
+        "assertion": "Reintroducing make test-e2e (first make e2e occurrence) in ops/runbook.md makes ac5 RED rc=1 (ac5 RED: the steered typo survives) - the typo gate is live."
+      },
+      {
+        "id": "NC-E",
+        "assertion": "Replacing the plain token Vite dev server in README makes ac4 RED rc=1 (ac4 RED: W1 survival check - tests[128]=t24 token deleted: Vite dev server) - the machine-extracted W1 set really gates the amendment."
+      },
+      {
+        "id": "NC-F",
+        "assertion": "Indenting BOTH line-start occurrences of make dev-backend makes ac4 RED rc=1 (ac4 RED: W1 survival check - tests[128]=t24 line-anchored command deleted: make dev-backend); note the first single-occurrence mutation stayed GREEN because README.md carries the command twice - the gate matches the stored tests[128] semantics (any line-start occurrence satisfies it), which is exactly why the ac4 legs grep the RAW README (CR counts as [[:space:]])."
+      },
+      {
+        "id": "NC-G",
+        "assertion": "Inserting one blank line before ## License in the fixture README (byte drift, no visible content change) makes ac6 RED rc=1 (ac6 RED: README digest is not the pin-1 digest) - the pin is a byte pin, not a fuzzy content check."
+      }
+    ],
+    "measurement_environment": {
+      "host": "Windows worktree + WSL bash (Linux LAPTOP-C1DETJEH). Git WRITE ops only through cmd.exe /c git -C <WinPath> ... </dev/null.",
+      "git_write_ops": "cmd.exe /c git -C <WinPath> ... </dev/null exclusively (all commits/branch ops this run).",
+      "backend": "cd backend && export PATH=$HOME/.local/bin:$PATH && uv sync --offline (scripts/venv_path.py reporting [VENV_UNAVAILABLE] is expected); uv run pytest/ruff/mypy/alembic.",
+      "frontend": "cmd.exe /c cd /d <WinPath>\\frontend && npx.cmd/npm.cmd with the Docker daemon verified DOWN before every vitest leg (tasklist docker.exe count 0 at every measurement).",
+      "docker_interference_policy": "Per orchestrator notice (t54 sibling run): if a vitest leg reads 186 passed + handlers_contract failure the daemon was started by the sibling - stop it, re-run to 187/0, disclose. No interference window occurred this run: every vitest leg measured 187/0/0/0 with tasklist docker.exe count 0 immediately before and after.",
+      "card_execution_pattern": "The card fences use the t48-proven pattern (execSync(t.command,{stdio:\"ignore\"}) inside node -e). The definer's own harness could not use Windows node.exe execSync for stored bash -c commands (cmd.exe quoting breaks); stored gates were additionally re-executed via the stored command written to a temp file and run through bash - <file>, which is what the 13-gate GREEN sweep used. The card itself keeps the proven pattern.",
+      "js_yaml": "ac3 loads openapi.yaml through ./frontend/node_modules/js-yaml (present after cd frontend && npm.cmd ci, 526 packages, measured rc 0)."
+    },
+    "fixture": {
+      "method": "Throwaway UNPUSHED branch tmp/t49-fixture created from the groom branch, carrying exactly the six amended/created deliverable files (README.md, CLAUDE.md, product-spec.md, openapi.yaml, ops/runbook.md, ops/deployment-health.md) plus the card fix and a handoff placeholder for the ac6 docs-delta leg. All six fences measured fixture_rc=0. The branch was DELETED after measurement (git branch -D tmp/t49-fixture) and never pushed; the worktree was restored byte-clean (git status shows only the untracked scratch dir build_groom/, which is build-artifact scratch and stays out of every commit).",
+      "fixture_head_deleted": "8b437d0",
+      "readme_digest_from_fixture": "5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 (286 lines, CR-stripped sha256)"
+    },
+    "durability": {
+      "branch": "groom/t49-root-reviewer-docs",
+      "base_commit": "91b528e853d1393bb4a0bd57c9d7c30af3b5d195",
+      "card_commit": "283fb0d",
+      "pin_commit": "a4dacc8 (initial pin 14317dc7) then d5d0b0e (ac4 raw-README W1-leg fix + re-pin 178cf8a1, cherry-picked from the deleted fixture branch; card bytes identical between branches, blob sha256 25d53b5b5c2b3a66cff32022ed347bc6c8cbaf73dfc38d511aa640c32b9b1e8a)",
+      "tip_sha": "SELF",
+      "pushed": true,
+      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t49-root-reviewer-docs -> <tip_sha> (matches local HEAD; executed after the handoff commit, before finishing - see this field is written pre-push and the value confirmed in the definer reply)",
+      "card_commits": "283fb0d (card body, ac_hash <PENDING>) -> a4dacc8 (pin 14317dc7, recomputed identical) -> d5d0b0e (ac4 raw-README fix + re-pin 178cf8a1) -> <tip_sha> (handoff JSON copy)",
+      "fixture_branch": "tmp/t49-fixture (heads 3870b20/0ee754b/8b437d0) NEVER pushed, deleted after measurement (git branch -D)",
+      "no_implementation": "Card-only delta on the groom branch: the four commits touch docs/issues/t49.md and docs/state/outputs/t49_definer_groom.json alone. The six deliverable files were NEVER committed to the groom branch - authoring them belongs to the builder; they existed only on the deleted throwaway fixture branch for measurement."
+    },
+    "disclosures": [
+      "W10 (disclose, do not contort): docs/config.yaml limits.issue_granularity.max_files is 4 with warn_only true. t49 lands SEVEN deliverable files (README.md, product-spec.md, CLAUDE.md, openapi.yaml, ops/runbook.md, ops/deployment-health.md + this card/handoff). The overrun is deliberate - a single-purpose root-doc cluster with zero test-node growth, the phase_6/phase_7 doc-set precedent - and is disclosed in the card Context.",
+      "W1 remedy applied: ac4 does not rely on the survey prose list; it enumerates the full machine-extracted README token set of the README-gating stored entries tests[27]/[119]/[128]/[135]/[144] (every grep target extracted at groom time from the stored commands) and asserts each token survives; the DoD requires re-extraction at measurement time. The line-anchored legs (docker compose up --build / docker compose down / docker compose up db / make dev-backend / make dev-frontend) grep the RAW README exactly like stored tests[128] does (CR satisfies [[:space:]]); an early draft grepped the CR-stripped copy and was caught by the fixture measurement and fixed before pinning (visible as the re-pin commit d5d0b0e).",
+      "W2 convention: every index citation in the card is tests[N] with the 0-based convention stated explicitly plus issue_id identity (e.g. tests[134]=t26). No bare entry N anywhere.",
+      "W9 qualifier: the card always qualifies - Chapter 24.3 quality-acceptance table EXACTLY 15 rows (criteria mapping) vs Chapter 24.5 final-project criteria table EXACTLY 14 rows (evidence checklist). Never mixed.",
+      "W13: every fence measured under the cmd.exe 8191-char ceiling: 1125 / 1522 / 2300 / 6805 / 3349 / 7554 (largest = ac6 at 7554). Each fence contains exactly two single quotes (the outer bash -c pair) and is CRLF-tolerant via tr -d.",
+      "W15: every requirement id cited in the card was machine-verified against docs/requirements.md (32 distinct real ids; the only regex misses were the range fragments REQ-PROJ-001..009 / REQ-PROD-001..007 which resolve to defined ids). The survey's REQ-PROC-*/REQ-TEAM-* families do not exist and are not cited.",
+      "tests[155]=t35 is IDENTITY-CHECKED, not executed, inside ac6: executing the stored command REWRITES docs/criteria/agent_pack_verification.md (measured: it rewrote the README line-count sentence 202 -> 286 during groom, which the definer restored with git checkout). The file is outside this card's allow-list, so ac6 asserts the entry identity and command shape instead of running it; every other cited gate (27/119/128/135/144/149/150/134/168/169/170/185 + anchors 16/54 + pins 131/132/133/135) is executed verbatim.",
+      "README pin-1: this card MOVES the README digest (disclosed amendment, Option A-ter precedent). ac6 pins the NEW digest computed from the fixture README and asserts the pre-change digest 8d141fb2... only as the base state (the inequality leg).",
+      "merge_test_index.json was NOT touched by this card at any point; the orchestrator appends ac1..ac5 at closure (+5 entries; composite ac6 excluded). Floor asserted >= 188 (measured 193).",
+      "The live 5-minute path states its status honestly: the public Render URL is not attestable from this environment (no egress), so README records the reviewer procedure plus the DEFERRED pointer, never a liveness claim (plan.md phase_8 ruling 7)."
+    ],
+    "open_questions": []
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t49.md",
+      "docs/state/outputs/t49_definer_groom.json"
+    ],
+    "platform_issue": 52,
+    "output_path": "docs/state/outputs/t49_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T18:06:03.207Z",
+  "retry_count": 0
+}
