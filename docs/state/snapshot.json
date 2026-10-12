@@ -1,25 +1,25 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T20:25:00Z",
-  "last_seq": 637,
+  "updated_at": "2026-10-13T20:40:00Z",
+  "last_seq": 638,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t54",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "634c60bd-51b3-418b-821b-215ef6c0721e",
-      "spawn_at": "2026-10-13T17:10:00Z",
-      "last_activity_at": "2026-10-13T18:30:00Z"
-    },
-    {
-      "slot_id": "slot_2",
       "issue_id": "t50",
       "role": "definer",
       "phase": "groom",
       "run_id": "b1d84998-6a3e-439d-b620-50d7c72dcbad",
       "spawn_at": "2026-10-13T20:25:00Z",
-      "last_activity_at": "2026-10-13T20:25:00Z"
+      "last_activity_at": "2026-10-13T20:40:00Z"
+    },
+    {
+      "slot_id": "slot_2",
+      "issue_id": "t54",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "a135c85d-add1-40ab-92fb-78726408d65d",
+      "spawn_at": "2026-10-13T20:40:00Z",
+      "last_activity_at": "2026-10-13T20:40:00Z"
     }
   ],
   "merge_queue": [],
