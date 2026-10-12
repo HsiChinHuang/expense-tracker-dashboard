@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T11:23:31.705Z",
-  "last_seq": 580,
+  "updated_at": "2026-10-12T12:05:13.000Z",
+  "last_seq": 583,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t40",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "17e8f20a-e396-4419-b19c-ec8ec932f45f",
-      "spawn_at": "2026-10-12T19:20:00Z",
-      "last_activity_at": "2026-10-12T11:23:31.705Z"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "f5f1c3a9-86e6-4c89-97e5-e1e84571cd1f",
+      "spawn_at": "2026-10-12T20:12:00Z",
+      "last_activity_at": "2026-10-12T12:05:13.000Z"
     },
     {
       "slot_id": "slot_2",
@@ -18,7 +18,7 @@
       "role": null,
       "phase": null,
       "status": "FREE",
-      "note": "freed by t43 verify completion; t41 still blocked on t40"
+      "note": "t41 blocked on t40; t45 (#48) dispatchable next when a slot frees"
     }
   ],
   "merge_queue": [],
@@ -26,9 +26,9 @@
   "active_issues": [
     {
       "issue_id": "t40",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight"
+        "implement_in_flight"
       ]
     },
     {
@@ -42,7 +42,21 @@
       "issue_id": "t42",
       "state": "verified",
       "modifiers": [
-        "awaiting_first_e2e_green_run118"
+        "awaiting_first_e2e_green"
+      ]
+    },
+    {
+      "issue_id": "t45",
+      "state": "defined",
+      "modifiers": [
+        "diagnosis_first"
+      ]
+    },
+    {
+      "issue_id": "phase_8_docs",
+      "state": "pending",
+      "modifiers": [
+        "readme_pin_change_planned"
       ]
     }
   ],
