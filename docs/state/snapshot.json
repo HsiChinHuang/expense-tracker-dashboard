@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T08:35:53.438Z",
-  "last_seq": 548,
+  "updated_at": "2026-10-12T08:58:21.921Z",
+  "last_seq": 550,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -10,35 +10,25 @@
       "phase": "groom",
       "run_id": "698207a0-7f6a-4254-a90d-0d1e51441caa",
       "spawn_at": "2026-10-12T07:30:00Z",
-      "last_activity_at": "2026-10-12T08:35:53.438Z"
+      "last_activity_at": "2026-10-12T08:58:21.921Z"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t39",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "342f1890-740a-4d19-9a8f-89813d74a01d",
-      "spawn_at": "2026-10-12T09:45:00Z",
-      "last_activity_at": "2026-10-12T08:35:53.438Z"
-    },
-    {
-      "slot_id": "OVER_CAP",
-      "issue_id": "t44",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "157e4352-9a05-4b9f-85e5-776649a99066",
-      "spawn_at": "2026-10-12T10:10:00Z",
-      "last_activity_at": "2026-10-12T08:35:53.438Z",
-      "note": "over cap; no new dispatches until <=2"
-    },
-    {
-      "slot_id": "queued_1",
       "issue_id": "t43",
       "role": "definer",
       "phase": "groom",
       "run_id": "ce11ea09-1715-4c96-ab0d-16637fb76ca4",
+      "status": "RESUMING",
+      "note": "retry 1/3; resume on slot freed by t39 verify"
+    },
+    {
+      "slot_id": "queued_1",
+      "issue_id": "t44",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "157e4352-9a05-4b9f-85e5-776649a99066",
       "status": "TIMED_OUT_resume_queued",
-      "note": "retry 1/3; resume first on slot free"
+      "note": "retry 1/3; zero commits; resume after t38 completes"
     }
   ],
   "merge_queue": [],
@@ -52,11 +42,6 @@
       ]
     },
     {
-      "issue_id": "t39",
-      "state": "built",
-      "modifiers": []
-    },
-    {
       "issue_id": "t43",
       "state": "defined",
       "modifiers": [
@@ -67,7 +52,7 @@
       "issue_id": "t44",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight"
+        "groom_timeout_retry_1"
       ]
     }
   ],

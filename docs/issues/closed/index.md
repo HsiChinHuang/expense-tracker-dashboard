@@ -43,3 +43,4 @@ Runtime-maintained by Orchestrator.
 | t36 | Scan pipeline - real make security targets (gitleaks/semgrep/trivy/pip-audit/npm-audit), pinned tool bootstrap, entry-#6 amend script authored |  | 0 |  |
 | t37 | Dependency and secret scan reports - gitleaks/pip-audit/npm-audit committed artifacts as real measured runs |  | 0 |  |
 | t42 |  |  | 0 |  |
+| t39 | Ops runbook core - ops/runbook.md + health-check.md + logging.md | 2026-10-12 | 0 | e62b919 |
