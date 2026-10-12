@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t54",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t54-e2e-browser-install",
+    "branch_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+    "base_sha": "1bffd0c716e56634a07b387e060ff94f9cc75438",
+    "card_tip": "1bffd0c716e56634a07b387e060ff94f9cc75438",
+    "main_merge_base": "1bffd0c716e56634a07b387e060ff94f9cc75438",
+    "ac_hash": "sha256:3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5",
+    "ac_hash_verified": "recomputed at branch tip from the committed card: sha256 over JSON.stringify of the four ```bash fences (CR-stripped, trimmed) extracted byte-exactly from git-committed docs/issues/t54.md == 3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5 (MATCH; lens 2289/1634/2496/4184, each fence a single bash -c with exactly two single quotes)",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+        "test": "bash -c 'W=.github/workflows/e2e.yml; test -f \"$W\" || { echo \"ac1 RED: .github/workflows/e2e.yml missing\"; exit 1; }; S=$(tr -d \"\\r\" < \"$W\"); N=$(printf \"%s\\n\" \"$S\" | grep -cE \"^      - name: Install Playwright browsers$\"); [ \"$N\" = \"1\" ] || { echo \"ac1 RED: the Install Playwright browsers step is missing or duplicated - the t26 step contract is broken\"; exit 1; }; I=$(printf \"%s\\n\" \"$S\" | grep -nE \"^      - name: Install Playwright browsers$\" | head -1 | cut -d: -f1); H=$(printf \"%s\\n\" \"$S\" | grep -nE \"Wait for the health endpoint\" | head -1 | cut -d: -f1); E=$(printf \"%s\\n\" \"$S\" | grep -nE \"^      - name: Run the E2E suite$\" | head -1 | cut -d: -f1); [ -n \"$H\" ] && [ -n \"$E\" ] || { echo \"ac1 RED: the health-wait step or the suite step disappeared\"; exit 1; }; [ \"$I\" -gt \"$H\" ] && [ \"$I\" -lt \"$E\" ] || { echo \"ac1 RED: step order broken - the browser install must sit between the health wait and the suite run (stored tests[133]=t26 order contract)\"; exit 1; }; L=$(printf \"%s\\n\" \"$S\" | sed -n \"$((I+1)),$((E-1))p\" | grep -m1 \"^        run: \" | sed \"s/^        run: //\"); echo \"ac1 evidence: install-step run command [$L]\"; printf \"%s\" \"$L\" | grep -qE \"^cd e2e && npm install --no-save && npx playwright install --with-deps$\" || { echo \"ac1 RED: the browser install does not run from the e2e workspace against the pinned package - a root-level npx resolves playwright 1.64.0 and installs browser build 1248 while the pinned @playwright/test 1.58.0 harness launches build 1208 (measured on run 38284562729 job 114930218630: step 7 downloaded chromium v1248, step 8 died with Executable does not exist at chromium_headless_shell-1208)\"; exit 1; }; U=$(printf \"%s\\n\" \"$S\" | tail -n +$((E+1)) | grep -m1 \"^        run: \" | sed \"s/^        run: //\"); printf \"%s\" \"$U\" | grep -qE \"^make e2e$\" || { echo \"ac1 RED: the suite step no longer runs make e2e (REQ-TEST-051)\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qF \"ms-playwright\" || { echo \"ac1 RED: the ms-playwright browser cache step disappeared (REQ-CICD-017, stored tests[133]=t26 RAW substring)\"; exit 1; }; echo \"ac1 GREEN: the Install Playwright browsers step runs cd e2e && npm install --no-save && npx playwright install --with-deps between the health wait and the suite run; make e2e and the ms-playwright cache step intact\" '",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+        "test": "bash -c 'test -f frontend/node_modules/js-yaml/package.json || { echo \"ac2 prerequisite: frontend/node_modules/js-yaml missing - run npm ci in frontend/ first (t42/t49 precedent: prerequisite, not a gate)\"; exit 1; }; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\")),W=\\\".github/workflows/e2e.yml\\\",s=fs.readFileSync(W,\\\"utf8\\\").split(String.fromCharCode(13)).join(\\\"\\\"),b=[]; if((i.tests||[]).length<203){b.push(\\\"ac2 RED: index below the 203-entry floor\\\")} for(const pair of [[131,\\\"t26\\\"],[132,\\\"t26\\\"],[133,\\\"t26\\\"],[135,\\\"t26\\\"],[139,\\\"t27\\\"]]){const t=(i.tests||[])[pair[0]];if(!t){b.push(\\\"ac2 RED: tests[\\\"+pair[0]+\\\"] missing (0-based tests[] + issue_id identity, W2)\\\");continue}if(t.issue_id!==pair[1]){b.push(\\\"ac2 RED: tests[\\\"+pair[0]+\\\"] is \\\"+t.issue_id+\\\", not \\\"+pair[1]);continue}try{ex(t.command,{stdio:\\\"ignore\\\"});console.log(\\\"ac2 evidence: stored tests[\\\"+pair[0]+\\\"] (\\\"+pair[1]+\\\") executed VERBATIM rc=0\\\")}catch(e){b.push(\\\"ac2 RED: stored tests[\\\"+pair[0]+\\\"] (\\\"+pair[1]+\\\") FAILED on this workflow - the byte-pinned t26/t27 contract is broken\\\")}} for(const k of [\\\"playwright install\\\",\\\"make e2e\\\",\\\"ms-playwright\\\"]){if(s.indexOf(k)<0){b.push(\\\"ac2 RED: RAW e2e.yml lost the substring \\\"+k+\\\" which a stored gate greps\\\")}} if(b.length){console.error(b.join(\\\" | \\\"));process.exit(1)} console.log(\\\"ac2 GREEN: byte-pinned tests[131]/[132]/[133]/[135]=t26 and tests[139]=t27 executed VERBATIM rc=0 on this workflow; RAW substrings playwright install / make e2e / ms-playwright intact\\\")\" || exit 1'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+        "test": "bash -c 'G=$(wslpath -w \"$PWD\"); B=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || { echo \"ac3 RED: no merge-base against origin/main\"; exit 1; }; D=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\"); ND=$(printf \"%s\" \"$D\" | grep -v \"^docs/\" | sort | tr \"\\n\" \",\"); echo \"ac3 evidence: merge-base=$B non-docs delta=[$ND]\"; [ \"$ND\" = \".github/workflows/e2e.yml,\" ] || { echo \"ac3 RED: non-docs delta is [$ND] - the ONLY non-docs change this card may make is .github/workflows/e2e.yml\"; exit 1; }; XD=$(printf \"%s\" \"$D\" | grep \"^docs/\" | grep -vE \"^docs/(issues/t54[.]md|state/outputs/t54_definer_groom[.]json)$\" | sort | tr \"\\n\" \",\"); [ -z \"$XD\" ] || { echo \"ac3 RED: the docs delta carries non-t54 paths [$XD] - only the card and its handoff may move\"; exit 1; }; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac3 RED: workflows dir set drifted [$w]\"; exit 1; }; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943\" ] || { echo \"ac3 RED: README digest $k is not the t49 pin-1 - t54 must NOT touch README\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac3 RED: AGENTS.md digest drifted - not this card\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac3 RED: render.yaml digest drifted - the fix is workflow-only\"; exit 1; }; grep -qE \"\\\"@playwright/test\\\": \\\"1[.]58[.]0\\\"\" e2e/package.json || { echo \"ac3 RED: the @playwright/test 1.58.0 pin moved - the fix must NEVER touch the manifest (REQ-TECH-075)\"; exit 1; }; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do x=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null | tr -d \"\\r\"); y=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null | tr -d \"\\r\"); [ -n \"$x\" ] || { echo \"ac3 RED: no HEAD blob for $p\"; exit 1; }; [ \"$x\" = \"$y\" ] || { echo \"ac3 RED: manifest $p differs from its HEAD blob\"; exit 1; }; done; echo \"ac3 GREEN: non-docs delta is exactly .github/workflows/e2e.yml (docs delta only t54 card/handoff), workflows dir exact, README/AGENTS/render digests byte-frozen, five manifests byte-identical to HEAD with the 1.58.0 pin intact\" '",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac4: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac4: node missing\"; exit 1; }; test -f frontend/node_modules/js-yaml/package.json || { echo \"ac4 prerequisite: frontend/node_modules/js-yaml missing - run npm ci in frontend/ first\"; exit 1; }; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac4 evidence: backend collected=${n:-0} (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || { echo \"ac4 RED: backend collection floor\"; exit 1; }; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac4 RED: alembic head drifted from 005\"; exit 1; }; S=$(tr -d \"\\r\" < .github/workflows/e2e.yml); printf \"%s\\n\" \"$S\" | grep -qE \"^        run: cd e2e && npm install --no-save && npx playwright install --with-deps$\" || { echo \"ac4 RED: ac1 leg - the workflow fix is not applied\"; exit 1; }; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac4 RED: workflows dir set drifted [$w]\"; exit 1; }; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943\" ] || { echo \"ac4 RED: README digest is not the t49 pin-1\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac4 RED: AGENTS.md digest drifted\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac4 RED: render.yaml digest drifted\"; exit 1; }; grep -qE \"\\\"@playwright/test\\\": \\\"1[.]58[.]0\\\"\" e2e/package.json || { echo \"ac4 RED: the 1.58.0 pin moved\"; exit 1; }; G=$(wslpath -w \"$PWD\"); B=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || { echo \"ac4 RED: no merge-base against origin/main\"; exit 1; }; ND=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -v \"^docs/\" | sort | tr \"\\n\" \",\"); echo \"ac4 evidence: non-docs delta=[$ND]\"; [ \"$ND\" = \".github/workflows/e2e.yml,\" ] || { echo \"ac4 RED: non-docs delta [$ND] is not exactly the workflow fix\"; exit 1; }; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\")); if((i.tests||[]).length<203){console.error(\\\"ac4 RED: index below the 203-entry floor\\\");process.exit(1)} const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\"),P={16:\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\",54:\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\",131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"}; for(const q in P){const t=(i.tests||[])[q];if(!t||H(t)!==P[q]){console.error(\\\"ac4 RED: byte-pin tests[\\\"+q+\\\"] is not byte-identical\\\");process.exit(1)}} for(const pair of [[131,\\\"t26\\\"],[132,\\\"t26\\\"],[133,\\\"t26\\\"],[135,\\\"t26\\\"],[139,\\\"t27\\\"],[16,\\\"t2\\\"],[54,\\\"t9\\\"]]){const t=i.tests[pair[0]];if(!t||t.issue_id!==pair[1]){console.error(\\\"ac4 RED: tests[\\\"+pair[0]+\\\"] identity is not \\\"+pair[1]);process.exit(1)}} try{ex(i.tests[139].command,{stdio:\\\"ignore\\\"})}catch(e){console.error(\\\"ac4 RED: stored tests[139]=t27 (Makefile/e2e.yml grep) failed\\\");process.exit(1)} console.log(\\\"ac4 evidence: index >= 203, six byte-pins (tests[16]/[54]/[131]/[132]/[133]/[135]) byte-identical, seven identities correct, tests[139]=t27 executed VERBATIM rc=0\\\")\" || exit 1; echo \"ac4 GREEN: COMPOSITE - backend 270 collected + alembic 005, workflow fix applied, workflows dir exact, README/AGENTS/render digests byte-frozen, 1.58.0 pin intact, delta pure to e2e.yml, index >= 203 with byte-pins byte-identical and tests[139] re-executed verbatim green\" '",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+        "test": "manual (ORCHESTRATOR-EXECUTED CI EVIDENCE, no local fence by design per the card's ac5 text and the t42 merge-gate precedent): after merge+push the orchestrator polls GET /repos/HsiChinHuang/expense-tracker-dashboard/actions/runs?workflow=e2e.yml, selects head_sha == the final pushed main SHA, awaits status=completed, and requires job e2e conclusion=success AND step 'Run the E2E suite' conclusion=success. Builder handoff records PENDING_CI_EVIDENCE.",
+        "verdict": "MANUAL"
+      }
+    },
+    "ac_results": {
+      "ac1": {
+        "rc": 0,
+        "evidence": "ac1 evidence: install-step run command [cd e2e && npm install --no-save && npx playwright install --with-deps]; ac1 GREEN (step exists exactly once between the health wait and the suite run; make e2e and ms-playwright intact). Base RED re-measured with the unfixed workflow restored in the working tree: run command [npx playwright install --with-deps] -> 'ac1 RED: the browser install does not run from the e2e workspace...' rc=1"
+      },
+      "ac2": {
+        "rc": 0,
+        "evidence": "stored tests[131]/[132]/[133]/[135] (t26) and tests[139] (t27) executed VERBATIM rc=0 on the FIXED workflow; RAW substrings 'playwright install' / 'make e2e' / 'ms-playwright' intact; index 203 entries. GREEN at base too, BY DESIGN (no-drift invariant, t42 ac5 precedent) - re-confirmed rc=0 at base"
+      },
+      "ac3": {
+        "rc": 0,
+        "evidence": "ac3 evidence: merge-base=1bffd0c716e56634a07b387e060ff94f9cc75438 non-docs delta=[.github/workflows/e2e.yml,]; workflows dir exactly .gitkeep,ci.yml,deploy.yml,e2e.yml; README 5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 / AGENTS.md 8340781c... / render.yaml 60110dd0... byte-frozen; @playwright/test 1.58.0 pin intact; five manifests byte-identical to HEAD blobs. Base RED leg re-measured: with no fix commit the non-docs delta is [] -> the fence's [ \"$ND\" = \".github/workflows/e2e.yml,\" ] assertion fails"
+      },
+      "ac4": {
+        "rc": 0,
+        "evidence": "COMPOSITE GREEN: backend collected=270 (floor 270), alembic head 005, ac1 fix leg applied, workflows dir exact, three digests byte-frozen, 1.58.0 pin intact, non-docs delta=[.github/workflows/e2e.yml,], index >= 203 with six byte-pins tests[16]/[54]/[131]/[132]/[133]/[135] byte-identical, seven issue_id identities correct, tests[139]=t27 executed VERBATIM rc=0. Base RED re-measured at the unfixed workflow: 'ac4 RED: ac1 leg - the workflow fix is not applied' rc=1"
+      },
+      "ac5": {
+        "rc": null,
+        "status": "PENDING_CI_EVIDENCE",
+        "evidence": "ORCHESTRATOR-EXECUTED by card design (no local fence, no builder command). The first-ever GREEN E2E run on the final pushed main SHA (job e2e conclusion=success AND step 'Run the E2E suite' conclusion=success, polled via the Actions API at merge time) closes #45/#58. Deferred to merge per the t42 merge-gate / phase_7 CI-evidence precedent recorded in the card's ac5 text."
+      }
+    },
+    "files_changed": [
+      ".github/workflows/e2e.yml"
+    ],
+    "test_summary": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measurement_environment": {
+      "docker": "ABSOLUTE BAN HONORED: ZERO docker / docker-compose / Docker-Desktop invocations this run, not even one attempt (DOCKER_NEVER_STARTED). cmd.exe tasklist | grep -icE docker == 0 (grep rc=1, zero matches) at fence time. Every measurement daemon-free.",
+      "node": "WSL node v18.19.1 (/usr/bin/node) ran the ac2/ac4 node legs; WSL bash 5.2.21 ran the four fences verbatim via bash /tmp/t54/acN.sh extracted byte-exactly from the committed card.",
+      "uv": "uv (0.12.x, $HOME/.local/bin) with per-worktree uv sync --offline rc=0; the ac4 legs (collect-only 270 + alembic heads 005) ran through uv run; no [VENV_UNAVAILABLE] failure.",
+      "js_yaml_prerequisite": "frontend/node_modules was MISSING in this fresh worktree; js-yaml@4.3.2 + argparse were copied from the populated main checkout (gitignored path, never committed) - the t42/t49 prerequisite-not-a-gate rule, same mechanism the definer used at groom. No npm ci network install was needed.",
+      "git": "ALL git WRITE ops via cmd.exe /c \"git -C <WinPath> ...\" </dev/null exclusively (branch create / add / commit / push of the issue branch and the artifact ref only). main NEVER pushed; origin/main advanced only via orchestrator commits (observed at c4b5987 during this run).",
+      "vitest": "NOT run, by card design (ac4 is the definer-disclosed lighter composite; no source test suites required for a workflow-only change)."
+    },
+    "delta_purity": {
+      "merge_base": "1bffd0c716e56634a07b387e060ff94f9cc75438",
+      "non_docs_delta": ".github/workflows/e2e.yml (EXACTLY; ac3/ac4 legs rc=0; git diff --numstat 1bffd0c..HEAD = 1 insertion 1 deletion in that one file; byte-level blob diff 4d49432 -> a656ebb shows the single run-line change, CRLF count 62 unchanged)",
+      "docs_delta": "EMPTY on the branch by orchestrator ruling (WAL 641 class, t54 Option A): the card and the groom handoff are already on main at the merge-base, and the ac3 fence whitelists ONLY docs/issues/t54.md + docs/state/outputs/t54_definer_groom.json in the docs delta - committing the builder handoff copy on the branch would turn ac3 RED at the exact tip the verifier re-runs verbatim. This handoff is therefore delivered UNCOMMITTED at docs/state/outputs/t54_builder_build.json for the orchestrator to commit at ingest (t54 groom precedent ad172a1)."
+    },
+    "durability": {
+      "branch": "issue/t54-e2e-browser-install",
+      "fix_commit": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+      "pushed": "git push -u origin issue/t54-e2e-browser-install succeeded ([new branch], tracking set)",
+      "ls_remote_verified": "git ls-remote origin -> d33ebb25f403eb00608f80eb85650377c555f2fe refs/heads/issue/t54-e2e-browser-install (== local HEAD)",
+      "artifact_ref": "ARTIFACT_REF_PLACEHOLDER"
+    },
+    "negative_controls": "NOT re-run by the builder (the definer measured NC-A..NC-G at groom); ac1/ac4 base-RED legs were independently re-measured this run (exact RED lines above) so the fix-before/fail-after pairing is proven at the branch tip without touching the index.",
+    "disclosures": [
+      "ac5 is orchestrator-executed BY CARD DESIGN: this handoff records it as PENDING_CI_EVIDENCE (schema status enum has no PENDING value, so ac5 carries verdict MANUAL in ac_mapping - the builder-reachable legs are complete - and status PENDING_CI_EVIDENCE with rc null in ac_results). #45/#58 close only on the live Actions-API evidence at merge, per the card's ac5 text and the t42 precedent.",
+      "ORCHESTRATOR RULING (Option A, supervisor-approved mid-run, same class as WAL 641 'card beats task letter'): the task letter said 'commit ONLY e2e.yml + your handoff', but the pinned ac3 docs-delta whitelist excludes the builder handoff copy, so committing it would make ac3 RED at the verification tip. Resolved: the branch carries ONLY the e2e.yml fix; this handoff is written uncommitted to docs/state/outputs/t54_builder_build.json (declared output_path == stored filename) and the orchestrator commits the copy at ingest.",
+      "DURABILITY ADDITION from the same ruling: the validated handoff is ALSO pushed to refs/heads/artifacts/t54-builder-handoff via a throwaway local branch (never merged, no fence touches it, deleted after push). The pushed copy carries one extra evidence.durability.artifact_ref_sha field naming the ref SHA (chicken-and-egg: the SHA cannot exist inside its own blob); the worktree copy here keeps the placeholder. Disclosed per the ruling's instruction.",
+      "js-yaml prerequisite satisfied by COPY from the populated main checkout (frontend/node_modules/js-yaml + argparse, gitignored, never committed) instead of npm ci - the definer's groom-time mechanism; the ac2/ac4 fences only need the prerequisite to exist, and no manifest or lockfile was touched (ac3 five-manifest leg rc=0).",
+      "Base-RED re-measurement temporarily restored the unfixed workflow IN THE WORKING TREE ONLY (git show 1bffd0c:path > path), then git checkout HEAD -- path restored the fix; git status clean and the worktree blob == HEAD blob a656ebb verified before push. No commit was ever built on the unfixed content.",
+      "Card and groom handoff were NOT re-committed (already on main at 1bffd0c == merge-base); the groom branch was NOT merged; main was never merged/rebased into the branch before the fences (ruling item 4).",
+      "No Docker, no vitest, no source-suite runs, no index mutation, no README/AGENTS/render/manifest/e2e-manifest changes: the entire non-docs delta is one run line in .github/workflows/e2e.yml.",
+      "Platform comment + label transition (groomed -> built on #58) not performed by this run: no platform token/.env in this worktree - orchestrator-owned per the t36/t49/t50 accepted-deviation precedent.",
+      "Sibling run 182e9e84 (t50 build, slot_1) shares this host; irrelevant under the absolute Docker ban and zero vitest legs."
+    ],
+    "notes": "Deliverable: the Install Playwright browsers step run line is EXACTLY 'cd e2e && npm install --no-save && npx playwright install --with-deps' (no comment lines added; step name/position, ms-playwright cache step, make e2e step, upload-artifact position, triggers, permissions all byte-untouched - CRLF count 62 unchanged, blob diff shows only line 50). Four pinned fences verbatim at branch tip: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0. lint_status CLEAN = no source code changed (no linter applicable to a one-line workflow change; the ac4 composite covers the mandated floors)."
+  },
+  "artifacts": {
+    "files_written": [
+      ".github/workflows/e2e.yml",
+      "docs/state/outputs/t54_builder_build.json"
+    ],
+    "platform_issue": 58,
+    "output_path": "docs/state/outputs/t54_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T20:03:35.137Z",
+  "retry_count": 0
+}
