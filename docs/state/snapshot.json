@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T14:52:47.189Z",
-  "last_seq": 597,
+  "updated_at": "2026-10-12T15:00:10.584Z",
+  "last_seq": 599,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t41",
-      "role": "definer",
-      "phase": "groom-fix",
-      "run_id": "3d6b1a4b-9c98-401d-9f10-09ddd16865cb",
-      "spawn_at": "2026-10-13T01:40:00Z",
-      "last_activity_at": "2026-10-12T14:52:47.189Z"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "45d1ad96-c861-4058-a197-2a1cbf1d5110",
+      "spawn_at": "2026-10-13T03:18:00Z",
+      "last_activity_at": "2026-10-12T15:00:10.584Z"
     },
     {
       "slot_id": "slot_2",
@@ -19,7 +19,7 @@
       "phase": "verify_issue",
       "run_id": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
       "spawn_at": "2026-10-13T02:53:00Z",
-      "last_activity_at": "2026-10-12T14:52:47.189Z"
+      "last_activity_at": "2026-10-12T15:00:10.584Z"
     }
   ],
   "merge_queue": [],
@@ -27,9 +27,9 @@
   "active_issues": [
     {
       "issue_id": "t41",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight"
+        "implement_in_flight"
       ]
     },
     {
@@ -43,8 +43,7 @@
       "issue_id": "t46",
       "state": "built",
       "modifiers": [
-        "verify_in_flight",
-        "gate2_green"
+        "verify_recovery_in_flight"
       ]
     },
     {
@@ -64,6 +63,6 @@
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (t41 card CR fix + t46 verify recovery)",
+  "freeze_reason": "MAX_SLOTS=2 (t41 implement + t46 verify recovery)",
   "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol."
 }
