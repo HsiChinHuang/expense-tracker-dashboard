@@ -556,6 +556,20 @@
       "backend_tests": 270,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT MILESTONE EXIT - seventh and final phase_6 card (verification-artifact generator; ZERO test nodes - backend stays EXACTLY 270 collected + 270/270 green re-executed on merged MAIN 83.01s). One fix_qa cycle: verify_issue FAIL (ab349a16: ac1 raw cmp LF-generator vs CRLF-smudged checkout under core.autocrlf=true, deterministic 3/3 fresh) -> builder CRLF emission fix f351e92 per t28 precedent (no AC/ac_hash churn, e4437c7f recomputes) -> verify_issue PASS (b55a50da fresh worktree ac1 rc=0 3/3, 457/457). Pre-merge PASS (5cf31649): 154/154 detached scan zero failures 26 min, sim tree a9c5335 == prediction EXACT, gates all green incl 20/20 previously-composed files REAL tracked on merged tree, smoke 6/6 byte-identity ac6 LAST, ac1 CRLF cmp green on merged tree, MAIN did not advance. INDEX DISPOSITION (verifier ruling adopted; deviation from card ac1..ac5-appendable for ac1 ONLY, evidence-backed): appended ac2-ac5 (154->158, digest-verified verbatim, 4/4 GREEN on merged MAIN); ac1 EXCLUDED (proven W10 landmine: committed doc freezes BACKEND_COLLECTION 270 while ac1 regenerates from live count - raw cmp fails the moment phase_7/8 adds a backend test; t28 normalized-cmp precedent; growth experiment emitted 271 != 270); ac6 composite never. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. All 26 phase_6 test nodes green on merged MAIN."
+    },
+    {
+      "merge_id": "t36-7d5c328",
+      "issue_id": "t36",
+      "platform_issue": 39,
+      "merged_sha": "7d5c328",
+      "merged_tree": "6d184d247b65db147355c64e6ccabe6770802de0",
+      "merged_at": "2026-10-12T04:55:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 163,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "PHASE_7 SECURITY OPS: security umbrella + 5 sub-targets (gitleaks 8.30.1 Option-A allowlist gate-time /tmp emission, negative control proven), amend script landed + STRICT-WINDOW executed post-merge (entry#6 retargeted, 13 exclusions, originals kept), verify PASS 5587a67 (457 tests, 10 negative controls bite), index ac1-ac5 appended per disposition (ac6 excluded)"
     }
   ]
 }
