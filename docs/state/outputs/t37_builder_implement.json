@@ -8,11 +8,11 @@
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t37-security-docs",
-    "branch_sha": "6e8ec96",
+    "branch_sha": "38770e3",
     "ac_mapping": {
       "ac1": {
         "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
-        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/gitleaks-report.json || exit 1; test -f Makefile || exit 1; grep -qE \"gitleaks_8[.]30[.]1_linux_x64[.]tar[.]gz\" Makefile || exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!Array.isArray(a)){console.error(\\\"gitleaks report is not a JSON array\\\");process.exit(1)}if(a.length!==0){console.error(\\\"gitleaks findings: \\\"+a.length+\\\" - zero-leak BLOCKING invariant broken\\\");process.exit(1)}console.log(\\\"gitleaks report parses as a JSON array with ZERO findings\\\")\" security/gitleaks-report.json || exit 1; r1=$(mktemp /tmp/t37-gl-XXXXXX.json); r2=$(mktemp /tmp/t37-gl-XXXXXX.json); GITLEAKS_REPORT=\"$r1\" make security-gitleaks >/dev/null 2>&1 || exit 1; GITLEAKS_REPORT=\"$r2\" make security-gitleaks >/dev/null 2>&1 || exit 1; cmp -s security/gitleaks-report.json \"$r1\" || exit 1; cmp -s \"$r1\" \"$r2\" || exit 1; rm -f \"$r1\" \"$r2\"; echo \"ac1 PASS: gitleaks-report.json exists, parses, ZERO findings, byte-reproducible by make security-gitleaks (two independent runs match the committed artifact)\"'",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/gitleaks-report.json || exit 1; test -f Makefile || exit 1; grep -qE \"gitleaks_8[.]30[.]1_linux_x64[.]tar[.]gz\" Makefile || exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!Array.isArray(a)){console.error(\\\"gitleaks report is not a JSON array\\\");process.exit(1)}if(a.length!==0){console.error(\\\"gitleaks findings: \\\"+a.length+\\\" - zero-leak BLOCKING invariant broken\\\");process.exit(1)}console.log(\\\"gitleaks report parses as a JSON array with ZERO findings\\\")\" security/gitleaks-report.json || exit 1; r1=$(mktemp /tmp/t37-gl-XXXXXX.json); r2=$(mktemp /tmp/t37-gl-XXXXXX.json); GITLEAKS_REPORT=\"$r1\" make security-gitleaks >/dev/null 2>&1 || exit 1; GITLEAKS_REPORT=\"$r2\" make security-gitleaks >/dev/null 2>&1 || exit 1; cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\" || exit 1; cmp -s \"$r1\" \"$r2\" || exit 1; rm -f \"$r1\" \"$r2\"; echo \"ac1 PASS: gitleaks-report.json exists, parses, ZERO findings, byte-reproducible by make security-gitleaks (two independent runs match the CR-normalized committed artifact; r1-vs-r2 stays strict LF-to-LF)\"'",
         "verdict": "PASS"
       },
       "ac2": {
@@ -48,49 +48,63 @@
     },
     "lint_status": "CLEAN",
     "verification_commands_source": "docs/issues/<id>.md#verification-commands",
-    "ac_hash": "sha256:b43c70248fdcc8916fd44ea109cd1aa8e0d72b600f9717c962b85c73a7fca5a6",
-    "ac_hash_verification": "re-extracted at implement time from the committed card via the heading-exclusive /^## (?!#)/m slice + ```bash fenced blocks recipe; JSON.stringify(array of six) sha256 == the pinned groom hash; the six executed /tmp files are byte-identical to the card blocks (machine-verified string compare before execution).",
-    "verification_method": "All six pinned commands executed VERBATIM from /tmp/t37-acN.sh files written by a node extraction of the card (bash heredoc/node only; no edit-tool scratch). Execution order ac1..ac5 then ac6 LAST. Every cmd.exe leg wrapped cmd.exe /c \"...\" </dev/null with timeout; ac6 run in the foreground in a single bounded call after pre-warming the backend venv (uv sync --offline) and frontend node_modules (npm.cmd ci --no-audit --no-fund) as prerequisites, not gates.",
-    "measured_runs": {
-      "base_main": "3559302f78af275578c26aca121ccc37d30e7c79 (origin/main, contains groomed card + groom handoff)",
-      "gitleaks": "make security-gitleaks: gitleaks v8.30.1 tracked-tree sweep, 7264411 bytes in 593ms, rc=0, no leaks found; committed security/gitleaks-report.json is the pure JSON array [] (3 bytes, blob fe51488c7066f6687ef680d6bfaa4f7768ef205c); ac1 additionally proved byte-reproducibility via two independent GITLEAKS_REPORT= regeneration runs cmp-matched to the committed artifact",
-      "pip_audit": "make security-pip-audit: uv export --no-hashes --frozen (53 requirement lines) -> uvx pip-audit; tool rc=1 (findings recorded, never suppressed); Found 3 known vulnerabilities in 2 packages (ecdsa 0.19.2 PYSEC-2026-1325 x2, python-jose 3.5.0 CVE-2026-85394); committed security/pip-audit-report.txt (6 lines, blob d905d4a27bcc07475b8919e5e39cd6b0356eab6c); regeneration reproduced count 3",
-      "npm_audit": "make security-npm-audit: npm audit (npm.cmd via cmd.exe from frontend/), tool rc=1 accepted; 22 vulnerabilities (3 moderate, 17 high, 2 critical); committed security/npm-audit-report.txt (10067 bytes, blob eda56395c966d526f21e80577e08f9f08ef0f0c2); read-only proof: five named manifests byte-untouched (HEAD blob == hash-object) before and after; regeneration reproduced count 22",
-      "finding_ids": "46 distinct finding ids parsed by ac4 from the two audit reports; security/agent-security-notes.md ABSENT pre-t40 so the register leg is vacuously green; gitleaks zero-count parsed as 0 from the JSON",
-      "backend": "270 passed / 0 failed (uv run pytest -q, 92.6s); collected 270 (floor 270); ruff clean; mypy no-issues count >= 83 (ac6 leg green); alembic single head 005 (head)",
-      "frontend": "vitest json: numFailedTests=0, numPendingTests=0, numTodoTests=0, passed=187 (floor 187); tsc --noEmit rc=0; exactly 4 react-refresh/only-export-components lint warnings",
-      "index": "docs/state/merge_test_index.json >= 158 entries; anchors tests[16]=t2 (cfb84edc...) and tests[54]=t9 (cf5babc0...) byte-unchanged, both stored commands executed green; index NEVER touched by this build (orchestrator-owned)"
-    },
+    "verification_commands_source_note": "Authoritative source: docs/issues/t37.md ## Verification commands AT MAIN f92d984 (re-groomed card; branch copy still carries the OLD c0dc051-era card with ac_hash b43c7024). Literal schema const per t33-t36 precedent. The card file is CRLF; extraction normalises CRLF->LF, line-anchors /^## Verification commands$/m (Metadata prose contains the literal heading string so indexOf-style matches are false-hit prone and were excluded), slices to the next /^## (?!#)/m, takes the ```bash fences in ac order, trims, and hashes sha256 over JSON.stringify(array of the six). Extraction done via node into /tmp/t37-acN.sh ONLY (no edit-tool scratch, no repo writes).",
+    "ac_hash_pinned": "sha256:d92c8462ec96f3febca56383c1e74e4eca5277822676683542f56beff1d201e7",
+    "ac_hash_verified": "sha256:d92c8462ec96f3febca56383c1e74e4eca5277822676683542f56beff1d201e7",
+    "ac_hash_match": true,
+    "byte_identity_vs_card": "6/6 extracted commands byte-identical to the re-groomed card blocks (lengths 1164/1594/1363/1615/1243/3029). vs the OLD handoff commands: ac2-ac6 byte-identical (1594/1363/1615/1243/3029 unchanged), ac1 differs by exactly the re-groom CR-normalization (+62 chars: cmp leg now cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\"), old ac_hash b43c7024 superseded.",
+    "fix_qa_context": "RE-IMPLEMENT after verifier verify_issue FAIL (failure_type=test_env, error AUTOCRLF_BYTE_CMP_CONFLICT): ac1 was deterministically red ONLY because repo-local core.autocrlf=true converts the committed 3-byte LF gitleaks blob (fe51488c = \"[]\\n\") to a 4-byte CRLF working-tree copy at checkout while gitleaks emits LF, so the old raw byte-cmp leg was unsatisfiable in any fresh checkout. Definer re-groomed ac1 at MAIN f92d984 to CR-normalize the committed-report side (cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\", t36 precedent) and pinned the new ac_hash d92c8462. This handoff re-verifyies ALL SIX deliverables against the NEW pinned commands in exactly the fresh-checkout CRLF condition that broke the verifier. The three report artifacts and the verifier handoff were NOT regenerated or rewritten (blob shas unchanged: gitleaks fe51488c7066f6687ef680d6bfaa4f7768ef205c, pip-audit d905d4a27bcc07475b8919e5e39cd6b0356eab6c, npm-audit eda56395c966d526f21e80577e08f9f08ef0f0c2; all three HEAD-blob == worktree hash-object after this run; git status --porcelain empty before and after every command).",
+    "ac1_crlf_proof": "THIS worktree is the exact failure condition: after fresh checkout of tip 38770e3, security/gitleaks-report.json is 4 bytes \"5b5d 0d0a\" ([]\\r\\n) == CRLF(committed 3-byte LF blob), while make security-gitleaks outputs stay LF. The fixed CR-normalized cmp leg now passes: verbatim NEW ac1 rc=0 (1/1, no repeat needed) with stdout \"gitleaks report parses as a JSON array with ZERO findings\" + \"ac1 PASS: ... two independent runs match the CR-normalized committed artifact; r1-vs-r2 stays strict LF-to-LF\". The r1-vs-r2 leg remains strict (both operands fresh LF tool outputs) and the zero-finding parse invariant is unchanged, so the gate still bites on real content drift.",
+    "execution": "All six NEW pinned commands executed VERBATIM from the node-extracted /tmp files in ac1..ac5 then ac6 LAST order. ac6 run in the foreground in three verbatim contiguous chunks (backend block; frontend vitest/tsc/lint block; index block) per the long-leg discipline - chunk split byte-verified (concatenation == original 3019-char inner command). Every cmd.exe leg ran cmd.exe /c \"...\" </dev/null under timeout 900. NO detached nohup anywhere. Prerequisites (not gates): backend uv sync --offline (venv was absent), frontend npm.cmd ci --no-audit --no-fund (512 packages, node_modules was absent), gitleaks 8.30.1 at $HOME/.local/bin.",
     "command_results": {
-      "ac1": 0,
-      "ac2": 0,
-      "ac3": 0,
-      "ac4": 0,
-      "ac5": 0,
-      "ac6": 0
+      "ac1": {
+        "rc": 0,
+        "evidence": "file exists, Makefile pin, JSON array with ZERO findings, two independent make security-gitleaks runs byte-identical to each other AND to the CR-normalized committed artifact (4-byte CRLF worktree copy -> 3-byte LF stream == r1); r1-vs-r2 strict LF cmp green"
+      },
+      "ac2": {
+        "rc": 0,
+        "evidence": "parsed summary count=3, finding-table lines=3, python-jose named, .env.example class proven by tracked placeholder (register absent pre-t40), make security-pip-audit regeneration reproduced count 3"
+      },
+      "ac3": {
+        "rc": 0,
+        "evidence": "parsed npm audit count=22, dev-dependency class via esbuild/vite named, five named manifests byte-untouched (HEAD blob == hash-object), make security-npm-audit regeneration reproduced count 22"
+      },
+      "ac4": {
+        "rc": 0,
+        "evidence": "46 distinct finding ids parsed; security/agent-security-notes.md ABSENT -> register leg vacuously green; gitleaks zero-count parsed as 0"
+      },
+      "ac5": {
+        "rc": 0,
+        "evidence": "security/ exactly .gitkeep + three reports (non-empty, NUL-free, under 200KB), ops/ .gitkeep-only, workflows frozen four, .gitignore byte-untouched"
+      },
+      "ac6": {
+        "rc": 0,
+        "evidence": "LAST (three byte-verified chunks, all rc=0): README 202<=500, workflows frozen, five manifests byte-untouched, three reports present, ops/ clean; backend pytest green collected=270 (floor 270), ruff clean, mypy >= 83, alembic single head 005 (head); frontend vitest numFailedTests=0/numPendingTests=0/numTodoTests=0 passed=187 (floor 187), tsc --noEmit rc=0, exactly 4 react-refresh/only-export-components warnings; index 163>=158 entries, anchors tests[16]=t2 (cfb84edc...) and tests[54]=t9 (cf5babc0...) byte-unchanged, both stored commands executed green"
+      }
     },
-    "fail_before_ref": "groom measured 6/6 rc=1 at base (reports absent); this build turns each green by committing the three real-run artifacts and nothing else",
-    "deliverables": "EXACTLY three files added: security/gitleaks-report.json, security/pip-audit-report.txt, security/npm-audit-report.txt - pure tool output, no headers, no hand-typed content. NO docs/ops files, NO register file, NO ops/ files, NO manifest/.gitignore/workflow changes (the t37 card delta is the three scan reports; security/*.md and ops/*.md named in the spawn preamble are OUT OF SCOPE per the card Constraints/Out-of-scope sections - they belong to t38/t39/t40/t41).",
+    "fail_before_ref": "groom measured 6/6 rc=1 at base 3559302 (reports absent); build commit cff528e turns each green by committing the three real-run artifacts and nothing else; this re-verify re-proves 6/6 green under the re-groomed ac1 in the CRLF fresh-checkout condition.",
+    "deliverables": "UNCHANGED from build commit cff528e (this commit adds ONLY the replaced handoff): security/gitleaks-report.json (blob fe51488c, 3 bytes \"[]\\n\", zero findings), security/pip-audit-report.txt (blob d905d4a2, 249 bytes, Found 3 known vulnerabilities), security/npm-audit-report.txt (blob eda56395, 10067 bytes, 22 vulnerabilities). All pure tool output; never hand-typed; counts parsed (3/22/46 ids/0 gitleaks), never asserted (W10).",
     "durability": {
       "branch": "issue/t37-security-docs",
       "base_main": "3559302f78af275578c26aca121ccc37d30e7c79",
+      "re_groomed_card": "f92d984 (contained in origin/main 7982d0a3979d1e741edd22b051da13bbe6380990; ancestor-verified) - the ONLY t37.md delta vs the branch copy is the ac1 cmp-leg fix + ac_hash b43c7024->d92c8462 + RE-GROOM provenance prose; ac2-ac6 commands byte-untouched",
       "build_commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
-      "handoff_commit": "6e8ec9602e4bb1c3553b9e8ed06409357a28c9d1",
-      "pushed": true,
-      "remote_tip_at_push": "6e8ec9602e4bb1c3553b9e8ed06409357a28c9d1",
-      "push_verify": "git ls-remote origin refs/heads/issue/t37-security-docs == local HEAD (6e8ec96...); pushed via the cmd.exe git shim (WSL-side push hangs on this host), no force-push",
-      "push_metadata_commit": "this follow-up commit appends the push metadata (a handoff cannot carry the sha of the commit that carries it - t35/groom precedent)"
+      "previous_handoff_commits": [
+        "6e8ec9602e4bb1c3553b9e8ed06409357a28c9d1",
+        "c0dc0517e1041ca5a2bbd150c717c38148cadba1 (verifier FAIL handoff)"
+      ],
+      "branch_tip_before_handoff": "38770e376f53c17ae996bbb130b7b0b3660f7fbc (worktree fast-forwarded from c0dc051 to this tip before any run)",
+      "handoff_commit": "written by the commit that carries this file; see push_metadata",
+      "pushed": false,
+      "push_method": "cmd.exe /c \"git -C <WINPATH> push\" </dev/null shim (WSL-side push hangs on this host); no force-push",
+      "push_metadata": "pending - appended by the follow-up metadata commit per t35/t37 precedent (a handoff cannot carry the sha of the commits that carry it)"
     },
-    "notes": "BUILDER IMPLEMENT SUMMARY - t37 (platform #40, phase_7_security_ops scan-report vertical). Branch issue/t37-security-docs off MAIN 3559302. Spawn preamble mentioned security/ops documentation files; the AUTHORITATIVE card (Constraints: \"Files: 3 files\"; Out of scope: \"the three security/ documents (t40), ops/ (t39/t41), semgrep+trivy (t38)\") pins the delta to the three scan reports, which is what was implemented - no invented scope. All six groom-pinned commands executed verbatim, ac6 last, 6/6 rc=0. Provenance (tools, pinned versions, exact commands, UTC timestamps, target tree, measured counts) is recorded in the build commit message per the card contract since the gitleaks JSON must stay pure. Preconditions bootstrapped: frontend npm ci (512 packages), backend uv sync --offline. Commit type feat per card DoD (feat(t37): ...). Index untouched; ac6 not index-appended; ac1..ac5 are the appendable candidates for the orchestrator. Platform label transition (groomed->built) and issue comment not performed here: no Platform credentials flow was provided in this spawn task and the orchestrator task contract for this run owns platform sync (recorded as a residual risk, not a blocker).",
-    "ac_suggestions": [],
-    "w10": "No exact vulnerability count pinned anywhere in what this build asserted; counts parsed from tool output (3 pip-audit, 22 npm, 46 ids, 0 gitleaks). Floors 270/187/158/83 not raised.",
-    "verification_commands_source_note": "Literal schema const per t33/t34/t35/t36 precedent; the concrete source for THIS card is docs/issues/t37.md ## Verification commands (six fenced bash blocks, verbatim in ac_mapping)."
+    "notes": "RE-IMPLEMENT (fix_qa context) of t37 against the re-groomed card. Verifier FAIL was test_env only (ac1 autocrlf byte-cmp); the re-groom closed it by CR-normalizing the committed-report cmp side; this run re-verified all six NEW pinned commands in the exact fresh-checkout CRLF environment that produced the FAIL: ac1 now PASS rc=0 (the whole point of the re-groom), ac2-ac6 commands byte-identical to the previous card and re-run green (counts 3/22/46/270/187 reproduce the verifier measurements exactly). No artifact regenerated, no repo git config touched (core.autocrlf=true left as-is per task FORBIDDEN list), no files under docs/issues, docs/state/merge_test_index.json, README, Makefile, workflows, or .gitattributes touched. Platform #40 labels untouched (orchestrator owns).",
+    "w10": "No exact vulnerability count pinned; floors 270/187/158/83 not raised; counts parsed from tool output.",
+    "ac_suggestions": []
   },
   "artifacts": {
     "files_written": [
-      "security/gitleaks-report.json",
-      "security/pip-audit-report.txt",
-      "security/npm-audit-report.txt",
       "docs/state/outputs/t37_builder_implement.json"
     ],
     "platform_issue": 40,
@@ -98,6 +112,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-12T05:06:07.823Z",
+  "timestamp": "2026-10-12T06:31:00.000Z",
   "retry_count": 0
 }
