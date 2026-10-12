@@ -99,7 +99,7 @@
         "6aba3d3 Merge origin/main (b743689)"
       ],
       "pushed": true,
-      "ls_remote_verified": "origin/issue/t43-psycopg-driver == 6aba3d3 == local HEAD"
+      "ls_remote_verified": "origin/issue/t43-psycopg-driver == a324bad (handoff commit) == local HEAD; code tip 6aba3d3; handoff branch_sha records the code tip."
     },
     "verification_commands_source_note": "Card-specific source: docs/issues/t43.md ## Verification commands (schema const placeholder form)."
   },
