@@ -46,6 +46,7 @@
 | t41 | Security and ops verification - criteria 13 evidence generator, ops diagnosis + deployment-health, deferral register, milestone-exit composite | [t36, t37, t38, t39, t40] | #44 | defined |
 | t42 | CI/E2E runner repair - setup-uv pin, coverage-v8 devDep, actions/cache v5, E2E wait diagnostics | [t35] | #45 | closed |
 | t43 | psycopg driver repair - psycopg[binary] + connect-probe inside sqlite-fallback try (E2E unblocker) | [t42] | #46 | closed |
-| t45 | E2E app container startup diagnosis - surface container logs on health-wait failure (root-cause capture) | [t42] | #48 | defined |
+| t45 | E2E app container startup diagnosis - surface container logs on health-wait failure | [t42] | #48 | closed |
+| t46 | E2E uv-cache permission fix - runtime user app cannot init root-owned /tmp/uv-cache (measured: Permission denied; container dies 0.1s) | [t42] | #49 | defined |
 | t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | closed |
 
