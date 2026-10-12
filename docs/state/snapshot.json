@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T10:41:05.312Z",
-  "last_seq": 573,
+  "updated_at": "2026-10-12T10:41:51.639Z",
+  "last_seq": 575,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -9,18 +9,17 @@
       "role": "verifier",
       "phase": "verify_issue",
       "run_id": "e744a6d1-130c-4a84-b814-9d34f92e43a4",
-      "spawn_at": "2026-10-12T10:41:05.312Z",
-      "last_activity_at": "2026-10-12T10:41:05.312Z"
+      "spawn_at": "2026-10-12T18:10:00Z",
+      "last_activity_at": "2026-10-12T10:41:51.639Z"
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t43",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "2b6252f2-af18-4605-ac6d-1b1859f13590",
-      "spawn_at": "2026-10-12T17:10:00Z",
-      "last_activity_at": "2026-10-12T10:41:05.312Z",
-      "note": "resumed; running in original worktree"
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "b22de86f-8518-4e19-92c5-ae6cba783dc8",
+      "spawn_at": "2026-10-12T10:41:51.639Z",
+      "last_activity_at": "2026-10-12T10:41:51.639Z"
     }
   ],
   "merge_queue": [],
@@ -28,9 +27,9 @@
   "active_issues": [
     {
       "issue_id": "t43",
-      "state": "groomed",
+      "state": "built",
       "modifiers": [
-        "implement_resumed_in_flight"
+        "verify_in_flight"
       ]
     },
     {
