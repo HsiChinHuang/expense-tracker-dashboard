@@ -109,7 +109,7 @@
     "contract_first_applied": true,
     "ac_hash_recipe": "heading-EXCLUSIVE: committed card bytes (git show HEAD:docs/issues/t48.md, CRLF-normalized to LF), sliced from the exact line '## Verification commands' to the next line that is exactly '## Out of scope' (a LINE-anchored split is required here: ac2's grep pattern contains the literal text '## Out of scope', so a naive string split truncates the segment after the first fence), all ```bash fenced blocks in ac1..ac6 order, each trimmed, sha256 over JSON.stringify(array). Computed from the COMMITTED card-body bytes (commit 1fb171b) and pinned OUTSIDE the fences, then RECOMPUTED from the committed bytes of the pin commit f1e5da2 and confirmed identical (cb4feed3...).",
     "branch": "groom/t48-process-ownership-docs",
-    "branch_sha": "f1e5da2e63f4059df4431bd503355771c3c6d135",
+    "branch_sha": "d8e964f5f240a094af953c4daf839757a8cfc592",
     "base_sha": "ee4fd22",
     "card_path": "docs/issues/t48.md",
     "summary": "Groomed t48 (#51) into a five-heading card whose six gates are all measured: ac1 process.md (REQ-DOC-022 four H2 sections + five real roles + schemas/ gate + the real defined -> groomed -> built -> verified -> closed lifecycle), ac2 task-template.md (REQ-DOC-028 four grooming sections exactly once + the frontmatter convention this repo actually uses), ac3 docs/team/ exact set pm.md/qa-engineer.md/software-engineer.md (REQ-DOC-029) with the four role-definition headings and the pm->definer / software-engineer->builder / qa-engineer->verifier mapping, ac4 docs/ownership.md ownership table (REQ-DOC-063 + REQ-DOC-002 families + REQ-DOC-062 triggers) matched with grep -F, ac5 REQ-DOC-060/061 writing+linking rules (ASCII, no #### -deep, zero orphan documents), ac6 MAIN-floors composite + delta purity with README byte-UNCHANGED at 8d141fb2... because t48 does not touch README (t49 owns that delta). All six ACs are single-line bash -c commands with zero inner single quotes, CRLF-tolerant via tr -d, and the composite wrapped in timeout. Every requirement citation is a REAL id in docs/requirements.md - the survey's REQ-PROC-*/REQ-TEAM-* families do not exist (review_plan W15).",
@@ -147,12 +147,14 @@
     "fixture": "Throwaway UNPUSHED branch tmp/t48-fixture (commit b550be0) carrying exactly the six authored docs, used only to measure the fixture_green column; deleted after measurement and the worktree restored byte-clean on the groom branch (git status --porcelain empty). Note: git checkout -f was required because CRLF smudge makes docs/task-template.md and docs/ownership.md show as modified while being content-identical after tr -d CR (verified by diff).",
     "durability": {
       "branch": "groom/t48-process-ownership-docs",
-      "tip_sha": "f1e5da2e63f4059df4431bd503355771c3c6d135",
+      "tip_sha": "d8e964f5f240a094af953c4daf839757a8cfc592",
       "pushed": true,
-      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t48-process-ownership-docs -> f1e5da2e63f4059df4431bd503355771c3c6d135 (matches local HEAD)",
+      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t48-process-ownership-docs -> d8e964f5f240a094af953c4daf839757a8cfc592 (matches local HEAD). Commits: 1fb171b (card body) -> f1e5da2 (ac_hash pin, hash recomputed identical) -> d8e964f (handoff JSON copy). The fixture branch tmp/t48-fixture (b550be0) was NEVER pushed and was deleted after measurement.",
       "card_commit": "1fb171b",
       "pin_commit": "f1e5da2e63f4059df4431bd503355771c3c6d135",
-      "base_commit": "ee4fd22"
+      "base_commit": "ee4fd22",
+      "handoff_commit": "d8e964f",
+      "no_implementation": "Card-only delta: the three commits touch docs/issues/t48.md and docs/state/outputs/t48_definer_groom.json alone. The six deliverable docs were NEVER committed to the groom branch - authoring them belongs to the builder; they existed only on the deleted throwaway fixture branch for measurement."
     },
     "disclosures": [
       "W15 correction: the survey body cites REQ-PROC-* and REQ-TEAM-* families that DO NOT EXIST in docs/requirements.md. The card cites only real ids: REQ-DOC-001, REQ-DOC-002, REQ-DOC-022, REQ-DOC-028, REQ-DOC-029, REQ-DOC-060, REQ-DOC-061, REQ-DOC-062, REQ-DOC-063, REQ-DOC-083, REQ-STRUCT-001, REQ-PLAN-080. No AC or card text references a phantom requirement.",
