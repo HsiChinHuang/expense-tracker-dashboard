@@ -584,6 +584,20 @@
       "backend_tests": 270,
       "regression_count": 0,
       "notes": "CI/E2E REPAIR (user-reported defect): setup-uv v4.5.1->v5.0.0 (404 root cause), cache v4.1.2->v4.2.4 (runner-deprecation root cause), @vitest/coverage-v8 1.6.0 (Coverage-report root cause). Re-groom index-timing (floor 163 + 5 byte-pins, hash 0acc538a). Verify PASS cb34daf 6/6 + 5 negative controls. NO index mutation per DoD. FINAL ACCEPTANCE: live CI+E2E on merge commit polled by orchestrator."
+    },
+    {
+      "merge_id": "t37-0aa86ff",
+      "issue_id": "t37",
+      "platform_issue": 40,
+      "merged_sha": "0aa86ffe",
+      "merged_tree": "daabefc8db5d068d576edd5cff13bded388adc52",
+      "merged_at": "2026-10-12T08:30:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 168,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "SECURITY SCAN REPORTS (re-verify PASS 633a63f6 after re_groom autocrlf fix + re-implement). ac_hash d92c8462 supersedes b43c7024. ac1 CR-normalized cmp closes AUTOCRLF_BYTE_CMP_CONFLICT; 10 negative controls incl. KEY gate-integrity (byte-different zero-findings payload still rc=1, r1-vs-r2 strict LF-to-LF bites). Artifacts: gitleaks/pip-audit/npm-audit reports (blobs fe51488c/d905d4a2/eda56395). index append ac1-ac5 (163->168)."
     }
   ]
 }
