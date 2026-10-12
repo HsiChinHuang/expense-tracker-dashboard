@@ -159,6 +159,90 @@ make lint-frontend
 See `docs/commands.md` for the raw toolchain commands and
 `docs/coding_standards.md` for contribution style.
 
+## Criteria mapping
+
+One row per Chapter 24.3 quality-acceptance table (rows 1-15) - the
+reviewer's map from each check to the requirement and the file that holds
+its evidence (REQ-DOC-081, REQ-PROJ-005).
+
+| # | Check (Chapter 24.3) | Requirement | Evidence to open |
+|---|---|---|---|
+| 1 | README under 500 lines | REQ-DOC-010 | `wc -l README.md` (this file) |
+| 2 | All docs present | REQ-DOC-002 | `docs/` (see Evidence checklist below) |
+| 3 | Screenshots present | REQ-DOC-040 | `screenshots/` (lands with t52) |
+| 4 | Criteria mapping present | REQ-PROJ-005, REQ-DOC-081 | this section |
+| 5 | AI workflow documented with real sessions | REQ-AI-110 to REQ-AI-113 | `docs/ai-workflow.md` (lands with t50) |
+| 6 | Correction log present | REQ-AI-120 to REQ-AI-122 | `docs/ai-workflow.md` (lands with t50) |
+| 7 | Agent Extension Pack functional | REQ-EXT-001 to REQ-EXT-083 | `docs/agent-extension-pack.md` |
+| 8 | Hook tests pass | REQ-EXT-072 | `docs/criteria/agent_pack_verification.md` |
+| 9 | Permissions documented | REQ-EXT-060 | `docs/permissions.md` |
+| 10 | Security artifacts present | REQ-SEC-001 | `security/` (8 artifacts) |
+| 11 | Ops artifacts present | REQ-OPS-002 | `ops/` (5 artifacts) |
+| 12 | Diagnosis reproducible | REQ-OPS-042 | `ops/diagnosis.md` |
+| 13 | Deployment record present | REQ-OPS-060 | `ops/deployment-health.md` |
+| 14 | Peer reviewer can reproduce in < 10 min | REQ-PROJ-009, REQ-DOC-071 | Local verification in five minutes below |
+| 15 | README 5-minute verification path | REQ-DOC-070 | both five-minute sections below |
+
+## Evidence checklist
+
+One row per Chapter 24.5 final-project criteria table (criteria 1-14) -
+the REQ-DOC-072 checklist mapping each of the 14 criteria to the specific
+file (or directory) a reviewer opens.
+
+| # | Criterion (Chapter 24.5) | Requirement range | File to open |
+|---|---|---|---|
+| 1 | Problem Description | REQ-PROJ-001 to REQ-PROD-007 | `product-spec.md` |
+| 2 | AI Workflow | REQ-AI-001 to REQ-AI-143 | `docs/ai-workflow.md` (lands with t50) |
+| 3 | Architecture | REQ-TECH-001 to REQ-ARCH-082 | `docs/architecture.md` (lands with t51) |
+| 4 | Frontend | REQ-FE-001 to REQ-FE-144 | `frontend/` |
+| 5 | API Contract | REQ-API-001 to REQ-API-114 | `openapi.yaml` |
+| 6 | Backend | REQ-BE-001 to REQ-BE-152 | `backend/` |
+| 7 | Database | REQ-DB-001 to REQ-DB-135 | `backend/alembic/` |
+| 8 | Containerization | REQ-CICD-020 to REQ-CICD-026 | `Dockerfile`, `docker-compose.yml` |
+| 9 | Integration Testing | REQ-TEST-020 to REQ-TEST-045 | `e2e/`, `backend/tests/integration/` |
+| 10 | Deployment | REQ-CICD-030 to REQ-CICD-062 | `render.yaml`, `ops/deployment-health.md` |
+| 11 | CI/CD | REQ-CICD-010 to REQ-CICD-083 | `.github/workflows/` |
+| 12 | Agent Extension Pack | REQ-EXT-001 to REQ-EXT-083 | `docs/agent-extension-pack.md` |
+| 13 | Security/Audit/DevOps | REQ-SEC-001 to REQ-OPS-113 | `security/`, `ops/` |
+| 14 | Reproducibility | REQ-PROJ-009, REQ-DOC-070 to REQ-DOC-072 | this README, `Makefile` |
+
+## Live verification in five minutes
+
+Reviewer procedure against the deployed URL (REQ-DOC-070). Status, stated
+honestly: the public Render URL is DEFERRED for live attestation - this
+environment has no egress and the stored register records RENDER_DEPLOY,
+UPTIMEROBOT_MONITOR and LIVE_COLD_START as deferred (egress_forbidden),
+so this README documents the procedure without claiming the deployment
+was verified live in CI. Open the deployed URL early: the free tier pays
+a cold start after each idle gap (see Free tier above).
+
+1. Open the live URL (the Render service named in `render.yaml`).
+2. Register an account (or log in).
+3. Add an expense.
+4. Set a budget for the month.
+5. Verify the five charts (trend, cumulative, by-category pie, weekly
+   heatmap, and the KPI/recent surface) render from their own queries.
+6. Switch month - every month-driven chart refetches.
+7. Log out.
+
+## Local verification in five minutes
+
+The same seven steps with zero accounts (REQ-DOC-071, REQ-PROJ-009):
+
+```bash
+git clone <repo-url> && cd expense-tracker-dashboard
+cp .env.example .env
+docker compose up --build
+```
+
+1. Open http://localhost:8000 (the SPA plus the API in one container).
+2. Register an account.
+3. Add an expense.
+4. Set a budget for the month.
+5. Verify the five charts.
+6. Switch month.
+7. Log out, then `docker compose down`.
+
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE)
