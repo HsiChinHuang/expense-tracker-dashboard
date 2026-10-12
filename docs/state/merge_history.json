@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-12T15:09:35.445Z",
+  "updated_at": "2026-10-12T15:44:18.538Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -655,6 +655,16 @@
       "test_suite": "full",
       "verifier_run": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
       "notes": "index byte-unchanged 183 per card DoD (no append); ac3 real compose round-trip verified by verifier; DatatypeMismatch accepted t47 residual"
+    },
+    {
+      "issue_id": "t41",
+      "merge_sha": "eba386e310e3306b165429c618493c66e1931cfe",
+      "pre_merge_sha": "6bd9745744ab8c7ef0a21c89fc06c95e809298e4",
+      "timestamp": "2026-10-12T15:44:18.538Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "verifier_run": "429e312a-c783-4a5f-a430-76f785d0e28f",
+      "notes": "index appended ac1..ac5 (183->188) per card disposition (ac6 never); faithful-CR ac4 entry carries the 2 raw CRs; digest 5e9b1ea4 reproduced by definer/builder/verifier/orchestrator"
     }
   ]
 }

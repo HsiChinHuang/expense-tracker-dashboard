@@ -49,3 +49,4 @@ Runtime-maintained by Orchestrator.
 | t43 | psycopg driver + connect-probe (E2E unblocker) | 2026-10-12 | 0 | de1c0e4 |
 | t40 | Security documents - pr-audit, agent-security-notes (accepted-findings register), AI tool data policy | 2026-10-13 | 0 | 3c4036d |
 | t46 | E2E uv-cache permission + CORS_ORIGINS JSON startup-config fix | 2026-10-13 | 0 | bb2eae1 |
+| t41 | Security/ops verification generator + ops diagnosis & deployment-health records | 2026-10-13 | 0 | eba386e |
