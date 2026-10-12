@@ -1,15 +1,17 @@
 # Status
 
-Updated: 2026-10-08T08:30Z
+Updated: 2026-10-12T11:05Z
 
-## Active slots
+## Active slots (cap: .env MAX_SLOTS=2, top precedence)
 
-| Slot | Issue | Role | Phase | Spawn | Last Activity |
+| Slot | Issue | Role | Phase | Run | Note |
 |---|---|---|---|---|---|
-| 1/2 | t18 | builder | build | 19:20Z | run 44af0f88 (#19 verifier_failed) (#19, worktree ../worktrees/t16) (#19, worktree ../worktrees/t16) (#19, worktree ../worktrees/t16) (#19, worktree ../worktrees/t16) (#18) (worktree ../worktrees/t15, #18) (worktree ../worktrees/t15, #18) (main, #18) (main, #18) (#17) (worktree ../worktrees/t14, #17) (worktree ../worktrees/t14, #17) (main checkout, #17) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t13, #16) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t12, #15) (worktree ../worktrees/t11, #14) |
-| 2/2 | (free) | — | — | — | — |
+| 1 | t38 | definer | groom | 698207a0 | semgrep/trivy reports; Option-A conditional ac1 ruled |
+| 2 | t39 | verifier | verify_issue | 342f1890 | ac6 green on fresh npm ci; negatives in progress |
+| OVER | t44 | definer | groom | 157e4352 | Option-B delta-leg shape approved; over cap, no force-kill |
+| QUEUE | t43 | definer | groom | ce11ea09 | TIMEOUT (retry 1/3); resume FIRST on slot free |
 
-**t5 CLOSED** (merge `8e9fcb3`), **t6 CLOSED** (merge `17064fc`, index 34→39, history #7). phase_2_auth 2/5.
+**DISPATCH FREEZE** in effect until active <= 2.
 
 ## Merge queue
 
@@ -17,35 +19,12 @@ Updated: 2026-10-08T08:30Z
 
 ## Ready issues
 
-t5 `built` (#8, gate2 + orch re-run 6/6). t6 `verified` (#9) pre-merge running. t7←t6, t8←t7, t9←t2+t8. t7–t9 `defined` (#10–#12). DAG: t7←t6, t8←t7, t9←t2+t8.
+t39 `built` (#42, gate2 PASS, tip 9c5688e) - verify in flight. t38 `defined` (#41) groom in flight. t43 `defined` (#46) resume queued (Option A connect-probe rewrite). t44 `defined` (#47) groom in flight. t40 (#43) / t41 (#44) blocked on deps. #45 (t42) `verified` - merge blocked on live E2E green, which requires t43.
 
-## Blocked issues
+## Live CI/E2E
 
-(none)
+On 7136c7a: CI #83 SUCCESS, E2E #83 FAILURE (expected pre-t43).
 
-## Closed / merged
+## Recent closures
 
-| Issue | Platform | Merge | Post-merge | Closed |
-|---|---|---|---|---|
-| t0 | #3 | 1753fd0 | PASS | 2026-10-07T15:59Z |
-| t1 | #4 | 792f644 | PASS 11/11 (gate4) | 2026-10-07T16:36Z |
-| t2 | #5 | 4f89797 | PASS 17/17 (gate4) | 2026-10-07T16:53Z |
-| t3 | #6 | b3c5746 | PASS 22/22 (gate4) | 2026-10-07T17:03Z |
-| t4 | #7 | 410ac3e | PASS 28/28 (gate4) | 2026-10-07T17:34Z |
-
-## Run state
-
-phase_1_init COMPLETE (`docs/state/complete.md`). Operator go-ahead received (17:44Z) → **phase_2_auth survey running**. On survey COMPLETE: milestone file (review_plan pending) → Step 3 spawns Definer:review_plan → then t5.. lifecycle.
-
-## Open blockers
-
-**None.**
-
-## Notes
-
-- Cumulative merge test index: 34 commands (t0 ×6 amended per WAL 77, t1 ×5, t2 ×6, t3 ×5, t4 ×6, t5 ×6).
-- merge_history: 5 entries, total retries 1 (t2 pre-merge resume), regressions 0.
-- GitHub API outages during this run: comments-POST + push 500s 16:50–17:01Z (recovered; t3 verdict backfilled); label endpoints 500 mid-run → PATCH `issue update --labels` workaround; both fully recovered by t4 closure (normal endpoints used).
-- Model-suffix spawn override (`:medium`) transiently rejected at t4 groom spawn (WAL 120) — definer default thinking=medium covers it; verifier `:low` works.
-- Stray tracked CRLF copy of `docs/issues/t2.md` removed 17:38Z (Windows-side resurrect swept by `git add -A docs`; authoritative `closed/t2.md` intact).
-- Fairness metrics are in `docs/state/metrics/status_metrics.json` (updated every iteration).
+t36 `0aa86ff`-chain, t37 `0aa86ffe`, t42 `0f37141` - closure hygiene completed 2026-10-12 (closed/ move, index.md rebuilt 39 rows, backlog flipped).
