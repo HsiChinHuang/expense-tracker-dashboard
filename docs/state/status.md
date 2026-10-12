@@ -1,17 +1,16 @@
 # Status
 
-Updated: 2026-10-12T11:05Z
+Updated: 2026-10-12T12:10Z
 
 ## Active slots (cap: .env MAX_SLOTS=2, top precedence)
 
 | Slot | Issue | Role | Phase | Run | Note |
 |---|---|---|---|---|---|
-| 1 | t38 | definer | groom | 698207a0 | semgrep/trivy reports; Option-A conditional ac1 ruled |
-| 2 | t39 | verifier | verify_issue | 342f1890 | ac6 green on fresh npm ci; negatives in progress |
-| OVER | t44 | definer | groom | 157e4352 | Option-B delta-leg shape approved; over cap, no force-kill |
-| QUEUE | t43 | definer | groom | ce11ea09 | TIMEOUT (retry 1/3); resume FIRST on slot free |
+| 1 | t38 | definer | groom | 698207a0 | Option-A conditional ac1; long-running, active 37s ago |
+| 2 | t43 | definer | groom | f5e11980 | fresh after ce11ea09 worktree-recycle; Option-A digest, 45-min timebox |
+| QUEUE | t44 | definer | groom | (157e4352 dead) | retry 1/3; zero commits; dispatch when slot_1 frees |
 
-**DISPATCH FREEZE** in effect until active <= 2.
+**DISPATCH FREEZE** until active <= 2.
 
 ## Merge queue
 
@@ -19,12 +18,12 @@ Updated: 2026-10-12T11:05Z
 
 ## Ready issues
 
-t39 `built` (#42, gate2 PASS, tip 9c5688e) - verify in flight. t38 `defined` (#41) groom in flight. t43 `defined` (#46) resume queued (Option A connect-probe rewrite). t44 `defined` (#47) groom in flight. t40 (#43) / t41 (#44) blocked on deps. #45 (t42) `verified` - merge blocked on live E2E green, which requires t43.
+t38 (#41) / t43 (#46) groom in flight. t44 (#47) resume queued. t40 (#43) blocked on t38. t41 (#44) blocked on t38,t40,t44. #45 (t42) verified - merge-gate = first live E2E green, requires t43.
 
 ## Live CI/E2E
 
-On 7136c7a: CI #83 SUCCESS, E2E #83 FAILURE (expected pre-t43).
+CI #93 / E2E #93 pending on `6335f31`. E2E expected FAILURE until t43 lands (psycopg absent). Acceptance polled on FINAL post-merge SHA.
 
-## Recent closures
+## Recent
 
-t36 `0aa86ff`-chain, t37 `0aa86ffe`, t42 `0f37141` - closure hygiene completed 2026-10-12 (closed/ move, index.md rebuilt 39 rows, backlog flipped).
+t39 CLOSED `e62b919` (index 173, history 40, #42 closed). Spec re-read complete incl. recovery/human_review/preflight; recovery reconciliation clean, no DRIFT. WAL 553.
