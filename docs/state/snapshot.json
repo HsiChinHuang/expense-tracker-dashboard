@@ -1,15 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T10:59:59.831Z",
-  "last_seq": 577,
+  "updated_at": "2026-10-12T11:00:53.928Z",
+  "last_seq": 578,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t40",
       "role": "definer",
       "phase": "groom",
-      "status": "DISPATCHING",
-      "note": "slot freed by t44 verify completion"
+      "run_id": "17e8f20a-e396-4419-b19c-ec8ec932f45f",
+      "spawn_at": "2026-10-12T11:00:53.928Z",
+      "last_activity_at": "2026-10-12T11:00:53.928Z",
+      "note": "fresh-design register loop"
     },
     {
       "slot_id": "slot_2",
