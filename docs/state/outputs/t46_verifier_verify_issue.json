@@ -103,7 +103,8 @@
     "verification_incidents": [
       "SELF-DISCLOSED: late in the run a stray 'rm -f Dockerfile' (a copy-paste error in a cleanup command) deleted the worktree's Dockerfile while 3 temp .out files were written to the worktree root. Detected immediately via git status (showed ' D Dockerfile' + 3 untracked files). Remediation: removed the 3 temp files and restored the file with 'git checkout -- Dockerfile'; verified byte-content-identical to the HEAD blob (chown line present, 56/56 lines CRLF) and the worktree back to fully clean. No committed content was ever affected (the deletion was uncommitted and the restore is identical to HEAD); the final re-run of ac1/ac4 after the restore was rc=0, proving the restored file still satisfies both Dockerfile gates. Reported rather than silently fixed because worktree integrity is part of what I attest.",
       "First ac3 attempt (pre-intervention) hung 73+ minutes on a zombie WSL docker transport; no image or container was ever created for my project (orchestrator docker-events evidence). The retry reported here is the first attempt that actually built and started containers."
-    ]
+    ],
+    "sha_layout": "branch_sha ab4c93e is the tip I VERIFIED (all five gates executed with the working tree there). My handoff commits (5723b0b, then the amended e0d49a8) are DOCS-ONLY commits on top of it carrying this file - a handoff cannot embed the sha of its own containing commit. Authoritative pushed tip: git ls-remote origin issue/t46-uv-cache-permission = e0d49a8b64bf33f468a0d35c0238e144c4d05970. ac4 was re-run rc=0 after my handoff commits: the non-docs delta at the final tip is still EXACTLY {Dockerfile, docker-compose.yml}, and docs/state/merge_test_index.json is still byte-unchanged vs origin/main (0-byte diff)."
   },
   "artifacts": {
     "files_written": [
