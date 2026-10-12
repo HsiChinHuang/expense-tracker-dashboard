@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:33:07.824Z",
-  "last_seq": 560,
+  "updated_at": "2026-10-12T09:41:18.433Z",
+  "last_seq": 562,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t38",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "3ead80f3-70bb-49f8-8cf4-86d2a406ea7b",
-      "spawn_at": "2026-10-12T09:16:29.784Z",
-      "last_activity_at": "2026-10-12T09:16:29.784Z"
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "df6470d7-50af-41eb-ac6a-9ec2d710f82e",
+      "spawn_at": "2026-10-12T09:41:18.433Z",
+      "last_activity_at": "2026-10-12T09:41:18.433Z"
     },
     {
       "slot_id": "slot_2",
@@ -18,8 +18,8 @@
       "role": "definer",
       "phase": "groom",
       "run_id": "7bb6d7ea-18cb-4082-b6f1-298d494ec247",
-      "spawn_at": "2026-10-12T09:33:07.824Z",
-      "last_activity_at": "2026-10-12T09:33:07.824Z",
+      "spawn_at": "2026-10-12T13:55:00Z",
+      "last_activity_at": "2026-10-12T09:41:18.433Z",
       "note": "retry 3/3 transcription-only"
     },
     {
@@ -27,8 +27,7 @@
       "issue_id": "t44",
       "role": "definer",
       "phase": "groom",
-      "status": "QUEUED",
-      "note": "fresh definer with Option-B ruling digest when slot frees"
+      "status": "QUEUED"
     }
   ],
   "merge_queue": [],
@@ -36,16 +35,16 @@
   "active_issues": [
     {
       "issue_id": "t38",
-      "state": "groomed",
+      "state": "built",
       "modifiers": [
-        "implement_in_flight"
+        "verify_in_flight"
       ]
     },
     {
       "issue_id": "t43",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight_option_A_ter_amendment_pending"
+        "groom_retry_3_in_flight"
       ]
     },
     {
