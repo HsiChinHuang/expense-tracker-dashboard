@@ -61,13 +61,18 @@
     "platform_sync": "GitHub API PATCH issues/42 body := git show 9b5cf77:docs/issues/t39.md bytes; GET-verified body == committed bytes exactly; labels set to defined,groomed (orchestrator owns built/verified); token read from MAIN checkout .env, never copied into the worktree",
     "branch": "groom/t39-ops-runbook",
     "base_sha": "6a088e5",
-    "groom_commit": "9b5cf773f33b23257e9e378b9a7eb4ea68e6c4fc",
-    "branch_sha": "9b5cf773f33b23257e9e378b9a7eb4ea68e6c4fc",
+    "groom_commit": "6b7ec6eb817db3577e9f7591531cb78fc8c5d3e3",
+    "branch_sha": "6b7ec6eb817db3577e9f7591531cb78fc8c5d3e3",
     "pushed": true,
-    "push_note": "push + ls-remote via cmd.exe /c git -C <WinPath> </dev/null (WSL git rc=128 on this worktree's gitdir pointer); ls-remote refs/heads/groom/t39-ops-runbook == 9b5cf77...",
-    "committed_scope": "docs/issues/t39.md ONLY (docs-only groom; README/docs-state/Makefile/workflows/backend/frontend untouched)",
+    "push_note": "push + ls-remote via cmd.exe /c git -C <WinPath> </dev/null (WSL git rc=128 on this worktree gitdir pointer); ls-remote refs/heads/groom/t39-ops-runbook == 6b7ec6eb817db3577e9f7591531cb78fc8c5d3e3",
+    "committed_scope": "docs/issues/t39.md (commits 9b5cf77 + 6b7ec6e) + docs/state/outputs/t39_definer_groom.json; README/docs-state-index/Makefile/workflows/backend/frontend untouched",
     "contract_notes_for_implement": "structural modality only; docs read via tr -d CR before greps; literal dollars in ERE written [$]; event gate is exact-set on sorted unique first cells (auth.login prefix trap); region non-emptiness counts alongside heading greps; ac6 is LAST and never index-appended; fixtures must live in the real repo tree for ac6 (worktree-level execution), nothing else",
-    "notes": "throwaway groom fixtures lived only in /tmp and C:\\tmp, never committed or staged; worktree restored to ops/.gitkeep-only before the card commit"
+    "notes": "throwaway groom fixtures lived only in /tmp and C:\\tmp, never committed or staged; worktree restored to ops/.gitkeep-only before the card commit",
+    "card_commits": {
+      "9b5cf773f33b23257e9e378b9a7eb4ea68e6c4fc": "groomed card (six pinned commands + ac_hash)",
+      "4a3e9535c7b969f01baea4d464c0da995ea4bf46": "definer groom handoff",
+      "6b7ec6eb817db3577e9f7591531cb78fc8c5d3e3": "card prose fix: negative-control count 16->17 (ac_hash unchanged - edit sits in the section intro, outside the six fenced blocks)"
+    }
   },
   "artifacts": {
     "files_written": [
