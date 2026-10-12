@@ -7,8 +7,8 @@
   "reached_state": "groomed",
   "evidence": {
     "evidence_type": "grooming",
-    "ac_hash": "sha256:ade8bfb7a655cd1a9f5a76eded91c79c14d856e94fa01fe474fd562586d7ff47",
-    "ac_hash_note": "groom; recipe: heading-exclusive line-anchored slice /^## Verification commands\\b/ .. next /^## (?!#)/, ```bash fenced blocks in ac order, sha256 over JSON.stringify(array of the six command strings); recomputed from the committed worktree file (CRLF-tolerant) and stable",
+    "ac_hash": "sha256:343b8d09fb3f6275e5d58c0917c68fa96c14b3a31c11b60158afbf650ba843d3",
+    "ac_hash_note": "groom; recipe: heading-exclusive line-anchored slice /^## Verification commands\\b/ .. next /^## (?!#)/, ```bash fenced blocks in ac order (each trimmed of its trailing newline), sha256 over JSON.stringify(array of the six command strings) with JS default separators (',',':') - recomputed via node against git show HEAD:docs/issues/t39.md (CRLF->LF) and byte-confirmed; supersedes the first pinned ade8bfb7... which was computed with python json.dumps default separators (', ',': ') - a serialization mismatch, the six command bodies themselves never changed",
     "ac_count": 6,
     "verification_commands": {
       "ac1": "bash -c 'test -f ops/runbook.md || exit 1; t=$(tr -d \"\\r\" < ops/runbook.md); printf \"%s\" \"$t\" | grep -qE \"^#[[:space:]]+Operations Runbook[[:space:]]*$\" || exit 1; printf \"%s\" \"$t\" | grep -qE \"^## Quick Reference[[:space:]]*$\" || exit 1; printf \"%s\" \"$t\" | grep -qE \"ops/health-check[.]md\" || exit 1; printf \"%s\" \"$t\" | grep -qE \"ops/logging[.]md\" || exit 1; qr=$(printf \"%s\" \"$t\" | awk \"/^## Quick Reference/{f=1;next} /^## [A-Z0-9]/{f=0} f\"); [ -n \"$qr\" ] || { echo \"ac1 FAIL: Quick Reference region empty\"; exit 1; }; q=$(printf \"%s\" \"$qr\" | grep -cE \"Cold [Ss]tart[^|]*\\|[[:space:]]*1[[:space:]]*\\|$\"); [ \"$q\" -eq 1 ] || { echo \"ac1 FAIL: quick-reference numbered row for symptom 1 counted $q, expected exactly 1\"; exit 1; }; c7=$(printf \"%s\" \"$t\" | grep -cE \"^## [0-9]+[.] \"); [ \"$c7\" -eq 7 ] || { echo \"ac1 FAIL: counted $c7 numbered symptom sections, expected exactly 7\"; exit 1; }; for k in 1 2 3 4 5 6 7; do case \"$k\" in 1) w=\"Cold Start\";; 2) w=\"Degraded\";; 3) w=\"503\";; 4) w=\"Login\";; 5) w=\"Data\";; 6) w=\"Deployment\";; 7) w=\"CI\";; esac; reg=$(printf \"%s\" \"$t\" | sed -n \"/^## $k[.] /,/^## /p\"); [ -n \"$reg\" ] || { echo \"ac1 FAIL: symptom section $k has no region\"; exit 1; }; printf \"%s\" \"$reg\" | head -1 | grep -qiE \"$w\" || { echo \"ac1 FAIL: symptom section $k does not name the $w symptom\"; exit 1; }; cc=$(printf \"%s\" \"$reg\" | grep -cE \"^### (Symptom|Cause|Diagnosis|Action)$\"); [ \"$cc\" -eq 4 ] || { echo \"ac1 FAIL: symptom section $k carries $cc of the four clause headings\"; exit 1; }; b=$(printf \"%s\" \"$reg\" | grep -vE \"^#|^ \" | wc -l); [ \"$b\" -ge 6 ] || { echo \"ac1 FAIL: symptom section $k has only $b content lines (heading-only stub)\"; exit 1; }; done; echo \"ac1 PASS: exactly seven numbered symptom sections, each naming its REQ-OPS-020 symptom with all four clause headings and non-empty content\"; echo \"ac1 NOTE: Quick Reference region non-empty with the pinned symptom-1 numbered row; rows 2..7 re-grepped by the verifier\"'",
@@ -72,7 +72,8 @@
       "9b5cf773f33b23257e9e378b9a7eb4ea68e6c4fc": "groomed card (six pinned commands + ac_hash)",
       "4a3e9535c7b969f01baea4d464c0da995ea4bf46": "definer groom handoff",
       "6b7ec6eb817db3577e9f7591531cb78fc8c5d3e3": "card prose fix: negative-control count 16->17 (ac_hash unchanged - edit sits in the section intro, outside the six fenced blocks)"
-    }
+    },
+    "ac_hash_incident": "orchestrator independent recompute found the pin irreproducible under the canonical recipe; root cause was python json.dumps separators vs JSON.stringify (verified: both separators reproduce ade8bfb7/343b8d09 respectively from identical fence arrays); canonical recipe cross-validated against merged t36 pin (recompute == 3542bd26... True); fence commands byte-identical before/after the fix (baseline /tmp/t39_fences_baseline.json)"
   },
   "artifacts": {
     "files_written": [
