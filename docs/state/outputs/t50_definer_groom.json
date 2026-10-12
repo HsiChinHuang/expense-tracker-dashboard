@@ -1,0 +1,219 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t50",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:6bb0b0a99902ee97541fb03d19f04dbc4704477f0d44186c43715e478c45892b",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'f=docs/ai-workflow.md; test -f \"$f\" || { echo \"ac1 RED: docs/ai-workflow.md does not exist - REQ-DOC-023 deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$f\"); B=$(printf \"%s\\n\" \"$T\" | wc -l | tr -dc \"0-9\"); echo \"ac1 evidence: body lines=${B:-0} (floor 120)\"; [ \"${B:-0}\" -ge 120 ] || { echo \"ac1 RED: body only ${B:-0} lines\"; exit 1; }; for s in \"^## Tools$\" \"^## Workflow$\" \"^## Context engineering$\" \"^## Roles$\" \"^## Orchestration$\" \"^## Example prompts$\" \"^## Session records$\" \"^## Correction log$\" \"^## Skills$\" \"^## Subagents$\" \"^## MCP tools$\" \"^## Review$\" \"^## Data policy$\"; do printf \"%s\\n\" \"$T\" | grep -qE \"$s\" || { echo \"ac1 RED: missing REQ-DOC-023 section $s\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"REQ-DOC-023\" || { echo \"ac1 RED: file never cites REQ-DOC-023\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"security/ai-tool-data-policy[.]md\" || { echo \"ac1 RED: data-policy section does not link security/ai-tool-data-policy.md (link, do not duplicate)\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"docs/process[.]md\" || { echo \"ac1 RED: no link to docs/process.md - t48 owns the lifecycle prose (REQ-DOC-061 link-not-duplicate)\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"docs/agent-extension-pack[.]md\" || { echo \"ac1 RED: no link to docs/agent-extension-pack.md\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"docs/permissions[.]md\" || { echo \"ac1 RED: no link to docs/permissions.md\"; exit 1; }; H=$(printf \"%s\\n\" \"$T\" | grep -cE \"^## \" | tr -dc \"0-9\"); echo \"ac1 evidence: H2 sections=${H:-0} (13 required + scan timing)\"; [ \"${H:-0}\" -ge 14 ] || { echo \"ac1 RED: only ${H:-0} H2 sections - the REQ-SEC-072 scan-timing section is missing\"; exit 1; }; echo \"ac1 GREEN: thirteen REQ-DOC-023 sections present plus scan timing, links to process/pack/permissions/data-policy, ${B} lines\"'",
+      "ac2": "bash -c 'f=docs/ai-workflow.md; test -f \"$f\" || { echo \"ac2 RED: docs/ai-workflow.md does not exist - REQ-AI-110..113 deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$f\"); S=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Session records$/,/^## /p\"); N=$(printf \"%s\\n\" \"$S\" | grep -cE \"^### SESSION [0-9]{4}-[0-9]{2}-[0-9]{2} \\| area=[a-z]+ \\| issue=t[0-9]+$\"); echo \"ac2 evidence: session records=${N:-0} (floor 4)\"; [ \"${N:-0}\" -ge 4 ] || { echo \"ac2 RED: ${N:-0} SESSION records - REQ-AI-112 needs at least four real ones\"; exit 1; }; for fld in \"Date:\" \"Tool:\" \"Prompt:\" \"Agent output:\" \"Human review:\" \"Commit:\"; do c=$(printf \"%s\\n\" \"$S\" | grep -cE \"^- \\*\\*${fld}\\*\\* \"); [ \"$c\" -eq \"$N\" ] || { echo \"ac2 RED: field $fld appears $c times but there are $N records - every REQ-AI-111 record needs all six fields\"; exit 1; }; done; A=$(printf \"%s\\n\" \"$S\" | grep -oE \"area=[a-z]+\" | sed \"s/area=//\" | sort -u); AD=$(printf \"%s\\n\" \"$A\" | grep -c .); echo \"ac2 evidence: distinct REQ-AI-113 areas=${AD:-0} (floor 4)\"; [ \"${AD:-0}\" -ge 4 ] || { echo \"ac2 RED: only ${AD:-0} distinct areas\"; exit 1; }; for a in $A; do case \"$a\" in spec|auth|crud|dashboard|frontend|testing|security|deployment) ;; *) echo \"ac2 RED: area=$a is not a REQ-AI-113 phase name\"; exit 1;; esac; done; node -e \"const fs=require(\\\"fs\\\");const M=JSON.parse(fs.readFileSync(\\\"docs/state/issue_map.json\\\",\\\"utf8\\\")).mappings;const H=JSON.parse(fs.readFileSync(\\\"docs/state/merge_history.json\\\",\\\"utf8\\\")).entries;const t=fs.readFileSync(\\\"docs/ai-workflow.md\\\",\\\"utf8\\\").replace(/\\r/g,\\\"\\\");const sec=(t.split(\\\"## Session records\\\")[1]||\\\"\\\").split(\\\"\\n## \\\")[0];const re=/^### SESSION ([0-9-]{10}) \\| area=([a-z]+) \\| issue=(t[0-9]+)\\$/gm;const recs=[...sec.matchAll(re)];if(recs.length<4){console.error(\\\"ac2 RED: only \\\"+recs.length+\\\" parseable SESSION records\\\");process.exit(1)}const bad=[];recs.forEach((r,i)=>{const end=recs[i+1]?recs[i+1].index:sec.length;const body=sec.slice(r.index,end);const iss=r[3];if(!M[iss])bad.push(iss+\\\" is not a key of docs/state/issue_map.json\\\");const sha=(body.match(/\\*\\*Commit:\\*\\* *([0-9a-f]{7,40})/)||[])[1];if(!sha){bad.push(iss+\\\" has no hex merge commit in its Commit field\\\");return}const e=H.filter(x=>x.issue_id===iss);if(!e.length){bad.push(iss+\\\" has no merge_history entry\\\");return}if(!e.some(x=>{const s=String(x.merge_sha||x.merge_commit_sha||\\\"\\\");return s.startsWith(sha.slice(0,7))||sha.startsWith(s.slice(0,7))}))bad.push(sha+\\\" is not the recorded merge sha of \\\"+iss)});if(bad.length){console.error(\\\"ac2 RED: untraceable citations -> \\\"+bad.join(\\\" | \\\"));process.exit(1)}console.log(\\\"ac2 evidence: \\\"+recs.length+\\\" SESSION records all traceable to issue_map.json and merge_history.json shas\\\")\" || exit 1; echo \"ac2 GREEN: ${N} dated REQ-AI-111 session records over ${AD} REQ-AI-113 areas, every citation machine-traceable to docs/state/issue_map.json and docs/state/merge_history.json\"'",
+      "ac3": "bash -c 'f=docs/ai-workflow.md; test -f \"$f\" || { echo \"ac3 RED: docs/ai-workflow.md does not exist - REQ-AI-120..122 deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$f\"); C=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Correction log$/,/^## /p\"); N=$(printf \"%s\\n\" \"$C\" | grep -cE \"^### CORRECTION [0-9]{4}-[0-9]{2}-[0-9]{2}\"); echo \"ac3 evidence: correction entries=${N:-0} (floor 3)\"; [ \"${N:-0}\" -ge 3 ] || { echo \"ac3 RED: ${N:-0} correction entries - REQ-AI-120 needs at least three\"; exit 1; }; for fld in \"Date:\" \"Issue:\" \"AI output:\" \"Correction:\" \"Lesson:\" \"Document updated:\"; do c=$(printf \"%s\\n\" \"$C\" | grep -cE \"^- \\*\\*${fld}\\*\\* \"); [ \"$c\" -eq \"$N\" ] || { echo \"ac3 RED: field $fld appears $c times but there are $N entries - every REQ-AI-120/122 entry needs all six fields\"; exit 1; }; done; printf \"%s\\n\" \"$C\" | grep -qE \"Option A-ter\" || { echo \"ac3 RED: the Option A-ter amendment precedent (t43 entry-139 amendment) is not recorded - the measured pin-amendment lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"tests\\[139\\]\" || { echo \"ac3 RED: the Option A-ter entry does not name the amended index entry by tests[139] (0-based + issue_id convention)\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"metrics\" || { echo \"ac3 RED: the t44 semgrep --metrics flag correction is not recorded\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"security-semgrep|semgrep\" || { echo \"ac3 RED: no semgrep recipe correction names the scanned target\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"pagination|page_size\" || { echo \"ac3 RED: the pagination lesson (one of the six REQ-AI-121 example classes) is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"Decimal\" || { echo \"ac3 RED: the Decimal money-typing lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"isolation\" || { echo \"ac3 RED: the test-isolation lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"aggregat\" || { echo \"ac3 RED: the aggregation lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"heatmap|week_start\" || { echo \"ac3 RED: the heatmap week-start lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"referential integrity|ondelete\" || { echo \"ac3 RED: the referential-integrity lesson is missing\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"docs/requirements[.]md\" || { echo \"ac3 RED: no correction names docs/requirements.md as the requirement source it was checked against\"; exit 1; }; echo \"ac3 GREEN: ${N} REQ-AI-120 correction entries with all six fields, Option A-ter + t44 semgrep recorded, all six REQ-AI-121 lesson classes present, each linked to the document it updated (REQ-AI-122/REQ-DOC-062)\"'",
+      "ac4": "bash -c 'f=docs/ai-workflow.md; test -f \"$f\" || { echo \"ac4 RED: docs/ai-workflow.md does not exist - REQ-SEC-072 scan-timing deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$f\"); printf \"%s\\n\" \"$T\" | grep -qE \"^## Scan timing$\" || { echo \"ac4 RED: no ## Scan timing section - REQ-SEC-072 Verification reads docs/ai-workflow.md and t41s deferred row live_check reads the scan-timing section\"; exit 1; }; S=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Scan timing$/,/^## /p\"); for tool in gitleaks semgrep trivy pip-audit npm; do printf \"%s\\n\" \"$S\" | grep -qiE \"$tool\" || { echo \"ac4 RED: the scan-timing section never names $tool - all five scans need a timing row\"; exit 1; }; done; printf \"%s\\n\" \"$S\" | grep -qE \"make security\" || { echo \"ac4 RED: the section never names the on-demand make security entry point (REQ-SEC-071)\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qiE \"after auth|after CRUD|after dashboard|before deployment|after final\" || { echo \"ac4 RED: the REQ-SEC-072 timing milestones (after auth / after CRUD / after dashboard / before deployment / after final changes) are not stated\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qiE \"not in CI|never in CI|never run in CI|not executed in CI\" || { echo \"ac4 RED: the section does not state that scans are NOT in CI (REQ-CICD-073)\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qiE \"result[s]? (are|get) commit|committed report|reports? (are|get) commit\" || { echo \"ac4 RED: the section does not state that scan results are committed (REQ-SEC-072)\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qE \"Makefile\" || { echo \"ac4 RED: no cross-link to the Makefile scan targets - REQ-SEC-071 Verification reads Makefile and security/\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qE \"docs/criteria/security_ops_verification[.]md\" || { echo \"ac4 RED: no cross-link to docs/criteria/security_ops_verification.md\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qE \"REQ-SEC-072\" || { echo \"ac4 RED: the section does not cite REQ-SEC-072\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qE \"REQ-CICD-073\" || { echo \"ac4 RED: the section does not cite REQ-CICD-073\"; exit 1; }; printf \"%s\\n\" \"$S\" | grep -qE \"SCAN_TIMING_DOC\" || { echo \"ac4 RED: the section does not name the SCAN_TIMING_DOC deferral row it closes (t41 register, re-tested by t53)\"; exit 1; }; echo \"ac4 GREEN: ## Scan timing names all five tools + make security + the five REQ-SEC-072 timing milestones + not-in-CI (REQ-CICD-073) + committed results + both cross-links + SCAN_TIMING_DOC closure\"'",
+      "ac5": "bash -c 'f=docs/ai-workflow.md; test -f \"$f\" || { echo \"ac5 RED: docs/ai-workflow.md does not exist - pack/policy consistency deliverable\"; exit 1; }; T=$(tr -d \"\\r\" < \"$f\"); SK=$(ls -1 agent-capabilities | wc -l | tr -dc \"0-9\"); HK=$(ls -1 agent-hooks | grep -c \"[.]py$\" | tr -dc \"0-9\"); MT=$(ls -1 mcp-server/tools | grep \"[.]py$\" | grep -v \"__init__\" | wc -l | tr -dc \"0-9\"); SA=$(ls -1 custom-agent | grep -c \"[.]md$\" | tr -dc \"0-9\"); echo \"ac5 evidence: measured pack counts skills=$SK hooks=$HK mcp_tools=$MT subagents=$SA\"; [ \"$SK\" = \"3\" ] && [ \"$HK\" = \"2\" ] && [ \"$MT\" = \"4\" ] && [ \"$SA\" = \"2\" ] || { echo \"ac5 RED: the shipped pack layout drifted from 3/2/4/2 - this AC is anchored to the measured directories, re-check the pack before blaming the doc\"; exit 1; }; for c in \"3 skills\" \"2 hooks\" \"4 MCP tools\" \"2 subagents\"; do printf \"%s\\n\" \"$T\" | grep -qiE \"$c\" || { echo \"ac5 RED: the doc never states the measured count $c (tests[150]=t34 and tests[155]=t35 pin the same counts in docs/agent-extension-pack.md - the two documents may not disagree)\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qE \"docs/agent-extension-pack[.]md\" || { echo \"ac5 RED: no link to docs/agent-extension-pack.md (link, do not restate)\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"docs/permissions[.]md\" || { echo \"ac5 RED: no link to docs/permissions.md\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"security/ai-tool-data-policy[.]md\" || { echo \"ac5 RED: the data-policy section does not link security/ai-tool-data-policy.md\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qiE \"three skills|3 skills\" || { echo \"ac5 RED: the Skills section does not carry the three-skill count\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qiE \"two hooks|2 hooks\" || { echo \"ac5 RED: the Hooks coverage does not carry the two-hook count\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qiE \"four MCP tools|4 MCP tools\" || { echo \"ac5 RED: the MCP tools section does not carry the four-tool count\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qiE \"two subagents|2 subagents\" || { echo \"ac5 RED: the Subagents section does not carry the two-subagent count\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"REQ-AI-143\" || { echo \"ac5 RED: the pack paragraph does not cite REQ-AI-143 (the count requirement tests[150] enforces)\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"human review\" || { echo \"ac5 RED: the review section does not state that every agent output requires human review (REQ-AI-132)\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"REQ-AI-132\" || { echo \"ac5 RED: the review section does not cite REQ-AI-132\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qiE \"local-only|stay on the local machine|never leaves the local machine\" || { echo \"ac5 RED: the data-policy section does not state the local-only rule (REQ-AI-130)\"; exit 1; }; J=$(printf \"%s\\n\" \"$T\" | grep -ciE \"eyJ[A-Za-z0-9_-]{10,}\" | tr -dc \"0-9\"); [ \"${J:-0}\" -eq 0 ] || { echo \"ac5 RED: base64 JWT-shaped string in the document - no live credential may appear (REQ-SEC-071)\"; exit 1; }; H=$(printf \"%s\\n\" \"$T\" | grep -ciE \"(ghp|gho|github_pat)_[A-Za-z0-9]{20,}\" | tr -dc \"0-9\"); [ \"${H:-0}\" -eq 0 ] || { echo \"ac5 RED: GitHub-token-shaped string in the document\"; exit 1; }; P=$(printf \"%s\\n\" \"$T\" | grep -ciE \"postgres(ql)?(\\+[a-z]+)?://[^ ]*:[^ ]*@\" | tr -dc \"0-9\"); [ \"${P:-0}\" -eq 0 ] || { echo \"ac5 RED: DSN with an inline password - never paste credentials into docs\"; exit 1; }; echo \"ac5 GREEN: pack counts match the measured directories 3/2/4/2 (same counts tests[150]/tests[155] pin), links not duplicates, human-review rule stated, no credential-shaped strings\"'",
+      "ac6": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac6: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac6: node missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); echo \"ac6 evidence: README digest=$k\"; [ \"$k\" = \"5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943\" ] || { echo \"ac6 RED: README digest is not pin-1 5f6e235e - t50 CARRIES the pin byte-unchanged (t49 produced it, t52 makes pin-2, t53 re-attests) and this card must not touch README.md\"; exit 1; }; [ \"$(tr -d \"\\r\" < README.md | wc -l | tr -dc \"0-9\")\" -le 500 ] || { echo \"ac6 RED: README line ceiling\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac6 RED: AGENTS.md changed - not this card\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac6 RED: render.yaml changed - not this card\"; exit 1; }; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac6 evidence: backend collected=${n:-0} (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && timeout 900 uv run pytest -q >/dev/null 2>&1) || { echo \"ac6 RED: backend suite\"; exit 1; }; (cd backend && uv run ruff check . >/dev/null 2>&1) || { echo \"ac6 RED: ruff\"; exit 1; }; m=$(cd backend && timeout 300 uv run mypy . 2>&1 | tr -d \"\\r\" | tail -1); printf \"%s\" \"$m\" | grep -qE \"Success: no issues found\" || { echo \"ac6 RED: mypy - $m\"; exit 1; }; mf=$(printf \"%s\" \"$m\" | grep -oE \"[0-9]+ source files\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: mypy files=${mf:-0} (floor 87)\"; [ \"${mf:-0}\" -ge 87 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac6 RED: alembic head\"; exit 1; }; D=$(wslpath -w \"$PWD/frontend\"); timeout 600 cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null >/tmp/t50_ac6_vitest.json 2>/dev/null; out=$(tr -d \"\\r\" < /tmp/t50_ac6_vitest.json); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac6 RED: frontend failed - 186 passed + handlers_contract means the Docker daemon is UP (sibling run): stop it and re-run. Interference, never an AC weakening\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; fp=$(printf \"%s\" \"$out\" | grep -oE \"\\\"numPassedTests\\\":[0-9]+\" | grep -oE \"[0-9]+\" | head -1); echo \"ac6 evidence: frontend passed=${fp:-0} (floor 187)\"; [ \"${fp:-0}\" -ge 187 ] || exit 1; timeout 300 cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || { echo \"ac6 RED: tsc\"; exit 1; }; l=$(timeout 300 cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); echo \"ac6 evidence: react-refresh warnings=$l (exactly 4)\"; [ \"$l\" -eq 4 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac6 RED: workflows drifted: $w\"; exit 1; }; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do x=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null 2>/dev/null | tr -d \"\\r\"); y=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null 2>/dev/null | tr -d \"\\r\"); [ -n \"$x\" ] || exit 1; [ \"$x\" = \"$y\" ] || { echo \"ac6 RED: manifest $p changed\"; exit 1; }; done; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<203){console.error(\\\"ac6 RED: index below 203\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\"),P={16:\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\",54:\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\",131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"};for(const q in P){const t=i.tests[q];if(!t||H(t)!==P[q]){console.error(\\\"ac6 RED: byte-pin \\\"+q+\\\" changed\\\");process.exit(1)}ex(t.command,{stdio:\\\"ignore\\\"})}const A=i.tests[16],B=i.tests[54];if(!A||A.issue_id!==\\\"t2\\\"||!B||B.issue_id!==\\\"t9\\\"){console.error(\\\"ac6 RED: anchor identity moved\\\");process.exit(1)}if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac6 RED: tests[139] identity (Option A-ter, identity-only)\\\");process.exit(1)}for(const[q,id]of[[27,\\\"t4\\\"],[119,\\\"t23\\\"],[128,\\\"t24\\\"],[135,\\\"t26\\\"],[144,\\\"t28\\\"],[150,\\\"t34\\\"],[187,\\\"t41\\\"],[196,\\\"t48\\\"],[199,\\\"t49\\\"],[201,\\\"t49\\\"]]){const t=i.tests[q];if(!t||t.issue_id!==id){console.error(\\\"ac6 RED: tests[\\\"+q+\\\"] is not \\\"+id+\\\" (0-based + issue_id)\\\");process.exit(1)}ex(t.command,{stdio:\\\"ignore\\\"})}const w=i.tests[155];if(!w||w.issue_id!==\\\"t35\\\"||(w.command||\\\"\\\").indexOf(\\\"agent_pack_verification\\\")<0){console.error(\\\"ac6 RED: tests[155] identity - IDENTITY-CHECKED, NOT executed (its command rewrites docs/criteria/agent_pack_verification.md, outside this allow-list)\\\");process.exit(1)}\" || exit 1; echo \"ac6 evidence: index >= 203, anchors tests[16]/[54] + byte-pins 131/132/133/135 executed, tests[139] identity-only, gates 27/119/128/135/144/150/187/196/199/201 executed verbatim, tests[155] identity-only\"; B=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$B\" ] || { echo \"ac6 RED: no merge-base\"; exit 1; }; p=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); if [ -n \"$p\" ]; then echo \"ac6 RED: delta touches non-docs paths [$p] - this card ships docs/ai-workflow.md ONLY\"; exit 1; fi; dd=$(cmd.exe /c \"git -C $G diff --name-only $B HEAD\" </dev/null | tr -d \"\\r\" | grep -E \"^docs/\" | sort | tr \"\\n\" \",\"); printf \"%s\" \"$dd\" | grep -q \"docs/ai-workflow[.]md,\" || { echo \"ac6 RED: docs delta lacks docs/ai-workflow.md\"; exit 1; }; printf \"%s\" \"$dd\" | grep -q \"docs/issues/t50[.]md,\" || { echo \"ac6 RED: docs delta lacks docs/issues/t50.md\"; exit 1; }; printf \"%s\" \"$dd\" | grep -q \"docs/state/outputs/t50_definer_groom[.]json,\" || { echo \"ac6 RED: docs delta lacks the handoff copy\"; exit 1; }; echo \"ac6 GREEN: pin-1 README carried byte-unchanged, AGENTS.md/render.yaml frozen, MAIN floors green, stored gates re-executed verbatim, delta pure\"'"
+    },
+    "ac_mapping": {
+      "ac1": {
+        "command": "see evidence.verification_commands.ac1 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "file + thirteen REQ-DOC-023 H2 sections + scan-timing 14th + links not duplicates",
+        "base_rc": 1,
+        "base_red": "ac1 RED: docs/ai-workflow.md does not exist - the REQ-DOC-023 deliverable is absent at base 3110d77",
+        "fixture_rc": 0,
+        "fixture_green": "ac1 GREEN: thirteen REQ-DOC-023 sections present plus scan timing, links to process/pack/permissions/data-policy, 396 body lines",
+        "fix": "Create docs/ai-workflow.md with the thirteen REQ-DOC-023 sections as exact H2 headings plus ## Scan timing, >= 120 body lines, linking (not duplicating) docs/process.md, docs/agent-extension-pack.md, docs/permissions.md, security/ai-tool-data-policy.md.",
+        "requirement_refs": [
+          "REQ-DOC-023",
+          "REQ-DOC-061"
+        ]
+      },
+      "ac2": {
+        "command": "see evidence.verification_commands.ac2 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "session records traceable to issue_map.json + merge_history.json",
+        "base_rc": 1,
+        "base_red": "ac2 RED: docs/ai-workflow.md absent at base",
+        "fixture_rc": 0,
+        "fixture_green": "ac2 GREEN: 7 dated REQ-AI-111 session records over 7 REQ-AI-113 areas, every citation machine-traceable to docs/state/issue_map.json and docs/state/merge_history.json",
+        "fix": "Author >= 4 ### SESSION records with the six REQ-AI-111 fields; every issue key must exist in issue_map.json and every Commit sha must equal the recorded merge sha in merge_history.json (fabrication is a hard RED).",
+        "requirement_refs": [
+          "REQ-AI-110",
+          "REQ-AI-111",
+          "REQ-AI-112",
+          "REQ-AI-113"
+        ]
+      },
+      "ac3": {
+        "command": "see evidence.verification_commands.ac3 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "correction log with six fields + Option A-ter + t44 + six lesson classes",
+        "base_rc": 1,
+        "base_red": "ac3 RED: docs/ai-workflow.md absent at base",
+        "fixture_rc": 0,
+        "fixture_green": "ac3 GREEN: 6 REQ-AI-120 correction entries with all six fields, Option A-ter + t44 semgrep recorded, all six REQ-AI-121 lesson classes present, each linked to the document it updated",
+        "fix": "Author >= 3 ### CORRECTION entries (Date/Issue/AI output/Correction/Lesson/Document updated) naming the Option A-ter tests[139] amendment, the t44 semgrep --metrics repair, and the six REQ-AI-121 lesson classes.",
+        "requirement_refs": [
+          "REQ-AI-120",
+          "REQ-AI-121",
+          "REQ-AI-122",
+          "REQ-DOC-062"
+        ]
+      },
+      "ac4": {
+        "command": "see evidence.verification_commands.ac4 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "scan timing section (REQ-SEC-072, SCAN_TIMING_DOC live_check)",
+        "base_rc": 1,
+        "base_red": "ac4 RED: docs/ai-workflow.md absent at base",
+        "fixture_rc": 0,
+        "fixture_green": "ac4 GREEN: ## Scan timing names all five tools + make security + the five REQ-SEC-072 timing milestones + not-in-CI (REQ-CICD-073) + committed results + both cross-links + SCAN_TIMING_DOC closure",
+        "fix": "Land ## Scan timing: five scan tools, make security + Makefile link (REQ-SEC-071), the five REQ-SEC-072 milestones, committed-results rule, explicit NOT-in-CI statement (REQ-CICD-073), the SCAN_TIMING_DOC row it satisfies, cross-link to docs/criteria/security_ops_verification.md.",
+        "requirement_refs": [
+          "REQ-SEC-072",
+          "REQ-SEC-071",
+          "REQ-CICD-073"
+        ]
+      },
+      "ac5": {
+        "command": "see evidence.verification_commands.ac5 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "pack counts vs measured dirs 3/2/4/2 + review rule + credential scan",
+        "base_rc": 1,
+        "base_red": "ac5 RED: docs/ai-workflow.md absent at base",
+        "fixture_rc": 0,
+        "fixture_green": "ac5 GREEN: pack counts match the measured directories 3/2/4/2, links not duplicates, human-review rule stated, no credential-shaped strings",
+        "fix": "State the measured pack counts (3 skills / 2 hooks / 4 MCP tools / 2 subagents) in numeral AND word form, cite REQ-AI-143/132, link pack/permissions/data-policy, keep the file free of JWT/GitHub-token/DSN-password-shaped strings.",
+        "requirement_refs": [
+          "REQ-AI-143",
+          "REQ-AI-132",
+          "REQ-AI-130",
+          "REQ-AI-131",
+          "REQ-SEC-071"
+        ]
+      },
+      "ac6": {
+        "command": "see evidence.verification_commands.ac6 - byte-identical to the fenced command in docs/issues/t50.md",
+        "layer": "composite: pin-1 carried, MAIN floors, stored gates re-executed, delta purity",
+        "base_rc": 1,
+        "base_red": "ac6 RED: docs delta lacks docs/ai-workflow.md - EVERY other leg measured GREEN at base (README 5f6e235e, backend 270, ruff, mypy 88 files, alembic 005, vitest 187/0/0/0 with Docker DOWN, tsc 0, exactly-4 lint warnings, workflows four, byte-pins and gates tests[27]/[119]/[128]/[135]/[144]/[150]/[187]/[196]/[199]/[201] executed verbatim)",
+        "fixture_rc": 0,
+        "fixture_green": "ac6 GREEN: pin-1 README carried byte-unchanged, AGENTS.md/render.yaml frozen, MAIN floors green, stored gates re-executed verbatim, delta pure",
+        "fix": "Composite LAST AC (index-append-excluded): README carried at pin-1 5f6e235e, AGENTS.md/render.yaml byte-frozen, all MAIN floors green, five manifests frozen, byte-pins/gates re-executed, delta = docs/ai-workflow.md + card + handoff copy ONLY.",
+        "requirement_refs": [
+          "REQ-SEC-072",
+          "REQ-CICD-073"
+        ]
+      }
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "ac_hash_recipe": "sha256 over JSON.stringify of the six fenced commands, each .trim()ed, extracted from COMMITTED card bytes via git show HEAD:docs/issues/t50.md with a line-anchored split from the '## Verification commands' line to the '## Out of scope' line; fence bodies delimited by the \\r?\\n ```bash / ``` boundaries; NO CR stripping (card committed LF; git show yields faithful bytes). Computed at the pin commit 0c9c97e AND recomputed once from the final committed card: identical (6bb0b0a99902ee97541fb03d19f04dbc4704477f0d44186c43715e478c45892b).",
+    "branch": "groom/t50-ai-workflow",
+    "base_sha": "3110d77",
+    "card_path": "docs/issues/t50.md",
+    "card_sections": [
+      "## Context",
+      "## Acceptance criteria",
+      "## Verification commands",
+      "## Out of scope",
+      "## Definition of Done"
+    ],
+    "readme_pin": "t50 CARRIES pin-1, does NOT move it: README.md byte-unchanged at 5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 (286 lines, CR-stripped sha256, measured GREEN at base and fixture inside ac6). Chain: 8d141fb2 (pre) -> pin1 5f6e235e (t49) -> carry t50/t51 -> pin2 FINAL (t52) -> re-attest (t53). AGENTS.md 8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374 and render.yaml 60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09 byte-frozen in ac6. No pinned digest moves - no Option A-ter disclosure needed.",
+    "negative_controls": [
+      {
+        "id": "NC-A",
+        "ac": "ac1",
+        "mutation": "rename '## Orchestration' to '## Orchestration notes'",
+        "result": "rc=1 as expected: missing-section RED fires"
+      },
+      {
+        "id": "NC-B",
+        "ac": "ac2",
+        "mutation": "replace the t0 merge sha 1753fd0 with deadbeef",
+        "result": "rc=1 as expected: 'deadbeef is not the recorded merge sha of t0'"
+      },
+      {
+        "id": "NC-C",
+        "ac": "ac3",
+        "mutation": "delete one 'Document updated' field",
+        "result": "rc=1 as expected: field count 5 vs 6 entries"
+      },
+      {
+        "id": "NC-D",
+        "ac": "ac4",
+        "mutation": "replace the NOT-in-CI sentence",
+        "result": "rc=1 as expected: not-in-CI RED fires"
+      },
+      {
+        "id": "NC-E",
+        "ac": "ac5",
+        "mutation": "claim 4 skills in prose while the directory measures 3",
+        "result": "rc=1 as expected: doc never states the measured count 3 skills"
+      },
+      {
+        "id": "NC-F",
+        "ac": "ac5",
+        "mutation": "inject a JWT-shaped string",
+        "result": "rc=1 as expected: base64 JWT-shaped RED"
+      },
+      {
+        "id": "NC-G",
+        "ac": "ac6",
+        "mutation": "none needed - the base run IS the control: every MAIN floor and stored gate measured GREEN at base yet rc=1 fired solely on delta purity (deliverable absent); fixture flipped GREEN only when docs/ai-workflow.md landed",
+        "result": "non-vacuous by construction"
+      }
+    ],
+    "measurement_environment": {
+      "base": "worktree pi-worktree-b1d84998-6a3e-439d-b620-50d7c72dcbad-s0-0 on groom/t50-ai-workflow @ origin/main 3110d77, deliverable absent",
+      "frontend": "npm.cmd ci (526 packages) via cmd.exe; vitest/tsc/lint via cmd.exe npx.cmd/npm.cmd with < /dev/null",
+      "backend": "uv sync --offline (57 packages resolved); uv at ~/.local/bin; per-worktree env",
+      "docker": "daemon DOWN for every vitest leg - tasklist grep -icE docker == 0 re-proved immediately before each ac6 run",
+      "git": "all git WRITE ops via cmd.exe /c git -C <WinPath> ... </dev/null; main NEVER pushed",
+      "fences": "six fences, each a single bash -c '...' with exactly two single quotes, CRLF-tolerant via tr -d, lengths 1812/2908/2617/2457/3571/6736 bytes - all under the 8191 cmd.exe ceiling"
+    },
+    "fixture": {
+      "branch": "tmp/t50-fixture (throwaway, created from the groom branch commit 0c9c97e, NEVER pushed)",
+      "contents": "docs/ai-workflow.md (393-line deliverable draft with 7 real traceable sessions and 6 correction entries) + placeholder handoff copy",
+      "result": "all six fences measured rc=0 at fixture (ac1 14 H2 sections 396 body lines; ac2 7 sessions/7 areas all traceable; ac3 6 entries all fields; ac4 scan timing complete; ac5 counts 3/2/4/2; ac6 all legs green)",
+      "cleanup": "branch DELETED after measurement (git branch -D tmp/t50-fixture; verified absent from git branch --list tmp/t50*); no deliverable was ever committed to groom/t50-ai-workflow"
+    },
+    "durability": {
+      "commits": [
+        "4a3ba2f docs(t50): groomed card - ai-workflow contract with six pinned verification commands (base-RED measured; hash pinned next commit)",
+        "0c9c97e chore(t50): pin ac_hash 6bb0b0a9 (sha256 over JSON.stringify of the six trimmed pinned fences from committed card bytes)",
+        "handoff commit (this file) follows on the same branch in the same push"
+      ],
+      "pushed": "groom/t50-ai-workflow pushed to origin; git ls-remote verified (see handoff commit below)",
+      "main": "NEVER pushed"
+    },
+    "disclosures": [
+      "Index convention W2: merge_test_index.json tests[] is 0-BASED (203 entries at base); every citation is tests[N] matched by index + issue_id identity. Inside ac6: byte-pins tests[16]=t2, tests[54]=t9, tests[131]/[132]/[133]/[135]=t26 re-executed verbatim; tests[139]=t27 IDENTITY-only (Option A-ter amendment-pending precedent, hash deliberately not pinned); gates tests[27]=t4, tests[119]=t23, tests[128]=t24, tests[135]=t26, tests[144]=t28, tests[150]=t34, tests[187]=t41, tests[196]=t48, tests[199]/[201]=t49 executed verbatim.",
+      "tests[155]=t35 is IDENTITY-CHECKED ONLY in ac6: executing it REWRITES docs/criteria/agent_pack_verification.md (measured during t49 groom), outside this card's allow-list.",
+      "No pinned digest moves: README carried byte-unchanged at t49 pin-1 5f6e235e...; AGENTS.md and render.yaml byte-frozen. No Option A-ter disclosure needed.",
+      "SCAN_TIMING_DOC: this card lands the ## Scan timing section satisfying the deferred row's live_check; t41's committed register row stays DEFERRED (no back-editing closed evidence) and t53 closes the row in the new register.",
+      "Session-record groom correction: the drafted t43 session was REJECTED by ac2 (t43 is not a key of docs/state/issue_map.json) and replaced by a t44 session (a64a3a2be) carrying the same Option A-ter amendment story - the traceability AC worked as designed.",
+      "Interference-rule disclosure: an early base-ac6 vitest leg failed with empty output; the cause was a MISSING frontend/node_modules in this fresh worktree (config-load ERR_MODULE_NOT_FOUND), NOT the Docker daemon (tasklist count 0). After npm.cmd ci the identical fence measured all floors GREEN. Per the rule the AC was NOT weakened.",
+      "ac6 is a composite and is EXCLUDED from the merge_test_index append; DoD: index 203 -> 208 for ac1..ac5 only.",
+      "Delta purity: branch delta = docs/ai-workflow.md + docs/issues/t50.md + docs/state/outputs/t50_definer_groom.json ONLY; docs-only, zero new pytest/vitest nodes; the earlier heatmap code-change idea is dropped.",
+      "Requirement ids cited (REQ-DOC-023/061/062, REQ-AI-110..113/120..122/130/131/132/143, REQ-SEC-071/072, REQ-CICD-073) were each machine-verified present in docs/requirements.md via grep -E before citation."
+    ],
+    "open_questions": []
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t50.md",
+      "docs/state/outputs/t50_definer_groom.json"
+    ],
+    "platform_issue": 53,
+    "output_path": "docs/state/outputs/t50_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T19:29:34.506Z",
+  "retry_count": 0
+}
