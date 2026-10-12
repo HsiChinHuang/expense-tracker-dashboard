@@ -47,7 +47,7 @@
     "contract_first_applied": true,
     "ac_hash_recipe": "heading-EXCLUSIVE: committed card bytes (git show HEAD:docs/issues/t46.md, CRLF-normalized to LF), slice from the exact line \"## Verification commands\" to the next \"## Out of scope\" heading, all ```bash fenced blocks in ac1..ac5 order, each trimmed to one line, sha256 over JSON.stringify(array). Recomputed from COMMITTED bytes (card commit 6b8d2a1, hash-pin commit b53cfb9; identical block sets verified).",
     "branch": "groom/t46-uv-cache-permission",
-    "branch_sha": "b53cfb99d70f3c0a74b8138a7485ed49a5c640bf",
+    "branch_sha": "029d2510eaa879b70f5690f46013861e0e21bc32",
     "base_sha": "7c8f929446352ed3c1c5639bf271d9d266265b7a",
     "notes": {
       "supervisor_ruling": "Option B (supervisor decision + orchestrator steer): t46 = Dockerfile + docker-compose.yml ONLY. Amendment 1: health-ok DROPPED from t46 gates; honest gate = no cache error + no SettingsError + migration attempt reached (DatatypeMismatch accepted as arrival evidence, the KNOWN t47 residual). Amendment 2: compose delta is exactly the CORS_ORIGINS line; index pins checked and noted (see pin_check).",
@@ -58,21 +58,22 @@
       },
       "pin_check": "merge_test_index entries 125/126/127/129 (t24 Dockerfile/compose contracts) executed rc=0 at base AND rc=0 with the two-file fixture applied. Entry 125 pins compose env KEYS only (not the CORS value shape); 126/129 pin chown/USER/ENV ordering - the measured chown placement (after /app/backend chown, before USER app) satisfies both. No index entry pins the CORS_ORIGINS value text or forbids the /tmp/uv-cache chown line. Entry 139 identity-only (issue_id t27, hash fe5df831 not pinned).",
       "measured_at_groom": {
-        "base_red": "ac1 rc=1 (chown line missing), ac2 rc=1 (json.loads fails on plain string - the EnvSettingsSource RED), ac4 rc=1 (delta empty at base), ac3 rc=1 at base via the docker measurement (cache error alive; command also hard-fails without daemon - never skips).",
-        "pass_after": "ac1 rc=0, ac2 rc=0, ac4 rc=0, ac5 rc=0 (270 collected/suite green, mypy Success 87 files, head 005, 187 passed/0/0/0, tsc 0, lint exactly 4, README 8d141fb2, workflows four, index 178 + pins/anchors executed, entry 139 identity) - ALL measured with the throwaway fixture on tmp branch 395cf66 (deleted, never pushed). ac3 pass-after: exploratory runs (pre-ruled command text) showed no cache error, no SettingsError, DatatypeMismatch arrival; the EXACT final ac3 command is re-measured green on the daemon when the orchestrator go-ahead arrives (see ac3_measurement_state).",
+        "base_red": "ac1 rc=1 (chown line missing), ac2 rc=1 (json.loads fails on plain string - the EnvSettingsSource RED), ac4 rc=1 (delta empty at base), ac3 rc=1 VERBATIM at base on the committed command: 'ac3 RED: finding 1 alive - uv cache permission error still present' (measured this run, worktree byte-clean at base files; exploratory base run additionally showed app Exited(2) <1s + health curl rc=7 x30 probes/60s).",
+        "pass_after": "ac3 rc=0 VERBATIM on the committed command with the throwaway two-file fixture (docker 29.8.2, orchestrator-opened window): 'ac3 GREEN: no cache error, no SettingsError, migration attempt reached'; ac1 rc=0, ac2 rc=0, ac4 rc=0, ac5 rc=0 (270 collected/suite green, mypy Success 87 files, head 005, 187 passed/0/0/0, tsc 0, lint exactly 4, README 8d141fb2, workflows four, index 178 + pins/anchors executed, entry 139 identity) - fixture on throwaway branch 395cf66 (deleted, never pushed). ac3 command sha256 da3413567554345610a7ca49d7bcceeeb4e300b256f656117256dd1695d321e5 verified identical to the committed card block before running.",
         "negative_controls": "NC1 two-line compose perturbation -> ac4 rc=1; NC2 extra Dockerfile edit -> ac4 rc=1; NC3 unquoted YAML flow-seq CORS -> ac2 rc=1 (parses to object, not string). Restore checks rc=0 after each.",
         "ac5_index_legs": "floor 178 measured; anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 byte-identical; byte-pins 131/132/133/135 pinned AND executed; entry 139 identity t27 only."
       },
       "fixture_method": "Throwaway UNCOMMITTED working-tree edits (Dockerfile chown line + compose CORS JSON line), then a local throwaway branch tmp/t46-fixture-test (commit 395cf66, NEVER pushed, DELETED after measurement) solely so ac4's git-delta analyzer had a HEAD to diff; branches restored to groom/t46-uv-cache-permission with base Dockerfile/docker-compose.yml byte-restored (verified clean). The card branch contains ONLY docs commits.",
-      "docker_etiquette": "Orchestrator steer: daemon was killed by the orchestrator mid-run (t40 vitest contamination); definer did NOT restart it; all docker-free work completed while down; ac3 pass-after on the exact command text runs only on orchestrator go-ahead via build/startdocker.cmd, with compose down -v after and the daemon left STOPPED afterwards.",
-      "platform_sync": "#49 body PATCHED via direct GitHub API (accepted t43/t44 precedent; API_TOKEN from the worktree .env; scripts/platform.ts --body cannot carry a leading '---' frontmatter through its flag parser) with the exact COMMITTED card bytes; GET read-back body_match_exact=true (22664 bytes both sides). Labels set to EXACTLY [groomed] via scripts/platform.ts label set, GET read-back labels=[groomed]."
+      "docker_etiquette": "Orchestrator steer followed: definer never restarted the daemon until the explicit GO-AHEAD (verifier vitest legs done); started via build/startdocker.cmd, polled docker info (up at first poll), ran the two ac3 legs, compose down -v, taskkill Docker Desktop.exe + com.docker.backend.exe, daemon confirmed DOWN (docker info fails), worktree byte-clean verified per the orchestrator cleanup note.",
+      "platform_sync": "#49 body PATCHED via direct GitHub API (accepted t43/t44 precedent; API_TOKEN from the worktree .env; scripts/platform.ts --body cannot carry a leading '---' frontmatter through its flag parser) with the exact COMMITTED card bytes; GET read-back body_match_exact=true (22931 bytes both sides, post ac3-measurement card update). Labels set to EXACTLY [groomed] via scripts/platform.ts label set, GET read-back labels=[groomed].",
+      "ac3_measurement_state": "COMPLETE: both ac3 states measured with the COMMITTED command verbatim (base RED rc=1 + fixture pass-after GREEN rc=0). Daemon torn down (compose down -v), Docker Desktop + com.docker.backend taskkilled, daemon left DOWN per orchestrator steer; worktree verified byte-clean (git status + git diff --stat empty) at the pushed tip."
     },
     "durability": {
       "base_sha": "7c8f929446352ed3c1c5639bf271d9d266265b7a",
       "branch": "groom/t46-uv-cache-permission",
-      "branch_sha": "b53cfb99d70f3c0a74b8138a7485ed49a5c640bf",
+      "branch_sha": "029d2510eaa879b70f5690f46013861e0e21bc32",
       "pushed": true,
-      "ls_remote_verified": "ls-remote origin groom/t46-uv-cache-permission == b53cfb9 == local HEAD (card commit 6b8d2a1 + ac_hash pin commit b53cfb9; handoff commit follows)",
+      "ls_remote_verified": "ls-remote origin groom/t46-uv-cache-permission == 029d251 == local HEAD (card 6b8d2a1 + ac_hash pin b53cfb9 + ac3-measurement card update + handoff update commits)",
       "no_implementation": "Card-only delta: commits touch docs/issues/t46.md alone. The Dockerfile/compose fixes were NEVER committed to the groom branch - the repair belongs to the builder."
     }
   },
@@ -86,6 +87,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-12T13:05:00Z",
+  "timestamp": "2026-10-12T13:35:00Z",
   "retry_count": 0
 }
