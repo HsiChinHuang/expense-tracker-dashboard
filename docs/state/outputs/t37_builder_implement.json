@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t37",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t37-security-docs",
+    "branch_sha": "cff528e",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/gitleaks-report.json || exit 1; test -f Makefile || exit 1; grep -qE \"gitleaks_8[.]30[.]1_linux_x64[.]tar[.]gz\" Makefile || exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!Array.isArray(a)){console.error(\\\"gitleaks report is not a JSON array\\\");process.exit(1)}if(a.length!==0){console.error(\\\"gitleaks findings: \\\"+a.length+\\\" - zero-leak BLOCKING invariant broken\\\");process.exit(1)}console.log(\\\"gitleaks report parses as a JSON array with ZERO findings\\\")\" security/gitleaks-report.json || exit 1; r1=$(mktemp /tmp/t37-gl-XXXXXX.json); r2=$(mktemp /tmp/t37-gl-XXXXXX.json); GITLEAKS_REPORT=\"$r1\" make security-gitleaks >/dev/null 2>&1 || exit 1; GITLEAKS_REPORT=\"$r2\" make security-gitleaks >/dev/null 2>&1 || exit 1; cmp -s security/gitleaks-report.json \"$r1\" || exit 1; cmp -s \"$r1\" \"$r2\" || exit 1; rm -f \"$r1\" \"$r2\"; echo \"ac1 PASS: gitleaks-report.json exists, parses, ZERO findings, byte-reproducible by make security-gitleaks (two independent runs match the committed artifact)\"'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/pip-audit-report.txt || exit 1; f=security/pip-audit-report.txt; grep -qE \"Found [0-9]+ known vulnerabilit|No known vulnerabilities\" \"$f\" || exit 1; n=$(grep -oE \"Found [0-9]+ known vulnerabilit\" \"$f\" | grep -oE \"[0-9]+\" | tail -1); if [ -z \"$n\" ]; then n=0; fi; m=$(grep -cE \"^[A-Za-z0-9][A-Za-z0-9._-]+ +[0-9]+[.][0-9.]+ +(PYSEC|CVE|GHSA)-\" \"$f\"); echo \"ac2 evidence: pip-audit parsed summary count=$n finding-table lines=$m\"; [ \"$n\" -ge 1 ] && [ \"$m\" -eq 0 ] && exit 1; g=$(grep -cE \"python-jose\" \"$f\"); r=0; test -f security/agent-security-notes.md && r=$(grep -cE \"python-jose\" security/agent-security-notes.md); [ $((g+r)) -ge 1 ] || exit 1; if test -f security/agent-security-notes.md; then grep -qE \"[.]env[.]example\" security/agent-security-notes.md || exit 1; else test -f .env.example || exit 1; echo \"ac2 evidence: .env.example expected-finding class proven by the tracked .env.example placeholder + gitleaks zero-report; register-side naming enforced by ac4 once t40 lands\"; fi; t=$(mktemp /tmp/t37-pip-XXXXXX.txt); PIP_AUDIT_REPORT=\"$t\" make security-pip-audit >/dev/null 2>&1 || exit 1; grep -qE \"Found [0-9]+ known vulnerabilit|No known vulnerabilities\" \"$t\" || exit 1; n2=$(grep -oE \"Found [0-9]+ known vulnerabilit\" \"$t\" | grep -oE \"[0-9]+\" | tail -1); [ \"${n2:-x}\" = \"$n\" ] || { echo \"regeneration count $n2 differs from committed $n\"; exit 1; }; rm -f \"$t\"; echo \"ac2 PASS: real pip-audit shape (count=$n), expected-finding class python-jose named, make security-pip-audit regenerates the same measured count\"'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'test -f security/npm-audit-report.txt || exit 1; f=security/npm-audit-report.txt; grep -qE \"found [0-9]+ vulnerabilit|[0-9]+ vulnerabilit\" \"$f\" || exit 1; n=$(grep -oE \"[0-9]+ vulnerabilit\" \"$f\" | grep -oE \"^[0-9]+\" | tail -1); echo \"ac3 evidence: npm audit parsed vulnerability count=$n\"; [ -n \"$n\" ] || exit 1; g=0; test -f security/agent-security-notes.md && g=$(grep -cE \"dev-dependency|dev dependency|devDependencies\" security/agent-security-notes.md); [ \"$g\" -ge 1 ] || grep -qE \"esbuild|vite\" \"$f\" || exit 1; G=$(wslpath -w \"$PWD\"); for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || { echo \"manifest changed: $p\"; exit 1; }; done; t=$(mktemp /tmp/t37-npm-XXXXXX.txt); NPM_AUDIT_REPORT=\"$t\" make security-npm-audit >/dev/null 2>&1 || exit 1; n2=$(grep -oE \"[0-9]+ vulnerabilit\" \"$t\" | grep -oE \"^[0-9]+\" | tail -1); [ \"${n2:-x}\" = \"$n\" ] || { echo \"regeneration count $n2 differs from committed $n\"; exit 1; }; rm -f \"$t\"; echo \"ac3 PASS: real npm-audit shape (count=$n), dev-dependency class addressed, five manifests byte-untouched (read-only audit proof), make security-npm-audit regenerates the same count\"'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'test -f security/pip-audit-report.txt || exit 1; test -f security/npm-audit-report.txt || exit 1; test -f security/gitleaks-report.json || exit 1; ids=$(mktemp); node -e \"const fs=require(\\\"fs\\\");const out=[];const p=fs.readFileSync(\\\"security/pip-audit-report.txt\\\",\\\"utf8\\\");for(const m of p.matchAll(/(PYSEC|CVE|GHSA)-[0-9]{4}-[0-9]+/g)){out.push(m[0])}const n=fs.readFileSync(\\\"security/npm-audit-report.txt\\\",\\\"utf8\\\");for(const m of n.matchAll(/GHSA-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g)){out.push(m[0])}const u=[...new Set(out)];if(u.length===0){console.error(\\\"no finding ids parsed from the two audit reports - the closed loop has nothing to check\\\");process.exit(1)}fs.writeFileSync(process.argv[1],u.join(\\\"\\n\\\")+\\\"\\n\\\");console.log(\\\"parsed \\\"+u.length+\\\" distinct finding ids from the two audit reports\\\")\" \"$ids\" || exit 1; z=$(node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"security/gitleaks-report.json\\\",\\\"utf8\\\"));process.stdout.write(String(a.length))\") ; [ \"$z\" = \"0\" ] || exit 1; if [ -f security/agent-security-notes.md ]; then while IFS= read -r id; do grep -q -- \"$id\" security/agent-security-notes.md || { echo \"finding id $id has no register row\"; exit 1; }; done < \"$ids\"; grep -qE \"gitleaks.{0,40}0|zero findings\" security/agent-security-notes.md || exit 1; echo \"ac4 PASS: register exists - every parsed id has a row, gitleaks zero-count echoed\"; else echo \"ac4 PASS: register absent (pre-t40) - closed-loop gate vacuously green for $(wc -l < \"$ids\" | tr -dc \"0-9\") parsed ids; measured counts live in the tool output; gitleaks zero-count parsed as 0\"; fi; rm -f \"$ids\"'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'test -z \"$(find security -type f ! -name .gitkeep ! -name gitleaks-report.json ! -name pip-audit-report.txt ! -name npm-audit-report.txt)\" || exit 1; test -z \"$(find ops -type f ! -name .gitkeep)\" || exit 1; test -f security/.gitkeep || exit 1; test -f ops/.gitkeep || exit 1; for f in security/gitleaks-report.json security/pip-audit-report.txt security/npm-audit-report.txt; do [ -s \"$f\" ] || exit 1; node -e \"const b=require(\\\"fs\\\").readFileSync(process.argv[1]);if(b.includes(0)){console.error(\\\"NUL byte / binary content in \\\"+process.argv[1]);process.exit(1)}if(b.length>204800){console.error(process.argv[1]+\\\" exceeds the 200 KB scan-output ceiling\\\");process.exit(1)}\" \"$f\" || exit 1; done; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; G=$(wslpath -w \"$PWD\"); a=$(cmd.exe /c \"git -C $G rev-parse HEAD:.gitignore\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object .gitignore\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; echo \"ac5 PASS: security/ exactly .gitkeep + the three reports (all text, NUL-free, under the size ceiling), ops/ .gitkeep-only, workflows frozen four, .gitignore byte-untouched\"'",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); [ \"$(wc -l < README.md | tr -dc \"0-9\")\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; for f in security/gitleaks-report.json security/pip-audit-report.txt security/npm-audit-report.txt; do test -f \"$f\" || exit 1; done; test -z \"$(find ops -type f ! -name .gitkeep 2>/dev/null)\" || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"t37-ac6 evidence: backend collected=$n (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); echo \"t37-ac6 evidence: frontend passed=$f (floor 187)\"; [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<158){console.error(\\\"index shorter than 158\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1; echo \"ac6 PASS: no-drift composite green (t37: three committed reports present, security/ ops/ tree discipline proven upstream)\"'",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:b43c70248fdcc8916fd44ea109cd1aa8e0d72b600f9717c962b85c73a7fca5a6",
+    "ac_hash_verification": "re-extracted at implement time from the committed card via the heading-exclusive /^## (?!#)/m slice + ```bash fenced blocks recipe; JSON.stringify(array of six) sha256 == the pinned groom hash; the six executed /tmp files are byte-identical to the card blocks (machine-verified string compare before execution).",
+    "verification_method": "All six pinned commands executed VERBATIM from /tmp/t37-acN.sh files written by a node extraction of the card (bash heredoc/node only; no edit-tool scratch). Execution order ac1..ac5 then ac6 LAST. Every cmd.exe leg wrapped cmd.exe /c \"...\" </dev/null with timeout; ac6 run in the foreground in a single bounded call after pre-warming the backend venv (uv sync --offline) and frontend node_modules (npm.cmd ci --no-audit --no-fund) as prerequisites, not gates.",
+    "measured_runs": {
+      "base_main": "3559302f78af275578c26aca121ccc37d30e7c79 (origin/main, contains groomed card + groom handoff)",
+      "gitleaks": "make security-gitleaks: gitleaks v8.30.1 tracked-tree sweep, 7264411 bytes in 593ms, rc=0, no leaks found; committed security/gitleaks-report.json is the pure JSON array [] (3 bytes, blob fe51488c7066f6687ef680d6bfaa4f7768ef205c); ac1 additionally proved byte-reproducibility via two independent GITLEAKS_REPORT= regeneration runs cmp-matched to the committed artifact",
+      "pip_audit": "make security-pip-audit: uv export --no-hashes --frozen (53 requirement lines) -> uvx pip-audit; tool rc=1 (findings recorded, never suppressed); Found 3 known vulnerabilities in 2 packages (ecdsa 0.19.2 PYSEC-2026-1325 x2, python-jose 3.5.0 CVE-2026-85394); committed security/pip-audit-report.txt (6 lines, blob d905d4a27bcc07475b8919e5e39cd6b0356eab6c); regeneration reproduced count 3",
+      "npm_audit": "make security-npm-audit: npm audit (npm.cmd via cmd.exe from frontend/), tool rc=1 accepted; 22 vulnerabilities (3 moderate, 17 high, 2 critical); committed security/npm-audit-report.txt (10067 bytes, blob eda56395c966d526f21e80577e08f9f08ef0f0c2); read-only proof: five named manifests byte-untouched (HEAD blob == hash-object) before and after; regeneration reproduced count 22",
+      "finding_ids": "46 distinct finding ids parsed by ac4 from the two audit reports; security/agent-security-notes.md ABSENT pre-t40 so the register leg is vacuously green; gitleaks zero-count parsed as 0 from the JSON",
+      "backend": "270 passed / 0 failed (uv run pytest -q, 92.6s); collected 270 (floor 270); ruff clean; mypy no-issues count >= 83 (ac6 leg green); alembic single head 005 (head)",
+      "frontend": "vitest json: numFailedTests=0, numPendingTests=0, numTodoTests=0, passed=187 (floor 187); tsc --noEmit rc=0; exactly 4 react-refresh/only-export-components lint warnings",
+      "index": "docs/state/merge_test_index.json >= 158 entries; anchors tests[16]=t2 (cfb84edc...) and tests[54]=t9 (cf5babc0...) byte-unchanged, both stored commands executed green; index NEVER touched by this build (orchestrator-owned)"
+    },
+    "command_results": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "fail_before_ref": "groom measured 6/6 rc=1 at base (reports absent); this build turns each green by committing the three real-run artifacts and nothing else",
+    "deliverables": "EXACTLY three files added: security/gitleaks-report.json, security/pip-audit-report.txt, security/npm-audit-report.txt - pure tool output, no headers, no hand-typed content. NO docs/ops files, NO register file, NO ops/ files, NO manifest/.gitignore/workflow changes (the t37 card delta is the three scan reports; security/*.md and ops/*.md named in the spawn preamble are OUT OF SCOPE per the card Constraints/Out-of-scope sections - they belong to t38/t39/t40/t41).",
+    "durability": {
+      "branch": "issue/t37-security-docs",
+      "build_commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
+      "handoff_commit": "(this commit; see branch_sha after push - appended below in push_metadata)",
+      "pushed": false
+    },
+    "notes": "BUILDER IMPLEMENT SUMMARY - t37 (platform #40, phase_7_security_ops scan-report vertical). Branch issue/t37-security-docs off MAIN 3559302. Spawn preamble mentioned security/ops documentation files; the AUTHORITATIVE card (Constraints: \"Files: 3 files\"; Out of scope: \"the three security/ documents (t40), ops/ (t39/t41), semgrep+trivy (t38)\") pins the delta to the three scan reports, which is what was implemented - no invented scope. All six groom-pinned commands executed verbatim, ac6 last, 6/6 rc=0. Provenance (tools, pinned versions, exact commands, UTC timestamps, target tree, measured counts) is recorded in the build commit message per the card contract since the gitleaks JSON must stay pure. Preconditions bootstrapped: frontend npm ci (512 packages), backend uv sync --offline. Commit type feat per card DoD (feat(t37): ...). Index untouched; ac6 not index-appended; ac1..ac5 are the appendable candidates for the orchestrator. Platform label transition (groomed->built) and issue comment not performed here: no Platform credentials flow was provided in this spawn task and the orchestrator task contract for this run owns platform sync (recorded as a residual risk, not a blocker).",
+    "ac_suggestions": [],
+    "w10": "No exact vulnerability count pinned anywhere in what this build asserted; counts parsed from tool output (3 pip-audit, 22 npm, 46 ids, 0 gitleaks). Floors 270/187/158/83 not raised.",
+    "verification_commands_source_note": "Literal schema const per t33/t34/t35/t36 precedent; the concrete source for THIS card is docs/issues/t37.md ## Verification commands (six fenced bash blocks, verbatim in ac_mapping)."
+  },
+  "artifacts": {
+    "files_written": [
+      "security/gitleaks-report.json",
+      "security/pip-audit-report.txt",
+      "security/npm-audit-report.txt",
+      "docs/state/outputs/t37_builder_implement.json"
+    ],
+    "platform_issue": 40,
+    "output_path": "docs/state/outputs/t37_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T05:06:07.823Z",
+  "retry_count": 0
+}
