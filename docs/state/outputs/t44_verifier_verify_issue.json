@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t44",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_pinned": "sha256:b6e4d660d64abf2c5ad3f20dd5aa97744d02ac4e4a1ed6773a163634370b585b",
+    "ac_hash_computed": "sha256:b6e4d660d64abf2c5ad3f20dd5aa97744d02ac4e4a1ed6773a163634370b585b",
+    "ac_hash_match": true,
+    "ac_hash_recipe": "Independent R1 extraction: git show 737b6b7:docs/issues/t44.md via cmd.exe, LF-normalized, slice from first /^## Verification commands\\b/ line (exclusive) to next /^## (?!#)/ heading, all ```bash fences in ac order, each trimmed, sha256 over JSON.stringify(array of 5). Per-command sha256: ac1=526ae470, ac2=00b222f6, ac3=5b5be28e, ac4=6aa7473b, ac5=74a5b663 (full hex in notes).",
+    "byte_identity_vs_builder": "Committed docs/state/outputs/t44_builder_implement.json at tip 737b6b7: all five evidence.ac_mapping[*].test strings byte-equal to the independent extraction (the reply-copy placeholder abbreviation concern does not apply to the committed copy).",
+    "verified_tip": "737b6b72f93dca36914b55f743204b5751a705f2 (origin/issue/t44-semgrep-metrics-flag; repair commit 6925762 + builder handoff commit 737b6b7 included)",
+    "base_for_delta": "1a160057e806222fe44ed4775d193c0e430236d6 (main)",
+    "delta_purity": "git diff --name-only base..tip = Makefile + docs/issues/t44.md + docs/state/outputs/t44_builder_implement.json + docs/state/outputs/t44_definer_groom.json - non-docs delta EXACTLY Makefile (Makefile + handoff only, as required; card/groom docs are the governance-excluded groom delta).",
+    "execution_mode": "Each AC command written byte-exact from the independent extraction to its own script file and run as bash <file> </dev/null from the scratch worktree at the exact tip, foreground, ac1 -> ac2 -> ac3 -> ac4 -> ac5 order (ac2 after ac1, ac5 LAST).",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v uvx >/dev/null || exit 1; command -v node >/dev/null || exit 1; grep -qE \"^security-semgrep:\" Makefile || exit 1; if grep -qF -- \"--metrics off\" Makefile; then echo \"ac1: --metrics off still present - target is RED at base (rc=2 in about 2s: Cannot create auto config when metrics are off)\"; exit 1; fi; rm -f /tmp/t44-semgrep-report.json; SEMGREP_REPORT=/tmp/t44-semgrep-report.json timeout 600 make security-semgrep || exit 1; node -e \"const r=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-semgrep-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(r.results)){console.error(\\\"ac1: results is not an array\\\");process.exit(1)}if(r.results.length<1){console.error(\\\"ac1: results array is empty\\\");process.exit(1)}if(r.version!==\\\"1.180.0\\\"){console.error(\\\"ac1: semgrep version drift: \\\"+r.version);process.exit(1)}console.log(\\\"ac1 GREEN: rc=0, findings=\\\"+r.results.length)\" || exit 1'",
+        "exit_code": 0,
+        "output_path": "/tmp/t44-semgrep-report.json",
+        "note": "rc=0 in ~190s wall (semgrep ~3min), findings=32, version 1.180.0, results array valid. RED-at-base demonstrated separately: base Makefile via make -f -> rc=2, stderr Cannot create auto config when metrics are off (see negative control i)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'node -e \"const b=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-semgrep-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(b.results)||b.results.length<1){console.error(\\\"ac2: runtime report findings < 1\\\");process.exit(1)}console.log(\\\"ac2 findings=\\\"+b.results.length+\\\" groom-time-measured-32 verifier-flags-drift\\\")\" || exit 1; G=$(wslpath -w \"$PWD\"); d=$(cmd.exe /c \"git -C $G diff --name-only 1a160057e806222fe44ed4775d193c0e430236d6 HEAD\" </dev/null | tr -d \"\\r\"); if printf \"%s\" \"$d\" | grep -qE \"^security/\"; then echo \"ac2: security/ path inside the delta\"; exit 1; fi; for f in gitleaks-report.json npm-audit-report.txt pip-audit-report.txt semgrep-report.json; do a=$(cmd.exe /c \"git -C $G rev-parse 1a160057e806222fe44ed4775d193c0e430236d6:security/$f\" </dev/null | tr -d \"\\r\"); b2=$(cmd.exe /c \"git -C $G rev-parse HEAD:security/$f\" </dev/null | tr -d \"\\r\"); if [ \"$a\" != \"$b2\" ]; then echo \"ac2: committed report blob changed: $f\"; exit 1; fi; done; echo \"ac2 GREEN: findings>=1, no security/ delta, committed report blobs unchanged\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "findings=32 (NO drift from groom-time-measured 32 - nothing to flag); no security/ path in delta; four committed security report blobs unchanged vs base."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v make >/dev/null || exit 1; command -v curl >/dev/null || exit 1; command -v tar >/dev/null || exit 1; command -v node >/dev/null || exit 1; rm -f /tmp/t44-gitleaks-report.json; GITLEAKS_REPORT=/tmp/t44-gitleaks-report.json timeout 900 make security-gitleaks || exit 1; node -e \"const b=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"/tmp/t44-gitleaks-report.json\\\",\\\"utf8\\\"));if(!Array.isArray(b)||b.length!==0){console.error(\\\"ac3: gitleaks runtime report is not the zero-findings array\\\");process.exit(1)}\" || exit 1; G=$(wslpath -w \"$PWD\"); cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:security/gitleaks-report.json\" </dev/null > /tmp/t44-gitleaks-base.json || exit 1; cmp <(tr -d \"\\r\" < /tmp/t44-gitleaks-base.json) <(tr -d \"\\r\" < security/gitleaks-report.json) || exit 1; echo \"ac3 GREEN: security-gitleaks rc=0, zero findings, committed report byte-identical\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t44-gitleaks-report.json",
+        "note": "make security-gitleaks rc=0 (~4s), runtime report is the zero-findings array, committed security/gitleaks-report.json byte-identical vs base (CR-normalized cmp)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'G=$(wslpath -w \"$PWD\"); h=$(cmd.exe /c \"git -C $G hash-object Makefile\" </dev/null | tr -d \"\\r\"); if [ \"$h\" != \"55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\" ]; then echo \"ac4: Makefile blob $h != pinned 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\"; exit 1; fi; p=$(cmd.exe /c \"git -C $G diff --name-only 1a160057e806222fe44ed4775d193c0e430236d6 HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); if [ \"$p\" != \"Makefile,\" ]; then echo \"ac4: non-docs delta is [$p] - Option B: must be exactly Makefile\"; exit 1; fi; cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:Makefile\" </dev/null > /tmp/t44-mk-base || exit 1; node -e \"const fs=require(\\\"fs\\\");const L=p=>fs.readFileSync(p,\\\"utf8\\\").replace(/\\r/g,\\\"\\\").split(\\\"\\n\\\");const a=L(\\\"/tmp/t44-mk-base\\\"),b=L(\\\"Makefile\\\");if(a.length!==b.length){console.error(\\\"ac4: Makefile line-count drift\\\");process.exit(1)}let c=0,d=-1;for(let j=0;j<a.length;j++){if(a[j]!==b[j]){c++;d=j}}if(c!==1){console.error(\\\"ac4: \\\"+c+\\\" lines differ, expected exactly 1\\\");process.exit(1)}if(b.join(\\\"\\\").includes(\\\"--metrics off\\\")){console.error(\\\"ac4: --metrics off survives the repair\\\");process.exit(1)}if(a[d]!==b[d].replace(\\\"--json --quiet\\\",\\\"--json --metrics off --quiet\\\")){console.error(\\\"ac4: repair is not the exact single-token deletion on line \\\"+(d+1));process.exit(1)}\" || exit 1; for f in security/gitleaks-report.json security/npm-audit-report.txt security/pip-audit-report.txt .github/workflows/ci.yml .github/workflows/e2e.yml .github/workflows/deploy.yml; do cmd.exe /c \"git -C $G show 1a160057e806222fe44ed4775d193c0e430236d6:$f\" </dev/null > /tmp/t44-frozen.bin || exit 1; cmp /tmp/t44-frozen.bin \"$f\" || { echo \"ac4: frozen file drifted: $f\"; exit 1; }; done; echo \"ac4 GREEN: Makefile blob pinned, delta is Makefile-only, repair is the exact single-token deletion, frozen files cmp-clean\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "Makefile blob 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28 pinned; non-docs delta exactly Makefile; exactly one changed line (line 123), byte-reconstructable single-token deletion; --metrics off absent; six frozen files cmp byte-identical vs base."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; command -v node >/dev/null || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); if [ \"$n\" -lt 270 ]; then echo \"ac5: backend collected $n < 270\"; exit 1; fi; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; G=$(wslpath -w \"$PWD\"); D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<178){console.error(\\\"ac5: index below the 178-entry floor\\\");process.exit(1)}for(const n of [131,132,133,135]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac5: missing index entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"ac5: anchors moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"ac5: anchor tests[16] bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"ac5: anchor tests[54] bytes changed\\\");process.exit(1)}if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac5: entry 139 identity changed (its hash is amendment-pending, NOT pinned)\\\");process.exit(1)}\" || exit 1; echo \"ac5 GREEN: no-drift composite holds\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "no-drift composite rc=0 (~4m40s): backend collected >=270 + suite green (uv); frontend vitest 187 passed/0 failed/0 pending/0 todo, tsc rc=0, lint exactly 4 react-refresh warnings; README sha 8d141fb2 <=500 lines; workflows exactly .gitkeep,ci.yml,deploy.yml,e2e.yml; index 178 entries, byte-pins tests[131]/[132]/[133]/[135] executed verbatim, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 byte-unchanged, entry 139 issue_id==t27 identity-only (hash NOT pinned, amendment-pending)."
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "ruff check --output-format=json via per-worktree uv venv in the scratch worktree: 0 findings (non-blocking).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_delta_purity_blob_pin": true,
+      "dod2_five_commands_verbatim_rc0_red_at_base_ac2_after_ac1": true,
+      "dod3_plain_target_rc0_schema_valid_32_findings": true,
+      "dod4_index_floor_anchors_bytepins_entry139_identity": true,
+      "dod5_no_runtime_report_committed_frozen_cmp": true,
+      "dod6_platform_47_groomed_state": true,
+      "dod7_branch_pushed_merge_before_t41": true
+    },
+    "dod_note": "dod6 evaluated as: #47 body mirrors committed card bytes (groom-verified GET body_match_exact=true) and the state label is now verified (verifier transition this run; single-state label preserved). dod7: branch pushed (origin/issue/t44-semgrep-metrics-flag == 737b6b7); merge-before-t41 constraint carried in this handoff.",
+    "negative_controls": [
+      "(i) restore base Makefile recipe (--metrics off back): ac1 rc=1 (flag-present early exit); make-level RED demonstrated: make -f <base Makefile> security-semgrep rc=2, stderr Cannot create auto config when metrics are off - BITES.",
+      "(ii) mutate Makefile elsewhere (trailing space on line 118): ac4 rc=1 (blob e3db435ad285a7724f38b71c30da70ed20c424f7 != pinned 55745c4d) - BITES.",
+      "(iii) touch security/gitleaks-report.json (working-tree mutation): ac3 rc=1 (CR-normalized cmp differ) AND ac4 rc=1 (frozen-file leg differ) - BITES. ac2 stayed rc=0 BY DESIGN (it compares committed blobs vs base/HEAD, immune to working-tree mutation; the ac2 leg of negative iii is the ac4/ac3 pair per the card design).",
+      "All mutations restored byte-exact afterwards (Makefile from pristine copy, gitleaks-report.json from git show base bytes); ac3/ac4 re-ran GREEN rc=0 post-restore."
+    ],
+    "environment": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty -> per-worktree uv sync in scratch backend/ (rc=0); uv/uvx at $HOME/.local/bin. All git ops via cmd.exe /c git -C <WinPath> </dev/null (WSL git chokes on the absolute Windows .git pointer; bare cmd.exe would hang without </dev/null). frontend/node_modules installed via cmd.exe npm.cmd ci FOREGROUND </dev/null (526 packages, 25s; t43 incident rule respected - never background+flag-file). core.autocrlf=true workaround: the seven gate-relevant files (Makefile + six frozen) rewritten in the scratch worktree with exact git-show HEAD bytes (LF) so hash-object/cmp legs measure committed bytes - identical to the builder-disclosed workaround, zero committed-bytes impact (git diff --stat HEAD empty, only autocrlf smudge warnings).",
+    "measurement_location": "MEASURED AT THE EXACT TIP 737b6b7 in a scratch git worktree (git worktree add --detach via cmd.exe) at C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\expense-tracker-dashboard\\t44-verifier-scratch - the assigned worktree checkout sits on a NEWER orchestrator snapshot (5996b05, post-gate2), so measuring there would not measure the branch tip (t38 verifier precedent). Scratch worktree remains for reproducibility; orchestrator may prune it.",
+    "deviations": [
+      "Platform #47 verdict comment posted and label transition built -> verified PERFORMED via scripts/platform.ts (npx tsx from the scratch worktree with .env copied from the main checkout; t38/t39 runs could not authenticate, this run could). One incidental artifact: the first comment attempt via cmd.exe passed the filename literally (body=t44_verdict_comment.md); the correct full verdict comment followed immediately. The CLI exposes no comment-delete; the one-line stray comment is cosmetic noise on #47 - disclosed, flagged for orchestrator cleanup if desired.",
+      "No commits made and nothing pushed by the verifier; the handoff is written in the assigned worktree at docs/state/outputs/t44_verifier_verify_issue.json for the orchestrator to commit (t38 precedent).",
+      "Assigned-worktree incident (fully restored): during negative (ii) setup a node mutation accidentally ran with cwd in the ASSIGNED worktree and appended a trailing space to its working-tree Makefile line 118. Restored immediately from git show HEAD:Makefile bytes (CRLF-matched); git status/diff vs HEAD now CLEAN (verified). No commit, no other file touched; the incident occurred on the orchestrator snapshot checkout, not on the verified branch."
+    ],
+    "residual_risks": [
+      "Entry 139 amendment is pending at the t43 merge (identity-only check here by design); tests[159] goes green UNAMENDED after this merge - both orchestrator-owned, non-gating.",
+      "HARD merge-order constraint: t44 MUST merge BEFORE t41 (t41 make security umbrella gate depends on this repair).",
+      "Semgrep runtime is wall-clock variable (groom ~52s, builder ~163s, verifier ~190s under parallel load); the 600s timeout in ac1 absorbed it with margin but a heavily loaded gate could approach it.",
+      "ac1 findings count 32 matches groom-time measurement exactly; future rule-pack drift from the auto config would surface as the ac2 drift flag by design."
+    ],
+    "cross_checks": {
+      "builder_ac_results_vs_verifier": "Builder ac1-ac5 rc=0 all reproduced rc=0 at the tip by independent extraction + verbatim script files.",
+      "red_at_base": "Card-documented base behavior (rc=2, Cannot create auto config when metrics are off) reproduced via make -f base-Makefile.",
+      "findings_count": "32 == groom-time 32 == builder 32 (no drift).",
+      "makefile_blob": "git hash-object Makefile at scratch tip = 55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28 == pinned == tree blob of 737b6b7:Makefile.",
+      "per_command_sha256": "ac1=526ae47010ed675bcc793c180660ac5e4ded01f10550a096348af7bdeabc4b4d ac2=00b222f6daf0dac29fbef1bbd6b676c5187a27328430ca738e8745d5e0533e7c ac3=5b5be28e4bac70a64524e7d517c6a5206566ab60ed5adc9352e5b9363812a997 ac4=6aa7473bb1908917609d42b0c0cd37e136c6ca5f81d6f37c604a6354f4f503ae ac5=74a5b663b89ed0f395d700f195b41b1275c31b60e31e911df6c156e70aae01be - all equal the groom handoff ac_mapping sha256s."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t44_verifier_verify_issue.json"
+    ],
+    "platform_issue": 47,
+    "output_path": "docs/state/outputs/t44_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T10:54:48Z",
+  "retry_count": 0
+}
