@@ -47,7 +47,7 @@ jobs:
           echo "health endpoint never turned ok"
           exit 1
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: cd e2e && npm install --no-save && npx playwright install --with-deps
       - name: Run the E2E suite
         run: make e2e
       - name: Upload the Playwright report
