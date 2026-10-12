@@ -8,7 +8,7 @@
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t37-security-docs",
-    "branch_sha": "cff528e",
+    "branch_sha": "6e8ec96",
     "ac_mapping": {
       "ac1": {
         "commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
@@ -73,9 +73,13 @@
     "deliverables": "EXACTLY three files added: security/gitleaks-report.json, security/pip-audit-report.txt, security/npm-audit-report.txt - pure tool output, no headers, no hand-typed content. NO docs/ops files, NO register file, NO ops/ files, NO manifest/.gitignore/workflow changes (the t37 card delta is the three scan reports; security/*.md and ops/*.md named in the spawn preamble are OUT OF SCOPE per the card Constraints/Out-of-scope sections - they belong to t38/t39/t40/t41).",
     "durability": {
       "branch": "issue/t37-security-docs",
+      "base_main": "3559302f78af275578c26aca121ccc37d30e7c79",
       "build_commit": "cff528ece97476275192e7000755e2d6a7b6fdc7",
-      "handoff_commit": "(this commit; see branch_sha after push - appended below in push_metadata)",
-      "pushed": false
+      "handoff_commit": "6e8ec9602e4bb1c3553b9e8ed06409357a28c9d1",
+      "pushed": true,
+      "remote_tip_at_push": "6e8ec9602e4bb1c3553b9e8ed06409357a28c9d1",
+      "push_verify": "git ls-remote origin refs/heads/issue/t37-security-docs == local HEAD (6e8ec96...); pushed via the cmd.exe git shim (WSL-side push hangs on this host), no force-push",
+      "push_metadata_commit": "this follow-up commit appends the push metadata (a handoff cannot carry the sha of the commit that carries it - t35/groom precedent)"
     },
     "notes": "BUILDER IMPLEMENT SUMMARY - t37 (platform #40, phase_7_security_ops scan-report vertical). Branch issue/t37-security-docs off MAIN 3559302. Spawn preamble mentioned security/ops documentation files; the AUTHORITATIVE card (Constraints: \"Files: 3 files\"; Out of scope: \"the three security/ documents (t40), ops/ (t39/t41), semgrep+trivy (t38)\") pins the delta to the three scan reports, which is what was implemented - no invented scope. All six groom-pinned commands executed verbatim, ac6 last, 6/6 rc=0. Provenance (tools, pinned versions, exact commands, UTC timestamps, target tree, measured counts) is recorded in the build commit message per the card contract since the gitleaks JSON must stay pure. Preconditions bootstrapped: frontend npm ci (512 packages), backend uv sync --offline. Commit type feat per card DoD (feat(t37): ...). Index untouched; ac6 not index-appended; ac1..ac5 are the appendable candidates for the orchestrator. Platform label transition (groomed->built) and issue comment not performed here: no Platform credentials flow was provided in this spawn task and the orchestrator task contract for this run owns platform sync (recorded as a residual risk, not a blocker).",
     "ac_suggestions": [],
