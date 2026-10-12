@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T20:15:00Z",
-  "last_seq": 636,
+  "updated_at": "2026-10-13T20:25:00Z",
+  "last_seq": 637,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -14,12 +14,12 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
-      "last_activity_at": "2026-10-13T20:15:00Z"
+      "issue_id": "t50",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "b1d84998-6a3e-439d-b620-50d7c72dcbad",
+      "spawn_at": "2026-10-13T20:25:00Z",
+      "last_activity_at": "2026-10-13T20:25:00Z"
     }
   ],
   "merge_queue": [],
@@ -29,14 +29,15 @@
       "issue_id": "t50",
       "state": "defined",
       "modifiers": [
-        "ready_groom"
+        "groom_in_flight"
       ]
     },
     {
       "issue_id": "t54",
       "state": "defined",
       "modifiers": [
-        "groom_in_flight"
+        "groom_in_flight",
+        "docker_recovery"
       ]
     },
     {
