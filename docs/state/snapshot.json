@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-14T01:30:00Z",
-  "last_seq": 656,
+  "updated_at": "2026-10-14T02:10:00Z",
+  "last_seq": 657,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,11 +15,9 @@
     {
       "slot_id": "slot_2",
       "issue_id": "t51",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "f72e6263-c4b2-4ef2-8276-c98eac02adad",
-      "spawn_at": "2026-10-14T01:30:00Z",
-      "last_activity_at": "2026-10-14T01:30:00Z"
+      "role": null,
+      "phase": null,
+      "run_id": null
     }
   ],
   "merge_queue": [],
