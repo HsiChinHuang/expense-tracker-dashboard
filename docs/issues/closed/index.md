@@ -55,3 +55,4 @@ Runtime-maintained by Orchestrator.
 | t49 | Root reviewer docs: CLAUDE.md, product-spec, openapi export, README criteria map + checklist + 5-min paths, runbook typo, render deviation | 2026-10-13 | 0 | 5e04b61 |
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | 2026-10-13 | 0 | 97153c0 |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | 2026-10-13 | 0 | 7264868 |
+| t51 | Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried) | 2026-10-14 | 0 | 03010f7 |

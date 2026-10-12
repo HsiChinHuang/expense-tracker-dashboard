@@ -1,15 +1,15 @@
 {
-  "issue_id": "t50",
+  "issue_id": "t51",
   "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-13T23:58:00Z",
-  "pre_merge_sha": "97153c0",
-  "merge_sha": "7264868",
+  "timestamp": "2026-10-14T03:30:00Z",
+  "pre_merge_sha": "14d9477",
+  "merge_sha": "03010f7",
   "test_result": {
-    "total": 469,
-    "passed": 469,
+    "total": 462,
+    "passed": 462,
     "failed": 0,
-    "note": "backend 270 + frontend 187 (0/0/0, Docker DOWN) + 7 appended index entries tests[203..209] executed rc=0 on merged MAIN = 469; t54 ac3/ac4 merge-base legs EXCLUDED per card (ac3 measured RED on merged main = exclusion evidence); merged-MAIN floors green (ruff/mypy 88/alembic 005/tsc/exactly-4 lint/workflows four/README pin-1 carried)"
+    "note": "backend 270 + frontend 187 (0/0/0, Docker DOWN) + 5 appended index entries tests[210..214] executed rc=0 on merged main (214 initially RED from untracked build/ scratch leaking the repo-wide link leg; scratch relocated to orchestrator temp, re-run GREEN)"
   },
-  "note": "t54 merged first per FIFO (VERIFIER-PASS 20:14:08 < t50 20:15:39): t54 merge 97153c0 pre 02da569; t50 merge 7264868 pre 97153c0"
+  "ac_hash": "sha256:1c11c3f9a214ee1f1c8a322a2d08185eec23d9b2f2cfe68a7ed519534449598c"
 }
