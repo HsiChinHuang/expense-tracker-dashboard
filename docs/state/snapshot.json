@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:30:13.518Z",
-  "last_seq": 558,
+  "updated_at": "2026-10-12T09:33:07.824Z",
+  "last_seq": 560,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -17,9 +17,10 @@
       "issue_id": "t43",
       "role": "definer",
       "phase": "groom",
-      "run_id": "f5e11980-e92f-420f-b6a7-f0138ef512b5",
-      "spawn_at": "2026-10-12T09:01:49Z",
-      "last_activity_at": "2026-10-12T09:16:29.784Z"
+      "run_id": "7bb6d7ea-18cb-4082-b6f1-298d494ec247",
+      "spawn_at": "2026-10-12T09:33:07.824Z",
+      "last_activity_at": "2026-10-12T09:33:07.824Z",
+      "note": "retry 3/3 transcription-only"
     },
     {
       "slot_id": "queued_1",
