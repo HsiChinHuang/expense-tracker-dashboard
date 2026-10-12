@@ -1,0 +1,101 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t42",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:207d81e0b4d0459ef168dca6011ee37c9d00c2e4066254b0dfa1258a278eccc3",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash -c 'test -f .github/workflows/ci.yml || exit 1; n=$(grep -c \"astral-sh/setup-uv@\" .github/workflows/ci.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"astral-sh/setup-uv@[A-Za-z0-9._-]+\" .github/workflows/ci.yml | head -1 | sed \"s|astral-sh/setup-uv@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/astral-sh/setup-uv/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; echo \"$ref\" | grep -qE \"^(v5[.]0[.]0|v6[.]0[.]0|v7[.]0[.]0|v8[.]0[.]0|v9[.]0[.]0|v10[.]3[.]0)$\" || exit 1; grep -qE \"enable-cache: true[[:space:]]*$\" .github/workflows/ci.yml || exit 1'",
+      "ac2": "bash -c 'test -f .github/workflows/e2e.yml || exit 1; n=$(grep -c \"actions/cache@\" .github/workflows/e2e.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"actions/cache@[A-Za-z0-9._-]+\" .github/workflows/e2e.yml | head -1 | sed \"s|actions/cache@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/actions/cache/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; grep -qE \"uses: actions/cache@v4[.]1[.]2[[:space:]]*$\" .github/workflows/e2e.yml && exit 1; : measured-runner-fact-DENYLIST-v4.1.2-refs-tags-v4.1.2-answers-200-but-the-runner-auto-fails-the-job-not-an-API-fact; echo \"$ref\" | grep -qE \"^(v4[.]2[.]4|v6[.]1[.]0)$\" || exit 1'",
+      "ac3": "bash -c 'test -f frontend/package.json || exit 1; test -f frontend/package-lock.json || exit 1; node -e \"const p=require(\\\"./frontend/package.json\\\");const v=p.devDependencies[\\\"@vitest/coverage-v8\\\"];const t=p.devDependencies.vitest;if(v!==\\\"1.6.0\\\"||t!==\\\"1.6.0\\\"||v!==t){process.exit(1)}\" || exit 1; grep -q \"@vitest/coverage-v8\" frontend/package-lock.json || exit 1; D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest --run --coverage\" </dev/null 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; printf \"%s\" \"$out\" | tr -d \"\\r\" | grep -qE \"Coverage report|All files\" || exit 1'",
+      "ac4": "bash -c 'test -f docs/state/merge_test_index.json || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length!==158){console.error(\\\"index not 158 entries\\\");process.exit(1)}for(const n of [131,132,133,135,139]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"missing entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\"'",
+      "ac5": "bash -c 'test -f Makefile || exit 1; r=$(make -n test-frontend-cov 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"npm test -- --run --coverage\" || exit 1; e=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$e\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$e\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1'",
+      "ac6": "bash -c 'test -f .github/workflows/ci.yml || exit 1; n=$(grep -c \"astral-sh/setup-uv@\" .github/workflows/ci.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"astral-sh/setup-uv@[A-Za-z0-9._-]+\" .github/workflows/ci.yml | head -1 | sed \"s|astral-sh/setup-uv@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/astral-sh/setup-uv/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; echo \"$ref\" | grep -qE \"^(v5[.]0[.]0|v6[.]0[.]0|v7[.]0[.]0|v8[.]0[.]0|v9[.]0[.]0|v10[.]3[.]0)$\" || exit 1; grep -qE \"enable-cache: true[[:space:]]*$\" .github/workflows/ci.yml || exit 1; test -f .github/workflows/e2e.yml || exit 1; n=$(grep -c \"actions/cache@\" .github/workflows/e2e.yml); [ \"$n\" -eq 1 ] || exit 1; ref=$(grep -oE \"actions/cache@[A-Za-z0-9._-]+\" .github/workflows/e2e.yml | head -1 | sed \"s|actions/cache@||\"); [ -n \"$ref\" ] || exit 1; echo \"$ref\" | grep -qE \"^v?[0-9]+([.][0-9]+)*$|^[0-9a-f]{40}$\" || exit 1; h=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/repos/actions/cache/git/refs/tags/$ref\"); [ \"$h\" = \"200\" ] || exit 1; grep -qE \"uses: actions/cache@v4[.]1[.]2[[:space:]]*$\" .github/workflows/e2e.yml && exit 1; : measured-runner-fact-DENYLIST-v4.1.2-refs-tags-v4.1.2-answers-200-but-the-runner-auto-fails-the-job-not-an-API-fact; echo \"$ref\" | grep -qE \"^(v4[.]2[.]4|v6[.]1[.]0)$\" || exit 1; test -f frontend/package.json || exit 1; test -f frontend/package-lock.json || exit 1; node -e \"const p=require(\\\"./frontend/package.json\\\");const v=p.devDependencies[\\\"@vitest/coverage-v8\\\"];const t=p.devDependencies.vitest;if(v!==\\\"1.6.0\\\"||t!==\\\"1.6.0\\\"||v!==t){process.exit(1)}\" || exit 1; grep -q \"@vitest/coverage-v8\" frontend/package-lock.json || exit 1; D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest --run --coverage\" </dev/null 2>&1); rc=$?; [ \"$rc\" -eq 0 ] || exit 1; printf \"%s\" \"$out\" | tr -d \"\\r\" | grep -qE \"Coverage report|All files\" || exit 1; test -f docs/state/merge_test_index.json || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\");const fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length!==158){console.error(\\\"index not 158 entries\\\");process.exit(1)}for(const n of [131,132,133,135,139]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"missing entry \\\"+n);process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}\"; test -f Makefile || exit 1; r=$(make -n test-frontend-cov 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$r\" | grep -qE \"npm test -- --run --coverage\" || exit 1; e=$(make -n e2e 2>/dev/null | tr -d \"\\r\"); printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npm install --no-save$\" || exit 1; printf \"%s\" \"$e\" | grep -qE \"^cd e2e && npx playwright test$\" || exit 1; x=$(printf \"%s\\n\" \"$e\" | grep -cvxF -e \"cd e2e && npm install --no-save\" -e \"cd e2e && npx playwright test\"); [ \"$x\" -eq 0 ] || exit 1; n=$(printf \"%s\\n\" \"$e\" | grep -cE \".\"); [ \"$n\" -eq 2 ] || exit 1; grep -qE \"^e2e:[[:space:]]*$\" Makefile || exit 1; grep -qE \"e2e[[:space:]]+security\" Makefile || exit 1; export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; grep -q \"uses: actions/checkout@v4[.]2[.]2\" .github/workflows/ci.yml || exit 1; grep -q \"uses: actions/setup-node@v4[.]1[.]0\" .github/workflows/ci.yml || exit 1; grep -q \"uses: actions/upload-artifact@v4[.]4[.]3\" .github/workflows/e2e.yml || exit 1; for p in package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do  a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" </dev/null 2>/dev/null | tr -d \"\\r\");  b=$(cmd.exe /c \"git -C $G hash-object $p\" </dev/null 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); [ \"$n\" -ge 270 ] || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; h=$(cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -cE \"head\"); [ \"$h\" -eq 1 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" </dev/null >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" </dev/null 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length!==158){console.error(\\\"index not 158\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors 17-55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor 17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor 55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1'"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "ac_hash_recipe": "heading-EXCLUSIVE: LF-normalized docs/issues/t42.md, slice from the exact line '## Verification commands' to the next /^## (?!#)/ heading, all ```bash fenced blocks in ac order, each trimmed to its single line, sha256 over JSON.stringify(array). Verified byte-identical by re-extraction after every card edit (final MATCH true).",
+    "hardening_note": "Every cmd.exe leg in the pinned ac3/ac6 carries </dev/null (bare cmd.exe git/npx legs from WSL have hang-forever precedent; an orphaned 'npx tsc --noEmit' cmd.exe wrapper from the pre-hardening attempt confirmed this and killed the previous run's evidence). The hash therefore CHANGED from the survey-anticipated d26e3a67 (pre-hardening) to 207d81e0 (final pinned form).",
+    "api_call_budget": "ac1+ac2 cost <= 2 calls per full execution (one curl each) + 6 measured in negative controls + 3 live re-verifications at groom (setup-uv v4.5.1->404, v5.0.0->200, cache v4.1.2->200, cache v4.0.2->200, setup-uv v5.1.0->200). No per-candidate loops in the pinned commands.",
+    "ac2_denylist_comment": "pinned command embeds ': measured-runner-fact-DENYLIST-v4.1.2-refs-tags-v4.1.2-answers-200-but-the-runner-auto-fails-the-job-not-an-API-fact' as a shell no-op comment per survey rule; denylist rejects v4.1.2 explicitly, allow-set {v4.2.4,v6.1.0} gates the post-repair value.",
+    "ac4_prerequisite": "frontend/node_modules via 'npm.cmd ci' from the wslpath -w frontend dir (rc=0, 512 packages) - prerequisite, NOT a gate. Harness executes stored tests[131],[132],[133],[135],[139] VERBATIM via node -e execSync over docs/state/merge_test_index.json; index opened read-only; 158-entry count asserted inside the harness.",
+    "ac3_prerequisite_note": "coverage smoke executed via cmd.exe npx.cmd vitest --run --coverage </dev/null (~65s measured, accepted latency); coverage output leg greps 'Coverage report|All files'.",
+    "fail_before": {
+      "ac1": 1,
+      "ac2": 1,
+      "ac3": 1,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 1,
+      "note": "Measured at branch tip 5daaad1 (pre-implementation) in the restored worktree with frontend/node_modules populated: ac1 rc=1 (v4.5.1 answers 404; exact-form leg passes, 200-leg bites), ac2 rc=1 (denylist leg bites: v4.1.2 tag answers 200 yet is runner-deprecated), ac3 rc=1 (devDependencies key absent), ac4 rc=0 (populated tree, all five stored entries green VERBATIM), ac5 rc=0 (green by design), ac6 rc=1 (dies in its embedded ac1 404 leg). Re-confirmed after simulation revert: 1/1/1/0/0."
+    },
+    "pass_after": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0,
+      "composition": "read-only THROWAWAY simulation in the worktree: ci.yml pin v4.5.1->v5.0.0, e2e.yml pin v4.1.2->v4.2.4, frontend/package.json+lock via 'npm.cmd install --save-exact --save-dev @vitest/coverage-v8@1.6.0'. ALL FOUR files then reverted via cmd.exe git checkout; git status shows ONLY docs/issues/t42.md modified.",
+      "ac6_exec": "full pinned ac6 executed FOREGROUND under 'timeout 2700': rc=0 in 3m14s at the simulated state.",
+      "chunked_block_evidence": "block1 backend: collect-only n=270 (>=270), pytest -q rc=0, ruff rc=0, mypy 87 source files (>=83), alembic '005 (head)' rc=0. block2 prerequisite: npm ci rc=0 + js-yaml present. block3 frontend: vitest json numFailedTests/numPendingTests/numTodoTests=0, passed=187 (>=187), tsc rc=0, lint exactly-4 react-refresh. block4 freeze: README sha 8d141fb2..., workflows exactly [.gitkeep,ci.yml,deploy.yml,e2e.yml], three non-repaired pins byte-present (checkout v4.2.2/setup-node v4.1.0/upload-artifact v4.4.3), four external manifests rev-parse==hash-object via cmd.exe git </dev/null, index 158 entries + anchors tests[16]/tests[54] sha byte-unchanged and both stored commands green."
+    },
+    "negative_controls": [
+      "ac1 c1 major-only pin @v4 -> rc=1 (exact-form regex bites)",
+      "ac1 c2 enable-cache: true -> false -> rc=1 (substring leg)",
+      "ac1 c3 resolvable-but-off-list v5.1.0 (API 200) -> rc=1 (allow-set leg bites)",
+      "ac2 c4 deprecated v4.1.2 restored (tag answers 200) -> rc=1 (denylist leg bites)",
+      "ac2 c5 resolvable off-list v4.0.2 (API 200) -> rc=1 (allow-set leg)",
+      "ac3 c6 caret ^1.6.0 -> rc=1 (exact-equality leg)",
+      "ac3 c7 key removed -> rc=1 (missing-key leg)",
+      "restores: ac1/ac2 back to v5.0.0/v4.2.4 -> rc=0/0; ac3 with key -> rc=0"
+    ],
+    "measured_at_groom": {
+      "setup_uv_v4_5_1": "404 (re-verified live)",
+      "setup_uv_v5_0_0": "200 (re-verified live; pin candidate)",
+      "setup_uv_v5_1_0": "200 (off allow-set - control)",
+      "cache_v4_1_2": "200 (denylist is runner-fact, not API-fact)",
+      "cache_v4_0_2": "200 (off allow-set - control)",
+      "backend": "270 collected, suite green, mypy 87 files, single head 005",
+      "frontend": "187 passed / 0 failed / 0 pending / 0 todo; tsc rc=0; exactly-4 lint warnings; coverage smoke rc=0 (~65s)",
+      "merge_index": "158 entries, anchors tests[16]=t2 cfb84edc... / tests[54]=t9 cf5babc0... byte-unchanged, both green",
+      "readme_sha": "8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce"
+    },
+    "worktree_note": "ORIGINAL worktree pi-worktree-da2fb4d9-...-s0-0 was RECYCLED mid-run (files and .gitdir removed); groom continued in a fresh worktree pi-worktree-da2fb4d9-groom-restore created via 'git worktree add' from branch issue/t42-ci-e2e-repair @ 5daaad1. All evidence re-measured there fresh; no earlier-run evidence trusted.",
+    "base_sha": "5daaad1",
+    "no_implementation": "ci.yml/e2e.yml/package.json/package-lock.json UNTOUCHED in the commit (simulation reverted); card + handoff are the only files written.",
+    "platform_sync": "#45 body synced to the groomed card (final body_len verified >3000 via direct API GET); labels defined,groomed (repo convention for groomed cards: t39/t40 carry defined+groomed).",
+    "durability": {
+      "base_sha": "5daaad108eadf4374a2aa68f86f3bf6583a63b94",
+      "branch": "issue/t42-ci-e2e-repair",
+      "branch_sha": "59cf0618c01aa92472c28091c044fab73cd3b4e3",
+      "pushed": true,
+      "ls_remote_verified": "ls-remote origin issue/t42-ci-e2e-repair == local HEAD at every push (5daaad1..aebd191..59cf061); the durability-commit chain means the FINAL tip is recorded here and re-verified by the closing ls-remote in the run log",
+      "push_mode": "fast-forward on top of 5daaad1, conventional commit 'groom(t42): ...', no force",
+      "platform_issue_45": "body synced from the committed card (direct GitHub API PATCH via win32 node fetch; platform.ts CLI unusable from WSL due to win32 esbuild - the documented --body transmission gap was bypassed, GET verify body_len 36784 > 3000 and contains final ac_hash + pinned ac1); labels defined,groomed",
+      "groom_commit": "aebd1912ff460e8ba233f0ea0256d862971ff705"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t42.md",
+      "docs/state/outputs/t42_builder_groom.json"
+    ],
+    "platform_issue": 45,
+    "output_path": "docs/state/outputs/t42_builder_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T04:59:15.433Z",
+  "retry_count": 1
+}
