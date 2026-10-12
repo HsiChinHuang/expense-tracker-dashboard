@@ -1,0 +1,331 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t35",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "cumulative_tests": {
+      "total": 154,
+      "passed": 154,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "run_context": {
+      "card": "t35 (Platform #38) — agent-pack verification artifact generator, LAST phase_6 card",
+      "ac_hash": "sha256:e4437c7ff729b6af2ae863328fab88a30c63dfa46f9069e6832956faea54fae1",
+      "candidate_branch": "issue/t35-pack-verify",
+      "candidate_tip": "2634ce1a72f97d5b43d9eaa9f5182a533fcdd0a3 (remote tip == local; chain 94ef23f -> f76a9d4 -> f83de81 -> f351e92 -> 2634ce1)",
+      "main_at_start": "bddcdc36f1c7c96ad1a2c103563e032425e9ccf9 == origin/main",
+      "verify_issue_pass": "b55a50da (branch-level, 14 read-only composed files); on the MERGED tree those files are REAL tracked files — no composition needed",
+      "time_protocol": "WAL-496: 154-entry scan launched as detached setsid-nohup harness immediately after provisioning; npm ci ran synchronously via cmd.exe </dev/null BEFORE scan with NPMCI_RC marker gating; 15-s liveness polls, poll blocks <=540s; checkpoints continuous"
+    },
+    "orchestrator_prechecks": {
+      "main_eq_origin": true,
+      "ls_remote_tip": "2634ce1a72f97d5b43d9eaa9f5182a533fcdd0a3",
+      "index_entries": 154,
+      "merge_history_entries": 35,
+      "merge_history_last": "t34-6510b60",
+      "platform_38": {
+        "state": "open",
+        "labels": [
+          "defined",
+          "verified"
+        ]
+      },
+      "backend_floor": 270
+    },
+    "merge_simulation": {
+      "method": "cmd.exe git -C MAIN worktree add ..worktreessim-t35 -b sim/t35 main; git -C sim-t35 merge --no-ff -F build/t35pm_msg.txt issue/t35-pack-verify (ort strategy, rc=0)",
+      "merge_tree_prediction": "a9c5335968a95e235ac9f929691035e1cd8f304e (git merge-tree --write-tree main issue/t35-pack-verify, rc=0, zero conflict output)",
+      "sim_head": "4cf2be44a04a6e1454e5783bdf22327dc9489095",
+      "sim_tree": "a9c5335968a95e235ac9f929691035e1cd8f304e",
+      "tree_eq_prediction": true,
+      "porcelain": "EMPTY",
+      "parents": "bddcdc3 + 2634ce1",
+      "merge_diff": "6 files: generator script (new 1105 lines), generated doc (new 113 lines), docs/issues/t35.md (pinned commands), 3 builder handoff JSONs"
+    },
+    "provisioning": {
+      "backend_venv": "uv sync --offline in sim backend/, rc=0",
+      "frontend_node_modules": "cmd.exe cd /d sim\frontend && npm ci, synchronous </dev/null, rc=0, NPMCI_RC=0 marker (512 packages, 9s); NO junction used",
+      "probe_venv": "uv sync --offline in probe-t35 backend/, rc=0 (append-probe host)"
+    },
+    "cumulative_scan": {
+      "harness": "build/t35pm_full_scan.cjs (detached setsid-nohup, WSL node, execSync per entry cwd=sim root, GIT_DIR=MAIN/.git/worktrees/sim-t35 + GIT_WORK_TREE=/mnt/c form, PATH $HOME/.local/bin prefix, timeout 900000)",
+      "started": "2026-10-11T13:23:40Z",
+      "wall_s": 1563,
+      "machine_verify": {
+        "rows": 154,
+        "unique": true,
+        "rangeOk": true,
+        "issueMatch": true,
+        "zeroRc": true,
+        "totalMs_s": 1563
+      },
+      "t34_entries_included": "idx 150-153 all rc=0",
+      "delta_grep_proof": {
+        "agent_pack_verification": 0,
+        "docs/criteria": 10,
+        "docs/issues": 0,
+        "docs/log": 0,
+        "seq.txt": 0,
+        "merge_history": 0,
+        "docs/state/outputs": 0,
+        "t35": 0,
+        "total": 154
+      },
+      "delta_conclusion": "paths this merge touches (agent_pack_verification generator+doc, docs/issues, docs/log, seq.txt, merge_history, docs/state/outputs) are read by ZERO of the 154 index commands; the 10 docs/criteria hits are t23/t28 single-file pins on OTHER files -> merged host is the strictly most faithful gate host, scan SINGLE-HOST on sim"
+    },
+    "merged_state_gates": {
+      "harness": "build/t35pm_gates.cjs (detached, concurrent with scan; checkpointed to build/t35pm_gates.json)",
+      "all_green": true,
+      "results": {
+        "backend_collect_header_exact270": true,
+        "backend_nodes_ge270": true,
+        "backend_suite": "270 passed, 268 warnings in 86.01s (0:01:26)",
+        "ruff": "All checks passed! rc=0",
+        "mypy_files": "87 >= 83",
+        "alembic_head005_single": true,
+        "merged_tracked_files_20_of_20": true,
+        "frontend_vitest": "187 passed / 0 failed / 0 pending / 0 todo",
+        "frontend_tsc_rc": 0,
+        "frontend_lint_exactly4": true,
+        "readme_202_sha8d141fb2": true,
+        "workflows_exactly4": true,
+        "manifests_5_byte_identical": true,
+        "index_154_anchors": "tests[16]=t2 cfb84edc... byte-exact, tests[54]=t9 cf5babc0... byte-exact, both execSync rc=0"
+      },
+      "new_merged_tree_check": "generator + generated doc + all 14 previously-composed files (agent-hooks/ x3, mcp-server/ x11 incl. tools x5, backend/tests/integration/test_agent_hooks.py + test_mcp_tools.py, docs/agent-extension-pack.md, docs/permissions.md) verified as REAL tracked files (git ls-files) AND on disk: 20/20"
+    },
+    "smoke": {
+      "commands_source": "re-extracted VERBATIM from MERGED tree git show a9c5335:docs/issues/t35.md (CRLF->LF, heading-exclusive /^## (?!#)/m, trailing newline trimmed; 6 bash blocks)",
+      "byte_identity": "ALL SIX byte-identical across merged card == builder fix_qa ac_mapping .test (branch blob docs/state/outputs/t35_builder_fix_qa.json @ 2634ce1) == verify_issue handoff ac_results[].command; digests e44abc1781bc/2bc943fbf133/393ec9117d39/c02262562aee/1457c518ba56/286d1e1f5f63 all match expected",
+      "identity_detail": {
+        "ac1": {
+          "issue_sha12": "e44abc1781bc",
+          "expect_sha12": "e44abc1781bc",
+          "digest_ok": true,
+          "builder_sha12": "e44abc1781bc",
+          "vi_sha12": "e44abc1781bc",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 2332
+        },
+        "ac2": {
+          "issue_sha12": "2bc943fbf133",
+          "expect_sha12": "2bc943fbf133",
+          "digest_ok": true,
+          "builder_sha12": "2bc943fbf133",
+          "vi_sha12": "2bc943fbf133",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 1852
+        },
+        "ac3": {
+          "issue_sha12": "393ec9117d39",
+          "expect_sha12": "393ec9117d39",
+          "digest_ok": true,
+          "builder_sha12": "393ec9117d39",
+          "vi_sha12": "393ec9117d39",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 1766
+        },
+        "ac4": {
+          "issue_sha12": "c02262562aee",
+          "expect_sha12": "c02262562aee",
+          "digest_ok": true,
+          "builder_sha12": "c02262562aee",
+          "vi_sha12": "c02262562aee",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 1184
+        },
+        "ac5": {
+          "issue_sha12": "1457c518ba56",
+          "expect_sha12": "1457c518ba56",
+          "digest_ok": true,
+          "builder_sha12": "1457c518ba56",
+          "vi_sha12": "1457c518ba56",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 1298
+        },
+        "ac6": {
+          "issue_sha12": "286d1e1f5f63",
+          "expect_sha12": "286d1e1f5f63",
+          "digest_ok": true,
+          "builder_sha12": "286d1e1f5f63",
+          "vi_sha12": "286d1e1f5f63",
+          "issue_eq_builder": true,
+          "issue_eq_vi": true,
+          "lenIssue": 4453
+        }
+      },
+      "results": {
+        "ac1": {
+          "rc": 0,
+          "ms": 24590
+        },
+        "ac2": {
+          "rc": 0,
+          "ms": 33225
+        },
+        "ac3": {
+          "rc": 0,
+          "ms": 14456
+        },
+        "ac4": {
+          "rc": 0,
+          "ms": 32
+        },
+        "ac5": {
+          "rc": 0,
+          "ms": 51
+        },
+        "ac6": {
+          "rc": 0,
+          "ms": 131872
+        }
+      },
+      "order": "ac1..ac5 then ac6 LAST (rc=0, 131.9s)",
+      "ac1_merged_cmp": "CRITICAL merged-tree check GREEN: ac1 raw cmp legs (CRLF-smudged checkout vs regenerated) rc=0 on fresh sim checkout — f351e92 CRLF fix holds on the merged tree",
+      "stdin_detach_disclosure": "smoke harness used stdio stdin=ignore (== cmd.exe </dev/null stdin-detach) for all six legs because ac1/ac2/ac3/ac6 embed cmd.exe children; precedent t34pm_smoke2.cjs"
+    },
+    "index_disposition_ruling": {
+      "question": "t35 Constraints say ac1..ac5 appendable, ac6 never. Which ACs actually qualify under the t27/t28/t32/t34 standard?",
+      "precedents": "t27/t28: all non-composite ACs appended; t28 ac1 (the closest byte-stability precedent) uses a NORMALIZED cmp (sed elapsed=norm) + restore-back precisely because raw byte-stability legs are host-sensitive; t32: ac5 excluded for an exact-270 collection-equality leg (W10); t34: ac5 excluded for README byte-pin + absolute find-counts; ac6 composite never (standing rule).",
+      "ruling": "RECOMMEND appending ac2, ac3, ac4, ac5 (index 154 -> 158) and EXCLUDING ac1 and ac6. This deviates from the card line for ac1 only.",
+      "ac1_exclusion_evidence": "PROVEN landmine, not speculation: (1) the committed doc FREEZE-BACKEND_COLLECTION at 270 while ac1 regenerates the doc from the LIVE collection count — measured on probe-t35: feeding the generator a collection file with ONE extra node emits BACKEND_COLLECTION 271, so ac1 raw cmp -s regenerated-vs-checked-out FAILS the moment any phase_7/8 card adds a backend test without re-committing the artifact (exact t32-ac5 W10 exact-equality class; the floor in the doc is >=244 but the cmp is byte-equality against the frozen 270); (2) ac1 is the ONLY raw cmp -s <criteria doc> in the 154-entry index — t28 ac1 (the closest byte-stability precedent, idx141) deliberately uses a NORMALIZED cmp (sed elapsed=norm) plus restore-back on every path, precisely because raw byte-stability legs are host/state-sensitive; (3) ac1 success path never restores the committed bytes (no cp-back), so any future generator drift leaves the tree dirty for later entries. On TODAY state ac1 is green 3/3 (probe pass1/pass2/restore CLEAN, verify_issue 3/3) — exclusion is purely the permanent-index growth risk.",
+      "ac2_note": "ac2 regenerates the doc as a side effect but asserts only RELATION + FLOOR legs (doc BACKEND_COLLECTION value == live collection count; >= 244) — grows green; probe: 2x green, tree CLEAN after (emitted bytes == committed bytes at current state). Residual: if a future card adds backend tests WITHOUT regenerating the committed doc, ac2 goes red — that is a TRUE defect signal (doc out of sync with tree), the same semantics as the t34 ac1 relation legs which were appended.",
+      "ac3_note": "ac3 has ABSOLUTE find-counts (-eq 3/2/4/2) — same class as the t34 ac1 legs ALREADY IN the index at idx150 (accepted at the t34 merge); growth of the agent pack is a phase_7/8 scope change that would require the t34 doc update too, so ac3 adds NO new failure class beyond the accepted idx150. Doc legs are RELATIONS (COUNT_ROWS line == live recount). Regenerates without restore like ac2; probe CLEAN after both passes.",
+      "ac4_ac5_note": "pure static greps on the committed artifact; zero side effects; append-probe rc=0 both passes; artifact regenerates deterministically (ac1 byte-stability 2 runs + this pre-merge ac1 rc=0 + verify_issue 3/3 runs).",
+      "append_probe": "host probe-t35 (fresh merged checkout, cwd=repo root = index-append context): pass1 ac1..ac5 all rc=0 with porcelain CLEAN after each; pass2 all rc=0 CLEAN (idempotent); ac1 after explicit restore rc=0; artifact diff vs HEAD after pass1 CLEAN (CRLF fix f351e92 holds). SEPARATE growth experiment: generator fed a +1-node collection emitted BACKEND_COLLECTION 271 != committed 270 => ac1 cmp would fail under backend-test growth (ac1 excluded).",
+      "entry_objects_file": "build/t35pm_index_append_entries.json",
+      "entry_objects": [
+        {
+          "issue_id": "t35",
+          "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/tests/integration/test_agent_hooks.py || exit 1; test -f backend/tests/integration/test_mcp_tools.py || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; hc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_agent_hooks.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$hc\" -eq 14 ] || exit 1; (cd backend && uv run pytest tests/integration/test_agent_hooks.py -q >/dev/null 2>&1) || exit 1; mc=$(cd backend && uv run pytest --collect-only -q tests/integration/test_mcp_tools.py 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); [ \"$mc\" -eq 12 ] || exit 1; (cd backend && uv run pytest tests/integration/test_mcp_tools.py -q >/dev/null 2>&1) || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^HOOK_TEST_ROWS 14 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_TEST_ROWS 12 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MCP_CONTRACT_ROWS tools=4 list_tools=4 dispatch=ok jwt_reject=ok PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS[[:space:]]*$\" \"$d\" || exit 1; m=$(grep -c \"::\" \"$c\"); n=$(grep -E \"^BACKEND_COLLECTION [0-9]+ floor=\" \"$d\" | head -1 | tr -d \"\\r\" | sed -E \"s/^BACKEND_COLLECTION ([0-9]+) .*/\\1/\"); [ -n \"$n\" ] || exit 1; [ \"$n\" -eq \"$m\" ] || exit 1; [ \"$n\" -ge 244 ] || exit 1; rm -f \"$c\" \"$l\"'"
+        },
+        {
+          "issue_id": "t35",
+          "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; test -f backend/scripts/agent_pack_verification.py || exit 1; c=$(mktemp) || exit 1; l=$(mktemp) || exit 1; G=$(wslpath -w \"$PWD\"); (cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" > \"$c\") || exit 1; [ -s \"$c\" ] || exit 1; cmd.exe /c \"git -C $G ls-files -s .agents\" 2>/dev/null | tr -d \"\\r\" > \"$l\" || exit 1; [ -s \"$l\" ] || exit 1; (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file \"$c\" --ls-files-file \"$l\" >/dev/null 2>&1) || exit 1; rm -f \"$c\" \"$l\"; d=docs/criteria/agent_pack_verification.md; grep -qE \"^SKILL_ROWS 3 frontmatter=3 whentouse=3 steps=3 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^SUBAGENT_ROWS 2 frontmatter=2 readonly=1 nofix=1 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^AGENT_DIRS agent-capabilities,agent-hooks,mcp-server,custom-agent,[.]agents 5 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^MANIFEST_DEPS httpx,python-jose 2 PASS[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^WORKFLOWS ci,e2e,deploy 3 PASS[[:space:]]*$\" \"$d\" || exit 1; s=$(find agent-capabilities -mindepth 2 -maxdepth 2 -type f -name SKILL.md | wc -l); [ \"$s\" -eq 3 ] || exit 1; h=$(find agent-hooks -maxdepth 1 -type f ! -name README.md | wc -l); [ \"$h\" -eq 2 ] || exit 1; t=$(find mcp-server/tools -maxdepth 1 -type f -name \"*.py\" ! -name \"__init__.py\" | wc -l); [ \"$t\" -eq 4 ] || exit 1; a=$(find custom-agent -maxdepth 1 -type f -name \"*.md\" | wc -l); [ \"$a\" -eq 2 ] || exit 1; line=$(grep -E \"^COUNT_ROWS \" \"$d\" | head -1 | tr -d \"\\r\"); [ \"$line\" = \"COUNT_ROWS skills=$s hooks=$h tools=$t subagents=$a PASS\" ] || exit 1'"
+        },
+        {
+          "issue_id": "t35",
+          "command": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^DEFERRAL_REGISTER 3 DEFERRED PASS[[:space:]]*$\" \"$d\" || exit 1; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\"); [ \"$r\" -eq 3 ] || exit 1; grep -qE \"^DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Generate a monthly report for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server[.]py reason=egress_forbidden_no_live_backend live_check=MCP_JWT_SECRET=[.][.][.] MCP_API_BASE_URL=[.][.][.] MCP_USER_TOKEN=[.][.][.] python mcp-server/server[.]py[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Launch finance analyst for 2026-10.[[:space:]]*$\" \"$d\" || exit 1; for k in LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\"); [ \"$c\" -eq 0 ] || exit 1; done'"
+        },
+        {
+          "issue_id": "t35",
+          "command": "bash -c 'test -f docs/criteria/agent_pack_verification.md || exit 1; d=docs/criteria/agent_pack_verification.md; grep -qE \"^CRITERIA_NUMBERS 7,9,12 PASS[[:space:]]*$\" \"$d\" || exit 1; n=$(grep -cE \"^\\| (7|9|10|11|12|31|32|discovery) \\| REQ-[A-Z]+-[0-9]+ \\| executed \\| [A-Z_]+ \\|\" \"$d\"); [ \"$n\" -eq 8 ] || exit 1; grep -qE \"^\\| 7 \\| REQ-EXT-001 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 9 \\| REQ-EXT-060 \\| executed \\| PERMISSIONS_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 10 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 11 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 12 \\| REQ-PROD-043 \\| executed \\| COUNT_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 31 \\| REQ-PLAN-061 \\| executed \\| MCP_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| 32 \\| REQ-EXT-072 \\| executed \\| HOOK_TEST_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^\\| discovery \\| REQ-AI-064 \\| executed \\| SYMLINK_ROWS \\|\" \"$d\" || exit 1; grep -qE \"^REQ-PLAN-061_ROWS skills=executed hooks=executed hook_tests=executed mcp_start=deferred mcp_tools=executed subagents=structural permissions=structural PASS[[:space:]]*$\" \"$d\" || exit 1; for t in COUNT_ROWS PERMISSIONS_ROWS MCP_TEST_ROWS HOOK_TEST_ROWS SYMLINK_ROWS; do grep -qE \"^${t} .*PASS[[:space:]]*$\" \"$d\" || exit 1; done'"
+        }
+      ],
+      "entry_digests": [
+        {
+          "ac": "ac2",
+          "sha256": "2bc943fbf1335b8f3d6c382c14bd9fa6ae197e5a419a61796f787ebd1dad74eb",
+          "len": 1852
+        },
+        {
+          "ac": "ac3",
+          "sha256": "393ec9117d390e0a815e287be9f20288d6d32b9eb4dcdde2d1261916c7aa5cf5",
+          "len": 1766
+        },
+        {
+          "ac": "ac4",
+          "sha256": "c02262562aee295885d480343329f842421bd822a3a0e81bae86c444140fbdda",
+          "len": 1184
+        },
+        {
+          "ac": "ac5",
+          "sha256": "1457c518ba562822acbf5252ab8759d242ae7e604d132db26e29933b4f0516d0",
+          "len": 1298
+        }
+      ],
+      "do_not_mutate": "verifier did NOT touch the index; orchestrator owns the append",
+      "drift_grep": "0 of 154 existing entries reference agent_pack_verification paths; ac2/ac4/ac5 add no README/manifest/workflow pins; the only pre-existing ABSOLUTE pack-count pins are t34 idx150/idx152 (accepted class at the t34 merge) — ac3 absolute find-counts add NO new failure class beyond idx150."
+    },
+    "main_advance_check": "re-fetch at end of run: origin/main == bddcdc3 == start value; MAIN did NOT advance during the scan/smoke window (13:23:40Z-13:58:21Z) -> no re-merge, no delta bookkeeping needed",
+    "no_mutation": {
+      "merge_history": "unchanged (35 entries, last t34-6510b60)",
+      "merge_test_index": "unchanged (154 entries; anchors byte-exact verified on sim)",
+      "docs_log_seq": "untouched",
+      "main_branch": "bddcdc3 unchanged; NO merge into main, NO push",
+      "worktree_prune": "NOT run from WSL (cmd.exe-only git writes honored throughout)"
+    },
+    "cleanup": "sim-t35 + probe-t35 worktrees removed via cmd.exe worktree remove --force (rc=0 each); branch sim/t35 deleted (was 4cf2be4); verified: worktree list shows neither, both directories gone.",
+    "comment": "MERGE VERDICT: PASS posted to Platform #38 (dup-checked: latest comment was the verify_issue PASS, no prior pre-merge verdict)",
+    "cleanup_verified": {
+      "sim_t35_removed": true,
+      "probe_t35_removed": true,
+      "sim_branch_deleted": true,
+      "main_still_bddcdc3": true,
+      "origin_main_eq_main": true,
+      "index_still_154": true,
+      "merge_history_still_35": true,
+      "handoff_persisted": true
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t35_verifier_verify_pre_merge.json",
+      "build/t35pm_full_scan.cjs",
+      "build/t35pm_full_results.tsv",
+      "build/t35pm_full.log",
+      "build/t35pm_full.done",
+      "build/t35pm_full_scan.out",
+      "build/t35pm_scan.pid",
+      "build/t35pm_scan.start",
+      "build/t35pm_gates.cjs",
+      "build/t35pm_gates.json",
+      "build/t35pm_gates.log",
+      "build/t35pm_gates.nohup",
+      "build/t35pm_gates.pid",
+      "build/t35pm_npmci.log",
+      "build/t35pm_uvsync.log",
+      "build/t35pm_extract_ac.cjs",
+      "build/t35pm_cmds.json",
+      "build/t35pm_ac_identity.json",
+      "build/t35pm_builder_fix_qa.json",
+      "build/t35pm_smoke.cjs",
+      "build/t35pm_smoke.log",
+      "build/t35pm_smoke_results.json",
+      "build/t35pm_smoke.nohup",
+      "build/t35pm_smoke.pid",
+      "build/t35pm_append_probe.cjs",
+      "build/t35pm_append_probe.json",
+      "build/t35pm_append_probe.log",
+      "build/t35pm_append_probe.nohup",
+      "build/t35pm_probe.pid",
+      "build/t35pm_probe_uvsync.log",
+      "build/t35pm_index_append_entries.json",
+      "build/t35pm_disposition_summary.json",
+      "build/t35pm_delta_grep.json",
+      "build/t35pm_scan_verify.json",
+      "build/t35pm_mtree.out",
+      "build/t35pm_mtree.err",
+      "build/t35pm_msg.txt",
+      "build/t35pm_card_main.md",
+      "build/t35pm_card_branch.md",
+      "build/t35pm_issue38.json",
+      "build/t35pm_issue38.err",
+      "build/t35pm_latest38.json",
+      "build/t35pm_verdict.md",
+      "build/t35pm_post_comment.cjs",
+      "build/t35pm_comment_result.json"
+    ],
+    "platform_issue": 38,
+    "output_path": "docs/state/outputs/t35_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-11T14:05:54Z",
+  "retry_count": 0
+}

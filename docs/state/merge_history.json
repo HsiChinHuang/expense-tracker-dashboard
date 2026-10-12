@@ -542,6 +542,20 @@
       "backend_tests": 270,
       "regression_count": 0,
       "notes": "PHASE_6_AGENT sixth merge: docs-only card (EXACTLY docs/agent-extension-pack.md + docs/permissions.md; ZERO test nodes - backend stays 270 collected + 270/270 green re-executed on merged MAIN 73.41s). Pre-merge PASS (e2995cf1 restart-resumed): 150/150 scan machine-verified & REUSED (artifacts survived restart; scan-validity delta vs pre-restart prediction c6192e98 proven bookkeeping-only - WAL/seq), fresh prediction dc4a669 == recreated sim tree, gates 14/14 green, smoke 6/6 byte-identity vs builder branch blob, ac6 LAST rc=0. INDEX DISPOSITION (verifier ruling adopted): ac1-ac4 appended (150->154, verbatim card commands machine-checked, all 4 GREEN on merged MAIN); ac5 EXCLUDED (README byte-pin 8d141fb2 + absolute count equalities = W10 false-failure landmine class - phase_8 owns README); ac6 composite never appended. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Backend floor unchanged 270."
+    },
+    {
+      "merge_id": "t35-955aec4",
+      "issue_id": "t35",
+      "platform_issue": 38,
+      "merged_sha": "955aec4",
+      "merged_tree": "a9c5335968a95e235ac9f929691035e1cd8f304e",
+      "merged_at": "2026-10-11T14:20:00Z",
+      "acs": 6,
+      "smoke_tests": 6,
+      "cumulative_tests": 158,
+      "backend_tests": 270,
+      "regression_count": 0,
+      "notes": "PHASE_6_AGENT MILESTONE EXIT - seventh and final phase_6 card (verification-artifact generator; ZERO test nodes - backend stays EXACTLY 270 collected + 270/270 green re-executed on merged MAIN 83.01s). One fix_qa cycle: verify_issue FAIL (ab349a16: ac1 raw cmp LF-generator vs CRLF-smudged checkout under core.autocrlf=true, deterministic 3/3 fresh) -> builder CRLF emission fix f351e92 per t28 precedent (no AC/ac_hash churn, e4437c7f recomputes) -> verify_issue PASS (b55a50da fresh worktree ac1 rc=0 3/3, 457/457). Pre-merge PASS (5cf31649): 154/154 detached scan zero failures 26 min, sim tree a9c5335 == prediction EXACT, gates all green incl 20/20 previously-composed files REAL tracked on merged tree, smoke 6/6 byte-identity ac6 LAST, ac1 CRLF cmp green on merged tree, MAIN did not advance. INDEX DISPOSITION (verifier ruling adopted; deviation from card ac1..ac5-appendable for ac1 ONLY, evidence-backed): appended ac2-ac5 (154->158, digest-verified verbatim, 4/4 GREEN on merged MAIN); ac1 EXCLUDED (proven W10 landmine: committed doc freezes BACKEND_COLLECTION 270 while ac1 regenerates from live count - raw cmp fails the moment phase_7/8 adds a backend test; t28 normalized-cmp precedent; growth experiment emitted 271 != 270); ac6 composite never. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. All 26 phase_6 test nodes green on merged MAIN."
     }
   ]
 }
