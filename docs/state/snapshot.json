@@ -1,17 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T09:14:28.098Z",
-  "last_seq": 555,
+  "updated_at": "2026-10-12T09:16:29.784Z",
+  "last_seq": 557,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t38",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "ff8eeeba-8eaa-4640-ac2d-d117d6488c62",
-      "spawn_at": "2026-10-12T09:14:28.098Z",
-      "last_activity_at": "2026-10-12T09:14:28.098Z",
-      "note": "gate1 heading fix resume of 698207a0"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "3ead80f3-70bb-49f8-8cf4-86d2a406ea7b",
+      "spawn_at": "2026-10-12T09:16:29.784Z",
+      "last_activity_at": "2026-10-12T09:16:29.784Z"
     },
     {
       "slot_id": "slot_2",
@@ -19,17 +18,16 @@
       "role": "definer",
       "phase": "groom",
       "run_id": "f5e11980-e92f-420f-b6a7-f0138ef512b5",
-      "spawn_at": "2026-10-12T09:01:55.673Z",
-      "last_activity_at": "2026-10-12T09:01:55.673Z",
-      "note": "fresh after ce11ea09 worktree-recycle resume rejection"
+      "spawn_at": "2026-10-12T09:01:49Z",
+      "last_activity_at": "2026-10-12T09:16:29.784Z"
     },
     {
       "slot_id": "queued_1",
       "issue_id": "t44",
       "role": "definer",
       "phase": "groom",
-      "status": "RESUME_QUEUED",
-      "note": "retry 1/3; wait for slot_1 (t38 groom)"
+      "status": "QUEUED",
+      "note": "fresh definer with Option-B ruling digest when slot frees"
     }
   ],
   "merge_queue": [],
@@ -37,23 +35,23 @@
   "active_issues": [
     {
       "issue_id": "t38",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight"
+        "implement_in_flight"
       ]
     },
     {
       "issue_id": "t43",
       "state": "defined",
       "modifiers": [
-        "groom_timeout_retry_1"
+        "groom_in_flight_option_A_bis"
       ]
     },
     {
       "issue_id": "t44",
       "state": "defined",
       "modifiers": [
-        "groom_timeout_retry_1"
+        "groom_queued"
       ]
     }
   ],
