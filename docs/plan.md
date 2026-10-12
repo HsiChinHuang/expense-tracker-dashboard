@@ -778,8 +778,150 @@ milestone-local critical path 4 edges (t36→t37→t38→t40→t41 and
 dag.json; review_plan W1 correction from 28) carried as the standing WARN per
 ruling 8 — dep_chain is judged MILESTONE-LOCAL (4 < 20 PASS).
 
-## phase_8_docs — Documentation and Polish (Phase 8)
+## phase_8_docs — Documentation and Polish (Phase 8, REQ-PLAN-080 … 081)
 
-Scope: docs tree, criteria mapping table, README 5-minute verification path,
-screenshot evidence (REQ-DOC chapter, REQ-PROJ-009). Refined by survey when
-this milestone begins.
+Survey (2026-10-13, MAIN 6a0a899 with phases 1-7 closed) refined this
+placeholder into six issues (t48..t53). The scope is the Chapter 15 documentation
+tree, the criteria-mapping/evidence layer, and the two accepted residuals that
+earlier milestones steered here. Rolling planning: only these six cards are
+specified; there is no later milestone, so phase_8_docs is the delivery
+milestone and t53 is the project-wide acceptance exit.
+
+**SURVEY MEASUREMENTS that shaped the split (all re-measured at 6a0a899):**
+
+1. **THE ROOT DOCS DO NOT EXIST.** `product-spec.md`, `CLAUDE.md`,
+   `openapi.yaml` and `docs/{architecture,api,process,ai-workflow,design-system,
+   testing-guidelines,task-template}.md`, `docs/team/` and `screenshots/` are
+   all absent (measured with `ls`/`git ls-files`). They were never silently
+   dropped: phase_1's survey handoff recorded them as deferred
+   ("product-spec.md, CLAUDE.md, process.md, role files, task-template.md …
+   review_plan should confirm this mapping"), and every later milestone's
+   scope-boundary ruling named them phase_8_docs deliverables. phase_8_docs
+   therefore OWNS and must land them.
+2. **THE `8d141fb2` PIN IS NOT A STORED PIN.** Measured: `tr -d '\r' < README.md
+   | sha256sum` = `8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce`
+   (202 lines) and ZERO of the 188 stored `merge_test_index` entries contain
+   that digest. The stored README gates are content greps (entries 27=t4,
+   119=t23, 128=t24, 135=t26, 144=t28, 149=t32, 150=t34, 155=t35) plus the
+   `<= 500` line-count floor. So the README is EDITABLE in this milestone
+   without any historical amendment, provided (a) every existing grep token
+   survives and (b) the line floor holds. The `8d141fb2` byte-pin appears only
+   inside phase_7 card composites (t39/t40/t42 ac6), which are closed records —
+   they are NOT re-run as a freeze on new-main.
+3. **NO STORED GATE BLOCKS THE NEW FILES.** No stored entry counts the root
+   file set or enumerates `docs/` beyond `docs/criteria` and the two t34
+   documents; entry #5 (t0) is a `find`-based allow-list over `security ops
+   .github` only. Adding root files and `docs/*.md` / `docs/team/*` /
+   `screenshots/*.png` turns nothing red (REQ-DOC-083's "no extra files" is a
+   Should and names only peer-review-guide/CHANGELOG/CONTRIBUTING/CODE_OF_CONDUCT,
+   none of which this milestone adds).
+4. **RENDER.YAML IS POSITIVELY GATED (entry 134, t26).** That stored command
+   requires exactly one service + one database, `plan: free`,
+   `healthCheckPath: /api/v1/health`, a docker runtime, `DATABASE_URL` via
+   `fromDatabase` matching the declared database name, `JWT_SECRET` via
+   `generateValue: true`, and the nine Chapter-3 §3.10 keys. Any render.yaml
+   edit must satisfy entry 134 (measured today: green). The Chapter 14 §14.4.2
+   template carries `region`, `autoDeploy`, `region`-on-database,
+   `databaseName`/`user` and a JSON-array `CORS_ORIGINS` value that the current
+   file does not — this is the steered "render.yaml phantom keys" residual; the
+   divergence is recorded in t49 and resolved there in the direction that keeps
+   entry 134 green.
+5. **THE RUNBOOK TYPO IS NOT STORED EITHER.** `ops/runbook.md:238` tells the
+   reader `make test-e2e`; the Makefile vocabulary is `make e2e` (measured:
+   `grep -E "^[a-z-]+:" Makefile` shows `e2e`, no `test-e2e`). No stored entry
+   contains the string `test-e2e`, so the one-line prose fix is safe — but
+   entries 168-172/185/186 re-count the runbook (7 sections, 28 clauses) and
+   entry 182 greps its incident-response pointer, so the edit must not change
+   section headings or clause counts. This is the steered "runbook
+   `make test-e2e` typo" residual (raised at t39 verify time, invisible to the
+   six gates then).
+6. **FLOORS CARRIED (W10 discipline, no exact counts on growing sets).**
+   backend >= 270 collected / green, ruff clean, mypy Success on >= 87 source
+   files, single alembic head `005`, frontend >= 187 passed with 0 failed /
+   0 pending / 0 todo, `tsc --noEmit` rc=0, EXACTLY 4 `react-refresh` lint
+   warnings, workflows exactly `.gitkeep/ci.yml/deploy.yml/e2e.yml`, the five
+   named manifests byte-frozen, README <= 500 lines, `merge_test_index >= 188`
+   entries with anchors `tests[16]`=t2 (`cfb84edc…`) and `tests[54]`=t9
+   (`cf5babc0…`) byte-unchanged and executed green, byte-pins 131/132/133/135
+   executed green, entry 139 (t27) checked by IDENTITY only per the t43 Option
+   A-ter precedent.
+7. **E2E IS NOT A phase_8 GATE.** t47 (#50, Postgres portability) is in flight
+   and #45 is open as t42's closure gate. No phase_8 card may require
+   `make e2e`, a live deployment, or a fresh E2E run as a precondition; the
+   screenshot card (t51) drives the browser through the already-proven
+   local-backend route (t41's `ops/diagnosis.md` worked example on
+   127.0.0.1:18137-style host backend + Vite/frontend static serving) and
+   records that choice. If E2E is green by the time t51 builds, the operator
+   may substitute the compose stack — the card accepts either, evidence-first.
+8. **DEFERRALS CARRY FORWARD, NEVER PASS.** The five t41 DEFERRAL_REGISTER rows
+   (LIVE_DEPLOYMENT_STATE, SCAN_TIMING_DOC, LIVE_AGENT_SESSION,
+   LIVE_MCP_SUBPROCESS, LIVE_SUBAGENT_LAUNCH) are re-tested by t53: SCAN_TIMING_DOC
+   CLOSES (its artifact `docs/ai-workflow.md` lands in t50 and the row's
+   live_check is a read-check); the other four stay DEFERRED with re-measured
+   reasons — a deferred row is never written as PASS (phase_5 ruling 5 /
+   phase_6 ruling 1 / phase_7 ruling 4 discipline).
+
+**RULINGS:**
+
+1. **README CHANGES ARE ALLOWED AND REQUIRED** (criteria mapping + 5-minute
+   path). Every card that touches README must (a) re-state the CR-stripped
+   sha256 it produced, (b) keep the `<= 500` line floor, (c) keep every stored
+   grep token of entries 27/119/128/135/144/149/150/155, and (d) carry the
+   NEW digest forward as the milestone's byte-pin for later cards — the
+   Option A-ter "amend the pin, disclose the amendment" precedent rather than
+   an impossible byte-freeze. t49 produces pin-1, t52 produces pin-2 (the
+   final), t53 pins the final digest and re-attests it.
+2. **`openapi.yaml` IS EXPORTED, NOT AUTHORED.** t49 exports the FastAPI schema
+   (`app.openapi()`) to the root file and gates it against the merged contract
+   tests; hand-writing a second contract would create a drift source the
+   requirements do not ask for (REQ-DOC-014 says the file IS the full 3.1 spec;
+   FastAPI emits 3.1).
+3. **ONE VERIFICATION GENERATOR, THE t23/t28/t35/t41 CONVENTION.** t53 owns
+   `backend/scripts/docs_verification.py` +
+   `docs/criteria/docs_verification.md` — the only new executable this
+   milestone ships (it reads and measures, it adds no product behavior and no
+   test nodes; the backend collection floor stays >= 270 with ZERO new nodes).
+4. **SCREENSHOTS ARE MEASURED ARTIFACTS.** t52 commits the four named PNGs;
+   the gates are file presence, `file`-measured magic bytes + dimensions
+   (consistent viewport) and byte size < 500 KB (REQ-DOC-041). No image
+   "content" is asserted by hash — that would be unfalsifiable prose.
+5. **NO BROAD NO-DRIFT GUARDS**; freezes stay scoped to named manifests or
+   individual files, and every card ends with its composite as the LAST AC
+   (index-append-excluded).
+
+**The six cards (single-responsibility, per the t36..t41 precedent):**
+
+| card | vertical | modality | depends | new nodes |
+|---|---|---|---|---|
+| t48 | process + ownership docs: `docs/process.md`, `docs/task-template.md`, `docs/team/{pm,software-engineer,qa-engineer}.md`, `docs/ownership.md` | STRUCTURAL (section greps + counts) | t41 | 0 |
+| t49 | root reviewer surface: `product-spec.md`, `CLAUDE.md`, `openapi.yaml` (exported), README criteria-mapping table + evidence checklist + 5-minute live/local paths, `render.yaml` residual note, `ops/runbook.md` `make e2e` typo fix | STRUCTURAL + EXECUTED greps | t48 | 0 |
+| t50 | AI-workflow and process evidence: `docs/ai-workflow.md` (incl. the REQ-SEC-072 scan-timing section that closes SCAN_TIMING_DOC) | STRUCTURAL + executed evidence greps over merged artifacts | t48, t49 | 0 |
+| t51 | technical docs set: `docs/architecture.md`, `docs/api.md`, `docs/design-system.md`, `docs/testing-guidelines.md` | STRUCTURAL + cross-reference greps against merged code | t49 | 0 |
+| t52 | screenshot evidence: `screenshots/{dashboard,expense-form,budget-page,health-check}.png` + README/ai-workflow pointers | EXECUTED (browser capture, measured file attributes) | t50, t51 | 0 |
+| t53 | documentation verification card: `backend/scripts/docs_verification.py` + `docs/criteria/docs_verification.md`, Chapter 24.3 rows 1-15, deferral register re-test, milestone-exit composite | executed + attested + deferred | t48..t52 | 0 |
+
+Task mapping (§17.9.2): 8.1 → t49 (README delta; the phase-1..7 README content
+stays), 8.2 → t51, 8.3 → t51, 8.4 → t51, 8.5 → t51, 8.6 → t50, 8.7 → t52,
+8.8/8.9/8.10 → t53 as DEFERRED/attested rows (E2E and live deploy are gated by
+#45/#50 and the measured 404, rulings 7/8), 8.11 → t53 (deployment-record
+re-attestation), 8.12 → t49 + t53, 8.13 → t53 (reviewer walkthrough rows).
+Chapter 15 mapping: 15.1/15.3 process half → t48; 15.2 root + 15.10 quick path
++ 15.11 criteria location → t49; 15.3.4 + REQ-AI-110..142 + REQ-SEC-072 → t50;
+15.3.1/2/5/6 → t51; 15.6 + 15.11 screenshot location → t52; 15.1.2 documentation
+map, 15.9 guidelines, 24.3 acceptance → t53. N = 6; batch_size =
+min(5, max(1, ceil(6/3))) = 2 → batches [t48,t49], [t50,t51], [t52,t53]; each
+issue written to its own platform issue in its own call. DAG: 54 nodes / 91
+edges after this survey's regeneration of `docs/state/dag.json` + `dag.mmd`.
+Baseline repair disclosed: the stored phase_7 graph was 43 nodes / 75 edges but
+its `nodes[]` omitted t37/t42/t43/t44 even though edges referenced them (and
+t42/t45/t46/t47 defect cards were never DAGged at all), so the graph was not
+self-consistent; this survey added every referenced endpoint plus the 6 new
+phase_8 nodes and their 13 new edges, keeping existing entries byte-equivalent
+(strings stay strings, the two existing {id,status,milestone} objects stay
+objects). Zero cycles, zero orphans (Kahn machine-verified over the regenerated
+dag.json, prerequisite-first order matching the stored convention); cumulative
+longest chain 34 edges ending ...t41→t48→t49→t50→t52→t53, milestone-local
+critical path 4 edges (t48→t49→t51→t52→t53 and the equal-length
+ t48→t49→t50→t52→t53), carried as the standing WARN per the carried
+orchestrator ruling (phase_7 precedent: cumulative WARN, dep_chain judged
+MILESTONE-LOCAL (4 < 20 PASS).

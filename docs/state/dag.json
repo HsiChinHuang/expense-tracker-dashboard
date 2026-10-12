@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-12T10:30:00Z",
-  "milestone": "phase_7_security_ops",
+  "generated_at": "2026-10-12T16:15:00Z",
+  "milestone": "phase_8_docs",
   "nodes": [
     "t0",
     "t1",
@@ -50,9 +50,60 @@
     "t40",
     "t41",
     {
+      "id": "t42",
+      "status": "closed",
+      "milestone": "phase_7_security_ops"
+    },
+    {
       "id": "t43",
       "status": "defined",
       "milestone": "phase_7_security_ops"
+    },
+    "t44",
+    {
+      "id": "t45",
+      "status": "closed",
+      "milestone": "phase_7_security_ops"
+    },
+    {
+      "id": "t46",
+      "status": "closed",
+      "milestone": "phase_7_security_ops"
+    },
+    {
+      "id": "t47",
+      "status": "defined",
+      "milestone": "phase_7_security_ops"
+    },
+    {
+      "id": "t48",
+      "status": "defined",
+      "milestone": "phase_8_docs"
+    },
+    {
+      "id": "t49",
+      "status": "defined",
+      "milestone": "phase_8_docs"
+    },
+    {
+      "id": "t50",
+      "status": "defined",
+      "milestone": "phase_8_docs"
+    },
+    {
+      "id": "t51",
+      "status": "defined",
+      "milestone": "phase_8_docs"
+    },
+    {
+      "id": "t52",
+      "status": "defined",
+      "milestone": "phase_8_docs"
+    },
+    {
+      "id": "t53",
+      "status": "defined",
+      "milestone": "phase_8_docs"
     }
   ],
   "edges": [
@@ -355,11 +406,76 @@
     {
       "from": "t36",
       "to": "t44"
+    },
+    {
+      "from": "t42",
+      "to": "t35"
+    },
+    {
+      "from": "t45",
+      "to": "t42"
+    },
+    {
+      "from": "t46",
+      "to": "t42"
+    },
+    {
+      "from": "t47",
+      "to": "t46"
+    },
+    {
+      "from": "t48",
+      "to": "t41"
+    },
+    {
+      "from": "t49",
+      "to": "t48"
+    },
+    {
+      "from": "t50",
+      "to": "t48"
+    },
+    {
+      "from": "t50",
+      "to": "t49"
+    },
+    {
+      "from": "t51",
+      "to": "t49"
+    },
+    {
+      "from": "t52",
+      "to": "t50"
+    },
+    {
+      "from": "t52",
+      "to": "t51"
+    },
+    {
+      "from": "t53",
+      "to": "t48"
+    },
+    {
+      "from": "t53",
+      "to": "t49"
+    },
+    {
+      "from": "t53",
+      "to": "t50"
+    },
+    {
+      "from": "t53",
+      "to": "t51"
+    },
+    {
+      "from": "t53",
+      "to": "t52"
     }
   ],
   "cycles": [],
   "topological_order": [
     "t0",
+    "t44",
     "t1",
     "t2",
     "t3",
@@ -396,12 +512,22 @@
     "t34",
     "t35",
     "t36",
+    "t42",
     "t37",
     "t39",
+    "t43",
+    "t45",
+    "t46",
     "t38",
+    "t47",
     "t40",
     "t41",
-    "t44"
+    "t48",
+    "t49",
+    "t50",
+    "t51",
+    "t52",
+    "t53"
   ],
   "critical_path": [
     "t0",
@@ -433,6 +559,11 @@
     "t37",
     "t38",
     "t40",
-    "t41"
+    "t41",
+    "t48",
+    "t49",
+    "t50",
+    "t52",
+    "t53"
   ]
 }
