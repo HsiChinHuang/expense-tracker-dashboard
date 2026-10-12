@@ -56,5 +56,5 @@
 | t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | defined |
 | t52 | Screenshots - dashboard/expense-form/budget-page/health-check PNGs from a measured run + README pointers (final README pin) | [t50, t51] | #55 | defined |
 | t53 | Documentation verification - docs_verification generator, Chapter 24.3 rows 1-15, deferral re-test, project-wide exit composite | [t48, t49, t50, t51, t52] | #57 | defined |
-| t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | defined |
+| t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | groomed |
 
