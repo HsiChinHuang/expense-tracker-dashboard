@@ -44,7 +44,12 @@
     "t38",
     "t39",
     "t40",
-    "t41"
+    "t41",
+    {
+      "id": "t43",
+      "status": "defined",
+      "milestone": "phase_7_security_ops"
+    }
   ],
   "edges": [
     {
@@ -338,6 +343,10 @@
     {
       "from": "t41",
       "to": "t40"
+    },
+    {
+      "from": "t43",
+      "to": "t42"
     }
   ],
   "cycles": [],
