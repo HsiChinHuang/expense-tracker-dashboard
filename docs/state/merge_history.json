@@ -665,6 +665,16 @@
       "test_suite": "full",
       "verifier_run": "429e312a-c783-4a5f-a430-76f785d0e28f",
       "notes": "index appended ac1..ac5 (183->188) per card disposition (ac6 never); faithful-CR ac4 entry carries the 2 raw CRs; digest 5e9b1ea4 reproduced by definer/builder/verifier/orchestrator"
+    },
+    {
+      "issue_id": "t47",
+      "merge_sha": "fddadeb08ecdc77b92fa9518ac83a9cb9e48a8b5",
+      "pre_merge_sha": "757f39831d9e37ce02530ca076f377a69e6e6db1",
+      "timestamp": "2026-10-13T13:55:00Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "verifier_run": "08746d5d-6ac0-4d08-b085-de98006bf3aa",
+      "notes": "47th merge; E2E FINAL BLOCKER cleared (first-ever health-ok fallback_active:false measured by builder+verifier on real Postgres); merge-time Option A-ter amendment applied to entry 139 freeze leg (+ :!backend/app/models/budget.py, precondition measured ORIGINAL RED/AMENDED GREEN); index appended ac1..ac5 188->193 per card disposition (ac6 excluded), ac1/ac5 carry docker-required gates, pins 131/132/133/135 + anchors 16/54 byte-unchanged post-append; merged non-docs delta exactly the 5 ac6 files; live E2E green on pushed SHA closes #45"
     }
   ]
 }
