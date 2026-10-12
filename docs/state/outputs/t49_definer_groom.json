@@ -174,12 +174,13 @@
       "base_commit": "91b528e853d1393bb4a0bd57c9d7c30af3b5d195",
       "card_commit": "283fb0d",
       "pin_commit": "a4dacc8 (initial pin 14317dc7) then d5d0b0e (ac4 raw-README W1-leg fix + re-pin 178cf8a1, cherry-picked from the deleted fixture branch; card bytes identical between branches, blob sha256 25d53b5b5c2b3a66cff32022ed347bc6c8cbaf73dfc38d511aa640c32b9b1e8a)",
-      "tip_sha": "SELF",
+      "tip_sha": "31126840556629e5ed69cc52e7ce0a942e950a88 (handoff JSON commit; this durability-sync commit is the branch tip - see ls_remote_verified)",
       "pushed": true,
-      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t49-root-reviewer-docs -> <tip_sha> (matches local HEAD; executed after the handoff commit, before finishing - see this field is written pre-push and the value confirmed in the definer reply)",
+      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t49-root-reviewer-docs executed after push; value recorded in the definer reply and in the durability-sync commit that carries this field (t48 precedent: tip 23d4036 stores handoff commit d8e964f).",
       "card_commits": "283fb0d (card body, ac_hash <PENDING>) -> a4dacc8 (pin 14317dc7, recomputed identical) -> d5d0b0e (ac4 raw-README fix + re-pin 178cf8a1) -> <tip_sha> (handoff JSON copy)",
       "fixture_branch": "tmp/t49-fixture (heads 3870b20/0ee754b/8b437d0) NEVER pushed, deleted after measurement (git branch -D)",
-      "no_implementation": "Card-only delta on the groom branch: the four commits touch docs/issues/t49.md and docs/state/outputs/t49_definer_groom.json alone. The six deliverable files were NEVER committed to the groom branch - authoring them belongs to the builder; they existed only on the deleted throwaway fixture branch for measurement."
+      "no_implementation": "Card-only delta on the groom branch: the four commits touch docs/issues/t49.md and docs/state/outputs/t49_definer_groom.json alone. The six deliverable files were NEVER committed to the groom branch - authoring them belongs to the builder; they existed only on the deleted throwaway fixture branch for measurement.",
+      "handoff_commits": "3112684 (handoff JSON copy, validated [OK]) -> durability-sync commit (branch tip)"
     },
     "disclosures": [
       "W10 (disclose, do not contort): docs/config.yaml limits.issue_granularity.max_files is 4 with warn_only true. t49 lands SEVEN deliverable files (README.md, product-spec.md, CLAUDE.md, openapi.yaml, ops/runbook.md, ops/deployment-health.md + this card/handoff). The overrun is deliberate - a single-purpose root-doc cluster with zero test-node growth, the phase_6/phase_7 doc-set precedent - and is disclosed in the card Context.",
