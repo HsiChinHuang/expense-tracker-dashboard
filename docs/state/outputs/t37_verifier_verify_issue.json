@@ -121,6 +121,15 @@
         "verified"
       ],
       "actions": "PASS path per spawn-task override: direct GitHub API PATCH issues/40 setting labels=[defined,verified] (removes built; SKILL's built->verified swap expressed as the explicit final set). API_TOKEN read from MAIN checkout .env via tr -d CR; .env NOT copied into the worktree. Read-back verified. Verdict comment posted. Read-back: labels=[defined,verified]. Verdict comment: https://github.com/HsiChinHuang/expense-tracker-dashboard/issues/40#issuecomment-6119580859"
+    },
+    "durability": {
+      "branch": "issue/t37-security-docs",
+      "handoff_commit": "b37d2000761f0a58abcfe788259b7200340e47ea",
+      "verified_tip_at_verification": "928bb4d6b797a1303a7fb96c6aa72fedfb9e8fd1",
+      "pushed": true,
+      "push_method": "cmd.exe /c \"git -C <WINPATH> push origin issue/t37-security-docs:issue/t37-security-docs\" </dev/null (WSL-side push hangs on this host); fast-forward 928bb4d..b37d200 via CAS update-ref; no force-push",
+      "push_verify": "git ls-remote origin refs/heads/issue/t37-security-docs == b37d2000761f0a58abcfe788259b7200340e47ea == local handoff commit",
+      "push_metadata_note": "the durability block was appended by a follow-up metadata commit (t35/t37 precedent: a handoff cannot carry the sha of the commit that carries it); the handoff body above is unchanged by that commit."
     }
   },
   "artifacts": {
