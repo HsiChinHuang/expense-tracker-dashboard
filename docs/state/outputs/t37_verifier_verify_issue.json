@@ -1,0 +1,146 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t37",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_source_note": "Authoritative source: docs/issues/t37.md ## Verification commands AT RE-GROOMED CARD f92d984 (contained in main d1bab22; merge-base --is-ancestor f92d984 main = YES). The BRANCH copy of docs/issues/t37.md still carries the OLD pre-re-groom card (ac_hash b43c7024, raw cmp leg) - extraction from the branch copy hashes to b43c7024 (measured, superseded), so the re-groomed card blob f92d984:docs/issues/t37.md is authoritative per the spawn task. Extraction recipe (node ONLY into /tmp): LF-normalize, first LINE match of /^## Verification commands\\b/ (Metadata prose contains the literal heading string so indexOf-style matching is false-hit prone and was excluded), slice to next /^## (?!#)/, take ```bash fences in ac order, trim, sha256 over JSON.stringify(array of the six). Schema const is the literal template per t33-t36 precedent.",
+    "ac_hash_pinned": "sha256:d92c8462ec96f3febca56383c1e74e4eca5277822676683542f56beff1d201e7",
+    "ac_hash_computed": "sha256:d92c8462ec96f3febca56383c1e74e4eca5277822676683542f56beff1d201e7",
+    "ac_hash_match": true,
+    "ac_hash_superseded": "sha256:b43c70248fdcc8916fd44ea109cd1aa8e0d72b600f9717c962b85c73a7fca5a6 (old branch-copy card; recomputed from branch copy this run for the record - matches the superseded value exactly)",
+    "byte_identity_vs_builder": "6/6 - each extracted command byte-identical to docs/state/outputs/t37_builder_implement.json evidence.ac_mapping.acN.test (lengths 1164/1594/1363/1615/1243/3029).",
+    "verified_tip": "928bb4d6b797a1303a7fb96c6aa72fedfb9e8fd1 (branch issue/t37-security-docs; build commit cff528e; prior verifier FAIL handoff 38770e3; re-implement handoffs 150d112/928bb4d; base MAIN 3559302)",
+    "execution_mode": "All six pinned commands executed VERBATIM from node-extracted /tmp files in ac1..ac5 then ac6 LAST order. ac6 executed both as four byte-verified contiguous foreground chunks (guards/backend/frontend/index; concatenation byte-equal to the 3019-char inner command) and as ONE full verbatim foreground pass - all rc=0. NO detached nohup anywhere. Every cmd.exe leg ran cmd.exe /c \"...\" </dev/null under timeout 900. Prerequisites (not gates): backend uv sync --offline (venv absent, 0.12.13 linux uv at $HOME/.local/bin); frontend npm.cmd ci --no-audit --no-fund via cmd.exe </dev/null (512 packages, node_modules absent); gitleaks 8.30.1 at $HOME/.local/bin. Working tree pristine (cmd.exe git status --porcelain empty) before and after all runs and negative controls; the gitleaks working-tree file stayed the 4-byte CRLF checkout copy throughout (never rewritten).",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/gitleaks-report.json || exit 1; test -f Makefile || exit 1; grep -qE \"gitleaks_8[.]30[.]1_linux_x64[.]tar[.]gz\" Makefile || exit 1; node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\"));if(!Array.isArray(a)){console.error(\\\"gitleaks report is not a JSON array\\\");process.exit(1)}if(a.length!==0){console.error(\\\"gitleaks findings: \\\"+a.length+\\\" - zero-leak BLOCKING invariant broken\\\");process.exit(1)}console.log(\\\"gitleaks report parses as a JSON array with ZERO findings\\\")\" security/gitleaks-report.json || exit 1; r1=$(mktemp /tmp/t37-gl-XXXXXX.json); r2=$(mktemp /tmp/t37-gl-XXXXXX.json); GITLEAKS_REPORT=\"$r1\" make security-gitleaks >/dev/null 2>&1 || exit 1; GITLEAKS_REPORT=\"$r2\" make security-gitleaks >/dev/null 2>&1 || exit 1; cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\" || exit 1; cmp -s \"$r1\" \"$r2\" || exit 1; rm -f \"$r1\" \"$r2\"; echo \"ac1 PASS: gitleaks-report.json exists, parses, ZERO findings, byte-reproducible by make security-gitleaks (two independent runs match the CR-normalized committed artifact; r1-vs-r2 stays strict LF-to-LF)\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "PASS 2/2 (rc=0 both runs) in the FRESH-CHECKOUT CRLF condition: working-tree security/gitleaks-report.json is 4 bytes 5b5d0d0a ([]\\r\\n) under repo-local core.autocrlf=true while make security-gitleaks emits 3-byte LF ([]\\n). The re-groomed CR-normalized cmp leg cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\" returns rc=0; the r1-vs-r2 leg stays strict LF-to-LF (rc=0 on two fresh LF tool outputs). Raw (non-normalized) cmp of the same pair returns rc=1, confirming the CRLF mangle is present and is exactly what the fix tolerates. Prior FAIL condition is CLOSED."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; test -f security/pip-audit-report.txt || exit 1; f=security/pip-audit-report.txt; grep -qE \"Found [0-9]+ known vulnerabilit|No known vulnerabilities\" \"$f\" || exit 1; n=$(grep -oE \"Found [0-9]+ known vulnerabilit\" \"$f\" | grep -oE \"[0-9]+\" | tail -1); if [ -z \"$n\" ]; then n=0; fi; m=$(grep -cE \"^[A-Za-z0-9][A-Za-z0-9._-]+ +[0-9]+[.][0-9.]+ +(PYSEC|CVE|GHSA)-\" \"$f\"); echo \"ac2 evidence: pip-audit parsed summary count=$n finding-table lines=$m\"; [ \"$n\" -ge 1 ] && [ \"$m\" -eq 0 ] && exit 1; g=$(grep -cE \"python-jose\" \"$f\"); r=0; test -f security/agent-security-notes.md && r=$(grep -cE \"python-jose\" security/agent-security-notes.md); [ $((g+r)) -ge 1 ] || exit 1; if test -f security/agent-security-notes.md; then grep -qE \"[.]env[.]example\" security/agent-security-notes.md || exit 1; else test -f .env.example || exit 1; echo \"ac2 evidence: .env.example expected-finding class proven by the tracked .env.example placeholder + gitleaks zero-report; register-side naming enforced by ac4 once t40 lands\"; fi; t=$(mktemp /tmp/t37-pip-XXXXXX.txt); PIP_AUDIT_REPORT=\"$t\" make security-pip-audit >/dev/null 2>&1 || exit 1; grep -qE \"Found [0-9]+ known vulnerabilit|No known vulnerabilities\" \"$t\" || exit 1; n2=$(grep -oE \"Found [0-9]+ known vulnerabilit\" \"$t\" | grep -oE \"[0-9]+\" | tail -1); [ \"${n2:-x}\" = \"$n\" ] || { echo \"regeneration count $n2 differs from committed $n\"; exit 1; }; rm -f \"$t\"; echo \"ac2 PASS: real pip-audit shape (count=$n), expected-finding class python-jose named, make security-pip-audit regenerates the same measured count\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0. Parsed summary count=3, finding-table lines=3, python-jose named in the report, .env.example expected-finding class proven by the tracked placeholder (register absent pre-t40), make security-pip-audit regeneration reproduced count 3."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f security/npm-audit-report.txt || exit 1; f=security/npm-audit-report.txt; grep -qE \"found [0-9]+ vulnerabilit|[0-9]+ vulnerabilit\" \"$f\" || exit 1; n=$(grep -oE \"[0-9]+ vulnerabilit\" \"$f\" | grep -oE \"^[0-9]+\" | tail -1); echo \"ac3 evidence: npm audit parsed vulnerability count=$n\"; [ -n \"$n\" ] || exit 1; g=0; test -f security/agent-security-notes.md && g=$(grep -cE \"dev-dependency|dev dependency|devDependencies\" security/agent-security-notes.md); [ \"$g\" -ge 1 ] || grep -qE \"esbuild|vite\" \"$f\" || exit 1; G=$(wslpath -w \"$PWD\"); for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || { echo \"manifest changed: $p\"; exit 1; }; done; t=$(mktemp /tmp/t37-npm-XXXXXX.txt); NPM_AUDIT_REPORT=\"$t\" make security-npm-audit >/dev/null 2>&1 || exit 1; n2=$(grep -oE \"[0-9]+ vulnerabilit\" \"$t\" | grep -oE \"^[0-9]+\" | tail -1); [ \"${n2:-x}\" = \"$n\" ] || { echo \"regeneration count $n2 differs from committed $n\"; exit 1; }; rm -f \"$t\"; echo \"ac3 PASS: real npm-audit shape (count=$n), dev-dependency class addressed, five manifests byte-untouched (read-only audit proof), make security-npm-audit regenerates the same count\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0. Parsed npm audit count=22, dev-dependency class via esbuild/vite named, five named manifests byte-untouched (HEAD blob == hash-object), make security-npm-audit regeneration reproduced count 22."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f security/pip-audit-report.txt || exit 1; test -f security/npm-audit-report.txt || exit 1; test -f security/gitleaks-report.json || exit 1; ids=$(mktemp); node -e \"const fs=require(\\\"fs\\\");const out=[];const p=fs.readFileSync(\\\"security/pip-audit-report.txt\\\",\\\"utf8\\\");for(const m of p.matchAll(/(PYSEC|CVE|GHSA)-[0-9]{4}-[0-9]+/g)){out.push(m[0])}const n=fs.readFileSync(\\\"security/npm-audit-report.txt\\\",\\\"utf8\\\");for(const m of n.matchAll(/GHSA-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g)){out.push(m[0])}const u=[...new Set(out)];if(u.length===0){console.error(\\\"no finding ids parsed from the two audit reports - the closed loop has nothing to check\\\");process.exit(1)}fs.writeFileSync(process.argv[1],u.join(\\\"\\n\\\")+\\\"\\n\\\");console.log(\\\"parsed \\\"+u.length+\\\" distinct finding ids from the two audit reports\\\")\" \"$ids\" || exit 1; z=$(node -e \"const a=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"security/gitleaks-report.json\\\",\\\"utf8\\\"));process.stdout.write(String(a.length))\") ; [ \"$z\" = \"0\" ] || exit 1; if [ -f security/agent-security-notes.md ]; then while IFS= read -r id; do grep -q -- \"$id\" security/agent-security-notes.md || { echo \"finding id $id has no register row\"; exit 1; }; done < \"$ids\"; grep -qE \"gitleaks.{0,40}0|zero findings\" security/agent-security-notes.md || exit 1; echo \"ac4 PASS: register exists - every parsed id has a row, gitleaks zero-count echoed\"; else echo \"ac4 PASS: register absent (pre-t40) - closed-loop gate vacuously green for $(wc -l < \"$ids\" | tr -dc \"0-9\") parsed ids; measured counts live in the tool output; gitleaks zero-count parsed as 0\"; fi; rm -f \"$ids\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0. 46 distinct finding ids parsed; security/agent-security-notes.md ABSENT -> register leg vacuously green; gitleaks zero-count parsed as 0. Loop-bite tested in /tmp sandbox: register present with exactly one of the 46 ids missing -> rc=1; register present with all 46 ids + zero echo -> rc=0; zero-count echo removed -> rc=1."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -z \"$(find security -type f ! -name .gitkeep ! -name gitleaks-report.json ! -name pip-audit-report.txt ! -name npm-audit-report.txt)\" || exit 1; test -z \"$(find ops -type f ! -name .gitkeep)\" || exit 1; test -f security/.gitkeep || exit 1; test -f ops/.gitkeep || exit 1; for f in security/gitleaks-report.json security/pip-audit-report.txt security/npm-audit-report.txt; do [ -s \"$f\" ] || exit 1; node -e \"const b=require(\\\"fs\\\").readFileSync(process.argv[1]);if(b.includes(0)){console.error(\\\"NUL byte / binary content in \\\"+process.argv[1]);process.exit(1)}if(b.length>204800){console.error(process.argv[1]+\\\" exceeds the 200 KB scan-output ceiling\\\");process.exit(1)}\" \"$f\" || exit 1; done; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; G=$(wslpath -w \"$PWD\"); a=$(cmd.exe /c \"git -C $G rev-parse HEAD:.gitignore\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object .gitignore\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; echo \"ac5 PASS: security/ exactly .gitkeep + the three reports (all text, NUL-free, under the size ceiling), ops/ .gitkeep-only, workflows frozen four, .gitignore byte-untouched\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0. security/ exactly .gitkeep + three reports (non-empty, NUL-free, under 200KB), ops/ .gitkeep-only, workflows frozen four, .gitignore byte-untouched."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; G=$(wslpath -w \"$PWD\"); [ \"$(wc -l < README.md | tr -dc \"0-9\")\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || exit 1; for p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\"); b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\"); [ -n \"$a\" ] || exit 1; [ \"$a\" = \"$b\" ] || exit 1; done; for f in security/gitleaks-report.json security/pip-audit-report.txt security/npm-audit-report.txt; do test -f \"$f\" || exit 1; done; test -z \"$(find ops -type f ! -name .gitkeep 2>/dev/null)\" || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"t37-ac6 evidence: backend collected=$n (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && uv run ruff check . >/dev/null 2>&1) || exit 1; m=$(cd backend && uv run mypy . 2>/dev/null | grep -oE \"no issues found in [0-9]+ source\" | grep -oE \"[0-9]+\"); [ \"${m:-0}\" -ge 83 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\\\(head\\\\)$\") || exit 1; D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; f=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l); echo \"t37-ac6 evidence: frontend passed=$f (floor 187)\"; [ \"$f\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx tsc --noEmit\" >/dev/null 2>&1 || exit 1; l=$(cmd.exe /c \"cd /d $D && npm run lint\" 2>&1 | grep -cE \"react-refresh/only-export-components\"); [ \"$l\" -eq 4 ] || exit 1; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<158){console.error(\\\"index shorter than 158\\\");process.exit(1)}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"amended anchors #17/#55 moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"anchor #17 bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"anchor #55 bytes changed\\\");process.exit(1)}execSync(a.command,{stdio:\\\"ignore\\\"});execSync(b.command,{stdio:\\\"ignore\\\"})\" || exit 1; echo \"ac6 PASS: no-drift composite green (t37: three committed reports present, security/ ops/ tree discipline proven upstream)\"'",
+        "exit_code": 0,
+        "output_path": null,
+        "note": "rc=0 LAST. Executed as four byte-verified contiguous chunks (guards; backend; frontend; index; rejoin byte-equal to the 3019-char inner command) AND as one full verbatim foreground pass - both green. README 202<=500, workflows frozen, five manifests byte-untouched, three reports present, ops/ clean; backend pytest green collected=270 (floor 270), ruff clean, mypy 87>=83 source files, alembic single head 005 (head); frontend vitest numFailedTests=0/numPendingTests=0/numTodoTests=0 passed=187 (floor 187), tsc --noEmit rc=0, exactly 4 react-refresh/only-export-components warnings; index 163>=158, anchors tests[16]=t2 (cfb84edc..) and tests[54]=t9 (cf5babc0..) byte-unchanged, both stored commands execSync green."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all_acs_verified_by_pinned_commands_with_fail_before_pass_after": true,
+      "three_real_run_reports_committed_as_pure_tool_output_gitleaks_zero_proven_by_parse": true,
+      "req_sec_073_expected_finding_classes_named_and_conditional_closed_loop_green": true,
+      "security_exact_set_ops_untouched_no_binary_manifests_gitignore_untouched": true,
+      "backend_270_ruff_mypy_83_head005_frontend_187_tsc_lint4_readme_index_anchors": true,
+      "conventional_commit_branch_name_index_append_only": false
+    },
+    "dod_note": "Item 6 false ONLY on branch naming: DoD text says issue/t37-scan-reports-dep-secret but the orchestrator created/assigned issue/t37-security-docs (task text, remote ref and builder handoff agree) - naming deviation, not a build defect. Conventional commit feat(t37) at cff528e and no force push both hold.",
+    "cross_checks": {
+      "delta_purity": "git diff --stat 3559302..HEAD = 5 files, NOT the 4 the spawn task expected: the 3 reports + t37_builder_implement.json + t37_verifier_verify_issue.json. The 5th file is the PRIOR VERIFIER FAIL handoff (committed by 38770e3, a verifier-owned artifact, not a builder deliverable). Builder-attributable delta 3559302..cff528e = EXACTLY the 3 report files (158 insertions); cff528e..HEAD = the 2 handoff JSONs only. Purity of the deliverable set is intact; expectation arithmetic in the task brief simply predated the FAIL-handoff commit.",
+      "report_blob_shas": "git cat-file -t = blob for all three; HEAD:security/gitleaks-report.json=fe51488c7066f6687ef680d6bfaa4f7768ef205c, pip-audit=d905d4a27bcc07475b8919e5e39cd6b0356eab6c, npm-audit=eda56395c966d526f21e80577e08f9f08ef0f0c2 - all match the pinned values (checked via cat-file/rev-parse on the object store, not the working tree).",
+      "regeneration": "gitleaks twice -> r1==r2 STRICT cmp rc=0 AND both == CR-normalized committed (rc=0) while RAW cmp of committed vs r1 rc=1 (the CRLF mangle, as expected under autocrlf=true); pip-audit regeneration count=3 == committed count=3; npm-audit regeneration count=22 == committed count=22.",
+      "ac4_register_leg_vacuity": "46 ids parsed; register absent in repo -> vacuous-green branch taken; sandboxed loop-bites prove the non-vacuous branch bites (see negative_controls).",
+      "entry6_guard": "docs/state/merge_test_index.json tests[5] (issue_id t0, the amended entry #6 vocabulary guard) executed via execSync -> rc=0; index total=163.",
+      "fail_before": "read-only cat-file -e at base 3559302: all three reports ABSENT (every pinned command's first test -f leg is red there - groom measured 6/6 rc=1); at build commit cff528e all three PRESENT. Pass-after measured by the 6/6 green runs at tip 928bb4d.",
+      "negative_controls": [
+        "KEY (re-groom gate-integrity): committed side replaced with byte-different zero-findings payload '[] \\r\\n' (trailing space; parses as a valid ZERO-findings array) -> ac1 rc=1 at the cmp leg. CR-normalization did NOT neuter the gate: content drift beyond CR still blocks.",
+        "r1-vs-r2 strict leg bites: LF vs CRLF pair -> cmp rc=1; LF vs LF pair -> rc=0 (leg remains strict between the two fresh tool outputs).",
+        "non-empty findings array (1 finding) -> ac1 rc=1 ('zero-leak BLOCKING invariant broken').",
+        "truncated pip-audit report (first 100 bytes) -> ac2 rc=1 (count=3 but finding-table lines=0 leg).",
+        "truncated npm-audit report (first 50 bytes) -> ac3 rc=1.",
+        "stray security/EXTRA.md -> ac5 rc=1.",
+        "NUL byte in npm report -> ac5 rc=1.",
+        "anchor sha flip (one hex char) -> anchor leg rc=1; anchor swap (tests[16]/[54] issue ids) -> rc=1; real anchors verified byte-unchanged (t2/cfb84edc.., t9/cf5babc0..).",
+        "ac4 register-present with one of 46 ids missing -> rc=1; all 46 + zero echo -> rc=0; zero echo removed -> rc=1.",
+        "old (pre-re-groom) ac1 command re-executed accidentally in this worktree during extraction sanity-check -> rc=1 at the raw cmp leg: an unplanned but exact reproduction of the prior FAIL condition, independently confirming the diagnosis and the fix."
+      ],
+      "worktree_pristine": "cmd.exe git status --porcelain empty before and after all runs; security/gitleaks-report.json stayed 5b5d0d0a (4-byte CRLF checkout copy) throughout - the gate tolerates CR at COMPARE time only; no artifact was ever rewritten."
+    },
+    "fix_closure_statement": "PRIOR FAIL CLOSED. Previous run (session ab6abd6d, handoff 38770e3) failed ac1 ONLY with failure_type=test_env / AUTOCRLF_BYTE_CMP_CONFLICT: under repo-local core.autocrlf=true a fresh checkout converts the committed 3-byte LF gitleaks blob (fe51488c = '[]\\n') to a 4-byte CRLF working-tree copy while gitleaks emits LF, making the old raw byte-cmp leg unsatisfiable in ANY fresh checkout. THIS worktree is that exact condition, observed directly: working-tree security/gitleaks-report.json = 4 bytes hex 5b5d0d0a. With the re-groomed command (cmp -s <(tr -d \"\\r\" < security/gitleaks-report.json) \"$r1\", r1-vs-r2 leg unchanged strict) ac1 is GREEN 2/2 rc=0 in this condition, and the KEY negative control proves the normalization still bites on real content drift. No CRLF-forcing workaround was needed - the checkout was already CRLF-mangled.",
+    "deviations": [
+      "ac6 executed both as four byte-verified contiguous chunks AND as one full verbatim foreground pass (both green); the chunked backend leg requires the command's own PATH export to be re-applied across chunk boundaries (the pinned command's head exports PATH=\"$HOME/.local/bin:$PATH\"; the inherited Windows PATH carries a uv.exe that fails on the Linux venv). The full verbatim single-pass run has no such state-splitting at all.",
+      "Authoritative card = re-groomed blob f92d984:docs/issues/t37.md (branch copy still carries the superseded pre-re-groom card); extraction from the branch copy reproduces the superseded hash b43c7024 exactly, confirming the delta is only the ac1 cmp leg + ac_hash + prose.",
+      "Platform ops via direct GitHub API PATCH with API_TOKEN read from the MAIN checkout .env (tr -d CR, never copied into the worktree) per the spawn-task override; scripts/platform.ts unusable because the worktree has no .env.",
+      "Delta-purity expectation in the task brief (4 files) predates the prior verifier FAIL-handoff commit; builder-attributable delta is exactly the 3 reports (see cross_checks.delta_purity).",
+      "All negative controls ran in /tmp sandboxes (never in the repo); repo tree untouched; no git state-changing command run against the worktree except the handoff commit/push."
+    ],
+    "platform": {
+      "issue": 40,
+      "labels_before": [
+        "defined",
+        "groomed",
+        "built"
+      ],
+      "labels_after": [
+        "defined",
+        "verified"
+      ],
+      "actions": "PASS path per spawn-task override: direct GitHub API PATCH issues/40 setting labels=[defined,verified] (removes built; SKILL's built->verified swap expressed as the explicit final set). API_TOKEN read from MAIN checkout .env via tr -d CR; .env NOT copied into the worktree. Read-back verified. Verdict comment posted. Read-back: labels=[defined,verified]. Verdict comment: https://github.com/HsiChinHuang/expense-tracker-dashboard/issues/40#issuecomment-6119580859"
+    },
+    "durability": {
+      "branch": "issue/t37-security-docs",
+      "handoff_commit": "b37d2000761f0a58abcfe788259b7200340e47ea",
+      "verified_tip_at_verification": "928bb4d6b797a1303a7fb96c6aa72fedfb9e8fd1",
+      "pushed": true,
+      "push_method": "cmd.exe /c \"git -C <WINPATH> push origin issue/t37-security-docs:issue/t37-security-docs\" </dev/null (WSL-side push hangs on this host); fast-forward 928bb4d..b37d200 via CAS update-ref; no force-push",
+      "push_verify": "git ls-remote origin refs/heads/issue/t37-security-docs == b37d2000761f0a58abcfe788259b7200340e47ea == local handoff commit",
+      "push_metadata_note": "the durability block was appended by a follow-up metadata commit (t35/t37 precedent: a handoff cannot carry the sha of the commit that carries it); the handoff body above is unchanged by that commit."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t37_verifier_verify_issue.json"
+    ],
+    "platform_issue": 40,
+    "output_path": "docs/state/outputs/t37_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T07:16:45.000Z",
+  "retry_count": 0
+}

@@ -1,0 +1,151 @@
+# npm audit report
+
+@remix-run/router  <=1.23.2
+Severity: high
+React Router vulnerable to XSS via Open Redirects - https://github.com/advisories/GHSA-2w69-qvjg-hvjx
+React Router's same-origin redirect with path starting // causes open redirect via protocol-relative URL reinterpretation - https://github.com/advisories/GHSA-2j2x-hqr9-3h42
+fix available via `npm audit fix --force`
+Will install react-router-dom@6.30.6, which is outside the stated dependency range
+node_modules/@remix-run/router
+  react-router  6.0.0 - 7.17.0
+  Depends on vulnerable versions of @remix-run/router
+  node_modules/react-router
+    react-router-dom  6.0.0-alpha.0 - 6.30.2
+    Depends on vulnerable versions of @remix-run/router
+    Depends on vulnerable versions of react-router
+    node_modules/react-router-dom
+
+axios  1.0.0 - 1.19.0
+Severity: high
+axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL - https://github.com/advisories/GHSA-jr5f-v2jv-69x6
+Axios is vulnerable to DoS attack through lack of data size check - https://github.com/advisories/GHSA-4hjh-wcwx-xvwj
+Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF - https://github.com/advisories/GHSA-3p68-rc4w-qgx5
+Axios: Authentication Bypass via Prototype Pollution Gadget in `validateStatus` Merge Strategy - https://github.com/advisories/GHSA-w9j2-pvgh-6h63
+Axios: Incomplete Fix for CVE-2025-62718 — NO_PROXY Protection Bypassed via RFC 1122 Loopback Subnet (127.0.0.0/8) in Axios 1.15.0 - https://github.com/advisories/GHSA-pmwg-cvhr-8vh7
+Axios: Invisible JSON Response Tampering via Prototype Pollution Gadget in `parseReviver` - https://github.com/advisories/GHSA-3w6x-2g7m-8v23
+Axios: Null Byte Injection via Reverse-Encoding in AxiosURLSearchParams - https://github.com/advisories/GHSA-xhjh-pmcv-23jw
+Axios: CRLF Injection in multipart/form-data body via unsanitized blob.type in formDataToStream - https://github.com/advisories/GHSA-445q-vr5w-6q77
+Axios: no_proxy bypass via IP alias allows SSRF - https://github.com/advisories/GHSA-m7pr-hjqh-92cm
+Axios' HTTP adapter-streamed uploads bypass maxBodyLength when maxRedirects: 0 - https://github.com/advisories/GHSA-5c9x-8gcm-mpgx
+Axios: HTTP adapter streamed responses bypass maxContentLength - https://github.com/advisories/GHSA-vf2m-468p-8v99
+Axios: Prototype Pollution Gadgets - Response Tampering, Data Exfiltration, and Request Hijacking - https://github.com/advisories/GHSA-pf86-5x62-jrwf
+Axios: Header Injection via Prototype Pollution - https://github.com/advisories/GHSA-6chq-wfr3-2hj9
+Axios: XSRF Token Cross-Origin Leakage via Prototype Pollution Gadget in `withXSRFToken` Boolean Coercion - https://github.com/advisories/GHSA-xx6v-rp6x-q39c
+Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig - https://github.com/advisories/GHSA-43fc-jf86-j433
+Axios has prototype pollution read-side gadgets in HTTP adapter that allow credential injection and request hijacking - https://github.com/advisories/GHSA-q8qp-cvcw-x6jj
+Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain - https://github.com/advisories/GHSA-fvcv-3m26-pcqx
+Axios: unbounded recursion in toFormData causes DoS via deeply nested request data - https://github.com/advisories/GHSA-62hf-57xw-28j9
+Axios: Regular Expression Denial of Service (ReDoS) via Cookie Name Injection - https://github.com/advisories/GHSA-hfxv-24rg-xrqf
+Allocation of Resources Without Limits or Throttling in Axios - https://github.com/advisories/GHSA-777c-7fjr-54vf
+Axios: Proxy-Authorization Credential Leak to Origin Server Across HTTP-to-HTTPS Redirect in Axios Node.js HTTP Adapter - https://github.com/advisories/GHSA-p92q-9vqr-4j8v
+Axios: Proxy-Authorization header leaks to redirect target when proxy is re-evaluated to direct connection - https://github.com/advisories/GHSA-j5f8-grm9-p9fc
+axios Vulnerable to Credential Theft and Response Hijacking via Prototype Pollution Gadget in Config Merge - https://github.com/advisories/GHSA-3g43-6gmg-66jw
+axios Vulnerable to Full Man-in-the-Middle via Prototype Pollution Gadget in `config.proxy` - https://github.com/advisories/GHSA-35jp-ww65-95wh
+axios has DoS & Header Injection via Prototype Pollution Read-Side Gadgets in axios merge functions - https://github.com/advisories/GHSA-898c-q2cr-xwhg
+Axios: Prototype pollution gadgets can alter axios request construction - https://github.com/advisories/GHSA-mmx7-hfxf-jppx
+Axios: Deep formToJSON Key Recursion Can Cause Denial of Service - https://github.com/advisories/GHSA-pmv8-rq9r-6j72
+Axios: Nested axios option objects can consume polluted prototype values - https://github.com/advisories/GHSA-7q8q-rj6j-mhjq
+Axios: Fetch adapter `ReadableStream` uploads bypass `maxBodyLength` - https://github.com/advisories/GHSA-jqh4-m9w3-8hp9
+Axios: Excessive recursion in formDataToJSON can cause denial of service - https://github.com/advisories/GHSA-42h9-826w-cgv3
+Axios: Prototype pollution gadget in fetch adapter can alter outbound requests - https://github.com/advisories/GHSA-vh66-26gq-q6x8
+Axios: Prototype-Pollution Gadget in the Default Instance Allows Inherited Object.prototype.method to Override HTTP Method - https://github.com/advisories/GHSA-9fr6-4gfg-395g
+Axios: Header Injection via Inherited headers After Minimal Interceptor - https://github.com/advisories/GHSA-j8rh-479h-cp32
+fix available via `npm audit fix --force`
+Will install axios@1.20.0, which is outside the stated dependency range
+node_modules/axios
+
+braces  *
+Severity: high
+braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
+fix available via `npm audit fix --force`
+Will install tailwindcss@4.3.3, which is a breaking change
+node_modules/braces
+  chokidar  2.0.0 - 3.6.0
+  Depends on vulnerable versions of braces
+  node_modules/chokidar
+    tailwindcss  <=0.0.0-oxide-insiders.ff2c25f || 0.5.0 - 3.4.19
+    Depends on vulnerable versions of chokidar
+    Depends on vulnerable versions of fast-glob
+    Depends on vulnerable versions of micromatch
+    Depends on vulnerable versions of postcss-nested
+    Depends on vulnerable versions of postcss-selector-parser
+    node_modules/tailwindcss
+  micromatch  >=0.2.0
+  Depends on vulnerable versions of braces
+  node_modules/micromatch
+    fast-glob  *
+    Depends on vulnerable versions of micromatch
+    node_modules/fast-glob
+      globby  >=8.0.0
+      Depends on vulnerable versions of fast-glob
+      node_modules/globby
+        @typescript-eslint/typescript-estree  3.10.2-alpha.0 - 8.2.1-alpha.25
+        Depends on vulnerable versions of globby
+        node_modules/@typescript-eslint/typescript-estree
+          @typescript-eslint/parser  3.10.2-alpha.0 - 8.2.1-alpha.25
+          Depends on vulnerable versions of @typescript-eslint/typescript-estree
+          node_modules/@typescript-eslint/parser
+            @typescript-eslint/eslint-plugin  4.0.1-alpha.0 - 8.2.1-alpha.25
+            Depends on vulnerable versions of @typescript-eslint/parser
+            Depends on vulnerable versions of @typescript-eslint/type-utils
+            Depends on vulnerable versions of @typescript-eslint/utils
+            node_modules/@typescript-eslint/eslint-plugin
+          @typescript-eslint/type-utils  5.9.2-alpha.0 - 8.2.1-alpha.25
+          Depends on vulnerable versions of @typescript-eslint/typescript-estree
+          Depends on vulnerable versions of @typescript-eslint/utils
+          node_modules/@typescript-eslint/type-utils
+          @typescript-eslint/utils  <=8.2.1-alpha.25
+          Depends on vulnerable versions of @typescript-eslint/typescript-estree
+          node_modules/@typescript-eslint/utils
+
+esbuild  <=0.24.2
+Severity: moderate
+esbuild enables any website to send any requests to the development server and read the response - https://github.com/advisories/GHSA-67mh-4wv8-2f99
+fix available via `npm audit fix --force`
+Will install vite@5.4.21, which is outside the stated dependency range
+node_modules/esbuild
+  vite  <=6.4.2
+  Depends on vulnerable versions of esbuild
+  node_modules/vite
+
+postcss  <=8.5.22
+Severity: high
+PostCSS has XSS via Unescaped </style> in its CSS Stringify Output - https://github.com/advisories/GHSA-qx2v-qp2m-jg93
+PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments - https://github.com/advisories/GHSA-6g55-p6wh-862q
+PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset - https://github.com/advisories/GHSA-fxqj-rqcc-2cmp
+PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure - https://github.com/advisories/GHSA-r28c-9q8g-f849
+fix available via `npm audit fix --force`
+Will install postcss@8.5.29, which is outside the stated dependency range
+node_modules/postcss
+
+postcss-selector-parser  <7.1.6
+Severity: moderate
+PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion - https://github.com/advisories/GHSA-rj75-hqrm-r3gf
+fix available via `npm audit fix --force`
+Will install tailwindcss@4.3.3, which is a breaking change
+node_modules/postcss-selector-parser
+  postcss-nested  2.0.3 - 6.2.0
+  Depends on vulnerable versions of postcss-selector-parser
+  node_modules/postcss-nested
+
+
+tinypool  <=2.1.1
+Severity: critical
+Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution - https://github.com/advisories/GHSA-5gmw-xhrv-c9v3
+Tinypool: Prototype Pollution Gadget to RCE in run() options - https://github.com/advisories/GHSA-85c8-ppgw-ccpr
+fix available via `npm audit fix --force`
+Will install vitest@1.6.1, which is outside the stated dependency range
+node_modules/tinypool
+  vitest  <=4.0.0-beta.19
+  Depends on vulnerable versions of tinypool
+  node_modules/vitest
+
+
+
+22 vulnerabilities (3 moderate, 17 high, 2 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
