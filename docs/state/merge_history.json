@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-14T03:30:00Z",
+  "updated_at": "2026-10-14T05:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -782,6 +782,25 @@
       ],
       "index_count_after": 215,
       "summary": "Four docs files ONLY (+529L): architecture.md 158L nine REQ-DOC-020 sections fenced ASCII diagram; api.md 144L 16/16 openapi paths runtime-equality 13/13 error codes; design-system.md 122L 10/10 code-side hexes; testing-guidelines.md 101L Makefile vocabulary+coverage policy. Verifier PASS 6/6, delta purity EXACTLY six-path EXP non-docs EMPTY, pin-1 5f6e235e carried byte-unchanged, openapi 6f2a0a3d byte-frozen. ac1..ac5 appended (ac6 composite excluded). 52nd merge closure."
+    },
+    {
+      "issue_id": "t55",
+      "title": "E2E first-ever-green fix: vite /api proxy to 127.0.0.1:8000 + one Start-the-frontend-dev-server step in e2e.yml",
+      "merge_commit_sha": "bec01ab",
+      "branch": "issue/t55-e2e-frontend-target",
+      "verified_tip_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+      "build_commit_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+      "merged_from_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+      "into": "main",
+      "merged_at": "2026-10-14T05:40:00Z",
+      "platform_issue": 59,
+      "ac_hash": "sha256:d0ff5a8e9920f48e9614325bcedd71319959c2ea0a5ebb69e33a3f200dea2844",
+      "index_entries_added": [
+        "tests[215] ac1",
+        "tests[216] ac2"
+      ],
+      "index_count_after": 217,
+      "summary": "Two-file fix (+9/-1): vite server{port:5173,proxy /api -> http://127.0.0.1:8000 changeOrigin} + exactly one Start-the-frontend-dev-server step between health wait and browser install (nohup npm run dev -- --host 127.0.0.1 --port 5173). Verifier PASS: pin d0ff5a8e MATCH, ac1..ac5 verbatim rc=0, base-RED re-measured ac1/ac3/ac4/ac5 at 395b31d, NC-G/NC-B2/NC-F RED paths proven, e2e/ byte-untouched, README pin-1 carried. ac3 NOT appended (disclosed port-contention: foreign orphan uvicorn tripped its precondition twice this cycle); ac4/ac5 branch-scoped/composite; ac6 live CI poll. 53rd merge closure. ac6 acceptance = first-ever E2E green on final pushed SHA (closes #45/#58/#59 path)."
     }
   ]
 }

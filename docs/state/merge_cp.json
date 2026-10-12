@@ -1,15 +1,15 @@
 {
-  "issue_id": "t51",
+  "issue_id": "t55",
   "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-14T03:30:00Z",
-  "pre_merge_sha": "14d9477",
-  "merge_sha": "03010f7",
+  "timestamp": "2026-10-14T05:40:00Z",
+  "pre_merge_sha": "5ce7c5f",
+  "merge_sha": "bec01ab",
   "test_result": {
-    "total": 462,
-    "passed": 462,
+    "total": 461,
+    "passed": 461,
     "failed": 0,
-    "note": "backend 270 + frontend 187 (0/0/0, Docker DOWN) + 5 appended index entries tests[210..214] executed rc=0 on merged main (214 initially RED from untracked build/ scratch leaking the repo-wide link leg; scratch relocated to orchestrator temp, re-run GREEN)"
+    "note": "backend 270 + frontend 187 (0/0/0, Docker DOWN) + 2 appended index entries tests[215..216] rc=0 on merged main; ac6 live-E2E acceptance polled on final pushed SHA by orchestrator"
   },
-  "ac_hash": "sha256:1c11c3f9a214ee1f1c8a322a2d08185eec23d9b2f2cfe68a7ed519534449598c"
+  "ac_hash": "sha256:d0ff5a8e9920f48e9614325bcedd71319959c2ea0a5ebb69e33a3f200dea2844"
 }

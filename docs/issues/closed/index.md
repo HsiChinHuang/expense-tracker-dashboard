@@ -56,3 +56,4 @@ Runtime-maintained by Orchestrator.
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | 2026-10-13 | 0 | 97153c0 |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | 2026-10-13 | 0 | 7264868 |
 | t51 | Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried) | 2026-10-14 | 0 | 03010f7 |
+| t55 | E2E first-ever-green fix - vite /api proxy + Start-the-frontend-dev-server step in e2e.yml (#45/#58/#59) | 2026-10-14 | 0 | bec01ab |
