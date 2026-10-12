@@ -1,0 +1,135 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t48",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_8_docs",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": [
+      "t48",
+      "t49",
+      "t50",
+      "t51",
+      "t52",
+      "t53"
+    ],
+    "findings": [
+      {
+        "issue_id": "t49",
+        "category": "other",
+        "severity": "warning",
+        "description": "W1 README PRESERVATION LIST INCOMPLETE AND PARTLY MIS-ATTRIBUTED - t49's Constraints say 'Do NOT delete the sections the stored entries grep (Quick Start, Local development modes, Mode A/Mode B, Development versus production, Running tests, Linting, Other targets, Repository layout, License, Deployment on Render with Why Render / First deployment / Free tier / UptimeRobot)'. Machine extraction of every root-README grep from the stored entries shows the list misses required tokens and includes non-gated ones. MISSES: tests[119] (t23) requires the exact heading '## Features', the literal pointer 'docs/criteria/dashboard_verification.md' and six '/api/v1/dashboard/<path>' tokens in README; tests[128] (t24) requires line-anchored commands ('docker compose up --build', 'docker compose down', 'docker compose up db', 'make dev-backend', 'make dev-frontend' at line start) plus 'make migrate', 'uvicorn --reload', 'Vite dev server' and the tokens REQ-CICD-025, REQ-CICD-026, REQ-DB-082; tests[135] (t26) additionally requires 'Blueprint', 'cold start', '10 min' and the tokens REQ-CICD-030/036/040/041/042/043 and REQ-TECH-061; tests[27] (t4) requires 'cp .env.example .env', 'make setup/dev-backend/dev-frontend/test/lint', 'prerequisite' and the word MIT. MIS-ATTRIBUTED: 'Linting', 'Other targets', 'Repository layout' and 'License' are NOT grepped by any stored entry (they are README's own headings - keeping them is fine, calling them stored-grep is wrong). REMEDY (groom t49): reproduce the full machine-extracted token set in the pinned README-leg command, not the prose list; verifier cross-checks by re-extracting greps from tests[27]/[119]/[128]/[135]/[144] commands and asserting each token survives in the amended README."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 merge_test_index REFERENCE CONVENTION UNDECLARED, AND THE 'EIGHT README-GATE ENTRIES' SET IS OVER-INCLUSIVE - all six cards cite stored entries by bare number ('entry 134', '27/119/128/135/144/149/150/155') while the anchor notation elsewhere is 'tests[16]=t2 / tests[54]=t9'. Verified: the numbers resolve ONLY under the 0-based tests[idx] convention (tests[134] IS the render.yaml gate; the eight cited indices are EXACTLY the eight entries whose commands mention README at all). Nowhere in plan/cards is the convention stated, so a builder reading 'entry 134' as 1-based entry #134 (= tests[133], the deploy.yml workflow gate) mis-pins silently. Additionally the eight are not all root-README gates: tests[149] gates mcp-server/README.md, tests[150]/tests[155] are file-count gates that merely exclude README.md in a find expression, and tests[144] greps docs/criteria/infra_verification.md (for 'DEFERRED_ROW UPTIMEROBOT_MONITOR artifact=README.md'), not README itself. The true root-README-gating set is tests[27]/[119]/[128]/[135] (+144 indirectly). CLASSIFICATION: warning - re-executing all eight is safe (over-inclusive is harmless); the defect is the undeclared convention. REMEDY (groom, all six cards): state 'merge_test_index.json tests[] is 0-based; every cited number is a tests[] index, matched by index+issue_id identity' in each pinned section; t53's Constraints already mandate the identity read-back - make it explicit in t48/t49/t50/t51/t52 too."
+      },
+      {
+        "issue_id": "t52",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 CAPTURE-SCRIPT PLACEMENT HAZARD - 'a capture-only SPEC' UNDER e2e/tests/ OR e2e/fixtures/ TURNS STORED ENTRIES RED - t52 ac3 says the committed capture script lives 'under e2e/ as a capture-only spec/script'. Three stored entries make two of those placements fatal: tests[143] (t28) pins the committed line 'E2E_ARTIFACTS config=1 fixtures=2 specs=3 PASS' and backend/scripts/infra_verification.py counts e2e/tests/*.spec.ts and e2e/fixtures/*.ts EXACTLY - a new *.spec.ts makes specs=4 and a new fixtures file makes fixtures=3; tests[141] (t28) RE-EXECUTES infra_verification.py and byte-compares the PASS lines against the committed file (so the mismatch fires even though t52 never touches infra_verification); and tests[137] (t27) greps e2e/tests/*.ts with 'sharedAccount|shared_user|beforeAll(.*login' counters and '! grep -qE afterEach|afterAll e2e/tests/*.ts' - a capture spec with teardown or a shared seeded account breaks both. The card's own Constraints ('e2e config/fixtures may gain the capture-only project ONLY if the runner needs it - record the delta') do not name this trap. REMEDY (MANDATORY at groom t52): pin the capture script OUTSIDE e2e/tests/*.spec.ts and e2e/fixtures/*.ts (e.g. e2e/scripts/capture.mjs or a backend/scripts sibling), keep playwright.config.ts testDir unchanged, and re-execute tests[137]/[141]/[143] verbatim AFTER the placement decision as a groom-time gate; verifier fails the card if E2E_ARTIFACTS drifts from config=1 fixtures=2 specs=3."
+      },
+      {
+        "issue_id": "t53",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 'EIGHT CHAPTER 15 NAMES' COUNT IN ac2 IS WRONG UNDER ANY READING - t53 ac2 pins the documentation-map row 'docs/ (the eight Chapter 15 names + team/ three + the repo-native files)'. Chapter 15 section 15.3 enumerates TWELVE sub-documents (REQ-DOC-020..029 map architecture, api, process, ai-workflow, design-system, testing-guidelines, agent-extension-pack, permissions, task-template, team/*); after t48/t50/t51 land, the Chapter-15-derived set present in docs/ is NINE files (architecture, api, process, ai-workflow, design-system, testing-guidelines, agent-extension-pack, permissions, task-template) PLUS team/ (three); today only agent-extension-pack.md and permissions.md exist. Eight matches no reading. Because ac3/ac2 pin MEASURED counts as PASS lines (REQ-PROD-043 'measurable counts'), a wrong literal count baked into the generator becomes a false PASS/RED at merge. REMEDY (groom t53): derive the count from the Chapter 15 name list at run time (or pin 'nine Chapter 15 files + team/ three') and cross-check the repo-native remainder (backlog, plan, requirements, coding_standards, commands, config_reference, documentation_standards, criteria/) so the row's number is measured, not asserted."
+      },
+      {
+        "issue_id": "t53",
+        "category": "other",
+        "severity": "warning",
+        "description": "W5 ac6 CITES ALREADY-STALE-RED ENTRIES 167/177 AS THE ops/ VOCABULARY SOURCE - t53 ac6 requires 'security/ and ops/ exact sets unchanged (entries 161/167/177 vocabulary)'. Verified: tests[167] (t37) and tests[177] (t38) each contain 'test -z \"$(find ops -type f ! -name .gitkeep)\"' and assert ops/ is .gitkeep-ONLY - that assertion is RED on today's tree (ops/ contains .gitkeep + runbook.md, health-check.md, diagnosis.md, logging.md, deployment-health.md, added by t39/t41). The cards' own model (t53 Constraints: 'stored-entry re-execution reads commands FROM merge_test_index.json by index+issue_id identity') is a SELECTIVE menu, not full replay, so citing '161/167/177' as a set to re-execute would import two known-red commands into the project-wide exit composite; citing them for 'vocabulary' only is legitimate but must say so. tests[161] (t36) is Makefile-grep based and stays green. REMEDY (groom t53): do NOT pin tests[167]/[177] commands; pin a NEW ops/ exact-set leg listing the current six contents (.gitkeep + the five docs) and the security/ eight (REQ-SEC-003, verified present and matching), and state that 167/177 supply wording only, superseded by t39/t41 growth - the same amend-and-disclose precedent as entry 139."
+      },
+      {
+        "issue_id": "t50",
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 REQ-AI-111 FIELD LIST MIS-ATTRIBUTED AND CORRECTION FLOOR BELOW REQ-AI-121 - two citation defects in one AC pair. (a) ac2 pins 'each with the REQ-AI-111 fields (date, goal, context provided, actions, outcome, follow-up)' but REQ-AI-111's actual statement is 'date, tool, prompt, agent output, human review, and commit' - the card's six field names are card-invented and mis-branded as the requirement's; a verifier checking 'REQ-AI-111 fields' against requirements.md gets a mismatch. (b) ac3 requires 'at least three dated correction entries' while REQ-AI-121 requires SIX recorded example corrections covering pagination, Decimal, isolation, aggregation, heatmap week start, and referential integrity - three passes the card but under-satisfies the requirement the card claims to implement (t50's own Metadata cites REQ-AI-120..122). REMEDY (groom t50): either quote REQ-AI-111's six real field names or present the card's six as a documented superset mapping; raise the correction floor to six (the repo's measured history - Option A-ter amendment, t44 semgrep recipe, plus four more traceable WAL/merge_history-sourced entries - supports six) or explicitly defer the remainder with a disclosure row."
+      },
+      {
+        "issue_id": "t50",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 'TWELVE REQ-DOC-023 SECTIONS' BUT THIRTEEN ARE LISTED - ac1 requires 'the twelve REQ-DOC-023 sections as headings: tools, workflow, context engineering, roles, orchestration, example prompts, session records, correction log, skills, subagents, MCP tools, review, data policy'. That enumeration is thirteen items and REQ-DOC-023 itself states thirteen ('tools, workflow, context engineering, roles, orchestration, example prompts, session records, correction log, skills, subagents, MCP tools, review, and data policy'). A builder that honors 'twelve' merges or drops one heading and fails the requirement's own list; a verifier counting headings gets 13 vs the literal 'twelve'. REMEDY (groom t50): write 'thirteen' and pin the heading-count leg as an exact 13-heading grep count matching the REQ-DOC-023 list one-for-one."
+      },
+      {
+        "issue_id": "t50",
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 SCAN-TIMING VOCABULARY DRIFTS FROM REQ-SEC-072'S FIVE PHASE ANCHORS - REQ-SEC-072 states scans run 'after auth, after CRUD, after dashboard, before deployment, and after final changes' (five anchors; its only Verification is 'Read docs/ai-workflow.md'). t50 ac4 instead says 'states when each of the five scans runs (pre-commit / on-demand make security / pre-merge / release)' - the parenthetical lists FOUR repo-native anchors for five scans and never carries the requirement's phase anchors. The card correctly adds REQ-CICD-073 ('scans are NOT in CI', verified real) and the t41 deferred-row heading pattern, but if the shipped section only uses the repo-native vocabulary, the plain-language check 'Read docs/ai-workflow.md' against REQ-SEC-072's wording is judgment-dependent, and this section CLOSES the SCAN_TIMING_DOC deferral - closure evidence should be unambiguous. REMEDY (groom t50): the pinned scan-timing leg must grep BOTH the five REQ-SEC-072 phase anchors verbatim AND the repo-native mapping (pre-commit/on-demand/pre-merge/release), five-to-five, plus the not-in-CI statement."
+      },
+      {
+        "issue_id": "t49",
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 CHAPTER 24.3 (15 ROWS) VS CHAPTER 24.5 (14 CRITERIA) TABLE QUALIFICATION MISSING (t49+t53, phase_6 W2 CLASS) - t53 ac3 pins 'EXACTLY 15 rows for criteria 1-15' and t49/t53 also cite 'all 14 criteria have evidence' (REQ-DOC-072, REQ-PROJ-009). Verified against docs/requirements.md: the Chapter 24.3 quality-acceptance table has EXACTLY 15 rows (rows 14/15 are reviewer-reproduction and the 5-minute path, as t53 claims) and the 24.5 criteria table has EXACTLY 14 rows - both numbers are CORRECT but they live in DIFFERENT tables and the cards mix '14 criteria' and 'criteria 1-15' without table qualifiers, the exact defect class filed as phase_6 W2. REMEDY (groom t49/t53): qualify every row citation as 24.3-N or 24.5-N in the mapping table headers and pinned tokens, keeping each row's REQ id equal to the id requirements.md names for that row."
+      },
+      {
+        "issue_id": "t48",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W10 FILE-COUNT GRANULARITY ABOVE THE CONFIGURED CEILING (warn_only) - docs/config.yaml limits.issue_granularity sets max_files 4 with warn_only true. t48 touches SIX files (docs/process.md, docs/task-template.md, docs/team/pm.md, docs/team/software-engineer.md, docs/team/qa-engineer.md, plus its ownership-table host doc) and t49 touches SEVEN (product-spec.md, CLAUDE.md, openapi.yaml, README.md, ops/runbook.md typo fix, criteria mapping host, handoff); t48's and t49's own Constraints call 6-7 files 'the deliberate ceiling - 4-6 files, warn_only advisory', which understates t49's seven. AC counts are all exactly 6 = max_acs (at cap, not over). Splitting is NOT recommended: the file sets are single-purpose doc clusters and the milestone is doc-only with zero test-node growth. Recorded as the granularity check's required warning; survey/plan text should also stop describing the limit as '8 files' where it appears - the authoritative value is docs/config.yaml max_files 4 (warn_only)."
+      },
+      {
+        "issue_id": "t43",
+        "category": "other",
+        "severity": "warning",
+        "description": "W11 dag.json STATUS FOR t43 IS STALE VS THE BACKLOG - the survey's disclosed baseline repair added missing nodes with statuses 'cross-checked against docs/backlog.md', but docs/state/dag.json still carries t43 with status 'defined' while docs/backlog.md shows #46/t43 CLOSED (closed in the phase_7 window; the Option A-ter identity-only precedent entry 139 belongs to it). Cosmetic - no edge, batch, or gate reads node status - but the survey's own cross-check claim is imperfect and a future full-DAG status audit would trip on it. REMEDY: orchestrator fixes the one status field at the next dag.json touch (review is read-only; not worth a dedicated commit)."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W12 DEPENDENCY-CHAIN LENGTH: MILESTONE-LOCAL PASSES, CUMULATIVE STAYS A STANDING WARN - verified the regenerated DAG: 54 nodes / 91 edges, Kahn topological order exists, 0 cycles, 0 orphans (t0 root), 0 dangling endpoints, every 'depends:' in the six cards matches a DAG edge bidirectionally, and backlog dependency rows agree with the DAG. The milestone-local critical path is 4 edges (t48->t49->t51->t52->t53, equal-length twin via t50) which is BELOW dep_chain_warn 10 - PASS for this milestone per the phase_6/phase_7 milestone-local precedent. The cumulative longest chain is 34 edges (...t41->t48->t49->t50->t52->t53), above dep_chain_halt 20 if ever judged cumulatively - carried as the standing WARN the survey disclosed, not re-litigated here."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W13 PLATFORM ISSUE BODIES ARE TRUNCATED TO THEIR FIRST LINE - THE FULL CONTRACTS LIVE ONLY IN GITIGNORED build/ - the six platform issues (#51 t48, #52 t49, #53 t50, #54 t51, #55 t52, #57 t53; #56 closed duplicate of #55) carry bodies of only 54-137 bytes: the cmd.exe 8191-char command-line ceiling truncated the create payloads to the title line. The authoritative 6-7.8 KB contracts exist ONLY in build/p8_t48..t53_body.md, and build/ is gitignored (.gitignore line 185) - one clean away from being unrecoverable. The survey disclosed the duplicate-#56 incident but NOT this truncation. CLASSIFICATION: warning, because groom is contracted to author docs/issues/<id>.md from the authoritative text anyway (established since t44) and this review treated the build/ files as authoritative (all findings above cite their full text). REMEDY (MANDATORY before/at groom): re-push each full body via 'scripts/platform.ts issue update' (file-based, not command-line-inlined) or at minimum copy the six build/p8_t*_body.md files into the repo alongside the groomed cards; until then the platform is not the source of truth and no one but this machine can see the contracts."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W14 SURVEY FLOOR MATH '>= 193' CONTRADICTS THE CARDS' OWN APPEND PLAN - the survey notes carry 'merge_test_index >= 188 as a FLOOR rising +1 per card t48..t52 (t53 +0) -> >= 193 by milestone end', but every card's Definition of Done says 'merge_test_index appended for ac1..ac5 only (composite excluded)' = +5 per card, so the end count is 188 + 25 = 213, not 193. The CARDS are safe: all six pin only 'merge_test_index >= 188 entries (FLOOR; grows with this milestone's appends)' and t53 re-attests >= 188, never 193 - the wrong number lives only in survey prose and plan.md's carried floor text. Warning because a future exact-count gate minted from the survey note (193) would be wrong in a way that looks authoritative. REMEDY: orchestrator/groom treat 188 as the only pinned floor and the DoD +5/card model as the growth contract; strike 193 from any text groom touches."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W15 COVERAGE AUDIT RESULT - NO GAP; BUT THE ORCHESTRATOR-MANDATED 'REQ-PROC/REQ-TEAM' FAMILIES DO NOT EXIST - machine coverage over all 748 canonical REQ ids in docs/requirements.md: every id is either cited by a phase_8 card, or lands in an earlier closed milestone (the 7 uncited REQ-DOC ids all map to already-shipped surfaces), so NO coverage_gap finding is filed for the milestone itself; zero phantom citations exist in any of the six cards (the mid-run 'REQ-SEC-003 phantom' scare was a regex artifact - REQ-SEC-003 IS defined, 'security/ contains' the eight names, and t53 ac2's 'REQ-SEC-003 eight names' is exactly right). However, the mandated coverage mapping references REQ-PROC-* and REQ-TEAM-* families that have ZERO ids in requirements.md - the real requirements for that surface are REQ-DOC-022 (process.md roles/orchestrator/lifecycle), REQ-DOC-028 (task-template four grooming sections), REQ-DOC-029 (team/ three role files), REQ-DOC-063 (ownership table), REQ-AI-045/REQ-PLAN-110/112 - all correctly assigned to t48/t50. Recorded as a warning against the milestone (not the cards) so the plan vocabulary stops citing fictional families. Duplicate/contradiction check: no two cards share an AC (file sets are disjoint by the FORBIDDEN lists), no contradictory ACs (README pin chain t48 ac6 8d141fb2 -> t49 pin-1 -> t50/t51 byte-UNCHANGED carry -> t52 FINAL pin-2 -> t53 re-attest is consistent end to end; the digest is NOT a stored gate, so amendments are legal per the entry-139 precedent). SCAN_TIMING_DOC closure is consistent: the t41 deferred row (tests[187]/[188]) is scoped to security_ops_verification.md, t50 lands the section, t53's CLOSED row lives in docs_verification.md so it cannot redden the byte-pinned t41 register; exactly 4 LIVE_* rows carry (5 t41 rows minus SCAN_TIMING_DOC). No card re-plans t47/#50 or #45: no DAG edge or card text assigns them phase_8 work; t52 FORBIDDEN explicitly protects the t47 diff and t53 reports E2E status, never gates it (ruling 7)."
+      }
+    ],
+    "checks": [
+      "Step 1 COVERAGE: 748 canonical REQ ids extracted from docs/requirements.md; all six card bodies (authoritative build/p8_t48..t53_body.md) machine-scanned - 0 phantom citations (REQ-SEC-003 CONFIRMED defined, 8 security/ names match; earlier phantom report was a regex artifact), 53 distinct ids cited, all resolve; 7 uncited REQ-DOC ids verified landed in earlier milestones; no coverage_gap for the milestone (W15 records the mandated-but-nonexistent REQ-PROC/REQ-TEAM vocabulary).",
+      "Step 2 GRANULARITY: 6/6 cards at exactly 6 ACs (= max_acs cap); file counts t48=6, t49=7 vs max_files=4 warn_only -> W10; no card at AC=1/files=0 (no granularity_too_small).",
+      "Step 3 DEPENDENCY: dag.json 54 nodes/91 edges - Kahn topological order exists, 0 cycles, 0 orphans, 0 dangling endpoints; all six cards' depends: match DAG edges bidirectionally; backlog rows agree; milestone-local critical path 4 edges < dep_chain_warn 10 (PASS), cumulative 34 edges standing WARN (W12); no edges to t42/t43/t45/t46/t47 -> no re-plans.",
+      "Step 4 DUPLICATE/CONTRADICTION: file sets disjoint via FORBIDDEN lists -> no duplicate_ac; README pin chain (8d141fb2 -> pin-1 t49 -> carry t50/t51 -> pin-2 t52 -> re-attest t53) consistent -> no contradictory_ac; t52 FORBIDDEN vs t47/#50 and t53 report-only E2E verified.",
+      "ORCHESTRATOR-MANDATED CHECKS: README pin chain consistent (W1/W2 refine the gate set and convention); t52 no-browser-leg gate rule present in card (ruling: browser leg attested-only, W3 adds the placement trap); t53 >=188 floor safe, survey 193 wrong (W14); SCAN_TIMING_DOC closure consistent (tests[187] scoped to security_ops_verification.md, 4 LIVE_* rows = 5-1); exactly 4 LIVE_* re-test rows confirmed; no card re-plans t47/#50/#45.",
+      "MERGE-TEST-INDEX CROSSCHECK: 188 entries today; all cited numbers resolve under 0-based tests[] (README gates = EXACTLY the 8 README-mentioning entries 27/119/128/135/144/149/150/155, of which only 27/119/128/135 gate root README.md; tests[134]=render.yaml; tests[16]/[54] anchors = t2/t9 byte-unchanged as pinned; tests[167]/[177] ops/ .gitkeep-only legs already stale-red -> W5).",
+      "CHAPTER TABLES: 24.3 = exactly 15 rows (t53 ac3 correct), 24.5 = exactly 14 rows (REQ-DOC-072/REQ-PROJ-009 '14 criteria' correct) -> W9 qualification only; REQ-CICD-073 confirmed real (t50 ac4 not-in-CI leg sound)."
+    ],
+    "notes": "Resumed run: the previous attempt terminated on intermediate analysis text and a 96-byte placeholder; this run completed Chapter 24.3 verification and every remaining step, adjudicated both open questions (REQ-SEC-003 EXISTS - phantom report was a regex artifact, no finding; platform truncation filed as W13 with mandatory remedy), and retracted the suspected off-by-one after proving the 0-based tests[idx] convention (W2 records the undeclared-convention risk instead). Card text was reviewed from build/p8_t48..t53_body.md (gitignored; see W13). All 15 findings are warning severity -> PASS_WITH_WARNINGS per Step 5. Orchestrator next: groom batch [t48,t49] honoring the mandatory groom remedies in W1/W3/W5/W6/W7/W8/W9/W13/W15."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_8_docs.json",
+      "docs/state/outputs/phase_8_docs_definer_review_plan.json"
+    ],
+    "platform_issue": 51,
+    "output_path": "docs/state/outputs/phase_8_docs_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T16:45:00Z",
+  "retry_count": 0
+}
