@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T08:12:17.703Z",
+  "updated_at": "2026-10-12T08:15:38.107Z",
   "last_seq": 543,
   "slots": [
     {
@@ -11,17 +11,8 @@
       "run_id": "698207a0-7f6a-4254-a90d-0d1e51441caa",
       "spawn_at": "2026-10-12T07:30:00Z",
       "last_activity_at": "2026-10-12T08:12:17.703Z",
-      "worktree_path": "(managed worktree)"
-    },
-    {
-      "slot_id": "slot_2",
-      "issue_id": "t43",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "ce11ea09-1715-4c96-ab0d-16637fb76ca4",
-      "spawn_at": "2026-10-12T06:40:00Z",
-      "last_activity_at": "2026-10-12T08:12:17.703Z",
-      "worktree_path": "(managed worktree)"
+      "worktree_path": "(managed worktree)",
+      "note": "active; over-cap by 1 (t43 timed out); dispatch freeze until <=2"
     },
     {
       "slot_id": "slot_3",
@@ -31,7 +22,8 @@
       "run_id": "342f1890-740a-4d19-9a8f-89813d74a01d",
       "spawn_at": "2026-10-12T09:45:00Z",
       "last_activity_at": "2026-10-12T08:12:17.703Z",
-      "worktree_path": "(managed worktree)"
+      "worktree_path": "(managed worktree)",
+      "note": "active; over-cap by 1 (t43 timed out); dispatch freeze until <=2"
     },
     {
       "slot_id": "slot_4_OVER_LIMIT",
@@ -42,11 +34,20 @@
       "spawn_at": "2026-10-12T10:10:00Z",
       "last_activity_at": "2026-10-12T08:12:17.703Z",
       "worktree_path": "(managed worktree)",
-      "note": "VIOLATION: dispatched beyond slots.max=3; dispatch freeze until active<=3"
+      "note": "active; over-cap by 1 (t43 timed out); dispatch freeze until <=2"
+    },
+    {
+      "slot_id": "queued_1",
+      "issue_id": "t43",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "ce11ea09-1715-4c96-ab0d-16637fb76ca4",
+      "status": "TIMED_OUT_resume_queued",
+      "note": "resume first on slot free (user E2E priority)"
     }
   ],
   "merge_queue": [],
-  "max_slots": 3,
+  "max_slots": 2,
   "active_issues": [
     {
       "issue_id": "t38",
@@ -74,5 +75,6 @@
         "groom_in_flight"
       ]
     }
-  ]
+  ],
+  "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)"
 }
