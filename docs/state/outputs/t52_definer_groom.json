@@ -220,10 +220,10 @@
     },
     "platform_sync": {
       "issue": 55,
-      "body": "synced to the full card content of docs/issues/t52.md (52,107 bytes > the 32,767-char cmdline ceiling), so the t54/t55 compiled-platform --body-file precedent was used: scripts/platform.ts was NOT modified; a scratch copy under .groomscratch/ (untracked, never committed) adds --body-file/--title-file and reads .env via a PLATFORM_ENV_FILE override, run with cwd = the MAIN checkout because the win32 host cannot receive WSL-exported env vars across the interop boundary.",
-      "title": "left as-is unless it contradicts the card; the card title line mirrors the issue title verbatim",
-      "labels": "moved defined -> groomed via PATCH /issues/55 with {\"labels\":[...]} (the /issues/<n>/labels sub-endpoint 404s) and READ BACK from the issue body",
-      "readback": "reported in the run handoff reply and in the durability block"
+      "body": "SYNCED AND READ BACK: platform issue #55 body replaced with the full committed card content (git show HEAD~1:docs/issues/t52.md, 52,107 bytes, LF-only, zero CR). 52,107 > the 32,767-char cmdline ceiling, so the t54/t55 --body-file precedent applied; scripts/platform.ts was NOT modified (a scratch .cjs under the untracked .groomscratch/ tree called the API directly with the same .env contract). Read-back GET confirms status 200, body_len 52107 and body sha256 81156291e013b046601a95d0fcb827f354a0c78ca90af0f5f0fa4bf92db34ba3 EQUAL to the sha256 of the local card bytes - the issue body is byte-identical to the card.",
+      "title": "LEFT AS-IS, deliberately, and this is precedent-conformant not an omission: the issue title is t52: screenshots/dashboard.png, expense-form.png, budget-page.png, health-check.png from a measured run + README pointers (final README byte-pin) while the card frontmatter title is the shorter ... + README byte-pin. Measured precedent: t55 card title != issue #59 title and t51/t54 likewise, so the card frontmatter title is not a mirror of the issue title anywhere in this repo. The tasking note says the title should be updated only if it contradicts the card; both strings name the same four screenshots and the README pin, so no contradiction exists and no title change was made.",
+      "labels": "MOVED defined -> groomed and READ BACK: PATCH /issues/55 with {\"labels\":[\"groomed\"]} (the /issues/<n>/labels sub-endpoint 404s in this platform, so the labels field rides the issue PATCH). Response labels [\"groomed\"]; independent GET read-back 3s later reports labels [\"groomed\"]. The repo has a groomed label defined, so no label creation was needed. Prior state was [\"defined\"] (verified by a GET taken before the PATCH); updated_at moved 2026-10-12T16:38:20Z -> 2026-10-12T23:51:29Z.",
+      "readback": "DONE via an independent GET after the PATCH: status 200, state open, labels [\"groomed\"], body_len 52107, body_sha256 81156291e013b046601a95d0fcb827f354a0c78ca90af0f5f0fa4bf92db34ba3 == local card sha256."
     },
     "disclosures": [
       "t55 dependency: ac2 reaches the backend THROUGH the dev-server proxy, so it requires t55 (platform #59) merged. At groom time t55 is NOT merged, so ac2 GREEN was measured on the fixture with the proxy hunk applied by hand (see fixture.proxy_hunk). The fence ASSERTS the proxy rather than assuming it, and NC-A proves it REDs without it. The card frontmatter carries depends: [t50, t51, t55]; docs/state/dag.json records only the surveyed t52->t50 and t52->t51 edges (t55 is the later steering card and is absent from that graph) and this card adds no DAG edge - the orchestrator owns the graph.",
@@ -243,11 +243,12 @@
     "durability": {
       "branch": "groom/t52-screenshots",
       "base_commit": "5a8dbaee162e959069f9d0431448a4b93ab40c09",
-      "card_commits": "ad37147 t52-groom-card-ac-hash-fcd8b14b (card only: 300 lines inserted, five headings, five fences, pin line already inserted)",
+      "card_commits": "ad371479b7d402023b4bfa26dc7cd43d90b8ba7a t52-groom-card-ac-hash-fcd8b14b (card only, 300 lines inserted: five H2 headings, five bash fences, ac_hash pin line already inserted)",
       "pin_commit": "ad37147 - the pin was computed from the working card, then RECOMPUTED from git show HEAD:docs/issues/t52.md faithful bytes: sha256:fcd8b14bf7adb534b327257e5f9c0bdd1871559705fca28891330637b2a8ae80 MATCH, 5 fences, lengths 2983/7634/8005/3367/4786",
-      "handoff_commit": "see the run handoff reply - the commit that adds docs/state/outputs/t52_definer_groom.json follows the card commit; no amend and no force push anywhere in this run, so the branch tip is the last commit and is verified by ls-remote",
-      "pushed": "pending in this run: git push -u origin groom/t52-screenshots via cmd.exe </dev/null; refs/heads/main was NEVER a push target",
-      "ls_remote_verified": "pending in this run: git ls-remote origin refs/heads/groom/t52-screenshots refs/heads/main, with the pushed tip compared to the local tip and refs/heads/main reported for the record (main advanced independently by orchestrator docs commits and NEVER by this run)"
+      "pushed": "DONE: git push -u origin groom/t52-screenshots via cmd.exe </dev/null created the branch (* [new branch] groom/t52-screenshots -> groom/t52-screenshots) and set upstream tracking. refs/heads/main was NEVER a push target in this run.",
+      "ls_remote_verified": "DONE: git ls-remote origin refs/heads/groom/t52-screenshots refs/heads/main -> 84a4abaf81fa9aedcbbd1194a098ee019d7cd79f refs/heads/groom/t52-screenshots (matches the local tip exactly) and 008a8165ae4134c8e34d1ea6a71ca248616ab7c2 refs/heads/main. main advanced independently by orchestrator ingest commits (it was 14d9477 at base-selection time) and NEVER by this run. NOTE: this file is updated after that push, so the final branch tip is the sha reported in the run handoff reply, not 84a4aba.",
+      "handoff_commits": "first handoff commit 84a4abaf81fa9aedcbbd1194a098ee019d7cd79f t52-groom-handoff-ac-hash-fcd8b14b (275 insertions, 62076 bytes), then one append-only durability/platform-sync update commit in this same run. No amend and no force push anywhere in this run, so the branch tip is the last commit and is verified by ls-remote. The tip sha of the FINAL commit cannot be recorded inside this file (a commit cannot contain its own sha); it is reported in the run handoff reply and is ls-remote verified there.",
+      "branch_delta_vs_base": "git diff --name-only 5a8dbae HEAD on the groom branch -> docs/issues/t52.md, docs/state/outputs/t52_definer_groom.json (EXACTLY two files: the card and this handoff, which is precisely what the card itself ships and what ac4 permits as the docs delta; zero non-docs delta, which is why ac4 is RED on this branch by design)"
     },
     "builder_guidance": [
       "Run the five fenced commands verbatim from docs/issues/t52.md, in ac1..ac5 order, from the repo root on your builder branch, and record each rc. Do not paraphrase them; the ac_hash pins their bytes.",
@@ -270,6 +271,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-12T23:46:43.114Z",
+  "timestamp": "2026-10-12T23:52:00.424Z",
   "retry_count": 0
 }
