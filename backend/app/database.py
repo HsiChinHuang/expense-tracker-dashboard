@@ -91,9 +91,11 @@ def create_db_engine(database_url: str) -> Engine:
     if IS_FALLBACK:
         return _sqlite_engine(FALLBACK_DATABASE_URL)
     try:
-        return create_engine(
+        engine = create_engine(
             database_url, connect_args={"connect_timeout": DB_CONNECT_TIMEOUT}
         )
+        psycopg_connect_probe(database_url)
+        return engine
     except (SQLAlchemyError, OSError, ImportError):
         logger.warning(
             "PostgreSQL unreachable for %s; falling back to %s (REQ-BE-130)",
@@ -102,6 +104,51 @@ def create_db_engine(database_url: str) -> Engine:
         )
         IS_FALLBACK = True
         return _sqlite_engine(FALLBACK_DATABASE_URL)
+
+
+PRIMARY_PROBE_PASSED: bool = False
+"""Latched once the wire-level connect probe has succeeded (REQ-BE-133):
+a successful startup probe is never re-run per request; re-probing
+requires a process restart.
+"""
+
+
+def psycopg_connect_probe(database_url: str) -> None:
+    """Force the driver import and a real wire connect inside the caller's try.
+
+    `create_engine` resolves the DBAPI driver lazily, so a missing
+    psycopg driver or an unreachable primary surfaced only at the first
+    `.connect()` — OUTSIDE `create_db_engine`'s `try` — and the REQ-BE-130
+    SQLite fallback never engaged (t43 live defect). This probe imports
+    psycopg (an `ImportError` propagates straight into the caller's
+    except tuple) and performs a real connect attempt; any
+    `psycopg.Error` (connection refused, DNS failure, timeout, auth
+    failure) is translated to `OSError` so the same except tuple catches
+    it and the fallback engages. A passing probe latches
+    `PRIMARY_PROBE_PASSED` so later per-request calls skip re-probing
+    (startup-only probe, REQ-BE-133).
+
+    Args:
+        database_url: The non-SQLite SQLAlchemy URL about to be used.
+
+    Raises:
+        ImportError: The psycopg driver is not installed.
+        OSError: The psycopg wire layer reported a failure.
+    """
+    global PRIMARY_PROBE_PASSED
+    if PRIMARY_PROBE_PASSED:
+        return
+    import psycopg
+
+    dsn = make_url(database_url).set(drivername="postgresql").render_as_string(
+        hide_password=False
+    )
+    try:
+        connection = psycopg.connect(dsn, connect_timeout=DB_CONNECT_TIMEOUT)
+    except psycopg.Error as exc:
+        raise OSError("psycopg connect probe failed") from exc
+    connection.close()
+    PRIMARY_PROBE_PASSED = True
 
 
 def initialize_database(engine: Engine) -> int:
