@@ -50,7 +50,7 @@
 | t46 | E2E uv-cache permission fix - runtime user app cannot init root-owned /tmp/uv-cache (measured: Permission denied; container dies 0.1s) | [t42] | #49 | closed |
 | t47 | Postgres migration portability - boolean defaults + portable year_month CHECK + DDL-pin tests (E2E final blocker) | [t46] | #50 | closed |
 | t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | closed |
-| t48 | Process/task-template/role docs - docs/process.md, docs/task-template.md, docs/team/*, docs/ownership.md | [t41] | #51 | groomed |
+| t48 | Process/task-template/role docs - docs/process.md, docs/task-template.md, docs/team/*, docs/ownership.md | [t41] | #51 | built |
 | t49 | Root reviewer docs - product-spec.md, CLAUDE.md, exported openapi.yaml, README criteria map + evidence checklist + 5-minute paths, render.yaml residual, runbook make e2e typo | [t48] | #52 | defined |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | [t48, t49] | #53 | defined |
 | t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | defined |
