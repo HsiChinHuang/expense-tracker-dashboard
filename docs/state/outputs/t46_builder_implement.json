@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t46",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t46-uv-cache-permission",
+    "branch_sha": "c2a867f",
+    "base_sha": "064e4dd4f91adf4113daf32601c9b691a4d5b31d",
+    "groom_tip": "029d2510eaa879b70f5690f46013861e0e21bc32",
+    "ac_hash": "sha256:c52bd064a0b0b5095baea7d5947f7804cac0a0078076fb4181e16cd54f2f126c",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "56bb093952f249725c1d8ef1a8d3c592b57967f8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v node >/dev/null || exit 1; command -v uv >/dev/null || exit 1; tr -d \"\\r\" < Dockerfile > /tmp/t46-df.txt || exit 1; grep -qE \"^ENV UV_CACHE_DIR=/tmp/uv-cache$\" /tmp/t46-df.txt || { echo \"ac1: ENV UV_CACHE_DIR line drifted or missing\"; exit 1; }; grep -qE \"^RUN mkdir -p /tmp/uv-cache && chown -R app:app /tmp/uv-cache$\" /tmp/t46-df.txt || { echo \"ac1: the cache chown line is missing\"; exit 1; }; node -e \"const l=require(\\\"fs\\\").readFileSync(\\\"/tmp/t46-df.txt\\\",\\\"utf8\\\").split(\\\"\\n\\\");const i=p=>l.findIndex(x=>x.startsWith(p));const sync=i(\\\"RUN uv sync --frozen --no-dev\\\"),ch=i(\\\"RUN mkdir -p /tmp/uv-cache\\\"),co=i(\\\"RUN chown -R app:app /app/backend\\\"),u=i(\\\"USER app\\\");if(!(sync>=0&&ch>sync&&u>ch)){console.error(\\\"ac1: ordering wrong - sync=\\\"+sync+\\\" backend-chown=\\\"+co+\\\" cache-chown=\\\"+ch+\\\" USER=\\\"+u);process.exit(1)}console.log(\\\"ac1 ordering GREEN: sync<cache-chown<USER\\\")\" || exit 1; for n in 126 129; do eval \"$(node -e \"const i=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));process.stdout.write(i.tests[$n].command)\")\" >/dev/null 2>&1 || { echo \"ac1: merge_test_index entry $n (t24 Dockerfile contract) fails against the repaired Dockerfile\"; exit 1; }; done; echo \"ac1 GREEN: cache chown line present, ordered, index 126/129 pins green\"'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "56bb093952f249725c1d8ef1a8d3c592b57967f8",
+        "test": "bash -c 'command -v node >/dev/null || exit 1; test -f frontend/node_modules/js-yaml/package.json || { echo \"ac2: js-yaml unavailable - run npm ci in frontend first\"; exit 1; }; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./frontend/node_modules/js-yaml\\\");const d=y.load(fs.readFileSync(\\\"docker-compose.yml\\\",\\\"utf8\\\"));const v=d.services.app.environment.CORS_ORIGINS;if(typeof v!==\\\"string\\\"){console.error(\\\"ac2: CORS_ORIGINS is not a string: \\\"+JSON.stringify(v));process.exit(1)}let p;try{p=JSON.parse(v)}catch(e){console.error(\\\"ac2: EnvSettingsSource would fail json.loads (base RED): \\\"+e.message);process.exit(1)}if(JSON.stringify(p)!==JSON.stringify([\\\"http://localhost:5173\\\"])){console.error(\\\"ac2: parsed value is not the expected origin list: \\\"+JSON.stringify(p));process.exit(1)}console.log(\\\"ac2 CORS leg GREEN: parses to \\\"+JSON.stringify(p))\" || exit 1; tr -d \"\\r\" < docker-compose.yml | grep -qE \"^      CORS_ORIGINS: .\\[\\\"http://localhost:5173\\\"\\].$\" || { echo \"ac2: the literal compose line is not the quoted JSON form\"; exit 1; }; export PATH=\"$HOME/.local/bin:$PATH\"; for n in 125 127; do eval \"$(node -e \"const i=JSON.parse(require(\\\"fs\\\").readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));process.stdout.write(i.tests[$n].command)\")\" >/dev/null 2>&1 || { echo \"ac2: merge_test_index entry $n (t24 compose contract) fails against the repaired compose file\"; exit 1; }; done; echo \"ac2 GREEN: CORS JSON parses, literal line exact, index 125/127 pins green\"'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "56bb093952f249725c1d8ef1a8d3c592b57967f8",
+        "test": "bash -c 'command -v docker >/dev/null || { echo \"ac3: docker CLI missing - this gate does not skip, it fails\"; exit 1; }; cmd.exe /c \"docker version --format {{.Server.Version}}\" </dev/null 2>&1 | tr -d \"\\r\" | grep -qE \"^[0-9]\" || { echo \"ac3: docker daemon unreachable - start Docker Desktop, do not skip\"; exit 1; }; G=$(wslpath -w \"$PWD\"); cmd.exe /c \"cd /d $G && docker compose down -v --remove-orphans\" </dev/null >/dev/null 2>&1; cmd.exe /c \"cd /d $G && docker compose up -d --build\" </dev/null >/tmp/t46_ac3_up.log 2>&1; UPRC=$?; if [ $UPRC -ne 0 ]; then echo \"ac3: compose up rc=$UPRC\"; tail -5 /tmp/t46_ac3_up.log; cmd.exe /c \"cd /d $G && docker compose down -v --remove-orphans\" </dev/null >/dev/null 2>&1; exit 1; fi; for i in $(seq 1 20); do sleep 3; lg=$(cmd.exe /c \"cd /d $G && docker compose logs --no-color app\" </dev/null 2>&1 | tr -d \"\\r\"); if printf \"%s\" \"$lg\" | grep -qE \"Failed to initialize cache|DatatypeMismatch|SettingsError|Running upgrade\"; then break; fi; done; cmd.exe /c \"cd /d $G && docker compose down -v --remove-orphans\" </dev/null >/dev/null 2>&1; if printf \"%s\" \"$lg\" | grep -q \"Failed to initialize cache\"; then echo \"ac3 RED: finding 1 alive - uv cache permission error still present\"; exit 1; fi; if printf \"%s\" \"$lg\" | grep -q \"SettingsError\"; then echo \"ac3 RED: finding 2 alive - CORS_ORIGINS SettingsError still present\"; exit 1; fi; if ! printf \"%s\" \"$lg\" | grep -qE \"Running upgrade|DatatypeMismatch\"; then echo \"ac3 RED: never reached the migration attempt within 60s (no Running upgrade / DatatypeMismatch in app logs)\"; exit 1; fi; echo \"ac3 GREEN: no cache error, no SettingsError, migration attempt reached (DatatypeMismatch, if present, is the KNOWN t47 residual, not a t46 regression)\"'",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "56bb093952f249725c1d8ef1a8d3c592b57967f8",
+        "test": "bash -c 'G=$(wslpath -w \"$PWD\"); b=$(cmd.exe /c \"git -C $G merge-base HEAD origin/main\" </dev/null | tr -d \"\\r\"); [ -n \"$b\" ] || exit 1; p=$(cmd.exe /c \"git -C $G diff --name-only $b HEAD\" </dev/null | tr -d \"\\r\" | grep -vE \"^docs/\" | sort | tr \"\\n\" \",\"); if [ \"$p\" != \"Dockerfile,docker-compose.yml,\" ]; then echo \"ac4: non-docs delta is [$p] - must be exactly Dockerfile,docker-compose.yml\"; exit 1; fi; cmd.exe /c \"git -C $G show $b:Dockerfile\" </dev/null > /tmp/t46-df-base || exit 1; cmd.exe /c \"git -C $G show $b:docker-compose.yml\" </dev/null > /tmp/t46-cp-base || exit 1; node -e \"const fs=require(\\\"fs\\\");const L=p=>fs.readFileSync(p,\\\"utf8\\\").replace(/\\r/g,\\\"\\\").split(\\\"\\n\\\");const CH=\\\"RUN mkdir -p /tmp/uv-cache && chown -R app:app /tmp/uv-cache\\\";const A=L(\\\"/tmp/t46-df-base\\\"),B=L(\\\"Dockerfile\\\");if(B.filter(l=>l===CH).length!==1){console.error(\\\"ac4: the chown line must appear exactly once in Dockerfile\\\");process.exit(1)}if(B.indexOf(CH)<0){console.error(\\\"ac4: chown line missing\\\");process.exit(1)}if(B.length!==A.length+2){console.error(\\\"ac4: Dockerfile must gain exactly 2 lines (chown + blank separator): +\\\"+(B.length-A.length));process.exit(1)}const k=B.indexOf(CH);let ok=false;for(const pair of [[k,k+1],[k-1,k]]){if(B[pair[0]]===CH&&B[pair[1]]===\\\"\\\"){const R=B.filter((x,y)=>y!==pair[0]&&y!==pair[1]);if(R.join(\\\"\\n\\\")===A.join(\\\"\\n\\\")){ok=true}}}if(!ok){console.error(\\\"ac4: Dockerfile delta is not exactly the chown-line + blank-line insertion\\\");process.exit(1)}const C=L(\\\"/tmp/t46-cp-base\\\"),D=L(\\\"docker-compose.yml\\\");if(C.length!==D.length){console.error(\\\"ac4: compose line-count drift - only one line may change\\\");process.exit(1)}let d=-1,n=0;for(let j=0;j<C.length;j++){if(C[j]!==D[j]){n++;d=j}}if(n!==1){console.error(\\\"ac4: \\\"+n+\\\" compose lines differ, expected exactly 1\\\");process.exit(1)}const Q=String.fromCharCode(39);const EXP=\\\"      CORS_ORIGINS: \\\"+Q+\\\"[\\\\\\\"http://localhost:5173\\\\\\\"]\\\"+Q;if(!/^      CORS_ORIGINS: /.test(C[d])||D[d]!==EXP){console.error(\\\"ac4: the changed compose line is not the CORS_ORIGINS JSON fix: \\\"+D[d]);process.exit(1)}console.log(\\\"ac4 delta analyzer GREEN: Dockerfile=1 insertion, compose=1 CORS line\\\")\" || exit 1; for f in .github/workflows/e2e.yml backend/app/config.py backend/app/models/budget.py backend/alembic/versions/001_initial_schema.py backend/alembic/versions/002_categories.py backend/alembic/versions/005_budgets.py backend/tests/integration/test_budget_migration.py render.yaml; do cmd.exe /c \"git -C $G show $b:$f\" </dev/null | tr -d \"\\r\" > /tmp/t46-frozen.bin || exit 1; tr -d \"\\r\" < \"$f\" > /tmp/t46-frozen-wt.bin || exit 1; cmp /tmp/t46-frozen.bin /tmp/t46-frozen-wt.bin || { echo \"ac4: frozen file drifted: $f\"; exit 1; }; done; echo \"ac4 GREEN: delta is exactly {Dockerfile, docker-compose.yml}, single-edit anatomy holds, frozen files cmp-clean\"'",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "56bb093952f249725c1d8ef1a8d3c592b57967f8",
+        "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || exit 1; command -v node >/dev/null || exit 1; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\"); n=$(printf \"%s\" \"$c\" | grep -c \"::\"); echo \"ac5 evidence: backend collected=${n:-0} (floor 270)\"; [ \"${n:-0}\" -ge 270 ] || exit 1; (cd backend && uv run pytest -q >/dev/null 2>&1) || { echo \"ac5: backend suite red\"; exit 1; }; m=$(cd backend && uv run mypy . 2>&1 | tr -d \"\\r\" | tail -1); echo \"ac5 evidence: mypy: $m\"; printf \"%s\" \"$m\" | grep -qE \"Success: no issues found\" || exit 1; mf=$(printf \"%s\" \"$m\" | grep -oE \"[0-9]+ source files\" | grep -oE \"[0-9]+\" | head -1); echo \"ac5 evidence: mypy files=${mf:-0} (floor 87)\"; [ \"${mf:-0}\" -ge 87 ] || exit 1; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac5: alembic head drifted from 005\"; exit 1; }; D=$(wslpath -w \"$PWD/frontend\"); out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" </dev/null 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac5: frontend failed tests present\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || exit 1; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || exit 1; fp=$(printf \"%s\" \"$out\" | grep -oE \"\\\"numPassedTests\\\":[0-9]+\" | grep -oE \"[0-9]+\" | head -1); echo \"ac5 evidence: frontend passed=${fp:-0} (floor 187)\"; [ \"${fp:-0}\" -ge 187 ] || exit 1; cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" </dev/null >/dev/null 2>&1 || { echo \"ac5: tsc red\"; exit 1; }; l=$(cmd.exe /c \"cd /d $D && npm.cmd run lint\" </dev/null 2>&1 | tr -d \"\\r\" | grep -cE \"react-refresh/only-export-components\"); echo \"ac5 evidence: react-refresh warnings=$l (exactly 4)\"; [ \"$l\" -eq 4 ] || exit 1; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce\" ] || { echo \"ac5: README drifted\"; exit 1; }; [ \"$(tr -d \"\\r\" < README.md | wc -l)\" -le 500 ] || exit 1; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac5: workflows set drifted: $w\"; exit 1; }; node -e \"const {execSync}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\");const i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<178){console.error(\\\"ac5: index below the 178-entry floor\\\");process.exit(1)}const P={131:\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\",132:\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\",133:\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\",135:\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"};for(const n of [131,132,133,135]){const t=i.tests[n];if(!t||typeof t.command!==\\\"string\\\"){console.error(\\\"ac5: missing index entry \\\"+n);process.exit(1)}if(h.createHash(\\\"sha256\\\").update(JSON.stringify(t)).digest(\\\"hex\\\")!==P[n]){console.error(\\\"ac5: byte-pin entry \\\"+n+\\\" changed\\\");process.exit(1)}execSync(t.command,{stdio:\\\"ignore\\\"})}const a=i.tests[16],b=i.tests[54];if(!a||a.issue_id!==\\\"t2\\\"||!b||b.issue_id!==\\\"t9\\\"){console.error(\\\"ac5: anchors moved\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\");if(H(a)!==\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"){console.error(\\\"ac5: anchor tests[16] bytes changed\\\");process.exit(1)}if(H(b)!==\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"){console.error(\\\"ac5: anchor tests[54] bytes changed\\\");process.exit(1)}if(!i.tests[139]||i.tests[139].issue_id!==\\\"t27\\\"){console.error(\\\"ac5: entry 139 identity changed (hash NOT pinned: t43-merge amendment fe5df831, identity-only by ruling)\\\");process.exit(1)}\" || exit 1; echo \"ac5 GREEN: MAIN floors composite holds (270/187/lint-4/tsc-0/mypy-87/head-005/README/workflows/index-178 pins+anchors, entry 139 identity-only)\"'",
+        "verdict": "PASS"
+      }
+    },
+    "ac_results": {
+      "ac1": {
+        "rc": 0,
+        "evidence": "ac1 ordering GREEN: sync<cache-chown<USER; ac1 GREEN: cache chown line present, ordered, index 126/129 pins green"
+      },
+      "ac2": {
+        "rc": 0,
+        "evidence": "ac2 CORS leg GREEN: parses to [\"http://localhost:5173\"]; literal compose line exact; index 125/127 pins green"
+      },
+      "ac3": {
+        "rc": 0,
+        "evidence": "real compose up -d --build + 60s observation + compose down -v --remove-orphans in-command; ac3 GREEN: no cache error, no SettingsError, migration attempt reached (DatatypeMismatch is the KNOWN t47 residual)"
+      },
+      "ac4": {
+        "rc": 0,
+        "evidence": "ac4 delta analyzer GREEN: Dockerfile=1 insertion, compose=1 CORS line; non-docs delta exactly [Dockerfile,docker-compose.yml]; 8 frozen files cmp-clean"
+      },
+      "ac5": {
+        "rc": 0,
+        "evidence": "backend collected=270 suite green; mypy Success 87 source files; alembic head 005; frontend 187 passed/0 failed/0 pending/0 todo; tsc rc=0; exactly 4 react-refresh warnings; README 8d141fb2 <=500 lines; workflows set unchanged; index 183>=178 with pins 131/132/133/135 executed green, anchors tests[16]=t2/tests[54]=t9 byte-pinned, entry 139 identity t27"
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "lint_status": "WARNINGS",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": {
+      "delta": "Exactly two files. Dockerfile: single insertion \"RUN mkdir -p /tmp/uv-cache && chown -R app:app /tmp/uv-cache\" (+ trailing blank line) placed after \"RUN chown -R app:app /app/backend\" and before \"USER app\"; ENV UV_CACHE_DIR=/tmp/uv-cache unchanged. docker-compose.yml: line 34 CORS_ORIGINS -> quoted JSON scalar '[\"http://localhost:5173\"]' (single changed line, equal line counts). CRLF line endings preserved as in base.",
+      "index_non_append": "docs/state/merge_test_index.json is BYTE-UNCHANGED (183 entries; git diff origin/main -- docs/state/merge_test_index.json is EMPTY on this branch). The orchestrator spawn directive asked for an index append of the per-AC gates excluding ac5; the card forbids any index change (## Out of scope: \"Changing any merge_test_index entry (no amend, no append for this card...)\"; ## Definition of Done: \"no index entry amended or appended\"). Supervisor was contacted and ruled: \"HOLD THE INDEX BYTE-UNCHANGED - the card is authoritative; my directive was wrong.\" No entry added or amended.",
+      "worktree_note": "Assigned worktree path pi-worktree-348fb3af-635b-47ef-b72b-134e105c0b1c-s0-0 did not exist at spawn; created it via cmd.exe git worktree add -b issue/t46-uv-cache-permission from origin/main (064e4dd, the t40-closure tip). No prior work was lost. origin/main advanced to 874393a (docs/state/snapshot.json orchestrator commit) during the run; merge-base with HEAD is 064e4dd, which is what ac4 uses, so the measured non-docs delta is unaffected.",
+      "docker_etiquette": "Daemon started via build/startdocker.cmd (up at ~4 min, server 29.8.2), ac3 run VERBATIM with in-command compose down -v --remove-orphans, then an explicit compose down -v, then Docker Desktop + com.docker.backend taskkilled BEFORE the ac5 frontend vitest legs (verified: docker info fails to connect). No foreign containers were touched (only this repo compose project).",
+      "ac_hash_anomaly": "Accepted/disclosed: the card-pinned ac_hash c52bd064 is not reproducible from committed bytes (recomputed here as 805979e2 under the stated recipe). Followed the orchestrator ruling: the five ac_mapping.test strings are byte-equal to the card’s ## Verification commands fences (verified byte-comparison against both the card file and the groom handoff ac_mapping/verification_commands).",
+      "lint": "No backend/frontend source code was changed by this delta. Frontend npm run lint reports exactly 4 react-refresh/only-export-components warnings (the pinned, pre-existing MAIN state asserted by ac5); no errors. Backend ruff/mypy unaffected (mypy Success 87 files).",
+      "platform_sync": "Platform #49: builder comment posted with the per-AC rc table; labels set to EXACTLY [built] (groomed removed) via scripts/platform.ts.",
+      "commit_layout": "Delta commit (the fix, referenced by ac_mapping.commit): 56bb093952f249725c1d8ef1a8d3c592b57967f8. Handoff tip commit (branch_sha, the pushed branch tip): the docs-only commit that follows it carrying this handoff file. All gates ac1-ac5 were executed with the working tree at the delta commit; ac4 was re-run rc=0 after the handoff commit to confirm the non-docs delta still parses as exactly {Dockerfile,docker-compose}."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "Dockerfile",
+      "docker-compose.yml",
+      "docs/state/outputs/t46_builder_implement.json"
+    ],
+    "platform_issue": 49,
+    "output_path": "docs/state/outputs/t46_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T13:28:55Z",
+  "retry_count": 0
+}
