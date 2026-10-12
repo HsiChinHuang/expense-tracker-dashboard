@@ -51,7 +51,7 @@
 | t47 | Postgres migration portability - boolean defaults + portable year_month CHECK + DDL-pin tests (E2E final blocker) | [t46] | #50 | closed |
 | t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | closed |
 | t48 | Process/task-template/role docs - docs/process.md, docs/task-template.md, docs/team/*, docs/ownership.md | [t41] | #51 | closed |
-| t49 | Root reviewer docs - product-spec.md, CLAUDE.md, exported openapi.yaml, README criteria map + evidence checklist + 5-minute paths, render.yaml residual, runbook make e2e typo | [t48] | #52 | defined |
+| t49 | Root reviewer docs - product-spec.md, CLAUDE.md, exported openapi.yaml, README criteria map + evidence checklist + 5-minute paths, render.yaml residual, runbook make e2e typo | [t48] | #52 | groomed |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | [t48, t49] | #53 | defined |
 | t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | defined |
 | t52 | Screenshots - dashboard/expense-form/budget-page/health-check PNGs from a measured run + README pointers (final README pin) | [t50, t51] | #55 | defined |
