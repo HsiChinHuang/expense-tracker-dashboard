@@ -8,7 +8,7 @@
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t46-uv-cache-permission",
-    "branch_sha": "c2a867f",
+    "branch_sha": "6be5dbb7dce2e5eb4bb4229e09e36a2794a558c0",
     "base_sha": "064e4dd4f91adf4113daf32601c9b691a4d5b31d",
     "groom_tip": "029d2510eaa879b70f5690f46013861e0e21bc32",
     "ac_hash": "sha256:c52bd064a0b0b5095baea7d5947f7804cac0a0078076fb4181e16cd54f2f126c",
@@ -76,7 +76,8 @@
       "ac_hash_anomaly": "Accepted/disclosed: the card-pinned ac_hash c52bd064 is not reproducible from committed bytes (recomputed here as 805979e2 under the stated recipe). Followed the orchestrator ruling: the five ac_mapping.test strings are byte-equal to the card’s ## Verification commands fences (verified byte-comparison against both the card file and the groom handoff ac_mapping/verification_commands).",
       "lint": "No backend/frontend source code was changed by this delta. Frontend npm run lint reports exactly 4 react-refresh/only-export-components warnings (the pinned, pre-existing MAIN state asserted by ac5); no errors. Backend ruff/mypy unaffected (mypy Success 87 files).",
       "platform_sync": "Platform #49: builder comment posted with the per-AC rc table; labels set to EXACTLY [built] (groomed removed) via scripts/platform.ts.",
-      "commit_layout": "Delta commit (the fix, referenced by ac_mapping.commit): 56bb093952f249725c1d8ef1a8d3c592b57967f8. Handoff tip commit (branch_sha, the pushed branch tip): the docs-only commit that follows it carrying this handoff file. All gates ac1-ac5 were executed with the working tree at the delta commit; ac4 was re-run rc=0 after the handoff commit to confirm the non-docs delta still parses as exactly {Dockerfile,docker-compose}."
+      "commit_layout": "Delta commit (the fix, referenced by ac_mapping.commit): 56bb093952f249725c1d8ef1a8d3c592b57967f8. Handoff tip commit (branch_sha, the pushed branch tip): the docs-only commit that follows it carrying this handoff file. All gates ac1-ac5 were executed with the working tree at the delta commit; ac4 was re-run rc=0 after the handoff commit to confirm the non-docs delta still parses as exactly {Dockerfile,docker-compose}.",
+      "sha_layout": "branch_sha = 6be5dbb7dce2e5eb4bb4229e09e36a2794a558c0 holds this handoff content. The PUSHED branch tip is one or more docs-only follow-up commits after it (a handoff cannot embed the sha of its own containing commit); read it authoritatively via git ls-remote origin issue/t46-uv-cache-permission. ac_mapping.commit = 56bb093952f249725c1d8ef1a8d3c592b57967f8 is the sole code-delta commit; all handoff commits touch docs/state/outputs only, and ac4 was re-run rc=0 after them (non-docs delta still exactly {Dockerfile,docker-compose.yml})."
     }
   },
   "artifacts": {
