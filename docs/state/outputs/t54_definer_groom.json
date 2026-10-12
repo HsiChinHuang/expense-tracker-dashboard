@@ -141,9 +141,9 @@
       "base_commit": "d540780927794425781de8fb89852fd6b3ddbf81",
       "card_commits": "e2d26f0 (card + pin 3c8311fc inserted) -> ea8b2b5 (requirement-traceability prose; pin recomputed from committed bytes: unchanged, 3c8311fc)",
       "pin_commit": "ea8b2b58c5ce9467fce815fc9388aabe6c73c20c (pin recomputed from git show HEAD:docs/issues/t54.md bytes: sha256:3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5 MATCH)",
-      "tip_sha": "TIP_PLACEHOLDER",
-      "pushed": "PUSH_PLACEHOLDER",
-      "ls_remote_verified": "LSREMOTE_PLACEHOLDER",
+      "tip_sha": "ad172a16afc44f2764c2334a12f60b9294e84154 (handoff JSON copy, validated [OK]). The branch tip advances only by the durability-sync commit carrying this field (t49 precedent: the stored tip is the handoff commit; the sync commit only updates this field).",
+      "pushed": true,
+      "ls_remote_verified": "git ls-remote origin refs/heads/groom/t54-e2e-browser-install -> ad172a16afc44f2764c2334a12f60b9294e84154 (matches local HEAD at push time). refs/heads/main -> 7cc1c81d94d7e5f1e56f27dc8ba042b0a49218cb (orchestrator-advanced during this run): main NEVER pushed by this run.",
       "no_implementation": "Card-only delta on the groom branch: the commits touch docs/issues/t54.md alone (plus this handoff). The workflow fix was NEVER committed to the groom branch - authoring it belongs to the builder; it existed only on the deleted throwaway fixture branch for measurement.",
       "main_untouched": "refs/heads/main NEVER pushed by this run (origin/main observed advancing only via orchestrator commits during the run)."
     },
