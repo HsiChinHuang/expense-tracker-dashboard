@@ -1,26 +1,25 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T16:55:00Z",
-  "last_seq": 628,
+  "updated_at": "2026-10-13T18:30:00Z",
+  "last_seq": 631,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
-      "last_activity_at": "2026-10-13T16:55:00Z",
-      "note": "t48 verified ingested - slot releasing for t54 groom (critical path #45)"
+      "issue_id": "t54",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "634c60bd-51b3-418b-821b-215ef6c0721e",
+      "spawn_at": "2026-10-13T17:10:00Z",
+      "last_activity_at": "2026-10-13T18:30:00Z"
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t49",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "8c200b35-3135-4877-a107-35f945d972f7",
-      "spawn_at": "2026-10-13T14:25:00Z",
-      "last_activity_at": "2026-10-13T16:55:00Z"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "0c8d092d-3b47-48be-a326-53f411f2296f",
+      "spawn_at": "2026-10-13T18:30:00Z",
+      "last_activity_at": "2026-10-13T18:30:00Z"
     }
   ],
   "merge_queue": [],
@@ -28,23 +27,23 @@
   "active_issues": [
     {
       "issue_id": "t49",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight"
+        "implement_in_flight"
       ]
     },
     {
       "issue_id": "t54",
       "state": "defined",
       "modifiers": [
-        "e2e_browser_mismatch_next_groom"
+        "groom_in_flight"
       ]
     },
     {
       "issue_id": "phase_8_docs",
       "state": "pending",
       "modifiers": [
-        "readme_pin_change_planned"
+        "readme_pin1_established"
       ]
     }
   ],
