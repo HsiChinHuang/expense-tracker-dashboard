@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T19:05:00Z",
-  "last_seq": 633,
+  "updated_at": "2026-10-13T20:15:00Z",
+  "last_seq": 636,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -14,22 +14,22 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t49",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "044f2872-c01c-4410-8fdc-9bcb07a1dadc",
-      "spawn_at": "2026-10-13T19:05:00Z",
-      "last_activity_at": "2026-10-13T19:05:00Z"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
+      "spawn_at": null,
+      "last_activity_at": "2026-10-13T20:15:00Z"
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
     {
-      "issue_id": "t49",
-      "state": "built",
+      "issue_id": "t50",
+      "state": "defined",
       "modifiers": [
-        "verify_in_flight"
+        "ready_groom"
       ]
     },
     {
@@ -43,7 +43,7 @@
       "issue_id": "phase_8_docs",
       "state": "pending",
       "modifiers": [
-        "readme_pin1_established"
+        "readme_pin1_established_5f6e235e"
       ]
     }
   ],
