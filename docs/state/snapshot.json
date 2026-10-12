@@ -1,24 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T10:05:44.876Z",
-  "last_seq": 566,
+  "updated_at": "2026-10-12T10:26:52.902Z",
+  "last_seq": 571,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t44",
-      "role": "definer",
-      "phase": "groom",
-      "status": "DISPATCHING",
-      "note": "slot freed by t38 verify completion"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "4fc480d6-fc28-4b04-a5c4-7918a9b4f9b5",
+      "spawn_at": "2026-10-12T10:26:52.902Z",
+      "last_activity_at": "2026-10-12T10:26:52.902Z",
+      "note": "timeoutMs 60m explicit"
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t43",
       "role": "builder",
       "phase": "implement",
-      "run_id": "93923ef8-b1b9-4f0c-9c1d-a29e14d1a238",
-      "spawn_at": "2026-10-12T15:00:00Z",
-      "last_activity_at": "2026-10-12T10:05:44.876Z"
+      "run_id": "2b6252f2-af18-4605-ac6d-1b1859f13590",
+      "spawn_at": "2026-10-12T17:10:00Z",
+      "last_activity_at": "2026-10-12T10:26:52.902Z",
+      "note": "resumed from 93923ef8 timeout"
     }
   ],
   "merge_queue": [],
@@ -28,21 +31,21 @@
       "issue_id": "t43",
       "state": "groomed",
       "modifiers": [
-        "implement_in_flight"
+        "implement_resumed_in_flight"
       ]
     },
     {
       "issue_id": "t44",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_dispatching"
+        "implement_in_flight"
       ]
     },
     {
       "issue_id": "t40",
       "state": "defined",
       "modifiers": [
-        "ready"
+        "ready_queued"
       ]
     }
   ],
