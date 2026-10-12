@@ -769,11 +769,14 @@ t40; 7.9/7.10/7.12 → t39; 7.11/7.13 + §17.8.4 verification + REQ-PLAN-071
 → t41; the pipeline that makes 7.1–7.5 reproducible (REQ-SEC-071 "read
 Makefile", REQ-TECH-074 "run make security") → t36. N = 6; batch_size =
 min(5, max(1, ceil(6/3))) = 2 → batches [t36,t37], [t38,t39], [t40,t41];
-each file written in its own write call. DAG: 42 nodes / 76 edges;
+each file written in its own write call. DAG: 42 nodes / 73 edges (review_plan
+W1 correction: the six t41→t37..t41 transitive edges are implied by the t41
+frontmatter but intentionally NOT added to dag.json — the 73-edge graph is the
+canonical minimal form; phase_6 baseline 60 + 13 new = 73 machine-verified);
 milestone-local critical path 4 edges (t36→t37→t38→t40→t41 and
- t36→t39→t40→t41 = 4); cumulative critical path 28 edges (recomputed over
-dag.json) carried as the standing WARN per ruling 8 — dep_chain is judged
-MILESTONE-LOCAL (4 < 20 PASS).
+ t36→t39→t40→t41 = 4); cumulative critical path 29 edges (recomputed over
+dag.json; review_plan W1 correction from 28) carried as the standing WARN per
+ruling 8 — dep_chain is judged MILESTONE-LOCAL (4 < 20 PASS).
 
 ## phase_8_docs — Documentation and Polish (Phase 8)
 
