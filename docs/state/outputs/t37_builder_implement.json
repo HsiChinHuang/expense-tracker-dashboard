@@ -94,10 +94,13 @@
         "c0dc0517e1041ca5a2bbd150c717c38148cadba1 (verifier FAIL handoff)"
       ],
       "branch_tip_before_handoff": "38770e376f53c17ae996bbb130b7b0b3660f7fbc (worktree fast-forwarded from c0dc051 to this tip before any run)",
-      "handoff_commit": "written by the commit that carries this file; see push_metadata",
-      "pushed": false,
+      "handoff_commit": "150d1126c3c9cb43c084536d62d5e221f663c69d",
+      "pushed": true,
       "push_method": "cmd.exe /c \"git -C <WINPATH> push\" </dev/null shim (WSL-side push hangs on this host); no force-push",
-      "push_metadata": "pending - appended by the follow-up metadata commit per t35/t37 precedent (a handoff cannot carry the sha of the commits that carry it)"
+      "push_metadata": "pending - appended by the follow-up metadata commit per t35/t37 precedent (a handoff cannot carry the sha of the commits that carry it)",
+      "remote_tip_at_push": "150d1126c3c9cb43c084536d62d5e221f663c69d",
+      "push_verify": "git ls-remote origin refs/heads/issue/t37-security-docs == local HEAD (150d112...) after cmd.exe push shim, no force-push",
+      "push_metadata_commit": "this follow-up commit appends the push metadata (a handoff cannot carry the sha of the commit that carries it - t35/t37 precedent)"
     },
     "notes": "RE-IMPLEMENT (fix_qa context) of t37 against the re-groomed card. Verifier FAIL was test_env only (ac1 autocrlf byte-cmp); the re-groom closed it by CR-normalizing the committed-report cmp side; this run re-verified all six NEW pinned commands in the exact fresh-checkout CRLF environment that produced the FAIL: ac1 now PASS rc=0 (the whole point of the re-groom), ac2-ac6 commands byte-identical to the previous card and re-run green (counts 3/22/46/270/187 reproduce the verifier measurements exactly). No artifact regenerated, no repo git config touched (core.autocrlf=true left as-is per task FORBIDDEN list), no files under docs/issues, docs/state/merge_test_index.json, README, Makefile, workflows, or .gitattributes touched. Platform #40 labels untouched (orchestrator owns).",
     "w10": "No exact vulnerability count pinned; floors 270/187/158/83 not raised; counts parsed from tool output.",
