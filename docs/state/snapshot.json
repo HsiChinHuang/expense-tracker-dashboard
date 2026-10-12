@@ -1,43 +1,35 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-12T12:47:03.004Z",
-  "last_seq": 591,
+  "updated_at": "2026-10-12T13:14:11.805Z",
+  "last_seq": 594,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t40",
-      "role": "verifier",
-      "phase": "verify",
-      "run_id": "f465a8a3-c831-4742-a6de-fa124493d666",
-      "spawn_at": "2026-10-12T23:15:00Z",
-      "last_activity_at": "2026-10-12T12:47:03.004Z"
+      "issue_id": "t41",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "PENDING_DISPATCH",
+      "spawn_at": null,
+      "last_activity_at": null
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t46",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "cc7e5aa0-9e6c-4681-a246-2894399fe77d",
-      "spawn_at": "2026-10-12T21:15:00Z",
-      "last_activity_at": "2026-10-12T12:47:03.004Z"
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "PENDING_DISPATCH",
+      "spawn_at": null,
+      "last_activity_at": null
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
     {
-      "issue_id": "t40",
-      "state": "built",
-      "modifiers": [
-        "verify_in_flight",
-        "gate2_green"
-      ]
-    },
-    {
       "issue_id": "t41",
       "state": "defined",
       "modifiers": [
-        "blocked_t40",
+        "t40_now_merged",
         "factpack_ready"
       ]
     },
@@ -50,9 +42,9 @@
     },
     {
       "issue_id": "t46",
-      "state": "defined",
+      "state": "groomed",
       "modifiers": [
-        "groom_in_flight_decision_B"
+        "dispatch_implement"
       ]
     },
     {
@@ -71,7 +63,7 @@
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
-  "dispatch_frozen": true,
-  "freeze_reason": "MAX_SLOTS=2 (t40 verify + t46 groom)",
+  "dispatch_frozen": false,
+  "freeze_reason": "slots free after t40 merge + t46 groom completion",
   "environment_note": "Docker Desktop DOWN (vitest interference clearance). t46 groomer doing docker-free card work; docker go-ahead steer queued for after t40 verifier finishes its vitest legs."
 }

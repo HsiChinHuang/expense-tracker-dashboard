@@ -635,6 +635,16 @@
       "test_suite": "full",
       "entry_id": "t43-de1c0e4",
       "notes": "entry 139 amended at merge per Option A-ter (freeze leg now backend/app :!backend/app/database.py; new hash fe5df831870660df, identity t27 kept, amended entry executed rc=0)"
+    },
+    {
+      "issue_id": "t40",
+      "merge_sha": "3c4036dcf3a6338c00f12f87c1a3e8c6380c3df3",
+      "pre_merge_sha": "3b090c5a230d6ed37915e364662eea8f7e7f5199",
+      "timestamp": "2026-10-13T00:45:00Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "entry_id": "t40-3c4036d",
+      "notes": "docs-only security trio; index append ac1..ac5 at closure (5 entries, ac6 composite excluded per card); gate2+gate3 green; ac6 env-interference disclosed+re-measured green; entry 139 untouched"
     }
   ]
 }
