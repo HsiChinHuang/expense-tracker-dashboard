@@ -697,6 +697,28 @@
       ],
       "index_count_after": 198,
       "summary": "Six docs artifacts describing the real pipeline (process.md, task-template.md, team/{pm,software-engineer,qa-engineer}.md, ownership.md). README byte-unchanged at 8d141fb2 (t49 owns README). 48th merge closure."
+    },
+    {
+      "issue_id": "t49",
+      "title": "Root reviewer docs: CLAUDE.md, product-spec.md, openapi.yaml export, README criteria map + evidence checklist + 5-min paths, runbook e2e typo, render deviation record (REQ-DOC-010/011/013/014/070/071/072/081/084)",
+      "merge_commit_sha": "5e04b61",
+      "branch": "issue/t49-root-reviewer-docs",
+      "verified_tip_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
+      "build_commit_sha": "a6b8b2406e8cf08d4e4af5351ddc2ceff2822961",
+      "merged_from_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
+      "into": "main",
+      "merged_at": "2026-10-13T20:05:00Z",
+      "platform_issue": 52,
+      "ac_hash": "sha256:178cf8a149a8fe279e58d25b6b84dadd89f653c856cc3f716c84a01bca4880f3",
+      "index_entries_added": [
+        "tests[198] ac1",
+        "tests[199] ac2",
+        "tests[200] ac3",
+        "tests[201] ac4",
+        "tests[202] ac5"
+      ],
+      "index_count_after": 203,
+      "summary": "Six deliverables +1234/-1: CLAUDE.md single-line @AGENTS.md; product-spec.md 8 REQ-DOC-011 sections anchored to real ids; openapi.yaml hermetic export (16 paths, set-equality vs merged app); README +84 (24.3 mapping 15 rows, 24.5 checklist 14 rows, both 5-min paths, W1 token survival, 286 lines) establishing pin-1 digest 5f6e235e; runbook make test-e2e->make e2e one-line fix; deployment-health accepted-deviation record for the four divergent 14.4.2 keys with render.yaml untouched. 49th merge closure."
     }
   ]
 }

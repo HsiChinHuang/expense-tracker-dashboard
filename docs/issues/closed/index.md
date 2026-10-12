@@ -52,3 +52,4 @@ Runtime-maintained by Orchestrator.
 | t41 | Security/ops verification generator + ops diagnosis & deployment-health records | 2026-10-13 | 0 | eba386e |
 | t47 | Postgres migration portability - boolean defaults + portable year_month CHECK (E2E final blocker) | 2026-10-13 | 0 | fddadeb |
 | t48 | Process/task-template/role/ownership docs (REQ-DOC-022/028/029/062/063) | 2026-10-13 | 0 | 28f60d6 |
+| t49 | Root reviewer docs: CLAUDE.md, product-spec, openapi export, README criteria map + checklist + 5-min paths, runbook typo, render deviation | 2026-10-13 | 0 | 5e04b61 |
