@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Set up uv with cache
-        uses: astral-sh/setup-uv@v4.5.1
+        uses: astral-sh/setup-uv@v5.0.0
         with:
           enable-cache: true
       - name: Sync dependencies
