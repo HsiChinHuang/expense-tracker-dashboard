@@ -675,6 +675,28 @@
       "test_suite": "full",
       "verifier_run": "08746d5d-6ac0-4d08-b085-de98006bf3aa",
       "notes": "47th merge; E2E FINAL BLOCKER cleared (first-ever health-ok fallback_active:false measured by builder+verifier on real Postgres); merge-time Option A-ter amendment applied to entry 139 freeze leg (+ :!backend/app/models/budget.py, precondition measured ORIGINAL RED/AMENDED GREEN); index appended ac1..ac5 188->193 per card disposition (ac6 excluded), ac1/ac5 carry docker-required gates, pins 131/132/133/135 + anchors 16/54 byte-unchanged post-append; merged non-docs delta exactly the 5 ac6 files; live E2E green on pushed SHA closes #45"
+    },
+    {
+      "issue_id": "t48",
+      "title": "Process/task-template/role/ownership docs (REQ-DOC-022/028/029/062/063)",
+      "merge_commit_sha": "28f60d64526e4b1d619c98760656e330417281fe",
+      "branch": "issue/t48-process-ownership-docs",
+      "verified_tip_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
+      "build_commit_sha": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+      "merged_from_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
+      "into": "main",
+      "merged_at": "2026-10-13T16:45:00Z",
+      "platform_issue": 51,
+      "ac_hash": "sha256:cb4feed3c5b816d36638316a90e63f47f3bdb651f9342d7fab88fd24adb6e8e7",
+      "index_entries_added": [
+        "tests[193] ac1",
+        "tests[194] ac2",
+        "tests[195] ac3",
+        "tests[196] ac4",
+        "tests[197] ac5"
+      ],
+      "index_count_after": 198,
+      "summary": "Six docs artifacts describing the real pipeline (process.md, task-template.md, team/{pm,software-engineer,qa-engineer}.md, ownership.md). README byte-unchanged at 8d141fb2 (t49 owns README). 48th merge closure."
     }
   ]
 }

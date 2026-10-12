@@ -1,9 +1,25 @@
 {
-  "issue_id": "t47",
+  "issue_id": "t48",
   "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-13T13:55:00Z",
-  "pre_merge_sha": "757f39831d9e37ce02530ca076f377a69e6e6db1",
-  "merge_sha": "fddadeb08ecdc77b92fa9518ac83a9cb9e48a8b5",
-  "test_result": { "total": 456, "passed": 457, "failed": 0, "note": "backend 270 passed + frontend 187 passed (0 failed/0 pending/0 todo); ruff clean; mypy Success 88 files; single head 005; tsc rc=0; lint exactly 4 warnings; README 8d141fb2; workflows exact; index entries 35/57/124 + AMENDED 139 executed rc=0 on merged MAIN; index appended ac1..ac5 (188->193) per card disposition (ac6 composite never appended), anchors/pins byte-verified after append" }
+  "timestamp": "2026-10-13T16:45:00Z",
+  "pre_merge_sha": "dee058a3ab7a543e097134b9921a456dbfe527e3",
+  "merge_sha": "28f60d64526e4b1d619c98760656e330417281fe",
+  "test_result": {
+    "total": 457,
+    "passed": 457,
+    "failed": 0,
+    "note": "backend 270 passed + frontend 187 passed (0 failed/0 pending/0 todo); ruff clean; mypy Success 88 files; single head 005; tsc rc=0; lint exactly 4 warnings; README 8d141fb2 byte-unchanged (t49 owns README); workflows exact; index appended ac1..ac5 (193->198) per card disposition (ac6 composite excluded), new entries tests[193..197] executed rc=0 on merged MAIN, anchors 16/54 + byte-pins 131/132/133/135 byte-verified after append, entry 139 identity t27; conflict AA t48_definer_groom.json resolved --ours (MAIN authoritative ingest copy)"
+  },
+  "gate_detail": {
+    "backend_tests": 270,
+    "ruff": "clean",
+    "mypy": "Success 88 source files",
+    "alembic": "005 (head)",
+    "vitest": "187 passed 0 failed 0 pending 0 todo",
+    "tsc": "rc=0",
+    "lint": "exactly 4 react-refresh warnings",
+    "readme": "8d141fb27377c63d6b6d63abaf1db79f52049225438c78156de91dffe600abce byte-unchanged",
+    "workflows": ".gitkeep,ci.yml,deploy.yml,e2e.yml,"
+  }
 }
