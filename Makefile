@@ -120,7 +120,7 @@ security-gitleaks:
 
 # semgrep via uvx (mutable rules; version recorded by the tool itself).
 security-semgrep:
-	@bash -c 'export PATH="$$HOME/.local/bin:$$PATH"; command -v uvx >/dev/null 2>&1 || exit 1; uvx semgrep --version >/dev/null 2>&1 || exit 1; out="$${SEMGREP_REPORT:-security/semgrep-report.json}"; uvx semgrep --config auto --json --metrics off --quiet --output "$$out" .; rc=$$?; { [ "$$rc" -eq 0 ] || [ "$$rc" -eq 1 ]; } || exit 1; echo "semgrep report written: $$out (rc=$$rc)"'
+	@bash -c 'export PATH="$$HOME/.local/bin:$$PATH"; command -v uvx >/dev/null 2>&1 || exit 1; uvx semgrep --version >/dev/null 2>&1 || exit 1; out="$${SEMGREP_REPORT:-security/semgrep-report.json}"; uvx semgrep --config auto --json --quiet --output "$$out" .; rc=$$?; { [ "$$rc" -eq 0 ] || [ "$$rc" -eq 1 ]; } || exit 1; echo "semgrep report written: $$out (rc=$$rc)"'
 
 # trivy v0.75.0 (trivy_0.75.0_Linux-64bit.tar.gz) fs vuln+misconfig scan.
 security-trivy:
