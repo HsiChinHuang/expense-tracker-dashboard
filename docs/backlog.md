@@ -38,3 +38,9 @@
 | t33 | Subagents - custom-agent/finance-analyst.md + qa-reviewer.md with frontmatter, .agents/agents symlinks | [t29] | #36 | defined |
 | t34 | Extension-pack documentation - docs/agent-extension-pack.md overview + docs/permissions.md matrix | [t29, t30, t32, t33] | #37 | defined |
 | t35 | Agent-pack verification - criteria 12/7/9/10-12 + rows 31/32, REQ-PLAN-061 register, discovery re-proof, full composite | [t29, t30, t32, t33, t34] | #38 | defined |
+| t36 | Scan pipeline - real make security targets (gitleaks/semgrep/trivy/pip-audit/npm-audit), pinned tool bootstrap, entry-#6 amend script authored | [t35] | #39 | defined |
+| t37 | Dependency and secret scan reports - gitleaks/pip-audit/npm-audit committed artifacts as real measured runs | [t36] | #40 | defined |
+| t38 | Code and container scan reports - semgrep and trivy committed artifacts completing the five-report set | [t36, t37] | #41 | defined |
+| t39 | Ops runbook core - ops/runbook.md seven symptom sections + escalation, ops/health-check.md, ops/logging.md seventeen-event table | [t36] | #42 | defined |
+| t40 | Security documents - pr-audit record, agent-security-notes with accepted-findings register, ai-tool-data-policy | [t37, t38, t39] | #43 | defined |
+| t41 | Security and ops verification - criteria 13 evidence generator, ops diagnosis + deployment-health, deferral register, milestone-exit composite | [t36, t37, t38, t39, t40] | #44 | defined |

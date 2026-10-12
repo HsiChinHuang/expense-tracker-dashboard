@@ -627,9 +627,153 @@ not a blocker.
 
 ## phase_7_security_ops — Security and Operations (Phase 7)
 
-Scope: security scanning (gitleaks, semgrep, trivy, pip-audit), security
-headers, ops runbooks, monitoring/health pings (REQ-TECH-074, REQ-TECH-076,
-Chapter 12/13 requirements). Refined by survey when this milestone begins.
+Survey (2026-10-12) refined this placeholder into six issues (t36..t41)
+mapped onto the 13 tasks of Chapter 17 §17.8.2 (7.1..7.13) against merged
+phase_6 reality (main @ f33b048 == origin/main: backend 270 pytest collected
+/ 270 green / ruff clean / mypy 84 source files clean / single alembic head
+005; frontend 187 vitest / `tsc --noEmit` rc=0 / lint exactly 4
+react-refresh warnings; merge_test_index 158 entries with SHA-pinned
+amended anchors tests[16]=t2 / tests[54]=t9 (entry SHA-256 cfb84edc... /
+cf5babc0...); merge_history 36 entries; README 202 lines; `.github/
+workflows/` holds exactly ci.yml + e2e.yml + deploy.yml + .gitkeep; the
+`security/` and `ops/` trees hold ONLY their tracked `.gitkeep`; the
+Makefile `security:` target is still the t4 stub echo; platform issues
+#3..#38 consumed, so #39+ are free).
+
+**Survey rulings (pinned; groom may refine wording, not these decisions):**
+
+1. **SCAN TOOLING IS FETCH-AT-GATE, BANNED FROM THE TREE, AND THE REPORTS
+   ARE REAL.** Measured at survey on this host: **network egress WORKS**
+   (npmjs ping HTTP 200, api.github.com 403-with-body = reachable,
+   pypi.org 200, GitHub release assets 200/302) — the phase_6 "no egress"
+   fact was uv-resolution-specific and is superseded for this milestone by
+   measurement. `uvx pip-audit` RUNS (2.10.1; probe run against
+   `uv export --no-hashes --frozen` of backend/uv.lock found 3 real
+   vulnerabilities in 2 packages); `uvx semgrep` RUNS (1.180.0); gitleaks
+   downloads and runs (v8.30.1 pinned, linux x64 asset); npm audit runs
+   (9.2.0); and trivy v0.75.0 downloads and runs
+   (`trivy_0.75.0_Linux-64bit.tar.gz`, HTTP 200 / 51 MB, `trivy --version`
+   green, a full `trivy fs --scanners vuln,misconfig --format json` measured
+   5m18s cold-cache on this host — the first probe's 404 was a stale
+   version guess, corrected by re-measurement). ALL FIVE scan legs are
+   therefore EXECUTED on this host; the milestone's DEFERRED rows are the
+   live-state ones (ruling 4), never a tool that measurably runs. RULING:
+   every scan tool is fetched at gate time into `$HOME/.local/bin` /
+   `uvx` (gitleaks pinned v8.30.1) and is **BANNED from the git tree** —
+   no binary lands in the repo (the t0 index entry #6 `find security ops
+   .github -type f ! -name .gitkeep ...` is empty on MAIN today and the
+   merged suite re-runs it on every later card; a committed binary would
+   make a GREEN merged entry permanently red, and the phase_7 cards that
+   legitimately add the eight `security/` files land AFTER t36 amends
+   that entry — see ruling 3). Scan reports are committed artifacts
+   (REQ-SEC-070/071, REQ-TECH-074, REQ-PLAN-070 tasks 7.1–7.5).
+2. **NO NEW WORKFLOW — the exactly-3 guard stands, and REQ-CICD-073 makes
+   a CI security job FORBIDDEN, not merely unnecessary.** Measured again:
+   index entry tests[132] (t26) asserts `ls -A .github/workflows` minus
+   {ci,e2e,deploy}.yml/.gitkeep is empty. REQ-CICD-073 (Must) states
+   security scans are NOT in CI — they run locally and results are
+   committed — and REQ-CICD-083 repeats "local only". The orchestrator
+   brief floated a "CI security job"; the requirements forbid it, so
+   phase_7 adds ZERO workflows and the gate mechanism is instead the
+   reproducible `make security` pipeline (t36) plus the committed reports
+   (t37/t38). This is the ruling-2 preregistration from phase_6 resolving
+   as: no card refreshes tests[131/132]-class ACs because no card needs a
+   workflow.
+3. **THE STALE t0 GUARD IS AMENDED IN THE FIRST WINDOW — the 6ab7da5 /
+   0aee30f / t28 precedent, applied PRE-EMPTIVELY.** Index entry #6 (t0)
+   forbids any file under `security/` or `ops/` beyond `.gitkeep`; t37+t38
+   add the five scan reports and t39/t40/t41 add the five `ops/` documents
+   (t39 3, t40 3 `security/` docs, t41 2 `ops/` docs), so the
+   orchestrator's strict-window amendment of entry #6 MUST execute after
+   t36 merges and BEFORE the t37 pre-merge gate (the amend script is
+   authored by the t36 card as `docs/state/amend_index_entry6_phase7.cjs.ready`,
+   the `docs/state/amend_legacy_index.cjs.ready` precedent; the amendment RETARGETS
+   the find to exclude exactly the eight REQ-SEC-003 `security/` names and
+   the five REQ-OPS-002 `ops/` names, preserving the entry's intent: no
+   OTHER file — no binaries, no strays — may ever appear in those trees).
+   t36's own composite re-attests the ORIGINAL entry #6 green (t36 adds no
+   file to those trees), so fail-before/pass-after stays honest on both
+   sides of the window.
+4. **VERIFICATION MODALITY = PER-CLASS RULING (executed / structural /
+   deferred), re-measured, never assumed.** EXECUTED: the scan pipeline
+   itself (t36's `make security` legs run the real tools end-to-end at
+   gate time — gitleaks/semgrep/pip-audit/npm-audit are measured runnable
+   here) and the SQLite-fallback worked example (t39 re-runs the
+   already-green fallback harness nodes — `tests/unit/test_sqlite_fallback.py`
+   + `tests/integration/test_sqlite_fallback_api.py` — as the executed
+   half of REQ-OPS-042's "follow the steps" while the docker half is a
+   live-check row). STRUCTURAL: the eight `security/` and five `ops/`
+   documents — every REQ-SEC/REQ-OPS requirement's Verification text is
+   "Read <file>" / "List <dir>", so gates are section greps, counts and
+   cross-references (js-yaml/python/py_compile where a report must parse).
+   DEFERRED (each a named DEFERRAL_REGISTER row with the operator
+   live-check command, never written as PASS — the phase_5 ruling-5 /
+   phase_6 ruling-1 discipline): (a) LIVE_DEPLOYMENT_STATE — REQ-OPS-
+   060/061/062 + REQ-PLAN-071 "deployment record is accurate" + criteria
+   §24.2 #17 against the live Render instance (measured at survey: the
+   configured URL `expense-tracker-dashboard.onrender.com` answers 404 /
+   "Not Found" — no live deployed instance is reachable from this harness,
+   so the deployment record is authored from measured repo-side evidence
+   and the live-comparison row is DEFERRED, the phase_5 REQ-TECH-060
+   precedent); (b) LIVE_AGENT_SESSION / LIVE_MCP_SUBPROCESS /
+   LIVE_SUBAGENT_LAUNCH — the three phase_6 deferral rows are RE-TESTED
+   here: the harness now has network, but the agent runtime that consumes
+   `.agents/` is this pipeline itself (pi-agent drives the run; it does not
+   load the project pack) and there is still no live backend session, so
+   the rows CARRY FORWARD with re-measured reasons (t41) — plan.md never
+   assigned them a phase_7 deliverable, and phase_7 promises no runtime it
+   cannot drive.
+5. **NO EXACT-COUNT PIN ON THE GROWING INDEX (W10).** The cumulative
+   merge_test_index floor is `>= 158` at t36 and grows by each card's
+   non-composite appends (t36 +5, t37 +5, t38 +5, t39 +5, t40 +5, t41 +5); every composite
+   pins `>= 158` plus the anchors byte-unchanged and green — never an
+   exact count. Backend collection stays >= 270 (phase_7 adds ZERO test
+   nodes by design; the t32 exact-270 leg lives in stored entry #149 and
+   is untouched because phase_7 adds no node), frontend >= 187, lint
+   exactly 4, mypy >= 83, README <= 500, workflows exactly 3 + .gitkeep,
+   the five named manifests byte-frozen (re-attested by every composite —
+   phase_7 touches none).
+6. **SCOPE BOUNDARIES (no card drift).** `docs/ai-workflow.md` (REQ-AI-
+   001..052, 110..122, 132, 140..142), `docs/process.md`, `docs/team/*`,
+   `CLAUDE.md`, the criteria-table restatement and the README 5-minute
+   path stay with phase_8_docs; REQ-SEC-072's scan-timing prose verifies
+   ONLY against `docs/ai-workflow.md` (its Verification field), a file
+   phase_7 must not create — it is recorded as the SCAN_TIMING_DOC
+   DEFERRAL_REGISTER row in t41 (not silently dropped, not smuggled in as
+   an in-artifact section). The accepted-findings register (REQ-SEC-074)
+   lives in `security/agent-security-notes.md` per its own Verification
+   field — no extra register file exists, because REQ-SEC-003 pins
+   `security/` to exactly eight names (survey ruling). `security/` and
+   `ops/` are the ONLY product trees phase_7 may add files to, plus
+   `backend/scripts/security_ops_verification.py` +
+   `docs/criteria/security_ops_verification.md` (t41, the t23/t28/t35
+   generator precedent) and the `Makefile` `security:` target (t36).
+7. **NO BROAD NO-DRIFT GUARDS.** No AC pins `git diff --quiet <sha> --
+   backend` or any broad-path freeze; freezes are scoped to the five named
+   manifests or individual files. Every card ends with its composite as
+   the LAST AC (index-append-excluded).
+
+**The six cards (single-responsibility, per the t20..t35 precedent):**
+
+| card | vertical | modality | depends | new nodes |
+|---|---|---|---|---|
+| t36 | scan pipeline: `make security` real recipe + `security/SCANNING.md` how-to + entry-#6 amend script authored | EXECUTED (real tool fetch + dry-run) | t35 | 0 |
+| t37 | dependency/secret scan reports: gitleaks + pip-audit + npm-audit committed artifacts + findings addendum | EXECUTED (tools run at gate) | t36 | 0 |
+| t38 | container/code scan reports: semgrep + trivy committed artifacts (both EXECUTED here) + register rows appended | executed (semgrep + trivy, both measured runnable) | t36, t37 | 0 |
+| t39 | ops runbook core: `ops/runbook.md` + `ops/health-check.md` + `ops/logging.md` | structural + executed re-proof of existing fallback/health nodes | t36 | 0 |
+| t40 | security documents: `security/pr-audit.md` + `security/agent-security-notes.md` + `security/ai-tool-data-policy.md` | structural + executed evidence greps over merged code/tests | t37, t38, t39 | 0 |
+| t41 | verification card: generator + `docs/criteria/security_ops_verification.md` + `ops/diagnosis.md` + `ops/deployment-health.md` + deferral register + milestone-exit composite | executed + attested + deferred | t36..t40 | 0 |
+
+Task mapping (§17.8.2): 7.1/7.4/7.5 → t37; 7.2/7.3 → t38; 7.6/7.7/7.8 →
+t40; 7.9/7.10/7.12 → t39; 7.11/7.13 + §17.8.4 verification + REQ-PLAN-071
+→ t41; the pipeline that makes 7.1–7.5 reproducible (REQ-SEC-071 "read
+Makefile", REQ-TECH-074 "run make security") → t36. N = 6; batch_size =
+min(5, max(1, ceil(6/3))) = 2 → batches [t36,t37], [t38,t39], [t40,t41];
+each file written in its own write call. DAG: 42 nodes / 76 edges;
+milestone-local critical path 4 edges (t36→t37→t38→t40→t41 and
+ t36→t39→t40→t41 = 4); cumulative critical path 28 edges (recomputed over
+dag.json) carried as the standing WARN per ruling 8 — dep_chain is judged
+MILESTONE-LOCAL (4 < 20 PASS).
 
 ## phase_8_docs — Documentation and Polish (Phase 8)
 

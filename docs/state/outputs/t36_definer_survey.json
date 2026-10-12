@@ -1,0 +1,65 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t36",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_7_security_ops",
+    "issues_generated": [
+      "t36",
+      "t37",
+      "t38",
+      "t39",
+      "t40",
+      "t41"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-SEC-072 (scan timing) - its Verification field is exclusively 'Read docs/ai-workflow.md', a file phase_7 must not create (the docs tree belongs to phase_8_docs per plan.md ruling 6). NOT dropped: recorded as the SCAN_TIMING_DOC DEFERRAL_REGISTER row in t41 with the operator read-check, so the requirement stays visible to review_plan and phase_8 inherits the artifact.",
+        "REQ-SEC-041 / REQ-SEC-042 / REQ-SEC-043 / REQ-SEC-044 / REQ-SEC-050 / REQ-SEC-051 / REQ-SEC-052 / REQ-SEC-092 / REQ-SEC-093 and the REQ-SEC-020..034 auth/isolation block - their Verification targets are application code, schemas, tests and mcp-server/ (all merged in phases 1-6 and already gated by the >= 270-node suite that every phase_7 composite re-runs); they are CODE requirements, not security/ops artifacts, so no phase_7 card may claim them without writing code (forbidden this milestone). Listed so review_plan sees they were ruled, not missed.",
+        "REQ-OPS-010 / REQ-OPS-011 (health endpoint + response schema, verified by 'curl /api/v1/health') - the endpoint is merged (t3/t25) and its live-curl verification was discharged in phase_5; phase_7 documents it in ops/health-check.md via REQ-OPS-012/013/030/031/110 (t39), which are the Read-verification halves.",
+        "REQ-OPS-094 / REQ-OPS-083 (future backups / future monitoring) - Should-class future-work lists; documented as sections inside ops/runbook.md (t39 ac2/ac3) rather than as separate deliverables.",
+        "REQ-AI-001..052 / 110..142 documentation set, docs/process.md, docs/team/*, CLAUDE.md, the criteria-table restatement and the README 5-minute path - phase_8_docs (unchanged phase_6 ruling 6; phase_7 touches none of those files)."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 8,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "phase_7_security_ops survey: 6 cards (t36..t41) scoped STRICTLY from plan.md phase 7 + Chapter 12/13 Verification fields. DAG machine-verified: 42 nodes / 73 edges, Kahn topological order covers all 42 nodes, zero cycles, zero orphans (no in-degree-0 duplicate roots beyond t0, every new node has both a dependency edge and a dependent except the t41 milestone exit). Cumulative critical path 29 edges (t0->t1->t4->t5->t6->t7->t8->t11->t13->t14->t16->t17->t20->t21->t22->t23->t24->t26->t27->t28->t29->t31->t32->t34->t35->t36->t37->t38->t40->t41); MILESTONE-LOCAL critical path 4 edges (t36->t37->t38->t40->t41), which is the number the dep_chain gate reads (4 < 20 is expected for a 6-card milestone and is carried as a standing WARN, the phase_6 precedent). Batch plan: batch_size = min(5, max(1, ceil(6/3))) = 2 -> [t36,t37], [t38,t39], [t40,t41]. SURVEY MEASUREMENTS that changed earlier rulings: (1) network egress IS available on this host (npm ping 200, PyPI 200, GitHub release assets 200) - the phase_6 'no egress' fact was uv-resolution-specific; (2) ALL FIVE scan tools are measured runnable here - gitleaks 8.30.1 (0 findings on the tracked tree), pip-audit 2.10.1 (3 vulns in 2 packages on the uv.lock export), semgrep 1.180.0, npm audit 9.2.0, and trivy 0.75.0 (the earlier 404 was a stale version guess; trivy_0.75.0_Linux-64bit.tar.gz downloads and runs, cold-cache fs scan 5m18s) - so NO tool is deferred and the DEFERRAL_REGISTER holds only live-STATE rows (5 rows in t41: LIVE_DEPLOYMENT_STATE measured-404, SCAN_TIMING_DOC, and the three carried-forward phase_6 live-agent rows); (3) the live Render URL answers 404, so the deployment record is authored from repo-side evidence with the live comparison DEFERRED (phase_5 REQ-TECH-060 precedent). SURVEY RULINGS that corrected the placeholder design: (a) NO security/SCAN-FINDINGS.md - REQ-SEC-074's own Verification field names security/agent-security-notes.md as the accepted-findings home and REQ-SEC-003 pins security/ to exactly eight names, so the register lives in t40's notes document and t37/t38 gate the report side of the closed loop CONDITIONALLY (vacuous pre-t40, binding post-t40, re-checked absolutely by t41); (b) scan reports stay PURE tool output - no prose provenance header may be prepended to the three JSON reports (they must parse), so provenance travels in the commit message and the register row; (c) REQ-SEC-130/131/132 (incident detection/response/rollback) belong to t39 because their Verification is 'Read ops/runbook.md', not t40; (d) REQ-SEC-072 is a deferral row, not an in-artifact section. INDEX SAFETY: entry #6 (t0) forbids any file under security/ or ops/ beyond .gitkeep, so t36 AUTHORS docs/state/amend_index_entry6_phase7.cjs.ready (pre-state-guarded, argv path override, dry-run tested on a /tmp copy) and the orchestrator executes it in the strict window AFTER the t36 merge and BEFORE the t37 pre-merge gate (6ab7da5/0aee30f/t28 precedent); t36 itself adds zero files to those trees so the ORIGINAL entry stays green through it. W10 discipline: every composite pins floors only (backend >= 270, frontend >= 187, mypy >= 83, README <= 500, index >= 158 with anchors #17/#55 byte-unchanged); phase_7 adds ZERO test nodes by design; exact-count gates apply only to the milestone's own closed vocabularies (5 reports, 8 security names, 5 ops names, 7 runbook symptom sections, 17 logging events, 12 accepted limitations, 5 deferral rows). Every card carries PLACEHOLDER verification-command slots with groom-facing constraints (single-line bash -c, zero inner single quotes, cmd.exe git shim, CRLF-tolerant greps, fail-before/pass-after) - ac_hash pinning is groom's job per the phase_6 precedent. ORCHESTRATOR NEXT STEPS (carried here because the handoff schema forces next_action null on COMPLETE): run definer:review_plan over docs/state/milestones/phase_7_security_ops.json, then spawn definer:groom for batch [t36,t37]; execute docs/state/amend_index_entry6_phase7.cjs.ready (authored by t36) in the strict window AFTER the t36 merge and BEFORE the t37 pre-merge gate. PLATFORM ISSUE MAP for this milestone: t36=#39, t37=#40, t38=#41, t39=#42, t40=#43, t41=#44 (all created with label defined, bodies synced byte-complete from the card files, verified by direct API read: lengths 13155/13672/13066/15874/15642/18993 and 6 PLACEHOLDER_AT_GROOM slots each). #39 was created as a title-probe then UPDATED to the full t36 card (probe title overwritten; no stray issue left behind). RECONSTRUCTION NOTE (orchestrator): definer worktree was recycled before commit; cards restored from platform API bodies (byte-length match 13155/13672/13066/15874/15642/18993), plan.md/dag.mmd edits replayed from session tool-calls (7/12 + 4/4 applied; 5 plan.md edit-blocks were superseded intermediate drafts - final t36..t41 table rows and toolchain paragraphs verified PRESENT in file), dag.json/backlog/issue_map regenerated with the definer-published dep map (42 nodes/73 edges/0 cycles, critical path t0..t36->t37->t38->t40->t41); survey handoff re-validated [OK] after ingestion."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t36.md",
+      "docs/issues/t37.md",
+      "docs/issues/t38.md",
+      "docs/issues/t39.md",
+      "docs/issues/t40.md",
+      "docs/issues/t41.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/backlog.md",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_7_security_ops.json",
+      "docs/state/outputs/t36_definer_survey.json"
+    ],
+    "platform_issue": 39,
+    "output_path": "docs/state/outputs/t36_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-12T02:35:00Z",
+  "retry_count": 0
+}
