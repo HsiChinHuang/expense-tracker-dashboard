@@ -31,7 +31,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://expense:change-me-locally@db:5432/expense_tracker
       JWT_SECRET: change-me-locally
-      CORS_ORIGINS: http://localhost:5173
+      CORS_ORIGINS: '["http://localhost:5173"]'
     ports:
       - "8000:8000"
     healthcheck:

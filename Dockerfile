@@ -47,6 +47,8 @@ COPY --from=frontend-build /app/frontend/dist ./static
 
 RUN chown -R app:app /app/backend
 
+RUN mkdir -p /tmp/uv-cache && chown -R app:app /tmp/uv-cache
+
 USER app
 
 EXPOSE 8000
