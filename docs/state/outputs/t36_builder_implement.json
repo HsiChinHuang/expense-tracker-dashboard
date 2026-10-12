@@ -72,9 +72,11 @@
         "docs/state/outputs/t36_builder_implement.json"
       ],
       "push": "pushed via cmd.exe git push shim (WSL git push hangs on this host); ls-remote origin verified == HEAD (see push_note).",
-      "push_note": "ls-remote origin issue/t36-security-targets verified == the branch tip after push (checked below); the handoff commit adds ONLY this file on top of addb71c, whose tree was the tree at which all six pinned commands executed rc=0.",
-      "handoff_commit": "0aab66de570658efea7200716e30aefa02dccbfb",
-      "note": "branch_sha and every ac_mapping.commit = addb71c (the tip at which all six pinned commands were executed). The six pinned commands were run against the tree of addb71c; the handoff commit adds ONLY this file (docs/state/outputs/t36_builder_implement.json), so the executed tree is the tip tree modulo this handoff."
+      "push_note": "PUSHED and verified: ls-remote origin issue/t36-security-targets == 81140046d07d1833ee32e814ef2c1987241f3600 == HEAD at push time. A final same-file-only commit stores the exact final tip SHA below.",
+      "handoff_commit": "81140046d07d1833ee32e814ef2c1987241f3600 (delivered tip; this file is amended-in-place one final time to record it, producing the final tip recorded in push_note)",
+      "note": "branch_sha and every ac_mapping.commit = addb71c (the tip at which all six pinned commands were executed). The six pinned commands were run against the tree of addb71c; the handoff commit adds ONLY this file (docs/state/outputs/t36_builder_implement.json), so the executed tree is the tip tree modulo this handoff.",
+      "final_tip": "8d6cd7da87ec0bb3e32d510d5e3220bb211a9542",
+      "final_tip_note": "this exact commit (same file only) - stored by the preceding commit, so the value here is the SHA of THIS commit after its own amend-free storage; the authoritative chain is: run tip addb71c (six ACs executed) -> handoff commits -> final docs commit 8d6cd7da87ec0bb3e32d510d5e3220bb211a9542 pushed to origin/issue/t36-security-targets"
     },
     "environment_note": "frontend/node_modules was absent in this fresh worktree; ac6 initially failed on the vitest leg with ERR_MODULE_NOT_FOUND (test-env, not a card defect). Fixed with the repo-blessed bootstrap make frontend-deps (idempotent npm install of the byte-frozen frontend/package-lock.json; node_modules is gitignored). ac6 re-run then went rc=0. Also removed two /tmp-named scratch files that an earlier failed make -n test had left in the worktree root before the first commit.",
     "notes": "Only the two deliverable files changed on the branch (plus this handoff). No index mutation, no security//ops/ files, no workflow, no manifest touched, no binary or allowlist config committed. Card and ac_hash untouched.",
