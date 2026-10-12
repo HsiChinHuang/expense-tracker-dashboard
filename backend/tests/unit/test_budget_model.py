@@ -167,7 +167,7 @@ class TestBudgetModel:
                 session.commit()
             session.rollback()
 
-            # ck_budgets_year_month_format (GLOB emulation, anchored)
+            # ck_budgets_year_month_format (portable length/substr/rtrim CHECK)
             for bad_month in ("2026-1", "abcd-ef", "20261-3", "202613"):
                 with pytest.raises(IntegrityError):
                     session.add(_make_budget(user, year_month=bad_month))

@@ -140,7 +140,11 @@ class TestBudgetMigration:
         for name in BUDGET_CONSTRAINTS:
             assert name in ddl, ddl
         assert "amount>0" in compact, ddl
-        assert "year_monthGLOB'[0-9][0-9][0-9][0-9]-[0-9][0-9]'" in compact, ddl
+        assert (
+            "length(year_month)=7ANDsubstr(year_month,5,1)='-'"
+            "ANDrtrim(substr(year_month,1,4),'0123456789')=''"
+            "ANDrtrim(substr(year_month,6,2),'0123456789')=''"
+        ) in compact, ddl
         assert "unique(user_id,year_month)" in compact.lower(), ddl
         assert "ON DELETE CASCADE" in ddl.upper(), ddl
         engine.dispose()

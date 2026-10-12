@@ -19,11 +19,13 @@ Documented deviations (Definition-of-Done, per docs/issues/t14.md):
   precedent, REQ-DB-041). Names are the frozen Chapter 5 5.6.2 set:
   ``uq_budgets_user_month``, ``ck_budgets_amount_positive`` and
   ``ck_budgets_year_month_format``.
-* SQLite CHECK emulation — PINNED (review_plan W8/groom): the ``~``
-  regex operator does not exist in SQLite, so the format CHECK is the
-  GLOB emulation ``year_month GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]'``
-  — the exact-SQLite emulation of ``^[0-9]{4}-[0-9]{2}$`` (GLOB is
-  anchored and case-sensitive by definition). The month-VALUE rule
+* Portable CHECK (t47): the old SQLite-only emulation used an
+  operator that Postgres rejects at DDL time, so the format
+  CHECK is now the dialect-portable ``length``/``substr``/``rtrim``
+  form below — the same idiom as ``COLOR_CHECK_SQL`` in
+  ``app/models/category.py`` and semantically identical to the frozen
+  ``^[0-9]{4}-[0-9]{2}$`` emulation (6201 probes, zero mismatches).
+  The month-VALUE rule
   (``01..12``; e.g. ``2026-13``) passes this CHECK BY DESIGN: it is not
   DB enforceable this way and is owned by the router/schema pattern
   (W8: ``2026-13`` is a 422 at the wire).
@@ -45,10 +47,16 @@ from app.models.user import Base
 AMOUNT_POSITIVE_CHECK_SQL = "amount > 0"
 """Amount CHECK (REQ-DB-041), shared with revision 005."""
 
-YEAR_MONTH_FORMAT_CHECK_SQL = "year_month GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]'"
+YEAR_MONTH_FORMAT_CHECK_SQL = (
+    "length(year_month) = 7 AND substr(year_month, 5, 1) = '-' "
+    "AND rtrim(substr(year_month, 1, 4), '0123456789') = '' "
+    "AND rtrim(substr(year_month, 6, 2), '0123456789') = ''"
+)
 """year_month format CHECK (REQ-DB-041), shared with revision 005.
 
-The frozen SQLite emulation of ``^[0-9]{4}-[0-9]{2}$``: rejects
+Portable (SQLite and PostgreSQL compile the same DDL; t47): the
+``length``/``substr``/``rtrim`` emulation of ``^[0-9]{4}-[0-9]{2}$`` —
+rejects
 ``2026-1``, ``abcd-ef``, ``20261-3`` and ``202613``; accepts
 ``2026-10``. Month VALUES such as ``2026-13`` pass by design — the
 month-value rule is API-owned (W8).
