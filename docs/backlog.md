@@ -53,7 +53,7 @@
 | t48 | Process/task-template/role docs - docs/process.md, docs/task-template.md, docs/team/*, docs/ownership.md | [t41] | #51 | closed |
 | t49 | Root reviewer docs (CLAUDE.md, product-spec, openapi export, README criteria map, runbook typo, render deviation) | closed |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | [t48, t49] | #53 | closed |
-| t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | defined |
+| t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | groomed |
 | t52 | Screenshots - dashboard/expense-form/budget-page/health-check PNGs from a measured run + README pointers (final README pin) | [t50, t51] | #55 | defined |
 | t53 | Documentation verification - docs_verification generator, Chapter 24.3 rows 1-15, deferral re-test, project-wide exit composite | [t48, t49, t50, t51, t52] | #57 | defined |
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | closed |

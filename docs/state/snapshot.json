@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-14T00:40:00Z",
-  "last_seq": 654,
+  "updated_at": "2026-10-14T01:20:00Z",
+  "last_seq": 655,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,11 +15,9 @@
     {
       "slot_id": "slot_2",
       "issue_id": "t51",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "1b761247-d398-460d-9ab6-11f42d68940d",
-      "spawn_at": "2026-10-14T00:47:00Z",
-      "last_activity_at": "2026-10-14T00:47:00Z"
+      "role": null,
+      "phase": null,
+      "run_id": null
     }
   ],
   "merge_queue": [],
