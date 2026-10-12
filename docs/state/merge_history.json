@@ -719,6 +719,47 @@
       ],
       "index_count_after": 203,
       "summary": "Six deliverables +1234/-1: CLAUDE.md single-line @AGENTS.md; product-spec.md 8 REQ-DOC-011 sections anchored to real ids; openapi.yaml hermetic export (16 paths, set-equality vs merged app); README +84 (24.3 mapping 15 rows, 24.5 checklist 14 rows, both 5-min paths, W1 token survival, 286 lines) establishing pin-1 digest 5f6e235e; runbook make test-e2e->make e2e one-line fix; deployment-health accepted-deviation record for the four divergent 14.4.2 keys with render.yaml untouched. 49th merge closure."
+    },
+    {
+      "issue_id": "t54",
+      "title": "E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45)",
+      "merge_commit_sha": "97153c0",
+      "branch": "issue/t54-e2e-browser-install",
+      "verified_tip_sha": "c2e9689d3683d927269a567e1c99e732cf281884",
+      "build_commit_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+      "merged_from_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+      "into": "main",
+      "merged_at": "2026-10-13T23:55:00Z",
+      "platform_issue": 58,
+      "ac_hash": "sha256:3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5",
+      "index_entries_added": [
+        "tests[203] ac1",
+        "tests[204] ac2"
+      ],
+      "index_count_after": 205,
+      "summary": "One-line workflow fix (1+/1-, blob 4d49432->a656ebb): the Install Playwright browsers step now runs cd e2e && npm install --no-save && npx playwright install --with-deps so the installed browser build 1208 matches the pinned @playwright/test 1.58.0 harness. ac1/ac2 appended; ac3 EXCLUDED (merge-base delta-purity leg permanently RED on merged main - measured rc=1 the exact exclusion evidence); ac4 composite excluded; ac5 orchestrator CI-evidence leg closes #45/#58 on the first-ever green E2E run. 50th merge closure."
+    },
+    {
+      "issue_id": "t50",
+      "title": "docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC)",
+      "merge_commit_sha": "7264868",
+      "branch": "issue/t50-ai-workflow",
+      "verified_tip_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
+      "build_commit_sha": "1bbe1d444958ec9e929fe7b4e3a655426f3d6908",
+      "merged_from_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
+      "into": "main",
+      "merged_at": "2026-10-13T23:56:00Z",
+      "platform_issue": 53,
+      "ac_hash": "sha256:6bb0b0a99902ee97541fb03d19f04dbc4704477f0d44186c43715e478c45892b",
+      "index_entries_added": [
+        "tests[205] ac1",
+        "tests[206] ac2",
+        "tests[207] ac3",
+        "tests[208] ac4",
+        "tests[209] ac5"
+      ],
+      "index_count_after": 210,
+      "summary": "docs/ai-workflow.md 473 lines: 13 REQ-DOC-023 sections + scan timing; 7 machine-traceable SESSION records over 7 areas; 9 six-field CORRECTION entries (Option A-ter, semgrep --metrics, all six REQ-AI-121 classes); pack counts 3/2/4/2 measured; zero credential strings; SCAN_TIMING_DOC satisfied. ac1..ac5 appended (ac6 composite excluded); README pin-1 5f6e235e carried byte-unchanged. 51st merge closure."
     }
   ]
 }

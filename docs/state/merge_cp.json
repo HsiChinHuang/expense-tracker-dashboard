@@ -1,25 +1,15 @@
 {
-  "issue_id": "t49",
+  "issue_id": "t50",
   "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-13T20:05:00Z",
-  "pre_merge_sha": "e34154a",
-  "merge_sha": "5e04b61",
+  "timestamp": "2026-10-13T23:58:00Z",
+  "pre_merge_sha": "97153c0",
+  "merge_sha": "7264868",
   "test_result": {
-    "total": 462,
-    "passed": 462,
+    "total": 469,
+    "passed": 469,
     "failed": 0,
-    "note": "backend 270 + frontend 187 (0/0/0) + 5 new index entries tests[198..202] executed rc=0 on merged MAIN = 462 assertions; ruff clean; mypy Success 88 files; alembic 005 (head); tsc rc=0; lint exactly 4 warnings 0 errors; README pin-1 5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 ESTABLISHED on MAIN (286 lines); AGENTS.md 8340781c + render.yaml 60110dd0 byte-frozen; workflows exact; index appended ac1..ac5 (198->203) per card disposition (ac6 composite excluded); anchors 16/54 + byte-pins 131/132/133/135 byte-verified after append; entry 139 identity t27; no merge conflicts"
+    "note": "backend 270 + frontend 187 (0/0/0, Docker DOWN) + 7 appended index entries tests[203..209] executed rc=0 on merged MAIN = 469; t54 ac3/ac4 merge-base legs EXCLUDED per card (ac3 measured RED on merged main = exclusion evidence); merged-MAIN floors green (ruff/mypy 88/alembic 005/tsc/exactly-4 lint/workflows four/README pin-1 carried)"
   },
-  "gate_detail": {
-    "backend_tests": 270,
-    "ruff": "clean",
-    "mypy": "Success 88 source files",
-    "alembic": "005 (head)",
-    "vitest": "187 passed 0 failed 0 pending 0 todo",
-    "tsc": "rc=0",
-    "lint": "exactly 4 react-refresh warnings",
-    "readme": "5f6e235e799ab0f4ee3ca19a183ac33439b4d961099526be17452c390ac5c943 pin-1 established (286 lines)",
-    "workflows": ".gitkeep,ci.yml,deploy.yml,e2e.yml,"
-  }
+  "note": "t54 merged first per FIFO (VERIFIER-PASS 20:14:08 < t50 20:15:39): t54 merge 97153c0 pre 02da569; t50 merge 7264868 pre 97153c0"
 }

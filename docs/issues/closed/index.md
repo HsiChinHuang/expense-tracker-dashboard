@@ -53,3 +53,5 @@ Runtime-maintained by Orchestrator.
 | t47 | Postgres migration portability - boolean defaults + portable year_month CHECK (E2E final blocker) | 2026-10-13 | 0 | fddadeb |
 | t48 | Process/task-template/role/ownership docs (REQ-DOC-022/028/029/062/063) | 2026-10-13 | 0 | 28f60d6 |
 | t49 | Root reviewer docs: CLAUDE.md, product-spec, openapi export, README criteria map + checklist + 5-min paths, runbook typo, render deviation | 2026-10-13 | 0 | 5e04b61 |
+| t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | 2026-10-13 | 0 | 97153c0 |
+| t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | 2026-10-13 | 0 | 7264868 |

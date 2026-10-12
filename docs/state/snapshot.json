@@ -1,23 +1,23 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-13T23:30:00Z",
-  "last_seq": 648,
+  "updated_at": "2026-10-13T23:59:00Z",
+  "last_seq": 651,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t50",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "557f0561-719d-4064-bb30-39efb7f250e5",
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
       "spawn_at": "2026-10-13T22:55:00Z",
       "last_activity_at": "2026-10-13T22:55:00Z"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t54",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "41f8bcb3-c26a-418e-9cf9-aa281261baf3",
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
       "spawn_at": "2026-10-13T23:30:00Z",
       "last_activity_at": "2026-10-13T23:30:00Z"
     }
@@ -26,30 +26,26 @@
   "max_slots": 2,
   "active_issues": [
     {
-      "issue_id": "t50",
-      "state": "built",
+      "issue_id": "t51",
+      "state": "defined",
       "modifiers": [
-        "verify_in_flight"
-      ]
-    },
-    {
-      "issue_id": "t54",
-      "state": "built",
-      "modifiers": [
-        "verify_in_flight",
-        "first_ever_e2e_green_path"
+        "card_on_platform_54_not_local"
       ]
     },
     {
       "issue_id": "phase_8_docs",
       "state": "pending",
       "modifiers": [
-        "readme_pin1_established_5f6e235e"
+        "readme_pin1_carried",
+        "t52_pin2_next",
+        "t53_reattest"
       ]
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
   "freeze_reason": "slot_2 freed on t47 verifier completion; slot_1 held by t48 builder implement 7322afda; t49 groom dispatches when capacity allows within MAX_SLOTS=2",
-  "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol."
+  "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol.",
+  "merges_closed": 51,
+  "index_count": 210
 }
