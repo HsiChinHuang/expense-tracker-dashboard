@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-12T10:59:49.406Z",
+  "updated_at": "2026-10-12T11:22:40.194Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -625,6 +625,16 @@
       "merge_type": "clean",
       "test_suite": "full",
       "entry_id": "t44-a64a3a2"
+    },
+    {
+      "issue_id": "t43",
+      "merge_sha": "de1c0e44c82ed0a813844d3c254d9c388fbaab4f",
+      "pre_merge_sha": "5cbe4b2",
+      "timestamp": "2026-10-12T19:35:00Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "entry_id": "t43-de1c0e4",
+      "notes": "entry 139 amended at merge per Option A-ter (freeze leg now backend/app :!backend/app/database.py; new hash fe5df831870660df, identity t27 kept, amended entry executed rc=0)"
     }
   ]
 }
