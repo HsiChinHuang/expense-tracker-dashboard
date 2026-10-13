@@ -224,12 +224,27 @@
       "agent_pack_disclosure": "agent_pack_verification.md embeds the collection count, which t58 moved from 270 to 288. Regeneration therefore CANNOT be byte-identical to the committed report BY DESIGN, so ac1 uses capture-and-restore plus HEAD byte-attestation for it and says so in its evidence line; stored tests[154]/tests[155] run it verbatim."
     },
     "platform_sync": {
-      "method": "GitHub API PATCH (never PUT) via node from the worktree; token read from the MAIN checkout's .env and never printed or copied into the tree. Each PATCH touches exactly one field (labels, then body). scripts/platform.ts was not used for the body sync because a ~57.7 KB body cannot survive cmd.exe quoting.",
+      "method": "GitHub API PATCH (never PUT) via node from the worktree; token read from the MAIN checkout's .env (key API_TOKEN, the repo's scripts/platform.ts env dialect) and never printed or copied into the tree. Each PATCH touches exactly one field (labels, then body); scripts/platform.ts was NOT used for the body sync because a 57695-byte body cannot survive cmd.exe CLI quoting (WAL body-size lesson), so the body was posted from a file read.",
       "issue": 64,
-      "patch_labels_http": null,
-      "patch_body_http": null,
-      "readback": null,
-      "status": "PENDING at the time this field was drafted - executed after the commit; the values below are filled by the post-sync step and this field must be re-read from the platform, not asserted."
+      "patch_labels_http": 200,
+      "patch_body_http": 200,
+      "readback": {
+        "number": 64,
+        "state": "open",
+        "labels": [
+          "groomed"
+        ],
+        "body_length_chars": 57695,
+        "body_length_bytes": 57695,
+        "body_equals_card_bytes": true,
+        "ac_hash_line_present": true,
+        "bash_fences": 7,
+        "h2_sections": 5,
+        "updated_at": "2026-10-13T19:13:36Z"
+      },
+      "card_bytes": 57695,
+      "issued_at": "2026-10-13T19:13:36Z",
+      "note": "labels PATCH first, body PATCH second, GET readback third - the readback above is the GET response, not an assertion. The prior 'defined' label was replaced by 'groomed' via the labels PATCH; the issue remains open and unmerged."
     },
     "validation": {
       "validate_handoff": "[OK] C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\expense-tracker-dashboard\\t59-groom-scratch\\docs\\state\\outputs\\t59_groom.json is valid for definer:groom",
