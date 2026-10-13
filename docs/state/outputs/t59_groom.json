@@ -238,8 +238,8 @@
       "status": "PENDING - filled after the two commands run."
     },
     "branch": "issue/t59-groom-card",
-    "commit": null,
-    "commit_note": "Self-reference caveat (t58 precedent): the commit that carries this handoff cannot record its own tip authoritatively. The orchestrator must read the authoritative head with git rev-parse HEAD on the branch. Worktree discipline for this card: the card, mirror and handoff were committed in a dedicated scratch worktree and pushed to origin issue/t59-groom-card; the scratch worktree was removed afterwards and the shared main checkout was left clean at its own HEAD, with no checkout/switch/reset/merge performed in it.",
+    "commit": "11a7a5d8fb241401ad3d2ab70bb821f656d457a1",
+    "commit_note": "Commit 11a7a5d8fb241401ad3d2ab70bb821f656d457a1 on branch issue/t59-groom-card is the commit that introduced the card, the mirror and THIS handoff; it was verified before recording by re-deriving the ac_hash from the committed blob (git show HEAD:docs/issues/t59.md -> 7 fences -> sha256:58f2a24c..., matching this handoff's ac_hash and the card's own ac_hash line) and by asserting the committed mirror equals the committed card. Self-reference caveat (t58 precedent): the field cannot record its own tip authoritatively, because the commit carrying the value advances the tip again - this value is the card-introducing commit, NOT the branch tip, and a follow-up commit carrying this field exists above it. The orchestrator must read the authoritative head with git rev-parse HEAD on the branch. Worktree discipline for this card: the card, mirror and handoff were committed in a dedicated scratch worktree and pushed to origin issue/t59-groom-card; the scratch worktree was removed afterwards and the shared main checkout was left clean at its own HEAD, with no checkout/switch/reset/merge performed in it.",
     "artifacts": {
       "files_written": [
         "docs/issues/t59.md",
