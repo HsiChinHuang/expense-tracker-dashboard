@@ -241,3 +241,93 @@ def test_wrong_fixture_token_refuses_to_seed(tmp_path: Path) -> None:
     rc = _run_in_root(root, out, seed=True, token="0000000000000000")
     assert rc != 0
     assert not out.exists(), "a wrong-token seed must refuse WITHOUT writing"
+
+
+# --- t58: the two card-declared rulings (platform #65) ----------------------
+
+RULING_IDS = {
+    "REQ-TECH-008": gen.RULING_TECH_DATEFNS_OVERRULED,
+    "REQ-FE-121": gen.RULING_FE_PERF_LIVE_PROFILING,
+}
+
+
+def test_ruling_constants_are_static_and_not_register_shaped() -> None:
+    """The two ruling keys are code constants, never register rows.
+
+    The carried register parse is ^LIVE_, so a key starting with LIVE_
+    would masquerade as a register row; and neither key may join the
+    FORBIDDEN/DEFERRAL_ID_KEY surfaces the register derivation uses.
+    """
+    assert set(gen.STATIC_RULINGS) == set(RULING_IDS)
+    for rid, key in RULING_IDS.items():
+        assert gen.STATIC_RULINGS[rid][0] == key
+        assert not key.startswith("LIVE_"), key
+        assert key not in gen.FORBIDDEN_DEFERRAL_KEYS
+        assert rid not in gen.DEFERRAL_ID_KEY and rid not in gen.DEFERRAL_ID_ISSUE61
+        assert gen.STATIC_RULINGS[rid][1], "the reason snippet must be honest and non-empty"
+    assert gen.RULINGS_ARTIFACT_REL == "docs/rulings/req-matrix.md"
+    assert gen.RULING_ISSUE == "65"
+    assert not hasattr(gen, "HARD_CASES"), "the forced-GAP HARD_CASES branch is gone"
+
+
+def test_ruled_ids_close_as_deferred_ruled_with_key_pointer_and_reason() -> None:
+    """Both ruled ids: DEFERRED_RULLED via the static branch, BEFORE citations.
+
+    The mini ROOT (requirements + register + script copy only) carries no
+    docs/rulings artifact, so the pointer-existence filter drops the
+    rulings pointer and the row falls to GAP/no-pointer-available -
+    proving the artifact is a real pointer, not a parsed input.  Against
+    the repo tree the same rows carry key + issue 65 + pointer + reason.
+    """
+    files = gen.tree_files()
+    register = gen.register_deferrals()
+    rows = {r["id"]: r for r in gen.build_rows(
+        REQUIREMENTS.read_text(encoding="utf-8").replace("\r\n", "\n"), files, register)}
+    for rid, key in RULING_IDS.items():
+        r = rows[rid]
+        assert r["status"] == "DEFERRED_RULLED", r
+        assert r["method"] == "card-declared-ruling", r
+        assert r["deferral_key"] == key, r
+        assert r["issue"] == "65", r
+        assert r["deferral_reason"], r
+        assert gen.RULINGS_ARTIFACT_REL in r["pointers"].split(","), r
+        assert "docs/issues" not in r["pointers"], "no self-citation via a card"
+    # The deferral branch runs before citations: even a tree whose only
+    # naming file is a card cannot flip these rows to IMPLEMENTED_*.
+    text = REPORT.read_text(encoding="utf-8").replace("\r\n", "\n")
+    for line in _rows(text):
+        for rid, key in RULING_IDS.items():
+            if f" id={rid} " in line:
+                assert " status=DEFERRED_RULLED " in line, line
+                assert f" deferral_key={key} " in line, line
+                assert " issue=65 " in line, line
+                assert "deferral_reason=" in line, line
+                assert "docs/rulings/req-matrix.md" in line, line
+
+
+def test_unruled_ids_are_unaffected_by_the_ruling_branch() -> None:
+    """Unknown ids keep their old derivation: no ruling leaks a key."""
+    text = REPORT.read_text(encoding="utf-8").replace("\r\n", "\n")
+    ruled = _machine(text, "REQ_HARDCASE PASS ")
+    assert len(ruled) == 2
+    for line in ruled:
+        rid = line.split(" id=")[1].split(" ")[0]
+        assert rid in RULING_IDS, line
+        assert " status=DEFERRED_RULLED " in line, line
+    key_rows = _machine(text, "REQ_DEFERRAL_KEY PASS key=")
+    keys = {x.split("key=")[1].split(" ")[0] for x in key_rows}
+    assert set(RULING_IDS.values()) <= keys
+    carried = {k for k in keys if not k.startswith("RULING_")}
+    assert carried == {"LIVE_DEPLOYMENT_STATE", "LIVE_AGENT_SESSION",
+                       "LIVE_MCP_SUBPROCESS", "LIVE_SUBAGENT_LAUNCH"}
+    # Only the two ruled rows carry a RULING_* key; no other row moved.
+    for line in _rows(text):
+        if " deferral_key=RULING_" in line:
+            rid = line.split(" ")[2].split("=")[1]
+            assert rid in RULING_IDS, line
+    provenance = _machine(text, "REQ_DEFERRAL_PROVENANCE PASS ")
+    assert any("source=docs/criteria/docs_verification.md#DEFERRAL_REGISTER" in p
+               and "method=register-row-derivation" in p for p in provenance)
+    assert any("source=docs/rulings/req-matrix.md" in p
+               and "method=card-declared-ruling" in p for p in provenance)
+

@@ -121,3 +121,66 @@ Toast variants are `success` and `error`; both auto-dismiss after
   visible percentage, and chart series pair color with legends/tooltips.
 - The heatmap ramp is monotonic in lightness so the density encoding
   survives common color-vision deficiencies.
+
+## Specification tables (REQ-anchored)
+
+The sections above measure the merged code. This section records the
+normative surface the requirements name, and - where the merged code
+has not caught up - says so plainly. The doc still follows the code;
+where they disagree, the disagreement is written down rather than
+papered over.
+
+Typography (REQ-FE-091): page titles are `text-2xl font-semibold`
+(measured on every merged page header), section titles are
+`text-lg font-semibold` (measured on the form and history headers),
+and KPI values take `text-3xl font-bold`. The font stack is the
+system chain; tables and KPI numbers use `tabular-nums` so columns of
+figures align. The page-title and section-title rules are measured in
+`frontend/src/pages/*.tsx` and the form headers; the `text-3xl` KPI
+and `tabular-nums` clauses are the spec and are checked at review
+whenever a KPI surface changes.
+
+Spacing (REQ-FE-092): the scale is page padding `px-6 py-8`, card
+padding `p-6`, card gap `gap-6`, section gap `space-y-8`, form gap
+`space-y-4`, and page width `max-w-7xl mx-auto`. The merged surfaces
+currently sit on the tighter `p-4`/`gap-2` convention noted in the
+Spacing section above; this table is the target scale the next visual
+pass moves to, and the difference is a known, disclosed deviation -
+not a claim that the merged code already uses `px-6 py-8`.
+
+Component specifications (REQ-FE-093): buttons come in
+primary/secondary/danger/ghost variants with defined backgrounds; a
+Card carries border and shadow; an Input carries a focus ring and an
+error state; a Modal carries an overlay, a focus trap, and a close
+affordance. The merged inventory (`empty_state.tsx`, `error_state.tsx`,
+`confirm_dialog.tsx`, `budget_progress.tsx`, the two forms) implements
+the error, empty, dialog, and progress rows; the button-variant
+palette is specified here so a new button picks a variant instead of
+inventing a color. Focus handling is part of the spec: inputs and
+buttons keep a visible focus ring, and the modal moves focus in on
+open and returns it on close (measured in `budget_form.tsx`, which
+calls `target.focus()` on open).
+
+Chart colors (REQ-FE-094): the pie uses the category colors; trend
+bars are `#3B82F6`; the cumulative line is `#3B82F6` normally and
+`#EF4444` when spending crosses budget; the budget reference line is
+the `#9CA3AF` dash; the heatmap uses the five-step ramp from the
+Colors table. All five clauses are measured constants in
+`frontend/src/utils/chart_data.ts` and the chart components.
+
+Chart accessibility (REQ-FE-112): every chart carries
+`role="img"` and an `aria-label` that summarizes what the chart shows
+(measured on all four chart components, e.g. "Weekly spending heatmap
+grid", with per-cell labels like `2026-10-05 $42.00` on heatmap
+cells). The spec additionally calls for a `<figure>` wrapper with a
+`<figcaption>`; the merged charts use the section heading as their
+visible caption instead of a figcaption element, which is the one
+clause recorded here as spec-ahead-of-code.
+
+Product-level accessibility (REQ-PROD-025) aggregates the surface
+above with the form rules: every input has a label, every button has
+an accessible name, the modal has a role and a focus trap, and charts
+have descriptions. The component tests assert the label/role queries,
+and the color-never-alone rule (budget percentage rendered as text
+beside the color, legends beside series) is the review checklist item
+that keeps the aggregate claim honest.

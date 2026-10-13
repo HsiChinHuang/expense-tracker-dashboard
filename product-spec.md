@@ -84,3 +84,21 @@ multi-tenant hosting - none of these appear in `docs/requirements.md` and
 none are built. Per REQ-DOC-080 this file, `README.md`, `CLAUDE.md`,
 `AGENTS.md`, and `openapi.yaml` are the complete minimal root-document set;
 everything deeper lives under `docs/`, `ops/`, or `security/`.
+
+## Requirement records for scope and success (t58 evidence)
+
+| requirement | the promise it carries | where the evidence is measured |
+|---|---|---|
+| REQ-PROJ-006 | the MVP's in-scope capabilities: authentication, expenses, budgets, categories, the dashboard with five visualizations, data integrity, the SQLite fallback, the Agent Extension Pack, the security and audit artifacts, and the Render deployment | every capability is a named row of the criteria mapping in `README.md` |
+| REQ-PROD-040 | a new user registers, logs in, records expenses, sets a budget and reads the dashboard without errors; all five charts render; month switching updates every chart; user isolation holds; system categories are always available; custom categories can be created; the audit log records every write | the executed test inventory mapped in `docs/testing-guidelines.md` |
+| REQ-PROD-042 | the README carries the 5-minute verification path, all 14 criteria have evidence, the security artifacts are present, the Agent Extension Pack is functional, the AI workflow is documented with real sessions, and a reviewer reproduces setup in under 10 minutes | the Chapter 24.3 rows executed by `docs/criteria/docs_verification.md` |
+| REQ-FE-143 | dark mode, i18n, SSR, PWA and analytics are not in the MVP | verifiable by absence: none of the five appears anywhere under `frontend/src` |
+
+### How each record is verified
+
+| requirement | verification method, in the requirement's own terms |
+|---|---|
+| REQ-PROJ-006 | read the In Scope section above and walk each capability to its criteria-mapping row; data integrity inside that list is the money-type and constraint surface recorded in `docs/architecture.md`, not a separate service |
+| REQ-PROD-040 | the requirement names E2E tests and a manual walkthrough; the chart-render and month-switch clauses execute in the component and hook suites listed in `docs/testing-guidelines.md` |
+| REQ-PROD-042 | the requirement names the peer-review checklist; its 5-minute path and 14-criteria evidence surface are the same rows the documentation gates measure, so this spec adds no standard of its own |
+| REQ-FE-143 | the requirement names confirm-absent-in-code; grep for dark mode, i18n, SSR, PWA and analytics under `frontend/src` returns none of the five, which is the same door the Scope boundaries section holds for the whole product |

@@ -143,3 +143,42 @@ Codes are the Appendix B constants defined in
 | `CATEGORY_NOT_FOUND` | 404 | Unknown, foreign, or system category id |
 | `CATEGORY_IN_USE` | 409 | Category still referenced by expenses (field `category_id`) |
 | `INVALID_AMOUNT` | 422 | Amount VALUE cases: zero, negative, 3 decimals, over max, empty (field `amount`) |
+
+## Response and status contracts
+
+The shapes above are contracts, not conventions. Every failure answer
+uses the `ErrorResponse` envelope `{detail, code, field?}`: `detail` is
+human-readable prose, `code` is the machine-readable Appendix B
+constant, and `field` is present only when the failure names a field
+(REQ-API-070). Structural validation failures are normalized: a 422
+carries the first error only, rendered as
+`{detail, code: 'VALIDATION_ERROR', field}` (REQ-API-071), so a client
+branching on `code` never has to parse a list of FastAPI error tuples.
+
+Status usage is fixed (REQ-API-073): 200 for GET and PUT, 201 for POST,
+204 for DELETE, 401 for a missing or invalid token, 403 for forbidden,
+404 for missing or not-owned, 409 for conflict, and 422 for validation.
+Two of those clauses are deliberate and easy to get wrong:
+
+- A resource that exists but belongs to another user answers 404, not
+  403 (REQ-API-112). A 403 would confirm that the id exists, which is
+  information this product does not disclose. The same rule is enforced
+  at the query level in the services (see
+  `architecture.md`).
+- Reading a month with no budget answers 200 with the amount string
+  `"0.00"` rather than 404 (REQ-API-113). The dashboard renders a
+  budget-less month every time a new month is opened, and a 200-with-
+  zero keeps that path free of error handling.
+
+## Validation rules
+
+The request-side rules that the endpoints above enforce (REQ-SEC-041):
+`email` must be a valid address and is stored lowercase; `username` is
+length-bounded; `password` carries a minimum length and is hashed on
+arrival; `amount` must be positive, at most two decimal places, and
+within the maximum; `category_id` must reference a category the caller
+owns or a system category; `date` must be a valid ISO date; `note` is
+length-bounded; `year_month` must match `YYYY-MM`; and `page` /
+`page_size` must be positive integers within the pagination ceiling.
+Rule violations answer through the 422 and `INVALID_AMOUNT` paths above,
+so a client always learns which `field` failed.

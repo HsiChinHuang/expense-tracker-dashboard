@@ -91,3 +91,29 @@ gate checks pass.
   drift.
 - Direct pushes to main are forbidden; only the orchestrator merges,
   transactionally, after the pre-merge verification.
+
+## Agent context loading
+
+The pipeline roles are agents, and an agent's working set is its
+context. The supporting documents each role loads are fixed
+(REQ-AI-022): process.md (this file), architecture.md,
+design-system.md, testing-guidelines.md, api.md, openapi.yaml, and the
+three team role files under `docs/team/`. A role that needs a document
+not on that list reads it deliberately and says why; nothing else is
+loaded by default.
+
+Loading is on demand, not wholesale (REQ-AI-023): the agent picks its
+documents by task type. A backend endpoint task pulls architecture.md
+and api.md; a frontend UI task pulls design-system.md; a testing task
+pulls testing-guidelines.md; PM grooming pulls the plan and the
+requirements; QA verification pulls the card's pinned commands and the
+criteria reports. A card that never touches the UI never loads
+design-system.md, which keeps each slot's context small enough to
+reason over.
+
+The role summary at the handoff boundary is one line per role
+(REQ-AI-033): the PM produces a groomed issue and no code; the SWE
+produces code plus tests plus a commit and no verdict; QA produces a
+PASS/FAIL comment and no code. The boundary is what the handoff schemas
+enforce - a builder handoff cannot carry a PASS, and a verifier comment
+cannot carry a diff.

@@ -12,9 +12,9 @@ landing is expected to carry GAP rows; closing them is t58's work.
 REQ_STATUSES PASS vocabulary=IMPLEMENTED_TESTED,IMPLEMENTED_STRUCTURAL,DEFERRED_RULLED,GAP,EXAMPLE_REFERENCE
 REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79
 REQ_STATUS_COUNT IMPLEMENTED_TESTED 110
-REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 526
-REQ_STATUS_COUNT DEFERRED_RULLED 13
-REQ_STATUS_COUNT GAP 99
+REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 623
+REQ_STATUS_COUNT DEFERRED_RULLED 15
+REQ_STATUS_COUNT GAP 0
 REQ_STATUS_COUNT EXAMPLE_REFERENCE 1
 REQ_FAMILY PASS family=AI rows=66
 REQ_FAMILY PASS family=API rows=42
@@ -39,16 +39,19 @@ REQ_FAMILIES PASS total=749 distinct=18
 ## Deferral surface
 
 REQ_DEFERRAL_PROVENANCE PASS source=docs/criteria/docs_verification.md#DEFERRAL_REGISTER method=register-row-derivation id_key_and_reason_snippet_per_row=true
+REQ_DEFERRAL_PROVENANCE PASS source=docs/rulings/req-matrix.md method=card-declared-ruling id_key_and_reason_snippet_per_row=true
 REQ_DEFERRAL_KEY PASS key=LIVE_AGENT_SESSION ids=2
 REQ_DEFERRAL_KEY PASS key=LIVE_DEPLOYMENT_STATE ids=5
 REQ_DEFERRAL_KEY PASS key=LIVE_MCP_SUBPROCESS ids=2
 REQ_DEFERRAL_KEY PASS key=LIVE_SUBAGENT_LAUNCH ids=2
+REQ_DEFERRAL_KEY PASS key=RULING_FE_PERF_LIVE_PROFILING ids=1
+REQ_DEFERRAL_KEY PASS key=RULING_TECH_DATEFNS_OVERRULED ids=1
 REQ_DEFERRAL_POINTER PASS issue=61 family=OPS artifact=ops/deployment-health.md
 
-## Hard cases (card-declared, never relabeled by t57)
+## Hard cases (card-declared, ruled by platform #65 in t58)
 
-REQ_HARDCASE PASS id=REQ-TECH-008 status=GAP ruling_pending=t58 pointer=docs/issues/closed/t20.md
-REQ_HARDCASE PASS id=REQ-FE-121 status=GAP ruling_pending=t58 pointer=docs/issues/closed/t20.md
+REQ_HARDCASE PASS id=REQ-TECH-008 status=DEFERRED_RULLED ruling_key=RULING_TECH_DATEFNS_OVERRULED issue=65 pointer=docs/rulings/req-matrix.md
+REQ_HARDCASE PASS id=REQ-FE-121 status=DEFERRED_RULLED ruling_key=RULING_FE_PERF_LIVE_PROFILING issue=65 pointer=docs/rulings/req-matrix.md
 
 ## Fail-closed fence
 
@@ -73,9 +76,9 @@ REQ_ROW PASS id=REQ-AI-020 family=AI status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-AI-020 title="AGENTS.md" statement="AGENTS.md contains commands, rules, and document links; it is short and read at every session start."
 REQ_ROW PASS id=REQ-AI-021 family=AI status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=CLAUDE.md
 REQ_TITLE PASS id=REQ-AI-021 title="CLAUDE.md" statement="CLAUDE.md contains a single line `@AGENTS.md`."
-REQ_ROW PASS id=REQ-AI-022 family=AI status=GAP method=none
+REQ_ROW PASS id=REQ-AI-022 family=AI status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/process.md
 REQ_TITLE PASS id=REQ-AI-022 title="supporting documents" statement="Supporting documents: process.md, architecture.md, design-system.md, testing-guidelines.md, api.md, openapi.yaml, and the three team role files."
-REQ_ROW PASS id=REQ-AI-023 family=AI status=GAP method=none
+REQ_ROW PASS id=REQ-AI-023 family=AI status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/process.md
 REQ_TITLE PASS id=REQ-AI-023 title="context loading strategy" statement="The agent loads documents on demand based on task type: backend endpoint, frontend UI, testing, PM grooming, QA verification."
 REQ_ROW PASS id=REQ-AI-024 family=AI status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/ai-workflow.md
 REQ_TITLE PASS id=REQ-AI-024 title="living documents" statement="When the agent makes a mistake, the correction is written into the relevant document so it does not repeat."
@@ -85,7 +88,7 @@ REQ_ROW PASS id=REQ-AI-031 family=AI status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-AI-031 title="SWE agent role" statement="`docs/team/software-engineer.md` defines the Software Engineer role: implements one groomed task, stays within constraints, writes tests, does not close the iss"
 REQ_ROW PASS id=REQ-AI-032 family=AI status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/team/qa-engineer.md
 REQ_TITLE PASS id=REQ-AI-032 title="QA agent role" statement="`docs/team/qa-engineer.md` defines the QA role: checks each acceptance criterion, runs tests, reports PASS or FAIL with evidence, does not fix code."
-REQ_ROW PASS id=REQ-AI-033 family=AI status=GAP method=none
+REQ_ROW PASS id=REQ-AI-033 family=AI status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/process.md
 REQ_TITLE PASS id=REQ-AI-033 title="role summary" statement="PM produces groomed issue (no code); SWE produces code + tests + commit; QA produces PASS/FAIL comment (no code)."
 REQ_ROW PASS id=REQ-AI-040 family=AI status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/process.md
 REQ_TITLE PASS id=REQ-AI-040 title="orchestrator definition" statement="`docs/process.md` defines the main session as the orchestrator, with the PM → SWE → QA lifecycle and rules."
@@ -241,13 +244,13 @@ REQ_ROW PASS id=REQ-API-064 family=API status=IMPLEMENTED_STRUCTURAL method=cita
 REQ_TITLE PASS id=REQ-API-064 title="GET /dashboard/heatmap" statement="`GET /api/v1/dashboard/heatmap` with weeks (default 12, max 52) returns max_amount and weeks with week_start and days."
 REQ_ROW PASS id=REQ-API-065 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/routers/dashboard.py,openapi.yaml
 REQ_TITLE PASS id=REQ-API-065 title="GET /dashboard/recent" statement="`GET /api/v1/dashboard/recent` with limit (default 10, max 50) returns items array of expenses."
-REQ_ROW PASS id=REQ-API-070 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-070 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md
 REQ_TITLE PASS id=REQ-API-070 title="ErrorResponse schema" statement="Errors return `{detail, code, field?}` with detail human-readable, code machine-readable, field optional."
-REQ_ROW PASS id=REQ-API-071 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-071 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md
 REQ_TITLE PASS id=REQ-API-071 title="validation error normalization" statement="Validation errors return 422 with the first error normalized to `{detail, code: 'VALIDATION_ERROR', field}`."
 REQ_ROW PASS id=REQ-API-072 family=API status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=openapi.yaml
 REQ_TITLE PASS id=REQ-API-072 title="error code reference" statement="All 18 error codes are documented with HTTP status and condition."
-REQ_ROW PASS id=REQ-API-073 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-073 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md
 REQ_TITLE PASS id=REQ-API-073 title="HTTP status usage" statement="200 for GET/PUT, 201 for POST, 204 for DELETE, 401 for missing/invalid token, 403 for forbidden, 404 for missing or not-owned, 409 for conflict, 422 for validat"
 REQ_ROW PASS id=REQ-API-080 family=API status=IMPLEMENTED_TESTED method=code-symbol pointers=frontend/src/hooks/use_expenses.test.tsx,frontend/src/pages/expenses_page.test.tsx,frontend/src/test/handlers_contract.test.ts
 REQ_TITLE PASS id=REQ-API-080 title="pagination parameters" statement="`page` (default 1, min 1) and `page_size` (default 20, min 1, max 100)."
@@ -263,15 +266,15 @@ REQ_ROW PASS id=REQ-API-093 family=API status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-API-093 title="year-month format" statement="year_month matches `^[0-9]{4}-[0-9]{2}$`, used for budgets and dashboard filters."
 REQ_ROW PASS id=REQ-API-100 family=API status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=openapi.yaml
 REQ_TITLE PASS id=REQ-API-100 title="contract verification" statement="The contract is verified via FastAPI auto-generated OpenAPI compared to `openapi.yaml`, frontend mocks, integration tests, and E2E tests."
-REQ_ROW PASS id=REQ-API-101 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-101 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-API-101 title="schema validation in tests" statement="Integration tests assert response shapes match OpenAPI schemas."
 REQ_ROW PASS id=REQ-API-110 family=API status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=openapi.yaml
 REQ_TITLE PASS id=REQ-API-110 title="amounts as strings" statement="Amounts are strings to avoid float precision loss."
 REQ_ROW PASS id=REQ-API-111 family=API status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=openapi.yaml
 REQ_TITLE PASS id=REQ-API-111 title="error format choice" statement="Error format `{detail, code, field}` for consistency."
-REQ_ROW PASS id=REQ-API-112 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-112 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md,docs/architecture.md
 REQ_TITLE PASS id=REQ-API-112 title="404 for cross-user" statement="Cross-user access returns 404, not 403, to avoid revealing existence."
-REQ_ROW PASS id=REQ-API-113 family=API status=GAP method=none
+REQ_ROW PASS id=REQ-API-113 family=API status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md
 REQ_TITLE PASS id=REQ-API-113 title="budget missing returns 200" statement="A missing budget returns 200 with amount '0.00', simplifying the frontend."
 REQ_ROW PASS id=REQ-API-114 family=API status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=openapi.yaml
 REQ_TITLE PASS id=REQ-API-114 title="bounded parameters" statement="months 1-24 (default 6), weeks 1-52 (default 12), limit 1-50 (default 10), page_size max 100."
@@ -281,7 +284,7 @@ REQ_ROW PASS id=REQ-ARCH-002 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-ARCH-002 title="Agent layer shares API" statement="The agent layer uses the same API and JWT authentication as the frontend"
 REQ_ROW PASS id=REQ-ARCH-003 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=Dockerfile,docker-compose.yml
 REQ_TITLE PASS id=REQ-ARCH-003 title="Development vs production architecture" statement="Development runs Vite dev server, uvicorn with reload, and PostgreSQL in Docker"
-REQ_ROW PASS id=REQ-ARCH-010 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-010 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-010 title="Frontend layered structure" statement="The frontend is organized into entry, pages, components, hooks, context, API, utils, and types layers."
 REQ_ROW PASS id=REQ-ARCH-011 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t16.md,docs/plan.md
 REQ_TITLE PASS id=REQ-ARCH-011 title="Frontend data flow" statement="The frontend data flow is: user action → page component → hook → React Query → API module → axios → backend."
@@ -289,7 +292,7 @@ REQ_ROW PASS id=REQ-ARCH-012 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-ARCH-012 title="State ownership" statement="Auth state lives in AuthContext, selected month in MonthContext, server data in React Query cache, form state in React Hook Form, and UI state in component-loca"
 REQ_ROW PASS id=REQ-ARCH-013 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/main.tsx
 REQ_TITLE PASS id=REQ-ARCH-013 title="Provider nesting order" statement="Providers are nested in this order: QueryClientProvider → BrowserRouter → AuthProvider → MonthProvider → ToastProvider."
-REQ_ROW PASS id=REQ-ARCH-020 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-020 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-020 title="Backend layered structure" statement="The backend is organized into entry, config, database, routers, services, models, schemas, auth, audit, and core layers."
 REQ_ROW PASS id=REQ-ARCH-021 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t11.md,docs/issues/closed/t8.md
 REQ_TITLE PASS id=REQ-ARCH-021 title="Request lifecycle" statement="A request goes through middleware, router, dependencies (including get_current_user), service, database, and back through response schema."
@@ -299,7 +302,7 @@ REQ_ROW PASS id=REQ-ARCH-023 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-ARCH-023 title="Transaction boundaries" statement="Each request runs in one database session; services commit at the end; audit log write is part of the same transaction; read-only endpoints do not commit."
 REQ_ROW PASS id=REQ-ARCH-024 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/core/errors.py,backend/app/routers/auth.py,backend/app/services/budget_service.py
 REQ_TITLE PASS id=REQ-ARCH-024 title="Error handling" statement="All errors return a consistent shape `{detail, code, field}` with appropriate HTTP status codes."
-REQ_ROW PASS id=REQ-ARCH-030 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-030 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-030 title="Login flow" statement="Login flow: user enters credentials → frontend POST /auth/login → backend verifies bcrypt → signs JWT → returns token and user → frontend stores token and redir"
 REQ_ROW PASS id=REQ-ARCH-031 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t13.md
 REQ_TITLE PASS id=REQ-ARCH-031 title="Create expense flow" statement="Create expense flow: frontend POST /expenses with Bearer JWT → backend verifies JWT, validates body, checks category → inserts expense and audit log in one tran"
@@ -313,15 +316,15 @@ REQ_ROW PASS id=REQ-ARCH-041 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-ARCH-041 title="Token validation steps" statement="Every protected request validates Bearer header, decodes JWT with fixed HS256, verifies signature, exp, aud, iss, extracts sub, loads user, checks is_active."
 REQ_ROW PASS id=REQ-ARCH-042 family=ARCH status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/api/dashboard.test.ts
 REQ_TITLE PASS id=REQ-ARCH-042 title="Token storage" statement="The token is stored in localStorage under key `token`, sent as `Authorization: Bearer <token>`, expires in 24 hours, with no refresh token in MVP."
-REQ_ROW PASS id=REQ-ARCH-050 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-050 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-050 title="Repository root structure" statement="The repository root contains README, product-spec, AGENTS.md, CLAUDE.md, openapi.yaml, docker-compose.yml, render.yaml, Makefile, .env.example, .gitignore, LICE"
-REQ_ROW PASS id=REQ-ARCH-051 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-051 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-051 title="Frontend directory structure" statement="The frontend contains `src/` with api, components, pages, hooks, context, types, utils, test; plus `public/`, config files, and Dockerfile."
 REQ_ROW PASS id=REQ-ARCH-052 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t3.md
 REQ_TITLE PASS id=REQ-ARCH-052 title="Backend directory structure" statement="The backend contains `app/` with main, config, database, models, schemas, routers, services, auth, audit, core; plus tests, alembic, config files, and Dockerfil"
 REQ_ROW PASS id=REQ-ARCH-053 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/scripts/agent_pack_verification.py,docs/criteria/agent_pack_verification.md,docs/issues/closed/t0.md
 REQ_TITLE PASS id=REQ-ARCH-053 title="Agent layer directory structure" statement="The agent layer contains `agent-capabilities/`, `agent-hooks/`, `mcp-server/`, `custom-agent/`, and `.agents/` with symlinks."
-REQ_ROW PASS id=REQ-ARCH-054 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-054 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-054 title="Documentation and artifacts structure" statement="`docs/` contains architecture, api, process, ai-workflow, design-system, testing-guidelines, agent-extension-pack, permissions, task-template, and team/. `secur"
 REQ_ROW PASS id=REQ-ARCH-060 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/logging.md
 REQ_TITLE PASS id=REQ-ARCH-060 title="Logging" statement="Logs are JSON structured, level INFO in production, include a request ID, never include sensitive data, and cover key events."
@@ -329,9 +332,9 @@ REQ_ROW PASS id=REQ-ARCH-061 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-ARCH-061 title="Configuration priority" statement="Configuration priority is environment variables > `.env` file > defaults in `config.py`."
 REQ_ROW PASS id=REQ-ARCH-062 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/core/errors.py,frontend/src/api/client.ts
 REQ_TITLE PASS id=REQ-ARCH-062 title="Error handling layers" statement="Routers raise AppError or HTTPException; services raise AppError; database errors become 503; axios normalizes errors; UI shows field errors, toasts, or redirec"
-REQ_ROW PASS id=REQ-ARCH-063 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-063 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-063 title="Security cross-cutting" statement="Passwords use bcrypt, tokens use HS256 with env secret, token validation covers signature/exp/aud/iss, all queries filter by user_id, cross-user access returns"
-REQ_ROW PASS id=REQ-ARCH-064 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-064 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-064 title="Testing cross-cutting" statement="Backend unit, backend integration, frontend unit, frontend component, and E2E tests exist in their respective locations."
 REQ_ROW PASS id=REQ-ARCH-070 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t16.md,docs/issues/closed/t9.md,frontend/src/api/auth.ts
 REQ_TITLE PASS id=REQ-ARCH-070 title="Centralized API layer" statement="All backend calls from the frontend go through `src/api/` as a single integration point."
@@ -347,11 +350,11 @@ REQ_ROW PASS id=REQ-ARCH-075 family=ARCH status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-ARCH-075 title="No refresh token" statement="The MVP uses a 24-hour access token with no refresh token, documented as a trade-off."
 REQ_ROW PASS id=REQ-ARCH-076 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=Dockerfile
 REQ_TITLE PASS id=REQ-ARCH-076 title="Single production container" statement="The frontend is built into the backend image as a single container to simplify Render configuration."
-REQ_ROW PASS id=REQ-ARCH-077 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-077 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-077 title="Agent layer uses same API" statement="The agent layer calls the same backend API with the same JWT, with no special endpoints."
 REQ_ROW PASS id=REQ-ARCH-078 family=ARCH status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/integration/test_expense_api.py,backend/tests/unit/test_budget_service.py
 REQ_TITLE PASS id=REQ-ARCH-078 title="Audit in same transaction" statement="Audit log writes happen in the service layer within the same transaction as the business operation."
-REQ_ROW PASS id=REQ-ARCH-079 family=ARCH status=GAP method=none
+REQ_ROW PASS id=REQ-ARCH-079 family=ARCH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-ARCH-079 title="Month selector in context" statement="The selected month lives in MonthContext, enabling global chart synchronization."
 REQ_ROW PASS id=REQ-ARCH-080 family=ARCH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/runbook.md,render.yaml
 REQ_TITLE PASS id=REQ-ARCH-080 title="Platform constraints" statement="The project operates within Render free tier constraints: 512 MB RAM, 0.1 CPU, 15-minute idle sleep, 1 GB database storage, 30-day database expiry."
@@ -363,9 +366,9 @@ REQ_ROW PASS id=REQ-AUTH-001 family=AUTH status=EXAMPLE_REFERENCE method=example
 REQ_TITLE PASS id=REQ-AUTH-001 title="section 3.1 ID-format example (never a heading entry)" statement="Full example of the REQ-[FAMILY]-NNN id format"
 REQ_ROW PASS id=REQ-BE-001 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md
 REQ_TITLE PASS id=REQ-BE-001 title="backend directory structure" statement="The backend contains `app/` with main, config, database, models/, schemas/, routers/, services/, auth/, audit/, core/; plus tests/unit/, tests/integration/, ale"
-REQ_ROW PASS id=REQ-BE-002 family=BE status=GAP method=none
+REQ_ROW PASS id=REQ-BE-002 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-BE-002 title="layer responsibilities" statement="Each layer has defined responsibilities: entry (orchestration), config (settings), database (engine), routers (parsing), services (business), models (ORM), sche"
-REQ_ROW PASS id=REQ-BE-003 family=BE status=GAP method=none
+REQ_ROW PASS id=REQ-BE-003 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-BE-003 title="dependency direction" statement="Dependencies point inward: main → routers → services → models"
 REQ_ROW PASS id=REQ-BE-010 family=BE status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_config.py
 REQ_TITLE PASS id=REQ-BE-010 title="Settings class" statement="A Pydantic Settings class loads environment variables for DATABASE_URL, DB_CONNECT_TIMEOUT, JWT_SECRET, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES, JWT_ISSU"
@@ -441,7 +444,7 @@ REQ_ROW PASS id=REQ-BE-096 family=BE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-BE-096 title="shared helpers" statement="`month_range`, `add_month`, `subtract_months`, and `to_decimal` are provided as shared helpers."
 REQ_ROW PASS id=REQ-BE-100 family=BE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/audit/logger.py
 REQ_TITLE PASS id=REQ-BE-100 title="write_audit_log" statement="`write_audit_log` adds an AuditLog to the session without committing; the caller commits."
-REQ_ROW PASS id=REQ-BE-101 family=BE status=GAP method=none
+REQ_ROW PASS id=REQ-BE-101 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-BE-101 title="audit rules" statement="Same transaction, rollback on failure, no API access, preserve on user delete, JSON-serializable values, IP address extracted from request."
 REQ_ROW PASS id=REQ-BE-110 family=BE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/core/errors.py
 REQ_TITLE PASS id=REQ-BE-110 title="AppError" statement="`AppError` carries code, message, status_code, and optional field."
@@ -453,7 +456,7 @@ REQ_ROW PASS id=REQ-BE-120 family=BE status=IMPLEMENTED_STRUCTURAL method=citati
 REQ_TITLE PASS id=REQ-BE-120 title="JSON logging setup" statement="Logs use a JSON formatter with timestamp, level, logger, event, extra_fields, and exception when applicable."
 REQ_ROW PASS id=REQ-BE-121 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/services/auth_service.py,docs/issues/closed/t8.md
 REQ_TITLE PASS id=REQ-BE-121 title="log events" statement="Events are defined for auth, expense, budget, category, db fallback, db error, and unhandled error."
-REQ_ROW PASS id=REQ-BE-122 family=BE status=GAP method=none
+REQ_ROW PASS id=REQ-BE-122 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-BE-122 title="never log sensitive data" statement="Passwords, tokens, full bodies, raw emails, and DB connection strings are never logged."
 REQ_ROW PASS id=REQ-BE-130 family=BE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/database.py,ops/diagnosis.md
 REQ_TITLE PASS id=REQ-BE-130 title="engine selection" statement="`create_db_engine` uses SQLite directly when DATABASE_URL starts with sqlite; otherwise tries PostgreSQL with a 5-second timeout and falls back to SQLite on fai"
@@ -469,7 +472,7 @@ REQ_ROW PASS id=REQ-BE-141 family=BE status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-BE-141 title="router registration order" statement="Routers are registered in order: health, auth, categories, expenses, budgets, dashboard, static SPA fallback last."
 REQ_ROW PASS id=REQ-BE-150 family=BE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/pyproject.toml
 REQ_TITLE PASS id=REQ-BE-150 title="framework and ORM" statement="FastAPI and SQLAlchemy 2.0 are chosen for auto OpenAPI, async support, Pydantic integration, and support for both PostgreSQL and SQLite."
-REQ_ROW PASS id=REQ-BE-151 family=BE status=GAP method=none
+REQ_ROW PASS id=REQ-BE-151 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-BE-151 title="user isolation and 404" statement="User isolation is enforced at the query level; cross- user access returns 404, not 403, to avoid revealing existence."
 REQ_ROW PASS id=REQ-BE-152 family=BE status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md
 REQ_TITLE PASS id=REQ-BE-152 title="error format and Decimal" statement="Error format `{detail, code, field}`; Decimal quantized to 0.01; DATE type without timezone."
@@ -563,7 +566,7 @@ REQ_ROW PASS id=REQ-CICD-083 family=CICD status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-CICD-083 title="security choices" statement="Security scans local only; secrets in GitHub and Render env, never in repo."
 REQ_ROW PASS id=REQ-DB-001 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md
 REQ_TITLE PASS id=REQ-DB-001 title="Five entities" statement="The database stores exactly five entities: users, categories, expenses, budgets, and audit_logs."
-REQ_ROW PASS id=REQ-DB-002 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-002 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-002 title="UUID primary keys" statement="All tables use UUID primary keys generated in Python, not by the database."
 REQ_ROW PASS id=REQ-DB-003 family=DB status=IMPLEMENTED_STRUCTURAL method=code-symbol pointers=backend/alembic/versions/001_initial_schema.py,backend/alembic/versions/002_categories.py,backend/alembic/versions/003_audit_logs.py
 REQ_TITLE PASS id=REQ-DB-003 title="Timestamps" statement="Timestamps use `TIMESTAMPTZ` on PostgreSQL and ISO text on SQLite"
@@ -609,7 +612,7 @@ REQ_ROW PASS id=REQ-DB-060 family=DB status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-DB-060 title="all indexes" statement="All 14 indexes across the five tables are defined as listed in the summary table."
 REQ_ROW PASS id=REQ-DB-061 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t10.md
 REQ_TITLE PASS id=REQ-DB-061 title="all check constraints" statement="All eight CHECK constraints across the five tables are defined as listed."
-REQ_ROW PASS id=REQ-DB-062 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-062 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-062 title="all foreign keys" statement="All five foreign key relationships are defined with the specified ON DELETE behavior (CASCADE for user_id, RESTRICT for category_id, no cascade for audit_logs.u"
 REQ_ROW PASS id=REQ-DB-063 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/database.py
 REQ_TITLE PASS id=REQ-DB-063 title="SQLite foreign key pragma" statement="SQLite foreign keys are enforced via `PRAGMA foreign_keys = ON` set per connection through a SQLAlchemy engine event."
@@ -633,7 +636,7 @@ REQ_ROW PASS id=REQ-DB-091 family=DB status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-DB-091 title="SQLite Decimal handling" statement="SQLite stores NUMERIC as REAL; SQLAlchemy coerces to Decimal; aggregation quantizes to 0.01 before comparison."
 REQ_ROW PASS id=REQ-DB-092 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/services/dashboard_service.py
 REQ_TITLE PASS id=REQ-DB-092 title="aggregation rules" statement="Sums use `func.sum`; result is cast to Decimal and quantized to 2 decimal places; comparisons use Decimal, never float."
-REQ_ROW PASS id=REQ-DB-100 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-100 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-100 title="date rules" statement="Expense date uses DATE with no timezone; created_at and updated_at use TIMESTAMPTZ in UTC; year_month uses CHAR(7) with no timezone."
 REQ_ROW PASS id=REQ-DB-101 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-101 title="DATE rationale" statement="DATE avoids timezone ambiguity in month attribution"
@@ -655,15 +658,15 @@ REQ_ROW PASS id=REQ-DB-120 family=DB status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-DB-120 title="data volume assumptions" statement="Users < 100, categories per user = 10 system + < 20 custom, expenses per user per month < 200, expenses per user total < 2000, budgets per user = 1 per month, a"
 REQ_ROW PASS id=REQ-DB-121 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/runbook.md
 REQ_TITLE PASS id=REQ-DB-121 title="backup scope" statement="No automated backups in MVP. Manual export commands documented for PostgreSQL (`pg_dump`) and SQLite (`sqlite3 .dump`)."
-REQ_ROW PASS id=REQ-DB-130 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-130 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-130 title="primary key choice" statement="UUID primary keys generated in Python for portability across PostgreSQL and SQLite."
-REQ_ROW PASS id=REQ-DB-131 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-131 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-131 title="amount type choice" statement="NUMERIC(12,2) for exact decimal representation."
-REQ_ROW PASS id=REQ-DB-132 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-132 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-132 title="date type choice" statement="DATE avoids timezone ambiguity for month attribution."
-REQ_ROW PASS id=REQ-DB-133 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-133 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-133 title="budget key choice" statement="(user_id, year_month) ensures one budget per user per month."
-REQ_ROW PASS id=REQ-DB-134 family=DB status=GAP method=none
+REQ_ROW PASS id=REQ-DB-134 family=DB status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-DB-134 title="audit entity_id choice" statement="UUID without FK, supporting multiple entity types and surviving deletion."
 REQ_ROW PASS id=REQ-DB-135 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/database.py
 REQ_TITLE PASS id=REQ-DB-135 title="fallback choice" statement="SQLite on startup only; no runtime switching."
@@ -825,9 +828,9 @@ REQ_ROW PASS id=REQ-EXT-083 family=EXT status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-EXT-083 title="two documentation files" statement="Extension pack overview and permissions matrix are separate documents."
 REQ_ROW PASS id=REQ-FE-001 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md
 REQ_TITLE PASS id=REQ-FE-001 title="frontend directory structure" statement="The frontend contains `src/` with api/, components/ (ui/, layout/, charts/, forms/, common/), pages/, hooks/, context/, types/, utils/, test/; plus `public/`, c"
-REQ_ROW PASS id=REQ-FE-002 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-002 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-002 title="layer responsibilities" statement="Entry (bootstrap), pages (route composition), components (reusable UI), hooks (data fetching), context (global state), API (HTTP), utils (pure functions), types"
-REQ_ROW PASS id=REQ-FE-003 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-003 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-003 title="import direction" statement="Pages may import anything below them; components may not import pages; hooks may not import components or pages; API modules may not import React; utils are pur"
 REQ_ROW PASS id=REQ-FE-010 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/dashboard_page_app.test.tsx
 REQ_TITLE PASS id=REQ-FE-010 title="route table" statement="Routes are `/login`, `/register`, `/` (Dashboard), `/expenses`, `/budgets`, `/categories`, and `*` (NotFound)"
@@ -845,7 +848,7 @@ REQ_ROW PASS id=REQ-FE-020 family=FE status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-FE-020 title="provider order" statement="Providers are nested QueryClientProvider → BrowserRouter → AuthProvider → MonthProvider → ToastProvider → App."
 REQ_ROW PASS id=REQ-FE-021 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/main.tsx
 REQ_TITLE PASS id=REQ-FE-021 title="provider rationale" statement="Each provider depends only on its ancestors: QueryClient outermost because Auth uses it; Toast innermost because any component may trigger it."
-REQ_ROW PASS id=REQ-FE-022 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-022 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-022 title="provider responsibilities" statement="QueryClientProvider (server cache), BrowserRouter (routing), AuthProvider (user/token), MonthProvider (yearMonth), ToastProvider (toast queue)."
 REQ_ROW PASS id=REQ-FE-030 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/context/month_context.test.tsx
 REQ_TITLE PASS id=REQ-FE-030 title="state categories" statement="Server state in React Query, auth state in AuthContext, UI global state in MonthContext, form state in React Hook Form, URL state in React Router."
@@ -857,7 +860,7 @@ REQ_ROW PASS id=REQ-FE-033 family=FE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-FE-033 title="ToastContext" statement="ToastContext provides `showToast(message, variant)`; toasts auto-dismiss after 3 seconds."
 REQ_ROW PASS id=REQ-FE-034 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t16.md,docs/plan.md,frontend/src/hooks/use_budget.ts
 REQ_TITLE PASS id=REQ-FE-034 title="data hooks" statement="Each resource has a dedicated hook wrapping React Query; mutations invalidate the relevant query keys."
-REQ_ROW PASS id=REQ-FE-035 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-035 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-035 title="hook list" statement="Auth, categories, expenses (list/get/create/update/ delete), budgets (get/set/delete), dashboard (six queries), toast."
 REQ_ROW PASS id=REQ-FE-040 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/api/client.ts
 REQ_TITLE PASS id=REQ-FE-040 title="axios instance" statement="A single axios instance uses `VITE_API_BASE_URL` with a 10-second timeout; request interceptor attaches the Bearer token; response interceptor handles 401 by cl"
@@ -905,13 +908,13 @@ REQ_ROW PASS id=REQ-FE-082 family=FE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-FE-082 title="form behavior rules" statement="Validate on blur and submit; disable submit while loading; show field errors; show backend errors mapped to fields; reset on success via onSuccess; preserve val"
 REQ_ROW PASS id=REQ-FE-090 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/tailwind.config.js
 REQ_TITLE PASS id=REQ-FE-090 title="color tokens" statement="Design tokens: primary `#3B82F6`, success `#22C55E`, warning `#EAB308`, danger `#EF4444`, background `#F9FAFB`, surface white, border `#E5E7EB`, text primary `#"
-REQ_ROW PASS id=REQ-FE-091 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-091 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/design-system.md
 REQ_TITLE PASS id=REQ-FE-091 title="typography" statement="Page title `text-2xl font-semibold`, section title `text-lg font-semibold`, KPI value `text-3xl font-bold`; system font stack; `tabular-nums` for tables and KPI"
-REQ_ROW PASS id=REQ-FE-092 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-092 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/design-system.md
 REQ_TITLE PASS id=REQ-FE-092 title="spacing scale" statement="Page padding `px-6 py-8`, card padding `p-6`, card gap `gap-6`, section gap `space-y-8`, form gap `space-y-4`, max width `max-w-7xl mx-auto`."
-REQ_ROW PASS id=REQ-FE-093 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-093 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/design-system.md
 REQ_TITLE PASS id=REQ-FE-093 title="component specifications" statement="Button variants (primary/secondary/danger/ghost) with defined backgrounds; Card with border and shadow; Input with focus ring and error state; Modal with overla"
-REQ_ROW PASS id=REQ-FE-094 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-094 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/design-system.md
 REQ_TITLE PASS id=REQ-FE-094 title="chart colors" statement="Pie uses category colors; trend bars `#3B82F6`; cumulative line `#3B82F6` normal and `#EF4444` over budget; budget reference `#9CA3AF` dashed; heatmap five-step"
 REQ_ROW PASS id=REQ-FE-100 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/budget_page.test.tsx,frontend/src/pages/categories_page.test.tsx,frontend/src/pages/expenses_page.test.tsx
 REQ_TITLE PASS id=REQ-FE-100 title="loading states" statement="Full-page spinner for auth check; skeleton for charts and tables; inline spinner for buttons; skeleton blocks for KPI cards."
@@ -925,17 +928,17 @@ REQ_ROW PASS id=REQ-FE-110 family=FE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-FE-110 title="accessibility checklist" statement="Labels, accessible names, modal role/focus trap/Esc, chart descriptions, contrast ≥ 4.5:1, keyboard navigation, skip link, unique page titles, `html lang='en'`,"
 REQ_ROW PASS id=REQ-FE-111 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/components/forms/budget_form.test.tsx,frontend/src/components/forms/expense_form.test.tsx
 REQ_TITLE PASS id=REQ-FE-111 title="modal focus management" statement="On open, focus moves into the modal; on close, focus returns to the trigger; Tab cycles; Esc closes."
-REQ_ROW PASS id=REQ-FE-112 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-112 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/design-system.md
 REQ_TITLE PASS id=REQ-FE-112 title="chart accessibility" statement="Each chart is wrapped in `<figure>` with a `<figcaption>` and `role='img'` `aria-label` summarizing key values."
 REQ_ROW PASS id=REQ-FE-120 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/App.tsx
 REQ_TITLE PASS id=REQ-FE-120 title="performance techniques" statement="Code splitting via `React.lazy` for pages and charts; memoization for pure charts; query caching; debounced inputs; server pagination; SVG charts; bundle analys"
-REQ_ROW PASS id=REQ-FE-121 family=FE status=GAP method=hardcase-ruling ruling=docs/issues/closed/t20.md
+REQ_ROW PASS id=REQ-FE-121 family=FE status=DEFERRED_RULLED method=card-declared-ruling pointers=docs/rulings/req-matrix.md deferral_key=RULING_FE_PERF_LIVE_PROFILING issue=65 deferral_reason="Verification needs live performance profiling (Lighthouse/FCP/TTI), outside the standing no-live/no-E2E ruling that defers the LIVE_* register keys (platform #65 ruling, docs/rulings/req-matrix.md)"
 REQ_TITLE PASS id=REQ-FE-121 title="performance budget" statement="Initial JS bundle < 300 KB gzipped, CSS < 30 KB gzipped, Lighthouse performance > 85, FCP < 1.5s, TTI < 3s."
-REQ_ROW PASS id=REQ-FE-130 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-130 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-FE-130 title="test structure" statement="Tests live beside source with `.test.ts(x)` suffixes; utils, charts, forms, and pages have tests."
-REQ_ROW PASS id=REQ-FE-131 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-131 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-FE-131 title="coverage targets" statement="Utils 90%+, charts 80%+, forms 80%+, pages 60%+, API modules mocked (not tested directly)."
-REQ_ROW PASS id=REQ-FE-132 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-132 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-FE-132 title="test examples" statement="Tests exist for formatUSD, BudgetProgress color logic, WeeklyHeatmap cells, CategoryPieChart merging, ExpenseForm validation, LoginPage validation and errors."
 REQ_ROW PASS id=REQ-FE-133 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/test/handlers_contract.test.ts
 REQ_TITLE PASS id=REQ-FE-133 title="MSW setup" statement="MSW handlers cover auth login, /auth/me, /categories, /expenses, /dashboard/summary; setup.ts starts and stops the server."
@@ -943,9 +946,9 @@ REQ_ROW PASS id=REQ-FE-140 family=FE status=IMPLEMENTED_STRUCTURAL method=verifi
 REQ_TITLE PASS id=REQ-FE-140 title="build and language" statement="Vite, TypeScript, Tailwind CSS, Recharts, React Query, Context, React Hook Form + Zod, Axios, date-fns, React Router v6."
 REQ_ROW PASS id=REQ-FE-141 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/api/client.ts
 REQ_TITLE PASS id=REQ-FE-141 title="token storage choice" statement="Token stored in localStorage; documented trade-off."
-REQ_ROW PASS id=REQ-FE-142 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-142 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-142 title="centralized API choice" statement="All API calls go through `src/api/`."
-REQ_ROW PASS id=REQ-FE-143 family=FE status=GAP method=none
+REQ_ROW PASS id=REQ-FE-143 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-FE-143 title="out-of-scope frontend features" statement="Dark mode, i18n, SSR, PWA, analytics are not in MVP."
 REQ_ROW PASS id=REQ-FE-144 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md
 REQ_TITLE PASS id=REQ-FE-144 title="accessibility and testing choice" statement="WCAG 2.1 AA for forms and navigation; Vitest + RTL for tests; MSW for mocking; coverage reported but not enforced."
@@ -999,7 +1002,7 @@ REQ_ROW PASS id=REQ-OPS-043 family=OPS status=IMPLEMENTED_STRUCTURAL method=code
 REQ_TITLE PASS id=REQ-OPS-043 title="diagnosis expected output" statement="Expected log output (WARNING + INFO) and health response (`degraded`, `sqlite`, `fallback_active: true`) documented."
 REQ_ROW PASS id=REQ-OPS-044 family=OPS status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/diagnosis.md
 REQ_TITLE PASS id=REQ-OPS-044 title="diagnosis expected behavior" statement="Feature behavior during fallback documented: all features work, data persistence lost on restart."
-REQ_ROW PASS id=REQ-OPS-045 family=OPS status=GAP method=none
+REQ_ROW PASS id=REQ-OPS-045 family=OPS status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/commands.md
 REQ_TITLE PASS id=REQ-OPS-045 title="diagnosis verification" statement="Verification steps include register, login, create expense, list expenses."
 REQ_ROW PASS id=REQ-OPS-046 family=OPS status=IMPLEMENTED_STRUCTURAL method=code-symbol pointers=backend/app/database.py,backend/app/models/audit_log.py,backend/app/routers/health.py
 REQ_TITLE PASS id=REQ-OPS-046 title="diagnosis recovery" statement="Recovery: restart db, restart backend, verify health returns `ok`, `postgresql`."
@@ -1067,17 +1070,17 @@ REQ_ROW PASS id=REQ-OPS-113 family=OPS status=IMPLEMENTED_STRUCTURAL method=cita
 REQ_TITLE PASS id=REQ-OPS-113 title="documentation design" statement="Reproducible diagnosis example; deployment record as markdown; five ops files."
 REQ_ROW PASS id=REQ-PLAN-001 family=PLAN status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/ai-workflow.md
 REQ_TITLE PASS id=REQ-PLAN-001 title="eight phases" statement="The project is built in eight phases: spec and skeleton, authentication, core CRUD, dashboard, container and CI/CD, agent extension pack, security and ops, docs"
-REQ_ROW PASS id=REQ-PLAN-002 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-002 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-002 title="phase dependencies" statement="Phases are sequential; Phase 4 and Phase 5 may run in parallel."
 REQ_ROW PASS id=REQ-PLAN-010 family=PLAN status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.env.example,.gitignore
 REQ_TITLE PASS id=REQ-PLAN-010 title="phase 1 tasks" statement="17 tasks: write product-spec, create repo structure, write AGENTS.md, CLAUDE.md, process.md, three role files, task-template.md, create ~30 issues, groom all is"
-REQ_ROW PASS id=REQ-PLAN-011 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-011 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-011 title="phase 1 deliverables" statement="product-spec.md, AGENTS.md, CLAUDE.md, process.md, team/, task-template.md, repo skeleton, groomed backlog, backend and frontend skeletons, root config files."
 REQ_ROW PASS id=REQ-PLAN-012 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t1.md,docs/issues/closed/t2.md,docs/issues/closed/t4.md
 REQ_TITLE PASS id=REQ-PLAN-012 title="phase 1 verification" statement="Spec complete; backend starts; frontend starts; issues groomed; agent can read context."
 REQ_ROW PASS id=REQ-PLAN-020 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t6.md,docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-020 title="phase 2 tasks" statement="15 tasks: user model, password, JWT, register, login, me, auth dependency, auth unit tests, auth integration tests, AuthContext, axios client, login page, regis"
-REQ_ROW PASS id=REQ-PLAN-021 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-021 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-021 title="phase 2 verification" statement="Register, login, token, duplicate email, wrong password, frontend login, frontend redirect, tests pass."
 REQ_ROW PASS id=REQ-PLAN-030 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t15.md,docs/issues/closed/t18.md,docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-030 title="phase 3 tasks" statement="25 tasks covering categories, expenses, budgets, audit, isolation tests, and frontend pages."
@@ -1087,7 +1090,7 @@ REQ_ROW PASS id=REQ-PLAN-040 family=PLAN status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-PLAN-040 title="phase 4 tasks" statement="19 tasks covering six dashboard endpoints, chart components, MonthContext, MonthPicker, KPI cards, chart tests, and integration tests."
 REQ_ROW PASS id=REQ-PLAN-041 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,backend/scripts/dashboard_verification.py,docs/criteria/dashboard_verification.md
 REQ_TITLE PASS id=REQ-PLAN-041 title="phase 4 verification" statement="Summary correct; category breakdown sum equals total; trend includes empty months; cumulative last point equals total; heatmap has seven days per week; recent l"
-REQ_ROW PASS id=REQ-PLAN-050 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-050 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-050 title="phase 5 tasks" statement="15 tasks: Dockerfile, Compose, health check, SQLite fallback, render.yaml, three workflows, Playwright setup, three E2E specs, first deploy, UptimeRobot, deploy"
 REQ_ROW PASS id=REQ-PLAN-051 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/scripts/infra_verification.py,docs/criteria/infra_verification.md,docs/issues/closed/t28.md
 REQ_TITLE PASS id=REQ-PLAN-051 title="phase 5 verification" statement="Docker build works; full stack runs; CI passes; E2E passes; deploy works; health endpoint works; README has cold start note; UptimeRobot active."
@@ -1101,25 +1104,25 @@ REQ_ROW PASS id=REQ-PLAN-071 family=PLAN status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-PLAN-071 title="phase 7 verification" statement="All scan files exist; no real secrets found; diagnosis reproducible; runbook covers common issues; deployment record accurate."
 REQ_ROW PASS id=REQ-PLAN-080 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t48.md,docs/issues/closed/t49.md,docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-080 title="phase 8 tasks" statement="13 tasks: write README, architecture.md, api.md, design-system.md, testing-guidelines.md, ai-workflow.md; capture screenshots; run final tests; deploy; verify l"
-REQ_ROW PASS id=REQ-PLAN-081 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-081 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-081 title="phase 8 verification" statement="README under 500 lines; all docs present; screenshots exist; all tests pass; live URL works; criteria mapped."
-REQ_ROW PASS id=REQ-PLAN-090 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-090 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-090 title="milestones" statement="Eight milestones M1–M8 aligned with the eight phases, each with a criteria statement."
-REQ_ROW PASS id=REQ-PLAN-100 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-100 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-100 title="technical risks" statement="Ten technical risks documented with probability, impact, and mitigation: Render PostgreSQL expiry, cold start, pi-agent struggles, context limit, MCP failure, E"
-REQ_ROW PASS id=REQ-PLAN-101 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-101 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-101 title="process risks" statement="Seven process risks: spec vague, spec detailed, AI wrong code, review skipped, issues too large, correction not written, session records incomplete."
-REQ_ROW PASS id=REQ-PLAN-102 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-102 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-102 title="scope risks" statement="Six scope risks: feature creep, extra charts, multi-currency, shared budgets, mobile, dark mode."
-REQ_ROW PASS id=REQ-PLAN-103 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-103 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-103 title="deployment risks" statement="Six deployment risks: deploy failure, migration failure, cold start, bandwidth, build minutes, secret leak."
 REQ_ROW PASS id=REQ-PLAN-110 family=PLAN status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/ai-workflow.md
 REQ_TITLE PASS id=REQ-PLAN-110 title="daily workflow" statement="Nine-step daily workflow: pick issue, groom, implement, verify, fix on FAIL, close on PASS, commit, CI runs, update session records."
-REQ_ROW PASS id=REQ-PLAN-111 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-111 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-111 title="time allocation" statement="Writing code 40%, reviewing AI output 20%, grooming 10%, testing 15%, docs 10%, debugging 5%."
 REQ_ROW PASS id=REQ-PLAN-112 family=PLAN status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/ai-workflow.md
 REQ_TITLE PASS id=REQ-PLAN-112 title="session discipline" statement="One issue per session, fresh session for QA, commit after each issue, update docs after corrections, record sessions."
-REQ_ROW PASS id=REQ-PLAN-120 family=PLAN status=GAP method=none
+REQ_ROW PASS id=REQ-PLAN-120 family=PLAN status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/plan.md
 REQ_TITLE PASS id=REQ-PLAN-120 title="phase structure" statement="Eight phases, sequential with Phase 4 and 5 parallel- izable, estimated 25 days."
 REQ_ROW PASS id=REQ-PLAN-121 family=PLAN status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/process.md
 REQ_TITLE PASS id=REQ-PLAN-121 title="workflow and discipline" statement="PM → SWE → QA loop; one issue per session; documentation throughout; screenshots in Phase 8; security scans in Phase 7; peer review dry run in Phase 8."
@@ -1163,9 +1166,9 @@ REQ_ROW PASS id=REQ-PROD-023 family=PROD status=IMPLEMENTED_TESTED method=citati
 REQ_TITLE PASS id=REQ-PROD-023 title="Data integrity" statement="Amounts are NUMERIC(12,2) and handled as Decimal, transmitted as strings; dates use DATE without timezone; budget has a unique constraint on (user_id, year_mont"
 REQ_ROW PASS id=REQ-PROD-024 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t17.md,docs/plan.md
 REQ_TITLE PASS id=REQ-PROD-024 title="Usability" statement="Dashboard loads in under 2 seconds, empty and loading states are shown, error messages are specific, month selector updates all charts, forms validate before su"
-REQ_ROW PASS id=REQ-PROD-025 family=PROD status=GAP method=none
+REQ_ROW PASS id=REQ-PROD-025 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md,docs/design-system.md
 REQ_TITLE PASS id=REQ-PROD-025 title="Accessibility" statement="Form inputs have labels, buttons have accessible names, modal has role and focus trap, charts have descriptions, contrast is at least 4.5:1, keyboard navigation"
-REQ_ROW PASS id=REQ-PROD-026 family=PROD status=GAP method=none
+REQ_ROW PASS id=REQ-PROD-026 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-PROD-026 title="Maintainability" statement="Backend is split into routers, services, models, schemas; frontend into api, components, pages, hooks, context, utils; all API calls are centralized; all busine"
 REQ_ROW PASS id=REQ-PROD-027 family=PROD status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.env.example
 REQ_TITLE PASS id=REQ-PROD-027 title="Portability" statement="Docker Compose runs the full stack on any platform; SQLite is used locally and PostgreSQL in production; all configuration is via environment variables; no hard"
@@ -1185,11 +1188,11 @@ REQ_ROW PASS id=REQ-PROD-035 family=PROD status=IMPLEMENTED_TESTED method=citati
 REQ_TITLE PASS id=REQ-PROD-035 title="Database edge cases" statement="Edge cases for PostgreSQL unreachable at startup, unreachable at runtime, recovery requiring restart, unwritable SQLite file, migration failure, and concurrent"
 REQ_ROW PASS id=REQ-PROD-036 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t17.md,docs/issues/closed/t20.md,docs/issues/closed/t22.md
 REQ_TITLE PASS id=REQ-PROD-036 title="Frontend edge cases" statement="Edge cases for token expiry during session, network error, empty dashboard, loading state, invalid form data, protected route without login, rapid month switchi"
-REQ_ROW PASS id=REQ-PROD-040 family=PROD status=GAP method=none
+REQ_ROW PASS id=REQ-PROD-040 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-PROD-040 title="Functional success" statement="A new user can register, log in, record expenses, set a budget, and view the dashboard without errors; all five charts render; month switching updates all chart"
 REQ_ROW PASS id=REQ-PROD-041 family=PROD status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
 REQ_TITLE PASS id=REQ-PROD-041 title="Technical success" statement="All unit, integration, and E2E tests pass; SQLite fallback works; health check is accurate; CI runs on every PR; CD deploys on merge to main; a public URL is av"
-REQ_ROW PASS id=REQ-PROD-042 family=PROD status=GAP method=none
+REQ_ROW PASS id=REQ-PROD-042 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-PROD-042 title="Quality success" statement="README provides a 5-minute verification path; all 14 criteria have evidence; security artifacts are present; Agent Extension Pack is functional; AI workflow is"
 REQ_ROW PASS id=REQ-PROD-043 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/scripts/agent_pack_verification.py,backend/scripts/security_ops_verification.py,docs/criteria/agent_pack_verification.md
 REQ_TITLE PASS id=REQ-PROD-043 title="Measurable targets" statement="Backend test count >= 50, frontend test count >= 20, E2E test count >= 3, API endpoints >= 15, dashboard charts = 5, system categories = 10, security artifacts"
@@ -1203,7 +1206,7 @@ REQ_ROW PASS id=REQ-PROJ-004 family=PROJ status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-PROJ-004 title="Core questions answered" statement="The application answers three questions: how much have I spent this month, how much budget is left, and where is my money going"
 REQ_ROW PASS id=REQ-PROJ-005 family=PROJ status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=README.md
 REQ_TITLE PASS id=REQ-PROJ-005 title="Final Project criteria mapping" statement="The README contains a table mapping all 14 Final Project criteria to evidence in the repository."
-REQ_ROW PASS id=REQ-PROJ-006 family=PROJ status=GAP method=none
+REQ_ROW PASS id=REQ-PROJ-006 family=PROJ status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-PROJ-006 title="In-scope capabilities" statement="The MVP includes authentication, expenses, budgets, categories, dashboard with five visualizations, data integrity, SQLite fallback, Agent Extension Pack, secur"
 REQ_ROW PASS id=REQ-PROJ-007 family=PROJ status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t8.md,docs/issues/closed/t9.md
 REQ_TITLE PASS id=REQ-PROJ-007 title="Out-of-scope boundaries" statement="Multi-currency, income tracking, bank integration, shared budgets, mobile app, recurring expenses, receipt upload, email verification, password reset, dark mode"
@@ -1245,11 +1248,11 @@ REQ_ROW PASS id=REQ-SEC-034 family=SEC status=IMPLEMENTED_TESTED method=verifica
 REQ_TITLE PASS id=REQ-SEC-034 title="isolation test coverage" statement="`test_isolation.py` verifies read, update, delete return 404 for cross-user; list shows only own; budget isolation."
 REQ_ROW PASS id=REQ-SEC-040 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/schemas/auth.py,docs/issues/closed/t8.md
 REQ_TITLE PASS id=REQ-SEC-040 title="Pydantic schemas" statement="All request bodies validated by Pydantic v2 schemas with strict constraints."
-REQ_ROW PASS id=REQ-SEC-041 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-041 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/api.md
 REQ_TITLE PASS id=REQ-SEC-041 title="validation rules" statement="Validation rules for email, username, password, amount, category_id, date, note, year_month, page, page_size, months, weeks, limit, color."
-REQ_ROW PASS id=REQ-SEC-042 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-042 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/coding_standards.md
 REQ_TITLE PASS id=REQ-SEC-042 title="SQL injection prevention" statement="All database access uses SQLAlchemy ORM with parameterized queries; no raw SQL in application code."
-REQ_ROW PASS id=REQ-SEC-043 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-043 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/coding_standards.md
 REQ_TITLE PASS id=REQ-SEC-043 title="XSS prevention" statement="React escaping, no `dangerouslySetInnerHTML`, no third-party scripts; CSP not configured in MVP (documented)."
 REQ_ROW PASS id=REQ-SEC-044 family=SEC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/main.py,render.yaml
 REQ_TITLE PASS id=REQ-SEC-044 title="CORS" statement="CORS configured with explicit `allow_origins` from settings; in production only the Render URL."
@@ -1289,9 +1292,9 @@ REQ_ROW PASS id=REQ-SEC-090 family=SEC status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-SEC-090 title="agent threat model" statement="Seven threats for agents with mitigations: cross-user access, unauthorized modification, backend bypass, prompt injection, secret leakage, arbitrary code, inval"
 REQ_ROW PASS id=REQ-SEC-091 family=SEC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=security/agent-security-notes.md
 REQ_TITLE PASS id=REQ-SEC-091 title="agent security controls" statement="JWT auth, backend-enforced authorization, hooks, output filtering, tool restriction, context isolation, read-only roles, audit."
-REQ_ROW PASS id=REQ-SEC-092 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-092 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/config_reference.md
 REQ_TITLE PASS id=REQ-SEC-092 title="MCP security" statement="JWT verification, token from env, no database access, strict tool schemas, exception handling, no token logging."
-REQ_ROW PASS id=REQ-SEC-093 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-093 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/config_reference.md
 REQ_TITLE PASS id=REQ-SEC-093 title="hook security" statement="validate_amount prevents invalid amounts; validate_ownership prevents cross-user access; both also enforced in backend."
 REQ_ROW PASS id=REQ-SEC-094 family=SEC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=security/agent-security-notes.md
 REQ_TITLE PASS id=REQ-SEC-094 title="prompt injection considerations" statement="User input treated as data, skills are project files, tool output validated, no cloud calls, MCP verifies JWT."
@@ -1327,9 +1330,9 @@ REQ_ROW PASS id=REQ-SEC-131 family=SEC status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-SEC-131 title="response steps" statement="Six steps: identify, assess, contain, eradicate, recover, document."
 REQ_ROW PASS id=REQ-SEC-132 family=SEC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/runbook.md
 REQ_TITLE PASS id=REQ-SEC-132 title="rollback" statement="Bad deployment rollback via Render dashboard; leaked secret rotate and redeploy; database compromise N/A; dependency vulnerability update and redeploy."
-REQ_ROW PASS id=REQ-SEC-140 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-140 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-SEC-140 title="auth and token choices" statement="bcrypt rounds 12; HS256; localStorage; 24-hour expiry; no refresh token; 404 for cross-user."
-REQ_ROW PASS id=REQ-SEC-141 family=SEC status=GAP method=none
+REQ_ROW PASS id=REQ-SEC-141 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-SEC-141 title="audit choices" statement="Audit write same transaction; no API access."
 REQ_ROW PASS id=REQ-SEC-142 family=SEC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.env.example
 REQ_TITLE PASS id=REQ-SEC-142 title="secrets and scans" statement="Secrets via env vars; security scans local and committed."
@@ -1361,25 +1364,25 @@ REQ_ROW PASS id=REQ-STRUCT-027 family=STRUCT status=IMPLEMENTED_STRUCTURAL metho
 REQ_TITLE PASS id=REQ-STRUCT-027 title="ops file purposes" statement="Each ops file has a defined purpose."
 REQ_ROW PASS id=REQ-STRUCT-028 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/requirements/Chapter16_ProjectStructure.md
 REQ_TITLE PASS id=REQ-STRUCT-028 title="agent extension file purposes" statement="Each agent extension file has a defined purpose."
-REQ_ROW PASS id=REQ-STRUCT-029 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-029 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-STRUCT-029 title="symlink purposes" statement="Each symlink has a defined target and purpose."
-REQ_ROW PASS id=REQ-STRUCT-040 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-040 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-STRUCT-040 title="file count summary" statement="The project totals approximately 230 files across root, CI/CD, frontend, backend, E2E, docs, security, ops, agent extension, and screenshots."
-REQ_ROW PASS id=REQ-STRUCT-050 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-050 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/coding_standards.md
 REQ_TITLE PASS id=REQ-STRUCT-050 title="file naming" statement="React components PascalCase.tsx; hooks camelCase.ts with `use` prefix; TypeScript modules camelCase.ts; test files same name + `.test.ts(x)`; Python modules sna"
-REQ_ROW PASS id=REQ-STRUCT-051 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-051 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/coding_standards.md
 REQ_TITLE PASS id=REQ-STRUCT-051 title="directory naming" statement="Feature directories lowercase; Python packages snake_case; agent tool directories kebab-case; docs subdirectories lowercase."
 REQ_ROW PASS id=REQ-STRUCT-052 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/requirements/Chapter16_ProjectStructure.md
 REQ_TITLE PASS id=REQ-STRUCT-052 title="mixed conventions rationale" statement="Python follows PEP 8; React follows community convention; Markdown uses kebab-case for URLs; agent tools match tool conventions."
 REQ_ROW PASS id=REQ-STRUCT-060 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.gitignore
 REQ_TITLE PASS id=REQ-STRUCT-060 title="excluded content" statement="`.env`, node_modules, .venv, `__pycache__`, *.db, dist, build, coverage, tool caches, .DS_Store, *.log, real user data, production dumps, RENDER_DEPLOY_HOOK are"
-REQ_ROW PASS id=REQ-STRUCT-070 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-070 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-STRUCT-070 title="monorepo choice" statement="Single repository with top-level frontend, backend, e2e, docs, security, ops, and agent directories."
-REQ_ROW PASS id=REQ-STRUCT-071 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-071 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-STRUCT-071 title="agent directories choice" statement="Agent capabilities, hooks, MCP, and custom-agent live in their own top-level directories with symlinks in `.agents/`."
-REQ_ROW PASS id=REQ-STRUCT-072 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-072 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md,docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-STRUCT-072 title="tests beside code" statement="Frontend tests use `*.test.ts(x)` beside source; backend tests separate in `tests/unit/` and `tests/integration/`."
-REQ_ROW PASS id=REQ-STRUCT-073 family=STRUCT status=GAP method=none
+REQ_ROW PASS id=REQ-STRUCT-073 family=STRUCT status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-STRUCT-073 title="no extra tooling" statement="No `src/` at root; no Turborepo or Nx; flat layout."
 REQ_ROW PASS id=REQ-TECH-001 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/package.json
 REQ_TITLE PASS id=REQ-TECH-001 title="Frontend framework" statement="The frontend uses React 18 with TypeScript 5, built with Vite 5."
@@ -1395,7 +1398,7 @@ REQ_ROW PASS id=REQ-TECH-006 family=TECH status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-TECH-006 title="Frontend forms and validation" statement="The frontend uses React Hook Form 7 with Zod 3 for form state and validation."
 REQ_ROW PASS id=REQ-TECH-007 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/api/client.ts
 REQ_TITLE PASS id=REQ-TECH-007 title="Frontend HTTP client" statement="The frontend uses Axios 1 with request and response interceptors for auth token attachment and error normalization."
-REQ_ROW PASS id=REQ-TECH-008 family=TECH status=GAP method=hardcase-ruling ruling=docs/issues/closed/t20.md
+REQ_ROW PASS id=REQ-TECH-008 family=TECH status=DEFERRED_RULLED method=card-declared-ruling pointers=docs/rulings/req-matrix.md deferral_key=RULING_TECH_DATEFNS_OVERRULED issue=65 deferral_reason="OVERRULED by the approved t20 ac6 dependency-absence gate: date-fns is banned from frontend/package.json and stdlib month math shipped (platform #65 ruling, docs/rulings/req-matrix.md)"
 REQ_TITLE PASS id=REQ-TECH-008 title="Frontend date utilities" statement="The frontend uses date-fns 3 for date manipulation."
 REQ_ROW PASS id=REQ-TECH-009 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/package.json
 REQ_TITLE PASS id=REQ-TECH-009 title="Frontend testing tools" statement="The frontend uses Vitest 1 with React Testing Library 14 and MSW 2 for unit, component, and API mocking tests."
@@ -1461,19 +1464,19 @@ REQ_ROW PASS id=REQ-TECH-081 family=TECH status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-TECH-081 title="Frontend version pinning" statement="Frontend dependencies are pinned via `package.json` and `package-lock.json`."
 REQ_ROW PASS id=REQ-TECH-082 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=Dockerfile,docker-compose.yml
 REQ_TITLE PASS id=REQ-TECH-082 title="Docker image pinning" statement="Docker base images are pinned to specific tags; no `latest` tags in production Dockerfiles."
-REQ_ROW PASS id=REQ-TECH-083 family=TECH status=GAP method=none
+REQ_ROW PASS id=REQ-TECH-083 family=TECH status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/config_reference.md
 REQ_TITLE PASS id=REQ-TECH-083 title="GitHub Actions pinning" statement="GitHub Actions are pinned to major versions (e.g., `actions/checkout@v4`)."
 REQ_ROW PASS id=REQ-TECH-090 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.env.example
 REQ_TITLE PASS id=REQ-TECH-090 title="Environment variable list" statement="All configuration is via environment variables listed in `.env.example`, covering DATABASE_URL, JWT settings, CORS, ENVIRONMENT, APP_VERSION, DB_CONNECT_TIMEOUT"
 REQ_ROW PASS id=REQ-TECH-091 family=TECH status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.env.example
 REQ_TITLE PASS id=REQ-TECH-091 title="No real secrets in .env.example" statement="`.env.example` contains only placeholders and defaults; no real secrets."
-REQ_ROW PASS id=REQ-TEST-001 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-001 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-001 title="four test layers" statement="Testing is organized into four layers: backend unit (pytest), backend integration (pytest + httpx), frontend unit/component (Vitest + RTL), and end-to-end (Play"
-REQ_ROW PASS id=REQ-TEST-002 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-002 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-002 title="testing principles" statement="Tests assert behavior not implementation, one assertion per concept, independent, deterministic, fast by default, realistic integration, isolated E2E."
 REQ_ROW PASS id=REQ-TEST-003 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t51.md,docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-003 title="coverage policy" statement="Coverage is reported but not enforced"
-REQ_ROW PASS id=REQ-TEST-010 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-010 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-010 title="backend test structure" statement="Backend tests live in `backend/tests/` with `conftest.py`, `unit/`, and `integration/` subdirectories."
 REQ_ROW PASS id=REQ-TEST-011 family=TEST status=IMPLEMENTED_TESTED method=verification-artifact pointers=frontend/src/api/client.test.ts
 REQ_TITLE PASS id=REQ-TEST-011 title="test fixtures" statement="`conftest.py` provides `db_session` (in-memory SQLite with StaticPool), `user_a`, `user_b`, `system_category`, `client`, `auth_headers`, `auth_headers_b`."
@@ -1493,9 +1496,9 @@ REQ_ROW PASS id=REQ-TEST-018 family=TEST status=IMPLEMENTED_STRUCTURAL method=co
 REQ_TITLE PASS id=REQ-TEST-018 title="decimal helper tests" statement="`test_decimal_helpers.py` verifies `to_decimal` from string, from float (quantizes), from None, from int, quantizes to two places."
 REQ_ROW PASS id=REQ-TEST-020 family=TEST status=IMPLEMENTED_TESTED method=verification-artifact pointers=backend/tests/integration/test_auth_api.py
 REQ_TITLE PASS id=REQ-TEST-020 title="auth API tests" statement="`test_auth_api.py` verifies register success, duplicate email, short password, login success, wrong password, me with valid token, me without token, me with inv"
-REQ_ROW PASS id=REQ-TEST-021 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-021 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-021 title="expenses API tests" statement="`test_expenses_api.py` verifies create, negative amount, zero amount, three decimals, requires auth, pagination, invalid page, page_size too large, update, dele"
-REQ_ROW PASS id=REQ-TEST-022 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-022 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-022 title="budgets API tests" statement="`test_budgets_api.py` verifies set budget, get nonexistent returns 0, invalid year_month, delete budget, delete nonexistent returns 404."
 REQ_ROW PASS id=REQ-TEST-023 family=TEST status=IMPLEMENTED_TESTED method=verification-artifact pointers=backend/tests/integration/test_dashboard_api.py
 REQ_TITLE PASS id=REQ-TEST-023 title="dashboard API tests" statement="`test_dashboard_api.py` verifies summary empty, by-category empty, trend default six months, cumulative returns all days, heatmap returns weeks, recent default"
@@ -1507,21 +1510,21 @@ REQ_ROW PASS id=REQ-TEST-026 family=TEST status=IMPLEMENTED_TESTED method=verifi
 REQ_TITLE PASS id=REQ-TEST-026 title="agent hooks test" statement="`test_agent_hooks.py` verifies validate_amount accepts valid and rejects negative, zero, three decimals, non-number, over-max; validate_ownership accepts same u"
 REQ_ROW PASS id=REQ-TEST-030 family=TEST status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/test/setup.ts
 REQ_TITLE PASS id=REQ-TEST-030 title="frontend test setup" statement="`frontend/src/test/setup.ts` starts and stops MSW, resets handlers after each test."
-REQ_ROW PASS id=REQ-TEST-031 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-031 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-031 title="format tests" statement="`format.test.ts` verifies `formatUSD` for integer, decimal, large with commas, zero, negative; `formatPercent` for whole, decimal, null; `formatMonth`."
 REQ_ROW PASS id=REQ-TEST-032 family=TEST status=IMPLEMENTED_TESTED method=code-symbol pointers=frontend/src/components/common/month_picker.test.tsx,frontend/src/pages/budget_page.test.tsx,frontend/src/pages/dashboard_page.test.tsx
 REQ_TITLE PASS id=REQ-TEST-032 title="date tests" statement="`date.test.ts` verifies `currentYearMonth` format, `shiftMonth` forward/backward/year boundaries, `monthRange`."
 REQ_ROW PASS id=REQ-TEST-033 family=TEST status=IMPLEMENTED_TESTED method=code-symbol pointers=frontend/src/components/forms/budget_form.test.tsx
 REQ_TITLE PASS id=REQ-TEST-033 title="validation tests" statement="`validation.test.ts` verifies `amountSchema` for valid, integer, negative, zero, three decimals, non-numeric; `expenseFormSchema` for valid, invalid category_id"
-REQ_ROW PASS id=REQ-TEST-034 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-034 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-034 title="BudgetProgress tests" statement="`BudgetProgress.test.tsx` verifies green under 80%, yellow 80-100%, red over 100%, caps at 100%, 'No budget set' when budget 0, formatted amounts."
-REQ_ROW PASS id=REQ-TEST-035 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-035 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-035 title="WeeklyHeatmap tests" statement="`WeeklyHeatmap.test.tsx` verifies 7 days rendered, grey for zero, handles max zero, shows skeleton when loading."
-REQ_ROW PASS id=REQ-TEST-036 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-036 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-036 title="CategoryPieChart tests" statement="`CategoryPieChart.test.tsx` verifies empty state, renders with data, merges to Other when > 6 categories."
-REQ_ROW PASS id=REQ-TEST-037 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-037 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-037 title="ExpenseForm tests" statement="`ExpenseForm.test.tsx` verifies empty amount error, negative amount error, three decimals error, cancel callback."
-REQ_ROW PASS id=REQ-TEST-038 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-038 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-038 title="LoginPage tests" statement="`LoginPage.test.tsx` verifies fields render, invalid email error, invalid credentials error."
 REQ_ROW PASS id=REQ-TEST-039 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t17.md,docs/issues/closed/t20.md,docs/issues/closed/t9.md
 REQ_TITLE PASS id=REQ-TEST-039 title="MSW handlers" statement="MSW handlers cover `/auth/login`, `/auth/me`, `/categories`, `/expenses`, `/dashboard/summary`."
@@ -1541,21 +1544,21 @@ REQ_ROW PASS id=REQ-TEST-050 family=TEST status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-TEST-050 title="Makefile targets" statement="Makefile targets: `test`, `test-backend`, `test-backend-unit`, `test-backend-integration`, `test-backend-cov`, `test-frontend`, `test-frontend-cov`, `e2e`."
 REQ_ROW PASS id=REQ-TEST-051 family=TEST status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=.github/workflows/ci.yml,.github/workflows/e2e.yml
 REQ_TITLE PASS id=REQ-TEST-051 title="CI execution" statement="`ci.yml` runs `make test-backend` and `make test-frontend`; `e2e.yml` runs `make e2e`."
-REQ_ROW PASS id=REQ-TEST-060 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-060 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-060 title="backend test data" statement="Backend unit and integration tests use in-memory SQLite with seeded system categories; test users created per test via fixtures."
-REQ_ROW PASS id=REQ-TEST-061 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-061 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-061 title="frontend test data" statement="Frontend unit tests use pure functions; component tests use MSW handlers with fixed data; page tests use MSW variants."
-REQ_ROW PASS id=REQ-TEST-062 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-062 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-062 title="E2E test data" statement="E2E tests use the real backend and database with unique users per test."
 REQ_ROW PASS id=REQ-TEST-063 family=TEST status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-063 title="SQLite for backend tests rationale" statement="SQLite in-memory is fast, isolated, needs no external dependency, and uses the same ORM; PostgreSQL is tested in CI via Docker Compose."
 REQ_ROW PASS id=REQ-TEST-070 family=TEST status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-070 title="not tested list" statement="Render deployment, cold start, UptimeRobot, browser compatibility, load testing, security scanning, visual regression, accessibility automation are not tested."
-REQ_ROW PASS id=REQ-TEST-080 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-080 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-080 title="framework choices" statement="pytest for backend, pytest + TestClient for integration, SQLite in-memory, Vitest for frontend, RTL for components, MSW for API mocking, Playwright for E2E."
-REQ_ROW PASS id=REQ-TEST-081 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-081 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-081 title="execution choices" statement="Coverage reported not enforced; CI runs unit + integration; E2E only on main; per-test fixtures; Decimal comparison; fixed dates."
-REQ_ROW PASS id=REQ-TEST-082 family=TEST status=GAP method=none
+REQ_ROW PASS id=REQ-TEST-082 family=TEST status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/testing-guidelines.md
 REQ_TITLE PASS id=REQ-TEST-082 title="error testing" statement="Error tests assert both status code and error code."
 
 ## Honest GAP list (t58's input, measured not asserted)

@@ -76,12 +76,39 @@ REQUIREMENTS_REL = "docs/requirements.md"
 SELF_OUTPUT_REL = "docs/criteria/req_coverage_verification.md"
 
 # The two honest-hard ids (card t57 "Relabeling the two hard cases").
-# Both are forced GAP with a pointer to the ruling document; t58
-# escalates, t57 never relabels.
-HARD_CASES: tuple[tuple[str, str], ...] = (
-    ("REQ-TECH-008", "docs/issues/closed/t20.md"),
-    ("REQ-FE-121", "docs/issues/closed/t20.md"),
-)
+# t57 forced both to GAP (escalation, never relabeling).  Platform
+# ruling #65 (t58, per the WAL708 supervisor decision) closed the
+# escalation: REQ-TECH-008 is OVERRULED by the approved t20 ac6
+# dependency-absence gate (date-fns never enters the bundle), and
+# REQ-FE-121 is DEFERRED under the standing no-live/no-E2E ruling that
+# already carries the four LIVE_* register keys.  t58 replaces the
+# forced-GAP branch below with the STATIC ruling constants; the keys
+# deliberately do NOT match ^LIVE_ so the carried register parse
+# (docs/criteria/docs_verification.md, four DEFERRED rows) cannot see
+# them, and the rulings artifact is a POINTER only - the generator
+# never reads it at runtime (the ac4 out-of-repo self-test copy
+# provides only docs/requirements.md, the register and this file).
+RULING_TECH_DATEFNS_OVERRULED = "RULING_TECH_DATEFNS_OVERRULED"
+RULING_FE_PERF_LIVE_PROFILING = "RULING_FE_PERF_LIVE_PROFILING"
+RULINGS_ARTIFACT_REL = "docs/rulings/req-matrix.md"
+RULING_ISSUE = "65"
+
+# id -> (ruling key, honest reason snippet).
+STATIC_RULINGS: dict[str, tuple[str, str]] = {
+    "REQ-TECH-008": (
+        RULING_TECH_DATEFNS_OVERRULED,
+        "OVERRULED by the approved t20 ac6 dependency-absence gate: "
+        "date-fns is banned from frontend/package.json and stdlib month "
+        "math shipped (platform #65 ruling, docs/rulings/req-matrix.md)",
+    ),
+    "REQ-FE-121": (
+        RULING_FE_PERF_LIVE_PROFILING,
+        "Verification needs live performance profiling (Lighthouse/FCP/TTI), "
+        "outside the standing no-live/no-E2E ruling that defers the "
+        "LIVE_* register keys (platform #65 ruling, "
+        "docs/rulings/req-matrix.md)",
+    ),
+}
 
 # id -> register key.  The keys themselves are re-read from the live
 # register every run (a key that left the register cannot back a row);
@@ -351,7 +378,8 @@ def build_rows(
 
     1. example-reference   - ids with no heading entry (section 3.1 example)
     2. deferral-register   - ids mapped to a live register key / #61 blocker
-    3. hardcase-ruling     - the two card-declared honest-hard ids -> GAP
+    3. card-declared-ruling - the two ruled honest-hard ids (#65) ->
+       DEFERRED_RULLED with a STATIC ruling key (t58; t57 forced GAP)
     4. citation            - another repo file names the id
     5. verification-artifact - a backticked artifact in Verification/Statement
     6. test-name-normalization - PascalCase test citation -> snake_case file
@@ -399,48 +427,51 @@ def build_rows(
             extra["issue"] = "61"
             extra["deferral_reason"] = (
                 "RENDER_DEPLOY_HOOK secret is operator infrastructure (platform #61)")
+        elif rid in STATIC_RULINGS:
+            # Card-declared ruling (platform #65): a STATIC deferral,
+            # evaluated on the deferral branch BEFORE any citation.
+            rkey, rreason = STATIC_RULINGS[rid]
+            status, method = "DEFERRED_RULLED", "card-declared-ruling"
+            pointers = [RULINGS_ARTIFACT_REL]
+            extra["deferral_key"] = rkey
+            extra["issue"] = RULING_ISSUE
+            extra["deferral_reason"] = rreason
         else:
-            hard = {h[0]: h[1] for h in HARD_CASES}
-            if rid in hard:
-                status, method = "GAP", "hardcase-ruling"
-                pointers = []
-                extra["ruling"] = hard[rid]
+            cl = verification_text(body)
+            cs = cite.get(rid, [])
+            test_cs = [p for p in cs if TESTPAT.search(p)]
+            arts = sorted({
+                x for x in (ev.resolve(m.group(1).strip()) for m in ART.finditer(cl))
+                if x is not None
+            })
+            art_tests = [p for p in arts if TESTPAT.search(p)]
+            if test_cs:
+                status, method, pointers = "IMPLEMENTED_TESTED", "citation", test_cs[:3]
+            elif art_tests:
+                status, method, pointers = (
+                    "IMPLEMENTED_TESTED", "verification-artifact", art_tests[:3])
+            elif arts:
+                status, method, pointers = (
+                    "IMPLEMENTED_STRUCTURAL", "verification-artifact", arts[:3])
             else:
-                cl = verification_text(body)
-                cs = cite.get(rid, [])
-                test_cs = [p for p in cs if TESTPAT.search(p)]
-                arts = sorted({
-                    x for x in (ev.resolve(m.group(1).strip()) for m in ART.finditer(cl))
-                    if x is not None
-                })
-                art_tests = [p for p in arts if TESTPAT.search(p)]
-                if test_cs:
-                    status, method, pointers = "IMPLEMENTED_TESTED", "citation", test_cs[:3]
-                elif art_tests:
+                th = [ev.snake[x] for x in re.findall(r"([A-Za-z0-9_]+)\.test", cl)
+                      if x in ev.snake]
+                syms = [m.group(1).strip() for m in ART.finditer(cl)
+                        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{4,}", m.group(1).strip())]
+                hits = sorted({f for s_ in syms for f in ev.sym.get(s_, [])})
+                hits_tests = [p for p in hits if TESTPAT.search(p)]
+                if th:
                     status, method, pointers = (
-                        "IMPLEMENTED_TESTED", "verification-artifact", art_tests[:3])
-                elif arts:
+                        "IMPLEMENTED_TESTED", "test-name-normalization", sorted(set(th))[:3])
+                elif hits_tests:
                     status, method, pointers = (
-                        "IMPLEMENTED_STRUCTURAL", "verification-artifact", arts[:3])
-                else:
-                    th = [ev.snake[x] for x in re.findall(r"([A-Za-z0-9_]+)\.test", cl)
-                          if x in ev.snake]
-                    syms = [m.group(1).strip() for m in ART.finditer(cl)
-                            if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{4,}", m.group(1).strip())]
-                    hits = sorted({f for s_ in syms for f in ev.sym.get(s_, [])})
-                    hits_tests = [p for p in hits if TESTPAT.search(p)]
-                    if th:
-                        status, method, pointers = (
-                            "IMPLEMENTED_TESTED", "test-name-normalization", sorted(set(th))[:3])
-                    elif hits_tests:
-                        status, method, pointers = (
-                            "IMPLEMENTED_TESTED", "code-symbol", hits_tests[:3])
-                    elif hits:
-                        status, method, pointers = (
-                            "IMPLEMENTED_STRUCTURAL", "code-symbol", hits[:3])
-                    elif cs:
-                        status, method, pointers = (
-                            "IMPLEMENTED_STRUCTURAL", "citation", cs[:3])
+                        "IMPLEMENTED_TESTED", "code-symbol", hits_tests[:3])
+                elif hits:
+                    status, method, pointers = (
+                        "IMPLEMENTED_STRUCTURAL", "code-symbol", hits[:3])
+                elif cs:
+                    status, method, pointers = (
+                        "IMPLEMENTED_STRUCTURAL", "citation", cs[:3])
         # Every pointer must exist on THIS tree (anti-vacuity: outside the
         # repo an unavailable pointer makes the row GAP, never a crash).
         pointers = [p for p in pointers if os.path.isfile(os.path.join(ROOT, p))]
@@ -536,6 +567,8 @@ def render_report(rows: Sequence[Row], register: dict[str, str]) -> str:
     add("REQ_DEFERRAL_PROVENANCE PASS source=docs/criteria/docs_verification.md"
         "#DEFERRAL_REGISTER method=register-row-derivation "
         "id_key_and_reason_snippet_per_row=true")
+    add("REQ_DEFERRAL_PROVENANCE PASS source=docs/rulings/req-matrix.md"
+        " method=card-declared-ruling id_key_and_reason_snippet_per_row=true")
     key_ids: dict[str, int] = {}
     for r in rows:
         k = r.get("deferral_key")
@@ -545,10 +578,11 @@ def render_report(rows: Sequence[Row], register: dict[str, str]) -> str:
         add(f"REQ_DEFERRAL_KEY PASS key={k} ids={key_ids[k]}")
     add(f"REQ_DEFERRAL_POINTER PASS issue=61 family=OPS artifact={ISSUE61_POINTER}")
     add("")
-    add("## Hard cases (card-declared, never relabeled by t57)")
+    add("## Hard cases (card-declared, ruled by platform #65 in t58)")
     add("")
-    for hid, ruling in HARD_CASES:
-        add(f"REQ_HARDCASE PASS id={hid} status=GAP ruling_pending=t58 pointer={ruling}")
+    for hid, (rkey, _rreason) in STATIC_RULINGS.items():
+        add(f"REQ_HARDCASE PASS id={hid} status=DEFERRED_RULLED "
+            f"ruling_key={rkey} issue={RULING_ISSUE} pointer={RULINGS_ARTIFACT_REL}")
     add("")
     add("## Fail-closed fence")
     add("")

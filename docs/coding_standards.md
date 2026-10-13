@@ -161,3 +161,46 @@ Force push to ANY branch is **forbidden**. Detection = BLOCKER.
 | `curl` / `wget` to non-Platform API | Data exfiltration |
 | `dd` / `mkfs` / `fdisk` | Disk operations |
 | `chmod 777 /` | Permission destruction |
+## Security coding rules
+
+Injection and escaping are prevented by construction, not by review
+memory.
+
+**SQL injection (REQ-SEC-042)**: all database access goes through the
+SQLAlchemy 2.0 ORM with parameterized queries. No raw SQL string is
+built in application code, and no user-supplied value is ever
+concatenated into a statement; the services in
+`backend/app/services/` compose `select()` expressions and bind
+parameters. The Alembic migrations under `backend/alembic/versions/`
+are the one place a literal SQL fragment is allowed, because they are
+authored, reviewed, and versioned rather than assembled from input.
+
+**XSS (REQ-SEC-043)**: React escapes interpolated text by default, so
+the rule is to keep it that way - `dangerouslySetInnerHTML` is
+forbidden in `frontend/src` and no third-party script tag is injected
+into the document. The API returns plain data, never HTML, so there is
+no trusted-HTML path that would justify an exception. A Content
+Security Policy is not configured in the MVP; that gap is documented
+here rather than claimed as done.
+
+## Naming: files and directories
+
+The per-language naming tables above cover identifiers. File and
+directory naming (REQ-STRUCT-050, REQ-STRUCT-051) is:
+
+| Surface | Rule | Example |
+|---|---|---|
+| React component file | `PascalCase.tsx` per the spec; merged code ships `snake_case.tsx` with a PascalCase exported symbol (disclosed deviation) | `budget_progress.tsx` exports `BudgetProgress` |
+| Hook file | `camelCase.ts`/`.tsx` with a `use` prefix | `use_dashboard.ts` |
+| TypeScript module | `camelCase.ts` per the spec; merged modules use `snake_case.ts` (disclosed deviation) | `chart_data.ts` |
+| Backend test file | `test_<module>.py` | `test_budget_service.py` |
+| Frontend test file | colocated `<source>.test.ts(x)` | `login_page.test.tsx` |
+| Python package / module | `snake_case` | `backend/app/services/` |
+| Feature directory | lowercase | `frontend/src/components/charts/` |
+| Agent tool directory | `kebab-case` | `agent-hooks/validate-amount.py` |
+| Docs subdirectory | lowercase, hyphen-free where possible | `docs/team/` |
+
+Where the requirement's casing rule and the merged file names differ,
+the table records both rather than pretending the code matches: the
+requirement text is the spec, the file names are the measured state,
+and a rename is a card of its own with the test-title greps it implies.
