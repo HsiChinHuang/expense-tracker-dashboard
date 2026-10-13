@@ -120,7 +120,8 @@
   ],
   "no_drift": "git status clean (only the pre-existing untracked node_modules symlink to MAIN's installed tree); every tracked byte identical to base 5f7b9e5 including all six criteria reports; no regenerated drift to commit and none accepted",
   "docker": "ABSOLUTE BAN honored - no docker command was run; the generator's docker inspection leg stays seed-gated",
-  "notes": "BLOCKER is the card text, not the build. The re-groom (pin 649c1763) fixed ac6 completely and ac5's structure, but the ac5 fence still carries (1) a stray '; ;' that kills the whole fence at parse time and (2) an ANSI-intolerant vitest count regex that would fail it even after (1). Both are one-line text repairs for a second re-groom; every measured gate value under the fence is GREEN. No substitute command was accepted as a pass and no generator file was edited to satisfy a fence."
+  "notes": "BLOCKER is the card text, not the build. The re-groom (pin 649c1763) fixed ac6 completely and ac5's structure, but the ac5 fence still carries (1) a stray '; ;' that kills the whole fence at parse time and (2) an ANSI-intolerant vitest count regex that would fail it even after (1). Both are one-line text repairs for a second re-groom; every measured gate value under the fence is GREEN. No substitute command was accepted as a pass and no generator file was edited to satisfy a fence.",
+  "platform_comment": "https://github.com/HsiChinHuang/expense-tracker-dashboard/issues/62#issuecomment-6144361101 (HTTP 201, six-fence rc table posted; token read from MAIN's .env, never printed or copied into the tree)"
  },
  "artifacts": {
   "files_written": [
