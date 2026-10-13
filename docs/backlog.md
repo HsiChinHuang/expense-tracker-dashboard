@@ -26,18 +26,18 @@
 | t21 | Recharts admission and four chart components (pie, trend, cumulative, heatmap) | [t20] | #24 | closed |
 | t22 | DashboardPage - MonthPicker, KPI cards, BudgetProgress, recent list, chart wiring, edge cases | [t20, t21] | #25 | closed |
 | t23 | Dashboard verification - REQ-PLAN-041 cross-checks, criteria rows, performance measurement | [t19, t22] | #26 | closed |
-| t24 | Containerization - multi-stage Dockerfile, docker-compose db+app, .dockerignore, README local modes | [t23] | #27 | defined |
-| t25 | SQLite fallback - create_db_engine PostgreSQL timeout chain, fallback create_all + seed, live health reporting | [t23] | #28 | defined |
-| t26 | CI/CD and Render - ci.yml e2e.yml deploy.yml workflows, render.yaml, Makefile test targets, README deploy notice | [t24, t25] | #29 | defined |
-| t27 | Playwright E2E harness - e2e workspace, config, fixtures, three specs, Makefile e2e target | [t26] | #30 | defined |
-| t28 | Infra verification - criteria 8/10/11 + rows 29/30, fallback timing evidence, deferral register, full-suite composite | [t26, t27] | #31 | defined |
-| t29 | Skills layer - three SKILL.md documents, .agents/skills symlinks, canonical discovery gate | [t28] | #32 | defined |
-| t30 | Hooks layer - validate-amount.py + validate-ownership.py, agent-hooks README, backend-imported hook test suite | [t28] | #33 | defined |
-| t31 | MCP server core - transport-agnostic stdio JSON-RPC loop, config, JWT auth, copy-only manifest, structural gate | [t29] | #34 | defined |
-| t32 | MCP tools and tests - four tool modules, hook wiring, package wiring, README, hermetic in-process test suite | [t30, t31] | #35 | defined |
-| t33 | Subagents - custom-agent/finance-analyst.md + qa-reviewer.md with frontmatter, .agents/agents symlinks | [t29] | #36 | defined |
-| t34 | Extension-pack documentation - docs/agent-extension-pack.md overview + docs/permissions.md matrix | [t29, t30, t32, t33] | #37 | defined |
-| t35 | Agent-pack verification - criteria 12/7/9/10-12 + rows 31/32, REQ-PLAN-061 register, discovery re-proof, full composite | [t29, t30, t32, t33, t34] | #38 | defined |
+| t24 | Containerization - multi-stage Dockerfile, docker-compose db+app, .dockerignore, README local modes | [t23] | #27 | closed |
+| t25 | SQLite fallback - create_db_engine PostgreSQL timeout chain, fallback create_all + seed, live health reporting | [t23] | #28 | closed |
+| t26 | CI/CD and Render - ci.yml e2e.yml deploy.yml workflows, render.yaml, Makefile test targets, README deploy notice | [t24, t25] | #29 | closed |
+| t27 | Playwright E2E harness - e2e workspace, config, fixtures, three specs, Makefile e2e target | [t26] | #30 | closed |
+| t28 | Infra verification - criteria 8/10/11 + rows 29/30, fallback timing evidence, deferral register, full-suite composite | [t26, t27] | #31 | closed |
+| t29 | Skills layer - three SKILL.md documents, .agents/skills symlinks, canonical discovery gate | [t28] | #32 | closed |
+| t30 | Hooks layer - validate-amount.py + validate-ownership.py, agent-hooks README, backend-imported hook test suite | [t28] | #33 | closed |
+| t31 | MCP server core - transport-agnostic stdio JSON-RPC loop, config, JWT auth, copy-only manifest, structural gate | [t29] | #34 | closed |
+| t32 | MCP tools and tests - four tool modules, hook wiring, package wiring, README, hermetic in-process test suite | [t30, t31] | #35 | closed |
+| t33 | Subagents - custom-agent/finance-analyst.md + qa-reviewer.md with frontmatter, .agents/agents symlinks | [t29] | #36 | closed |
+| t34 | Extension-pack documentation - docs/agent-extension-pack.md overview + docs/permissions.md matrix | [t29, t30, t32, t33] | #37 | closed |
+| t35 | Agent-pack verification - criteria 12/7/9/10-12 + rows 31/32, REQ-PLAN-061 register, discovery re-proof, full composite | [t29, t30, t32, t33, t34] | #38 | closed |
 | t36 | Scan pipeline - real make security targets (gitleaks/semgrep/trivy/pip-audit/npm-audit), pinned tool bootstrap, entry-#6 amend script authored | [t35] | #39 | closed |
 | t37 | Dependency and secret scan reports - gitleaks/pip-audit/npm-audit committed artifacts as real measured runs | [t36] | #40 | closed |
 | t38 | Code and container scan reports - semgrep and trivy committed artifacts completing the five-report set | [t36, t37] | #41 | closed |
