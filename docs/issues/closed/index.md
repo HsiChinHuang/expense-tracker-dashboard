@@ -1,5 +1,4 @@
 # Closed issues
-
 Runtime-maintained by Orchestrator.
 
 | ID | Title | Closed At | Retries | Merge Commit |
@@ -60,3 +59,4 @@ Runtime-maintained by Orchestrator.
 | t52 | REQ-DOC-040 screenshots - four PNGs + README pin-2 FINAL a64efaa2 (308L) | 2026-10-14 | 0 | 91936cb |
 | t56 | E2E registerUser strict-mode repair - first-ever fully-green E2E candidate (#60) | 2026-10-14 | 0 | 2e5f3e1 |
 | t53 | Documentation verification - docs_verification generator + generated doc, Chapter 24.3 rows 1-15, deferral re-test, project-wide exit composite (LAST CARD) | 2026-10-14 | 1 | 9557f46 |
+| t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence; 99 measured GAP rows handed to t58) | 2026-10-15 | 1 | 335f822 |

@@ -1,18 +1,13 @@
 {
-  "issue_id": "t53",
+  "issue_id": "t57",
   "step": 7,
-  "state": "closed_pending_platform",
-  "timestamp": "2026-10-14T23:40:00Z",
-  "pre_merge_sha": "25d9e65",
-  "merge_sha": "9557f46",
+  "state": "tested",
+  "timestamp": "2026-10-15T13:35:00Z",
+  "pre_merge_sha": "ce334ce",
+  "merge_sha": "335f822",
   "test_result": {
-    "mypy_dot": "Success 89 files",
-    "ruff": "clean",
-    "pytest_passed": 270,
-    "alembic": "005",
-    "vitest_passed": 187,
-    "tsc": "clean",
-    "lint_warnings": 4,
-    "docker": "daemon-down attested"
+    "total": 285,
+    "passed": 285,
+    "failed": 0
   }
 }

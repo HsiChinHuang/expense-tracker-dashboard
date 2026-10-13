@@ -59,6 +59,6 @@
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | closed |
 | t55 | E2E suite targets localhost:5173 but the CI stack serves the SPA on :8000 - no frontend server for the suite run (first-ever E2E green final blocker) | [t54] | #59 | closed |
 | t56 | E2E registerUser helper strict-mode violation - getByLabel Password matches two inputs (first-ever fully-green E2E blocker) | [t55] | #60 | closed |
-| t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence) | [t53] | #62 | defined |
+| t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence) | [t53] | #62 | done |
 | t58 | Per-REQ-ID gap remediation - author missing evidence artifacts (predicted: PLAN risk/workflow records, STRUCT file-count + naming, DB-120/ARCH-081 assumptions, TEST-070 list, PROD success rows) until the t57 fence reaches 0 GAP | [t57] | #63 | defined |
 | t59 | Requirement-coverage verification composite - six generators green, 749-row matrix closed at 0 GAP, floors + byte-pins + deferral re-attestation (phase_9 exit card) | [t57, t58] | #64 | defined |
