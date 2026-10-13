@@ -1,13 +1,14 @@
 {
-  "issue_id": "t57",
-  "step": 7,
+  "issue_id": "t58",
+  "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-15T13:35:00Z",
-  "pre_merge_sha": "ce334ce",
-  "merge_sha": "335f822",
+  "timestamp": "2026-10-15T22:30:00Z",
+  "pre_merge_sha": "5d7962c",
+  "merge_sha": "d7b95cb",
   "test_result": {
-    "total": 285,
-    "passed": 285,
+    "total": 475,
+    "passed": 475,
     "failed": 0
-  }
+  },
+  "note": "backend 288 + frontend 187; ruff/mypy 91/alembic 005/tsc 0/eslint exactly-4 green; stored gate tests[221] (ac1) replayed on MAIN is ENV-SENSITIVE: untracked .env joins pointer rows (regenerated digest 0e026ee1 vs committed 41d84eca); GREEN rc=0 digest-identical with .env excluded - protocol replays run in clean worktrees"
 }
