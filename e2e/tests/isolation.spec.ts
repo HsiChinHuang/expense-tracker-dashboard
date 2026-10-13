@@ -20,10 +20,11 @@ test('two users see only their own data', async ({ browser }) => {
   await registerUser(pageA, userA);
   await addExpense(pageA, {
     amount: '15.00',
-    categoryName: 'Food',
+    categoryName: 'Food & Dining',
     date: dayInMonth(currentMonth(), 4),
     note: 'user A only'
   });
+  await pageA.goto('/');
   await expect(pageA.getByTestId('kpi-total')).toHaveText('$15.00');
 
   const contextB = await browser.newContext();

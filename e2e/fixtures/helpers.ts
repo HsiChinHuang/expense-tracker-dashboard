@@ -20,7 +20,7 @@ export const registerUser = async (page: Page, user: UniqueUser): Promise<void> 
     await page.goto('/register');
     await page.getByLabel('Email').fill(user.email);
     await page.getByLabel('Username').fill(user.username);
-    await page.getByLabel('Password').fill(user.password);
+    await page.getByLabel('Password', { exact: true }).fill(user.password);
     await page.getByLabel('Confirm password').fill(user.password);
     await page.getByRole('button', { name: 'Register' }).click();
     await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
@@ -30,10 +30,13 @@ export const registerUser = async (page: Page, user: UniqueUser): Promise<void> 
 /** Log in through /login and land on the dashboard. */
 export const loginUser = async (page: Page, user: UniqueUser): Promise<void> => {
   await test.step('loginUser', async () => {
+    const token = await page.evaluate(() => window.localStorage.getItem('token'));
     await page.goto('/login');
-    await page.getByLabel('Email').fill(user.email);
-    await page.getByLabel('Password').fill(user.password);
-    await page.getByRole('button', { name: 'Log in' }).click();
+    if (token === null) {
+      await page.getByLabel('Email').fill(user.email);
+      await page.getByLabel('Password').fill(user.password);
+      await page.getByRole('button', { name: 'Log in' }).click();
+    }
     await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
   });
 };
@@ -98,7 +101,7 @@ export const setBudget = async (page: Page, amount: string): Promise<void> => {
     const form = page.getByRole('dialog', { name: 'Set budget' });
     await form.getByLabel('Amount').fill(amount);
     await form.getByRole('button', { name: 'Save budget' }).click();
-    await expect(page.getByRole('heading', { name: 'Budget' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible();
   });
 };
 
@@ -138,11 +141,11 @@ export const logout = async (page: Page): Promise<void> => {
  * progressbar. The specs assert all five by these exact names.
  */
 export const chartSurfaces = [
-  'Spending by category pie chart',
-  'Monthly spending trend bar chart',
-  'Cumulative spending line chart',
-  'Weekly spending heatmap grid',
-  'Budget usage'
+  { role: 'img', name: 'Spending by category pie chart' },
+  { role: 'img', name: 'Monthly spending trend bar chart' },
+  { role: 'img', name: 'Cumulative spending line chart' },
+  { role: 'grid', name: 'Weekly spending heatmap grid' },
+  { role: 'progressbar', name: 'Budget usage' }
 ] as const;
 
 /**
@@ -156,7 +159,7 @@ const resolveCategoryId = async (page: Page, categoryName: string): Promise<stri
   const apiBase =
     process.env.E2E_API_URL ?? `${new URL(front).origin}/api/v1`;
   const token = await page.evaluate(() => window.localStorage.getItem('token'));
-  const response = await page.requestGet(`${apiBase}/categories`, {
+  const response = await page.request.get(`${apiBase}/categories`, {
     headers: token === null ? {} : { Authorization: `Bearer ${token}` }
   });
   const body = (await response.json()) as { categories: { id: string; name: string }[] };

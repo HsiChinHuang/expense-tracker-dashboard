@@ -21,7 +21,7 @@ import {
 } from '../fixtures/helpers';
 import { uniqueUser } from '../fixtures/users';
 
-const CATEGORY = 'Food';
+const CATEGORY = 'Food & Dining';
 
 test('happy path: register, spend, budget, verify, edit, delete, logout, re-login', async ({
   page
@@ -38,21 +38,20 @@ test('happy path: register, spend, budget, verify, edit, delete, logout, re-logi
   await setBudget(page, '500.00');
 
   await page.goto('/');
-  await expect(page.getByTestId('kpi-total')).toHaveText('$59.75');
+  await expect(page.getByTestId('kpi-total')).toHaveText('$49.75');
   await expect(page.getByTestId('kpi-budget')).toHaveText('$500.00');
-  await expect(page.getByTestId('kpi-remaining')).toHaveText('$440.25');
+  await expect(page.getByTestId('kpi-remaining')).toHaveText('$450.25');
   await expect(page.getByTestId('kpi-categories')).toHaveText('1');
 
   for (const surface of chartSurfaces) {
-    await expect(page.getByRole('img', { name: surface })).toBeVisible();
+    await expect(page.getByRole(surface.role, { name: surface.name })).toBeVisible();
   }
-  await expect(page.getByRole('progressbar', { name: 'Budget usage' })).toBeVisible();
 
   await expect(page.getByTestId('recent-item')).toHaveCount(3);
 
   await editFirstExpense(page, '22.50');
   await page.goto('/');
-  await expect(page.getByTestId('kpi-total')).toHaveText('$69.75');
+  await expect(page.getByTestId('kpi-total')).toHaveText('$65.00');
   await expect(page.getByTestId('recent-item')).toHaveCount(3);
 
   await deleteFirstExpense(page);

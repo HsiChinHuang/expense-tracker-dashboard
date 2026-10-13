@@ -58,15 +58,17 @@ export const WeeklyHeatmap = ({ max_amount, weeks }: WeeklyHeatmapProps): JSX.El
       role="grid"
       aria-label="Weekly spending heatmap grid"
       data-testid="weekly-heatmap"
+      className="space-y-0.5"
     >
       {weeks.map((week) => (
-        <div role="row" key={week.week_start} data-testid="heatmap-week">
+        <div role="row" key={week.week_start} data-testid="heatmap-week" className="flex gap-0.5">
           {week.days.map((day) => (
             <div
               role="gridcell"
               key={day.date}
               aria-label={`${day.date} $${day.amount}`}
               title={`${day.date} $${day.amount}`}
+              className="h-3 w-3 rounded-sm"
               style={{ backgroundColor: cellColor(day.amount, max_amount) }}
             />
           ))}
