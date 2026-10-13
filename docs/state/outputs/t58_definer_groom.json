@@ -228,7 +228,8 @@
       "invoked_via": "npx tsx scripts/validate_handoff.ts <path> definer groom and npx tsx scripts/gate_check.ts definer groom <path> defined, run through cmd.exe with the MAIN worktree tsx (WSL node 18 cannot run the vendored esbuild binary)."
     },
     "branch": "pi-subagents/definer-You-are-Definer-running-mode-groom-for-card-t58-platform-issue-63-in-repo-expen-49c773d2-d61e0a9-9665-s0-t0",
-    "commit": "498daa265b2a2409490fffe27c63db1aab1fef59"
+    "commit": "498daa265b2a2409490fffe27c63db1aab1fef59",
+    "commit_note": "Self-reference caveat: 498daa265b2a2409490fffe27c63db1aab1fef59 is the commit that introduced the card, mirror, manifest and this handoff. Recording the branch TIP inside the handoff advances the tip again by the very commit that records it, so this field can never be authoritative. The orchestrator must read the authoritative head itself with git rev-parse HEAD on the branch (branch tip was 0bd345c91ab40a57c6ce46b99f8099c622711b39 when this note was first written, and advances once more by the commit carrying it)."
   },
   "artifacts": {
     "files_written": [
