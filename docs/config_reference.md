@@ -333,3 +333,33 @@ a toggle.
 | `automation.stall_detection.action` | Only `write_report` implemented |
 
 **Note**: Reserved keys are tracked for future implementation. When implementing, update both this file and the relevant skill/code.
+## Security surface (agent pack and CI)
+
+Three requirements govern configuration that lives outside
+`docs/config.yaml` but is referenced by this file's environment keys.
+
+**MCP security (REQ-SEC-092)**: the MCP server verifies the caller's
+JWT before any tool runs, takes its secret from the environment
+(`MCP_JWT_SECRET` in `mcp-server/config.py`, identical to the
+backend's `JWT_SECRET`), performs no database access of its own, keeps
+strict typed tool schemas, wraps tool dispatch in exception handling
+so a tool failure returns an error rather than a stack, and never
+logs the token. See `docs/agent-extension-pack.md` for the same rule
+from the pack's side.
+
+**Hook security (REQ-SEC-093)**: the two agent hooks are
+pre-advisory only - `agent-hooks/validate-amount.py` (`validate_amount`)
+rejects invalid amounts before the model retries, and
+`agent-hooks/validate-ownership.py` (`validate_ownership`) rejects
+cross-user targets. Because a hook can be bypassed by a caller that
+skips it, both rules are ALSO enforced server-side in the backend
+services; the hook is the fast path, the service is the guarantee. The
+behavior is pinned by `backend/tests/integration/test_agent_hooks.py`.
+
+**GitHub Actions pinning (REQ-TECH-083)**: workflow actions are pinned
+to version tags. The requirement's example is a major tag
+(`actions/checkout@v4`); the merged workflows pin the more specific
+`actions/checkout@v4.2.2`, which satisfies the pinning intent more
+strictly (a major tag floats across minors; a patch tag does not).
+The pinned set is `.github/workflows/ci.yml` and
+`.github/workflows/e2e.yml`.

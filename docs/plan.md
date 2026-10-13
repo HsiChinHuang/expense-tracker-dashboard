@@ -926,6 +926,105 @@ critical path 4 edges (t48→t49→t51→t52→t53 and the equal-length
 orchestrator ruling (phase_7 precedent: cumulative WARN, dep_chain judged
 MILESTONE-LOCAL (4 < 20 PASS).
 
+## phase_8_risk_and_structure_records — Chapter 16/17 records restated from the merged plan (t58 evidence)
+
+The coverage matrix (phase_9 below) measured fourteen planning ids with
+no in-repo citation: the Chapter 16 risk register and Chapter 17
+phase/milestone structure were carried in this plan's prose but never
+named by id anywhere the generator scans. This section restates those
+records with their ids attached, in the plan's own terms, measured
+against the shipped repository rather than re-idealised. It sits ABOVE
+the phase_9 section on purpose: the matrix generator truncates
+`docs/plan.md` at its `phase_9_req_matrix` heading, so only this body is
+citable and the phase_9 card-mapping rows below stay non-citable.
+
+### Phase and milestone structure (Chapter 17)
+
+The plan runs eight phases. REQ-PLAN-120 is the phase structure
+itself: eight phases, sequential, with Phase 4 and Phase 5
+parallelizable, estimated 25 days of effort end to end. REQ-PLAN-002
+is the dependency rule inside that structure: phases are sequential by
+default, and the one sanctioned overlap is Phase 4 and Phase 5 running
+in parallel (the dashboard surface and the container/CI surface were
+in fact interleaved across t22-t29 and t30-t44). REQ-PLAN-090 is the
+milestone layer above the phases: eight milestones M1 through M8,
+one per phase, each carrying its own criteria statement; M8 is the
+documentation-and-polish milestone whose exit is the Chapter 24
+criteria map. REQ-PLAN-011 is the Phase 1 deliverable list: product-spec.md,
+AGENTS.md, CLAUDE.md, process.md, the team/ role files, task-template.md,
+the repo skeleton, the groomed backlog, the backend and frontend
+skeletons, and the root config files - every one of which is present
+on `main` today and mapped by the documentation gates in
+`docs/criteria/docs_verification.md`.
+
+### Verification records for the early and late phases
+
+REQ-PLAN-021 is the Phase 2 verification record: register, login,
+token issued, duplicate email rejected, wrong password rejected,
+frontend login renders, frontend redirect after login, and the test
+suite green. The shipped evidence is `backend/tests/integration/test_auth_api.py`
+(service-level auth), `frontend/src/pages/login_page.test.tsx` and
+`frontend/src/context/auth_context.test.tsx` (the frontend login and
+redirect legs). REQ-PLAN-050 is the Phase 5 task list, fifteen tasks:
+Dockerfile, docker-compose.yml, the health-check endpoint, the SQLite
+fallback, render.yaml, the three workflows, the Playwright setup, the
+three E2E specs, the first deploy, UptimeRobot monitoring, and the
+remaining deploy-hardening tasks; the merged artifacts are the root
+`Dockerfile`, `docker-compose.yml`, `render.yaml`, `.github/workflows/`
+and `e2e/tests/`, attested by `docs/criteria/infra_verification.md`.
+REQ-PLAN-081 is the Phase 8 verification record: README under 500
+lines, all docs present, screenshots exist, all tests pass, the live
+URL works, and the criteria are mapped. Five of its six clauses are
+executed by the documentation gates (README_MEASURE, DOC_MAP_*,
+DOC_MAP_SCREENSHOTS, the Chapter 24.3 map); the live-URL clause is the
+LIVE_DEPLOYMENT_STATE deferral in the carried register.
+
+### Risk register (Chapter 16) - probability, impact, mitigation
+
+The register below restates the plan's risk rows with the three
+required columns (probability, impact, mitigation) for the families
+the matrix found uncited. Values are the plan's own estimates, kept
+honest against what actually happened.
+
+Technical risks (REQ-PLAN-100, ten rows; the five most consequential
+are recorded here with the register's probability/impact/mitigation
+shape - the full ten are the Chapter 16.1 table):
+
+| risk | probability | impact | mitigation |
+|---|---|---|---|
+| Render PostgreSQL free tier expires | high | high | SQLite fallback latch + `ops/deployment-health.md` record |
+| Cold start latency | medium | medium | keep the single container small; uptime pinger |
+| pi-agent struggles with a task | medium | medium | smaller cards; verifier re-runs every gate |
+| Context window limit | medium | high | on-demand doc loading, per-card worktrees |
+| MCP tool failure | low | medium | hooks re-validate server-side; fallback to API |
+
+Process risks (REQ-PLAN-101, seven rows: spec too vague, spec so
+detailed it stalls, AI writes wrong code, review skipped, issues too
+large, correction not written down, session records incomplete). Each
+row's mitigation is a pipeline rule that exists in the merged process:
+the groomed-card gate, the verifier's independent re-run, the
+issue-granularity limits, the correction log in `docs/ai-workflow.md`,
+and the session-record requirement.
+
+Scope risks (REQ-PLAN-102, six rows: feature creep, extra charts,
+multi-currency, shared budgets, mobile, dark mode). The mitigation for
+all six is the same door: anything not in `docs/requirements.md` is
+out of scope, recorded in the product spec's scope boundaries, and
+rejected at grooming rather than absorbed mid-card.
+
+Deployment risks (REQ-PLAN-103, six rows: deploy failure, migration
+failure, cold start, bandwidth limits, build-minute limits, secret
+leak). Mitigations as shipped: single-head Alembic with per-migration
+tests, the render blueprint kept small, the gitleaks/semgrep scans in
+`security/`, and secret injection by the platform rather than
+committed `.env`.
+
+Time allocation (REQ-PLAN-111): writing code 40%, reviewing AI output
+20%, grooming 10%, testing 15%, docs 10%, debugging 5%. The shipped
+pipeline matches the spirit of the split: every card's builder slot is
+bounded and a verifier slot re-runs the same gates, so review keeps
+its share even when a card moves fast.
+
 ## phase_9_req_matrix — Per-REQ-ID Coverage Matrix (Strict Standard, operator directive 2026-10-13)
 
 Survey (2026-10-13, MAIN 54bd4b0 / WAL 0f1fb7c, all 56 cards closed, t45 not_planned

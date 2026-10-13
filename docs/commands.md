@@ -164,3 +164,26 @@ Re-run with `--delete` to remove them. No automatic cleanup is performed.
 ## 非 Python
 
 在 `docs/plan.md` 的 tech-stack 區塊定義對應命令。
+## Diagnosis verification (REQ-OPS-045)
+
+`ops/diagnosis.md` records the post-deploy verification run against
+the live deployment. The commands below are the smoke sequence it
+executes, written out here so an operator does not have to reconstruct
+them from the report. Every step answers an HTTP status through
+`curl -o /dev/null -w "%{http_code}"`, and the write steps use a
+throwaway diagnosis account so the probe leaves no user-visible data.
+
+| step | command shape | expected |
+|---|---|---|
+| health | `curl -fsS <base>/api/v1/health` | 200 |
+| register | `POST /auth/register` with the diagnosis email, username, password | 201 |
+| login | `POST /auth/login`, capture the token from the response | 200 |
+| create category | `POST /categories` with `Authorization: Bearer $TOKEN` | 201 |
+| create expense | `POST /expenses` with the category id, amount, date, note | 201 |
+| list expenses | `GET /expenses` with the bearer token | 200 |
+| dashboard summary | `GET /dashboard/summary?year_month=YYYY-MM` | 200 |
+
+The register, login, create-expense and list-expenses legs are the
+four the requirement names; a non-200 anywhere in the sequence is a
+deployment defect, not a test flake, and the runbook in
+`ops/runbook.md` is the next document to open.
