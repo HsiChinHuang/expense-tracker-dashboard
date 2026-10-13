@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-15T09:40:00Z",
+  "updated_at": "2026-10-15T13:10:00Z",
   "last_seq": 693,
   "slots": [
     {
@@ -23,16 +23,16 @@
   "active_issues": [
     {
       "id": "t57",
-      "stage": "re_groom2",
-      "role": "definer",
-      "run": "a7f862b9-afad-45a5-a131-117e3d1f5f03",
+      "stage": "verify_issue",
+      "role": "verifier",
+      "run": "c7c37f02-5ec5-4952-846d-2f13bbd04d64",
       "slot": "slot_1",
-      "note": "micro fix ac5: stray semicolon + ANSI-safe vitest regex; raw evidence mandatory; then fresh builder fence re-run (81fbc643 worktree pruned, resume unavailable)"
+      "note": "independent 6-fence re-run + pin + matrix + floors + handoff chain; then merge recipe + close #62; t58 unlocks"
     }
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
-  "freeze_reason": "1 of MAX_SLOTS=2 in use (t57 re-groom2); t58/t59 DAG-gated behind t57 merge",
+  "freeze_reason": "1 of MAX_SLOTS=2 in use (t57 verify); t58/t59 DAG-gated behind t57 merge",
   "environment_note": "t53 (LAST CARD) merged at 9557f46; closure WAL 694, push+platform-close following. Only operator-infra #61 remains open by design.",
   "merges_closed": 56,
   "index_count": 217
