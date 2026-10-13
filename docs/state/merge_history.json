@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-15T13:35:00Z",
+  "updated_at": "2026-10-15T22:45:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -847,6 +847,17 @@
       "retries": 1,
       "tests_appended": 4,
       "regressions": 0
+    },
+    {
+      "issue_id": "t58",
+      "platform_issue": 63,
+      "branch": "issue/t58-close-gap-rows",
+      "merge_sha": "d7b95cb",
+      "merged_at": "2026-10-15T22:45:00Z",
+      "retries": 1,
+      "tests_appended": 5,
+      "regressions": 0,
+      "note": "ac6 NOT appended: references active card paths docs/issues/t58.md + groom mirror which move at closure (index doctrine: zero entries may reference active card paths - verified 0/221 precedent). ac1/ac4 stored-gate replays are .env-sensitive (untracked .env joins IMPLEMENTED_STRUCTURAL pointer rows); GREEN rc=0 digest-identical 41d84eca with .env excluded - replay protocol: clean worktree without untracked .env"
     }
   ]
 }

@@ -60,3 +60,4 @@ Runtime-maintained by Orchestrator.
 | t56 | E2E registerUser strict-mode repair - first-ever fully-green E2E candidate (#60) | 2026-10-14 | 0 | 2e5f3e1 |
 | t53 | Documentation verification - docs_verification generator + generated doc, Chapter 24.3 rows 1-15, deferral re-test, project-wide exit composite (LAST CARD) | 2026-10-14 | 1 | 9557f46 |
 | t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence; 99 measured GAP rows handed to t58) | 2026-10-15 | 1 | 335f822 |
+| t58 | Close all 99 GAP rows in the REQ coverage matrix - 97 evidence-closure citations across 10 docs + 2 ruling-mapped DEFERRED_RULLED (#65), generator 0-GAP exit, matrix digest 41d84eca | 2026-10-15 | 1 | d7b95cb |

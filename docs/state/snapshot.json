@@ -1,42 +1,35 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-15T20:32:00Z",
-  "last_seq": 693,
+  "updated_at": "2026-10-15T22:46:00Z",
+  "last_seq": 718,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t55",
+      "issue_id": null,
       "role": null,
       "phase": null,
       "run_id": null
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t52",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "5797096c-2927-4ddf-bd7a-b049612844a9"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [
-    {
-      "id": "t58",
-      "stage": "verifying",
-      "role": "verifier",
-      "run": "d2290219-e3e7-48e9-a927-8ced250cfa24",
-      "note": "anti-trust 10-step verify at 02488cd"
-    }
-  ],
+  "active_issues": [],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": true,
-  "freeze_reason": "t59 DAG-gated behind t58 close",
+  "freeze_reason": "t59 (#64) next: phase_9 exit composite, DAG deps t57+t58 now satisfied",
   "environment_note": "t53 (LAST CARD) merged at 9557f46; closure WAL 694, push+platform-close following. Only operator-infra #61 remains open by design.",
-  "merges_closed": 56,
-  "index_count": 217,
+  "merges_closed": 57,
+  "index_count": 226,
   "milestones": [],
   "closed": [
-    "t57"
+    "t57",
+    "t58"
   ]
 }
