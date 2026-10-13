@@ -58,4 +58,4 @@
 | t53 | Documentation verification - docs_verification generator, Chapter 24.3 rows 1-15, deferral re-test, project-wide exit composite | [t48, t49, t50, t51, t52] | #57 | defined |
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | closed |
 | t55 | E2E suite targets localhost:5173 but the CI stack serves the SPA on :8000 - no frontend server for the suite run (first-ever E2E green final blocker) | [t54] | #59 | closed |
-| t56 | E2E registerUser helper strict-mode violation - getByLabel Password matches two inputs (first-ever fully-green E2E blocker) | [t55] | #60 | built |
+| t56 | E2E registerUser helper strict-mode violation - getByLabel Password matches two inputs (first-ever fully-green E2E blocker) | [t55] | #60 | closed |

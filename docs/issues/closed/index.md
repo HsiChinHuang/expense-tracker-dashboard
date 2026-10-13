@@ -58,3 +58,4 @@ Runtime-maintained by Orchestrator.
 | t51 | Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried) | 2026-10-14 | 0 | 03010f7 |
 | t55 | E2E first-ever-green fix - vite /api proxy + Start-the-frontend-dev-server step in e2e.yml (#45/#58/#59) | 2026-10-14 | 0 | bec01ab |
 | t52 | REQ-DOC-040 screenshots - four PNGs + README pin-2 FINAL a64efaa2 (308L) | 2026-10-14 | 0 | 91936cb |
+| t56 | E2E registerUser strict-mode repair - first-ever fully-green E2E candidate (#60) | 2026-10-14 | 0 | 2e5f3e1 |
