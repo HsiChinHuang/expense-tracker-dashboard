@@ -30,8 +30,8 @@ declare module '@playwright/test' {
     first(): Locator;
     last(): Locator;
     nth(index: number): Locator;
-    getByRole(role: string, options?: { name?: string | RegExp }): Locator;
-    getByLabel(text: string | RegExp): Locator;
+    getByRole(role: string, options?: { name?: string | RegExp; exact?: boolean }): Locator;
+    getByLabel(text: string | RegExp, options?: { exact?: boolean }): Locator;
     getByTestId(testId: string): Locator;
     getByText(text: string | RegExp): Locator;
   }
@@ -45,12 +45,12 @@ declare module '@playwright/test' {
   /** Minimal page surface used by the specs and fixtures. */
   export interface Page {
     goto(url: string): Promise<void>;
-    getByRole(role: string, options?: { name?: string | RegExp }): Locator;
-    getByLabel(text: string | RegExp): Locator;
+    getByRole(role: string, options?: { name?: string | RegExp; exact?: boolean }): Locator;
+    getByLabel(text: string | RegExp, options?: { exact?: boolean }): Locator;
     getByTestId(testId: string): Locator;
     getByText(text: string | RegExp): Locator;
     evaluate<T>(expression: () => T): Promise<T>;
-    requestGet(url: string, options?: { headers?: Record<string, string> }): Promise<APIResponse>;
+    request: { get(url: string, options?: { headers?: Record<string, string> }): Promise<APIResponse> };
   }
 
   /** Minimal browser surface (isolation.spec opens two contexts). */

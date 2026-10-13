@@ -87,7 +87,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element
   const register = useCallback(
     async (payload: RegisterPayload): Promise<void> => {
       const result = await registerApi(payload);
-      persistSession(result.access_token, result.user);
+      const token = (result as { access_token?: string }).access_token;
+      if (typeof token === 'string' && token.length > 0) {
+        persistSession(token, result.user);
+        return;
+      }
+      // REQ-API-020 ships UserResponse (no token): complete the session by
+      // logging in with the just-registered credentials (REQ-FE-061 auto-login).
+      const loginResult = await loginApi({ email: payload.email, password: payload.password });
+      persistSession(loginResult.access_token, loginResult.user);
     },
     [persistSession]
   );

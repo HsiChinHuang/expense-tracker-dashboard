@@ -25,13 +25,13 @@ test('switching months updates the dashboard totals', async ({ page }) => {
 
   await addExpense(page, {
     amount: '40.00',
-    categoryName: 'Food',
+    categoryName: 'Food & Dining',
     date: dayInMonth(thisMonth, 6),
     note: 'this month'
   });
   await addExpense(page, {
     amount: '25.00',
-    categoryName: 'Transport',
+    categoryName: 'Transportation',
     date: dayInMonth(lastMonth, 12),
     note: 'last month'
   });
