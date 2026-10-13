@@ -925,3 +925,134 @@ critical path 4 edges (t48→t49→t51→t52→t53 and the equal-length
  t48→t49→t50→t52→t53), carried as the standing WARN per the carried
 orchestrator ruling (phase_7 precedent: cumulative WARN, dep_chain judged
 MILESTONE-LOCAL (4 < 20 PASS).
+
+## phase_9_req_matrix — Per-REQ-ID Coverage Matrix (Strict Standard, operator directive 2026-10-13)
+
+Survey (2026-10-13, MAIN 54bd4b0 / WAL 0f1fb7c, all 56 cards closed, t45 not_planned
+-> closed as diagnosis, WAL through 696) opens a NEW final-milestone class of work:
+the operator ruled the chapter-level plan->card mapping INSUFFICIENT and demands a
+mechanically verifiable per-requirement-ID coverage matrix over ALL 749 REQ ids.
+Rolling planning: three cards t57..t59; t59 is the milestone exit.
+
+**SURVEY MEASUREMENTS that shaped the split (all measured at 0f1fb7c):**
+
+1. **749 UNIQUE IDS, 748 HEADING ENTRIES.** `grep -oE 'REQ-[A-Z]+-[0-9]+'
+   docs/requirements.md | sort -u` = 749. The heading-form regex
+   `^#+ .*REQ-<FAMILY>-<NNN>:` yields 748; the lone non-heading id is
+   `REQ-AUTH-001`, which appears ONLY inside the section 3.1 ID-FORMAT EXAMPLE
+   code block (never as a requirement entry). The matrix must classify it with an
+   explicit documented status (EXAMPLE_REFERENCE) rather than pretend it is a
+   requirement - fabricating evidence for it would poison the strict standard.
+2. **DIRECT-COVERAGE AUDIT.** Union of ids referenced in `docs/issues/closed/*.md`
+   + `docs/criteria/*.md` + `docs/backlog.md` = 500 unique; intersected with the 749
+   = 497 directly referenced. The other **252 ids are covered only indirectly** via
+   the Chapter-17-task -> card mapping: TEST 32, API 28, AI 26, FE 25, DB 23, BE 20,
+   SEC 18, ARCH 16, PLAN 16, STRUCT 16, PROD 12, OPS 8, TECH 7, PROJ 3, CICD 1,
+   AUTH 1. (The 3 corpus ids outside the 749 are references to the example id and
+   prose forms; they are not matrix rows.)
+3. **EVIDENCE-PRESENCE SCAN OVER THE 252.** Only 6 of the 252 ids are named inside
+   test/script source (`grep -r REQ- backend/tests frontend/src e2e backend/scripts
+   agent-hooks mcp-server custom-agent extensions scripts`) - BE-092..096, DB-091.
+   ID-name absence is NOT gap evidence (cards reference ids in closed-card bodies,
+   which the matrix also reads); the matrix's evidence rule is pointer-based, not
+   name-based.
+4. **PRELIMINARY GAP SAMPLE (20 ids across 10 families, subject-matter greps over
+   the verification targets each requirement names).** PREDICTED GENUINE GAPS are
+   documentation-record gaps, not code gaps: PLAN-100..103 (risk register -
+   `grep -i risk docs/plan.md` = ZERO matches; the 'Read the plan' verification has
+   no target), PLAN-110/111/112 (nine-step daily workflow / time allocation /
+   session discipline - absent from docs/process.md and docs/ai-workflow.md),
+   STRUCT-040 (file-count summary) + STRUCT-050..052 (naming conventions) - no
+   artifact outside requirements.md, DB-120 + ARCH-081 (data-volume / project
+   assumptions - docs/architecture.md names no assumptions), TEST-070 (the
+   enumerated not-tested list - docs/testing-guidelines.md has a 'What not to test'
+   section but not the REQ-TEST-070 items). ESTIMATE: ~10-20 of the 252 are genuine
+   GAPs, ALL remediable by authoring the pointed-to documentation artifacts; ZERO
+   predicted product-code gaps. SAMPLED-COVERED (evidence exists, pointer
+   resolution is generator work): TEST-012/020/035/038 (backend/frontend test
+   files), API-062/080/110 (dashboard routers, openapi pagination envelope,
+   Decimal-as-string), BE-071/100, DB-063/080, FE-011/090/143 (zero dark-mode/i18n
+   code = the negative assertion holds), SEC-011/042 (agent-security-notes threat
+   actors; SQLAlchemy bound params), ARCH-073 (sqlite fallback), CICD-053/OPS-103
+   (runbook rollback), OPS-043..048 (ops/diagnosis.md), AI-012/050/102
+   (ai-workflow Tools + task-template.md + ai-tool-data-policy inventory),
+   TECH-082/083 (pinned FROM tags, pinned `uses:`), PROD-002..007 (product-spec
+   User stories), PROJ-002/003/006 (product-spec), TEST-062 (e2e/fixtures/users.ts
+   uniqueUser), TEST-081 (ci.yml coverage legs).
+5. **TWO HARD ADJUDICATION CANDIDATES surfaced by the scan (groom-time decisions,
+   recorded here so they cannot be silently papered over):** (a) REQ-TECH-008
+   (date-fns 3) - the product DELIBERATELY banned date-fns (t20 Q4/Q7 rulings;
+   `grep date-fns frontend/src` shows the ban comments; package.json has no
+   date-fns). The honest matrix status is GAP-with-ruled-deviation or a new
+   DEFERRED_RULLED-class pointer to the deviation record; the vocabulary is CLOSED,
+   so the generator cannot invent a fifth status - groom must pick the honest
+   mapping and disclose it. (b) REQ-FE-121 (Lighthouse > 85, FCP/TTI budgets) - no
+   hermetic measurement exists and browser profiling is outside the no-E2E/no-live
+   ruling; FE-120's React.lazy/bundle-analysis half is likewise unimplemented
+   (measured: no `lazy(` in frontend/src). These two are the predicted GAP ids most
+   likely to remain GAP after evidence work; t58 ac3 escalates rather than fakes.
+6. **DEFERRALS AND #61 ARE ROWS, NOT WORK.** The 4 DEFERRED LIVE_* keys
+   (LIVE_DEPLOYMENT_STATE, LIVE_AGENT_SESSION, LIVE_MCP_SUBPROCESS,
+   LIVE_SUBAGENT_LAUNCH, parsed from the DEFERRAL_REGISTER in
+   docs/criteria/docs_verification.md) and platform #61 (RENDER_DEPLOY_HOOK secret,
+   open by design, operator infra) map their requirement ids to DEFERRED_RULLED
+   with register/#61 pointers. Re-adjudicating them into code scope is OUT OF SCOPE
+   (standing no-E2E/no-live, docker ban, deploy-deferred rulings).
+7. **FLOORS AND PINS CARRIED (t53 convention).** README.md CR-stripped sha256
+   `a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c` at 308 lines
+   is pin-2 FINAL - phase_9 must NOT touch README (pin-3 is forbidden); AGENTS.md
+   8340781c, render.yaml 60110dd0, openapi.yaml 6f2a0a3d; backend >= 270 green,
+   mypy Success >= 89 files, ruff clean, single alembic head 005; frontend >= 187
+   passed, tsc rc=0, lint EXACTLY 4 react-refresh warnings; workflows exactly
+   `.gitkeep/ci.yml/deploy.yml/e2e.yml`; merge_test_index >= 217 with the stored
+   byte-pinned anchors green by identity. KNOWN ACCEPTED RESIDUALS must not fail
+   the matrix: ac_hash dialect cosmetic, README stale-wording rows under pin-2,
+   docs/issues/closed/index.md legacy tests-column zeros, t49/t50 truncated digests.
+
+**RULINGS:**
+
+1. **SIXTH GENERATOR, SAME HERMETIC CONTRACT.** t57 owns
+   `backend/scripts/req_coverage_verification.py` +
+   `docs/criteria/req_coverage_verification.md` - generated, byte-exact-as-generated
+   (docs_verification.md convention), no network, no docker (ABSOLUTE DOCKER BAN),
+   no live/E2E, no wall-clock and no git metadata in output; two runs byte-identical
+   is an executed AC. This milestone adds ZERO pytest/vitest nodes by design.
+2. **CLOSED VOCABULARY + FAIL-CLOSED FENCE.** Statuses are exactly
+   {IMPLEMENTED_TESTED, IMPLEMENTED_STRUCTURAL, DEFERRED_RULLED, GAP} + the one
+   documented structural class EXAMPLE_REFERENCE (REQ-AUTH-001 only). The generator
+   EXITS NONZERO iff any row is GAP or any non-GAP row lacks >= 1 concrete evidence
+   pointer (test node id, file artifact, criteria report row, or register/#61
+   pointer). The matrix closes the loop; it does not merely report.
+3. **REMEDIATION IS MEASURED, NOT PRE-COMMITTED.** t58's AC list is generated from
+   t57's GAP rows at groom. The survey's predictions (measurement 4) scope the
+   estimate only. If t57 measures ZERO GAP, t58 is a no-op card closed by
+   attestation and the milestone is matrix + exit composite.
+4. **NO SILENT RELABELLING.** An id still uncovered after t58's evidence work is
+   escalated as a NEW deferral candidate for operator ruling (t58 ac3); the closed
+   vocabulary forbids inventing statuses mid-milestone.
+5. **GENERATOR-OWNED CRITERIA DIR.** The five carried reports are never
+   hand-edited; matrix flips happen by changing the generator's evidence map and
+   authoring the artifacts it points at.
+
+**The three cards:**
+
+| card | vertical | modality | depends | new nodes | platform |
+|---|---|---|---|---|---|
+| t57 | matrix generator + report (749 rows, closed vocabulary, evidence pointers, fail-closed fence, byte-determinism) | EXECUTED generator + hermetic determinism | t53 | 0 | #62 |
+| t58 | gap remediation - author the missing evidence artifacts until the fence reaches 0 GAP (predicted: PLAN risk/workflow records, STRUCT file-count + naming, DB-120/ARCH-081 assumptions, TEST-070 list, PROD success rows; AC set measured from t57 output) | STRUCTURAL docs authoring + matrix re-run | t57 | 0 | #63 |
+| t59 | milestone-exit composite - six generators green, matrix closed (0 GAP, 749 rows), floors + byte-pins + workflow freeze + deferral re-attestation, accepted residuals re-listed | executed + attested + deferred | t57, t58 | 0 | #64 |
+
+Local-id numbering verified, not assumed: highest local id across docs/backlog.md +
+docs/issues/closed/ is t56 (t54/t55 exist and are closed); this milestone continues
+at t57/t58/t59. Platform numbering: highest existing issue is #61 (open by design);
+the three cards are #62/#63/#64, each created in its own call, `defined` applied and
+read back per issue. N = 3; batch_size = min(5, max(1, ceil(3/3))) = 1 -> batches
+[t57], [t58], [t59]. DAG: regenerated docs/state/dag.json + dag.mmd at 60 nodes /
+98 edges (the stored phase_8 graph - 54 nodes / 91 edges - never DAGged the
+t54/t55/t56 E2E defect cards; this survey added those three closed endpoints and
+their backlog-documented edges t54->t47, t55->t54, t56->t55 plus the 3 new nodes and
+3 new edges, keeping every existing entry byte-equivalent); zero cycles, zero
+orphans, Kahn machine-verified. Cumulative longest chain 37 edges
+(...t41->t48->t49->t50->t52->t53->t57->t58->t59); milestone-local
+critical path 2 edges (t57->t58->t59), dep_chain MILESTONE-LOCAL per the
+phase_6/7/8 precedent, cumulative carried as standing WARN.

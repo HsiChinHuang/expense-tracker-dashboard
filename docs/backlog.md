@@ -51,7 +51,7 @@
 | t47 | Postgres migration portability - boolean defaults + portable year_month CHECK + DDL-pin tests (E2E final blocker) | [t46] | #50 | closed |
 | t44 | Makefile security-semgrep recipe repair - remove --metrics off conflicting with --config auto in semgrep 1.180.0 | [t36] | #47 | closed |
 | t48 | Process/task-template/role docs - docs/process.md, docs/task-template.md, docs/team/*, docs/ownership.md | [t41] | #51 | closed |
-| t49 | Root reviewer docs (CLAUDE.md, product-spec, openapi export, README criteria map, runbook typo, render deviation) | closed |
+| t49 | Root reviewer docs (CLAUDE.md, product-spec, openapi export, README criteria map, runbook typo, render deviation) | [t48] | #52 | closed |
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | [t48, t49] | #53 | closed |
 | t51 | Technical docs set - docs/architecture.md, docs/api.md, docs/design-system.md, docs/testing-guidelines.md against merged code | [t49] | #54 | closed |
 | t52 | Screenshots - dashboard/expense-form/budget-page/health-check PNGs from a measured run + README pointers (final README pin) | [t50, t51] | #55 | closed |
@@ -59,3 +59,6 @@
 | t54 | E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45) | [t47] | #58 | closed |
 | t55 | E2E suite targets localhost:5173 but the CI stack serves the SPA on :8000 - no frontend server for the suite run (first-ever E2E green final blocker) | [t54] | #59 | closed |
 | t56 | E2E registerUser helper strict-mode violation - getByLabel Password matches two inputs (first-ever fully-green E2E blocker) | [t55] | #60 | closed |
+| t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence) | [t53] | #62 | defined |
+| t58 | Per-REQ-ID gap remediation - author missing evidence artifacts (predicted: PLAN risk/workflow records, STRUCT file-count + naming, DB-120/ARCH-081 assumptions, TEST-070 list, PROD success rows) until the t57 fence reaches 0 GAP | [t57] | #63 | defined |
+| t59 | Requirement-coverage verification composite - six generators green, 749-row matrix closed at 0 GAP, floors + byte-pins + deferral re-attestation (phase_9 exit card) | [t57, t58] | #64 | defined |
