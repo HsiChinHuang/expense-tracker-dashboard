@@ -3,47 +3,50 @@
  "issue_id": "t57",
  "role": "builder",
  "phase": "fix_qa",
- "status": "BLOCKER",
- "reached_state": "unchanged",
+ "status": "COMPLETE",
+ "reached_state": "built",
  "evidence": {
   "evidence_type": "build",
   "branch": "issue/t57-req-coverage-matrix",
   "branch_sha": "2c50f52e44b80668cfb80ce93355ba97df64d060",
-  "branches_pushed": [
-   "issue/t57-req-coverage-matrix: fast-forwarded from 2c50f52 to this handoff commit (parent = base 5f7b9e5, which already carries the merged build delta 3e4e804); build/t57-req-coverage-matrix moved the same way",
-   "artifacts/phase9-t57-fixqa: new marker ref at this handoff commit - never merged, refs only, main untouched",
-   "no source-file commit was needed: the tree is byte-identical to main base 5f7b9e5 and the builder delta (generator + tests + report) is already merged"
-  ],
-  "card_pin_reproduced": "sha256:649c1763a780dc8dde59950f0d613b7467b685aab88d799357dd733aa160833e (ac[1-6] bash fences from docs/issues/groom/t57.md, trimmed, JSON.stringify canonical) - matches the re-groom pin exactly",
-  "ac_hash_pin_reproduced": "sha256:649c1763a780dc8dde59950f0d613b7467b685aab88d799357dd733aa160833e",
-  "base_commit": "5f7b9e53a6ec1fd0458003eec79c9df8857e3953",
-  "execution_order": "ac1, ac2, ac3, ac4, ac5, ac6 - each fence executed VERBATIM as one bash -c invocation from the card's ```bash block (CRLF stripped with tr -d '\\r' per card convention), no rewriting, no substitution, no generator edits",
+  "base_commit": "b67de0f6770ec6edf57041a77768e5a0283d814f",
+  "card_pin_reproduced": "sha256:45b64ef9089b844b39b738ae62e294cca947412167f9b9bc7c45f5e4c6083cd7",
+  "ac_hash_pin_reproduced": "sha256:45b64ef9089b844b39b738ae62e294cca947412167f9b9bc7c45f5e4c6083cd7",
+  "pin_method": "sha256 over JSON.stringify of the six trimmed bash-fence bodies extracted from docs/issues/groom/t57.md between the Verification-commands and Out-of-scope headings, CR-stripped, ac1..ac6 order - MATCHES the re-groom #2 pin",
+  "execution_order": "ac1, ac2, ac3, ac4, ac5, ac6 - each fence executed VERBATIM as one bash invocation of the card body with CR stripped (tr -d \\r per card convention); no fence edit, no substitution, no generator edit, no code change",
   "fence_rc_table": {
    "ac1": {
     "rc": 0,
-    "verdict": "GREEN"
+    "verdict": "GREEN",
+    "evidence": "rc1=1 rc2=1 digests 2347f8279b5a62cae4d998b81cd071a66acc5e07fee7f44991d60e32c6db26f2 x3 equal; matrix rows=749; idset digest ef6c4bba27791a79 recomputed and matching; family tally 749/18"
    },
    "ac2": {
     "rc": 0,
-    "verdict": "GREEN"
+    "verdict": "GREEN",
+    "evidence": "generator suite 15 passed rc=0; non-GAP rows without pointers=0; backend collected=285 (>270 floor, 15 new tests inside)"
    },
    "ac3": {
     "rc": 0,
-    "verdict": "GREEN"
+    "verdict": "GREEN",
+    "evidence": "LIVE_DEPLOYMENT_STATE 5/5, LIVE_AGENT_SESSION 2/2, LIVE_MCP_SUBPROCESS 2/2, LIVE_SUBAGENT_LAUNCH 2/2; DEFERRED_RULLED rows=13 without-key-or-61=0; SCAN_TIMING_DOC backs no row"
    },
    "ac4": {
     "rc": 0,
-    "verdict": "GREEN"
+    "verdict": "GREEN",
+    "evidence": "token d5d75d0382bd0796; rc1=rc2=1 with gap_rows=99 unpointed=0 (fail-closed iff holds); out-of-repo copy: unseeded rc=1 rows=749, seeded rc=1 rows=750 (+1 GAP), wrong-token rc=2 (no seeding); no tracked file moved"
    },
    "ac5": {
-    "rc": 2,
-    "verdict": "RED - CARD_FENCE_DEFECT (bash syntax error before any gate leg runs)"
+    "rc": 0,
+    "verdict": "GREEN",
+    "evidence": "RE-ATTESTED AS WRITTEN after re-groom #2: 4 carried generators green under PYTHONPATH=. capture-and-restore, all 5 carried reports byte-identical to HEAD pre+post; backend collected=285, pytest green; ruff clean; mypy Success 91 files; alembic 005; README pin-2 FINAL 308L; AGENTS/render/openapi/workflows frozen; vitest passed=187 (ANSI-strip leg now measures it correctly, floor 187); tsc rc=0; eslint rc=0 with exactly 4 react-refresh warning lines; index 217+ entries, eight byte-pins intact, tests[16]=t2 executed VERBATIM rc=0"
    },
    "ac6": {
     "rc": 0,
-    "verdict": "GREEN"
+    "verdict": "GREEN",
+    "evidence": "merge-base=54bd4b0; non-docs commits in range=1 own=2c50f52; own non-docs delta exactly [backend/scripts/req_coverage_verification.py, backend/tests/unit/test_req_coverage_verification.py]; docs delta t57-only; frozen files byte-identical; frontend/e2e/.github untouched"
    }
   },
+  "six_of_six": "6/6 rc=0",
   "ac_mapping": {
    "ac1": {
     "commit": "2c50f52e44b80668cfb80ce93355ba97df64d060",
@@ -67,8 +70,8 @@
    },
    "ac5": {
     "commit": "2c50f52e44b80668cfb80ce93355ba97df64d060",
-    "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac5: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac5: node missing\"; exit 1; }; test -f docs/criteria/req_coverage_verification.md || { echo \"ac5 RED: generated matrix missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); P=\"docs/criteria/dashboard_verification.md docs/criteria/infra_verification.md docs/criteria/security_ops_verification.md docs/criteria/agent_pack_verification.md docs/criteria/docs_verification.md\"; f(){ x=$(cmd.exe /c \"git -C $G rev-parse HEAD:$1\" </dev/null | tr -d \"\\r\"); y=$(cmd.exe /c \"git -C $G hash-object $1\" </dev/null | tr -d \"\\r\"); [ \"$x\" = \"$y\" ] || { echo \"ac5 RED: $1 differs from its HEAD blob ($2) - carried reports are generator-owned and re-attested to HEAD, never rewritten (t53 ac5)\"; exit 1; }; }; for p in $P; do f \"$p\" pre-run; done; b1=$(mktemp -d) || { echo \"ac5 RED: no scratch dir\"; exit 1; }; for s in dashboard_verification infra_verification security_ops_verification docs_verification agent_pack_verification; do cp docs/criteria/$s.md \"$b1/$s.md\" || { echo \"ac5 RED: cannot capture $s.md\"; exit 1; }; done; for s in dashboard_verification infra_verification security_ops_verification docs_verification; do (cd backend && PYTHONPATH=. uv run python scripts/$s.py >/tmp/t57_ac5.log 2>&1); r5=$?; cp \"$b1/$s.md\" docs/criteria/$s.md || { echo \"ac5 RED: cannot restore $s.md - restore it by hand\"; exit 1; }; [ \"$r5\" = 0 ] || { echo \"ac5 RED: scripts/$s.py exits $r5 (docs_verification needs the PREREQUISITE frontend/node_modules - t42/t49: npm.cmd ci)\"; tail -3 /tmp/t57_ac5.log; exit 1; }; done; cp \"$b1/agent_pack_verification.md\" docs/criteria/agent_pack_verification.md || { echo \"ac5 RED: cannot restore agent_pack\"; exit 1; }; rm -rf \"$b1\"; for p in $P; do f \"$p\" post-run; done; echo \"ac5 evidence: 4 carried generators green under PYTHONPATH=. capture-and-restore (t35 tests[155] recipe); agent_pack captured+restored, NOT re-run - its report embeds the collection count this card moves above 270, so byte-identity after regeneration is impossible BY DESIGN; stored tests[154]/tests[155] run it VERBATIM\"; ; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); echo \"ac5 evidence: backend collected=${c:-0} (floor 270, incl. the new generator tests)\"; [ \"${c:-0}\" -ge 270 ] || { echo \"ac5 RED: backend collection floor\"; exit 1; }; (cd backend && uv run pytest -q >/tmp/t57_ac5_pytest.log 2>&1) || { echo \"ac5 RED: backend pytest not green WITH the new generator tests\"; tail -20 /tmp/t57_ac5_pytest.log; exit 1; }; (cd backend && uv run ruff check . >/dev/null 2>&1) || { echo \"ac5 RED: ruff not clean\"; exit 1; }; M=$(cd backend && uv run mypy . 2>&1 | tr -d \"\\r\" | grep -E \"^Success\" | tail -1); echo \"ac5 evidence: mypy [$M]\"; printf \"%s\" \"$M\" | grep -qE \"^Success: no issues found in (89|9[0-9]|[1-9][0-9]{2,}) source files$\" || { echo \"ac5 RED: mypy does not report Success over the >= 89-file floor\"; exit 1; }; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac5 RED: alembic head drifted from 005\"; exit 1; }; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\" ] || { echo \"ac5 RED: README is not the pin-2 FINAL digest - t57 consumes it and pin-3 is forbidden\"; exit 1; }; [ \"$(wc -l < README.md | tr -dc 0-9)\" = 308 ] || { echo \"ac5 RED: README not 308 lines\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac5 RED: AGENTS.md digest drifted\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac5 RED: render.yaml digest drifted\"; exit 1; }; o=$(tr -d \"\\r\" < openapi.yaml | sha256sum | cut -c1-64); [ \"$o\" = \"6f2a0a3d05680b4dd44f427c852b8ffca29b6a2dfbd54f9a582a54796a949354\" ] || { echo \"ac5 RED: openapi.yaml digest drifted - this card must NOT regenerate the export\"; exit 1; }; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac5 RED: workflows dir set drifted [$w]\"; exit 1; }; if [ -d frontend/node_modules ]; then (cd frontend && npx.cmd vitest run >/tmp/t57_ac5_vitest.log 2>&1) || { echo \"ac5 RED: frontend vitest not green - frontend is UNTOUCHED by t57 and its floor must stand\"; tail -20 /tmp/t57_ac5_vitest.log; exit 1; }; V=$(tr -d \"\\r\" < /tmp/t57_ac5_vitest.log | sed -nE \"s/.*Tests +([0-9]+) passed.*/\\1/p\" | tail -1); echo \"ac5 evidence: vitest passed=${V:-unknown} (floor 187)\"; [ \"${V:-0}\" -ge 187 ] || { echo \"ac5 RED: vitest passed ${V:-0} below the 187 floor\"; exit 1; }; (cd frontend && npx.cmd tsc --noEmit >/tmp/t57_ac5_tsc.log 2>&1) || { echo \"ac5 RED: tsc --noEmit failed\"; tail -10 /tmp/t57_ac5_tsc.log; exit 1; }; (cd frontend && npm.cmd run lint >/tmp/t57_ac5_lint.log 2>&1) || { echo \"ac5 RED: eslint exited non-zero - the exactly-4-warning baseline is rc=0\"; tail -20 /tmp/t57_ac5_lint.log; exit 1; }; W=$(tr -d \"\\r\" < /tmp/t57_ac5_lint.log | grep -cE \"react-refresh/only-export-components\"); echo \"ac5 evidence: lint warning lines=$W (baseline exactly 4 react-refresh warnings)\"; [ \"$W\" = 4 ] || { echo \"ac5 RED: the frontend lint warning baseline moved off exactly 4 - this card touches no frontend file\"; exit 1; }; else echo \"ac5 evidence: frontend/node_modules absent - the frontend unchanged-floor legs are PREREQUISITE-gated (t42/t49 precedent), not skipped silently: run cd frontend && npm.cmd ci to exercise them\"; fi; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<217){console.error(\\\"ac5 RED: index \\\"+(i.tests||[]).length+\\\" below the 217-entry floor\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\"),P={16:[\\\"t2\\\",\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"],54:[\\\"t9\\\",\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"],131:[\\\"t26\\\",\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\"],132:[\\\"t26\\\",\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\"],133:[\\\"t26\\\",\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\"],135:[\\\"t26\\\",\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"],215:[\\\"t55\\\",\\\"6731404630d03c6055bfd478d129b363838b2cf3f8f749fa5cafcda54f086a31\\\"],216:[\\\"t55\\\",\\\"483619d3f378121cb057bfcf9ed4853ac0c5914f81c4006c8c940c0f16a3790e\\\"]};const b=[];for(const q in P){const t=(i.tests||[])[q];if(!t){b.push(\\\"tests[\\\"+q+\\\"] missing\\\");continue}if(t.issue_id!==P[q][0]){b.push(\\\"tests[\\\"+q+\\\"] identity \\\"+t.issue_id);continue}if(H(t)!==P[q][1]){b.push(\\\"tests[\\\"+q+\\\"] byte-pin mismatch\\\");continue}}try{ex((i.tests||[])[16].command,{stdio:\\\"ignore\\\",timeout:600000});console.log(\\\"ac5 evidence: index >= 217, the eight byte-pins byte-identical with correct identities, tests[16]=t2 executed VERBATIM rc=0\\\")}catch(e){b.push(\\\"tests[16] (t2) execution FAILED\\\")}if(b.length){console.error(\\\"ac5 RED: \\\"+b.join(\\\" | \\\"));process.exit(1)}\" || exit 1; echo \"ac5 GREEN: COMPOSITE - the 4 re-runnable carried generators re-ran green under capture-and-restore and all five carried reports stay byte-identical to HEAD (no regeneration-to-byte-identity claim), backend >= 270 collected and green WITH the new generator tests, ruff clean, mypy Success >= 89 files, alembic single head 005, frontend untouched and its 187/tsc/exactly-4-warning floors intact, README pin-2 FINAL and the AGENTS/render/openapi/workflow pins frozen, index >= 217 with the eight byte-pins intact and tests[16] verbatim green. The matrix exit code is NOT gated here (ac4 owns it, review_plan W1)\" '",
-    "verdict": "FAIL"
+    "test": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac5: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac5: node missing\"; exit 1; }; test -f docs/criteria/req_coverage_verification.md || { echo \"ac5 RED: generated matrix missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); P=\"docs/criteria/dashboard_verification.md docs/criteria/infra_verification.md docs/criteria/security_ops_verification.md docs/criteria/agent_pack_verification.md docs/criteria/docs_verification.md\"; f(){ x=$(cmd.exe /c \"git -C $G rev-parse HEAD:$1\" </dev/null | tr -d \"\\r\"); y=$(cmd.exe /c \"git -C $G hash-object $1\" </dev/null | tr -d \"\\r\"); [ \"$x\" = \"$y\" ] || { echo \"ac5 RED: $1 differs from its HEAD blob ($2) - carried reports are generator-owned and re-attested to HEAD, never rewritten (t53 ac5)\"; exit 1; }; }; for p in $P; do f \"$p\" pre-run; done; b1=$(mktemp -d) || { echo \"ac5 RED: no scratch dir\"; exit 1; }; for s in dashboard_verification infra_verification security_ops_verification docs_verification agent_pack_verification; do cp docs/criteria/$s.md \"$b1/$s.md\" || { echo \"ac5 RED: cannot capture $s.md\"; exit 1; }; done; for s in dashboard_verification infra_verification security_ops_verification docs_verification; do (cd backend && PYTHONPATH=. uv run python scripts/$s.py >/tmp/t57_ac5.log 2>&1); r5=$?; cp \"$b1/$s.md\" docs/criteria/$s.md || { echo \"ac5 RED: cannot restore $s.md - restore it by hand\"; exit 1; }; [ \"$r5\" = 0 ] || { echo \"ac5 RED: scripts/$s.py exits $r5 (docs_verification needs the PREREQUISITE frontend/node_modules - t42/t49: npm.cmd ci)\"; tail -3 /tmp/t57_ac5.log; exit 1; }; done; cp \"$b1/agent_pack_verification.md\" docs/criteria/agent_pack_verification.md || { echo \"ac5 RED: cannot restore agent_pack\"; exit 1; }; rm -rf \"$b1\"; for p in $P; do f \"$p\" post-run; done; echo \"ac5 evidence: 4 carried generators green under PYTHONPATH=. capture-and-restore (t35 tests[155] recipe); agent_pack captured+restored, NOT re-run - its report embeds the collection count this card moves above 270, so byte-identity after regeneration is impossible BY DESIGN; stored tests[154]/tests[155] run it VERBATIM\"; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"::\"); echo \"ac5 evidence: backend collected=${c:-0} (floor 270, incl. the new generator tests)\"; [ \"${c:-0}\" -ge 270 ] || { echo \"ac5 RED: backend collection floor\"; exit 1; }; (cd backend && uv run pytest -q >/tmp/t57_ac5_pytest.log 2>&1) || { echo \"ac5 RED: backend pytest not green WITH the new generator tests\"; tail -20 /tmp/t57_ac5_pytest.log; exit 1; }; (cd backend && uv run ruff check . >/dev/null 2>&1) || { echo \"ac5 RED: ruff not clean\"; exit 1; }; M=$(cd backend && uv run mypy . 2>&1 | tr -d \"\\r\" | grep -E \"^Success\" | tail -1); echo \"ac5 evidence: mypy [$M]\"; printf \"%s\" \"$M\" | grep -qE \"^Success: no issues found in (89|9[0-9]|[1-9][0-9]{2,}) source files$\" || { echo \"ac5 RED: mypy does not report Success over the >= 89-file floor\"; exit 1; }; (cd backend && uv run alembic heads 2>/dev/null | tr -d \"\\r\" | grep -qE \"^005 \\(head\\)$\") || { echo \"ac5 RED: alembic head drifted from 005\"; exit 1; }; k=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); [ \"$k\" = \"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\" ] || { echo \"ac5 RED: README is not the pin-2 FINAL digest - t57 consumes it and pin-3 is forbidden\"; exit 1; }; [ \"$(wc -l < README.md | tr -dc 0-9)\" = 308 ] || { echo \"ac5 RED: README not 308 lines\"; exit 1; }; a=$(tr -d \"\\r\" < AGENTS.md | sha256sum | cut -c1-64); [ \"$a\" = \"8340781ca88e0932eb7eb94a6d6d6db73af23f5edae0f4b9b974363279e7a374\" ] || { echo \"ac5 RED: AGENTS.md digest drifted\"; exit 1; }; r=$(tr -d \"\\r\" < render.yaml | sha256sum | cut -c1-64); [ \"$r\" = \"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\" ] || { echo \"ac5 RED: render.yaml digest drifted\"; exit 1; }; o=$(tr -d \"\\r\" < openapi.yaml | sha256sum | cut -c1-64); [ \"$o\" = \"6f2a0a3d05680b4dd44f427c852b8ffca29b6a2dfbd54f9a582a54796a949354\" ] || { echo \"ac5 RED: openapi.yaml digest drifted - this card must NOT regenerate the export\"; exit 1; }; w=$(ls -A .github/workflows | tr -d \"\\r\" | sort | tr \"\\n\" \",\"); [ \"$w\" = \".gitkeep,ci.yml,deploy.yml,e2e.yml,\" ] || { echo \"ac5 RED: workflows dir set drifted [$w]\"; exit 1; }; if [ -d frontend/node_modules ]; then (cd frontend && npx.cmd vitest run >/tmp/t57_ac5_vitest.log 2>&1) || { echo \"ac5 RED: frontend vitest not green - frontend is UNTOUCHED by t57 and its floor must stand\"; tail -20 /tmp/t57_ac5_vitest.log; exit 1; }; V=$(tr -d \"\\r\" < /tmp/t57_ac5_vitest.log | sed -E \"s/\\x1b\\[[0-9;]*m//g\" | sed -nE \"s/.*Tests +([0-9]+) passed.*/\\1/p\" | tail -1); echo \"ac5 evidence: vitest passed=${V:-unknown} (floor 187)\"; [ \"${V:-0}\" -ge 187 ] || { echo \"ac5 RED: vitest passed ${V:-0} below the 187 floor\"; exit 1; }; (cd frontend && npx.cmd tsc --noEmit >/tmp/t57_ac5_tsc.log 2>&1) || { echo \"ac5 RED: tsc --noEmit failed\"; tail -10 /tmp/t57_ac5_tsc.log; exit 1; }; (cd frontend && npm.cmd run lint >/tmp/t57_ac5_lint.log 2>&1) || { echo \"ac5 RED: eslint exited non-zero - the exactly-4-warning baseline is rc=0\"; tail -20 /tmp/t57_ac5_lint.log; exit 1; }; W=$(tr -d \"\\r\" < /tmp/t57_ac5_lint.log | grep -cE \"react-refresh/only-export-components\"); echo \"ac5 evidence: lint warning lines=$W (baseline exactly 4 react-refresh warnings)\"; [ \"$W\" = 4 ] || { echo \"ac5 RED: the frontend lint warning baseline moved off exactly 4 - this card touches no frontend file\"; exit 1; }; else echo \"ac5 evidence: frontend/node_modules absent - the frontend unchanged-floor legs are PREREQUISITE-gated (t42/t49 precedent), not skipped silently: run cd frontend && npm.cmd ci to exercise them\"; fi; node -e \"const{execSync:ex}=require(\\\"child_process\\\"),h=require(\\\"crypto\\\"),fs=require(\\\"fs\\\"),i=JSON.parse(fs.readFileSync(\\\"docs/state/merge_test_index.json\\\",\\\"utf8\\\"));if((i.tests||[]).length<217){console.error(\\\"ac5 RED: index \\\"+(i.tests||[]).length+\\\" below the 217-entry floor\\\");process.exit(1)}const H=x=>h.createHash(\\\"sha256\\\").update(JSON.stringify(x)).digest(\\\"hex\\\"),P={16:[\\\"t2\\\",\\\"cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3\\\"],54:[\\\"t9\\\",\\\"cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4\\\"],131:[\\\"t26\\\",\\\"3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb\\\"],132:[\\\"t26\\\",\\\"c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c\\\"],133:[\\\"t26\\\",\\\"6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249\\\"],135:[\\\"t26\\\",\\\"3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3\\\"],215:[\\\"t55\\\",\\\"6731404630d03c6055bfd478d129b363838b2cf3f8f749fa5cafcda54f086a31\\\"],216:[\\\"t55\\\",\\\"483619d3f378121cb057bfcf9ed4853ac0c5914f81c4006c8c940c0f16a3790e\\\"]};const b=[];for(const q in P){const t=(i.tests||[])[q];if(!t){b.push(\\\"tests[\\\"+q+\\\"] missing\\\");continue}if(t.issue_id!==P[q][0]){b.push(\\\"tests[\\\"+q+\\\"] identity \\\"+t.issue_id);continue}if(H(t)!==P[q][1]){b.push(\\\"tests[\\\"+q+\\\"] byte-pin mismatch\\\");continue}}try{ex((i.tests||[])[16].command,{stdio:\\\"ignore\\\",timeout:600000});console.log(\\\"ac5 evidence: index >= 217, the eight byte-pins byte-identical with correct identities, tests[16]=t2 executed VERBATIM rc=0\\\")}catch(e){b.push(\\\"tests[16] (t2) execution FAILED\\\")}if(b.length){console.error(\\\"ac5 RED: \\\"+b.join(\\\" | \\\"));process.exit(1)}\" || exit 1; echo \"ac5 GREEN: COMPOSITE - the 4 re-runnable carried generators re-ran green under capture-and-restore and all five carried reports stay byte-identical to HEAD (no regeneration-to-byte-identity claim), backend >= 270 collected and green WITH the new generator tests, ruff clean, mypy Success >= 89 files, alembic single head 005, frontend untouched and its 187/tsc/exactly-4-warning floors intact, README pin-2 FINAL and the AGENTS/render/openapi/workflow pins frozen, index >= 217 with the eight byte-pins intact and tests[16] verbatim green. The matrix exit code is NOT gated here (ac4 owns it, review_plan W1)\" '",
+    "verdict": "PASS"
    },
    "ac6": {
     "commit": "2c50f52e44b80668cfb80ce93355ba97df64d060",
@@ -81,47 +84,33 @@
    "passed": 472,
    "failed": 0
   },
-  "test_summary_composition": "backend uv run pytest -q: 285 passed (rc=0, includes the 15 t57 generator tests); frontend vitest run: 187 passed (187) (rc=0). Measured on this tree; the ac5 fence itself never reaches its test legs because its text fails bash parsing first.",
+  "test_summary_composition": "backend uv run pytest -q: 285 passed rc=0 (280 carried + 15 t57 generator tests); frontend vitest run: 187 passed (187) rc=0. Both measured inside the ac5 composite run on this tree.",
   "lint_status": "WARNINGS",
-  "lint_detail": "frontend eslint rc=0 with exactly 4 react-refresh/only-export-components warnings (the card's stated baseline); backend ruff rc=0 All checks passed; tsc --noEmit rc=0; mypy Success: no issues found in 91 source files",
+  "lint_detail": "frontend eslint rc=0 with exactly 4 react-refresh/only-export-components warnings (the card baseline); backend ruff rc=0 clean; tsc --noEmit rc=0; mypy Success: no issues found in 91 source files",
   "failed_acs_addressed": [
    {
     "ac_id": "ac5",
-    "fix_description": "No code fix is possible or permitted: the re-groomed ac5 fence is still defective as text and cannot execute. Defect 1 (fatal): the fence carries a stray duplicate statement separator 'echo \"...run it VERBATIM\"; ; c=$(...)' at char offset 2155 of the fence body, so bash -c aborts with 'syntax error near unexpected token `;\\'' and rc=2 BEFORE any gate leg (no generator re-run, no pytest, no frontend leg, no index leg) executes. bash -n confirms: as-written rc=2, identical body with only the duplicated ';' removed rc=0. Defect 2 (downstream, measured after removing defect 1 in a diagnostic copy): the fence's vitest count regex sed -nE 's/.*Tests +([0-9]+) passed.*/\\1/p' is ANSI-intolerant - vitest's default reporter emits escape codes between 'Tests' and the count (^[[2m      Tests ^[[22m ^[[1m^[[32m187 passed), so the capture yields nothing and the fence declares 'vitest passed 0 below the 187 floor' while the suite is actually GREEN at 187 passed rc=0. NO_COLOR=1, FORCE_COLOR=0 and TERM=dumb were each measured and do NOT strip the codes; vitest 4.x needs --no-color, which the pinned fence does not pass. Per the card contract I did NOT substitute, repair, or work around either defect and did NOT touch the generator; honest measured failure is the contract. The re-groom repaired ac5's PYTHONPATH/agent_pack/capture-and-restore structure (all four carried generators re-ran green under it in the diagnostic copy) but did not remove these two remaining text defects."
+    "fix_description": "No code fix was needed or made. The prior fix_qa round proved two ac5 FENCE-TEXT defects (stray \"; ;\" parse abort rc=2; ANSI-intolerant vitest count regex reading 187 GREEN passed as 0) while every gate VALUE measured GREEN. Re-groom #2 (merged b67de0f) repaired the fence text; this round re-executed the repaired ac5 fence VERBATIM at pin 45b64ef9 and it is GREEN rc=0 end to end: capture-and-restore byte-identity of the five carried reports, backend 285 collected / pytest green / ruff / mypy 91 files / alembic 005, README+AGENTS+render+openapi+workflows pins frozen, vitest 187 via the new ANSI-strip sed, tsc rc=0, eslint exactly-4-warning baseline, index 217+ with eight byte-pins and tests[16] verbatim green."
    },
    {
     "ac_id": "ac6",
-    "fix_description": "Addressed by the re-groom's pinned docs leg (merge-base range instead of the pre-base orchestrator WAL commits that made the previous fence unsatisfiable). Re-executed VERBATIM on this base: rc=0 GREEN - merge-base(HEAD,origin/main) range, non-docs commits in range measured, own commit 2c50f52 non-docs delta is exactly [backend/scripts/req_coverage_verification.py, backend/tests/unit/test_req_coverage_verification.py], workflows dir exact, frozen files byte-identical to HEAD, frontend/e2e/.github untouched."
+    "fix_description": "No code fix; re-executed verbatim as cross-check. The pinned own-commit leg (git rev-list + git show --name-only from merge-base(HEAD,origin/main)) measures exactly one non-docs commit 2c50f52 whose delta is exactly the generator plus its test module; docs delta t57-only; all byte-frozen files identical to HEAD; frontend/e2e/.github untouched. rc=0."
    }
   ],
   "verification_commands_source": "docs/issues/<id>.md#verification-commands",
-  "ac5_fence_defect": {
-   "as_written_rc": 2,
-   "as_written_stderr": "bash: -c: line 1: syntax error near unexpected token `;' / bash: -c: line 1: `export PATH=\"$HOME/.local/bin:$PATH\"; ... VERBATIM\"; ; c=$(cd backend && uv run pytest --collect-only -q ...'",
-   "defect_1_stray_semicolon": {
-    "char_offset_in_fence_body": 2155,
-    "exact_text": "echo \"ac5 evidence: 4 carried generators green under PYTHONPATH=. capture-and-restore (t35 tests[155] recipe); agent_pack captured+restored, NOT re-run - its report embeds the collection count this card moves above 270, so byte-identity after regeneration is impossible BY DESIGN; stored tests[154]/tests[155] run it VERBATIM\"; ; c=$(cd backend && uv run pytest --collect-only -q 2>/dev/null | tr -d \"\\r\" | grep -c \"::\")",
-    "proof": "bash -n on the fence body as-written: rc=2 syntax error; bash -n on the byte-identical body with ONLY the duplicated '; ' removed: rc=0"
-   },
-   "defect_2_ansi_intolerant_vitest_regex": {
-    "fence_text": "V=$(tr -d \"\\r\" < /tmp/t57_ac5_vitest.log | sed -nE \"s/.*Tests +([0-9]+) passed.*/\\1/p\" | tail -1)",
-    "measured_stdout_line": "^[[2m      Tests ^[[22m ^[[1m^[[32m187 passed^[[39m^[[22m^[[90m (187)^[[39m",
-    "regex_captures": "nothing -> 'ac5 evidence: vitest passed=unknown (floor 187)' -> 'ac5 RED: vitest passed 0 below the 187 floor'",
-    "measured_environment_attempts": "NO_COLOR=1, FORCE_COLOR=0, TERM=dumb, cmd.exe /c wrapper - all still emit ANSI; vitest --no-color strips it (2 passed matches rc=0) but is NOT the pinned text"
-   },
-   "gate_content_measured_via_typo_only_copy": "with ONLY defect 1 removed (still ANSI-untouched), every leg BEFORE the vitest regex ran GREEN: 4 carried generators green under PYTHONPATH=. capture-and-restore, all five carried reports byte-identical to HEAD pre- and post-run, backend collected=285 (floor 270), backend pytest GREEN, ruff clean, mypy Success 91 files, alembic single head 005, README/AGENTS/render/openapi pins + workflows dir intact, frontend vitest suite GREEN (187 passed, rc=0), tsc rc=0, eslint rc=0 exactly 4 warnings, index 217 entries with eight byte-pins intact and tests[16] executed VERBATIM rc=0. The fence then died at its own ANSI-intolerant regex. The card's gate is satisfiable; its text is not."
-  },
-  "ac6_result": "GREEN rc=0 as re-groomed: 'ac6 evidence: merge-base=... non-docs commits in range=1 own=2c50f52...' - the pre-base WAL-commit collision from the implement run is resolved by the pinned merge-base range",
+  "previous_round_resolution": "fix_qa round 1 blocker 81fbc643 (CARD_FENCE_DEFECT, ac5 rc=2) is RESOLVED by re-groom #2 and proven by this run: the ac5 fence as written now parses (no stray \"; ;\") and its vitest leg counts 187 through the ANSI-strip (sed -E s/\\x1b\\[[0-9;]*m//g). Zero code drift since build commit 2c50f52: the tree at base b67de0f carries the merged generator, tests and 99-GAP matrix unchanged.",
+  "tree_drift": "After all six fences: git status --porcelain shows ONLY untracked scratch/ (this run-scratch, never committed). docs/criteria/req_coverage_verification.md briefly flagged M because the generator writes LF while the checkout materializes CRLF under core.autocrlf=true; git diff HEAD --numstat was EMPTY and CR-stripped bytes were byte-identical to the HEAD blob (fences are CR-tolerant by design); git checkout -- restored the file and status is clean. No tracked file changed content.",
   "prerequisite_installs": [
-   "backend/.venv via uv sync (WSL-native) - declared toolchain install per docs/commands.md",
-   "frontend/node_modules via cmd.exe /c npm.cmd ci (526 packages, win32 stack) - the ac5 docs_verification + frontend legs are node_modules-gated by the fence's own text ('PREREQUISITE frontend/node_modules - t42/t49: npm.cmd ci')",
-   "~/.local/bin/npx.cmd and ~/.local/bin/npm.cmd shim scripts (exec cmd.exe /c ...) because WSL bash cannot execute Windows .cmd files that the pinned fence text invokes; the fence text itself was not changed",
-   "no tracked file was created, modified, or deleted by any install"
+   "backend/.venv via uv sync (WSL-native uv at ~/.local/bin, PATH export per card convention) - declared toolchain prerequisite, no tracked file touched",
+   "frontend/node_modules via win npm.cmd ci INSIDE THE WORKTREE (526 packages, win32 stack, ~13s) - installed in the worktree, NOT into MAIN; worktree frontend/node_modules is gitignored so no tree drift",
+   "no other shim was needed this round: ~/.local/bin/npm.cmd and npx.cmd shims (exec cmd.exe /c ...) already existed from the prior round and the fence invoked npx.cmd/npm.cmd unmodified",
+   "git write/read ops via cmd.exe /c git -C <WinPath> with </dev/null per card convention; the worktree .git pointer was kept in its original Windows-style form (WSL-direct git fails in this worktree, cmd.exe git works)"
   ],
-  "no_drift": "git status clean (only the pre-existing untracked node_modules symlink to MAIN's installed tree); every tracked byte identical to base 5f7b9e5 including all six criteria reports; no regenerated drift to commit and none accepted",
-  "docker": "ABSOLUTE BAN honored - no docker command was run; the generator's docker inspection leg stays seed-gated",
-  "notes": "BLOCKER is the card text, not the build. The re-groom (pin 649c1763) fixed ac6 completely and ac5's structure, but the ac5 fence still carries (1) a stray '; ;' that kills the whole fence at parse time and (2) an ANSI-intolerant vitest count regex that would fail it even after (1). Both are one-line text repairs for a second re-groom; every measured gate value under the fence is GREEN. No substitute command was accepted as a pass and no generator file was edited to satisfy a fence.",
-  "platform_comment": "https://github.com/HsiChinHuang/expense-tracker-dashboard/issues/62#issuecomment-6144361101 (HTTP 201, six-fence rc table posted; token read from MAIN's .env, never printed or copied into the tree)"
+  "docker": "ABSOLUTE DOCKER BAN honored - no fence touched docker, no server started, no port bound, no CI polling",
+  "environment_notes": [
+   "WSL node is v18 (/usr/bin/node) and satisfies the fences command -v node; the repo node stack runs through npx.cmd/npm.cmd win shims per t50/t54/t55 precedent",
+   "scratch kept inside the worktree at ./scratch/ (fence copies + logs) because win node.exe cannot see WSL /tmp for the pinned ac4 self-test; ac4 itself uses os.tmpdir() internally and cleaned up after itself"
+  ]
  },
  "artifacts": {
   "files_written": [
@@ -130,24 +119,8 @@
   "platform_issue": 62,
   "output_path": "docs/state/outputs/t57_builder_fix_qa.json"
  },
- "error": {
-  "error_type": "business_failure",
-  "error_code": "CARD_FENCE_DEFECT",
-  "message": "Re-groom pin 649c1763 re-executed verbatim: ac1-ac4 GREEN, ac6 GREEN (its WAL-commit collision is fixed), ac5 still RED rc=2. The ac5 fence text still has a stray '; ;' that aborts bash parsing before any gate leg runs, and behind it an ANSI-intolerant vitest count regex that reads 187 GREEN passed as 0. Every measured gate value is GREEN; the fence cannot say so. Second re-groom of the ac5 fence text required; builder substituted nothing and edited no generator.",
-  "context": {
-   "failure_type": "ac_wrong",
-   "ac1_ac4_verdicts": "PASS (verbatim, rc=0, byte-identical to the implement run)",
-   "ac6_verdict": "PASS (re-groomed docs leg GREEN, rc=0)",
-   "ac5": "RED rc=2 as written; two remaining text defects with offsets and bash -n proof in evidence.ac5_fence_defect",
-   "tree_state": "byte-identical to base 5f7b9e5; no commit possible or needed",
-   "branch_sha": "2c50f52e44b80668cfb80ce93355ba97df64d060"
-  },
-  "retryable": false,
-  "suggested_action": "rerun_with_role",
-  "suggested_role": "definer",
-  "suggested_phase": "re_groom"
- },
+ "error": null,
  "next_action": null,
- "timestamp": "2026-10-13T19:30:00Z",
- "retry_count": 1
+ "timestamp": "2026-10-13T13:06:01Z",
+ "retry_count": 2
 }
