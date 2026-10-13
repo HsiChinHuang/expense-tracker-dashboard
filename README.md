@@ -159,6 +159,28 @@ make lint-frontend
 See `docs/commands.md` for the raw toolchain commands and
 `docs/coding_standards.md` for contribution style.
 
+## Screenshots
+
+Four reviewer-facing images captured from one measured local run of the
+merged stack (uvicorn on 127.0.0.1:8000 with the SQLite fallback engaged, the
+Vite dev server on 127.0.0.1:5173, Playwright Chromium at a 1440x900 viewport,
+no Docker daemon anywhere). Every figure in every image is fictional demo data
+seeded through the public API - no real personal data appears in any image
+(REQ-DOC-040, REQ-DOC-041, REQ-DOC-082).
+
+| File | What it shows |
+|---|---|
+| `screenshots/dashboard.png` | The four KPI cards, the five charts, the budget progress bar and the recent list for a seeded month |
+| `screenshots/expense-form.png` | The Add expense form on the expenses page, filled with one demo entry |
+| `screenshots/budget-page.png` | The budget page: the month budget, the progress surface and the set-month history |
+| `screenshots/health-check.png` | The `/api/v1/health` payload as served through the dev-server proxy |
+
+Each file is a PNG under 500 KB. The capture recipe and the exact seed shape
+are pinned in the t52 grooming card under `docs/issues/`; the images are
+evidence artifacts, not test fixtures, and no gate hashes their pixels (the
+phase_8 ruling is that screenshots are measured artifacts gated on presence,
+magic bytes, viewport width and size).
+
 ## Criteria mapping
 
 One row per Chapter 24.3 quality-acceptance table (rows 1-15) - the
@@ -169,7 +191,7 @@ its evidence (REQ-DOC-081, REQ-PROJ-005).
 |---|---|---|---|
 | 1 | README under 500 lines | REQ-DOC-010 | `wc -l README.md` (this file) |
 | 2 | All docs present | REQ-DOC-002 | `docs/` (see Evidence checklist below) |
-| 3 | Screenshots present | REQ-DOC-040 | `screenshots/` (lands with t52) |
+| 3 | Screenshots present | REQ-DOC-040 | `screenshots/dashboard.png`, `screenshots/expense-form.png`, `screenshots/budget-page.png`, `screenshots/health-check.png` |
 | 4 | Criteria mapping present | REQ-PROJ-005, REQ-DOC-081 | this section |
 | 5 | AI workflow documented with real sessions | REQ-AI-110 to REQ-AI-113 | `docs/ai-workflow.md` (lands with t50) |
 | 6 | Correction log present | REQ-AI-120 to REQ-AI-122 | `docs/ai-workflow.md` (lands with t50) |
