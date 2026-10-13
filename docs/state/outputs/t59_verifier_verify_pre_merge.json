@@ -1,0 +1,159 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t59",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "verdict": "MERGE VERDICT: PASS",
+    "cumulative_tests": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "smoke_tests": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "failed_tests": [],
+    "candidate_branch": "issue/t59-exit-composite",
+    "candidate_sha": "882a6aea137c61875362a4ca07467a60891a0669",
+    "worktree_tree_sha": "24d30f395d757ded169729b8d5fe5f02afcc9867",
+    "verification_commands_source": "docs/issues/t59.md#verification-commands (seven fenced commands between '## Verification commands' and '## Out of scope')",
+    "pin_re_derivation": {
+      "method": "node: read docs/issues/t59.md, CR-strip, slice between '## Verification commands' and '## Out of scope', extract the 7 ```bash fences, trim each, sha256(JSON.stringify(array))",
+      "re_derived": "sha256:58f2a24c542503c0b6a23c7608969257be7a72872455ba87675f4bb30d04cf3e",
+      "card_declared": "sha256:58f2a24c542503c0b6a23c7608969257be7a72872455ba87675f4bb30d04cf3e",
+      "groom_handoff_match": true,
+      "builder_handoff_match": true,
+      "four_way_match": true,
+      "fence_lengths_bytes": [
+        6839,
+        7286,
+        3903,
+        4761,
+        8133,
+        4968,
+        4123
+      ],
+      "fence_length_note": "ac6 measured 4968 vs the card prose 4969 (a 1-byte trim-boundary artifact of the prose measurement); the pin is computed over the TRIMMED fences and matches exactly, so this is not a deviation. All 7 fences bash -n clean.",
+      "stale_pin_note": "sha256:142f8a36 appears 0 times in the card and only as an explicitly-labelled superseded digest in the groom (2) and builder (1) handoffs; the live pin everywhere is 58f2a24c. The matrix IDSET sha256:ef6c4bba27791a79 is the 749-row id-set digest, not the ac_hash pin, and is correctly carried in ac1/ac2 legs."
+    },
+    "fence_runs": {
+      "ac1": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "seeded-gap generator rc=1 (fires), wrong fixture-token self-test rc=2 (fires)",
+        "key_evidence": "matrix generator rc1=0 rc2=0; cr-stripped digest 41d84ecaae65ad5fa6b28608fd103ef07f27b59b267717cb179385e534208168; unpointed_non_gap_rows=0; four re-runnable generators rc=0 under capture-and-restore; agent_pack rc=0 (HEAD byte-attestation contract); all six reports byte-identical to HEAD blobs pre- and post-run"
+      },
+      "ac2": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "seeded-GAP 750-row matrix REJECTED by the identical checker (first rejection: 'matrix carries 750 rows, expected 749')",
+        "key_evidence": "749 rows, GAP=0, zero unpointed, tally 110/623/15/0/1; 15 DEFERRED_RULLED = 13 register-backed (4 LIVE_* keys reconciling to REQ_DEFERRAL_KEY claims, register at exactly 4 DEFERRED) + 2 ruling rows (issue=65 + docs/rulings/req-matrix.md) + 2-row issue=61 deploy-hook family pointing at ops/deployment-health.md; every row key-or-61 and reason-bearing"
+      },
+      "ac3": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "ruff on a seeded unused-import file rc=1 (fires)",
+        "key_evidence": "backend pytest rc=0 288 passed (floor 288), collected=288 (floor 288), ruff clean, alembic single head 005, mypy Success over 91 source files, vitest rc=0 passed=187 (floor 187, PREREQUISITE frontend/node_modules installed in THIS worktree via cmd.exe npm.cmd ci), tsc --noEmit rc=0, eslint rc=0 with exactly 4 react-refresh warning lines"
+      },
+      "ac4": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "probe-file hash-object d4f588b1... differs from every pinned digest; single-character-mutated README digest collides with 0 of 5 pins",
+        "key_evidence": "README a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c at 308 lines (pin-2 FINAL), AGENTS 8340781c, render 60110dd0, openapi 6f2a0a3d, docs_verification.md canonical 29d22aff AND HEAD blob d849c775, 20 byte-frozen files match HEAD blobs, workflows dir exactly .gitkeep,ci.yml,deploy.yml,e2e.yml"
+      },
+      "ac5": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "byte-pin leg against a one-character-tampered index copy rc=1 (fires)",
+        "key_evidence": "index 226 entries; 17 byte-pinned anchors byte-identical with correct identities; exactly 5 t58 entries; ten stored gates tests[16],tests[217]-[225] executed VERBATIM rc=0 in a .env-free tree; carried-attestation anchors intact (closed t58 card pin c81a08dd + appendability declaration)"
+      },
+      "ac6": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "planted runtime-assembled full-form id inside docs/issues/closed/ DID move the matrix bytes (scan is live); the card copy left the matrix byte-identical",
+        "key_evidence": "card and groom mirror byte-identical (cmp), zero full-form id tokens in either; merge-state probe generator rc=0 and matrix byte-identical to the committed report; zero content residue beyond CRLF-only generator lines; probe files removed by trap"
+      },
+      "ac7": {
+        "rc": 0,
+        "verbatim": true,
+        "negative_controls": "the same whitelist rejects a synthetic delta naming backend/app/main.py and frontend/src/App.tsx while accepting t59.md",
+        "key_evidence": "merge-base=ec8f50f6739ca0680ca7aa360b99d93a95417f14; delta=[docs/issues/groom/t59.md, docs/issues/t59.md, docs/state/outputs/t59_builder_implement.json, docs/state/outputs/t59_groom.json]; zero non-docs files; 22 carried artifacts byte-identical to HEAD blobs; behavior-bearing trees untouched; workflows dir exact"
+      }
+    },
+    "delta_purity": {
+      "diff_ec8f50f_to_HEAD": [
+        "docs/issues/groom/t59.md",
+        "docs/issues/t59.md",
+        "docs/state/outputs/t59_builder_implement.json",
+        "docs/state/outputs/t59_groom.json"
+      ],
+      "diff_origin_main_triple_dot_HEAD": [
+        "docs/issues/groom/t59.md",
+        "docs/issues/t59.md",
+        "docs/state/outputs/t59_builder_implement.json",
+        "docs/state/outputs/t59_groom.json"
+      ],
+      "builder_over_groom_tip": [
+        "docs/state/outputs/t59_builder_implement.json"
+      ],
+      "builder_claim_confirmed": "the builder handoff is the ONLY delta over groom tip 3d5a9cfa; the full delta over base ec8f50f is exactly card + groom mirror + groom handoff + builder handoff (docs-only, zero behavior-bearing trees)",
+      "workflows_dir": [
+        ".gitkeep",
+        "ci.yml",
+        "deploy.yml",
+        "e2e.yml"
+      ],
+      "worktree_status_after_all_runs": "clean (git status --porcelain empty)"
+    },
+    "independent_spot_checks": {
+      "note": "beyond the pinned ten inside ac5, three unpinned index gates were replayed verbatim as an independent floor spot-check",
+      "tests[100]_t20": "rc=0",
+      "tests[154]_t35": "rc=0",
+      "tests[0]_t0": "rc=128 under bare WSL bash - the command's raw 'git ls-files' cannot resolve this worktree's drive-letter gitdir pointer from WSL git (host artifact, not a builder deviation); the identical check re-executed via the cmd.exe git recipe passed (all three .gitkeep files tracked), so the gate's assertion holds"
+    },
+    "measured_corrections": [
+      "truncated-digest residual (t49/t50 claim) does NOT reproduce: merge_history.json carries 7 ac_hash fields, 0 truncated-length digests - MEASURED, accepted as a correction, not a failure",
+      "stale-README-wording residual does NOT reproduce: README pin-2 bytes contain none of the counted stale tokens ('270 passed', '244 collected') - MEASURED, accepted as a correction, not a failure",
+      "closed/index legacy tests-column zeros = 53, reproduced, counted and accepted per the t58 review"
+    ],
+    "attestations": {
+      "docker": "ABSOLUTE docker ban honored; daemon verified DOWN (docker ps fails to connect to /var/run/docker.sock); no fence touches a container or the network",
+      "env": "worktree carried NO untracked .env for the entire fence sequence (ac1/ac6 moved-a-side legs reported nothing to move; tree verified .env-free before and after every run); the main checkout was never touched",
+      "git_hygiene": "all git metadata reads via cmd.exe /c git -C <winpath> with </dev/null; no checkout/reset/merge in any checkout; the only write was committing this handoff file on the verification branch",
+      "venv": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn (WARN per skill); the per-worktree uv environment was used; command strings unmodified",
+      "frontend_prerequisite": "frontend/node_modules was ABSENT at start and was installed in THIS worktree with cmd.exe npm.cmd ci (526 packages) before ac3; all frontend legs ran via cmd.exe npx.cmd/npm.cmd and are attested executed, not skipped"
+    },
+    "platform_ops": {
+      "comment_posted": true,
+      "labels_changed": false,
+      "issue_closed": false,
+      "note": "exactly one MERGE VERDICT PASS comment posted on issue 64 via scripts/platform.ts; no label changes, no close, no merge, no append to merge_test_index.json, no edit of card/builder/groom artifacts"
+    },
+    "notes": [
+      "CWD verified as first action: the spawn worktree pi-worktree-131c9c15-...-s0-0; HEAD == 882a6aea137c61875362a4ca07467a60891a0669 == the builder branch_sha for issue/t59-exit-composite (verified via cmd.exe git -C; WSL git cannot resolve the drive-letter worktree gitdir pointer, so all git metadata reads are routed through cmd.exe).",
+      "Anti-trust doctrine executed: the ac_hash pin was RE-DERIVED from the card fences independently (not copied from any handoff) and matches card + groom handoff + builder handoff (4-way). All seven fences were executed VERBATIM (byte-identical to the card fences, extracted to files and bash -n checked) on this clean .env-free worktree at the builder tip, each with its negative control firing in the same run.",
+      "cumulative_tests total=7 counts the seven card fences (this is a docs-only exit composite; the card declares NOTHING appended to merge_test_index.json, so the index replay is internal to ac5's ten stored gates). smoke_tests total=13 = the 10 stored gates replayed verbatim inside ac5 (tests[16], tests[217]-[220] t57, tests[221]-[225] t58) plus the 3 independent unpinned spot-checks (tests[0] via the cmd.exe git equivalent, tests[100], tests[154]); all green.",
+      "Delta purity independently confirmed three ways: git diff --name-only ec8f50f..HEAD, git diff --name-only origin/main...HEAD (merge-base = ec8f50f), and git diff --name-only 3d5a9cfa 882a6aea - all match the builder's claims exactly; workflows dir exactly .gitkeep,ci.yml,deploy.yml,e2e.yml.",
+      "Floors independently measured inside the ac3/ac5 executions I ran myself: backend 288 passed / 288 collected, mypy Success over 91 files, single alembic head 005, vitest 187 passed 0 failed, tsc clean, eslint rc=0 with exactly 4 react-refresh warnings, matrix digest 41d84eca with tally 110/623/15/0/1 over 749 rows, index at 226 entries with all 17 byte-pins byte-identical and identity-correct.",
+      "Verdict: PASS - all 7 fences exit 0 verbatim with every negative control firing, delta purity holds, and the pin matches 4 ways. The builder branch is left as-is; merge is the orchestrator's step.",
+      "Verifier-side environmental artifact (NOT a builder deviation): after the seven card fences completed green (ac1's own post-run HEAD-byte attest passed inside the fence via capture-and-restore), my INDEPENDENT spot-check replay of stored tests[154] re-ran agent_pack_verification.py, whose stored command regenerates docs/criteria/agent_pack_verification.md to the live 288-collection form without restore (the card itself declares HEAD byte-attestation, not regen byte-identity, as the contract for this report). I restored the file to its HEAD blob form (b62931d) via the cmd.exe git recipe and re-attested rev-parse==hash-object; git status is clean apart from this untracked handoff file."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t59_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 64,
+    "output_path": "docs/state/outputs/t59_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-13T19:55:00Z",
+  "retry_count": 0
+}
