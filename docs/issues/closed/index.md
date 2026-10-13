@@ -57,3 +57,4 @@ Runtime-maintained by Orchestrator.
 | t50 | docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC) | 2026-10-13 | 0 | 7264868 |
 | t51 | Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried) | 2026-10-14 | 0 | 03010f7 |
 | t55 | E2E first-ever-green fix - vite /api proxy + Start-the-frontend-dev-server step in e2e.yml (#45/#58/#59) | 2026-10-14 | 0 | bec01ab |
+| t52 | REQ-DOC-040 screenshots - four PNGs + README pin-2 FINAL a64efaa2 (308L) | 2026-10-14 | 0 | 91936cb |

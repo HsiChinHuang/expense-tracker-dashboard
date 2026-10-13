@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-14T05:40:00Z",
+  "updated_at": "2026-10-14T10:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -801,6 +801,22 @@
       ],
       "index_count_after": 217,
       "summary": "Two-file fix (+9/-1): vite server{port:5173,proxy /api -> http://127.0.0.1:8000 changeOrigin} + exactly one Start-the-frontend-dev-server step between health wait and browser install (nohup npm run dev -- --host 127.0.0.1 --port 5173). Verifier PASS: pin d0ff5a8e MATCH, ac1..ac5 verbatim rc=0, base-RED re-measured ac1/ac3/ac4/ac5 at 395b31d, NC-G/NC-B2/NC-F RED paths proven, e2e/ byte-untouched, README pin-1 carried. ac3 NOT appended (disclosed port-contention: foreign orphan uvicorn tripped its precondition twice this cycle); ac4/ac5 branch-scoped/composite; ac6 live CI poll. 53rd merge closure. ac6 acceptance = first-ever E2E green on final pushed SHA (closes #45/#58/#59 path)."
+    },
+    {
+      "issue_id": "t52",
+      "title": "REQ-DOC-040 screenshots: four daemon-free-captured PNGs + README pin-2 FINAL (+22 lines, screenshots section)",
+      "merge_commit_sha": "91936cb6017a2b22705e012895f600b1619fa715",
+      "branch": "issue/t52-screenshots",
+      "verified_tip_sha": "f22aec260fea33a52222cd6a6d45b39885fc61e5",
+      "build_commit_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
+      "merged_from_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
+      "into": "main",
+      "merged_at": "2026-10-14T10:40:00Z",
+      "platform_issue": 55,
+      "ac_hash": "sha256:fcd8b14bf7adb534b327257e5f9c0bdd1871559705fca28891330637b2a8ae80",
+      "index_entries_added": [],
+      "index_count_after": 217,
+      "summary": "Option B topology (branch from origin/main 008a816 + byte-identical groom cherry-picks) made ac4 docs whitelist live; 5/5 fences rc=0 builder+verifier independently (ac2 thrice, zero kills after live-run attribution of port holders). README pin chain closed: pin-1 5f6e235e (286L) -> pin-2 FINAL a64efaa2 (308L); t53 re-attests. Four PNGs 1440-wide 8-bit RGB; expense-form carries disclosed sub-1% capture jitter inside pinned BAND. Verdict PASS gate3 errors=[]. 54th merge closure."
     }
   ]
 }
