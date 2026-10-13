@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-14T14:30:00Z",
+  "updated_at": "2026-10-14T23:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -825,6 +825,16 @@
       "merge_sha": "2e5f3e1",
       "merged_at": "2026-10-14T14:30:00Z",
       "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t53",
+      "platform_issue": 57,
+      "branch": "issue/t53-docs-verification",
+      "merge_sha": "9557f46",
+      "merged_at": "2026-10-14T23:40:00Z",
+      "retries": 1,
       "tests_appended": 0,
       "regressions": 0
     }

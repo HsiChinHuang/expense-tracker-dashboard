@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-14T10:55:00Z",
-  "last_seq": 681,
+  "updated_at": "2026-10-14T23:45:00Z",
+  "last_seq": 693,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -20,43 +20,11 @@
   ],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [
-    {
-      "issue_id": "t51",
-      "state": "defined",
-      "modifiers": [
-        "platform_54"
-      ]
-    },
-    {
-      "issue_id": "t52",
-      "state": "defined",
-      "modifiers": [
-        "platform_55",
-        "readme_pin2"
-      ]
-    },
-    {
-      "issue_id": "t53",
-      "state": "defined",
-      "modifiers": [
-        "platform_57",
-        "reattest"
-      ]
-    },
-    {
-      "issue_id": "t55",
-      "state": "defined",
-      "modifiers": [
-        "platform_59",
-        "first_ever_e2e_green_final_blocker"
-      ]
-    }
-  ],
+  "active_issues": [],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": true,
   "freeze_reason": "slot_2 freed on t47 verifier completion; slot_1 held by t48 builder implement 7322afda; t49 groom dispatches when capacity allows within MAX_SLOTS=2",
-  "environment_note": "Daemon zombie-transport hang at 21:34-22:47 local; orchestrator killed daemon, now DOWN verified. Verifier recovery has timeout-wrapped docker protocol.",
-  "merges_closed": 51,
-  "index_count": 210
+  "environment_note": "t53 (LAST CARD) merged at 9557f46; closure WAL 694, push+platform-close following. Only operator-infra #61 remains open by design.",
+  "merges_closed": 56,
+  "index_count": 217
 }
