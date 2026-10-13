@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t57",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_9_req_matrix",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t57", "t58", "t59"],
+    "findings": [
+      {
+        "issue_id": "t57",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "W1 EXIT-CODE SEMANTICS AMBIGUITY CAN DEADLOCK THE t57->t58 SPLIT - t57 ac4 pins 'generator exit code != 0 iff any row is GAP or any non-GAP row lacks an evidence pointer', while the survey/plan ruling 3 explicitly anticipates t57 LANDING WITH GAP ROWS (~10-20 predicted) and t58 existing to remediate them. If t57's build/verify gate is read as 'exit 0 required', t57 cannot close green while t58's work remains - the builder is pushed to author t58's evidence artifacts inside t57 or to over-attribute pointers (the relabel-to-green escape the strict standard forbids). The INTENT is unambiguous (ac4 states an iff PROPERTY; ruling 3 presumes measured gaps), so this is a warning, not an error. REMEDY (MANDATORY at groom t57): pin the t57 gate as the iff-property (fence-leg asserts exit!=0 WITH GAP rows present AND exit==0 on a zero-GAP fixture/regeneration), and pin the committed first-landing report as 'byte-identical to regeneration' independent of GAP count; the zero-GAP exit-0 gate belongs to t58 ac1 / t59 ac2 only. Verifier fails t57 if its gate demands exit 0 while measured GAPs exist."
+      },
+      {
+        "issue_id": "t58",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 HARD-CASE ESCALATION (t58 ac3) VS ZERO-GAP GATE (t58 ac1) SEQUENCING - the two honest-hard cases are measured-real and cannot close hermetically: REQ-TECH-008 names verification targets frontend/src/utils/date.ts + package.json - MEASURED AT THIS HEAD: frontend/src/utils/ contains only chart_data.ts and validation.ts (no date.ts), package.json has no date-fns, and ban comments live in month_picker.tsx/month_context.tsx/budget_page.tsx/chart_data.ts (deliberate t20 ruling); REQ-FE-121's verification is 'run Lighthouse' (browser profiling - outside the no-E2E/no-live ruling) and REQ-FE-120's lazy() half is measured absent (zero 'lazy(' hits in frontend/src). If these ids remain GAP after evidence work, t58 ac3 escalates them as NEW deferral candidates - but t58 ac1 gates the card on ZERO GAP, so t58 (and t59 via depends) cannot close green until the OPERATOR RULING lands and the generator's evidence map records the ruled pointer. REMEDY (groom t58 + orchestrator): either (a) sequence an operator-ruling input BEFORE t58 verification (preferred: escalate both hard cases at t58 groom time, immediately, not at close), or (b) phrase ac1's gate as 'zero GAP after operator-ruled deferrals are recorded in the evidence map'. Either way the closed vocabulary stays honest - no fifth status, no relabel."
+      },
+      {
+        "issue_id": "t58",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 PREDICTED GAP CLASS (g) MISLABELS REQ-PROD-025/026/027 AND CARRIES RULING-COLLIDING VERIFICATION MODALITIES - t58 ac2(g) says 'PROD-025/026/027 + PROD-040..042 success-criteria rows', but requirements.md shows 040..042 ARE the section 2.6 success-criteria rows while 025 (Accessibility), 026 (Maintainability), 027 (Portability) are section 2.4 QUALITY ATTRIBUTES. Worse, their own Verification lines collide with standing rulings: REQ-PROD-025 = 'Manual a11y check; inspect components', REQ-PROD-027 = 'docker compose up --build' (ABSOLUTE DOCKER BAN), REQ-PROD-041 = 'Check CI status; open the live URL' (no-live ruling). Authoring a 'success-criteria row' artifact does not satisfy these ids hermetically; 025/027/041 are DEFERRED_RULLED-pointer or structural-pointer candidates, not evidence-authoring candidates. CLASSIFICATION: warning - t58's charter already says the AC set is GENERATED FROM t57's measured GAP rows and the predicted classes scope the estimate only. REMEDY (groom t58): regenerate class (g) from measurement, relabel 025/026/027 as quality attributes, and for any id whose requirement-named verification is manual/docker/live, route it through the same honest escalation path as W2 instead of fabricating a hermetic substitute pointer."
+      },
+      {
+        "issue_id": "t57",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W4 DEFERRED_RULLED id->KEY MAPPING HAS NO EXISTING SOURCE OF TRUTH - the DEFERRAL_REGISTER in docs/criteria/docs_verification.md is keyed by DEFERRAL KEY (LIVE_DEPLOYMENT_STATE / LIVE_AGENT_SESSION / LIVE_MCP_SUBPROCESS / LIVE_SUBAGENT_LAUNCH - measured: 'DEFERRAL_REGISTER 4 DEFERRED'), NOT by REQ ids; no artifact today enumerates WHICH requirement ids each key defers, and platform #61's 'deploy-hook family' has no id list either. t57 ac3 requires those rows mapped to DEFERRED_RULLED with register/#61 pointers, so t57's builder must author the id->key mapping INSIDE the generator's evidence map - a judgment surface where scope creep (over-deferring to reach green) is possible. REMEDY (groom t57): pin the mapping's derivation source (the t28/t41 register-row provenance + the deferral-reason text per key) and require the matrix to print, per DEFERRED_RULLED row, the register key AND the reason snippet; t59 ac2's 'DEFERRED_RULLED rows count = the ruled set' then becomes a countable, auditable number rather than an assertion."
+      },
+      {
+        "issue_id": "t57",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W5 GRANULARITY: AC COUNT AT CAP, DIFF-LINES FAR OVER THE WARN_ONLY CEILING - limits.issue_granularity (docs/config.yaml.example: max_acs 6, max_files 4, max_diff_lines 300, warn_only true; docs/config_reference.md marks warn_only 'Reserved - not yet read by code'). t57 carries exactly 6 ACs (= cap, not over), 2 primary files (generator + report), but the 749-row committed report plus the generator + evidence map will exceed max_diff_lines 300 by orders of magnitude. Precedent: docs_verification.py is 518 lines alone and its committed report is a full artifact; the matrix is the same class of generator. t58/t59 sit at 4-6 ACs with file sets inside the doc cluster. No granularity_too_small anywhere (no card at AC=1/files=0). Splitting is NOT recommended - the generator is one atomic instrument and splitting a 749-row matrix would fragment the single fail-closed gate. Recorded as the granularity check's required warning."
+      },
+      {
+        "issue_id": null,
+        "category": "dependency_error",
+        "severity": "warning",
+        "description": "W6 PRE-EXISTING DAG/BACKLOG DEPENDENCY MISMATCH ON t36/t44 (NOT INTRODUCED BY THIS SURVEY) - machine cross-check of every backlog Depends cell against dag.json edges found exactly two mismatches, both phase_7 vintage and byte-identical at 54bd4b0: dag.json carries edge t36->t44 (reading t36 DEPENDS t44) while docs/backlog.md says t36 depends [t35] and t44 depends [t36] - the stored edge is REVERSED. The survey's 'every existing entry byte-equivalent' claim is verified TRUE (the reversal predates it; the survey correctly added t54/t55/t56 and t57/t58/t59 with backlog-matching edges). No cycle, no effect on batch planning (t44 is closed). REMEDY: orchestrator flips the one edge direction at the next dag.json touch; review is read-only per this role's boundaries."
+      },
+      {
+        "issue_id": "t58",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 NO-OP 'DROP' DISPOSITION LEAVES t59 WITH A DANGLING DEPENDENCY - t58's Goal says if t57 measures zero GAP, t58 is 'a NO-OP card closed by attestation (orchestrator drops it per the disposition recorded in the survey handoff)'. dag.json has t59 depending on t57 AND t58; 'drops it' is ambiguous between close-as-noop (DAG intact - the survey handoff's actual wording is 'no-op card closed by attestation') and delete (DAG + backlog + issue #63 left dangling). REMEDY (orchestrator, only in the zero-GAP branch): close t58 as an attested no-op (handoff COMPLETE with the zero-GAP measurement as evidence), never delete; the measured-GAP branch is the expected path anyway (~10-20 gaps predicted)."
+      },
+      {
+        "issue_id": null,
+        "category": "duplicate_ac",
+        "severity": "warning",
+        "description": "W8 FLOOR/PIN LITERALS TRIPLE-PINNED ACROSS t57 ac5 / t58 ac4 / t59 ac3-ac5 - the same constant set (backend >= 270, mypy >= 89, ruff, alembic 005, frontend >= 187, tsc, lint exactly-4, README a64efaa2/308L pin-2, AGENTS 8340781c, render.yaml 60110dd0, openapi.yaml 6f2a0a3d, workflows exact set, merge_test_index >= 217) is written independently into three cards. This is the ESTABLISHED composite pattern (t53 precedent - each card re-attests floors), so it is not a duplicate_ac defect; the drift risk is real though: a floor change requires three body edits. Verified the constants are mutually consistent today AND consistent with plan appendix measurement 7 (merge_test_index 217 entries confirmed by count; anchors tests[16]=t2, tests[54]=t9, tests[131/132/133/135]=t26, tests[215/216]=t55 all resolve). REMEDY (groom): author the fence bodies from ONE canonical block per groom and let the ac_hash pins make any cross-card divergence RED at verification - the hash mechanism already catches drift; do not hand-vary the three."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 DEPENDENCY-CHAIN LENGTH: MILESTONE-LOCAL PASSES, CUMULATIVE STAYS THE STANDING WARN - re-verified the regenerated DAG machine-side: 60 nodes / 98 edges, Kahn topological order over all 60 (acyclic), 0 cycles, 0 orphans (t0 root), 0 dangling edge endpoints, t57 deps {t53} with t53 CLOSED (backlog + dag status), t58 deps {t57}, t59 deps {t57,t58}; milestone-local critical path 2 edges (t57->t58->t59) is BELOW dep_chain_warn 10 - PASS per the phase_6/7/8 milestone-local precedent; cumulative longest chain recomputed at 37 edges ending t59, matching the survey's claim exactly; carried as the standing WARN, not re-litigated."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W10 MILESTONE-FILE STEP 6 SUPERSEDED BY ORCHESTRATOR DIRECTIVE - this role's details/review_plan.md Step 6 says the reviewer writes review_plan_status/completed_at/verdict/attempts into docs/state/milestones/phase_9_req_matrix.json, but the orchestrator's dispatch explicitly rules 'you do NOT flip it; orchestrator records the verdict' and the file currently reads review_plan_status=in_progress. Per the standing rule that a review is read-only outside declared artifacts, the milestone file was left UNTOUCHED on this branch; the orchestrator must apply passed + review_plan_verdict=PASS_WITH_WARNINGS + review_plan_completed_at + attempts 0->1 at merge of this handoff (the phase_8 precedent file shows the final shape). Recorded so the checklist item is disclosed as delegated, not skipped."
+      }
+    ],
+    "checks": [
+      "STEP 1 COVERAGE (operator strict standard): t57 ac1 enumerates ALL 749 ids (ac2 requires >= 1 concrete evidence pointer for every non-GAP row; ac4 fence exits nonzero on ANY GAP or evidence-less row) - the milestone mechanically delivers 'every id gets a status + evidence pointer, fail-closed'. Survey numbers RE-MEASURED and confirmed: 749 unique ids in docs/requirements.md, 748 heading entries, the lone non-heading id is REQ-AUTH-001 at requirements.md line 67 ('Full example:' inside section 3.1 ID-FORMAT) - the EXAMPLE_REFERENCE class is DOCUMENTED, not fabricated (verified there is no REQ-AUTH heading anywhere; the AUTH family count is exactly 1 = the example). Direct-coverage corpus RECOMPUTED: 497 of the 749 referenced in docs/issues/closed + docs/criteria + docs/backlog, 252 indirect, 3 corpus ids outside the 749 all benign (REQ-ARCH-044 = the documented t9 typo reference; REQ-PROD-00/REQ-PROJ-00 = regex fragments of t49's 'REQ-PROJ-00[1-9]'/'REQ-PROD-00[1-7]' grep patterns). Every requirement family maps to a card: t57 covers all 749 by construction, t58 covers measured GAPs, t59 attests closure - no coverage_gap finding for the milestone itself.",
+      "STEP 2 GRANULARITY: AC counts t57=6 (cap), t58=4, t59=6; file sets within max_files for the doc-cluster cards; t57 diff-lines over the 300 warn_only ceiling (W5); no granularity_too_small.",
+      "STEP 3 DEPENDENCY: dag.json machine-verified 60 nodes/98 edges acyclic/0 orphans/0 dangling; cards' depends match DAG bidirectionally; backlog-vs-DAG full-table crosscheck clean EXCEPT the pre-existing t36/t44 reversal (W6); depends t53 for t57 is a CLOSED node (backlog row + dag status 'closed'); batch plan [t57],[t58],[t59] consistent with the linear chain; W9 records the chain-length disposition.",
+      "STEP 4 DUPLICATE/CONTRADICTION: no identical ACs across cards; composite re-attestation pattern noted as W8 (precedent-conformant); the only genuine tension is the t57 exit-code reading (W1, remedy mandatory at groom) and the t58 ac1-vs-ac3 escalation sequencing (W2); README pin-2 FINAL appears as a non-touch constraint in all three bodies; docker ban, no-live/no-E2E, generator-owned criteria dir, per-AC merge_test_index appendability declaration, five-heading Gate-1 contract, and the ac_hash canonical-JS dialect (t53 clean-pin wording) are embedded in ALL THREE platform bodies (verified by reading #62/#63/#64 from the GitHub API - bodies 4097/3557/3148 bytes, NOT truncated, unlike the phase_8 W13 incident; labels ['defined'] read back on all three; issue_map t57->62/t58->63/t59->64 confirmed).",
+      "MEASURED-GAP SCAN SPOT-CHECKS (t58 scope honesty): 'grep -i risk docs/plan.md' = 0 matches at the survey base 0f1fb7c CONFIRMED via git show (the 3 hits at this HEAD are the survey's own appendix text citing the measurement); docs/architecture.md contains zero 'assumption' hits; docs/ai-workflow.md and docs/process.md contain no nine-step daily-workflow record (REQ-PLAN-110's named verification target genuinely lacks the content); frontend/src/utils/date.ts does not exist (REQ-TECH-008's verification target absent - the GAP is real, not a pointer-resolution artifact). The predicted classes are measured, not prejudged; t58's charter forbids pre-committing beyond measurement.",
+      "DEFERRAL SURFACE: DEFERRAL_REGISTER measured at exactly 4 DEFERRED rows (LIVE_DEPLOYMENT_STATE/LIVE_AGENT_SESSION/LIVE_MCP_SUBPROCESS/LIVE_SUBAGENT_LAUNCH) + SCAN_TIMING_DOC_CLOSED + E2E_STATUS_REPORTED lines - t57 ac3/t59 ac2 match the register; W4 records the missing id->key mapping provenance."
+    ],
+    "notes": "review_plan over phase_9_req_matrix (N=3, t57/t58/t59, platform #62/#63/#64). All 10 findings are warning severity -> PASS_WITH_WARNINGS per Step 5. Lens verdicts: (1) strict standard DELIVERED - 749-row fail-closed matrix with per-row evidence pointers is mechanically enforced by t57 ac2/ac4 and gated by t58 ac1/t59 ac2; (2) vocabulary HONEST - closed 4 statuses + the one documented EXAMPLE_REFERENCE class, hard cases (TECH-008/FE-121, both measured-real) escalate via t58 ac3 rather than relabel, with the W1/W2 sequencing remedies mandatory at groom; (3) DAG correct (60/98, acyclic, 0 orphans; only the pre-existing t36/t44 reversal flagged); (4) all standing constraints embedded in all three bodies (verified by API read-back); (5) EXAMPLE_REFERENCE documented at requirements.md:67, fabrication avoided; (6) t58 is measured-not-prejudged with the attested no-op fallback (W7 wording fix). Orchestrator next: record the verdict in the milestone file (W10), groom t57 honoring W1 (exit-code property gate) and W4 (deferral mapping provenance), escalate the two hard cases to the operator at t58 groom time (W2), and flip the t36->t44 edge direction at the next dag.json touch (W6). Worktree note: git operations in this environment require GIT_DIR/GIT_WORK_TREE pointing at the /mnt/c main-checkout gitdir; platform bodies were read via the GitHub REST API with the token from the MAIN checkout .env (never printed)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/phase_9_req_matrix_definer_review_plan.json"
+    ],
+    "platform_issue": 62,
+    "output_path": "docs/state/outputs/phase_9_req_matrix_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-13T07:30:00Z",
+  "retry_count": 0
+}
