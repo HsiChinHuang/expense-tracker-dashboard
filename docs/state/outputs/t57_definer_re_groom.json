@@ -64,15 +64,20 @@
     },
     "platform_sync": {
       "issue": 62,
-      "method": "scripts/platform.ts issue update 62 --body <full repaired card>",
+      "method": "direct GitHub REST PATCH /repos/HsiChinHuang/expense-tracker-dashboard/issues/62 from a scratch node script OUTSIDE the repo (the 60600-byte card exceeds the scripts/platform.ts cmd.exe CLI ceiling - the t54/t55/t56 and t57-groom precedent); body = docs/issues/t57.md LF-normalized; API_TOKEN never printed; the locally copied .env was removed after the call",
+      "status": "PATCH 200; GET 200 read-back: body === card bytes byte-for-byte (60600 chars), state open, updated_at 2026-10-13T10:48:57Z, read-back carries the new pin sha256:649c1763...",
       "labels_kept": [
         "built"
       ],
-      "note": "per orchestrator dispatch the labels stay [built] (no groomed relabel); read-back verified"
+      "note": "per orchestrator dispatch the labels stay [built] (the groomed relabel is suppressed for this re-groom); read-back confirms labels = [built]"
     },
     "pushed": {
       "branch": "re_groom/t57-req-coverage-matrix",
       "artifacts_ref": "refs/heads/artifacts/phase9-t57-regroom",
+      "card_commit": "017ae61c2c2c0617ec07ba2c12545f9b8208e842",
+      "card_commit_parent": "3e4e80462b56b78874d188859cc08fdad4a86162",
+      "card_blob": "0135c95c755530f426a5e058afc45855cdb4a842",
+      "push_mode": "fast-forward only; NO force push; main never pushed",
       "main_never_pushed": true
     },
     "residual_risks": [
@@ -81,8 +86,9 @@
       "the ac6 own-commit leg tolerates docs-only commits in merge-base..HEAD by design; a SECOND non-docs commit (e.g., an accidental fix_qa code commit paired with a WAL) would correctly RED with the count in the message"
     ],
     "branch": "re_groom/t57-req-coverage-matrix",
-    "branch_sha": "re-derived at merge: this handoff rides in the same docs(t57) re_groom commit as the repaired card, so the sha cannot be self-embedded here (git rev-parse HEAD on branch re_groom/t57-req-coverage-matrix after push; the ac_hash pin is re-derived by the orchestrator from git show HEAD:docs/issues/t57.md per the card preamble)",
-    "commit_message": "docs(t57): re_groom ac5/ac6 fence-text repair - PYTHONPATH=. capture-and-restore, own-commit delta pin, ac_hash 649c1763, materiality 33.3"
+    "branch_sha": "017ae61c2c2c0617ec07ba2c12545f9b8208e842 (the CARD commit: repaired docs/issues/t57.md + docs/issues/groom/t57.md mirror + the first copy of this handoff, parent = base 3e4e80462b56b78874d188859cc08fdad4a86162, card blob 0135c95c755530f426a5e058afc45855cdb4a842). The branch/artifact tips are ONE commit later: the handoff sha-disclosure follow-up commit, which never touches the card (the t42 shape, where the orchestrator ingested the card at beb101e plus the separate handoff commit at 0acbb43). A JSON file cannot embed its own commit sha, which is why the tip is described rather than printed.",
+    "commit_message": "docs(t57): re_groom ac5/ac6 fence-text repair - PYTHONPATH=. capture-and-restore, own-commit delta pin, ac_hash 649c1763, materiality 33.3",
+    "ls_remote_verified": "git ls-remote origin refs/heads/re_groom/t57-req-coverage-matrix refs/heads/artifacts/phase9-t57-regroom refs/heads/main refs/heads/issue/t57-req-coverage-matrix -> re_groom/t57-req-coverage-matrix and artifacts/phase9-t57-regroom both at the re_groom commits (card commit 017ae61 + the handoff-disclosure tip), main UNCHANGED at 54bd4b004a1757d0c36ea726c76f17c356745dd1, builder branch issue/t57-req-coverage-matrix UNCHANGED at 2c50f52e44b80668cfb80ce93355ba97df64d060"
   },
   "artifacts": {
     "files_written": [
@@ -95,6 +101,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-13T10:44:36Z",
+  "timestamp": "2026-10-13T10:51:24Z",
   "retry_count": 0
 }
