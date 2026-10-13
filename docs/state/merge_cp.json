@@ -1,14 +1,14 @@
 {
-  "issue_id": "t58",
+  "issue_id": "t59",
   "step": 5,
   "state": "tested",
-  "timestamp": "2026-10-15T22:30:00Z",
-  "pre_merge_sha": "5d7962c",
-  "merge_sha": "d7b95cb",
+  "timestamp": "2026-10-16T00:55:00Z",
+  "pre_merge_sha": "bc04c8e",
+  "merge_sha": "39d22feb",
   "test_result": {
-    "total": 475,
-    "passed": 475,
+    "total": 477,
+    "passed": 477,
     "failed": 0
   },
-  "note": "backend 288 + frontend 187; ruff/mypy 91/alembic 005/tsc 0/eslint exactly-4 green; stored gate tests[221] (ac1) replayed on MAIN is ENV-SENSITIVE: untracked .env joins pointer rows (regenerated digest 0e026ee1 vs committed 41d84eca); GREEN rc=0 digest-identical with .env excluded - protocol replays run in clean worktrees"
+  "note": "backend 288 + frontend 187 + stored ac2/ac4 replays 2 = 477; ruff/mypy 91/alembic 005/tsc 0/eslint exactly-4/byte-pins a64efaa2-8340781c-60110dd0-6f2a0a3d-d849c775/workflows-exact green on merged main; index 226->228 (ac2/ac4 appended per card disposition)"
 }

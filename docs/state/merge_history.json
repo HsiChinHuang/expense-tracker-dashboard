@@ -858,6 +858,17 @@
       "tests_appended": 5,
       "regressions": 0,
       "note": "ac6 NOT appended: references active card paths docs/issues/t58.md + groom mirror which move at closure (index doctrine: zero entries may reference active card paths - verified 0/221 precedent). ac1/ac4 stored-gate replays are .env-sensitive (untracked .env joins IMPLEMENTED_STRUCTURAL pointer rows); GREEN rc=0 digest-identical 41d84eca with .env excluded - replay protocol: clean worktree without untracked .env"
+    },
+    {
+      "issue_id": "t59",
+      "platform_issue": 64,
+      "branch": "issue/t59-exit-composite",
+      "merge_sha": "39d22feb",
+      "merged_at": "2026-10-16T00:55:00Z",
+      "retries": 0,
+      "tests_appended": 2,
+      "regressions": 0,
+      "note": "Phase 9 exit composite (attestation-only, docs-only delta: card+mirror+3 handoffs). ac2/ac4 appended (idx 226/227, card-declared appendable, replayed rc=0 verbatim on merged main). ac1/ac3/ac5/ac6/ac7 NOT appended per card disposition: ac1 mutates tree + env-sensitive digest; ac3 prerequisite-gated frontend legs; ac5 replays other cards gates + env-sensitive; ac6 reads active card paths (permanently RED post-closure, index doctrine); ac7 branch-scoped empties after merge. Verifier 131c9c15 re-executed all 7 fences verbatim at 882a6ae: 7/7 rc=0, all negative controls fired, pin 58f2a24c 4-way."
     }
   ]
 }

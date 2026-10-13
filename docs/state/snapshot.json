@@ -1,43 +1,36 @@
 {
-  "schema_version": "2.0",
-  "updated_at": "2026-10-15T23:10:00Z",
-  "last_seq": 720,
-  "slots": [
-    {
-      "slot_id": "slot_1",
-      "issue_id": "t59",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "0a92d36a-35ba-4e13-a8ef-3746fcd256f3"
-    },
-    {
-      "slot_id": "slot_2",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null
-    }
-  ],
-  "merge_queue": [],
-  "max_slots": 2,
-  "active_issues": [
-    {
-      "id": "t59",
-      "stage": "grooming",
-      "role": "definer",
-      "run": "0a92d36a-35ba-4e13-a8ef-3746fcd256f3",
-      "note": "shared-checkout dispatch, steered to scratch worktree"
-    }
-  ],
-  "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
-  "dispatch_frozen": true,
-  "freeze_reason": "t59 in grooming; single slot in use",
-  "environment_note": "t53 (LAST CARD) merged at 9557f46; closure WAL 694, push+platform-close following. Only operator-infra #61 remains open by design.",
-  "merges_closed": 57,
-  "index_count": 226,
-  "milestones": [],
-  "closed": [
-    "t57",
-    "t58"
-  ]
+ "schema_version": "2.0",
+ "updated_at": "2026-10-16T01:00:00Z",
+ "last_seq": 725,
+ "slots": [
+  {
+   "slot_id": "slot_1",
+   "issue_id": null,
+   "role": null,
+   "phase": null,
+   "run_id": null
+  },
+  {
+   "slot_id": "slot_2",
+   "issue_id": null,
+   "role": null,
+   "phase": null,
+   "run_id": null
+  }
+ ],
+ "merge_queue": [],
+ "max_slots": 2,
+ "active_issues": [],
+ "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
+ "dispatch_frozen": false,
+ "freeze_reason": null,
+ "environment_note": "t59 merged at 39d22feb - phase_9 exit composite; 58 cards closed; index 228. Phase_9 milestone close + complete.md rewrite next. Only operator-infra #61 remains open by design.",
+ "merges_closed": 58,
+ "index_count": 228,
+ "milestones": [],
+ "closed": [
+  "t57",
+  "t58",
+  "t59"
+ ]
 }
