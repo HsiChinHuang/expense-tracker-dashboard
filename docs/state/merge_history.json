@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0",
- "updated_at": "2026-10-14T13:18:29Z",
+ "updated_at": "2026-10-14T20:49:30Z",
  "entries": [
   {
    "issue_id": "t0",
@@ -913,6 +913,17 @@
    "tests_appended": 0,
    "regressions": 0,
    "note": "Logout control moved into AppShell header per Q3a (data-testid=logout-button behind the second hook-free guard-wrap; in-page dashboard logout removed; AuthContext.logout untouched). Verifier f3ea149e PASS: six fences verbatim GREEN at tip c39ddb5, four-way pin closure e570c890 recomputed from committed card bytes, frozen blobs byte-identical incl app_shell.test.tsx 32f30b80bd router-less, vitest 196/0 (floor >=195 raised by this card), regressions []. tests_appended=0 per card disposition (all six non-appendable: freeze/floor/containment + new-test-file evidence). Merged-main re-measure by Orch: vitest 196/0 32 files, tsc 0, eslint exactly-4; backend/scripts/matrix/README delta vs 798643e = 0 files so pytest 288/ruff/mypy 91/alembic 005 carry."
+  },
+  {
+   "issue_id": "t64",
+   "platform_issue": 70,
+   "branch": "issue/t64-composite-attestation",
+   "merge_sha": "f538b198",
+   "merged_at": "2026-10-14T20:49:30Z",
+   "retries": 0,
+   "tests_appended": 0,
+   "regressions": 0,
+   "note": "Composite attestation + tally-pin repair card (milestone closer). Authorized delta EXACTLY the one-time pinned repair to tests[221]/tests[226] (110/623->111/622, others235/t227 byte-identical on pins, byte-reversible closed loop, idempotent, tamper-rejecting) + builder/verifier handoffs. ZERO index appends, ZERO product-code changes (ac5 delta purity). Gate1: definer 5 fences + orch independent 5-fence replay (composite 223/14/0 2678s). Gate2: repair(base) cmp-identical to builder committed index, three-way ac_hash closure 9329e828, orch replay composite 223/14/0 2625s. Verifier 2bb695ae PASS (5th independent composite 223/14/0, floors vitest196/0 pytest288 mypy91 ruff tsc0 eslint-exactly-4, zero regressions, manual browser-walk honest, platform SKIPPED_BY_DISPATCH per orch ruling). Named exclusions live in ac1: 139,161-165,167,175,177 security-drift; 188,192 docker-banned; 191,227 stale-README-digest (Q1a never rewrite 227); 230 merge-base-relative. Merged-main spot: 221/226 GREEN in .env-free tree (main checkout .env re-adds matrix pointers - environment-scoped, disclosed), 227 RED by Q1a design, vitest 196/0."
   }
  ]
 }
