@@ -1,7 +1,7 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T11:51:29Z",
- "last_seq": 752,
+ "updated_at": "2026-10-14T12:28:30Z",
+ "last_seq": 753,
  "slots": [
   {
    "slot_id": "slot_1",
@@ -13,9 +13,9 @@
   {
    "slot_id": "slot_2",
    "issue_id": "t63",
-   "role": "builder",
-   "phase": "implement",
-   "run_id": "133210f5-d414-4afa-a4a8-ab6d5b7c0bd1"
+   "role": "verifier",
+   "phase": "verify_issue",
+   "run_id": "6d8dc03a-f106-4b7d-ad50-bf09a1db3c78"
   }
  ],
  "merge_queue": [],
