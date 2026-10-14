@@ -1,14 +1,14 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T10:10:19Z",
- "last_seq": 743,
+ "updated_at": "2026-10-14T10:21:18Z",
+ "last_seq": 745,
  "slots": [
   {
    "slot_id": "slot_1",
-   "issue_id": "t60",
-   "role": "verifier",
-   "phase": "verify_issue",
-   "run_id": "6b4237a9-c91b-4061-8c8d-2ba69cd4c7c0"
+   "issue_id": "t61",
+   "role": "definer",
+   "phase": "groom",
+   "run_id": "d7de2a2e-d9da-426e-a552-63a8a9bd99ed"
   },
   {
    "slot_id": "slot_2",
@@ -21,7 +21,7 @@
  "merge_queue": [],
  "max_slots": 2,
  "active_issues": [
-  "t60",
+  "t61",
   "t62"
  ],
  "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
@@ -35,5 +35,6 @@
   "t57",
   "t58",
   "t59"
- ]
+ ],
+ "merged_issues": 1
 }
