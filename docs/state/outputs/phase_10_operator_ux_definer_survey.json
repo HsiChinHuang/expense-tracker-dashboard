@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t60",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_10_operator_ux",
+    "issues_generated": ["t60", "t61", "t62", "t63", "t64"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-FE-010 '*' NotFound route: currently mis-marked IMPLEMENTED_TESTED in the t57 matrix (pointer dashboard_page_app.test.tsx does not test NotFound; the route does not exist - measured grep=0). COVERED by t60, which adds the route + page + new-file proof tests and regenerates the matrix row (fail-closed grep in t60's AC).",
+        "REQ-FE-011 nested routes: matrix pointer names frontend/src/App.tsx which does not exist (case-lucky match on app.tsx); the requirement's nested-route claim is half-true today (only index nests). COVERED by t60 (all four protected pages nest).",
+        "Operator demands (nav trap, logout placement, npm dev workflow, README English quick start) are DIRECTIVE scope, not REQ ids; each maps to a card (t60/t61/t62/t63). No backend/REQ-family requirement is left uncovered by this milestone; backend is deliberately untouched per the directive.",
+        "NOT covered by design (disclosed): the e2e suite is not re-gated in this milestone (e2e files stay byte-untouched; the 'Log out' accessible-name preservation keeps tests[138]'s helper grep semantically valid); the t57 matrix's other known-hard rows (REQ-FE-121 Lighthouse etc.) stay in their phase_9 dispositions - out of scope here."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 6,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "phase_10_operator_ux survey (RETRY: first attempt ff1318d0 aborted at worktree allocation on the dirty WAL-727 tree; nothing from that run was read; this run started fresh at main 2d8bd5c == the WAL-727 commit, tree clean). Operator directive 2026-10-14 with rulings Q1a/Q2/Q3a/Q4a/Q6 embedded verbatim into the card bodies. N=5 cards t60..t64 (highest local id verified from docs/backlog.md + docs/issues/closed = t59; highest platform issue verified via issue get = #65 closed; the five cards took #66..#70, one create call each, all read back open with labels [defined]). batch_size = min(5, max(1, ceil(5/3))) = 2 -> batches [t60,t61], [t62,t63], [t64]; bodies authored in build/p10_bodies/ (gitignored), no triple backticks or command-substitution chars in any body (t59 incident doctrine), leading-newline bodies start with a blank line so no '---' frontmatter flag-parse issue. CARD SPLIT + JUSTIFICATION: t60 #66 MERGES nav restructure + NotFound + Expenses nav link because BOTH concerns edit frontend/src/app.tsx and the NotFound route only exists inside the restructured tree - serializing would put two cards on one file for no benefit; t61 #67 logout-into-header depends [t60] for FILE SERIALIZATION (both edit app_shell.tsx), not feature coupling; t62 #68 root-package.json dev workflow is fully independent (touches package.json + new scripts/dev/ only); t63 #69 README depends [t60,t62] because it must document REAL merged commands and its pin-3 digest is only derivable after both land; t64 #70 is the phase_10 exit composite (t59 pattern, seeded-negative-control discipline for every green-at-base fence) depending on all four. MEASUREMENTS that shaped the split (all at 2d8bd5c): (1) app.tsx nests ONLY the index route in AppShell; /expenses /budgets /categories are siblings outside the shell = the one-way trap is real; app_shell.tsx has exactly 3 NavLinks, no /expenses. (2) All page tests import page COMPONENTS directly; only dashboard_page_app.test.tsx mounts App at '/' via MemoryRouter -> re-nesting breaks no existing test. (3) app_shell.test.tsx is 25 lines/3 assertions, byte-frozen by stored gate tests[110] (git diff --quiet leg), NO link-count assertion; it renders AppShell with NO AuthProvider -> the shell logout control MUST be a guard-wrapped subcomponent (useInRouterContext precedent) or the frozen test breaks; recorded in t61's body. (4) GATE-IMPACT SCAN over all 228 merge_test_index entries: tests[227] (t59 ac4) is the ONLY stored gate asserting README pin-2 a64efaa2/308L - and it additionally carries docs_verification.md cr-stripped sha256 29d22aff + blob d849c775 + a 20-file frozen set including README/Makefile/package.json/frontend-package.json; it is the gate the operator RETIRED in Q1a (retirement policy embedded in t63 + t64: tests[227] is never rewritten; a NEW pin-3 entry is APPENDED at t63's merge; t64 replays the full index minus tests[227] with the exclusion as a named constant + a bytes-unchanged proof). tests[27] (t4) greps README for make setup/dev-backend/dev-frontend/test/lint + quick-start heading -> the README card DEMOTES make content under 'Alternative: WSL/Linux with make', never deletes, and its AC replays tests[27] VERBATIM green. tests[138] (t27) greps the literal 'Log out' in e2e/fixtures/helpers.ts (untouched; the shell button keeps the name 'Log out' so the e2e getByRole keeps matching - the one-line e2e escape clause is measured UNNECESSARY). tests[87]/[94]/[110] grep app.tsx/app_shell.tsx tokens (path=/expenses, to=/budgets, ProtectedRoute ordering, index DashboardPage) - all survive the re-nest, listed as expected-green constraints in t60. No stored gate greps logout-button/user-menu/'Frontend skeleton' outside the frozen shell test. (5) backend/scripts/docs_verification.py HARD-CODES README_DIGEST/README_LINES at lines 34-35 -> the README card must update the pin constants and regenerate the generated report (never hand-edit); recorded in t63 ac2. (6) Root package.json has no dev-workflow scripts; Makefile requires make; the WSL-.venv-on-win32 failure is the Q6 auto-fix target. DAG: docs/state/dag.json + dag.mmd regenerated to 65 nodes / 105 edges (60/98 + 5 nodes + 7 edges; every existing entry byte-equivalent; t57 node status refreshed 'done'->'closed' and t57/t58/t59 'defined'->'closed' per the docs/backlog.md ground truth - t57's stale 'done' backlog row also repaired to 'closed' in-place, disclosed; t47..t53 mmd labels were already correct). Kahn machine-verified in-python: all 65 nodes topologically ordered, zero cycles, zero orphans; cumulative critical path recomputed to 38 nodes (phase_9 chain ...t53->t57->t58->t59 remains the cumulative tail - the phase_10 chain t60->t63->t64 / t62->t63->t64 is 2 edges and does not extend the cumulative chain because phase_10 roots hang off the milestone boundary per the rolling-planning precedent); dep_chain MILESTONE-LOCAL per phase_6/7/8/9 precedent, cumulative carried as standing WARN. SURVEY WRITE SCOPE: docs/plan.md (phase_10 appendix appended AFTER the phase_9 heading on purpose - the t57 matrix generator truncates plan.md at '## phase_9_req_matrix', so nothing written here can change matrix rows; the appendix records the Q1a pin-2 retirement as required by the directive), docs/backlog.md (5 rows defined + t57 status repair), docs/state/milestones/phase_10_operator_ux.json (review_plan_status pending), docs/state/dag.json + dag.mmd, docs/state/issue_map.json (t60..t64 added inside mappings{}; the two top-level strays t43/t38 left untouched), build/p10_bodies/ (gitignored issue-body scratch), and this handoff. NO docs/issues/<id>.md cards created (established convention since t44: full five-heading Gate-1 cards are authored at groom). No WAL lines (orchestrator-only, seq 728 at dispatch). Platform CLI ran via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts FROM THE MAIN CHECKOUT (only MAIN carries .env; .env never read/printed/copied; </dev/null on every call). Main checkout was NOT pushed; work committed on this survey branch only. ORCHESTRATOR NEXT STEPS (schema forces next_action null on COMPLETE): definer:review_plan over the milestone file; groom order t60 -> {t61,t62} -> t63 -> t64; at t63's merge APPEND the pin-3 index entry and record the tests[227] Q1a retirement in the WAL; at every card's merge append that card's new proof fences (orchestrator-owned appends; no stored entry is ever edited)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/backlog.md",
+      "docs/state/milestones/phase_10_operator_ux.json",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/outputs/phase_10_operator_ux_definer_survey.json"
+    ],
+    "platform_issue": 66,
+    "output_path": "docs/state/outputs/phase_10_operator_ux_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-14T05:50:00Z",
+  "retry_count": 1
+}

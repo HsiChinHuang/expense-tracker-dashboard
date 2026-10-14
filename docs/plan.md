@@ -1155,3 +1155,145 @@ orphans, Kahn machine-verified. Cumulative longest chain 37 edges
 (...t41->t48->t49->t50->t52->t53->t57->t58->t59); milestone-local
 critical path 2 edges (t57->t58->t59), dep_chain MILESTONE-LOCAL per the
 phase_6/7/8 precedent, cumulative carried as standing WARN.
+
+## phase_10_operator_ux — Operator UX / Local Dev Workflow (operator directive 2026-10-14)
+
+Survey (2026-10-14, base MAIN 2d8bd5c == WAL-727 commit, all 58 cards t0..t59 closed,
+highest local id t59, highest platform issue #65, next numbers from #66; first survey
+attempt ff1318d0 aborted at worktree allocation on a dirty tree and is NOT a source —
+this survey was re-run fresh and read nothing from it) opens a product milestone for
+operator-facing defects on the PRIMARY dev host (Windows 11 native, WSL for uv/pytest,
+no Docker, SQLite mode). Operator rulings embedded into the cards verbatim:
+
+- **Q1a (README pin-3).** README pin-2 (CR-stripped sha256 a64efaa2..., 308 lines)
+  stored in merge_test_index tests[227] is RETIRED as historical evidence at the merge
+  of the card that changes README. A NEW pin-3 digest is recorded via a NEW
+  merge_test_index entry APPENDED at that merge (orchestrator-owned append). tests[227]
+  is NEVER rewritten; no index entry is ever edited or deleted.
+- **Q2 (npm scripts).** The dev workflow must be npm scripts in the ROOT package.json
+  (pi-agent-orchestrator). frontend/package.json stays byte-identical; zero new
+  dependencies; node builtins only.
+- **Q3a (logout).** The logout control moves into the AppShell header
+  (data-testid `logout-button`); the dashboard's in-page logout button is removed.
+  AuthContext.logout behavior is untouched.
+- **Q4a (formal flow).** All five concerns go through the formal card flow
+  (survey -> review_plan -> groom -> build -> verify -> merge), separate issues.
+- **Q6 (auto-fix check).** `npm run check` must AUTO-FIX: a WSL-flavored
+  backend/.venv detected on win32 is deleted and rebuilt via `uv sync`; a missing
+  node_modules is installed; occupied ports 8000/5173 are reported with PID and
+  killed.
+
+**SURVEY MEASUREMENTS that shaped the split (all measured at 2d8bd5c):**
+
+1. **THE ONE-WAY TRAP IS REAL.** frontend/src/app.tsx nests ONLY the index route
+   inside `<Route path="/" element={<AppShell />}>`; `/expenses`, `/budgets`,
+   `/categories` are SIBLING routes outside the shell, so the nav disappears on those
+   pages with no way back except browser Back. app_shell.tsx carries exactly three
+   NavLinks (Dashboard/Budget/Categories) — no Expenses link.
+2. **THE SAFETY PROPERTY FOR THE MOVE.** All page tests mount page COMPONENTS
+   directly (budget/categories/expenses/login/register/dashboard .test.tsx import the
+   page, never the router); only dashboard_page_app.test.tsx mounts App at '/' via
+   MemoryRouter. Re-nesting the three routes under AppShell therefore breaks no
+   existing test.
+3. **app_shell.test.tsx IS BYTE-FROZEN** (25 lines, 3 assertions) and stored gate
+   tests[110] (t22) enforces `git diff --quiet HEAD -- app_shell.test.tsx`; it has NO
+   link-count assertion. All new shell/route proof goes in NEW test files only.
+   The frozen test renders <AppShell /> with NO AuthProvider, so the shell-side logout
+   control must live in a guard-wrapped subcomponent (useInRouterContext null -> inert,
+   same precedent as the shell's NavLink) — the frozen 3 assertions stay green by
+   construction.
+4. **REQ-FE-010's `*` NotFound ROUTE DOES NOT EXIST** (grep for NotFound across
+   frontend/src = zero hits) while the t57 matrix mis-marks REQ-FE-010
+   IMPLEMENTED_TESTED via the dashboard_page_app.test.tsx citation and REQ-FE-011
+   IMPLEMENTED_STRUCTURAL via the non-existent frontend/src/App.tsx pointer
+   (case-lucky match on app.tsx). The matrix is generator-owned; the row re-marks
+   itself on the next regeneration once a new test file cites REQ-FE-010 — the
+   re-mark belongs to the card that adds the test (its verification regenerates and
+   greps the row), not to a hand edit.
+5. **GATE-IMPACT SCAN OVER ALL 228 merge_test_index entries** (full-text scan of
+   every stored command): tests[27] (t4) greps README for make setup / make
+   dev-backend / make dev-frontend / make test / make lint + a quick-start heading —
+   all survive a demote-don't-delete README rewrite, so gate[27] is expected GREEN
+   after t65. tests[227] (t59 ac4) asserts the pin-2 digest and is the ONLY stored
+   gate that can go RED — exactly the gate the operator retired in Q1a. tests[138]
+   (t27) greps the literal 'Log out' in e2e/fixtures/helpers.ts (file untouched; the
+   button name stays 'Log out'). No stored gate greps logout-button/user-menu/
+   'Frontend skeleton' outside the frozen shell test; tests[110]'s app.tsx greps
+   (path="/", AppShell element, index DashboardPage) all hold after re-nesting.
+6. **docs_verification.py HARD-CODES THE README PIN** (README_DIGEST/README_LINES at
+   lines 34-35) and fails README_MEASURE on drift, so the README card must update the
+   pin-3 constants and regenerate docs/criteria/docs_verification.md (never
+   hand-edited). tests[227] additionally carries docs_verification.md's own
+   cr-stripped sha256 29d22aff + blob d849c775 — those legs go RED too, which is the
+   same retired-gate consequence, disclosed once.
+7. **ROOT package.json HAS NO dev-workflow scripts** (launcher/build/lint/validate
+   only); Makefile dev-backend/dev-frontend exist but require make. backend/.venv
+   created under WSL is not executable by win32 python — the exact failure Q6
+   auto-fix targets.
+
+**CARD SPLIT (5 cards, one concern each per the operator's explicit demand; N=5,
+batch_size = min(5, max(1, ceil(5/3))) = 2 -> batches [t62,t63], [t64,t65], [t66]):**
+
+- **t60 #66 — Navigation restructure + NotFound route + Expenses nav link.** MERGED
+  (justification): both concerns edit frontend/src/app.tsx; serializing them would put
+  two cards on one file for no benefit, and the NotFound route only exists inside the
+  restructured tree. Files: app.tsx (re-nest /expenses, /budgets, /categories as
+  children of the AppShell route; index DashboardPage unchanged; add `*` NotFound),
+  app_shell.tsx (add the 4th NavLink to /expenses), new pages/not_found_page.tsx, new
+  test file app_routing.test.tsx. app_shell.test.tsx byte-identical (gate tests[110]).
+  New merge_test_index entries appended at merge cover the new proofs; no stored entry
+  changes.
+- **t61 #67 — Logout into the shell header.** Depends [t60] (serialization: both touch
+  app_shell.tsx). New shell-header logout component (data-testid logout-button, name
+  'Log out' preserved for the e2e helper), guarded so the router-less frozen shell
+  test renders nothing for it; dashboard_page.tsx loses its in-page logout button
+  (user-menu span + username stay); auth_context and auth_context.test.tsx
+  byte-identical (gate tests[51] pins that test's titles).
+- **t62 #68 — npm-script dev workflow in ROOT package.json.** Independent of the
+  frontend cards (touches only package.json + new scripts/dev/). Four scripts: check
+  (verify + Q6 auto-fix), setup:local (uv sync + alembic upgrade head + npm install
+  both stacks), dev (spawn uvicorn + vite, prefixed logs, Ctrl+C kills both, prints
+  URLs + health probe), stop (kill listeners on 8000/5173). Windows/macOS-first; node
+  builtins only; frontend/package.json byte-identical; Makefile untouched.
+- **t63 #69 — README Quick Start rewrite (ALL ENGLISH).** Depends [t60, t62] — it
+  documents real merged commands and its pin-3 digest is only derivable after both
+  land. npm-script path FIRST (check -> setup:local -> dev -> stop), explicit
+  'Stopping the app' section, troubleshooting table (make not found / docker daemon
+  down / WSL .venv on win32 / port busy), make content DEMOTED to 'Alternative:
+  WSL/Linux with make' (demote, never delete — gate[27] survival measured). Card also
+  updates the docs_verification.py pin-3 constants and regenerates the generated
+  report. Q1a replay policy: at this card's merge the orchestrator APPENDS the pin-3
+  index entry, and tests[227] (with its carried 29d22aff/d849c775 legs) is EXCLUDED
+  from the mandatory-green replay set as RETIRED-BY-OPERATOR-RULING-Q1a; the
+  replacement is the new entry. tests[27] must replay GREEN.
+- **t64 #70 — phase_10 exit composite (milestone exit).** Depends [t60, t61, t62,
+  t63]. Adds NO behaviour; attests the conjunction at one commit: full merge_test_index
+  replay with tests[227] excluded as RETIRED-BY-Q1a (the exclusion is an
+  orchestrator-recorded ruling in the run log, never an index edit), the NEW pin-3
+  entry present and green, tests[27] green, every product floor re-measured
+  (pytest 288 / ruff / mypy 91 / alembic 005 / vitest >= 187+new / tsc 0 / eslint
+  exactly-4), byte-pins (AGENTS 8340781c, render 60110dd0, openapi 6f2a0a3d,
+  frontend/package.json byte-identical, app_shell.test.tsx byte-identical, e2e
+  workflow files untouched), and the REQ-FE-010/011 matrix rows re-marked with real
+  pointers. This card is the recorded home of the pin-2 retirement attestation.
+- **t60 additionally carries the matrix note**: after its test lands, the next
+  regeneration of the t57 matrix re-marks REQ-FE-010/011 with real pointers; t60's
+  verification greps those two rows and fails closed if the mis-mark persists.
+
+DAG: docs/state/dag.json + dag.mmd regenerated to 65 nodes / 105 edges (60/98 + 5 new
+nodes t60..t64 + 7 new edges; every existing entry byte-equivalent; t57 status
+refreshed 'done' -> 'closed' per the docs/backlog.md ground truth). Kahn
+machine-verified: zero cycles, zero orphans. Milestone-local structure: roots =
+{t60 nav, t62 scripts}, sink = t64 exit; milestone-local critical path 2 edges
+(t60 -> t63 -> t64 and t62 -> t63 -> t64); cumulative longest chain grows by 2 edges
+over the phase_9 chain. dep_chain MILESTONE-LOCAL per the phase_6/7/8/9 precedent,
+cumulative carried as standing WARN. Platform numbering: highest existing issue is #65
+(closed ruling); the five cards are #66..#70, one create call each, labels [defined]
+read back per issue. N = 5; batch_size = min(5, max(1, ceil(5/3))) = 2 -> batches
+[t60,t61], [t62,t63], [t64]. NO docs/issues/<id>.md card files are created at survey
+(the established convention since t44: full five-heading Gate-1 cards are authored at
+groom); the platform bodies are DEFINED-stage stubs with the rulings and hard
+constraints embedded. README
+pin-2 retirement is recorded ABOVE (Q1a) — this appendix section sits AFTER the
+`## phase_9_req_matrix` heading on purpose: the matrix generator truncates
+docs/plan.md at that heading, so nothing written here can change matrix rows.
