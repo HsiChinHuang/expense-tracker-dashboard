@@ -13,6 +13,7 @@ import {
   frontendInstalled,
   listenersByPort,
   capture,
+  npmInvocation,
   platformLine,
   venvPresent,
 } from "./common.js";
@@ -21,6 +22,12 @@ import {
 const HOST_TOOLS: readonly string[] = ["node", "npm", "uv", "git"];
 
 function toolVersion(tool: string): string {
+  if (tool === "npm") {
+    // On win32 npm is a .cmd shim; run the packaged CLI through this node.
+    const n = npmInvocation(["--version"]);
+    const r = capture(n.cmd, n.args);
+    return r.code === 127 ? "MISSING (not runnable from this process)" : (r.out.split(/\r?\n/)[0] ?? "").trim();
+  }
   const r = capture(tool, ["--version"]);
   if (r.code === 127) {
     return "MISSING (not on PATH)";

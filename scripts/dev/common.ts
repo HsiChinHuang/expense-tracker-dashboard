@@ -56,6 +56,21 @@ export function frontendInstalled(): boolean {
   return existsSync(bin) || existsSync(path.join(frontendDir(), "node_modules", "vite"));
 }
 
+/**
+ * How to invoke npm from a native child process. On win32 `npm` is a .cmd
+ * shim that spawnSync cannot execute directly, so the packaged npm CLI
+ * script is run through the SAME node binary that is running this helper.
+ */
+export function npmInvocation(extra: readonly string[]): { cmd: string; args: string[] } {
+  if (IS_WIN32) {
+    const cli = path.join(path.dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
+    if (existsSync(cli)) {
+      return { cmd: process.execPath, args: [cli, ...extra] };
+    }
+  }
+  return { cmd: "npm", args: [...extra] };
+}
+
 /** Run a child to completion with inherited stdio; returns its exit code. */
 export function run(cmd: string, args: readonly string[], cwd: string): number {
   const r = spawnSync(cmd, [...args], { cwd, stdio: "inherit" });

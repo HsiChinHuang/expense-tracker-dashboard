@@ -15,6 +15,7 @@ import {
   capture,
   frontendDir,
   frontendInstalled,
+  npmInvocation,
   repoRoot,
   run,
   venvPresent,
@@ -78,7 +79,8 @@ function ensureFrontend(): void {
     ? ["ci", "--no-audit", "--no-fund"]
     : ["install", "--no-save", "--no-package-lock", "--no-audit", "--no-fund"];
   console.log(`[setup:local] frontend/node_modules missing - npm ${args[0] ?? "install"} (Q5 additive-only: no manifest writes)`);
-  const rc = run("npm", args, frontendDir());
+  const npm = npmInvocation(args);
+  const rc = run(npm.cmd, npm.args, frontendDir());
   if (!frontendInstalled()) {
     fail("frontend/node_modules", `npm ${args[0] ?? "install"} exited ${rc} and no vite binary exists`);
   }
