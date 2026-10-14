@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t60",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_10_operator_ux",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t60", "t61", "t62", "t63", "t64"],
+    "findings": [
+      {
+        "issue_id": "t63",
+        "category": "other",
+        "severity": "warning",
+        "description": "W1 SECOND STALE-README-DIGEST GATE IS NOT IN THE SURVEY'S RETIRED-GATE SET - tests[227] is not the only stored entry that asserts a README digest. MEASURED over all 228 stored commands: the only two entries carrying a fixed README sha256 are tests[227] (t59 ac4, pin-2 a64efaa2 + 308 lines + docs_verification.md 29d22aff + blob d849c775) and tests[191] (t47 MAIN-floors composite, pin-1 8d141fb2). tests[191] is ALREADY RED on main for exactly that reason and is handled today by the t52/t59 precedent (identity-checked, NOT executed, disclosed). t63's rewrite makes README a THIRD digest, so the t63/t64 replay set must name BOTH retired/stale entries explicitly - tests[227] as RETIRED-BY-Q1a and tests[191] as the carried already-red identity-only entry - or a later card that replays 'everything except 227' goes RED for a reason no card owns. REMEDY (groom t63 + t64): enumerate the replay set as named-green + identity-only-not-executed + excluded, naming tests[191] alongside tests[227] with the t52/t59 citation."
+      },
+      {
+        "issue_id": "t63",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 docs_verification.py IS ITSELF A GATE EXECUTOR, SO EDITING ITS PIN CONSTANTS RE-DERIVES NINE STORED GATES AND FOUR CARRIED REPORTS - MEASURED: README_DIGEST/README_LINES are at lines 34-35 as the survey states, but the same generator also asserts INDEX_FLOOR = 217 (line 36, a FLOOR so index growth is safe), a CARRIED_DIGESTS map of four sibling reports (lines 80-89) and a nine-entry STORED_GATES set [(27,t4),(119,t23),(128,t24),(134,t26),(135,t26),(144,t28),(149,t32),(150,t34),(155,t35)] that it RE-EXECUTES VERBATIM (check_index_and_stored_gates). The survey's 'the card updates the pin-3 constants and regenerates the report' is therefore necessary but not sufficient: the card must (a) prove the nine STORED_GATES legs still exit 0 on the rewritten README (the greps are structural and are expected green - tests[27]'s make setup/dev-backend/dev-frontend/test/lint + quick-start/running-tests/cookbook/prerequisite/MIT legs all survive demote-don't-delete, and tests[119]/[128]/[135]/[144]/[149]/[150] are likewise heading/phrase greps that demotion preserves), and (b) disclose that the regenerated docs_verification.md bytes change while the four CARRIED_DIGESTS siblings must not. REMEDY (groom t63): add an AC leg that executes all nine STORED_GATES entries verbatim after the rewrite and asserts the four sibling reports are byte-unchanged, and record the regeneration as the card's own committed delta (never a hand edit)."
+      },
+      {
+        "issue_id": "t64",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 'FULL merge_test_index REPLAY WITH tests[227] EXCLUDED' IS NOT A SAFE BLIND LOOP - MEASURED: the index is 228 entries and at least three stored entries are already non-green or environment-coupled on the exit tree independent of this milestone: tests[191] (pin-1 README digest, already RED on main), tests[139] (t27, executes `make -n e2e`), and the t59 verifier record (WAL 719 replay protocol) which declares ten phase_9 entries NOT index-appendable because they are .env/tree sensitive (a tree carrying an untracked .env replays them RED). The t59 exit card itself did NOT replay all 226 - it byte-pinned 17 anchors and executed ten named gates (tests[16], [217]-[220], [221]-[225]) in a clean .env-free tree. REMEDY (groom t64): phrase the replay AC as three explicit sets (NAMED-GREEN executed verbatim rc=0; IDENTITY-ONLY not executed, naming tests[139] and tests[191] with precedent citations; EXCLUDED as RETIRED-BY-Q1a naming tests[227]), never as 'loop the index', and keep the .env-free replay protocol in the AC text."
+      },
+      {
+        "issue_id": "t63",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 README 500-LINE CEILING IS THE BINDING LIMIT ON THE REWRITE, NOT THE PIN - MEASURED at base: README is 308 lines / digest a64efaa2 (both confirmed by measurement in this review), and FOUR independent fences enforce <= 500 (tests[27] `[ -ge 30 ] && [ -le 500 ]`, tests[119] `wc -l <= 500`, tests[201]'s 'README under 500 lines' evidence-checklist row, and docs_verification.py README_MEASURE). Adding an npm-script quick start, an explicit 'Stopping the app' section and a four-row troubleshooting table while DEMOTING (never deleting) the make content leaves 192 lines of headroom - adequate but not free. REMEDY (groom t63): pin the AC as 'README <= 500 lines measured, pin-3 digest recorded from the measured bytes' and require the demote to relocate rather than duplicate, so the card cannot be forced into deleting make content (which would break tests[27])."
+      },
+      {
+        "issue_id": "t60",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "W5 REQ-FE-010 vs REQ-FE-011 RE-MARK OWNERSHIP IS NOT SYMMETRIC AND t60's FAIL-CLOSED GREP MUST BE PHRASED PER ROW, NOT PER PAIR - MEASURED: docs/criteria/req_coverage_verification.md line 835 marks REQ-FE-010 IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/dashboard_page_app.test.tsx and line 837 marks REQ-FE-011 IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/App.tsx; `frontend/src/App.tsx` does not exist (frontend/src carries only app.tsx) and the pointer survives only because the generator's resolve() falls back to a unique-basename match. Re-reading the generator's derivation priority (deferral > card-ruling > TEST-citation > test-artifact > artifact > test-name > code-symbol > citation): a repo file that NAMES an id outranks the Verification-artifact route, so t60's new test file naming both ids moves FE-010 to a real test pointer AND moves FE-011's pointer to the real app.tsx/test file while its STATUS can stay IMPLEMENTED_STRUCTURAL. So 'the two rows are re-marked' is only literally true for FE-010; a t60 AC that demands both statuses change is unsatisfiable, and a t64 AC that demands FE-011 become IMPLEMENTED_TESTED would collide with t60's evidence. REMEDY (groom t60 + t64): t60's grep asserts FE-010 is IMPLEMENTED_TESTED with a pointer that is a real existing test file, and asserts FE-011's pointer is no longer the non-existent App.tsx (status may stay IMPLEMENTED_STRUCTURAL); t64 re-attests the same measured rows and owns neither re-mark. The matrix is generator-owned in both cards - no hand edit is authorised anywhere in this milestone."
+      },
+      {
+        "issue_id": "t62",
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 THE BYTE-PIN LIST IN t64 COULD CONTRADICT t62'S OWN DELTA - ROOT package.json IS NOT FROZEN, frontend/package.json IS. MEASURED: t62's whole purpose is editing the ROOT package.json, and the stored no-drift composites that freeze manifests (tests[165], tests[191], tests[227]) enumerate `package.json` and `frontend/package.json` in their HEAD-vs-hash-object loops; those legs are green-by-construction only AFTER the card's own commit, which is why the t42 card spelled out the 'asserted against the MERGE commit' exception. tests[227]'s 20-file frozen set (which includes both package.json files) is retired by Q1a, but t64's replacement byte-pin set must carry the same distinction or the exit gate demands a byte-identical root package.json that t62 just changed. REMEDY (groom t62 + t64): t62 asserts frontend/package.json byte-identical against the post-merge HEAD (plus 'zero new dependencies' and 'Makefile untouched' as content greps, not HEAD pins), and t64's byte-pin list names frontend/package.json, app_shell.test.tsx, AGENTS 8340781c, render 60110dd0, openapi 6f2a0a3d and the e2e workflow files as frozen while stating explicitly that ROOT package.json is a phase_10 delta whose identity is the post-merge blob."
+      },
+      {
+        "issue_id": "t62",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 scripts/dev/** LANDS INSIDE THE ROOT tsconfig AND eslint GLOBS, SO 'node builtins only' IS NOT ENOUGH - IT MUST ALSO PASS THE EXISTING ROOT TOOLING. MEASURED: tsconfig.json includes `scripts/**/*.ts` with strict + noUnusedLocals + noUnusedParameters + noUncheckedIndexedAccess + verbatimModuleSyntax, and the root lint script is `eslint launcher extensions scripts --ext .ts --fix`; the repo already owns 8 files under scripts/. Nothing in the plan or the card body says whether the new dev-workflow sources are TypeScript under scripts/ (then they must satisfy the root tsc/eslint and the existing `npm run build`/`type-check`/`gate-check` scripts keep working) or plain .mjs/.cjs (then they are outside both globs and unverified by the root tooling). Either is acceptable; leaving it undetermined is not, because the t64 'tsc 0 / eslint exactly-4' floor is the FRONTEND measurement and says nothing about the root tree. REMEDY (groom t62): state the file extension/placement decision, and add measured root evidence (`npx tsc --noEmit` rc=0 on the root config and the root lint rc=0 with no new findings) to the card's own verification set; if .ts under scripts/, the AC must require it passes the existing strict config unmodified."
+      },
+      {
+        "issue_id": "t62",
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 THE <10-MINUTE SETUP CLAIM IS AN EXISTING STORED STANDARD THAT THE npm PATH INHERITS - MEASURED: docs/requirements.md carries 'reviewer can reproduce setup in under 10 minutes' and README < 500 lines, and README's evidence checklist row 'Peer reviewer can reproduce in < 10 min' is grep-enforced by tests[201] (t49). t62 replaces the setup path (check/setup:local/dev/stop) and t63 rewrites the Quick Start that documents it, so the timing claim now applies to the npm path - which has never been measured end to end. REMEDY (groom t62 + t63): require a MEASURED wall-clock evidence line for `npm run setup:local` on the Windows-11 host (and keep the README wording honest about what was measured vs documented, the same discipline the t53/t59 cards used for live-vs-local attestation); do not print an unmeasured timing claim into the README, which is itself a pinned artifact."
+      },
+      {
+        "issue_id": "t61",
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 THE FROZEN-SHELL-COMPAT CONSTRAINT IS HARDER THAN 'INERT' - useAuth THROWS OUTSIDE AuthProvider, AND TWO STORED GATES EXECUTE app_shell.test.tsx. MEASURED: frontend/src/context/auth_context.tsx line 118-124 throws `useAuth must be used within an AuthProvider` when the context is null, and app_shell.test.tsx renders <AppShell /> with no AuthProvider and no Router; tests[110] (t22) and tests[94] (t18) both EXECUTE that test file verbatim (in addition to grepping app.tsx/app_shell.tsx and asserting the three frozen titles), so a shell-header logout that calls useAuth unconditionally turns two stored gates RED. The survey's guard-wrap precedent (useInRouterContext -> inert anchor) is the right pattern and the frozen file's three assertions (h1 'Expense Tracker', container classes, the outlet ?? placeholder <p>) survive a 4th NavLink and an inert logout element by construction - but the AC must forbid the hook, not merely require 'nothing renders'. REMEDY (groom t61): pin the logout control as a component that renders NOTHING when there is no router/auth context (no useAuth call on that branch, or a null-context-tolerant read), require app_shell.test.tsx byte-identical, and require tests[110] and tests[94] to be re-executed verbatim green as the card's own evidence."
+      },
+      {
+        "issue_id": "t63",
+        "category": "other",
+        "severity": "warning",
+        "description": "W10 THE README 'Log out' STEP WORDING IS GREP-ENFORCED INDEPENDENTLY OF THE BUTTON IT DESCRIBES - tests[201] (t49) requires the literal 'Log out' inside the '## Live verification in five minutes' section (README line 248 today) and the survey's gate scan correctly notes tests[138] greps 'Log out' in e2e/fixtures/helpers.ts (untouched). t61 MOVES the control into the shell header while t63 rewrites the README, so a rewrite that re-words the step ('sign out', 'use the header logout') breaks tests[201] for a wording choice, and a rewrite that keeps the wording while the button has moved keeps the README truthful only if the step names the header location. REMEDY (groom t63): keep the literal 'Log out' step token in BOTH five-minute sections and phrase it to name the shell header (post-t61 truth), and add tests[201] to the card's named-green replay set."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W11 COVERAGE AND DECOMPOSITION ARE CLEAN - recorded as a positive finding so the review's non-findings are explicit. (a) DAG re-verified independently: 65 nodes / 105 edges, 0 duplicate node ids, 0 dangling endpoints, Kahn processes 65/65 (cycle-free), 0 orphans, and the 7 new edges (t61->t60, t63->t60, t63->t62, t64->{t60,t61,t62,t63}) match the stated depends lists exactly with no t6x edge reaching any pre-phase_10 node (milestone-local chain confirmed; roots {t60,t62}, sink t64, critical path 2 edges). (b) Operator rulings Q1a/Q2/Q3a/Q4a/Q6 and the Windows/macOS-first all-English README are embedded verbatim in the plan appendix and the #66..#70 titles. (c) No requirement is uncovered: the two mis-marked rows (REQ-FE-010/011) are owned by t60 with a fail-closed grep, and the e2e suite is deliberately not re-gated (e2e files byte-untouched, 'Log out' accessible name preserved) - disclosed in the survey. (d) Granularity: no card exceeds the file limit (t60 4 files, t61 3, t62 2, t63 3, t64 composite with no behaviour change); AC counts are authored at groom per the post-t44 convention, so the AC/diff-line axes are deferred to groom rather than waived."
+      }
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_10_operator_ux.json",
+      "docs/state/outputs/phase_10_operator_ux_definer_review_plan.json"
+    ],
+    "platform_issue": 66,
+    "output_path": "docs/state/outputs/phase_10_operator_ux_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-14T06:12:00Z",
+  "retry_count": 0
+}
