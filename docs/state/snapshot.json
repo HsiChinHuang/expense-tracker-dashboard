@@ -1,21 +1,21 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T09:09:44Z",
- "last_seq": 736,
+ "updated_at": "2026-10-14T10:10:19Z",
+ "last_seq": 743,
  "slots": [
   {
    "slot_id": "slot_1",
    "issue_id": "t60",
-   "role": "definer",
-   "phase": "groom",
-   "run_id": "4eed6397-714e-48f3-b7b1-e9cad667f6d3"
+   "role": "verifier",
+   "phase": "verify_issue",
+   "run_id": "6b4237a9-c91b-4061-8c8d-2ba69cd4c7c0"
   },
   {
    "slot_id": "slot_2",
    "issue_id": "t62",
    "role": "builder",
-   "phase": "implement",
-   "run_id": "PENDING"
+   "phase": "implement_reverify",
+   "run_id": "44a05f1b-25c0-40bb-9574-08ac5bed6e14"
   }
  ],
  "merge_queue": [],
