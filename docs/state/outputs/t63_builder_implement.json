@@ -9,7 +9,7 @@
     "evidence_type": "build",
     "branch": "issue/t63-readme-npm-first",
     "branch_sha": "d3dbcbaeb05342c4d2348008963b23f803081d40",
-    "branch_sha_note": "branch_sha d3dbcba is the README commit that turns all six card fences GREEN (base 8ea676a = origin/main at dispatch). Per the t58/t62 precedent the handoff commit necessarily postdates the sha it can name: the pushed branch tip will be the docs-only handoff commit that follows d3dbcba inside the ac6 authorised set (docs/state/outputs/t63_builder_implement.json matches the ac6 allow-list); the README/mirror/card bytes are identical at both tips. Correlation facts: base 8ea676ae0e15c3e0e786c187e031f1d902b608e0, README commit d3dbcbaeb05342c4d2348008963b23f803081d40, pushed with git push -u (new branch, no force).",
+    "branch_sha_note": "branch_sha d3dbcba is the README commit that turns all six card fences GREEN (base 8ea676a = origin/main at dispatch). Per the t58/t62 precedent the handoff commit necessarily postdates the sha it can name: the pushed branch tip is e86d36c7e9c8df5bba091feb3ee475b78a16f7df, i.e. the docs-only handoff commit that follows d3dbcba inside the ac6 authorised set (docs/state/outputs/t63_builder_implement.json matches the ac6 allow-list); the README and card/mirror bytes are identical at both tips, and all six fences were re-run GREEN at the tip. Correlation facts stated honestly: base 8ea676ae0e15c3e0e786c187e031f1d902b608e0, README commit d3dbcbaeb05342c4d2348008963b23f803081d40, pushed tip e86d36c7e9c8df5bba091feb3ee475b78a16f7df, pushed with git push -u (new branch, fast-forward, no force).",
     "ac_mapping": {
       "ac1": {
         "commit": "d3dbcbaeb05342c4d2348008963b23f803081d40",
@@ -90,8 +90,8 @@
         "tests[201] (t49 ac4 - Chapter 24.3 rows=15 + 24.5 rows=14 + W1 survival tokens, CRLF-dependent) rc=0"
       ],
       "expected_red": [
-        "tests[227] (pin-2 digest + 308-line pin) RED by design - NAMED EXCLUSION retiring at this merge, t64 carries it as named exclusion; observed RED output: \"README cr-stripped sha256=f0fd9eda... lines=362-at-first-observation / 362 was an intermediate draft; at the committed README it reports sha256=f0fd9eda96a2... not the pin-2 digest\" - disclosed, not fought",
-        "tests[191] already stale before this card (card-documented), not re-run here"
+        "tests[227] (pin-2 digest + 308-line pin) RED by design - the card names it the exclusion retiring at this merge, and t64 carries it as a NAMED EXCLUSION. Observed verbatim over the committed README: \"ac4 evidence: README cr-stripped sha256=f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8 lines=367\" then \"ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone\". Disclosed, not fought: the index was never opened and the digest was not forced back toward a64efaa2.",
+        "tests[191] was already stale before this card (card-documented); not re-run here."
       ],
       "ac4_survival": "Chapter 24.3 criteria-mapping rows=15 and 24.5 evidence-checklist rows=14 live in docs/criteria/req_coverage_verification.md (untouched, FORBIDDEN) AND in the README tables fenced by tests[201]; the README change preserves both tables exactly and tests[201] was run GREEN over the new bytes (ac4 evidence line: \"24.3 mapping table (15 rows) + 24.5 evidence checklist (14 rows) + both 5-minute paths + every machine-extracted W1 token survives + README <= 500\")"
     },
