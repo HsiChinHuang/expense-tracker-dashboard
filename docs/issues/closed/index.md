@@ -65,3 +65,4 @@ Runtime-maintained by Orchestrator.
 | t60 | Navigation restructure: nest /expenses /budgets /categories under AppShell + 4th Expenses NavLink + "*" NotFound route (one-way-trap fix, REQ-FE-010/011, W5 re-mark, W9 guard-wrap) | #66 |
 | t62 | npm-script dev workflow: root package.json check/setup:local/dev/stop + scripts/dev 5 node-builtin helpers, win32-native, Docker untouched (Q1/Q2/Q6, delta-purity fence form) | #68 |
 | t63 | README Quick Start npm-first rewrite (check/setup:local/dev/stop primary, Stopping section, troubleshooting table, make demoted to Alternative, all-English; pin-2 retired, pin-3 f0fd9eda/367L) | #69 |
+| t61 | Logout control into AppShell header (data-testid=logout-button, guard-wrapped); in-page dashboard logout removed (Q3a) | #67 |

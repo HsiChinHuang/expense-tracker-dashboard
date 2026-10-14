@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0",
- "updated_at": "2026-10-14T12:43:02Z",
+ "updated_at": "2026-10-14T13:18:29Z",
  "entries": [
   {
    "issue_id": "t0",
@@ -902,6 +902,17 @@
    "tests_appended": 6,
    "regressions": 0,
    "note": "README npm-first rewrite merged after verifier PASS (run 6d8dc03a, 6/6 fences verbatim GREEN at tip 3e3f265, four-way pin closure 9100498a). Pin doctrine Q1a executed: pin-2 a64efaa2/308L RETIRED at this merge; pin-3 f0fd9eda96a2/367L appended as tests[232] after verbatim GREEN replay on merged bytes; ac1-ac5 appended as tests[233]-[237] after verbatim GREEN replays on merged main (card table: ac6 NOT appendable, merge-base relative). tests[227] left in place as the disclosed stale pin-2 replay - NAMED EXCLUSION in the t64 composite. Merged-main surface byte-identical to t62 gates (frontend/backend/scripts zero delta) - floors carry 191/0/288/91/005."
+  },
+  {
+   "issue_id": "t61",
+   "platform_issue": 67,
+   "branch": "issue/t61-logout-shell-header",
+   "merge_sha": "37614610",
+   "merged_at": "2026-10-14T13:18:29Z",
+   "retries": 0,
+   "tests_appended": 0,
+   "regressions": 0,
+   "note": "Logout control moved into AppShell header per Q3a (data-testid=logout-button behind the second hook-free guard-wrap; in-page dashboard logout removed; AuthContext.logout untouched). Verifier f3ea149e PASS: six fences verbatim GREEN at tip c39ddb5, four-way pin closure e570c890 recomputed from committed card bytes, frozen blobs byte-identical incl app_shell.test.tsx 32f30b80bd router-less, vitest 196/0 (floor >=195 raised by this card), regressions []. tests_appended=0 per card disposition (all six non-appendable: freeze/floor/containment + new-test-file evidence). Merged-main re-measure by Orch: vitest 196/0 32 files, tsc 0, eslint exactly-4; backend/scripts/matrix/README delta vs 798643e = 0 files so pytest 288/ruff/mypy 91/alembic 005 carry."
   }
  ]
 }

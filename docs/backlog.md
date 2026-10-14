@@ -63,7 +63,7 @@
 | t58 | Per-REQ-ID gap remediation - author missing evidence artifacts (predicted: PLAN risk/workflow records, STRUCT file-count + naming, DB-120/ARCH-081 assumptions, TEST-070 list, PROD success rows) until the t57 fence reaches 0 GAP | [t57] | #63 | closed |
 | t59 | Requirement-coverage verification composite - six generators green, 749-row matrix closed at 0 GAP, floors + byte-pins + deferral re-attestation (phase_9 exit card) | [t57, t58] | #64 | closed |
 | t60 | Navigation restructure: nest /expenses /budgets /categories under AppShell + '*' NotFound route + Expenses nav link (one-way-trap fix, REQ-FE-010/011) | [] | #66 | closed |
-| t61 | Logout control into AppShell header (data-testid logout-button, Q3a); remove dashboard in-page logout; AuthContext.logout untouched | [t60] | #67 | defined |
+| t61 | Logout control into AppShell header (data-testid logout-button, Q3a); remove dashboard in-page logout; AuthContext.logout untouched | [t60] | #67 | closed |
 | t62 | npm-script dev workflow in ROOT package.json: check (Q6 auto-fix) / setup:local / dev / stop (Windows-11-first, node builtins only, zero new deps, Docker banned) | [] | #68 | closed |
 | t63 | README Quick Start rewrite (ALL ENGLISH): npm-script path first, Stopping the app, troubleshooting table, make demoted to Alternative; pin-2 retired -> pin-3 appended per Q1a | [t60, t62] | #69 | closed |
 | t64 | phase_10 exit composite: full index replay minus retired tests[227] + pin-3 green + floors + byte-pins + matrix rows re-marked + dev-workflow probes (milestone exit) | [t60, t61, t62, t63] | #70 | defined |
