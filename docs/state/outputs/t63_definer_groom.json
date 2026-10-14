@@ -215,11 +215,13 @@
       "ac6 has only 236 bytes of headroom under the 8191-byte ceiling; any future edit must re-measure."
     ],
     "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-card-t63-plat-58d3bb9b-0179c9d-7c69-s0-t0",
-    "branch_sha": "39f84a5e2a8ac6553602f432030e42a8f4056cb5",
+    "branch_sha": "c67242288afdd6181c6aee8f4ba01019e0084cc2",
     "commit_note": "branch_sha names the pushed tip (verified equal to origin/<branch> after push) and carries docs/issues/t63.md, its byte-identical mirror, and this handoff. Self-reference caveat (t58 precedent): the sha of the commit carrying this field cannot be authoritative for the handoff itself - the orchestrator must read the branch head rather than trust this field.",
     "base_readme_digest": "a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c",
     "base_readme_lines": 308,
-    "readme_unchanged_by_this_commit": true
+    "readme_unchanged_by_this_commit": true,
+    "branch_sha_note": "Pushed tip observed via 'git rev-parse origin/<branch>' after the second push (verified equal to the local HEAD at that moment). Self-reference caveat (t58/t62 precedent): the commit that CARRIES this field is one commit later than the sha it names, so the orchestrator must read the branch head as authoritative rather than trusting this field. Correlation facts: base 60cb271; 39f84a5 carries the card + byte-identical mirror; c672422 carries this handoff; the branch delta against merge-base is exactly README.md-free (card, mirror, handoff) with README.md still at pin-2 a64efaa2 for the builder to rewrite.",
+    "card_commit": "39f84a5e2a8ac6553602f432030e42a8f4056cb5"
   },
   "artifacts": {
     "files_written": [
