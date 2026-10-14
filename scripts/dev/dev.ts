@@ -93,7 +93,7 @@ function stopChildren(): void {
   }
 }
 
-function main(): number {
+function main(): void {
   console.log(`[dev] ${platformLine()}`);
 
   const occupied = listenersByPort();
@@ -102,14 +102,14 @@ function main(): number {
     for (const port of clashes) {
       console.log(`[dev] port ${port} is already in use by PID ${(occupied.get(port) ?? []).join(",")} - run npm run stop first`);
     }
-    return 1;
+    process.exit(1);
   }
 
   const backend = startBackend();
   const frontend = startFrontend();
   if (!backend || !frontend) {
     stopChildren();
-    return 1;
+    process.exit(1);
   }
 
   console.log(`[dev] backend  ${BACKEND_URL}  (API: ${BACKEND_URL}/api/v1/health)`);
@@ -128,6 +128,8 @@ function main(): number {
     stopChildren();
   });
 
+  // Stay alive: the child stdout/stderr streams keep the event loop running.
+  // Exiting here would orphan both servers, so `stop` is what reaps them.
   let pending = children.length;
   for (const c of children) {
     c.on("exit", (code, signal) => {
@@ -138,7 +140,6 @@ function main(): number {
       }
     });
   }
-  return 0;
 }
 
-process.exit(main());
+main();
