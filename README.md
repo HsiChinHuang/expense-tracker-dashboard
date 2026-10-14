@@ -1,6 +1,6 @@
 # expense-tracker-dashboard
 
-Expense Tracker Dashboard — a FastAPI + React dashboard for tracking expenses,
+Expense Tracker Dashboard - a FastAPI + React dashboard for tracking expenses,
 built per `docs/requirements/` (see Chapter 3 for the tech stack and
 Chapter 17 for the development plan). This repository is under active
 development; phase 1 provides the project skeleton, health endpoint, and the
@@ -33,37 +33,131 @@ All six endpoints require a bearer token and are read-only:
 
 ## Prerequisites
 
-- [uv](https://docs.astral.sh/uv/) (provides `uv`; typically installed to `~/.local/bin`)
-- Node.js 20+ with npm (on WSL hosts the npm/node Windows binaries are used
-  through `cmd.exe`; the Makefile detects this automatically)
-- Python 3.12 (managed by `uv sync` for the backend)
-- GNU make and bash
-- Git
+The npm path is the operator path and it needs two host tools only:
+
+- Node.js 20+ with npm (the Windows binaries are fine; the four dev scripts
+  run natively on win32 through cmd.exe or PowerShell)
+- [uv](https://docs.astral.sh/uv/) (provides `uv`; typically installed to
+  `~/.local/bin` on Linux/WSL)
+- Git (to clone this repository)
+
+Python 3.12 is not a host requirement: `uv sync` manages it inside
+`backend/.venv`. GNU make and bash are NOT needed for the npm path - the
+operator box is Windows 11 and ships neither; the carried make targets remain
+documented for Linux/WSL users in the Alternative paths section below.
 
 ## Quick Start
 
-From a clean checkout, run the following from the repository root:
+Four npm commands drive the whole daily loop, natively on Windows 11 from the
+repository root (cmd.exe or PowerShell - no make, no bash, no Docker):
 
 ```bash
-# 1. Clone the repository
+# 0. Clone the repository
 git clone <repo-url> && cd expense-tracker-dashboard
 
-# 2. Create the local environment file (placeholders only — fill in secrets locally)
+# 1. Detect the environment state (host tools, dev ports, venv, frontend deps)
+npm run check
+
+# 2. Create the local environment file (placeholders only - fill in secrets locally)
 cp .env.example .env
 
-# 3. Install both stacks (backend via uv, frontend via npm)
-make setup
+# 3. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
+npm run setup:local
 
-# 4. Run the backend API (http://localhost:8000, health check at /api/v1/health)
-make dev-backend
+# 4. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
+npm run dev
 
-# 5. Run the frontend dev server (http://localhost:5173) — in a second terminal
-make dev-frontend
+# 5. Stop both servers again when you are done
+npm run stop
 ```
 
-Configuration lives in `.env` (never committed); `.env.example` lists every
-variable with placeholder values. See
-`docs/requirements/Chapter3_TechStack.md` §3.10 for the variable reference.
+Both servers log into one interleaved stream prefixed `[backend]` and
+`[frontend]`, and dev prints the two clickable URLs when they are up. The
+backend health contract is `GET /api/v1/health` (served directly at
+`http://localhost:8000/api/v1/health` and proxied by the vite dev server
+through `/api`). Configuration lives in `.env` (never committed);
+`.env.example` lists every variable with placeholder values. See
+`docs/requirements/Chapter3_TechStack.md` section 3.10 for the variable
+reference.
+
+## Stopping the app
+
+Two sanctioned ways to stop the dev servers:
+
+- Ctrl+C in the `npm run dev` console. dev.ts registers SIGINT and SIGTERM
+  handlers and tears both children down before it exits.
+- `npm run stop` from any other console - the guaranteed reaper when the dev
+  console is already gone or an earlier run left an orphan behind:
+
+```bash
+npm run stop
+```
+
+What the reaper does (the same behaviour `scripts/dev/stop.ts` implements):
+
+- It is SCOPED to the two dev ports 8000 and 5173 only - no other port is
+  ever touched.
+- For every occupied dev port it kills the owning process tree and prints
+  the PID it killed (`cleaned port 8000 - killed PID <pid>`).
+- It is idempotent: on a clean tree it exits 0 and prints that both dev
+  ports are already free (nothing to clean), so re-running it is always safe.
+- After cleaning it prints how many orphan listeners it reaped and states
+  that no other port was touched, so the operator can see the scope of what
+  happened (`reaped N orphan listener(s) on the dev ports`).
+
+## Troubleshooting
+
+The failure modes the dev scripts actually surface, with the remedy each one
+names:
+
+| Symptom (what you see) | Why it happens | Remedy (what the scripts tell you to run) |
+|---|---|---|
+| check or dev reports an occupied dev port 8000 or 5173 with its owning PID | a previous run left an orphan listener; check reports occupied ports only, not touched, and never kills them | run `npm run stop` (the port-scoped reaper), then `npm run dev` again |
+| check reports `backend/.venv missing` (typical after the venv was created under WSL and you switched to native Windows) | the venv was never built for this platform, or it is unusable here | run `npm run setup:local`, which rebuilds `backend/.venv` with `uv sync --frozen` |
+| check prints `host tool uv: MISSING (not on PATH)` | uv is not installed or not on PATH; check detects and reports host tools, it never installs them | install uv, then re-run `npm run check` and `npm run setup:local` |
+| `http://127.0.0.1:5173` refuses the connection although dev printed the vite URL | vite binds the IPv6 loopback ::1, so the IPv4 literal never reaches it | open `http://localhost:5173/` instead of the 127.0.0.1 literal |
+
+## Alternative paths - Linux/WSL via make
+
+The GNU make surface below is the carried Linux/WSL path. It is an
+alternative, not the operator path: on Windows 11 use the four npm commands
+in the Quick Start above. Every make target listed here still works where
+make and bash exist.
+
+### Other targets
+
+| Target | Purpose |
+|---|---|
+| `make setup` / `make setup-backend` / `make setup-frontend` | Install dependencies |
+| `make dev` | Hint: run backend and frontend in two terminals |
+| `make down` | Stop services (services land in phase 5) |
+| `make migrate` | Database migrations (Alembic, lands in phase 2) |
+| `make seed` | Seed data (lands in phase 3) |
+| `make e2e` | End-to-end tests (Playwright, lands in phase 5) |
+| `make security` | Security scans (gitleaks/semgrep/trivy, land in phase 7) |
+
+### Running tests
+
+```bash
+# Both suites (backend pytest + frontend vitest)
+make test
+
+# Backend only (pytest, runs in backend/ via uv)
+make test-backend
+
+# Frontend only (vitest, runs in frontend/ via npm)
+make test-frontend
+```
+
+### Linting
+
+```bash
+# Both stacks (ruff + mypy for backend, eslint + tsc for frontend)
+make lint
+
+make lint-backend
+make lint-frontend
+```
 
 ## Local development modes
 
@@ -99,7 +193,7 @@ make dev-backend
 make dev-frontend
 ```
 
-`make migrate` is the manual REQ-DB-082 step in this mode — the host process
+`make migrate` is the manual REQ-DB-082 step in this mode - the host process
 has no container-start hook, so you run the migrations yourself after the
 exported `DATABASE_URL` points at the containerized database. The Vite dev
 server serves the SPA on `http://localhost:5173`, the API on `:8000`.
@@ -114,47 +208,12 @@ the container start command (REQ-CICD-025, REQ-CICD-026, REQ-DB-082). Secrets
 never enter the build context (REQ-CICD-070); the compose placeholders are
 replaced by the platform at deploy time.
 
-## Running tests
-
-```bash
-# Both suites (backend pytest + frontend vitest)
-make test
-
-# Backend only (pytest, runs in backend/ via uv)
-make test-backend
-
-# Frontend only (vitest, runs in frontend/ via npm)
-make test-frontend
-```
-
-## Linting
-
-```bash
-# Both stacks (ruff + mypy for backend, eslint + tsc for frontend)
-make lint
-
-make lint-backend
-make lint-frontend
-```
-
-## Other targets
-
-| Target | Purpose |
-|---|---|
-| `make setup` / `make setup-backend` / `make setup-frontend` | Install dependencies |
-| `make dev` | Hint: run backend and frontend in two terminals |
-| `make down` | Stop services (services land in phase 5) |
-| `make migrate` | Database migrations (Alembic, lands in phase 2) |
-| `make seed` | Seed data (lands in phase 3) |
-| `make e2e` | End-to-end tests (Playwright, lands in phase 5) |
-| `make security` | Security scans (gitleaks/semgrep/trivy, land in phase 7) |
-
 ## Repository layout
 
-- `backend/` — FastAPI application (uv-managed Python 3.12 project)
-- `frontend/` — React + TypeScript single-page app (Vite, npm)
-- `docs/` — requirements, plan, commands, and coding standards
-- `e2e/`, `ops/`, `security/` — placeholders for later phases
+- `backend/` - FastAPI application (uv-managed Python 3.12 project)
+- `frontend/` - React + TypeScript single-page app (Vite, npm)
+- `docs/` - requirements, plan, commands, and coding standards
+- `e2e/`, `ops/`, `security/` - placeholders for later phases
 
 See `docs/commands.md` for the raw toolchain commands and
 `docs/coding_standards.md` for contribution style.
@@ -267,7 +326,7 @@ docker compose up --build
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE)
 file for details.
 
 ## Deployment on Render
