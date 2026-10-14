@@ -1,7 +1,7 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T11:03:13Z",
- "last_seq": 750,
+ "updated_at": "2026-10-14T11:51:04Z",
+ "last_seq": 751,
  "slots": [
   {
    "slot_id": "slot_1",
@@ -13,9 +13,9 @@
   {
    "slot_id": "slot_2",
    "issue_id": "t63",
-   "role": "definer",
-   "phase": "groom",
-   "run_id": "0179c9db-6ff3-4918-9ae1-abd3d1e3f7fb"
+   "role": "builder",
+   "phase": "implement",
+   "run_id": "PENDING-752"
   }
  ],
  "merge_queue": [],
