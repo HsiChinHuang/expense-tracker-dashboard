@@ -146,11 +146,12 @@
     ],
     "commit_and_push": {
       "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-issue-66-loca-ccd6c2fa-f482128-9146-s0-t0",
-      "first_commit": "8c687022f773cd3c3b8c8ff229c5b1ab5f9ffe55 (card + mirror + handoff, pushed as a new branch to origin)",
-      "final_commit": "pending - recorded in this same handoff after the ac5 mypy correction commit",
       "pushed": true,
-      "card_blob": "79ceec448bebfd075b338751b9e24c16ddbbf644 (first commit; card and mirror share one blob, proving byte-identity inside the commit)",
-      "note": "Commit-early doctrine honoured: the card+mirror+handoff were committed and PUSHED before the remaining verification finished, so a machine restart cannot lose the artefact. The corrected commit follows."
+      "card_authoritative_commit": "85f288ddcd992ac5627d35a294cdcfaf3a435b40",
+      "card_authoritative_commit_note": "This is the commit whose docs/issues/t60.md and docs/issues/groom/t60.md blobs ARE the card described by card_digest_sha256 above (shared blob a8dbc4b49ee6c5d75fe1eb907712985db01bdda3; verified by `git cat-file -p HEAD:docs/issues/t60.md | tr -d \\r | sha256sum` = 4def50af...f1ec6). Later commits on this branch touch only this handoff file, never a card byte.",
+      "early_commit": "8c687022f773cd3c3b8c8ff229c5b1ab5f9ffe55 - card + mirror + handoff, committed and PUSHED as a new branch BEFORE the remaining verification finished, so a machine restart could not lose the artefact (commit-early doctrine). Its card blob (79ceec448bebfd075b338751b9e24c16ddbbf644) is superseded by 85f288d's.",
+      "handoff_only_commits": "one or more doc-only commits after 85f288d carry this handoff's own evidence fields. Their shas are deliberately NOT self-quoted here: a commit cannot contain its own sha, and chasing it produces an endless amend chain. Read the branch HEAD with `git rev-parse HEAD` on the pushed branch instead - the orchestrator is the only party that can record it, and it is reported in the definer's chat handoff.",
+      "verified_at_write_time": "card blob == mirror blob == a8dbc4b49ee6c5d75fe1eb907712985db01bdda3 at HEAD; working tree clean apart from the untracked scratch/ sandbox; branch level with origin"
     },
     "ac5_mypy_correction": {
       "finding": "The 'mypy 91' floor carried in the dispatch is NOT an error budget. Measured at base: `uv run mypy .` exits 0 with 'Success: no issues found in 91 source files' - ZERO error lines. 91 is the size of the TYPE-CHECKED SURFACE.",
