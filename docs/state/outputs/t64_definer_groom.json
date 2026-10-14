@@ -329,8 +329,8 @@
       "The 2681 s replay left 15 REDs; steer 3 classified the last two (192 docker-banned-platform, 230 merge-base-relative containment) and this card encodes exactly that set - 14 exclusions plus 2 remedy-owned entries."
     ],
     "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-card-t64-plat-d9744c9a-60113e2-8ead-s0-t0",
-    "branch_sha": "ea84963696424bd5c61b62b8fe5f35d251bec6db",
-    "card_commit_note": "branch_sha names the pushed tip. Self-reference caveat (t58/t62/t63 precedent): the sha of the commit carrying this field cannot be authoritative for the handoff itself - the orchestrator must read the branch head as authoritative. Correlation facts: base ea84963; the card commit carries docs/issues/t64.md, its byte-identical mirror, the repair artifact and this handoff; the builder commit additionally carries the two-entry index amendment produced by that artifact."
+    "branch_sha": "1dd362fa7b8a46407bfbdd887b67bcacdeee8fcb",
+    "card_commit_note": "Correlation facts, stated so nothing here has to be self-referential: base is ea84963696424bd5c61b62b8fe5f35d251bec6db; evidence.branch_sha names 1dd362fa7b8a46407bfbdd887b67bcacdeee8fcb, the commit that carries docs/issues/t64.md, its byte-identical mirror, docs/state/amend_t64_tally_pins.cjs.ready and this handoff. Self-reference caveat (t58/t62/t63 precedent, unavoidable): the sha of the commit that carries a field cannot be embedded in the bytes of that same commit, so if this handoff is re-committed after the branch_sha update the pushed tip is the CHILD of the named commit and the orchestrator must read the branch head as authoritative. ac_hash closure: the five fenced bodies were re-extracted from 'git show HEAD:docs/issues/groom/t64.md' (72789 bytes, byte-identical to the committed card) and reproduce sha256:5c84cdea4f8f579b9af85d43d721f35598654793501dd4f9b65e66bb487588a9 with identical_to_executed=true for all five, i.e. the committed fence bytes are the bytes that were executed and no digest was asserted from working-copy memory. The builder commit additionally carries the two-entry index amendment produced by the repair artifact."
   },
   "artifacts": {
     "files_written": [
@@ -344,6 +344,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-14T16:30:28Z",
+  "timestamp": "2026-10-14T16:31:07Z",
   "retry_count": 0
 }
