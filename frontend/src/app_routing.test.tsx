@@ -60,13 +60,19 @@ const mountAt = (path: string): void => {
   );
 };
 
-/** The AppShell header node — brand heading plus its nav. */
+/** The four guard-wrapped NavLink entries the t60 shell header must render. */
+const shellNavLinkNames = ['Dashboard', 'Expenses', 'Budget', 'Categories'];
+
+/** The AppShell header node — brand heading plus its four NavLink entries. */
 const expectShellHeader = async (): Promise<void> => {
   const heading = await screen.findByRole('heading', { name: 'Expense Tracker' });
   expect(heading.tagName).toBe('H1');
-  // The shell's nav is present on the page too: the four guard-wrapped
-  // links render as real links once a router exists.
-  expect(await screen.findByRole('link', { name: 'Expenses' })).toBeTruthy();
+  // The shell's nav is present on the page too: every guard-wrapped NavLink
+  // (app_shell.tsx's module-local wrapper) renders as a real link once a
+  // router context exists — including the 4th entry added by t60.
+  for (const name of shellNavLinkNames) {
+    expect(await screen.findByRole('link', { name })).toBeTruthy();
+  }
 };
 
 beforeEach(() => {
