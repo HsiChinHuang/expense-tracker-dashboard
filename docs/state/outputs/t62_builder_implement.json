@@ -9,7 +9,7 @@
     "evidence_type": "build",
     "branch": "issue/t62-npm-dev-workflow",
     "branch_sha": "61c5fe3ec6ca55be195c6cf49d0fce463b02d00a",
-    "branch_sha_note": "matches git rev-parse origin/issue/t62-npm-dev-workflow (verified equal at run end); commits 07a4d39 (feat), 6a82cb8 (fix npm spawn), 61c5fe3 (fix dev supervisor)",
+    "branch_sha_note": "branch_sha 61c5fe3 is the IMPLEMENTATION tip (the last commit touching code: 07a4d39 feat, 6a82cb8 fix npm spawn, 61c5fe3 fix dev supervisor) and is the value recorded in every ac_mapping[].commit. The only commits after it on origin/issue/t62-npm-dev-workflow are docs-only handoff commits inside the ownership envelope (1d21114 and this note update), so origin may sit ahead of branch_sha by that docs-only offset - a chicken-and-egg inherent to committing the handoff on its own branch, and the same shape the accepted t58 handoff carries (its branch_sha 3e24db7 vs the commit that added it, 02488cd). Verify the code delta with: git diff --name-only 9a213ee 61c5fe3 = package.json + scripts/dev/{check,common,dev,setup,stop}.ts",
     "ac_mapping": {
       "ac1": {
         "commit": "61c5fe3ec6ca55be195c6cf49d0fce463b02d00a",
