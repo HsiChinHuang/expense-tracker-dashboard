@@ -1,21 +1,21 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T08:22:53Z",
- "last_seq": 734,
+ "updated_at": "2026-10-14T08:23:11Z",
+ "last_seq": 735,
  "slots": [
   {
    "slot_id": "slot_1",
    "issue_id": "t60",
    "role": "definer",
    "phase": "groom",
-   "run_id": "f482128c-c642-4e9c-b66f-e21928df7f9d"
+   "run_id": "4eed6397-714e-48f3-b7b1-e9cad667f6d3"
   },
   {
    "slot_id": "slot_2",
    "issue_id": "t62",
    "role": "definer",
    "phase": "groom",
-   "run_id": "414405df-40e1-40e3-990b-0cb7e9c358ce"
+   "run_id": "67a2545f-b34a-4a92-ab56-29df8e12a4c4"
   }
  ],
  "merge_queue": [],
