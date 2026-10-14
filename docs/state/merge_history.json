@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0",
- "updated_at": "2026-10-14T10:54:43Z",
+ "updated_at": "2026-10-14T12:43:02Z",
  "entries": [
   {
    "issue_id": "t0",
@@ -891,6 +891,17 @@
    "tests_appended": 1,
    "regressions": 0,
    "note": "npm-script dev workflow merged after verifier PASS (run ed930062, 6/6 repaired fences verbatim GREEN at tip 9c8be7f, 4-way pin closure on f5967064). History: first builder pass honest FAIL on 4 fence defects -> Definer re_groom merged 83a6d83 -> re-verify 6/6. ac6 appended as tests[231] after merged-main replay rc=0 GREEN; ac1-ac5 not appendable per card table (mutating/port-owning fences). Merged-main floors: vitest 191/0, tsc 0, eslint exactly-4."
+  },
+  {
+   "issue_id": "t63",
+   "platform_issue": 69,
+   "branch": "issue/t63-readme-npm-first",
+   "merge_sha": "085f8ebc",
+   "merged_at": "2026-10-14T12:43:02Z",
+   "retries": 0,
+   "tests_appended": 6,
+   "regressions": 0,
+   "note": "README npm-first rewrite merged after verifier PASS (run 6d8dc03a, 6/6 fences verbatim GREEN at tip 3e3f265, four-way pin closure 9100498a). Pin doctrine Q1a executed: pin-2 a64efaa2/308L RETIRED at this merge; pin-3 f0fd9eda96a2/367L appended as tests[232] after verbatim GREEN replay on merged bytes; ac1-ac5 appended as tests[233]-[237] after verbatim GREEN replays on merged main (card table: ac6 NOT appendable, merge-base relative). tests[227] left in place as the disclosed stale pin-2 replay - NAMED EXCLUSION in the t64 composite. Merged-main surface byte-identical to t62 gates (frontend/backend/scripts zero delta) - floors carry 191/0/288/91/005."
   }
  ]
 }
