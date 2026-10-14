@@ -329,7 +329,7 @@
       "The 2681 s replay left 15 REDs; steer 3 classified the last two (192 docker-banned-platform, 230 merge-base-relative containment) and this card encodes exactly that set - 14 exclusions plus 2 remedy-owned entries."
     ],
     "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-card-t64-plat-d9744c9a-60113e2-8ead-s0-t0",
-    "branch_sha": "475779e2dfb665c46a2dc3c5de14a1dd031382fc",
+    "branch_sha": "ead3c767a739810ea831430c3925a779fdfbdcca",
     "card_commit_note": "Correlation facts, stated so nothing here has to be self-referential: base is ea84963696424bd5c61b62b8fe5f35d251bec6db; the commit chain is ea84963 (base) -> 1dd362f (card v1 + mirror + repair artifact + handoff v1) -> 475779e (handoff v2) -> the card-commit that carries the CORRECTED fences (ac4/ac5 merge-base leg fix) and this handoff; evidence.branch_sha names the commit that was HEAD when this handoff was generated, and the pushed branch head is authoritative for the tip. Self-reference caveat (t58/t62/t63 precedent, unavoidable): the sha of the commit that carries a field cannot be embedded in the bytes of that same commit, so if this handoff is re-committed after the branch_sha update the pushed tip is the CHILD of the named commit and the orchestrator must read the branch head as authoritative. ac_hash closure: the five fenced bodies were re-extracted from 'git show HEAD:docs/issues/groom/t64.md' (72789 bytes, byte-identical to the committed card) and reproduce sha256:9329e82868654bdab7feacb90f7bde9a11990fa050e5de23ca160f004fd877a8 with identical_to_executed=true for all five, i.e. the committed fence bytes are the bytes that were executed and no digest was asserted from working-copy memory. The builder commit additionally carries the two-entry index amendment produced by the repair artifact."
   },
   "artifacts": {
@@ -344,6 +344,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-14T16:34:35Z",
+  "timestamp": "2026-10-14T16:35:02Z",
   "retry_count": 0
 }
