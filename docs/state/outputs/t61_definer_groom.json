@@ -134,9 +134,15 @@
       "ac2's proof test mounts the REAL merged App (not a hand-built route tree), following the t60 proof-test doctrine; the four paths it mounts are the four shell-wrapped routes t60 created, which makes t60 a hard premise of this card rather than a soft one."
     ],
     "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-card-t61-plat-8c851ba0-d7de2a2-fab4-s0-t0",
-    "commit": "PENDING_IN_THIS_COMMIT",
-    "commit_note": "Self-reference caveat (t58/t62 precedent): the commit carrying this handoff cannot name its own sha authoritatively. The orchestrator should read the branch head. The authoritative ac_hash is recomputed from the COMMITTED mirror bytes, not from the working tree.",
-    "card_digests": {}
+    "commit": "50570dcff5b6211ea9c8deaeb37bc79fedd5ff93",
+    "commit_note": "Self-reference caveat (t58/t62 precedent): evidence.commit names 50570dcff5b6211ea9c8deaeb37bc79fedd5ff93, the commit that introduced the card, the mirror and this handoff together; that sha cannot be authoritative for the handoff it names, because the commit carrying the field IS the commit it names. This handoff is then amended by a SECOND docs-only commit that records this note plus the digests, so the orchestrator should read the branch head rather than trust this field. Correlation facts: base 0c9f584ea5a853c5dca329350676c696f7bfce9e; card and mirror committed byte-identically at 54532 bytes each; ac_hash recomputed from 'git show HEAD:docs/issues/groom/t61.md' reproduced sha256:e570c890067894eebc8c579a1e57e785407ad9517a4eeab1a60048854d26ce80 exactly, so the digest is closed-loop against the committed bytes rather than asserted from the working tree.",
+    "card_digests": {
+      "cr_stripped_sha256": "ab8ea3e3f237043ec44a187fdbf3bece8b5414053dc18138b96f81dffd6f7869",
+      "raw_working_tree_sha256": "ab8ea3e3f237043ec44a187fdbf3bece8b5414053dc18138b96f81dffd6f7869",
+      "file_bytes": 54532,
+      "mirror_equals_card": true,
+      "dialect_note": "The project digest dialect is CR-STRIPPED (as used for every byte-pin in this repo), so the authoritative value is cr_stripped_sha256. With core.autocrlf=true and no .gitattributes the blob is stored LF and 'git show HEAD:docs/issues/t61.md' returns exactly these bytes, so the committed and working-tree digests coincide here (raw_working_tree_sha256 equals the cr-stripped value because the file was authored with LF and never re-checked-out)."
+    }
   },
   "artifacts": {
     "files_written": [
