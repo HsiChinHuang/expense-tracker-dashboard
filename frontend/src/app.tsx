@@ -7,6 +7,16 @@
 // t22 ADDS the dashboard wiring only: "/" nests an index route rendering
 // DashboardPage inside the AppShell outlet (the landing placeholder is
 // replaced deliberately — app_shell.test.tsx is NOT edited).
+//
+// t60 RE-NESTS the three feature routes: /expenses, /budgets and
+// /categories are now DIRECT CHILDREN of the <Route path="/"
+// element={<AppShell />}> block instead of siblings of it, so the shell
+// header (brand + nav) survives navigation to those pages — previously
+// they hung at the same level as the shell block and rendered without any
+// header. The index DashboardPage child and the login/register pair are
+// unchanged. t60 also ADDS the catch-all "*" route as a SIBLING of the
+// ProtectedRoute block (outside the guard on purpose: an unknown path must
+// show the 404 page, not be redirected to /login).
 
 import { Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/layout/app_shell';
@@ -18,6 +28,7 @@ import { ExpensesPage } from './pages/expenses_page';
 import { BudgetPage } from './pages/budget_page';
 import { CategoriesPage } from './pages/categories_page';
 import { DashboardPage } from './pages/dashboard_page';
+import { NotFoundPage } from './pages/not_found_page';
 
 export const App = (): JSX.Element => (
   <Routes>
@@ -28,10 +39,11 @@ export const App = (): JSX.Element => (
     <Route element={<ProtectedRoute />}>
       <Route path="/" element={<AppShell />}>
         <Route index element={<DashboardPage />} />
+        <Route path="/expenses" element={<ExpensesPage />} />
+        <Route path="/budgets" element={<BudgetPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
       </Route>
-      <Route path="/expenses" element={<ExpensesPage />} />
-      <Route path="/budgets" element={<BudgetPage />} />
-      <Route path="/categories" element={<CategoriesPage />} />
     </Route>
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );

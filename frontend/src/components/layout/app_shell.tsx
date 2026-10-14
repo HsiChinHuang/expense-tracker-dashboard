@@ -14,6 +14,12 @@
 // nested index route (DashboardPage) inside the routed app and is null in
 // the router-less frozen test, where the ?? fallback keeps the original
 // placeholder <p> byte-for-byte. app_shell.test.tsx is NOT edited.
+//
+// t60 ADDS the fourth nav entry (Expenses → /expenses) through the SAME
+// module-local guard-wrapped NavLink — no new hook, no raw react-router
+// NavLink, and no auth state in the shell (logout stays t61 scope). The
+// router-less frozen test still renders four inert anchors, so its three
+// stored assertions stay green. app_shell.test.tsx is NOT edited.
 
 import { Link, useInRouterContext, useOutlet } from 'react-router-dom';
 
@@ -48,6 +54,7 @@ export const AppShell = (): JSX.Element => {
         <h1 className="text-xl font-semibold text-slate-900">Expense Tracker</h1>
         <nav className="flex gap-4">
           <NavLink to="/">Dashboard</NavLink>
+          <NavLink to="/expenses">Expenses</NavLink>
           <NavLink to="/budgets">Budget</NavLink>
           <NavLink to="/categories">Categories</NavLink>
         </nav>

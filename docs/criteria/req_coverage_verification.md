@@ -11,8 +11,8 @@ landing is expected to carry GAP rows; closing them is t58's work.
 
 REQ_STATUSES PASS vocabulary=IMPLEMENTED_TESTED,IMPLEMENTED_STRUCTURAL,DEFERRED_RULLED,GAP,EXAMPLE_REFERENCE
 REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79
-REQ_STATUS_COUNT IMPLEMENTED_TESTED 110
-REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 623
+REQ_STATUS_COUNT IMPLEMENTED_TESTED 111
+REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 622
 REQ_STATUS_COUNT DEFERRED_RULLED 15
 REQ_STATUS_COUNT GAP 0
 REQ_STATUS_COUNT EXAMPLE_REFERENCE 1
@@ -832,9 +832,9 @@ REQ_ROW PASS id=REQ-FE-002 family=FE status=IMPLEMENTED_STRUCTURAL method=citati
 REQ_TITLE PASS id=REQ-FE-002 title="layer responsibilities" statement="Entry (bootstrap), pages (route composition), components (reusable UI), hooks (data fetching), context (global state), API (HTTP), utils (pure functions), types"
 REQ_ROW PASS id=REQ-FE-003 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-003 title="import direction" statement="Pages may import anything below them; components may not import pages; hooks may not import components or pages; API modules may not import React; utils are pur"
-REQ_ROW PASS id=REQ-FE-010 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/dashboard_page_app.test.tsx
+REQ_ROW PASS id=REQ-FE-010 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/app_routing.test.tsx,frontend/src/pages/dashboard_page_app.test.tsx
 REQ_TITLE PASS id=REQ-FE-010 title="route table" statement="Routes are `/login`, `/register`, `/` (Dashboard), `/expenses`, `/budgets`, `/categories`, and `*` (NotFound)"
-REQ_ROW PASS id=REQ-FE-011 family=FE status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=frontend/src/App.tsx
+REQ_ROW PASS id=REQ-FE-011 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/app_routing.test.tsx
 REQ_TITLE PASS id=REQ-FE-011 title="router setup with nested routes" statement="Router uses nested routes: PublicOnlyRoute for login/register; ProtectedRoute wrapping AppShell for the four authenticated pages."
 REQ_ROW PASS id=REQ-FE-012 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t9.md,frontend/src/components/common/protected_route.tsx
 REQ_TITLE PASS id=REQ-FE-012 title="ProtectedRoute" statement="ProtectedRoute shows a full-page spinner while auth is loading, redirects unauthenticated users to `/login` with the original location in state."
