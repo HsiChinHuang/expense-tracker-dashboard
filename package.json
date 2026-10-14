@@ -16,7 +16,11 @@
     "validate-schemas": "tsx scripts/validate_schemas.ts",
     "validate-handoff": "tsx scripts/validate_handoff.ts",
     "gate-check": "tsx scripts/gate_check.ts",
-    "test": "tsx --test"
+    "test": "tsx --test",
+    "check": "tsx scripts/dev/check.ts",
+    "setup:local": "tsx scripts/dev/setup.ts",
+    "dev": "tsx scripts/dev/dev.ts",
+    "stop": "tsx scripts/dev/stop.ts"
   },
   "dependencies": {
     "ajv": "^8.12.0",
