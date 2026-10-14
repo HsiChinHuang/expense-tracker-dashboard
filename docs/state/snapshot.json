@@ -1,7 +1,7 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T09:09:44Z",
- "last_seq": 736,
+ "updated_at": "2026-10-14T09:10:03Z",
+ "last_seq": 737,
  "slots": [
   {
    "slot_id": "slot_1",
@@ -15,7 +15,7 @@
    "issue_id": "t62",
    "role": "builder",
    "phase": "implement",
-   "run_id": "PENDING"
+   "run_id": "95e1e24e-21f1-49a3-83f6-17a98e8fdc94"
   }
  ],
  "merge_queue": [],
