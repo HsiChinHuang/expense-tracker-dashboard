@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0",
- "updated_at": "2026-10-14T10:20:36Z",
+ "updated_at": "2026-10-14T10:54:43Z",
  "entries": [
   {
    "issue_id": "t0",
@@ -880,6 +880,17 @@
    "tests_appended": 2,
    "regressions": 0,
    "note": "Navigation restructure merged after verifier PASS (run 6b4237a9, 6/6 fences verbatim GREEN at tip a63a35f). ac1/ac2 appended as index tests[229]/[230] (card table: ac3-ac6 not appendable). Disclosed RED at replay: tests[221]/tests[226] tally pins (110/623 -> 111/622 W5 re-mark) - remedy routed to t64. Merged-main floors: vitest 191/0, tsc 0, eslint exactly-4, backend surface byte-identical to verifier-tested tip."
+  },
+  {
+   "issue_id": "t62",
+   "platform_issue": 68,
+   "branch": "issue/t62-npm-dev-workflow",
+   "merge_sha": "0f4641de",
+   "merged_at": "2026-10-14T10:54:43Z",
+   "retries": 1,
+   "tests_appended": 1,
+   "regressions": 0,
+   "note": "npm-script dev workflow merged after verifier PASS (run ed930062, 6/6 repaired fences verbatim GREEN at tip 9c8be7f, 4-way pin closure on f5967064). History: first builder pass honest FAIL on 4 fence defects -> Definer re_groom merged 83a6d83 -> re-verify 6/6. ac6 appended as tests[231] after merged-main replay rc=0 GREEN; ac1-ac5 not appendable per card table (mutating/port-owning fences). Merged-main floors: vitest 191/0, tsc 0, eslint exactly-4."
   }
  ]
 }
