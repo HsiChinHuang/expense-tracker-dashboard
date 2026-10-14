@@ -1,874 +1,885 @@
 {
-  "schema_version": "1.0",
-  "updated_at": "2026-10-15T22:45:00Z",
-  "entries": [
-    {
-      "issue_id": "t0",
-      "platform_issue": 3,
-      "branch": "issue/t0-repo-skeleton",
-      "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
-      "merged_at": "2026-10-07T15:57:00Z",
-      "retries": 0,
-      "tests_appended": 6,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t1",
-      "platform_issue": 4,
-      "branch": "issue/t1-backend-skeleton",
-      "merge_sha": "792f644451529af3d59bcff4de11b36f3cee1f74",
-      "merged_at": "2026-10-07T16:22:00Z",
-      "retries": 0,
-      "tests_appended": 5,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t2",
-      "platform_issue": 5,
-      "branch": "issue/t2-frontend-skeleton",
-      "merge_sha": "4f89797b4af95195132b7490965d93c65dd5bb73",
-      "merged_at": "2026-10-07T16:35:00Z",
-      "retries": 1,
-      "tests_appended": 6,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t3",
-      "platform_issue": 6,
-      "branch": "issue/t3-health-endpoint",
-      "merge_sha": "b3c5746861502cf3c777554e4310e86c931d4283",
-      "merged_at": "2026-10-07T16:52:00Z",
-      "retries": 0,
-      "tests_appended": 5,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t4",
-      "platform_issue": 7,
-      "branch": "issue/t4-root-config",
-      "merge_sha": "410ac3e8df72ea5afd6e7bbb05004686051ded7f",
-      "merged_at": "2026-10-07T17:28:00Z",
-      "retries": 0,
-      "tests_appended": 6,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t5",
-      "platform_issue": 8,
-      "branch": "issue/t5-db-foundation",
-      "merge_sha": "8e9fcb388",
-      "merged_at": "2026-10-07T19:03:20Z",
-      "retries": 0,
-      "tests_appended": 6,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t6",
-      "platform_issue": 9,
-      "branch": "issue/t6-user-model",
-      "merge_sha": "17064fcd6",
-      "merged_at": "2026-10-07T20:01:40Z",
-      "retries": 0,
-      "tests_appended": 5,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t7",
-      "platform_issue": 10,
-      "branch": "issue/t7-auth-primitives",
-      "merge_sha": "d189d2d",
-      "merged_at": "2026-10-07T20:53:46Z",
-      "retries": 0,
-      "tests_appended": 5,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t8",
-      "platform_issue": 11,
-      "branch": "issue/t8-auth-endpoints",
-      "merge_sha": "8298a0b",
-      "merged_at": "2026-10-08T01:26:43Z",
-      "retries": 1,
-      "tests_appended": 6,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t9",
-      "platform_issue": 12,
-      "branch": "issue/t9-frontend-auth",
-      "merge_sha": "1a89838",
-      "merged_at": "2026-10-08T05:05:07Z",
-      "retries": 0,
-      "tests_appended": 6,
-      "regressions": 0,
-      "note": "t2 ac6 index entry lifted (rhf+zod per REQ-TECH-006) at this merge"
-    },
-    {
-      "issue_id": "t10",
-      "platform_issue": 13,
-      "merge_commit": "14d7e86a8",
-      "merged_at": "2026-10-08T07:32:09Z",
-      "retries": 0,
-      "regressions": 0,
-      "notes": "verify_issue 4/4 + 56/56; pre-merge merged-tree 56/56 clean merge-tree 0707362f; post-merge 60/60 (4 ACs + 56); t6 ac2 index pre-amended head->001 at this cycle (zero stale-index failures); 3 t10 ACs added to index (ac4 suite leg represented by existing full-suite entries)"
-    },
-    {
-      "issue_id": "t11",
-      "platform_issue": 14,
-      "merge_commit": "d278fea49",
-      "merged_at": "2026-10-08T08:48:27Z",
-      "retries": 0,
-      "regressions": 0,
-      "notes": "verify_issue 5/5 + 59/59; pre-merge merged-tree 59/59 clean merge-tree 02d2c20d; post-merge 64/64 (5 ACs + 59); 4 t11 ACs added to index (ac5 suite-gate leg excluded per t10 ac4 precedent); W3 seam contractual for t13, t15 e2e re-proof owed; plain-git shim entry set corrected to {1,4,5,12,23,24,27}"
-    },
-    {
-      "issue_id": "t12",
-      "platform_issue": 15,
-      "merge_commit": "792cf3e1d",
-      "merged_at": "2026-10-08T10:18:40Z",
-      "retries": 0,
-      "regressions": 0,
-      "notes": "verify_issue 5/5 + 63/63 (amended entry 58); pre-merge merged-tree 63/63 clean merge-tree 2db975b0; post-merge 68/68 (5 ACs + 63); 4 t12 ACs added (ac5 suite-gate leg excluded per t10 ac4/t11 ac5 precedent); entry 58 pre-emptively scoped to 002 at this cycle (t6 ac2 pattern); 3 baseline-test amendments intent-preserving (verifier-audited)"
-    },
-    {
-      "issue_id": "t13",
-      "platform_issue": 16,
-      "merge_commit": "433ff0139",
-      "merged_at": "2026-10-08T11:57:26Z",
-      "retries": 0,
-      "regressions": 0,
-      "notes": "verify_issue 6/6 + 67/67; pre-merge merged-tree 67/67 clean merge-tree d59a611c; post-merge 73/73 (6 ACs + 67); 5 t13 ACs added (ac6 suite-gate excluded per precedent); W3 seam retired + W6/W7 frozen resolutions merged; 3 baseline amendments intent-preserving (verifier-audited); no index amendment needed (head-004 audited pre-verify: entries 32/33/36 head-agnostic, 58 scoped 002, 64 node ID unchanged)"
-    },
-    {
-      "merge_id": "15",
-      "issue_id": "t14",
-      "platform_issue": 17,
-      "merged_sha": "740223cec",
-      "merged_tree": "7a22090c03d59872377c83aa8e03009d44846aad",
-      "merged_at": "2026-10-08T13:33:24Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 72,
-      "backend_tests": 171,
-      "regression_count": 0,
-      "notes": "budgets vertical; Alembic 005 single head; W8 tuple ruling; 3 baseline amendments verifier-audited PRESERVE intent; index 72->77 (ac6 suite-gate excluded)"
-    },
-    {
-      "merge_id": "16",
-      "issue_id": "t15",
-      "platform_issue": 18,
-      "merged_sha": "32bc15c22",
-      "merged_tree": "d7b069b4d6d05855da9b3c46fc6b789397f71a71",
-      "merged_at": "2026-10-08T15:14:14Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 77,
-      "backend_tests": 184,
-      "regression_count": 0,
-      "notes": "isolation+money-precision TESTS-ONLY (W16): 13 nodes in 2 files, zero production changes, zero baseline amendments, AMOUNT_MAX ratification honored, index 77->82 (5 command entries ac1-ac5, ac6 gate excluded), 9 post-merge false-reds = orchestrator PATH bug re-ran clean"
-    },
-    {
-      "merge_id": "t16-6dbf552b",
-      "issue_id": "t16",
-      "platform_issue": 19,
-      "merged_sha": "6dbf552bf54db313a011cd0e8fede6fc960b4e59",
-      "merged_tree": "15b95b8f349051061a5145e2b7913a47a80a02ef",
-      "merged_at": "2026-10-08T17:01:20Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5"
-      ],
-      "smoke_tests": {
-        "total": 5,
-        "passed": 5,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 82,
-        "passed": 82,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 184,
-        "passed": 184
-      },
-      "regression_count": 0,
-      "notes": "First frontend-touching issue of phase_3; first genuine chain regression caught pre-merge (merge-index #15/#26 default-reporter exit 1 from leaked MSW error-strategy unhandled rejection in handlers_contract.test.ts); fixed in fix_qa 01fb789 by borrowing/restoring process unhandledRejection listeners inside the test with a strictly stronger positive assertion; verify_issue PASS retry_count 1 via RESUMED verifier 1939a05f; pre-merge PASS incl. new permanent default-reporter leg; post-merge 5 ACs + 82/82 index rc=0 inline; index appended with ac1-ac4 (ac5 composite excluded per precedent) 82->86; merge tree differs from verifier dry-run ONLY by the tracked pre-merge handoff JSON (additive docs-only)."
-    },
-    {
-      "merge_id": "t17-3333abc4",
-      "issue_id": "t17",
-      "platform_issue": 20,
-      "merged_sha": "3333abc449d18915eb1b82bb485a5b3dd6883222",
-      "merged_tree": "5836eeec948606b05674920df79b3a04729912eb",
-      "merged_at": "2026-10-08T18:37:30Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5"
-      ],
-      "smoke_tests": {
-        "total": 5,
-        "passed": 5,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 86,
-        "passed": 86,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 184,
-        "passed": 184
-      },
-      "regression_count": 0,
-      "notes": "W13 ExpensesPage + ExpenseForm modal + ToastProvider network-error presentation; pays t9 carry-forward #4; 26 new frozen titles (toast 4 / page 13 / form 9), suite 52->78; zero-regression chain (no fix_qa round needed - t16 lessons embedded in build prompt: default-reporter + #15/#26 run green by builder pre-handoff, amountSchema string-space cents max-compare correct across digit lengths); pre-merge adjudicated single add/add conflict on t17_definer_groom.json (branch copy vs main remediated copy differ only in timestamp) resolved to main content-preserving - real merge hit same single conflict, same resolution; merge tree == verifier dry-run 24b23e02 plus tracked pre-merge handoff JSON only; handoff-format incident: first verify_issue artifact was prose not JSON (chain first schema breach) - remediated via resumed verifier, strict JSON validated [OK], spawn prompts now mandate strict-JSON handoffs; index 86->90 (ac1-ac4 appended, ac5 composite excluded per precedent)."
-    },
-    {
-      "merge_id": "t18-cde20ee",
-      "issue_id": "t18",
-      "platform_issue": 21,
-      "merged_sha": "cde20eeb4e0624ac07819f21151ce4f5cf8fd9cc",
-      "merged_tree": "30b48a42d146504bd6ca14550a928c1d2f34ca83",
-      "merged_at": "2026-10-08T21:01:27Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5",
-        "ac6"
-      ],
-      "smoke_tests": {
-        "total": 6,
-        "passed": 6,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 90,
-        "passed": 90,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 184,
-        "passed": 184,
-        "failed": 0
-      },
-      "regression_count": 0,
-      "notes": "post-merge inline on main: 6/6 ACs rc=0 (amended body, ../../backend count 0), cumulative 90/90 rc=0 (shim {1,4,5,12,23,24,27}, PATH restored per entry, cmd.exe ok every chunk), default-reporter full-suite leg rc=0 17 files 112 passed no Unhandled Errors; pre-merge gate PASS 0a71aae8 (t18pm sim ort-clean, backend 184 independent leg, 22/22 manifest EQ); pinned-command defect fixed via definer amendment 45eb8b9 (builder refused self-certification - chain-positive); milestone phase_3_crud 9/9 COMPLETE"
-    },
-    {
-      "merge_id": "t19-5d0165d",
-      "issue_id": "t19",
-      "platform_issue": 22,
-      "merged_sha": "5d0165d",
-      "merged_tree": "a4d2ffcc358682e531c2294a98c00e7a9ad41604",
-      "merged_at": "2026-10-09T00:36:49Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5",
-        "ac6"
-      ],
-      "smoke_tests": {
-        "total": 6,
-        "passed": 6,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 100,
-        "passed": 100,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 230,
-        "passed": 230,
-        "failed": 0
-      },
-      "regression_count": 0,
-      "notes": "post-merge inline on main: 6/6 ACs rc=0 (11/9/6/13/6 + ac6 end-to-end mypy 79 files), backend full suite 230 passed 0 failed (184 baseline + 46 frozen), default-reporter frontend leg rc=0 17 files 112 passed, cumulative index 100/100 rc=0 after appending t19 ac1-ac5 (ac6 composite excluded per t17/t18 precedent; index 95->100; shim set re-scanned {01,04,05,12,23,24,27}, PATH restored per entry; entries 76-99 first batch rc=127 environment anomaly re-run green); merged via merge --no-ff 5d0165d parents 66d574a+da672da, merged tree a4d2ffcc == pre-merge simulated tree semantics (docs drift only); pre-merge gate: verify_issue PASS ceb90479 (3 prose-vs-title adjudications ACCEPTED incl. stale recent-key-list), verify_pre_merge PASS 1dcb974 (95/95, conflicts=0, tree fd64660e vs then-current origin/main)"
-    },
-    {
-      "merge_id": "t20-7b48199",
-      "issue_id": "t20",
-      "platform_issue": 23,
-      "merged_sha": "7b48199",
-      "merged_tree": "cc044e0d7a9abeaf52918b3754b5fe00bab9485f",
-      "merged_at": "2026-10-09T06:54:30Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5",
-        "ac6"
-      ],
-      "smoke_tests": {
-        "total": 6,
-        "passed": 6,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 100,
-        "passed": 100,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 230,
-        "passed": 230,
-        "failed": 0
-      },
-      "regression_count": 0,
-      "notes": "frontend suite 141/141 default reporter post-merge; ac1-ac5 appended to index (100->105), ac6 composite excluded; MonthContext+dashboard api/query keys/hooks+EmptyState/ErrorState; recharts/date-fns absent gate green"
-    },
-    {
-      "merge_id": "t21-1eebbca",
-      "issue_id": "t21",
-      "platform_issue": 24,
-      "merged_sha": "1eebbca",
-      "merged_tree": "63e48c5f4ce975a270d4e619440648dd7657775a",
-      "merged_at": "2026-10-09T10:00:46Z",
-      "acs": [
-        "ac1",
-        "ac2",
-        "ac3",
-        "ac4",
-        "ac5",
-        "ac6"
-      ],
-      "smoke_tests": {
-        "total": 6,
-        "passed": 6,
-        "failed": 0
-      },
-      "cumulative_tests": {
-        "total": 110,
-        "passed": 110,
-        "failed": 0
-      },
-      "backend_tests": {
-        "total": 230,
-        "passed": 230,
-        "failed": 0
-      },
-      "regression_count": 0,
-      "notes": "frontend suite 166/166 default reporter post-merge; ac1-ac5 appended to index (105->110), ac6 composite excluded; recharts 2.15.4 admission + 4 chart components + 25 frozen nodes + utils/chart_data.ts; legacy amendments this window: #17/#55 (W2) + #88 test-exemption (W3); pre-merge FAIL then PASS 105/105 after amendment"
-    },
-    {
-      "merge_id": "t22-d589c4e",
-      "issue_id": "t22",
-      "platform_issue": 25,
-      "merged_sha": "d589c4e1d7a939cdc395237e729fa416c6d07bd5",
-      "merged_tree": "71ba7ff65c8de60d530a121f96178426b74bad4e",
-      "merged_at": "2026-10-09T12:23:18Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 110,
-      "backend_tests": 230,
-      "regression_count": 0,
-      "notes": "verify_issue FAIL(ac4 cumulative-budget data-flow)->fix_qa 4d96b5c->PASS retry 1; pre-merge 110/110+6/6+187 FE+230 BE; index 110->115 (ac1-ac5, ac6 composite excluded per t20/t21 precedent)"
-    },
-    {
-      "merge_id": "t23-5eb1368",
-      "issue_id": "t23",
-      "platform_issue": 26,
-      "merged_sha": "5eb13681a9fbae0c66466fbd08ccbf37c0cd3027",
-      "merged_tree": "81bd0a9949775edbbcb5d5d8c73e960a0f188706",
-      "merged_at": "2026-10-09T15:28:08Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 115,
-      "backend_tests": 230,
-      "regression_count": 0,
-      "notes": "verify_issue PASS (ac_hash heading-inclusive variant adjudicated ACCEPT documentation-deviation; 6/6 pinned rc=0); pre-merge 115/115+6/6+187 FE+230 BE; post-merge main 6/6+115/115 green; index 115->120 (ac1-ac5, ac6 composite excluded per t20/t21/t22 precedent); 0 new frozen nodes (14 re-cited); phase_4 LAST card"
-    },
-    {
-      "merge_id": "t25-b6008f4",
-      "issue_id": "t25",
-      "platform_issue": 28,
-      "merged_sha": "b6008f4",
-      "merged_tree": "794c1e6159cf945a1ff9980dbee3e63cf79a79c6",
-      "merged_at": "2026-10-09T19:00:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 120,
-      "backend_tests": 241,
-      "regression_count": 0,
-      "notes": "verify_issue PASS (e325bccb 6/6) + verify_pre_merge PASS (6fc91f53 zero-conflict tree 99c802fc, 120/120). Merged FIRST per merge-order adjudication (exact-241 composite arithmetic). Post-merge main: 6/6 pinned rc=0 incl exact-241 grep true; cumulative 120/120 machine-verified on post-merge main. Index-append ac1..ac5 (lengths 1570/1363/1414/1007/1389), composite ac6 EXCLUDED per precedent: 120->125. Delta exactly 7 files, no manifests, npm ci skipped."
-    },
-    {
-      "merge_id": "t24-e416bf1",
-      "issue_id": "t24",
-      "platform_issue": 27,
-      "merged_sha": "e416bf1",
-      "merged_tree": "5b55fca45633abd69d9ee60a9acf46ac6817b83c",
-      "merged_at": "2026-10-09T19:57:08Z",
-      "acs": 7,
-      "smoke_tests": 7,
-      "cumulative_tests": 125,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "Merged SECOND per merge-order adjudication via MERGE-FIX chain: main.py content conflict (t24 static-mount vs t25 startup wiring) resolved by builder fix_merge 81dad5c6 merge_manual semantic union @ b4b4437 (244/244 integration, static registration after include_router so /api never shadowed). verify_issue PASS (82ba6aa2 7/7) + verify_pre_merge PASS (0338b546 zero-conflict vs pre-t25 base, 120/120). Post-merge main: t24 ac1..ac6 + ac7 composite rc=0 (>=233 immune to +11); t25 ac1..ac5 rc=0; t25 ac6 exact-241 composite EXPECTED-red on merged floor 244 by design (excluded from index). CUMULATIVE 125/125 machine-verified on post-t24 main. Index-append ac1..ac6 (lengths 3197/2555/1002/1050/1696/2773), composite ac7 excluded: 125->131."
-    },
-    {
-      "merge_id": "t26-d3e1845",
-      "issue_id": "t26",
-      "platform_issue": 29,
-      "merged_sha": "d3e1845",
-      "merged_tree": "80ebf32dfc7e9a979660158779f10018ec13f30f",
-      "merged_at": "2026-10-09T22:54:34Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 131,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "Merged after pre-merge FAIL->fix->PASS re-run: B1 add/add on t26_builder_build.json resolved by adopting branch copy onto MAIN (cfa54ff); B2 stale t0 index entry #5 amended per W2/W3 precedent (6ab7da5, .github guard retargeted to exclude exactly ci/e2e/deploy.yml, e2e leg retired for t27). Real sim merge d39082e tree==merge-tree prediction f0912b19. Cumulative 131/131 + smoke 6/6 + BE 244/244 + mypy-83 + ruff + head-005. Index-append ac1..ac5 (131->136), composite ac6 excluded. Product: .github/workflows/{ci,e2e,deploy}.yml, render.yaml, Makefile 4 targets, README 202. Workflows structurally-verified only (no GH Actions runner; docker daemon down)."
-    },
-    {
-      "merge_id": "t27-3f097a7",
-      "issue_id": "t27",
-      "platform_issue": 30,
-      "merged_sha": "3f097a7",
-      "merged_tree": "405eb75d57e8ce40b2edffab3e3b84867b109ae0",
-      "merged_at": "2026-10-10T00:08:29Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 136,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "Merged after pre-merge FAIL->fix->PASS re-run: sole failure was stale legacy index entry tests[0] (t0) requiring e2e/.gitkeep tracked while branch deletes it per explicit issue-file permission - amended per 6ab7da5 precedent (0aee30f), confirmed non-vacuous. Re-run 136/136 + smoke 6/6 incl ac4 e2e.yml cross-attestation activated on merged host (t26 e2e.yml invokes make e2e). Makefile dual-region byte-identity (t26 442B + t27 451B). Sim merge a468860 tree==prediction cc22f6a. Index-append ac1..ac5 (136->141), composite ac6 excluded. Product: e2e/ 8 artifacts (config, tsconfig, 2 fixtures, 3 specs, gate types), Makefile e2e target, .gitignore region; e2e/.gitkeep deleted. INCIDENT: sim junction cleanup emptied MAIN frontend/node_modules (gitignored), repaired via npm ci (512 pkgs). Specs structurally verified only - live Playwright run deferred to t28/first CI (selector/kpi asserts may need live tuning)."
-    },
-    {
-      "merge_id": "t28-feb7352",
-      "issue_id": "t28",
-      "platform_issue": 31,
-      "merged_sha": "feb7352",
-      "merged_tree": "c9f797f117a638db45a3bb55188617ec9af63836",
-      "merged_at": "2026-10-10T02:49:46Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 141,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "PHASE_5_INFRA MILESTONE EXIT. Merged after pre-merge FAIL->index amendment->PASS re-run: sole failure was stale legacy index entry tests[139] (t27) backend no-drift guard pinned at a224be8 -- backend, mutually exclusive by construction with t28-permitted backend/scripts/infra_verification.py (issue line 196) - narrowed to backend/app per t26#5/t27#0 precedent (9799598), non-vacuity re-proved (rc=1 vs 7a4fbca~1). Re-run 141/141 + smoke 6/6. Sim merge ecfa1ad tree==prediction c9f797f. Index-append ac1..ac5 (141->146), composite ac6 excluded. ACCEPTED RESIDUAL: groom ac_hash 4150dab0 unreproducible (t28.md has no ## Acceptance criteria heading; recipe inapplicable; AC/command integrity proven by three-way command byte-identity + untouched issue file) - orchestrator ruling at verify_issue. Product: backend/scripts/infra_verification.py (hermetic, no subprocess) + generated docs/criteria/infra_verification.md (23 PASS, 7 DEFERRED host-fact rows, 12 criteria-mapping rows). mypy floor now counts 84 files. DEFERRED live-checks (docker build/compose up, CI/E2E runs, Render deploy, UptimeRobot, live cold start) remain operator actions per the deferral register."
-    },
-    {
-      "merge_id": "t29-23019ff",
-      "issue_id": "t29",
-      "platform_issue": 32,
-      "merged_sha": "23019ff",
-      "merged_tree": "4276cc083b779de843dd9ec2f9b32970100a5928",
-      "merged_at": "2026-10-10T07:11:52Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 146,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT first merge. MERGE ORDER RE-RANKED by orchestrator ruling: t29 -> t31 -> t30 -> (t33/t32 per DAG) - t31 pinned ac6 EXACT 244 collected goes red if t30 (+14) merges first; t30 exact-258 gate then evaluates correctly at its own merge moment. Pre-merge PASS (946282ac): 146/146 scan green on SIM MERGED TREE (single-host, 44.4 min under 4-pipeline contention), smoke 6/6 byte-identity, merge-tree prediction == actual tree 4276cc0 (re-verified after mid-run MAIN advance e34f598 - ingest-only, index byte-unchanged). ZERO index entries appended: t29 adds no executable test nodes (card: appends AT MOST ac1..ac5; builder+verifier measured zero test nodes; ac1..ac5 are structural file/symlink greps). FINDING (pre-existing, non-blocking): index entries 16/35 carry historical extra note key - anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 SHA pins recomputed and byte-match. Product: 3 SKILL.md + 3 mode-120000 symlinks. Skill runtime execution deferred to t35 register."
-    },
-    {
-      "merge_id": "t31-b873053",
-      "issue_id": "t31",
-      "platform_issue": 34,
-      "merged_sha": "b873053",
-      "merged_tree": "b07ca8cd55149a36bab265e171720a7edc2f4d9f",
-      "merged_at": "2026-10-10T08:36:40Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 146,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT second merge (merge order ruling t29->t31->t30->t33->t32). t31 = MCP server core: mcp-server/{config,auth,server}.py + copy-only pyproject.toml; structural+syntax modality, server never spawned (mcp SDK deliberately absent, hand-rolled JSON-RPC 2.0 stdio). ZERO test nodes, ZERO index entries appended (index diff main..branch == 0 lines; 0/146 index commands reference mcp-server) - index stays 146, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 re-verified byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (verifier run b8e10309 + resume c5370b10): agent timed out mid-scan, detached harness survived, resumed run polled existing TSV to 146/146 rc=0 (41.0 min, no restart); smoke 6/6 rc=0 with 6/6 byte-identity vs builder ac_mapping; merge simulation clean on THREE MAIN states (c6a8cfd/41dd0a3/a8d1d9d, trees ee1c6ef/20bf433/ffaeee3, mid-run advances proven inert bookkeeping-only); merged-state gates green: backend EXACTLY 244 collected + full green + ruff + mypy 84 + head 005, frontend 187/0/0/0 + tsc + exactly-4 lint, README 202, workflows 4, 5 manifests byte-identical. MERGE-TREE PREDICTION b07ca8cd == ACTUAL MERGE TREE b07ca8cd EXACT (against post-WAL-500 tip 60528c8; bookkeeping-only drift from verifier predictions, same-class as t29 precedent). EXACT-244 backend floor now LOCKED GREEN on merged main - t30 (its +14 tests) merges NEXT so the exact-258 delta gate evaluates at t30 merge moment per ruling. FINDINGS (non-blocking): index note-key at INDICES 16(t2)/35(t6); t31_builder_implement.json absent from branch tree (byte-identity checked vs builder runtime-artifact copy - pin chain intact)."
-    },
-    {
-      "merge_id": "t33-ff76141",
-      "issue_id": "t33",
-      "platform_issue": 36,
-      "merged_sha": "ff76141",
-      "merged_tree": "1d62bc0f9c856d302e64824451adce2921063486",
-      "merged_at": "2026-10-10T08:40:33Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 146,
-      "backend_tests": 244,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT third merge (ORDER DEVIATION recorded WAL 502: t33 merged before t30 - machine-proven safe: t33 adds ZERO test nodes + ZERO index entries, 0/146 index commands read custom-agent|.agents/agents, strict pins only require t31-before-t30 and t30+t31-before-t32). t33 = subagent definitions: 2 custom-agent/*.md + 2 mode-120000 .agents/agents symlinks, ZERO product code/deps/tests. ZERO index entries appended - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (48555801+resume 426c411d): 146/146 scan rc=0 (43.2 min contention, detached-harness survival + resume no restart), smoke 6/6 byte-identity 6/6, sim clean both MAIN advances (1cd7f97/7d89ab1 == predictions), gates green (EXACTLY-244 vs >=244 W4 pin, mypy 84, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). MERGE-TREE PREDICTION 1d62bc0 == ACTUAL TREE 1d62bc0 EXACT; symlinks materialized mode-120000 x2 real-links on MAIN checkout."
-    },
-    {
-      "merge_id": "t30-c5e4fdb",
-      "issue_id": "t30",
-      "platform_issue": 33,
-      "merged_sha": "c5e4fdb",
-      "merged_tree": "9d49f310bf1d5d1b0468086175c2ee8c817a9151",
-      "merged_at": "2026-10-10T09:35:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 146,
-      "backend_tests": 258,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT fourth merge per re-ranked order t29->t31->t33->t30->t32 (t31-before-t30 strict pin honored: t31 merged b873053 first; t30 EXACT-258 delta card satisfied AT ITS MERGE MOMENT: 244+14 test_agent_hooks nodes = EXACTLY 258 collected + 258/258 green re-executed on merged MAIN by orchestrator 86.61s). ZERO index entries (t30 ACs are composite/gate-style, not per-file pytest pins) - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (c7e776a2, WAL-496 protocol executed cleanly): 146/146 detached scan 32.98 min zero failures, sim tree 9d49f31 == prediction EXACT through one bookkeeping-only MAIN advance (432bfcd), smoke 6/6 with ac6 EXACT vs re_groom pin (17-byte surgical delta vs builder = bb38a83 fix, disclosed), gates green (EXACT-258, mypy 85, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). First merge to move backend floor: 244 -> 258."
-    },
-    {
-      "merge_id": "t32-127d7bd",
-      "issue_id": "t32",
-      "platform_issue": 35,
-      "merged_sha": "127d7bd",
-      "merged_tree": "64375acf9769e777533c97b24a1fd8c5c3e0b6b1",
-      "merged_at": "2026-10-10T10:55:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 150,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT fifth merge per re-ranked order t29->t31->t33->t30->t32 (t30+t31-before-t32 strict pin honored: EXACT-270 delta card satisfied AT ITS MERGE MOMENT - 258+12 test_mcp_tools nodes = EXACTLY 270 collected + 270/270 green re-executed on merged MAIN by orchestrator 78.06s). INDEX APPEND per verifier disposition ruling: ac1-ac4 appended (146->150) - ac3 per-file pytest pin (12 frozen node IDs) + ac1/ac2/ac4 single-file gates per t27/t28 precedent; ac5/ac6 EXCLUDED (exact-270 equality legs = false-failure landmines outside merge moment, W10). All 4 new entries re-executed GREEN on merged MAIN; anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Pre-merge PASS (f5297d70): 146/146 detached scan 27.6 min zero failures (npm ci silent-death + hang diagnosed/remediated via WAL-496 protocol - scan correctly gated, never executed against unprovisioned host), sim trees dc19045/64375ac == predictions EXACT through bookkeeping-only MAIN advance (46c4caf), smoke 6/6 on final tree with byte-identity 6/6 vs builder branch-blob ac_mapping, gates 15/15 green. Backend floor 258 -> 270."
-    },
-    {
-      "merge_id": "t34-6510b60",
-      "issue_id": "t34",
-      "platform_issue": 37,
-      "merged_sha": "6510b60",
-      "merged_tree": "6823caef9cdd3b5b181c10a06a61a9c43073638f",
-      "merged_at": "2026-10-11T12:20:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 154,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT sixth merge: docs-only card (EXACTLY docs/agent-extension-pack.md + docs/permissions.md; ZERO test nodes - backend stays 270 collected + 270/270 green re-executed on merged MAIN 73.41s). Pre-merge PASS (e2995cf1 restart-resumed): 150/150 scan machine-verified & REUSED (artifacts survived restart; scan-validity delta vs pre-restart prediction c6192e98 proven bookkeeping-only - WAL/seq), fresh prediction dc4a669 == recreated sim tree, gates 14/14 green, smoke 6/6 byte-identity vs builder branch blob, ac6 LAST rc=0. INDEX DISPOSITION (verifier ruling adopted): ac1-ac4 appended (150->154, verbatim card commands machine-checked, all 4 GREEN on merged MAIN); ac5 EXCLUDED (README byte-pin 8d141fb2 + absolute count equalities = W10 false-failure landmine class - phase_8 owns README); ac6 composite never appended. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Backend floor unchanged 270."
-    },
-    {
-      "merge_id": "t35-955aec4",
-      "issue_id": "t35",
-      "platform_issue": 38,
-      "merged_sha": "955aec4",
-      "merged_tree": "a9c5335968a95e235ac9f929691035e1cd8f304e",
-      "merged_at": "2026-10-11T14:20:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 158,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "PHASE_6_AGENT MILESTONE EXIT - seventh and final phase_6 card (verification-artifact generator; ZERO test nodes - backend stays EXACTLY 270 collected + 270/270 green re-executed on merged MAIN 83.01s). One fix_qa cycle: verify_issue FAIL (ab349a16: ac1 raw cmp LF-generator vs CRLF-smudged checkout under core.autocrlf=true, deterministic 3/3 fresh) -> builder CRLF emission fix f351e92 per t28 precedent (no AC/ac_hash churn, e4437c7f recomputes) -> verify_issue PASS (b55a50da fresh worktree ac1 rc=0 3/3, 457/457). Pre-merge PASS (5cf31649): 154/154 detached scan zero failures 26 min, sim tree a9c5335 == prediction EXACT, gates all green incl 20/20 previously-composed files REAL tracked on merged tree, smoke 6/6 byte-identity ac6 LAST, ac1 CRLF cmp green on merged tree, MAIN did not advance. INDEX DISPOSITION (verifier ruling adopted; deviation from card ac1..ac5-appendable for ac1 ONLY, evidence-backed): appended ac2-ac5 (154->158, digest-verified verbatim, 4/4 GREEN on merged MAIN); ac1 EXCLUDED (proven W10 landmine: committed doc freezes BACKEND_COLLECTION 270 while ac1 regenerates from live count - raw cmp fails the moment phase_7/8 adds a backend test; t28 normalized-cmp precedent; growth experiment emitted 271 != 270); ac6 composite never. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. All 26 phase_6 test nodes green on merged MAIN."
-    },
-    {
-      "merge_id": "t36-7d5c328",
-      "issue_id": "t36",
-      "platform_issue": 39,
-      "merged_sha": "7d5c328",
-      "merged_tree": "6d184d247b65db147355c64e6ccabe6770802de0",
-      "merged_at": "2026-10-12T04:55:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 163,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "PHASE_7 SECURITY OPS: security umbrella + 5 sub-targets (gitleaks 8.30.1 Option-A allowlist gate-time /tmp emission, negative control proven), amend script landed + STRICT-WINDOW executed post-merge (entry#6 retargeted, 13 exclusions, originals kept), verify PASS 5587a67 (457 tests, 10 negative controls bite), index ac1-ac5 appended per disposition (ac6 excluded)"
-    },
-    {
-      "merge_id": "t42-0f37141",
-      "issue_id": "t42",
-      "platform_issue": 45,
-      "merged_sha": "0f37141",
-      "merged_tree": "0791716dfdebe637efeae02cd7af80b06e8d130c",
-      "merged_at": "2026-10-12T06:25:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 163,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "CI/E2E REPAIR (user-reported defect): setup-uv v4.5.1->v5.0.0 (404 root cause), cache v4.1.2->v4.2.4 (runner-deprecation root cause), @vitest/coverage-v8 1.6.0 (Coverage-report root cause). Re-groom index-timing (floor 163 + 5 byte-pins, hash 0acc538a). Verify PASS cb34daf 6/6 + 5 negative controls. NO index mutation per DoD. FINAL ACCEPTANCE: live CI+E2E on merge commit polled by orchestrator."
-    },
-    {
-      "merge_id": "t37-0aa86ff",
-      "issue_id": "t37",
-      "platform_issue": 40,
-      "merged_sha": "0aa86ffe",
-      "merged_tree": "daabefc8db5d068d576edd5cff13bded388adc52",
-      "merged_at": "2026-10-12T08:30:00Z",
-      "acs": 6,
-      "smoke_tests": 6,
-      "cumulative_tests": 168,
-      "backend_tests": 270,
-      "regression_count": 0,
-      "notes": "SECURITY SCAN REPORTS (re-verify PASS 633a63f6 after re_groom autocrlf fix + re-implement). ac_hash d92c8462 supersedes b43c7024. ac1 CR-normalized cmp closes AUTOCRLF_BYTE_CMP_CONFLICT; 10 negative controls incl. KEY gate-integrity (byte-different zero-findings payload still rc=1, r1-vs-r2 strict LF-to-LF bites). Artifacts: gitleaks/pip-audit/npm-audit reports (blobs fe51488c/d905d4a2/eda56395). index append ac1-ac5 (163->168)."
-    },
-    {
-      "issue_id": "t39",
-      "merge_sha": "e62b9199bf0a09fc168548bfee2a329bb9272ec8",
-      "pre_merge_sha": "bb4fb8733f7b781d0759a711fb480f7f7481feee",
-      "timestamp": "2026-10-12T11:30:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "entry_id": "t39-e62b919"
-    },
-    {
-      "issue_id": "t38",
-      "merge_sha": "2c9081f274fa4fced92b40be519b853449775465",
-      "pre_merge_sha": "5534a43",
-      "timestamp": "2026-10-12T15:50:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "entry_id": "t38-2c9081f"
-    },
-    {
-      "issue_id": "t44",
-      "merge_sha": "a64a3a2be3d7d95e380681c04b53b51cf1501eb2",
-      "pre_merge_sha": "2b329fc",
-      "timestamp": "2026-10-12T19:10:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "entry_id": "t44-a64a3a2"
-    },
-    {
-      "issue_id": "t43",
-      "merge_sha": "de1c0e44c82ed0a813844d3c254d9c388fbaab4f",
-      "pre_merge_sha": "5cbe4b2",
-      "timestamp": "2026-10-12T19:35:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "entry_id": "t43-de1c0e4",
-      "notes": "entry 139 amended at merge per Option A-ter (freeze leg now backend/app :!backend/app/database.py; new hash fe5df831870660df, identity t27 kept, amended entry executed rc=0)"
-    },
-    {
-      "issue_id": "t40",
-      "merge_sha": "3c4036dcf3a6338c00f12f87c1a3e8c6380c3df3",
-      "pre_merge_sha": "3b090c5a230d6ed37915e364662eea8f7e7f5199",
-      "timestamp": "2026-10-13T00:45:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "entry_id": "t40-3c4036d",
-      "notes": "docs-only security trio; index append ac1..ac5 at closure (5 entries, ac6 composite excluded per card); gate2+gate3 green; ac6 env-interference disclosed+re-measured green; entry 139 untouched"
-    },
-    {
-      "issue_id": "t46",
-      "merge_sha": "bb2eae11adfaf3e36eb3cecff53031a1a5f7ecc0",
-      "pre_merge_sha": "c145b6df81f2502ef9dbdc3a810befb1971adf16",
-      "timestamp": "2026-10-12T15:09:35.445Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "verifier_run": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
-      "notes": "index byte-unchanged 183 per card DoD (no append); ac3 real compose round-trip verified by verifier; DatatypeMismatch accepted t47 residual"
-    },
-    {
-      "issue_id": "t41",
-      "merge_sha": "eba386e310e3306b165429c618493c66e1931cfe",
-      "pre_merge_sha": "6bd9745744ab8c7ef0a21c89fc06c95e809298e4",
-      "timestamp": "2026-10-12T15:44:18.538Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "verifier_run": "429e312a-c783-4a5f-a430-76f785d0e28f",
-      "notes": "index appended ac1..ac5 (183->188) per card disposition (ac6 never); faithful-CR ac4 entry carries the 2 raw CRs; digest 5e9b1ea4 reproduced by definer/builder/verifier/orchestrator"
-    },
-    {
-      "issue_id": "t47",
-      "merge_sha": "fddadeb08ecdc77b92fa9518ac83a9cb9e48a8b5",
-      "pre_merge_sha": "757f39831d9e37ce02530ca076f377a69e6e6db1",
-      "timestamp": "2026-10-13T13:55:00Z",
-      "merge_type": "clean",
-      "test_suite": "full",
-      "verifier_run": "08746d5d-6ac0-4d08-b085-de98006bf3aa",
-      "notes": "47th merge; E2E FINAL BLOCKER cleared (first-ever health-ok fallback_active:false measured by builder+verifier on real Postgres); merge-time Option A-ter amendment applied to entry 139 freeze leg (+ :!backend/app/models/budget.py, precondition measured ORIGINAL RED/AMENDED GREEN); index appended ac1..ac5 188->193 per card disposition (ac6 excluded), ac1/ac5 carry docker-required gates, pins 131/132/133/135 + anchors 16/54 byte-unchanged post-append; merged non-docs delta exactly the 5 ac6 files; live E2E green on pushed SHA closes #45"
-    },
-    {
-      "issue_id": "t48",
-      "title": "Process/task-template/role/ownership docs (REQ-DOC-022/028/029/062/063)",
-      "merge_commit_sha": "28f60d64526e4b1d619c98760656e330417281fe",
-      "branch": "issue/t48-process-ownership-docs",
-      "verified_tip_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
-      "build_commit_sha": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
-      "merged_from_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
-      "into": "main",
-      "merged_at": "2026-10-13T16:45:00Z",
-      "platform_issue": 51,
-      "ac_hash": "sha256:cb4feed3c5b816d36638316a90e63f47f3bdb651f9342d7fab88fd24adb6e8e7",
-      "index_entries_added": [
-        "tests[193] ac1",
-        "tests[194] ac2",
-        "tests[195] ac3",
-        "tests[196] ac4",
-        "tests[197] ac5"
-      ],
-      "index_count_after": 198,
-      "summary": "Six docs artifacts describing the real pipeline (process.md, task-template.md, team/{pm,software-engineer,qa-engineer}.md, ownership.md). README byte-unchanged at 8d141fb2 (t49 owns README). 48th merge closure."
-    },
-    {
-      "issue_id": "t49",
-      "title": "Root reviewer docs: CLAUDE.md, product-spec.md, openapi.yaml export, README criteria map + evidence checklist + 5-min paths, runbook e2e typo, render deviation record (REQ-DOC-010/011/013/014/070/071/072/081/084)",
-      "merge_commit_sha": "5e04b61",
-      "branch": "issue/t49-root-reviewer-docs",
-      "verified_tip_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
-      "build_commit_sha": "a6b8b2406e8cf08d4e4af5351ddc2ceff2822961",
-      "merged_from_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
-      "into": "main",
-      "merged_at": "2026-10-13T20:05:00Z",
-      "platform_issue": 52,
-      "ac_hash": "sha256:178cf8a149a8fe279e58d25b6b84dadd89f653c856cc3f716c84a01bca4880f3",
-      "index_entries_added": [
-        "tests[198] ac1",
-        "tests[199] ac2",
-        "tests[200] ac3",
-        "tests[201] ac4",
-        "tests[202] ac5"
-      ],
-      "index_count_after": 203,
-      "summary": "Six deliverables +1234/-1: CLAUDE.md single-line @AGENTS.md; product-spec.md 8 REQ-DOC-011 sections anchored to real ids; openapi.yaml hermetic export (16 paths, set-equality vs merged app); README +84 (24.3 mapping 15 rows, 24.5 checklist 14 rows, both 5-min paths, W1 token survival, 286 lines) establishing pin-1 digest 5f6e235e; runbook make test-e2e->make e2e one-line fix; deployment-health accepted-deviation record for the four divergent 14.4.2 keys with render.yaml untouched. 49th merge closure."
-    },
-    {
-      "issue_id": "t54",
-      "title": "E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45)",
-      "merge_commit_sha": "97153c0",
-      "branch": "issue/t54-e2e-browser-install",
-      "verified_tip_sha": "c2e9689d3683d927269a567e1c99e732cf281884",
-      "build_commit_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
-      "merged_from_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
-      "into": "main",
-      "merged_at": "2026-10-13T23:55:00Z",
-      "platform_issue": 58,
-      "ac_hash": "sha256:3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5",
-      "index_entries_added": [
-        "tests[203] ac1",
-        "tests[204] ac2"
-      ],
-      "index_count_after": 205,
-      "summary": "One-line workflow fix (1+/1-, blob 4d49432->a656ebb): the Install Playwright browsers step now runs cd e2e && npm install --no-save && npx playwright install --with-deps so the installed browser build 1208 matches the pinned @playwright/test 1.58.0 harness. ac1/ac2 appended; ac3 EXCLUDED (merge-base delta-purity leg permanently RED on merged main - measured rc=1 the exact exclusion evidence); ac4 composite excluded; ac5 orchestrator CI-evidence leg closes #45/#58 on the first-ever green E2E run. 50th merge closure."
-    },
-    {
-      "issue_id": "t50",
-      "title": "docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC)",
-      "merge_commit_sha": "7264868",
-      "branch": "issue/t50-ai-workflow",
-      "verified_tip_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
-      "build_commit_sha": "1bbe1d444958ec9e929fe7b4e3a655426f3d6908",
-      "merged_from_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
-      "into": "main",
-      "merged_at": "2026-10-13T23:56:00Z",
-      "platform_issue": 53,
-      "ac_hash": "sha256:6bb0b0a99902ee97541fb03d19f04dbc4704477f0d44186c43715e478c45892b",
-      "index_entries_added": [
-        "tests[205] ac1",
-        "tests[206] ac2",
-        "tests[207] ac3",
-        "tests[208] ac4",
-        "tests[209] ac5"
-      ],
-      "index_count_after": 210,
-      "summary": "docs/ai-workflow.md 473 lines: 13 REQ-DOC-023 sections + scan timing; 7 machine-traceable SESSION records over 7 areas; 9 six-field CORRECTION entries (Option A-ter, semgrep --metrics, all six REQ-AI-121 classes); pack counts 3/2/4/2 measured; zero credential strings; SCAN_TIMING_DOC satisfied. ac1..ac5 appended (ac6 composite excluded); README pin-1 5f6e235e carried byte-unchanged. 51st merge closure."
-    },
-    {
-      "issue_id": "t51",
-      "title": "Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried)",
-      "merge_commit_sha": "03010f7",
-      "branch": "issue/t51-technical-docs",
-      "verified_tip_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
-      "build_commit_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
-      "merged_from_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
-      "into": "main",
-      "merged_at": "2026-10-14T03:30:00Z",
-      "platform_issue": 54,
-      "ac_hash": "sha256:1c11c3f9a214ee1f1c8a322a2d08185eec23d9b2f2cfe68a7ed519534449598c",
-      "index_entries_added": [
-        "tests[210] ac1",
-        "tests[211] ac2",
-        "tests[212] ac3",
-        "tests[213] ac4",
-        "tests[214] ac5"
-      ],
-      "index_count_after": 215,
-      "summary": "Four docs files ONLY (+529L): architecture.md 158L nine REQ-DOC-020 sections fenced ASCII diagram; api.md 144L 16/16 openapi paths runtime-equality 13/13 error codes; design-system.md 122L 10/10 code-side hexes; testing-guidelines.md 101L Makefile vocabulary+coverage policy. Verifier PASS 6/6, delta purity EXACTLY six-path EXP non-docs EMPTY, pin-1 5f6e235e carried byte-unchanged, openapi 6f2a0a3d byte-frozen. ac1..ac5 appended (ac6 composite excluded). 52nd merge closure."
-    },
-    {
-      "issue_id": "t55",
-      "title": "E2E first-ever-green fix: vite /api proxy to 127.0.0.1:8000 + one Start-the-frontend-dev-server step in e2e.yml",
-      "merge_commit_sha": "bec01ab",
-      "branch": "issue/t55-e2e-frontend-target",
-      "verified_tip_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
-      "build_commit_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
-      "merged_from_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
-      "into": "main",
-      "merged_at": "2026-10-14T05:40:00Z",
-      "platform_issue": 59,
-      "ac_hash": "sha256:d0ff5a8e9920f48e9614325bcedd71319959c2ea0a5ebb69e33a3f200dea2844",
-      "index_entries_added": [
-        "tests[215] ac1",
-        "tests[216] ac2"
-      ],
-      "index_count_after": 217,
-      "summary": "Two-file fix (+9/-1): vite server{port:5173,proxy /api -> http://127.0.0.1:8000 changeOrigin} + exactly one Start-the-frontend-dev-server step between health wait and browser install (nohup npm run dev -- --host 127.0.0.1 --port 5173). Verifier PASS: pin d0ff5a8e MATCH, ac1..ac5 verbatim rc=0, base-RED re-measured ac1/ac3/ac4/ac5 at 395b31d, NC-G/NC-B2/NC-F RED paths proven, e2e/ byte-untouched, README pin-1 carried. ac3 NOT appended (disclosed port-contention: foreign orphan uvicorn tripped its precondition twice this cycle); ac4/ac5 branch-scoped/composite; ac6 live CI poll. 53rd merge closure. ac6 acceptance = first-ever E2E green on final pushed SHA (closes #45/#58/#59 path)."
-    },
-    {
-      "issue_id": "t52",
-      "title": "REQ-DOC-040 screenshots: four daemon-free-captured PNGs + README pin-2 FINAL (+22 lines, screenshots section)",
-      "merge_commit_sha": "91936cb6017a2b22705e012895f600b1619fa715",
-      "branch": "issue/t52-screenshots",
-      "verified_tip_sha": "f22aec260fea33a52222cd6a6d45b39885fc61e5",
-      "build_commit_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
-      "merged_from_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
-      "into": "main",
-      "merged_at": "2026-10-14T10:40:00Z",
-      "platform_issue": 55,
-      "ac_hash": "sha256:fcd8b14bf7adb534b327257e5f9c0bdd1871559705fca28891330637b2a8ae80",
-      "index_entries_added": [],
-      "index_count_after": 217,
-      "summary": "Option B topology (branch from origin/main 008a816 + byte-identical groom cherry-picks) made ac4 docs whitelist live; 5/5 fences rc=0 builder+verifier independently (ac2 thrice, zero kills after live-run attribution of port holders). README pin chain closed: pin-1 5f6e235e (286L) -> pin-2 FINAL a64efaa2 (308L); t53 re-attests. Four PNGs 1440-wide 8-bit RGB; expense-form carries disclosed sub-1% capture jitter inside pinned BAND. Verdict PASS gate3 errors=[]. 54th merge closure."
-    },
-    {
-      "issue_id": "t56",
-      "platform_issue": 60,
-      "branch": "issue/t56-e2e-label-strict-mode",
-      "merge_sha": "2e5f3e1",
-      "merged_at": "2026-10-14T14:30:00Z",
-      "retries": 0,
-      "tests_appended": 0,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t53",
-      "platform_issue": 57,
-      "branch": "issue/t53-docs-verification",
-      "merge_sha": "9557f46",
-      "merged_at": "2026-10-14T23:40:00Z",
-      "retries": 1,
-      "tests_appended": 0,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t57",
-      "platform_issue": 62,
-      "branch": "issue/t57-req-coverage-matrix",
-      "merge_sha": "335f822",
-      "merged_at": "2026-10-15T13:35:00Z",
-      "retries": 1,
-      "tests_appended": 4,
-      "regressions": 0
-    },
-    {
-      "issue_id": "t58",
-      "platform_issue": 63,
-      "branch": "issue/t58-close-gap-rows",
-      "merge_sha": "d7b95cb",
-      "merged_at": "2026-10-15T22:45:00Z",
-      "retries": 1,
-      "tests_appended": 5,
-      "regressions": 0,
-      "note": "ac6 NOT appended: references active card paths docs/issues/t58.md + groom mirror which move at closure (index doctrine: zero entries may reference active card paths - verified 0/221 precedent). ac1/ac4 stored-gate replays are .env-sensitive (untracked .env joins IMPLEMENTED_STRUCTURAL pointer rows); GREEN rc=0 digest-identical 41d84eca with .env excluded - replay protocol: clean worktree without untracked .env"
-    },
-    {
-      "issue_id": "t59",
-      "platform_issue": 64,
-      "branch": "issue/t59-exit-composite",
-      "merge_sha": "39d22feb",
-      "merged_at": "2026-10-16T00:55:00Z",
-      "retries": 0,
-      "tests_appended": 2,
-      "regressions": 0,
-      "note": "Phase 9 exit composite (attestation-only, docs-only delta: card+mirror+3 handoffs). ac2/ac4 appended (idx 226/227, card-declared appendable, replayed rc=0 verbatim on merged main). ac1/ac3/ac5/ac6/ac7 NOT appended per card disposition: ac1 mutates tree + env-sensitive digest; ac3 prerequisite-gated frontend legs; ac5 replays other cards gates + env-sensitive; ac6 reads active card paths (permanently RED post-closure, index doctrine); ac7 branch-scoped empties after merge. Verifier 131c9c15 re-executed all 7 fences verbatim at 882a6ae: 7/7 rc=0, all negative controls fired, pin 58f2a24c 4-way."
-    }
-  ]
+ "schema_version": "1.0",
+ "updated_at": "2026-10-14T10:20:36Z",
+ "entries": [
+  {
+   "issue_id": "t0",
+   "platform_issue": 3,
+   "branch": "issue/t0-repo-skeleton",
+   "merge_sha": "1753fd07205d61318253fa1e20877ae4e1d2535a",
+   "merged_at": "2026-10-07T15:57:00Z",
+   "retries": 0,
+   "tests_appended": 6,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t1",
+   "platform_issue": 4,
+   "branch": "issue/t1-backend-skeleton",
+   "merge_sha": "792f644451529af3d59bcff4de11b36f3cee1f74",
+   "merged_at": "2026-10-07T16:22:00Z",
+   "retries": 0,
+   "tests_appended": 5,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t2",
+   "platform_issue": 5,
+   "branch": "issue/t2-frontend-skeleton",
+   "merge_sha": "4f89797b4af95195132b7490965d93c65dd5bb73",
+   "merged_at": "2026-10-07T16:35:00Z",
+   "retries": 1,
+   "tests_appended": 6,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t3",
+   "platform_issue": 6,
+   "branch": "issue/t3-health-endpoint",
+   "merge_sha": "b3c5746861502cf3c777554e4310e86c931d4283",
+   "merged_at": "2026-10-07T16:52:00Z",
+   "retries": 0,
+   "tests_appended": 5,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t4",
+   "platform_issue": 7,
+   "branch": "issue/t4-root-config",
+   "merge_sha": "410ac3e8df72ea5afd6e7bbb05004686051ded7f",
+   "merged_at": "2026-10-07T17:28:00Z",
+   "retries": 0,
+   "tests_appended": 6,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t5",
+   "platform_issue": 8,
+   "branch": "issue/t5-db-foundation",
+   "merge_sha": "8e9fcb388",
+   "merged_at": "2026-10-07T19:03:20Z",
+   "retries": 0,
+   "tests_appended": 6,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t6",
+   "platform_issue": 9,
+   "branch": "issue/t6-user-model",
+   "merge_sha": "17064fcd6",
+   "merged_at": "2026-10-07T20:01:40Z",
+   "retries": 0,
+   "tests_appended": 5,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t7",
+   "platform_issue": 10,
+   "branch": "issue/t7-auth-primitives",
+   "merge_sha": "d189d2d",
+   "merged_at": "2026-10-07T20:53:46Z",
+   "retries": 0,
+   "tests_appended": 5,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t8",
+   "platform_issue": 11,
+   "branch": "issue/t8-auth-endpoints",
+   "merge_sha": "8298a0b",
+   "merged_at": "2026-10-08T01:26:43Z",
+   "retries": 1,
+   "tests_appended": 6,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t9",
+   "platform_issue": 12,
+   "branch": "issue/t9-frontend-auth",
+   "merge_sha": "1a89838",
+   "merged_at": "2026-10-08T05:05:07Z",
+   "retries": 0,
+   "tests_appended": 6,
+   "regressions": 0,
+   "note": "t2 ac6 index entry lifted (rhf+zod per REQ-TECH-006) at this merge"
+  },
+  {
+   "issue_id": "t10",
+   "platform_issue": 13,
+   "merge_commit": "14d7e86a8",
+   "merged_at": "2026-10-08T07:32:09Z",
+   "retries": 0,
+   "regressions": 0,
+   "notes": "verify_issue 4/4 + 56/56; pre-merge merged-tree 56/56 clean merge-tree 0707362f; post-merge 60/60 (4 ACs + 56); t6 ac2 index pre-amended head->001 at this cycle (zero stale-index failures); 3 t10 ACs added to index (ac4 suite leg represented by existing full-suite entries)"
+  },
+  {
+   "issue_id": "t11",
+   "platform_issue": 14,
+   "merge_commit": "d278fea49",
+   "merged_at": "2026-10-08T08:48:27Z",
+   "retries": 0,
+   "regressions": 0,
+   "notes": "verify_issue 5/5 + 59/59; pre-merge merged-tree 59/59 clean merge-tree 02d2c20d; post-merge 64/64 (5 ACs + 59); 4 t11 ACs added to index (ac5 suite-gate leg excluded per t10 ac4 precedent); W3 seam contractual for t13, t15 e2e re-proof owed; plain-git shim entry set corrected to {1,4,5,12,23,24,27}"
+  },
+  {
+   "issue_id": "t12",
+   "platform_issue": 15,
+   "merge_commit": "792cf3e1d",
+   "merged_at": "2026-10-08T10:18:40Z",
+   "retries": 0,
+   "regressions": 0,
+   "notes": "verify_issue 5/5 + 63/63 (amended entry 58); pre-merge merged-tree 63/63 clean merge-tree 2db975b0; post-merge 68/68 (5 ACs + 63); 4 t12 ACs added (ac5 suite-gate leg excluded per t10 ac4/t11 ac5 precedent); entry 58 pre-emptively scoped to 002 at this cycle (t6 ac2 pattern); 3 baseline-test amendments intent-preserving (verifier-audited)"
+  },
+  {
+   "issue_id": "t13",
+   "platform_issue": 16,
+   "merge_commit": "433ff0139",
+   "merged_at": "2026-10-08T11:57:26Z",
+   "retries": 0,
+   "regressions": 0,
+   "notes": "verify_issue 6/6 + 67/67; pre-merge merged-tree 67/67 clean merge-tree d59a611c; post-merge 73/73 (6 ACs + 67); 5 t13 ACs added (ac6 suite-gate excluded per precedent); W3 seam retired + W6/W7 frozen resolutions merged; 3 baseline amendments intent-preserving (verifier-audited); no index amendment needed (head-004 audited pre-verify: entries 32/33/36 head-agnostic, 58 scoped 002, 64 node ID unchanged)"
+  },
+  {
+   "merge_id": "15",
+   "issue_id": "t14",
+   "platform_issue": 17,
+   "merged_sha": "740223cec",
+   "merged_tree": "7a22090c03d59872377c83aa8e03009d44846aad",
+   "merged_at": "2026-10-08T13:33:24Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 72,
+   "backend_tests": 171,
+   "regression_count": 0,
+   "notes": "budgets vertical; Alembic 005 single head; W8 tuple ruling; 3 baseline amendments verifier-audited PRESERVE intent; index 72->77 (ac6 suite-gate excluded)"
+  },
+  {
+   "merge_id": "16",
+   "issue_id": "t15",
+   "platform_issue": 18,
+   "merged_sha": "32bc15c22",
+   "merged_tree": "d7b069b4d6d05855da9b3c46fc6b789397f71a71",
+   "merged_at": "2026-10-08T15:14:14Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 77,
+   "backend_tests": 184,
+   "regression_count": 0,
+   "notes": "isolation+money-precision TESTS-ONLY (W16): 13 nodes in 2 files, zero production changes, zero baseline amendments, AMOUNT_MAX ratification honored, index 77->82 (5 command entries ac1-ac5, ac6 gate excluded), 9 post-merge false-reds = orchestrator PATH bug re-ran clean"
+  },
+  {
+   "merge_id": "t16-6dbf552b",
+   "issue_id": "t16",
+   "platform_issue": 19,
+   "merged_sha": "6dbf552bf54db313a011cd0e8fede6fc960b4e59",
+   "merged_tree": "15b95b8f349051061a5145e2b7913a47a80a02ef",
+   "merged_at": "2026-10-08T17:01:20Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5"
+   ],
+   "smoke_tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 82,
+    "passed": 82,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 184,
+    "passed": 184
+   },
+   "regression_count": 0,
+   "notes": "First frontend-touching issue of phase_3; first genuine chain regression caught pre-merge (merge-index #15/#26 default-reporter exit 1 from leaked MSW error-strategy unhandled rejection in handlers_contract.test.ts); fixed in fix_qa 01fb789 by borrowing/restoring process unhandledRejection listeners inside the test with a strictly stronger positive assertion; verify_issue PASS retry_count 1 via RESUMED verifier 1939a05f; pre-merge PASS incl. new permanent default-reporter leg; post-merge 5 ACs + 82/82 index rc=0 inline; index appended with ac1-ac4 (ac5 composite excluded per precedent) 82->86; merge tree differs from verifier dry-run ONLY by the tracked pre-merge handoff JSON (additive docs-only)."
+  },
+  {
+   "merge_id": "t17-3333abc4",
+   "issue_id": "t17",
+   "platform_issue": 20,
+   "merged_sha": "3333abc449d18915eb1b82bb485a5b3dd6883222",
+   "merged_tree": "5836eeec948606b05674920df79b3a04729912eb",
+   "merged_at": "2026-10-08T18:37:30Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5"
+   ],
+   "smoke_tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 86,
+    "passed": 86,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 184,
+    "passed": 184
+   },
+   "regression_count": 0,
+   "notes": "W13 ExpensesPage + ExpenseForm modal + ToastProvider network-error presentation; pays t9 carry-forward #4; 26 new frozen titles (toast 4 / page 13 / form 9), suite 52->78; zero-regression chain (no fix_qa round needed - t16 lessons embedded in build prompt: default-reporter + #15/#26 run green by builder pre-handoff, amountSchema string-space cents max-compare correct across digit lengths); pre-merge adjudicated single add/add conflict on t17_definer_groom.json (branch copy vs main remediated copy differ only in timestamp) resolved to main content-preserving - real merge hit same single conflict, same resolution; merge tree == verifier dry-run 24b23e02 plus tracked pre-merge handoff JSON only; handoff-format incident: first verify_issue artifact was prose not JSON (chain first schema breach) - remediated via resumed verifier, strict JSON validated [OK], spawn prompts now mandate strict-JSON handoffs; index 86->90 (ac1-ac4 appended, ac5 composite excluded per precedent)."
+  },
+  {
+   "merge_id": "t18-cde20ee",
+   "issue_id": "t18",
+   "platform_issue": 21,
+   "merged_sha": "cde20eeb4e0624ac07819f21151ce4f5cf8fd9cc",
+   "merged_tree": "30b48a42d146504bd6ca14550a928c1d2f34ca83",
+   "merged_at": "2026-10-08T21:01:27Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5",
+    "ac6"
+   ],
+   "smoke_tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 90,
+    "passed": 90,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 184,
+    "passed": 184,
+    "failed": 0
+   },
+   "regression_count": 0,
+   "notes": "post-merge inline on main: 6/6 ACs rc=0 (amended body, ../../backend count 0), cumulative 90/90 rc=0 (shim {1,4,5,12,23,24,27}, PATH restored per entry, cmd.exe ok every chunk), default-reporter full-suite leg rc=0 17 files 112 passed no Unhandled Errors; pre-merge gate PASS 0a71aae8 (t18pm sim ort-clean, backend 184 independent leg, 22/22 manifest EQ); pinned-command defect fixed via definer amendment 45eb8b9 (builder refused self-certification - chain-positive); milestone phase_3_crud 9/9 COMPLETE"
+  },
+  {
+   "merge_id": "t19-5d0165d",
+   "issue_id": "t19",
+   "platform_issue": 22,
+   "merged_sha": "5d0165d",
+   "merged_tree": "a4d2ffcc358682e531c2294a98c00e7a9ad41604",
+   "merged_at": "2026-10-09T00:36:49Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5",
+    "ac6"
+   ],
+   "smoke_tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 230,
+    "passed": 230,
+    "failed": 0
+   },
+   "regression_count": 0,
+   "notes": "post-merge inline on main: 6/6 ACs rc=0 (11/9/6/13/6 + ac6 end-to-end mypy 79 files), backend full suite 230 passed 0 failed (184 baseline + 46 frozen), default-reporter frontend leg rc=0 17 files 112 passed, cumulative index 100/100 rc=0 after appending t19 ac1-ac5 (ac6 composite excluded per t17/t18 precedent; index 95->100; shim set re-scanned {01,04,05,12,23,24,27}, PATH restored per entry; entries 76-99 first batch rc=127 environment anomaly re-run green); merged via merge --no-ff 5d0165d parents 66d574a+da672da, merged tree a4d2ffcc == pre-merge simulated tree semantics (docs drift only); pre-merge gate: verify_issue PASS ceb90479 (3 prose-vs-title adjudications ACCEPTED incl. stale recent-key-list), verify_pre_merge PASS 1dcb974 (95/95, conflicts=0, tree fd64660e vs then-current origin/main)"
+  },
+  {
+   "merge_id": "t20-7b48199",
+   "issue_id": "t20",
+   "platform_issue": 23,
+   "merged_sha": "7b48199",
+   "merged_tree": "cc044e0d7a9abeaf52918b3754b5fe00bab9485f",
+   "merged_at": "2026-10-09T06:54:30Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5",
+    "ac6"
+   ],
+   "smoke_tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 230,
+    "passed": 230,
+    "failed": 0
+   },
+   "regression_count": 0,
+   "notes": "frontend suite 141/141 default reporter post-merge; ac1-ac5 appended to index (100->105), ac6 composite excluded; MonthContext+dashboard api/query keys/hooks+EmptyState/ErrorState; recharts/date-fns absent gate green"
+  },
+  {
+   "merge_id": "t21-1eebbca",
+   "issue_id": "t21",
+   "platform_issue": 24,
+   "merged_sha": "1eebbca",
+   "merged_tree": "63e48c5f4ce975a270d4e619440648dd7657775a",
+   "merged_at": "2026-10-09T10:00:46Z",
+   "acs": [
+    "ac1",
+    "ac2",
+    "ac3",
+    "ac4",
+    "ac5",
+    "ac6"
+   ],
+   "smoke_tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+   },
+   "cumulative_tests": {
+    "total": 110,
+    "passed": 110,
+    "failed": 0
+   },
+   "backend_tests": {
+    "total": 230,
+    "passed": 230,
+    "failed": 0
+   },
+   "regression_count": 0,
+   "notes": "frontend suite 166/166 default reporter post-merge; ac1-ac5 appended to index (105->110), ac6 composite excluded; recharts 2.15.4 admission + 4 chart components + 25 frozen nodes + utils/chart_data.ts; legacy amendments this window: #17/#55 (W2) + #88 test-exemption (W3); pre-merge FAIL then PASS 105/105 after amendment"
+  },
+  {
+   "merge_id": "t22-d589c4e",
+   "issue_id": "t22",
+   "platform_issue": 25,
+   "merged_sha": "d589c4e1d7a939cdc395237e729fa416c6d07bd5",
+   "merged_tree": "71ba7ff65c8de60d530a121f96178426b74bad4e",
+   "merged_at": "2026-10-09T12:23:18Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 110,
+   "backend_tests": 230,
+   "regression_count": 0,
+   "notes": "verify_issue FAIL(ac4 cumulative-budget data-flow)->fix_qa 4d96b5c->PASS retry 1; pre-merge 110/110+6/6+187 FE+230 BE; index 110->115 (ac1-ac5, ac6 composite excluded per t20/t21 precedent)"
+  },
+  {
+   "merge_id": "t23-5eb1368",
+   "issue_id": "t23",
+   "platform_issue": 26,
+   "merged_sha": "5eb13681a9fbae0c66466fbd08ccbf37c0cd3027",
+   "merged_tree": "81bd0a9949775edbbcb5d5d8c73e960a0f188706",
+   "merged_at": "2026-10-09T15:28:08Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 115,
+   "backend_tests": 230,
+   "regression_count": 0,
+   "notes": "verify_issue PASS (ac_hash heading-inclusive variant adjudicated ACCEPT documentation-deviation; 6/6 pinned rc=0); pre-merge 115/115+6/6+187 FE+230 BE; post-merge main 6/6+115/115 green; index 115->120 (ac1-ac5, ac6 composite excluded per t20/t21/t22 precedent); 0 new frozen nodes (14 re-cited); phase_4 LAST card"
+  },
+  {
+   "merge_id": "t25-b6008f4",
+   "issue_id": "t25",
+   "platform_issue": 28,
+   "merged_sha": "b6008f4",
+   "merged_tree": "794c1e6159cf945a1ff9980dbee3e63cf79a79c6",
+   "merged_at": "2026-10-09T19:00:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 120,
+   "backend_tests": 241,
+   "regression_count": 0,
+   "notes": "verify_issue PASS (e325bccb 6/6) + verify_pre_merge PASS (6fc91f53 zero-conflict tree 99c802fc, 120/120). Merged FIRST per merge-order adjudication (exact-241 composite arithmetic). Post-merge main: 6/6 pinned rc=0 incl exact-241 grep true; cumulative 120/120 machine-verified on post-merge main. Index-append ac1..ac5 (lengths 1570/1363/1414/1007/1389), composite ac6 EXCLUDED per precedent: 120->125. Delta exactly 7 files, no manifests, npm ci skipped."
+  },
+  {
+   "merge_id": "t24-e416bf1",
+   "issue_id": "t24",
+   "platform_issue": 27,
+   "merged_sha": "e416bf1",
+   "merged_tree": "5b55fca45633abd69d9ee60a9acf46ac6817b83c",
+   "merged_at": "2026-10-09T19:57:08Z",
+   "acs": 7,
+   "smoke_tests": 7,
+   "cumulative_tests": 125,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "Merged SECOND per merge-order adjudication via MERGE-FIX chain: main.py content conflict (t24 static-mount vs t25 startup wiring) resolved by builder fix_merge 81dad5c6 merge_manual semantic union @ b4b4437 (244/244 integration, static registration after include_router so /api never shadowed). verify_issue PASS (82ba6aa2 7/7) + verify_pre_merge PASS (0338b546 zero-conflict vs pre-t25 base, 120/120). Post-merge main: t24 ac1..ac6 + ac7 composite rc=0 (>=233 immune to +11); t25 ac1..ac5 rc=0; t25 ac6 exact-241 composite EXPECTED-red on merged floor 244 by design (excluded from index). CUMULATIVE 125/125 machine-verified on post-t24 main. Index-append ac1..ac6 (lengths 3197/2555/1002/1050/1696/2773), composite ac7 excluded: 125->131."
+  },
+  {
+   "merge_id": "t26-d3e1845",
+   "issue_id": "t26",
+   "platform_issue": 29,
+   "merged_sha": "d3e1845",
+   "merged_tree": "80ebf32dfc7e9a979660158779f10018ec13f30f",
+   "merged_at": "2026-10-09T22:54:34Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 131,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "Merged after pre-merge FAIL->fix->PASS re-run: B1 add/add on t26_builder_build.json resolved by adopting branch copy onto MAIN (cfa54ff); B2 stale t0 index entry #5 amended per W2/W3 precedent (6ab7da5, .github guard retargeted to exclude exactly ci/e2e/deploy.yml, e2e leg retired for t27). Real sim merge d39082e tree==merge-tree prediction f0912b19. Cumulative 131/131 + smoke 6/6 + BE 244/244 + mypy-83 + ruff + head-005. Index-append ac1..ac5 (131->136), composite ac6 excluded. Product: .github/workflows/{ci,e2e,deploy}.yml, render.yaml, Makefile 4 targets, README 202. Workflows structurally-verified only (no GH Actions runner; docker daemon down)."
+  },
+  {
+   "merge_id": "t27-3f097a7",
+   "issue_id": "t27",
+   "platform_issue": 30,
+   "merged_sha": "3f097a7",
+   "merged_tree": "405eb75d57e8ce40b2edffab3e3b84867b109ae0",
+   "merged_at": "2026-10-10T00:08:29Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 136,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "Merged after pre-merge FAIL->fix->PASS re-run: sole failure was stale legacy index entry tests[0] (t0) requiring e2e/.gitkeep tracked while branch deletes it per explicit issue-file permission - amended per 6ab7da5 precedent (0aee30f), confirmed non-vacuous. Re-run 136/136 + smoke 6/6 incl ac4 e2e.yml cross-attestation activated on merged host (t26 e2e.yml invokes make e2e). Makefile dual-region byte-identity (t26 442B + t27 451B). Sim merge a468860 tree==prediction cc22f6a. Index-append ac1..ac5 (136->141), composite ac6 excluded. Product: e2e/ 8 artifacts (config, tsconfig, 2 fixtures, 3 specs, gate types), Makefile e2e target, .gitignore region; e2e/.gitkeep deleted. INCIDENT: sim junction cleanup emptied MAIN frontend/node_modules (gitignored), repaired via npm ci (512 pkgs). Specs structurally verified only - live Playwright run deferred to t28/first CI (selector/kpi asserts may need live tuning)."
+  },
+  {
+   "merge_id": "t28-feb7352",
+   "issue_id": "t28",
+   "platform_issue": 31,
+   "merged_sha": "feb7352",
+   "merged_tree": "c9f797f117a638db45a3bb55188617ec9af63836",
+   "merged_at": "2026-10-10T02:49:46Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 141,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "PHASE_5_INFRA MILESTONE EXIT. Merged after pre-merge FAIL->index amendment->PASS re-run: sole failure was stale legacy index entry tests[139] (t27) backend no-drift guard pinned at a224be8 -- backend, mutually exclusive by construction with t28-permitted backend/scripts/infra_verification.py (issue line 196) - narrowed to backend/app per t26#5/t27#0 precedent (9799598), non-vacuity re-proved (rc=1 vs 7a4fbca~1). Re-run 141/141 + smoke 6/6. Sim merge ecfa1ad tree==prediction c9f797f. Index-append ac1..ac5 (141->146), composite ac6 excluded. ACCEPTED RESIDUAL: groom ac_hash 4150dab0 unreproducible (t28.md has no ## Acceptance criteria heading; recipe inapplicable; AC/command integrity proven by three-way command byte-identity + untouched issue file) - orchestrator ruling at verify_issue. Product: backend/scripts/infra_verification.py (hermetic, no subprocess) + generated docs/criteria/infra_verification.md (23 PASS, 7 DEFERRED host-fact rows, 12 criteria-mapping rows). mypy floor now counts 84 files. DEFERRED live-checks (docker build/compose up, CI/E2E runs, Render deploy, UptimeRobot, live cold start) remain operator actions per the deferral register."
+  },
+  {
+   "merge_id": "t29-23019ff",
+   "issue_id": "t29",
+   "platform_issue": 32,
+   "merged_sha": "23019ff",
+   "merged_tree": "4276cc083b779de843dd9ec2f9b32970100a5928",
+   "merged_at": "2026-10-10T07:11:52Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 146,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT first merge. MERGE ORDER RE-RANKED by orchestrator ruling: t29 -> t31 -> t30 -> (t33/t32 per DAG) - t31 pinned ac6 EXACT 244 collected goes red if t30 (+14) merges first; t30 exact-258 gate then evaluates correctly at its own merge moment. Pre-merge PASS (946282ac): 146/146 scan green on SIM MERGED TREE (single-host, 44.4 min under 4-pipeline contention), smoke 6/6 byte-identity, merge-tree prediction == actual tree 4276cc0 (re-verified after mid-run MAIN advance e34f598 - ingest-only, index byte-unchanged). ZERO index entries appended: t29 adds no executable test nodes (card: appends AT MOST ac1..ac5; builder+verifier measured zero test nodes; ac1..ac5 are structural file/symlink greps). FINDING (pre-existing, non-blocking): index entries 16/35 carry historical extra note key - anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 SHA pins recomputed and byte-match. Product: 3 SKILL.md + 3 mode-120000 symlinks. Skill runtime execution deferred to t35 register."
+  },
+  {
+   "merge_id": "t31-b873053",
+   "issue_id": "t31",
+   "platform_issue": 34,
+   "merged_sha": "b873053",
+   "merged_tree": "b07ca8cd55149a36bab265e171720a7edc2f4d9f",
+   "merged_at": "2026-10-10T08:36:40Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 146,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT second merge (merge order ruling t29->t31->t30->t33->t32). t31 = MCP server core: mcp-server/{config,auth,server}.py + copy-only pyproject.toml; structural+syntax modality, server never spawned (mcp SDK deliberately absent, hand-rolled JSON-RPC 2.0 stdio). ZERO test nodes, ZERO index entries appended (index diff main..branch == 0 lines; 0/146 index commands reference mcp-server) - index stays 146, anchors tests[16]=t2 cfb84edc / tests[54]=t9 cf5babc0 re-verified byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (verifier run b8e10309 + resume c5370b10): agent timed out mid-scan, detached harness survived, resumed run polled existing TSV to 146/146 rc=0 (41.0 min, no restart); smoke 6/6 rc=0 with 6/6 byte-identity vs builder ac_mapping; merge simulation clean on THREE MAIN states (c6a8cfd/41dd0a3/a8d1d9d, trees ee1c6ef/20bf433/ffaeee3, mid-run advances proven inert bookkeeping-only); merged-state gates green: backend EXACTLY 244 collected + full green + ruff + mypy 84 + head 005, frontend 187/0/0/0 + tsc + exactly-4 lint, README 202, workflows 4, 5 manifests byte-identical. MERGE-TREE PREDICTION b07ca8cd == ACTUAL MERGE TREE b07ca8cd EXACT (against post-WAL-500 tip 60528c8; bookkeeping-only drift from verifier predictions, same-class as t29 precedent). EXACT-244 backend floor now LOCKED GREEN on merged main - t30 (its +14 tests) merges NEXT so the exact-258 delta gate evaluates at t30 merge moment per ruling. FINDINGS (non-blocking): index note-key at INDICES 16(t2)/35(t6); t31_builder_implement.json absent from branch tree (byte-identity checked vs builder runtime-artifact copy - pin chain intact)."
+  },
+  {
+   "merge_id": "t33-ff76141",
+   "issue_id": "t33",
+   "platform_issue": 36,
+   "merged_sha": "ff76141",
+   "merged_tree": "1d62bc0f9c856d302e64824451adce2921063486",
+   "merged_at": "2026-10-10T08:40:33Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 146,
+   "backend_tests": 244,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT third merge (ORDER DEVIATION recorded WAL 502: t33 merged before t30 - machine-proven safe: t33 adds ZERO test nodes + ZERO index entries, 0/146 index commands read custom-agent|.agents/agents, strict pins only require t31-before-t30 and t30+t31-before-t32). t33 = subagent definitions: 2 custom-agent/*.md + 2 mode-120000 .agents/agents symlinks, ZERO product code/deps/tests. ZERO index entries appended - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (48555801+resume 426c411d): 146/146 scan rc=0 (43.2 min contention, detached-harness survival + resume no restart), smoke 6/6 byte-identity 6/6, sim clean both MAIN advances (1cd7f97/7d89ab1 == predictions), gates green (EXACTLY-244 vs >=244 W4 pin, mypy 84, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). MERGE-TREE PREDICTION 1d62bc0 == ACTUAL TREE 1d62bc0 EXACT; symlinks materialized mode-120000 x2 real-links on MAIN checkout."
+  },
+  {
+   "merge_id": "t30-c5e4fdb",
+   "issue_id": "t30",
+   "platform_issue": 33,
+   "merged_sha": "c5e4fdb",
+   "merged_tree": "9d49f310bf1d5d1b0468086175c2ee8c817a9151",
+   "merged_at": "2026-10-10T09:35:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 146,
+   "backend_tests": 258,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT fourth merge per re-ranked order t29->t31->t33->t30->t32 (t31-before-t30 strict pin honored: t31 merged b873053 first; t30 EXACT-258 delta card satisfied AT ITS MERGE MOMENT: 244+14 test_agent_hooks nodes = EXACTLY 258 collected + 258/258 green re-executed on merged MAIN by orchestrator 86.61s). ZERO index entries (t30 ACs are composite/gate-style, not per-file pytest pins) - index stays 146, anchors tests[16]=t2/tests[54]=t9 byte-exact + both execSync GREEN on merged MAIN. Pre-merge PASS (c7e776a2, WAL-496 protocol executed cleanly): 146/146 detached scan 32.98 min zero failures, sim tree 9d49f31 == prediction EXACT through one bookkeeping-only MAIN advance (432bfcd), smoke 6/6 with ac6 EXACT vs re_groom pin (17-byte surgical delta vs builder = bb38a83 fix, disclosed), gates green (EXACT-258, mypy 85, head 005, frontend 187/0/0/0, exactly-4 lint, README 202, workflows 4, manifests 5/5). First merge to move backend floor: 244 -> 258."
+  },
+  {
+   "merge_id": "t32-127d7bd",
+   "issue_id": "t32",
+   "platform_issue": 35,
+   "merged_sha": "127d7bd",
+   "merged_tree": "64375acf9769e777533c97b24a1fd8c5c3e0b6b1",
+   "merged_at": "2026-10-10T10:55:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 150,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT fifth merge per re-ranked order t29->t31->t33->t30->t32 (t30+t31-before-t32 strict pin honored: EXACT-270 delta card satisfied AT ITS MERGE MOMENT - 258+12 test_mcp_tools nodes = EXACTLY 270 collected + 270/270 green re-executed on merged MAIN by orchestrator 78.06s). INDEX APPEND per verifier disposition ruling: ac1-ac4 appended (146->150) - ac3 per-file pytest pin (12 frozen node IDs) + ac1/ac2/ac4 single-file gates per t27/t28 precedent; ac5/ac6 EXCLUDED (exact-270 equality legs = false-failure landmines outside merge moment, W10). All 4 new entries re-executed GREEN on merged MAIN; anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Pre-merge PASS (f5297d70): 146/146 detached scan 27.6 min zero failures (npm ci silent-death + hang diagnosed/remediated via WAL-496 protocol - scan correctly gated, never executed against unprovisioned host), sim trees dc19045/64375ac == predictions EXACT through bookkeeping-only MAIN advance (46c4caf), smoke 6/6 on final tree with byte-identity 6/6 vs builder branch-blob ac_mapping, gates 15/15 green. Backend floor 258 -> 270."
+  },
+  {
+   "merge_id": "t34-6510b60",
+   "issue_id": "t34",
+   "platform_issue": 37,
+   "merged_sha": "6510b60",
+   "merged_tree": "6823caef9cdd3b5b181c10a06a61a9c43073638f",
+   "merged_at": "2026-10-11T12:20:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 154,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT sixth merge: docs-only card (EXACTLY docs/agent-extension-pack.md + docs/permissions.md; ZERO test nodes - backend stays 270 collected + 270/270 green re-executed on merged MAIN 73.41s). Pre-merge PASS (e2995cf1 restart-resumed): 150/150 scan machine-verified & REUSED (artifacts survived restart; scan-validity delta vs pre-restart prediction c6192e98 proven bookkeeping-only - WAL/seq), fresh prediction dc4a669 == recreated sim tree, gates 14/14 green, smoke 6/6 byte-identity vs builder branch blob, ac6 LAST rc=0. INDEX DISPOSITION (verifier ruling adopted): ac1-ac4 appended (150->154, verbatim card commands machine-checked, all 4 GREEN on merged MAIN); ac5 EXCLUDED (README byte-pin 8d141fb2 + absolute count equalities = W10 false-failure landmine class - phase_8 owns README); ac6 composite never appended. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. Backend floor unchanged 270."
+  },
+  {
+   "merge_id": "t35-955aec4",
+   "issue_id": "t35",
+   "platform_issue": 38,
+   "merged_sha": "955aec4",
+   "merged_tree": "a9c5335968a95e235ac9f929691035e1cd8f304e",
+   "merged_at": "2026-10-11T14:20:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 158,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "PHASE_6_AGENT MILESTONE EXIT - seventh and final phase_6 card (verification-artifact generator; ZERO test nodes - backend stays EXACTLY 270 collected + 270/270 green re-executed on merged MAIN 83.01s). One fix_qa cycle: verify_issue FAIL (ab349a16: ac1 raw cmp LF-generator vs CRLF-smudged checkout under core.autocrlf=true, deterministic 3/3 fresh) -> builder CRLF emission fix f351e92 per t28 precedent (no AC/ac_hash churn, e4437c7f recomputes) -> verify_issue PASS (b55a50da fresh worktree ac1 rc=0 3/3, 457/457). Pre-merge PASS (5cf31649): 154/154 detached scan zero failures 26 min, sim tree a9c5335 == prediction EXACT, gates all green incl 20/20 previously-composed files REAL tracked on merged tree, smoke 6/6 byte-identity ac6 LAST, ac1 CRLF cmp green on merged tree, MAIN did not advance. INDEX DISPOSITION (verifier ruling adopted; deviation from card ac1..ac5-appendable for ac1 ONLY, evidence-backed): appended ac2-ac5 (154->158, digest-verified verbatim, 4/4 GREEN on merged MAIN); ac1 EXCLUDED (proven W10 landmine: committed doc freezes BACKEND_COLLECTION 270 while ac1 regenerates from live count - raw cmp fails the moment phase_7/8 adds a backend test; t28 normalized-cmp precedent; growth experiment emitted 271 != 270); ac6 composite never. Anchors tests[16]=t2/tests[54]=t9 byte-exact + execSync GREEN. All 26 phase_6 test nodes green on merged MAIN."
+  },
+  {
+   "merge_id": "t36-7d5c328",
+   "issue_id": "t36",
+   "platform_issue": 39,
+   "merged_sha": "7d5c328",
+   "merged_tree": "6d184d247b65db147355c64e6ccabe6770802de0",
+   "merged_at": "2026-10-12T04:55:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 163,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "PHASE_7 SECURITY OPS: security umbrella + 5 sub-targets (gitleaks 8.30.1 Option-A allowlist gate-time /tmp emission, negative control proven), amend script landed + STRICT-WINDOW executed post-merge (entry#6 retargeted, 13 exclusions, originals kept), verify PASS 5587a67 (457 tests, 10 negative controls bite), index ac1-ac5 appended per disposition (ac6 excluded)"
+  },
+  {
+   "merge_id": "t42-0f37141",
+   "issue_id": "t42",
+   "platform_issue": 45,
+   "merged_sha": "0f37141",
+   "merged_tree": "0791716dfdebe637efeae02cd7af80b06e8d130c",
+   "merged_at": "2026-10-12T06:25:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 163,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "CI/E2E REPAIR (user-reported defect): setup-uv v4.5.1->v5.0.0 (404 root cause), cache v4.1.2->v4.2.4 (runner-deprecation root cause), @vitest/coverage-v8 1.6.0 (Coverage-report root cause). Re-groom index-timing (floor 163 + 5 byte-pins, hash 0acc538a). Verify PASS cb34daf 6/6 + 5 negative controls. NO index mutation per DoD. FINAL ACCEPTANCE: live CI+E2E on merge commit polled by orchestrator."
+  },
+  {
+   "merge_id": "t37-0aa86ff",
+   "issue_id": "t37",
+   "platform_issue": 40,
+   "merged_sha": "0aa86ffe",
+   "merged_tree": "daabefc8db5d068d576edd5cff13bded388adc52",
+   "merged_at": "2026-10-12T08:30:00Z",
+   "acs": 6,
+   "smoke_tests": 6,
+   "cumulative_tests": 168,
+   "backend_tests": 270,
+   "regression_count": 0,
+   "notes": "SECURITY SCAN REPORTS (re-verify PASS 633a63f6 after re_groom autocrlf fix + re-implement). ac_hash d92c8462 supersedes b43c7024. ac1 CR-normalized cmp closes AUTOCRLF_BYTE_CMP_CONFLICT; 10 negative controls incl. KEY gate-integrity (byte-different zero-findings payload still rc=1, r1-vs-r2 strict LF-to-LF bites). Artifacts: gitleaks/pip-audit/npm-audit reports (blobs fe51488c/d905d4a2/eda56395). index append ac1-ac5 (163->168)."
+  },
+  {
+   "issue_id": "t39",
+   "merge_sha": "e62b9199bf0a09fc168548bfee2a329bb9272ec8",
+   "pre_merge_sha": "bb4fb8733f7b781d0759a711fb480f7f7481feee",
+   "timestamp": "2026-10-12T11:30:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "entry_id": "t39-e62b919"
+  },
+  {
+   "issue_id": "t38",
+   "merge_sha": "2c9081f274fa4fced92b40be519b853449775465",
+   "pre_merge_sha": "5534a43",
+   "timestamp": "2026-10-12T15:50:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "entry_id": "t38-2c9081f"
+  },
+  {
+   "issue_id": "t44",
+   "merge_sha": "a64a3a2be3d7d95e380681c04b53b51cf1501eb2",
+   "pre_merge_sha": "2b329fc",
+   "timestamp": "2026-10-12T19:10:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "entry_id": "t44-a64a3a2"
+  },
+  {
+   "issue_id": "t43",
+   "merge_sha": "de1c0e44c82ed0a813844d3c254d9c388fbaab4f",
+   "pre_merge_sha": "5cbe4b2",
+   "timestamp": "2026-10-12T19:35:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "entry_id": "t43-de1c0e4",
+   "notes": "entry 139 amended at merge per Option A-ter (freeze leg now backend/app :!backend/app/database.py; new hash fe5df831870660df, identity t27 kept, amended entry executed rc=0)"
+  },
+  {
+   "issue_id": "t40",
+   "merge_sha": "3c4036dcf3a6338c00f12f87c1a3e8c6380c3df3",
+   "pre_merge_sha": "3b090c5a230d6ed37915e364662eea8f7e7f5199",
+   "timestamp": "2026-10-13T00:45:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "entry_id": "t40-3c4036d",
+   "notes": "docs-only security trio; index append ac1..ac5 at closure (5 entries, ac6 composite excluded per card); gate2+gate3 green; ac6 env-interference disclosed+re-measured green; entry 139 untouched"
+  },
+  {
+   "issue_id": "t46",
+   "merge_sha": "bb2eae11adfaf3e36eb3cecff53031a1a5f7ecc0",
+   "pre_merge_sha": "c145b6df81f2502ef9dbdc3a810befb1971adf16",
+   "timestamp": "2026-10-12T15:09:35.445Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "verifier_run": "af6bd9e0-a5fd-4510-8d51-aedd61801e43",
+   "notes": "index byte-unchanged 183 per card DoD (no append); ac3 real compose round-trip verified by verifier; DatatypeMismatch accepted t47 residual"
+  },
+  {
+   "issue_id": "t41",
+   "merge_sha": "eba386e310e3306b165429c618493c66e1931cfe",
+   "pre_merge_sha": "6bd9745744ab8c7ef0a21c89fc06c95e809298e4",
+   "timestamp": "2026-10-12T15:44:18.538Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "verifier_run": "429e312a-c783-4a5f-a430-76f785d0e28f",
+   "notes": "index appended ac1..ac5 (183->188) per card disposition (ac6 never); faithful-CR ac4 entry carries the 2 raw CRs; digest 5e9b1ea4 reproduced by definer/builder/verifier/orchestrator"
+  },
+  {
+   "issue_id": "t47",
+   "merge_sha": "fddadeb08ecdc77b92fa9518ac83a9cb9e48a8b5",
+   "pre_merge_sha": "757f39831d9e37ce02530ca076f377a69e6e6db1",
+   "timestamp": "2026-10-13T13:55:00Z",
+   "merge_type": "clean",
+   "test_suite": "full",
+   "verifier_run": "08746d5d-6ac0-4d08-b085-de98006bf3aa",
+   "notes": "47th merge; E2E FINAL BLOCKER cleared (first-ever health-ok fallback_active:false measured by builder+verifier on real Postgres); merge-time Option A-ter amendment applied to entry 139 freeze leg (+ :!backend/app/models/budget.py, precondition measured ORIGINAL RED/AMENDED GREEN); index appended ac1..ac5 188->193 per card disposition (ac6 excluded), ac1/ac5 carry docker-required gates, pins 131/132/133/135 + anchors 16/54 byte-unchanged post-append; merged non-docs delta exactly the 5 ac6 files; live E2E green on pushed SHA closes #45"
+  },
+  {
+   "issue_id": "t48",
+   "title": "Process/task-template/role/ownership docs (REQ-DOC-022/028/029/062/063)",
+   "merge_commit_sha": "28f60d64526e4b1d619c98760656e330417281fe",
+   "branch": "issue/t48-process-ownership-docs",
+   "verified_tip_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
+   "build_commit_sha": "3a8bb124189f8be8eb5bc61a1edb95c73277d7c4",
+   "merged_from_sha": "db526ec543970983ab7ea196d1e02a665efb34d9",
+   "into": "main",
+   "merged_at": "2026-10-13T16:45:00Z",
+   "platform_issue": 51,
+   "ac_hash": "sha256:cb4feed3c5b816d36638316a90e63f47f3bdb651f9342d7fab88fd24adb6e8e7",
+   "index_entries_added": [
+    "tests[193] ac1",
+    "tests[194] ac2",
+    "tests[195] ac3",
+    "tests[196] ac4",
+    "tests[197] ac5"
+   ],
+   "index_count_after": 198,
+   "summary": "Six docs artifacts describing the real pipeline (process.md, task-template.md, team/{pm,software-engineer,qa-engineer}.md, ownership.md). README byte-unchanged at 8d141fb2 (t49 owns README). 48th merge closure."
+  },
+  {
+   "issue_id": "t49",
+   "title": "Root reviewer docs: CLAUDE.md, product-spec.md, openapi.yaml export, README criteria map + evidence checklist + 5-min paths, runbook e2e typo, render deviation record (REQ-DOC-010/011/013/014/070/071/072/081/084)",
+   "merge_commit_sha": "5e04b61",
+   "branch": "issue/t49-root-reviewer-docs",
+   "verified_tip_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
+   "build_commit_sha": "a6b8b2406e8cf08d4e4af5351ddc2ceff2822961",
+   "merged_from_sha": "05f53ba82bb5e1954a8209054ef2e70277e51d31",
+   "into": "main",
+   "merged_at": "2026-10-13T20:05:00Z",
+   "platform_issue": 52,
+   "ac_hash": "sha256:178cf8a149a8fe279e58d25b6b84dadd89f653c856cc3f716c84a01bca4880f3",
+   "index_entries_added": [
+    "tests[198] ac1",
+    "tests[199] ac2",
+    "tests[200] ac3",
+    "tests[201] ac4",
+    "tests[202] ac5"
+   ],
+   "index_count_after": 203,
+   "summary": "Six deliverables +1234/-1: CLAUDE.md single-line @AGENTS.md; product-spec.md 8 REQ-DOC-011 sections anchored to real ids; openapi.yaml hermetic export (16 paths, set-equality vs merged app); README +84 (24.3 mapping 15 rows, 24.5 checklist 14 rows, both 5-min paths, W1 token survival, 286 lines) establishing pin-1 digest 5f6e235e; runbook make test-e2e->make e2e one-line fix; deployment-health accepted-deviation record for the four divergent 14.4.2 keys with render.yaml untouched. 49th merge closure."
+  },
+  {
+   "issue_id": "t54",
+   "title": "E2E Playwright browser-version mismatch fix - e2e.yml installs browsers from the e2e workspace so the browser build matches pinned @playwright/test 1.58.0 (first-ever E2E green path, #45)",
+   "merge_commit_sha": "97153c0",
+   "branch": "issue/t54-e2e-browser-install",
+   "verified_tip_sha": "c2e9689d3683d927269a567e1c99e732cf281884",
+   "build_commit_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+   "merged_from_sha": "d33ebb25f403eb00608f80eb85650377c555f2fe",
+   "into": "main",
+   "merged_at": "2026-10-13T23:55:00Z",
+   "platform_issue": 58,
+   "ac_hash": "sha256:3c8311fcd6802148864b6666647a038b5742d21e29b055d184770a10d71c09e5",
+   "index_entries_added": [
+    "tests[203] ac1",
+    "tests[204] ac2"
+   ],
+   "index_count_after": 205,
+   "summary": "One-line workflow fix (1+/1-, blob 4d49432->a656ebb): the Install Playwright browsers step now runs cd e2e && npm install --no-save && npx playwright install --with-deps so the installed browser build 1208 matches the pinned @playwright/test 1.58.0 harness. ac1/ac2 appended; ac3 EXCLUDED (merge-base delta-purity leg permanently RED on merged main - measured rc=1 the exact exclusion evidence); ac4 composite excluded; ac5 orchestrator CI-evidence leg closes #45/#58 on the first-ever green E2E run. 50th merge closure."
+  },
+  {
+   "issue_id": "t50",
+   "title": "docs/ai-workflow.md - real session records, correction log, pack/review/data-policy, REQ-SEC-072 scan-timing section (closes SCAN_TIMING_DOC)",
+   "merge_commit_sha": "7264868",
+   "branch": "issue/t50-ai-workflow",
+   "verified_tip_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
+   "build_commit_sha": "1bbe1d444958ec9e929fe7b4e3a655426f3d6908",
+   "merged_from_sha": "ff1fb21e6c47f1be765878d5693ec128506f0fa5",
+   "into": "main",
+   "merged_at": "2026-10-13T23:56:00Z",
+   "platform_issue": 53,
+   "ac_hash": "sha256:6bb0b0a99902ee97541fb03d19f04dbc4704477f0d44186c43715e478c45892b",
+   "index_entries_added": [
+    "tests[205] ac1",
+    "tests[206] ac2",
+    "tests[207] ac3",
+    "tests[208] ac4",
+    "tests[209] ac5"
+   ],
+   "index_count_after": 210,
+   "summary": "docs/ai-workflow.md 473 lines: 13 REQ-DOC-023 sections + scan timing; 7 machine-traceable SESSION records over 7 areas; 9 six-field CORRECTION entries (Option A-ter, semgrep --metrics, all six REQ-AI-121 classes); pack counts 3/2/4/2 measured; zero credential strings; SCAN_TIMING_DOC satisfied. ac1..ac5 appended (ac6 composite excluded); README pin-1 5f6e235e carried byte-unchanged. 51st merge closure."
+  },
+  {
+   "issue_id": "t51",
+   "title": "Technical docs set - architecture/api/design-system/testing-guidelines against merged code (README pin-1 carried)",
+   "merge_commit_sha": "03010f7",
+   "branch": "issue/t51-technical-docs",
+   "verified_tip_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
+   "build_commit_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
+   "merged_from_sha": "f1f6b0e2a33cccf61f1ab36aa88e770d5db50ade",
+   "into": "main",
+   "merged_at": "2026-10-14T03:30:00Z",
+   "platform_issue": 54,
+   "ac_hash": "sha256:1c11c3f9a214ee1f1c8a322a2d08185eec23d9b2f2cfe68a7ed519534449598c",
+   "index_entries_added": [
+    "tests[210] ac1",
+    "tests[211] ac2",
+    "tests[212] ac3",
+    "tests[213] ac4",
+    "tests[214] ac5"
+   ],
+   "index_count_after": 215,
+   "summary": "Four docs files ONLY (+529L): architecture.md 158L nine REQ-DOC-020 sections fenced ASCII diagram; api.md 144L 16/16 openapi paths runtime-equality 13/13 error codes; design-system.md 122L 10/10 code-side hexes; testing-guidelines.md 101L Makefile vocabulary+coverage policy. Verifier PASS 6/6, delta purity EXACTLY six-path EXP non-docs EMPTY, pin-1 5f6e235e carried byte-unchanged, openapi 6f2a0a3d byte-frozen. ac1..ac5 appended (ac6 composite excluded). 52nd merge closure."
+  },
+  {
+   "issue_id": "t55",
+   "title": "E2E first-ever-green fix: vite /api proxy to 127.0.0.1:8000 + one Start-the-frontend-dev-server step in e2e.yml",
+   "merge_commit_sha": "bec01ab",
+   "branch": "issue/t55-e2e-frontend-target",
+   "verified_tip_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+   "build_commit_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+   "merged_from_sha": "d012891d74fc8ad3515ea77aabdd40149c1956c4",
+   "into": "main",
+   "merged_at": "2026-10-14T05:40:00Z",
+   "platform_issue": 59,
+   "ac_hash": "sha256:d0ff5a8e9920f48e9614325bcedd71319959c2ea0a5ebb69e33a3f200dea2844",
+   "index_entries_added": [
+    "tests[215] ac1",
+    "tests[216] ac2"
+   ],
+   "index_count_after": 217,
+   "summary": "Two-file fix (+9/-1): vite server{port:5173,proxy /api -> http://127.0.0.1:8000 changeOrigin} + exactly one Start-the-frontend-dev-server step between health wait and browser install (nohup npm run dev -- --host 127.0.0.1 --port 5173). Verifier PASS: pin d0ff5a8e MATCH, ac1..ac5 verbatim rc=0, base-RED re-measured ac1/ac3/ac4/ac5 at 395b31d, NC-G/NC-B2/NC-F RED paths proven, e2e/ byte-untouched, README pin-1 carried. ac3 NOT appended (disclosed port-contention: foreign orphan uvicorn tripped its precondition twice this cycle); ac4/ac5 branch-scoped/composite; ac6 live CI poll. 53rd merge closure. ac6 acceptance = first-ever E2E green on final pushed SHA (closes #45/#58/#59 path)."
+  },
+  {
+   "issue_id": "t52",
+   "title": "REQ-DOC-040 screenshots: four daemon-free-captured PNGs + README pin-2 FINAL (+22 lines, screenshots section)",
+   "merge_commit_sha": "91936cb6017a2b22705e012895f600b1619fa715",
+   "branch": "issue/t52-screenshots",
+   "verified_tip_sha": "f22aec260fea33a52222cd6a6d45b39885fc61e5",
+   "build_commit_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
+   "merged_from_sha": "21d254ed18c1b0c6c17a282a65941505b0aa8b4c",
+   "into": "main",
+   "merged_at": "2026-10-14T10:40:00Z",
+   "platform_issue": 55,
+   "ac_hash": "sha256:fcd8b14bf7adb534b327257e5f9c0bdd1871559705fca28891330637b2a8ae80",
+   "index_entries_added": [],
+   "index_count_after": 217,
+   "summary": "Option B topology (branch from origin/main 008a816 + byte-identical groom cherry-picks) made ac4 docs whitelist live; 5/5 fences rc=0 builder+verifier independently (ac2 thrice, zero kills after live-run attribution of port holders). README pin chain closed: pin-1 5f6e235e (286L) -> pin-2 FINAL a64efaa2 (308L); t53 re-attests. Four PNGs 1440-wide 8-bit RGB; expense-form carries disclosed sub-1% capture jitter inside pinned BAND. Verdict PASS gate3 errors=[]. 54th merge closure."
+  },
+  {
+   "issue_id": "t56",
+   "platform_issue": 60,
+   "branch": "issue/t56-e2e-label-strict-mode",
+   "merge_sha": "2e5f3e1",
+   "merged_at": "2026-10-14T14:30:00Z",
+   "retries": 0,
+   "tests_appended": 0,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t53",
+   "platform_issue": 57,
+   "branch": "issue/t53-docs-verification",
+   "merge_sha": "9557f46",
+   "merged_at": "2026-10-14T23:40:00Z",
+   "retries": 1,
+   "tests_appended": 0,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t57",
+   "platform_issue": 62,
+   "branch": "issue/t57-req-coverage-matrix",
+   "merge_sha": "335f822",
+   "merged_at": "2026-10-15T13:35:00Z",
+   "retries": 1,
+   "tests_appended": 4,
+   "regressions": 0
+  },
+  {
+   "issue_id": "t58",
+   "platform_issue": 63,
+   "branch": "issue/t58-close-gap-rows",
+   "merge_sha": "d7b95cb",
+   "merged_at": "2026-10-15T22:45:00Z",
+   "retries": 1,
+   "tests_appended": 5,
+   "regressions": 0,
+   "note": "ac6 NOT appended: references active card paths docs/issues/t58.md + groom mirror which move at closure (index doctrine: zero entries may reference active card paths - verified 0/221 precedent). ac1/ac4 stored-gate replays are .env-sensitive (untracked .env joins IMPLEMENTED_STRUCTURAL pointer rows); GREEN rc=0 digest-identical 41d84eca with .env excluded - replay protocol: clean worktree without untracked .env"
+  },
+  {
+   "issue_id": "t59",
+   "platform_issue": 64,
+   "branch": "issue/t59-exit-composite",
+   "merge_sha": "39d22feb",
+   "merged_at": "2026-10-16T00:55:00Z",
+   "retries": 0,
+   "tests_appended": 2,
+   "regressions": 0,
+   "note": "Phase 9 exit composite (attestation-only, docs-only delta: card+mirror+3 handoffs). ac2/ac4 appended (idx 226/227, card-declared appendable, replayed rc=0 verbatim on merged main). ac1/ac3/ac5/ac6/ac7 NOT appended per card disposition: ac1 mutates tree + env-sensitive digest; ac3 prerequisite-gated frontend legs; ac5 replays other cards gates + env-sensitive; ac6 reads active card paths (permanently RED post-closure, index doctrine); ac7 branch-scoped empties after merge. Verifier 131c9c15 re-executed all 7 fences verbatim at 882a6ae: 7/7 rc=0, all negative controls fired, pin 58f2a24c 4-way."
+  },
+  {
+   "issue_id": "t60",
+   "platform_issue": 66,
+   "branch": "issue/t60-nav-restructure",
+   "merge_sha": "de3139d2",
+   "merged_at": "2026-10-14T10:20:36Z",
+   "retries": 0,
+   "tests_appended": 2,
+   "regressions": 0,
+   "note": "Navigation restructure merged after verifier PASS (run 6b4237a9, 6/6 fences verbatim GREEN at tip a63a35f). ac1/ac2 appended as index tests[229]/[230] (card table: ac3-ac6 not appendable). Disclosed RED at replay: tests[221]/tests[226] tally pins (110/623 -> 111/622 W5 re-mark) - remedy routed to t64. Merged-main floors: vitest 191/0, tsc 0, eslint exactly-4, backend surface byte-identical to verifier-tested tip."
+  }
+ ]
 }

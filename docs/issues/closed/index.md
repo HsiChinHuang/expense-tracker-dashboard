@@ -62,3 +62,4 @@ Runtime-maintained by Orchestrator.
 | t57 | Per-REQ-ID coverage matrix generator - req_coverage_verification.py + docs/criteria/req_coverage_verification.md (749 ids, closed vocabulary, evidence pointers, fail-closed fence; 99 measured GAP rows handed to t58) | 2026-10-15 | 1 | 335f822 |
 | t58 | Close all 99 GAP rows in the REQ coverage matrix - 97 evidence-closure citations across 10 docs + 2 ruling-mapped DEFERRED_RULLED (#65), generator 0-GAP exit, matrix digest 41d84eca | 2026-10-15 | 1 | d7b95cb |
 | t59 | Phase 9 exit composite - six generators + matrix 41d84eca 0-GAP, deferral re-attestation, floors 288/187/91/005, byte-pins, stored gates 226/17-pins, delta purity, all 7 fences verbatim with negative controls firing (phase_9 EXIT) | 2026-10-16 | 0 | 39d22fe |
+| t60 | Navigation restructure: nest /expenses /budgets /categories under AppShell + 4th Expenses NavLink + "*" NotFound route (one-way-trap fix, REQ-FE-010/011, W5 re-mark, W9 guard-wrap) | #66 |
