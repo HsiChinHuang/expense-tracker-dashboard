@@ -1,21 +1,21 @@
 {
  "schema_version": "2.0",
- "updated_at": "2026-10-14T12:47:11Z",
- "last_seq": 757,
+ "updated_at": "2026-10-14T13:05:01Z",
+ "last_seq": 758,
  "slots": [
   {
    "slot_id": "slot_1",
-   "issue_id": "t61",
-   "role": "builder",
-   "phase": "implement",
-   "run_id": "b8f0f4e5-6c05-4e20-86e3-57663d4fe7f2"
-  },
-  {
-   "slot_id": "slot_2",
    "issue_id": null,
    "role": null,
    "phase": null,
    "run_id": null
+  },
+  {
+   "slot_id": "slot_2",
+   "issue_id": "t61",
+   "role": "verifier",
+   "phase": "verify_issue",
+   "run_id": "f3ea149e-b49d-40f7-8b0e-e97967f8d10b"
   }
  ],
  "merge_queue": [],
