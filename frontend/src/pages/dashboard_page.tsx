@@ -17,8 +17,11 @@
 // renders animate-pulse skeleton blocks inside role="status" regions per
 // section (REQ-FE-100); a failed query renders the t20 ErrorState whose
 // Retry refetches that query (REQ-FE-102). The user menu is the simplest
-// accessible affordance (Q8): username + a plain Log out on the merged
-// AuthContext.logout.
+// accessible affordance (Q8): the signed-in username on the merged auth
+// context. t61 removes the sign-out button from this region — operator
+// ruling Q3a moves that control into the shell header (app_shell.tsx) so it
+// works on every shell-wrapped page — while the region, the username display
+// and the document title stay exactly as they were.
 
 import { useEffect, type ReactNode } from 'react';
 import {
@@ -62,7 +65,7 @@ const Panel = ({
 );
 
 export const DashboardPage = (): JSX.Element => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const summary = use_summary();
   const byCategory = use_by_category();
   const trend = use_trend();
@@ -86,13 +89,6 @@ export const DashboardPage = (): JSX.Element => {
         </div>
         <div className="flex items-center gap-2" data-testid="user-menu">
           <span className="text-sm text-slate-600">{user?.username ?? 'Account'}</span>
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded border border-slate-300 px-2 py-1 text-sm text-slate-700"
-          >
-            Log out
-          </button>
         </div>
       </header>
 
