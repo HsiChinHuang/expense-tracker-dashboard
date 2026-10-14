@@ -74,7 +74,7 @@
     },
     "measured_base_state": {
       "root_package_json_blob": "e5e92875f7f97a0621101cbee5cdf150053c0437",
-      "root_scripts_at_base": "build, gate-check, launcher, lint, lint:check, test, type-check, validate-handoff, validate-schemas (10 carried; check/setup:local/dev/stop absent)",
+      "root_scripts_at_base": "build, gate-check, launcher, lint, lint:check, test, type-check, validate-handoff, validate-schemas (9 carried; check/setup:local/dev/stop absent)",
       "root_dependency_counts": "4 runtime (ajv, ajv-formats, js-yaml, tsx) + 6 dev - corrected from the 4+7 figure in the pre-restart draft, which was a miscount",
       "root_tsc_noEmit_rc": 0,
       "root_eslint_baseline": "rc=0 over 18 files, 0 errors, 0 warnings (measured through cmd.exe with -f json; the 4-warning react-refresh baseline belongs to the FRONTEND lint script and is not the ROOT baseline)",
@@ -84,7 +84,7 @@
         "scripts/**/*.ts"
       ],
       "eslint_glob": "eslint launcher extensions scripts --ext .ts",
-      "scripts_dir_at_base": "9 files, no scripts/dev directory",
+      "scripts_dir_at_base": "10 tracked files, no scripts/dev directory",
       "frozen_blobs": {
         "frontend/package.json": "1f210a29cd96644ab81d170260c705b0916a56ae",
         "Makefile": "55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28",
@@ -172,7 +172,7 @@
     "notes": "Scope honoured: this groom writes ONLY docs/issues/t62.md, its byte-identical mirror docs/issues/groom/t62.md and this handoff. scratch/t62/ holds the throwaway fence sources and the assembler and is NOT committed; no WAL, no docs/state/seq.txt, no docs/log, no factpack, no platform edit, no code. Two corrections made during the resume are worth the orchestrator's attention: (1) the ROOT devDependency count is 6, not 7 - the pre-restart draft pinned 4+7 and would have made ac1 permanently RED against the real manifest, so ac1 now pins 4+6 and ac6 re-derives the counts from both merge-base and HEAD; (2) WSL git cannot open this worktree at all because its .git pointer is a Windows path, so every fence reads git metadata through cmd.exe - any later tooling that shells out to git inside this worktree from WSL will fail for a reason unrelated to the code. Residual risks: the win32 Ctrl+C handler path is pinned by source inspection plus post-teardown port state plus the manual DoD line rather than by mechanical keypress; the 600s setup budget is a warm-cache measurement and a cold mirror could approach it, which is why both harness-measured and script-reported elapsed values are printed; and ac3/ac4/ac5 were not executed raw at base (disclosed above) because they mutate shared installed state that the sibling t60 groom is using - the builder and verifier run all six raw on the built branch, which is where their greens count.",
     "branch": "pi-subagents/definer-You-are-the-Definer-mode-groom-dispatched-by-the-Orchestrator-for-issue-68-loca-5860f942-414405d-61b7-s0-t0",
     "commit": "SELF-REFERENCE-SEE-COMMIT-NOTE",
-    "commit_note": "Self-reference caveat (t58 precedent): the sha of the commit that introduces the card, mirror and this handoff cannot be recorded inside this handoff, because recording it advances the branch tip by the very commit that carries it. The orchestrator must read the authoritative head with cmd.exe /c \"git -C <win-worktree> rev-parse HEAD\". Authoritative facts for correlation: base 8d5f1e34e0e6c8391503de921324d2ebd4d8041b; card and mirror sha256 fee2a0dfa283a22274714f5254d2f9abed2a1b2b3209fd73c2e28557ce097d00 (identical bytes, 54123 each); ac_hash sha256:b6ff6543321a8b1387bc849254a05677e6c7d932e2b69b07109aae26b87c4a50."
+    "commit_note": "Self-reference caveat (t58 precedent): the sha of the commit that introduces the card, mirror and this handoff cannot be recorded inside this handoff, because recording it advances the branch tip by the very commit that carries it. The orchestrator must read the authoritative head with cmd.exe /c \"git -C <win-worktree> rev-parse HEAD\". Authoritative facts for correlation: base 8d5f1e34e0e6c8391503de921324d2ebd4d8041b; card and mirror sha256 6efee8df1fe956ffec65651cc12cebf1fe6c7453e0cde7e99d05d83df7152274 (identical bytes, 54131 each); ac_hash sha256:b6ff6543321a8b1387bc849254a05677e6c7d932e2b69b07109aae26b87c4a50."
   },
   "artifacts": {
     "files_written": [
