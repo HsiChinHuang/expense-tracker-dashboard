@@ -1,0 +1,119 @@
+// t64 ONE-TIME index tally-pin repair (committed as docs/state/amend_t64_tally_pins.cjs.ready).
+// Predecessors: docs/state/amend_legacy_index.cjs.ready, docs/state/amend_index_entry6_phase7.cjs.ready (t36).
+// node cannot execute a ".ready" suffix, so run it as a .cjs copy:
+//   node /tmp/name.cjs [index-path]         repair (default)
+//   node /tmp/name.cjs [index-path] snap    print the digest snapshot, write NOTHING
+//   node /tmp/name.cjs [index-path] pre     synthesize the PRE-repair state (byte-reversibility proof)
+//
+// WHY: tests[221] and tests[226] are the ONLY two index entries that hard-pin the requirements-matrix
+// STATUS TALLY as literals. The matrix legitimately drifted when closed-card work rewrote two
+// requirement statuses: IMPLEMENTED_TESTED 110 -> 111, IMPLEMENTED_STRUCTURAL 623 -> 622. Rows (749),
+// DEFERRED_RULLED (15), GAP (0), EXAMPLE_REFERENCE (1) are UNCHANGED, and the generator is green; only
+// the pinned constants are stale, so those two stored commands report RED while checking correctly.
+//
+// INVARIANTS IN EVERY MODE (any failure aborts WITHOUT writing): count never drops below 237 (the
+// index is append-only, appends are tolerated); tests[221]=t58/ac1, tests[226]=t59/ac2,
+// tests[227]=t59/ac4; tests[227] matches its pinned digest (the one stored entry this milestone may
+// never rewrite, and it stays RED by the Q1a ruling); the combined digest of the ORIGINAL 235 entries
+// (0..236 except 221/226) matches its pin, so the delta is provably minimal and a later append cannot
+// hide an edit. repair mode: exact occurrence counts + pinned post digests + idempotent no-op.
+// pre mode: the reverse substitution lands on the pinned PRE digests, so the shipped delta is
+// byte-reproducible from the committed result (the closed-loop proof the ac2 fence uses).
+//
+// DOCTRINE: the index is append-only for STORED entries. This is the ONE orchestrator-ruled exception
+// for t64 (steer 3, the remedy-owned 221/226 class). Two stale constants change and nothing else: no
+// meaning rewrite, no append, no reorder, and never tests[227].
+const fs = require("fs");
+const path = process.argv[2] || "docs/state/merge_test_index.json";
+const mode = process.argv[3] || "repair";
+const cr = String.fromCharCode(13);
+const h = function (s) {
+  return require("crypto").createHash("sha256").update(s.split(cr).join("")).digest("hex");
+};
+const fail = function (m) {
+  console.error("ABORT (no write): " + m);
+  process.exit(1);
+};
+if (["repair", "snap", "pre"].indexOf(mode) < 0) fail("unknown mode [" + mode + "], expected repair | snap | pre");
+let J;
+try {
+  J = JSON.parse(fs.readFileSync(path, "utf8").split(cr).join(""));
+} catch (e) {
+  fail("cannot parse " + path + ": " + e.message);
+}
+if (!J || !Array.isArray(J.tests)) fail("no tests array in " + path);
+const T = J.tests;
+const OLD1 = "d055ca5645bb06c80958c9b2cfff6042854e0f83b24e0174fc3e83a699c75ad2";
+const NEW1 = "0ae8556098e7a9533fe87b70b9a16d778e7b425dd523f7685f39f45bf89b5244";
+const OLD2 = "0113512cf3777711d37346e7882b3e2233b24b3e9793eb5c6fa71e77b14113b0";
+const NEW2 = "397b53a6aa4818ffd2d84edd340a613172c6e3dcd00ede776e474ebfd489a944";
+const PIN7 = "8cbb4722971452504d959085362d0b430aaa16cfee43cbe9c10266cd255dd06d";
+const OTHS = "31067d842a63a15b31e2b3ab9e03be50f0678ac3fa8f6f4392d2029ad512e6e6";
+const others = function () {
+  const s = [];
+  for (let i = 0; i < 237 && i < T.length; i++) {
+    if (i !== 221 && i !== 226) s.push(T[i].command + "\n");
+  }
+  return h(s.join(""));
+};
+const snap = function (tag) {
+  console.log("SNAP[" + tag + "] count=" + T.length + " others235=" + others() + " t221=" + h(T[221].command) + " t226=" + h(T[226].command) + " t227=" + h(T[227].command));
+};
+if (T.length < 237) fail("entry count is " + T.length + ", below the 237 this card was groomed against (the index is append-only, it never shrinks)");
+if (T[221].issue_id !== "t58" || T[221].ac !== "ac1") fail("identity: tests[221] is not the t58/ac1 entry");
+if (T[226].issue_id !== "t59" || T[226].ac !== "ac2") fail("identity: tests[226] is not the t59/ac2 entry");
+if (T[227].issue_id !== "t59" || T[227].ac !== "ac4") fail("identity: tests[227] is not the t59/ac4 entry");
+if (h(T[227].command) !== PIN7) fail("tests[227] digest is not the pinned 8cbb4722 - the never-rewritten entry moved");
+if (others() !== OTHS) fail("the combined digest of the original 235 entries is not the pinned 31067d84");
+const d1 = h(T[221].command);
+const d2 = h(T[226].command);
+if (mode === "snap") {
+  snap(d1 === NEW1 && d2 === NEW2 ? "repaired" : "pre-repair");
+  console.log("STATE: " + (d1 === NEW1 && d2 === NEW2 ? "REPAIRED" : (d1 === OLD1 && d2 === OLD2 ? "PRE-REPAIR" : "UNKNOWN")));
+  process.exit(0);
+}
+const Q = String.fromCharCode(34);
+const sub = function (i, a, b, want) {
+  const n = T[i].command.split(a).length - 1;
+  if (n !== want) fail("tests[" + i + "] occurrence count for [" + a + "] is " + n + ", expected " + want);
+  T[i].command = T[i].command.split(a).join(b);
+};
+if (mode === "pre") {
+  if (d1 !== NEW1 || d2 !== NEW2) fail("pre mode needs the REPAIRED digests, got " + d1 + " / " + d2);
+  sub(221, Q + "IMPLEMENTED_TESTED 111" + Q, Q + "IMPLEMENTED_TESTED 110" + Q, 1);
+  sub(221, Q + "IMPLEMENTED_STRUCTURAL 622" + Q, Q + "IMPLEMENTED_STRUCTURAL 623" + Q, 1);
+  sub(221, "111/622/15/0/1", "110/623/15/0/1", 1);
+  sub(226, "IMPLEMENTED_TESTED:111", "IMPLEMENTED_TESTED:110", 1);
+  sub(226, "IMPLEMENTED_STRUCTURAL:622", "IMPLEMENTED_STRUCTURAL:623", 1);
+  sub(226, "111/622/15/0/1", "110/623/15/0/1", 2);
+  if (h(T[221].command) !== OLD1) fail("pre mode did not land on the pinned pre-repair tests[221] digest");
+  if (h(T[226].command) !== OLD2) fail("pre mode did not land on the pinned pre-repair tests[226] digest");
+  if (h(T[227].command) !== PIN7) fail("pre mode touched tests[227] - forbidden");
+  if (others() !== OTHS) fail("pre mode touched an original non-repaired entry");
+  fs.writeFileSync(path, JSON.stringify(J, null, 2) + cr + cr);
+  snap("synthesized-pre");
+  console.log("PRE-STATE SYNTHESIZED: the committed repaired entries map back byte-exactly onto the pinned pre-repair digests");
+  process.exit(0);
+}
+if (d1 === NEW1 && d2 === NEW2) {
+  snap("already-repaired");
+  console.log("NO-OP: the index is already repaired (both repaired digests match, every invariant above holds, nothing written)");
+  process.exit(0);
+}
+if (d1 !== OLD1) fail("tests[221] digest is " + d1 + ", expected the pre-repair " + OLD1);
+if (d2 !== OLD2) fail("tests[226] digest is " + d2 + ", expected the pre-repair " + OLD2);
+sub(221, Q + "IMPLEMENTED_TESTED 110" + Q, Q + "IMPLEMENTED_TESTED 111" + Q, 1);
+sub(221, Q + "IMPLEMENTED_STRUCTURAL 623" + Q, Q + "IMPLEMENTED_STRUCTURAL 622" + Q, 1);
+sub(221, "110/623/15/0/1", "111/622/15/0/1", 1);
+sub(226, "IMPLEMENTED_TESTED:110", "IMPLEMENTED_TESTED:111", 1);
+sub(226, "IMPLEMENTED_STRUCTURAL:623", "IMPLEMENTED_STRUCTURAL:622", 1);
+sub(226, "110/623/15/0/1", "111/622/15/0/1", 2);
+if (T[221].command.indexOf("TESTED 110") >= 0 || T[221].command.indexOf("STRUCTURAL 623") >= 0) fail("tests[221] still carries a stale tally literal");
+if (T[226].command.indexOf(":110") >= 0 || T[226].command.indexOf(":623") >= 0) fail("tests[226] still carries a stale tally literal");
+if (h(T[221].command) !== NEW1) fail("tests[221] post digest is " + h(T[221].command) + ", expected " + NEW1);
+if (h(T[226].command) !== NEW2) fail("tests[226] post digest is " + h(T[226].command) + ", expected " + NEW2);
+if (h(T[227].command) !== PIN7) fail("tests[227] changed during the repair - forbidden by the Q1a ruling");
+if (others() !== OTHS) fail("an original non-repaired entry changed during the repair - the delta is not minimal");
+fs.writeFileSync(path, JSON.stringify(J, null, 2) + cr + cr);
+snap("post-repair");
+console.log("REPAIRED: tests[221] and tests[226] tally pins 110/623 -> 111/622; tests[227] byte-identical; the original 235 commands byte-identical; count=" + T.length);
