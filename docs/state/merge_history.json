@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-15T13:27:51Z",
+  "updated_at": "2026-10-15T20:28:48Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1052,6 +1052,24 @@
         "t70-ac1",
         "t70-ac2",
         "t70-ac3"
+      ]
+    },
+    {
+      "issue_id": "t71",
+      "platform_issue": 77,
+      "branch": "issue/t71-readme-v2e",
+      "merge_sha": "37250b5699cc02ce1676fe376a343f85ac56a5c9",
+      "pre_merge_sha": "0daba321ccbd36c235a42460256a5e71c7f034ef",
+      "merged_from_sha": "d0216455367dfa124e0ec3b4d2c443eac11c6981",
+      "into": "main",
+      "merged_at": "2026-10-15T20:28:48Z",
+      "merge_type": "no-ff",
+      "test_suite": "293 passed in 97.04s (merged main)",
+      "retries": 0,
+      "tests_appended": [
+        "t71-ac1",
+        "t71-ac2",
+        "t71-ac4"
       ]
     }
   ]

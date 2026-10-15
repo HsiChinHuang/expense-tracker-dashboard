@@ -73,4 +73,4 @@
 | t68 | README v2 section 3: Prerequisites stated plainly - no Python/Docker/make knowledge needed, npm only (no pins) | [t67] | #74 | closed |
 | t69 | README v2 sections 4-6: run-locally flow npm run check / cp .env.example .env / setup:local / dev / open http://localhost:5173, first-run register, seed:demo demo data, npm run stop (no pins) | [t68] | #75 | closed |
 | t70 | README v2 sections 7-9: troubleshooting, API overview, Render deployment PLACEHOLDER only - carried tests[135] heading/token set preserved, residual #61 cited (no pins) | [t69] | #76 | closed |
-| t71 | README v2 sections 10-12 + SINGLE pin-4 switchover: criteria mapping (exactly-15 rows), project structure, license/AI-workflow pointers + README re-pin + tests[227] Q1a settlement + docs_verification.py pin repair + report regeneration | [t70] | #77 | defined |
+| t71 | README v2 sections 10-12 + SINGLE pin-4 switchover: criteria mapping (exactly-15 rows), project structure, license/AI-workflow pointers + README re-pin + tests[227] Q1a settlement + docs_verification.py pin repair + report regeneration | [t70] | #77 | closed |
