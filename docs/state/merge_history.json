@@ -950,6 +950,32 @@
       "index_count_after": 242,
       "verifier_run": "0628da53-ec4e-458b-804e-c1e93b18220e",
       "summary": "Demo-seed capability merged (first phase_11 card). Verifier PASS 6/6 verbatim at 2a7af84 with negative controls; idempotency snapshot 1|178|4|0|0|9324f4b5 and non-demo fingerprint claims reproduced independently; delta exactly 4 allow-list files 740+/1-; suite 293/293 mypy 94 ruff clean; README pin-3 f0fd9eda and docs_verification.py byte-untouched (pin custody t71). Merged-main full suite 293/293 GREEN on WSL-flavored venv (Windows-native python replay produced 2 known environment artifacts: 5s fallback-latch timing 5.35s and CRLF write_text/readback test_selftest class - disclosed, WSL replay clean). Index ac1-ac5 appended 237->242 (ac6 excluded per card: full-suite composite + milestone-scoped pins + active-card-path references); ac1 carries environment-scoped replay note (t58 precedent): win32 fence branch fails only under WSL-bash-against-win32-venv replay (DATABASE_URL /mnt/c handed to Windows sqlite); WSL-flavored clean worktree replay rc=0 double-measured."
+    },
+    {
+      "issue_id": "t66",
+      "platform_issue": 72,
+      "branch": "issue/t66-readme-reloc",
+      "merge_sha": "493aa2c446fe3442fee6a5c28f68594a27bfdb8b",
+      "pre_merge_sha": "0e820e28b21d80c983ac927dc0fd62eb8c1682bf",
+      "merged_from_sha": "3a0ad331ede9618c2049f9d838b43a36289e9ad1",
+      "into": "main",
+      "merged_at": "2026-10-15T12:12:00Z",
+      "merge_type": "clean",
+      "test_suite": "full",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0,
+      "ac_hash": "sha256:731080e46f68fa9b1086e6208e07f289293fc881591d5fe3ac9c06878af2015f",
+      "index_entries_added": [
+        "tests[242] ac1",
+        "tests[243] ac2",
+        "tests[244] ac3",
+        "tests[245] ac4"
+      ],
+      "index_count_after": 246,
+      "verifier_run": "c099fd56-8621-410e-8c0a-5ee9bf0e1c80",
+      "human_review": "operator approved README diff at Gate 3",
+      "summary": "First phase_11 README card merged. Reviewer-section relocation with compatibility-surface design (W3): README 367->335 keeps every tests[128]/tests[201] token while three new docs absorb the prose; Documentation map carries exactly 3 one-line links. Verifier anti-trust PASS: 6/6 fences, independent 11/11 carried-gate replay, 293/293, mypy/ruff clean, digest attestation 0f5730a0/335L, matrix byte-identical 749 rows. tests[231] pin-3 RED = sanctioned pin-leg until t71 switchover; index/docs_verification byte-frozen (pin custody t71). ac5/ac6 excluded from index (per-card attestation digest + milestone-scoped composite). Diff 325 lines > advisory 300 warn-only disclosed."
     }
   ]
 }
