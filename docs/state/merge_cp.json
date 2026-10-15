@@ -1,13 +1,1 @@
-{
- "issue_id": "t61",
- "step": 8,
- "state": "merged",
- "timestamp": "2026-10-14T13:18:29Z",
- "pre_merge_sha": "0c58f6f",
- "merge_sha": "37614610",
- "test_result": {
-  "total": 196,
-  "passed": 196,
-  "failed": 0
- }
-}
+{"issue_id":"t66","branch":"issue/t66-readme-reloc","merged_from_sha":"3a0ad331ede9618c2049f9d838b43a36289e9ad1","base_sha":"0e57284dcba5dee0db6f85de48db8e7bb057ecde","into":"main","verifier_run":"c099fd56-8621-410e-8c0a-5ee9bf0e1c80","verifier_branch":"verify/t66","verifier_tip":"29e8b255961bddc7e2ab4a54702188a0583fa973","ac_hash":"sha256:731080e46f68fa9b1086e6208e07f289293fc881591d5fe3ac9c06878af2015f","human_review":"operator approved README diff at gate3 (WAL 800)","append_set":["ac1","ac2","ac3","ac4"],"exclude_set":{"ac5":"per-card attestation digest would create forbidden intermediate pin","ac6":"237-entry literal + card-scoped envelope (milestone-scoped composite)"}}
