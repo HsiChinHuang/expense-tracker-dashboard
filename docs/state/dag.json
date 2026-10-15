@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-14T05:45:00Z",
-  "milestone": "phase_10_operator_ux",
+  "generated_at": "2026-10-15T04:55:00Z",
+  "milestone": "phase_11_readme_demo_seed",
   "nodes": [
     "t0",
     "t1",
@@ -137,28 +137,63 @@
     },
     {
       "id": "t60",
-      "status": "defined",
+      "status": "closed",
       "milestone": "phase_10_operator_ux"
     },
     {
       "id": "t61",
-      "status": "defined",
+      "status": "closed",
       "milestone": "phase_10_operator_ux"
     },
     {
       "id": "t62",
-      "status": "defined",
+      "status": "closed",
       "milestone": "phase_10_operator_ux"
     },
     {
       "id": "t63",
-      "status": "defined",
+      "status": "closed",
       "milestone": "phase_10_operator_ux"
     },
     {
       "id": "t64",
-      "status": "defined",
+      "status": "closed",
       "milestone": "phase_10_operator_ux"
+    },
+    {
+      "id": "t65",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t66",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t67",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t68",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t69",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t70",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t71",
+      "status": "defined",
+      "milestone": "phase_11_readme_demo_seed"
     }
   ],
   "edges": [
@@ -581,6 +616,30 @@
     {
       "from": "t64",
       "to": "t63"
+    },
+    {
+      "from": "t66",
+      "to": "t65"
+    },
+    {
+      "from": "t67",
+      "to": "t66"
+    },
+    {
+      "from": "t68",
+      "to": "t67"
+    },
+    {
+      "from": "t69",
+      "to": "t68"
+    },
+    {
+      "from": "t70",
+      "to": "t69"
+    },
+    {
+      "from": "t71",
+      "to": "t70"
     }
   ],
   "cycles": [],
@@ -589,21 +648,28 @@
     "t44",
     "t60",
     "t62",
+    "t65",
     "t1",
     "t2",
     "t61",
     "t63",
+    "t66",
     "t3",
     "t4",
     "t64",
+    "t67",
     "t5",
+    "t68",
     "t6",
-    "t7",
+    "t69",
     "t10",
-    "t8",
+    "t7",
+    "t70",
     "t12",
-    "t9",
+    "t8",
+    "t71",
     "t11",
+    "t9",
     "t13",
     "t14",
     "t15",

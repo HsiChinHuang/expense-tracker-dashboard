@@ -1297,3 +1297,169 @@ constraints embedded. README
 pin-2 retirement is recorded ABOVE (Q1a) — this appendix section sits AFTER the
 `## phase_9_req_matrix` heading on purpose: the matrix generator truncates
 docs/plan.md at that heading, so nothing written here can change matrix rows.
+
+
+## phase_11_readme_demo_seed - README v2 + Demo Seed (operator directive 2026-10-15)
+
+> Operator directive 2026-10-15. This milestone rewrites README.md into a
+> reviewer-facing v2 document (ALL ENGLISH, under 500 lines, REQ-DOC-010
+> 15-section map preserved, link-style sections acceptable) and adds the
+> demo-seed product capability that the README's live-demo section needs.
+> This appendix sits AFTER the `## phase_9_req_matrix` heading on purpose:
+> the matrix generator truncates docs/plan.md at that heading, so nothing
+> written here can change matrix rows.
+
+Tech stack: unchanged (see header). No new runtime dependency; the seed script
+is stdlib + SQLAlchemy only.
+
+### Demo-seed anchoring (explicit, binding)
+
+The demo account and its dataset are a NEW operator-directed product
+capability with NO REQ-ID anchor in docs/requirements.md. Its authority is
+REQ-DOC-010 (the README "live demo" section) plus the operator directive
+2026-10-15 (precedent: phase_10 was scoped by the operator directive
+2026-10-14). No REQ id is invented for it, anywhere, in any card.
+
+### Pin model (binding for grooms of t66..t70)
+
+- Live pin is pin-3: README cr-stripped digest
+  f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8,
+  367 lines (the t63 merge_test_index entry; WAL-recorded as tests[232]).
+- t66..t70 each change README.md content while the stored pin gate stays at
+  pin-3. Their gates therefore use a CARD-SCOPED MEASURED-DIGEST
+  ATTESTATION (each card reports the cr-stripped sha256 + line count of the
+  README it produced; the verifier confirms the working bytes match)
+  instead of stored-pin equality. The verifier replays the stored pin-3
+  entry and records its RED as the named, sanctioned pin-leg exemption in
+  the run log - never as a regression. Every intermediate card body states
+  "this card does not touch pins".
+- tests[128] is the README CRLF working-bytes/anchor pin (9c56e9ff... at
+  pin-3): token/anchor greps, CRLF-tolerant; every README card keeps
+  README.md pure ASCII with CRLF working bytes.
+- t71 is the SINGLE pin-4 switchover: README digest+line-count re-pin (new
+  index entry appended at merge after a verbatim GREEN replay - the Q1a
+  append pattern), retirement settlement of tests[227] (Q1a ruling pattern:
+  orchestrator-recorded exclusion, NEVER an index edit), update of the
+  STALE pin-2 constants in backend/scripts/docs_verification.py (currently
+  a64efaa2 / 308L at lines 34-35), and regeneration of
+  docs/criteria/docs_verification.md via the generator.
+- Carried gates that must survive the rewrite verbatim (measured over all
+  237 merge_test_index entries at the phase_11 base): the t63 ac1-ac5
+  checker family (npm-first Quick Start, Stopping the app, Troubleshooting
+  table, Alternative/make-demoted + Prerequisites-caveat, ASCII), tests[27]
+  (t4 quick-start/running-tests/make-tokens/MIT grep set), tests[128],
+  tests[135] (Render/deployment headings + REQ-CICD token set + <=500 lines
+  + no deploy-hook URL), tests[201] (exactly-15 Chapter 24.3 criteria rows).
+  t70's Render PLACEHOLDER therefore keeps the entire tests[135] heading/
+  token set; removing it would need a named operator retirement ruling, not
+  a card decision.
+
+### Card split (7 cards, N=7; batch_size = min(5, max(1, ceil(7/3))) = 3 -> batches [t65,t66,t67], [t68,t69,t70], [t71])
+
+> Issue template:
+> - Requirement: NO REQ anchor (operator directive 2026-10-15; authority REQ-DOC-010)
+> - Title: Demo-seed product capability - seed_demo.py + npm run seed:demo
+> - Acceptance:
+>     - backend/app/scripts/seed_demo.py creates demo@example.com / demo-password-123,
+>       system categories, ~90 days of plausible expenses, budgets
+>     - root package.json gains "seed:demo"; idempotent wipe+rebuild; non-demo users
+>       untouched; deterministic (fixed seed)
+> - Files: backend/app/scripts/seed_demo.py, package.json, backend tests
+> - Depends: []
+> - Platform: #71
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (README slimming precondition for v2)
+> - Title: Move internal reviewer sections out of README into docs/verification.md,
+>   docs/development.md, docs/screenshots.md with one-line README links
+> - Acceptance: three docs files exist holding the relocated content; README keeps
+>   one-line links; the tests[128] token set stays greppable in README; no pins moved
+> - Files: README.md, docs/verification.md, docs/development.md, docs/screenshots.md
+> - Depends: [t65]
+> - Platform: #72
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (title, live demo, features sections)
+> - Title: README v2 sections 1-2 - pitch, features, screenshots link, online-demo
+>   placeholder with the fixed demo account
+> - Acceptance: pitch is internal-vocabulary-free; online-demo section names
+>   demo@example.com / demo-password-123 and npm run seed:demo; live URL is a stated
+>   placeholder (residual #61); carried gates green except the sanctioned pin-3 exemption
+> - Files: README.md
+> - Depends: [t66]
+> - Platform: #73
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (quick start prerequisites)
+> - Title: README v2 section 3 - Prerequisites stated plainly: no Python/Docker/make
+>   knowledge needed, npm only
+> - Acceptance: plain statement that Python/Docker/make/bash knowledge is not needed;
+>   host list = Node.js 20+/npm + uv + Git; t63 ac4 prerequisite legs + tests[27] green
+> - Files: README.md
+> - Depends: [t67]
+> - Platform: #74
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (quick start, tests entry)
+> - Title: README v2 sections 4-6 - run-locally flow: npm run check -> cp .env.example
+>   .env -> npm run setup:local -> npm run dev -> open http://localhost:5173 (NOT
+>   127.0.0.1); first-run register; demo data via npm run seed:demo; stop via npm run stop
+> - Acceptance: eight-step flow in order; localhost host; t63 ac1/ac2/ac3 checkers
+>   replay verbatim GREEN
+> - Files: README.md
+> - Depends: [t68]
+> - Platform: #75
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (tests, API docs, security/ops sections) + REQ-CICD-036
+>   family token custody (carried gate)
+> - Title: README v2 sections 7-9 - troubleshooting, API overview, Render deployment
+>   PLACEHOLDER only
+> - Acceptance: four carried troubleshooting rows survive; API overview links
+>   docs/api.md + openapi.yaml; Render section is a placeholder that keeps the full
+>   tests[135] heading/token set, fabricates nothing, cites residual #61
+> - Files: README.md
+> - Depends: [t69]
+> - Platform: #76
+
+> Issue template:
+> - Requirement: REQ-DOC-081 / REQ-PROJ-005 (criteria mapping) + pin settlement
+> - Title: README v2 sections 10-12 + the SINGLE pin-4 switchover
+> - Acceptance: exactly-15 criteria rows (tests[201] green); project structure;
+>   MIT + AI-workflow pointers; docs_verification.py pin constants moved to the
+>   measured pin-4 values + report regenerated; full carried-gate replay with ONLY
+>   the two named retired-pin exclusions (tests[227] pin-2, pin-3 entry)
+> - Files: README.md, backend/scripts/docs_verification.py,
+>   docs/criteria/docs_verification.md
+> - Depends: [t70]
+> - Platform: #77
+
+### Dependencies and DAG
+
+t65 independent; t66 depends [t65] (the README must only reference the demo
+command once it exists); t67..t70 chain t66 -> t67 -> t68 -> t69 -> t70
+(same file, serialized, one writer at a time); t71 depends [t70].
+Milestone-local dep_chain = 6 edges (t65 -> t66 -> ... -> t71), within the
+warn-10 / halt-20 limits. Global DAG: docs/state/dag.json + dag.mmd
+regenerated to 72 nodes / 111 edges; Kahn machine-verified zero cycles,
+zero orphans.
+
+### Standing constraints for every card in this milestone
+
+- No Docker locally; git writes via cmd.exe.
+- README is a reviewer-owned root doc (docs/ownership.md: reviewer-approved
+  definer) - every README-touching card carries a human-review dependency;
+  the operator approves the README diff at Gate 3.
+- Single-container architecture (backend serves the built SPA); SQLite
+  fallback is a startup-only latch; money as 2-decimal strings; pagination
+  {items,total,page,page_size}; JWT HS256 24h.
+- README.md stays pure ASCII, ALL ENGLISH, CRLF working bytes.
+- docs/state/merge_test_index.json is orchestrator-owned; no card branch
+  edits it. Pin moves happen ONLY by orchestrator append at merge.
+- NO docs/issues/<id>.md card files at survey (established convention since
+  t44): full five-heading Gate-1 cards are authored at groom; platform
+  bodies are DEFINED-stage stubs with the rulings and hard constraints
+  embedded.
+- Platform numbering: highest existing issue was #70 (closed); the seven
+  cards are #71..#77, one create call each, labels [defined] read back per
+  issue.

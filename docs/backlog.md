@@ -66,4 +66,11 @@
 | t61 | Logout control into AppShell header (data-testid logout-button, Q3a); remove dashboard in-page logout; AuthContext.logout untouched | [t60] | #67 | closed |
 | t62 | npm-script dev workflow in ROOT package.json: check (Q6 auto-fix) / setup:local / dev / stop (Windows-11-first, node builtins only, zero new deps, Docker banned) | [] | #68 | closed |
 | t63 | README Quick Start rewrite (ALL ENGLISH): npm-script path first, Stopping the app, troubleshooting table, make demoted to Alternative; pin-2 retired -> pin-3 appended per Q1a | [t60, t62] | #69 | closed |
-| t64 | phase_10 exit composite: full index replay minus retired tests[227] + pin-3 green + floors + byte-pins + matrix rows re-marked + dev-workflow probes (milestone exit) | [t60, t61, t62, t63] | #70 | defined |
+| t64 | phase_10 exit composite: full index replay minus retired tests[227] + pin-3 green + floors + byte-pins + matrix rows re-marked + dev-workflow probes (milestone exit) | [t60, t61, t62, t63] | #70 | closed |
+| t65 | Demo-seed product capability: backend/app/scripts/seed_demo.py + root npm script seed:demo (demo@example.com fixed, idempotent wipe+rebuild, non-demo users untouched, no README touch) | [] | #71 | defined |
+| t66 | Move internal reviewer sections out of README.md into docs/verification.md, docs/development.md, docs/screenshots.md with one-line README links (no pins; tests[128] token set preserved) | [t65] | #72 | defined |
+| t67 | README v2 sections 1-2: pitch, features, screenshots link, online-demo placeholder with the fixed demo account (no pins) | [t66] | #73 | defined |
+| t68 | README v2 section 3: Prerequisites stated plainly - no Python/Docker/make knowledge needed, npm only (no pins) | [t67] | #74 | defined |
+| t69 | README v2 sections 4-6: run-locally flow npm run check / cp .env.example .env / setup:local / dev / open http://localhost:5173, first-run register, seed:demo demo data, npm run stop (no pins) | [t68] | #75 | defined |
+| t70 | README v2 sections 7-9: troubleshooting, API overview, Render deployment PLACEHOLDER only - carried tests[135] heading/token set preserved, residual #61 cited (no pins) | [t69] | #76 | defined |
+| t71 | README v2 sections 10-12 + SINGLE pin-4 switchover: criteria mapping (exactly-15 rows), project structure, license/AI-workflow pointers + README re-pin + tests[227] Q1a settlement + docs_verification.py pin repair + report regeneration | [t70] | #77 | defined |

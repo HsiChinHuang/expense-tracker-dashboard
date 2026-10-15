@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t65",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_11_readme_demo_seed",
+    "issues_generated": ["t65", "t66", "t67", "t68", "t69", "t70", "t71"],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "REQ-DOC-010 (README v2, live-demo section): COVERED by t66..t71 - the 15-section map is preserved (link-style allowed), under 500 lines, ALL ENGLISH; the live-demo section carries the demo account and npm run seed:demo, anchored to REQ-DOC-010 + operator directive 2026-10-15.",
+        "DEMO SEED ANCHORING (explicit, per ruling 11): the demo account/dataset is a NEW operator-directed product capability with NO REQ-ID anchor in docs/requirements.md; authority is REQ-DOC-010 + operator directive 2026-10-15 (precedent: phase_10, operator directive 2026-10-14). No REQ id was invented for it in the plan or any issue body.",
+        "REQ-DOC-081 / REQ-PROJ-005 (criteria mapping): COVERED by t71 (exactly-15 Chapter 24.3 rows; the carried t49 ac4 checker replays verbatim GREEN).",
+        "REQ-CICD-036 family (Render): PARTIALLY covered BY DESIGN - t70 authors a PLACEHOLDER only; real Render instructions land in a LATER milestone after the operator configures RENDER_DEPLOY_HOOK (residual platform issue #61). The carried tests[135] heading/token set must survive the placeholder verbatim (stated in t70's body); removing it would need a named operator retirement ruling, not a card decision.",
+        "docs_verification.py README pin staleness (pin-2 a64efaa2/308L at lines 34-35): COVERED by t71 (pin constants repaired to measured pin-4 + report regenerated via the generator).",
+        "NOT covered by design (disclosed): no backend behavior change except the t65 seed script; e2e suite untouched; the phase_9/phase_10 dispositions of all other REQ rows are unchanged by this milestone."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 4,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "phase_11_readme_demo_seed survey (milestone begins after phase_10 closure, WAL seq 770; main 057b8a3). Operator-rulings brief 2026-10-15 embedded verbatim into the seven platform bodies (build/p11_bodies/, gitignored scratch). N=7 cards t65..t71; batch_size = min(5, max(1, ceil(7/3))) = 3 -> batches [t65,t66,t67], [t68,t69,t70], [t71], each batch's platform creates persisted before the next batch started; one create call per issue, all seven read back open with labels [defined]: t65=#71, t66=#72, t67=#73, t68=#74, t69=#75, t70=#76, t71=#77 (highest existing issue #70 closed, verified via issue get; #71 verified 404 before creation). PLATFORM NUMBERING STARTS AT #71 as ruled. NO docs/issues/<id>.md cards at survey (established convention since t44): bodies are DEFINED-stage stubs with the rulings and hard constraints embedded; full five-heading Gate-1 cards authored at groom. PIN MODEL (ruling 9, embedded in every README card body): live pin is pin-3 (cr-stripped digest f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8, 367 lines - re-measured at this base: tr -d CR | sha256sum = f0fd9eda..., wc -l = 367, confirmed); t66..t70 gates use a CARD-SCOPED MEASURED-DIGEST ATTESTATION instead of stored-pin equality, each body states 'this card does not touch pins', and the verifier records the stored pin-3 entry's RED as the named sanctioned pin-leg exemption (never a regression); t71 is the SINGLE pin-4 switchover (append-at-merge Q1a pattern + tests[227] retirement settlement as orchestrator-recorded exclusion, never an index edit + docs_verification.py pin repair + report regeneration). MEASURED GATE IMPACT over all 237 merge_test_index entries: README-reading entries are 27/119/128/135/144/149/150/155/191/196/199/201/210/227/231-236; of these the binding carried constraints on README CONTENT are t63 ac1-ac5 (WAL tests[232]-[236]), t4 tests[27] (quick-start/running-tests/make-tokens/MIT/prerequisite greps - note: the make tokens and 'cp .env.example .env' must stay greppable in README), t24 tests[128] (the CRLF-tolerant anchor/token gate whose heading+command set the t66 relocation must keep greppable in README - called out verbatim in t66's body), t26 tests[135] (Render headings + REQ-CICD tokens + <=500 lines + no deploy-hook URL - t70 placeholder must keep the full token set), t49 tests[201] (exactly-15 criteria rows). The WAL uses 1-based index numbering (tests[232] = the t63 pin-3 digest gate = 0-based 231); bodies cite WAL numbers with issue names to stay unambiguous. docs_verification.py README_DIGEST/README_LINES measured STALE at pin-2 a64efaa2/308L (lines 34-35) - t71 fixes. t65 product card touches NO README and NO pins (its body says so); demo account fixed demo@example.com / demo-password-123, idempotent wipe+rebuild scoped to the demo account only, deterministic seed; seed.py (REQ-DB-070/071/072) untouched. DAG: docs/state/dag.json + dag.mmd regenerated to 72 nodes / 111 edges (65/105 + 7 nodes + 6 chain edges; every existing entry byte-equivalent; t60..t64 node status refreshed defined->closed per backlog ground truth); Kahn machine-verified in-node: all 72 nodes topologically ordered, zero cycles, zero orphans; cumulative critical path unchanged at 38 nodes (...t57->t58->t59) - the phase_11 chain hangs off the milestone boundary per the rolling-planning precedent; dep_chain MILESTONE-LOCAL = 6 edges (t65->t66->t67->t68->t69->t70->t71), within warn-10/halt-20. SURVEY WRITE SCOPE: docs/plan.md (phase_11 section APPENDED at END, after the phase_10 appendix and clear of the phase_9 truncation heading - matrix rows cannot change), docs/backlog.md (7 rows appended + the t64 row's stale 'defined' display repaired to 'closed' per platform #70 verified closed - a single status-cell repair, disclosed, no other history row touched), docs/state/issue_map.json (t65..t71 added inside mappings{}; the two top-level strays t43/t38 left untouched), docs/state/dag.json + dag.mmd, docs/state/milestones/phase_11_readme_demo_seed.json (review_plan_status pending), build/p11_bodies/ (gitignored scratch), and this handoff. NO WAL lines (orchestrator-only). Platform CLI ran via /mnt/d/Program/nodejs/node.exe node_modules/tsx/dist/cli.mjs scripts/platform.ts from the main checkout with </dev/null on every call (.env never read/printed). README human-review dependency (docs/ownership.md reviewer-owned) stated in every README-touching body. ORCHESTRATOR NEXT STEPS (schema forces next_action null on COMPLETE): definer:review_plan over the milestone file; groom order t65 -> t66 -> t67 -> t68 -> t69 -> t70 -> t71 (strict chain); at t71's merge: replay the pin-4 gate GREEN on merged bytes BEFORE appending, record pin-3 retirement + tests[227] Q1a settlement in the WAL, append the card's new fences after verbatim GREEN replays."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/backlog.md",
+      "docs/state/milestones/phase_11_readme_demo_seed.json",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/outputs/phase_11_readme_demo_seed_definer_survey.json"
+    ],
+    "platform_issue": 71,
+    "output_path": "docs/state/outputs/phase_11_readme_demo_seed_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-15T04:58:00Z",
+  "retry_count": 0
+}
