@@ -1,26 +1,31 @@
 # expense-tracker-dashboard
 
-Expense Tracker Dashboard - a FastAPI + React dashboard for tracking expenses,
-built per `docs/requirements/` (see Chapter 3 for the tech stack and
-Chapter 17 for the development plan). This repository is under active
-development; phase 1 provides the project skeleton, health endpoint, and the
-command surface documented below.
+Expense Tracker Dashboard - a FastAPI + React dashboard for tracking
+expenses and monthly budgets.
+
+The stack is FastAPI on the API side and React on the front end. The
+feature list is below, the seeded demo gets real data onto your own
+machine with one command, and the reviewer evidence - verification
+records and checklists - lives in `docs/verification.md`.
 
 ## Features
 
 | Feature | Status | Evidence |
 |---|---|---|
-| Expense tracking (auth, categories, expenses, budgets, audit) | merged | `docs/issues/closed/` |
-| Dashboard (KPI cards, five charts, month switch, recent list) | merged (phase 4) | `docs/criteria/dashboard_verification.md` |
+| Expense tracking (auth, categories, expenses, budgets, audit) | available | `docs/issues/closed/` |
+| Dashboard (KPI cards, five charts, month switch, recent list) | available | `docs/criteria/dashboard_verification.md` |
 
-The dashboard feature is verified hermetically by
-`backend/scripts/dashboard_verification.py`, whose generated evidence lives in
+Dashboard evidence is generated hermetically by
+`backend/scripts/dashboard_verification.py`; the generated record lives in
 `docs/criteria/dashboard_verification.md` (REQ-PLAN-041 cross-checks,
-criteria-table rows 17-26/32, recorded REQ-PROD-020 timings).
+criteria-table rows 17-26/32, recorded REQ-PROD-020 timings), and the
+verification method behind it is summarised in `docs/verification.md`.
+
+- Reviewer screenshots: [docs/screenshots.md](docs/screenshots.md)
 
 ### Dashboard API endpoints
 
-All six endpoints require a bearer token and are read-only; the full
+Every endpoint below is read-only and needs a bearer token; the full
 parameter and response-shape detail lives in `docs/development.md`:
 
 - `/api/v1/dashboard/summary?year_month=YYYY-MM`
@@ -29,6 +34,27 @@ parameter and response-shape detail lives in `docs/development.md`:
 - `/api/v1/dashboard/cumulative?year_month=YYYY-MM`
 - `/api/v1/dashboard/heatmap?weeks=N`
 - `/api/v1/dashboard/recent?limit=N`
+
+## Online demo
+
+Try the app before building it. The seeded local demo path works today: one
+command loads a fixed demo account and a deterministic recent expense
+dataset into your own local database, and the dashboard renders from it
+immediately.
+
+```bash
+npm run seed:demo
+```
+
+Then run the Quick Start commands below and sign in with the fixed account
+demo@example.com / demo-password-123. The seed script touches only its own
+demo rows and is safe to re-run.
+
+A hosted demo address is a placeholder pending the published deployment, and
+no URL is fabricated here: no public service has been published yet, so the
+real address will be filled in when it exists. Until then, the seeded local
+demo above is the demo path.
+
 ## Prerequisites
 
 The npm path is the operator path and it needs two host tools only:
