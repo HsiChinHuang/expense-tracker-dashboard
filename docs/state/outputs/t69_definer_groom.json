@@ -187,22 +187,25 @@
       ]
     },
     "validation": {
-      "invoked_via": "PENDING_FILL - copy of the handoff + card into the MAIN checkout (which has node_modules restored) and run via cmd.exe there",
-      "validate_handoff": "PENDING_FILL",
-      "gate_check": "PENDING_FILL",
-      "gate_check_invocation": "cmd.exe /c node node_modules\\tsx\\dist\\cli.mjs scripts\\gate_check.ts definer groom docs\\state\\outputs\\t69_definer_groom.json",
-      "both_gates_observed": "PENDING_FILL"
+      "invoked_via": "handoff + card + mirror copied into the MAIN checkout (which holds node_modules, tsx v4.23.15) and run from there through cmd.exe, per the t68 precedent; the copies were deleted after the run",
+      "validate_handoff": "[OK] C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t69-groom\\docs\\state\\outputs\\t69_definer_groom.json is valid for definer:groom (rc=0)",
+      "gate_check": "{passed: true, gate: gate1_groom_complete, errors: []} (rc=0)",
+      "gate_check_invocation": "cmd.exe /c node node_modules\\tsx\\dist\\cli.mjs scripts\\gate_check.ts definer groom docs\\state\\outputs\\t69_definer_groom.json defined",
+      "both_gates_observed": "PASS - validate_handoff and gate1 both green against the COMMITTED paths (the gate checker resolves the issue file and handoff relative to the MAIN checkout, so the three artifacts were staged there read-only for the check and removed afterwards; the main checkout is left clean)"
     },
     "post_commit_recompute": {
-      "status": "PENDING_FILL",
-      "recomputed_from": "git show HEAD:docs/issues/groom/t69.md (and the card path) read through cmd.exe from the worktree; five bash fences extracted by the documented recipe",
+      "status": "DONE",
+      "recomputed_from": "git show HEAD:docs/issues/groom/t69.md and HEAD:docs/issues/t69.md read through cmd.exe from the worktree; five bash fences extracted by the documented recipe (lines beginning bash -c ', CR-stripped, trimmed, document order)",
       "recorded_ac_hash": "sha256:9e89e4209aadc0df15c8d5c63852982894239eb36d9cf3cc0f255bbcc5061d94",
-      "committed_mirror_ac_hash": "PENDING_FILL",
-      "match": false,
-      "fences_found_in_committed_blob": 0,
-      "fences_match_individually": false,
-      "committed_card_blob_equals_mirror_blob": false,
-      "note": "the ac_hash is computed from the fence files BEFORE the commit and re-verified byte-for-byte against the committed blobs afterwards"
+      "committed_mirror_ac_hash": "sha256:9e89e4209aadc0df15c8d5c63852982894239eb36d9cf3cc0f255bbcc5061d94",
+      "match": true,
+      "fences_found_in_committed_blob": 5,
+      "fences_match_individually": true,
+      "committed_card_blob_equals_mirror_blob": true,
+      "committed_blob_cr_sha256_card_and_mirror": "4657b3ab6971d60a6dd8446398cd9b61907fd999c666f2438072e4ed277beea9",
+      "committed_blob_bytes_lf_normalised": 63858,
+      "full_form_req_ids_in_committed_card": 0,
+      "note": "the ac_hash was computed from the fence files BEFORE the commit and re-verified byte-for-byte against the committed blobs afterwards; fence lengths from the committed blob are 8099, 6167, 8174, 7685, 7492 bytes - all inside the 8191-byte cmd.exe ceiling"
     },
     "notes": [
       "The README human-review WAIVER (operator ruling 2026-10-15, clarified same day: rigorous check, no leniency, no change to the acceptance criteria) is in force for t67-t71. It changes only who performs the Gate-3 review; no AC, fence, control, replay leg, isolation leg or pin rule is relaxed.",
@@ -221,6 +224,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-15T16:20:00Z",
+  "timestamp": "2026-10-15T16:35:00Z",
   "retry_count": 0
 }
