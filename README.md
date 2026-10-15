@@ -74,8 +74,9 @@ That is the whole host list: there is nothing else to install.
 
 ## Quick Start
 
-Four npm commands drive the whole daily loop, natively on Windows 11 from the
-repository root (cmd.exe or PowerShell - no make, no bash, no Docker):
+Eight numbered steps bring the whole app up locally, natively on Windows 11
+from the repository root (cmd.exe or PowerShell - no make, no bash, no
+Docker):
 
 ```bash
 # 0. Clone the repository
@@ -84,7 +85,7 @@ git clone <repo-url> && cd expense-tracker-dashboard
 # 1. Detect the environment state (host tools, dev ports, venv, frontend deps)
 npm run check
 
-# 2. Create the local environment file (placeholders only - fill in secrets locally)
+# 2. Create the local environment file (placeholders only - fill secrets locally)
 cp .env.example .env
 
 # 3. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
@@ -93,7 +94,14 @@ npm run setup:local
 # 4. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
 npm run dev
 
-# 5. Stop both servers again when you are done
+# 5. Open http://localhost:5173 in your browser
+
+# 6. Register an account (first run only - a fresh database has no account yet)
+
+# 7. Load the deterministic demo dataset for the fixed demo account
+npm run seed:demo
+
+# 8. Stop both servers again when you are done
 npm run stop
 ```
 
@@ -105,6 +113,13 @@ through `/api`). Configuration lives in `.env` (never committed);
 `.env.example` lists every variable with placeholder values. See
 `docs/requirements/Chapter3_TechStack.md` section 3.10 for the variable
 reference.
+
+The `npm run seed:demo` step is safe to re-run: the seed wipes and rebuilds
+only the fixed demo account (`demo@example.com` / `demo-password-123`) and
+its own demo rows, never your own accounts or data, and the dataset is
+deterministic - the same demo rows every time. Sign in with that account to
+see the populated dashboard. To stop both servers again, see the
+`## Stopping the app` section below.
 
 ## Stopping the app
 
