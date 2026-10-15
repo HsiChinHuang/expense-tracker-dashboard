@@ -1,0 +1,308 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t71",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v python3 >/dev/null || { echo \"ac1 RED: python3 missing\"; exit 1; }; command -v tr >/dev/null || { echo \"ac1 RED: tr missing\"; exit 1; }; command -v sha256sum >/dev/null || { echo \"ac1 RED: sha256sum missing\"; exit 1; }; test -f README.md || { echo \"ac1 RED: README.md missing\"; exit 1; }; test -f docs/state/merge_test_index.json || { echo \"ac1 RED: merge-test index missing\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"ac1 RED: docs_verification.py missing\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"ac1 RED: docs_verification.md report missing\"; exit 1; }; T=$(tr -d \"\\r\" < README.md); N=$(printf \"%s\\n\" \"$T\" | wc -l | tr -dc \"0-9\"); H=$(printf \"%s\\n\" \"$T\" | grep -cE \"^## \"); CR=$(tr -cd \"\\015\" < README.md | wc -c | tr -dc \"0-9\"); NL=$(tr -cd \"\\n\" < README.md | wc -c | tr -dc \"0-9\"); D=$(printf \"%s\\n\" \"$T\" | sha256sum | cut -c1-64); echo \"ac1 evidence: README lines=${N:-0} level2_headings=${H:-0} cr_bytes=${CR:-0} lf_bytes=${NL:-0} cr_sha256=$D\"; [ \"${CR:-0}\" = \"${NL:-1}\" ] || { echo \"ac1 RED: CR bytes ${CR:-0} do not equal LF bytes ${NL:-0} - README.md must be CRLF on every line\"; exit 1; }; [ \"${H:-0}\" = \"17\" ] || { echo \"ac1 RED: README carries ${H:-0} level-2 headings, not the 17 the base carries - sections are rewritten IN PLACE, never added or removed\"; exit 1; }; [ \"${N:-0}\" -ge 340 ] && [ \"${N:-0}\" -le 400 ] || { echo \"ac1 RED: README is ${N:-0} lines, outside the 340..400 band this card budgets (base 385, hard ceiling 400)\"; exit 1; }; LC_ALL=C grep -qP \"[^\\x00-\\x7F]\" README.md && { echo \"ac1 RED: README.md carries a non-ASCII byte - the all-English pure-ASCII rule is broken\"; exit 1; }; echo \"ac1 evidence: invariants hold (17 level-2 headings, CRLF on every line, ASCII-only, ${N:-0} lines within the 400 ceiling)\"; for h in \"Repository layout\" \"Criteria mapping\" \"Evidence checklist\" \"License\"; do printf \"%s\\n\" \"$T\" | grep -qE \"^## ${h}[[:space:]]*$\" || { echo \"ac1 RED: the ## ${h} heading is gone - the 17-heading set must survive\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | grep -qF \"placeholders for later phases\" && { echo \"ac1 RED: the Repository layout section still calls e2e/, ops/ and security/ placeholders for later phases - that claim is stale (t59 shipped the security and ops artifacts, t66 the e2e and reviewer docs) and section 11 must state what the tree actually holds\"; exit 1; }; printf \"%s\\n\" \"$T\" | sed -n \"/^## Repository layout/,/^## /p\" | grep -qF \"docs/criteria/\" || { echo \"ac1 RED: the Repository layout section never names docs/criteria/ - the generated-report distinction this section exists to teach is missing\"; exit 1; }; printf \"%s\\n\" \"$T\" | sed -n \"/^## Repository layout/,/^## /p\" | grep -qF \"docs/state/\" || { echo \"ac1 RED: the Repository layout section never names docs/state/ - the process-state location is missing\"; exit 1; }; for k in \"lands with t50\" \"lands with t51\"; do printf \"%s\\n\" \"$T\" | grep -qF \"$k\" && { echo \"ac1 RED: the criteria and evidence tables still carry the stale marker $k - that evidence merged long ago and section 10 must state current locations\"; exit 1; }; done; printf \"%s\\n\" \"$T\" | sed -n \"/^## License/,/^## /p\" | grep -qF \"MIT\" || { echo \"ac1 RED: the License section no longer names the MIT license - the tests[27] MIT token is load-bearing\"; exit 1; }; printf \"%s\\n\" \"$T\" | sed -n \"/^## License/,/^## /p\" | grep -qF \"docs/ai-workflow.md\" || { echo \"ac1 RED: the License section carries no pointer to docs/ai-workflow.md - the AI-workflow pointer this card owns is missing\"; exit 1; }; printf \"%s\\n\" \"$T\" | sed -n \"/^## License/,/^## /p\" | grep -qF \"AGENTS.md\" || { echo \"ac1 RED: the License section carries no pointer to AGENTS.md - the agent-rules pointer is missing\"; exit 1; }; M=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Criteria mapping/,/^## Evidence checklist/p\" | grep -cE \"^\\|[[:space:]]*(1|2|3|4|5|6|7|8|9|10|11|12|13|14|15)[[:space:]]*\\|.*REQ-.*\\|\"); echo \"ac1 evidence: criteria rows=${M:-0} (exactly 15 required)\"; [ \"${M:-0}\" = \"15\" ] || { echo \"ac1 RED: the criteria-mapping table carries ${M:-0} REQ-bearing rows, not exactly 15 - tests[201] is load-bearing and would go RED\"; exit 1; }; IDS=$(printf \"%s\\n\" \"$T\" | grep -oE \"REQ-[A-Z]+-[0-9]+\" | sort -u | sha256sum | cut -c1-64); echo \"ac1 evidence: distinct full-form REQ id set sha256=$IDS\"; [ \"$IDS\" = \"01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794\" ] || { echo \"ac1 RED: the distinct full-form REQ-id set in README changed - the coverage matrix cites README as a citation source and must regenerate byte-identical, so this card may add or drop no id\"; exit 1; }; echo \"ac1 GREEN: sections 10-12 rewritten in place (Repository layout describes the real tree, criteria and evidence tables carry current evidence with no stale lands-with markers, License names MIT plus the docs/ai-workflow.md and AGENTS.md pointers), exactly 15 criteria rows, the citation id-set unchanged, 17 headings, CRLF, ASCII, within the 400-line ceiling\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t71v/final2_ac1.txt",
+        "note": "rc=0 GREEN, run VERBATIM twice at tip d021645 (fence body 4986B, byte-length-verified before trusting). Output: README lines=391, level2_headings=17, cr_bytes=391, lf_bytes=391, cr_sha256=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0; criteria rows=15; distinct full-form REQ id set sha256=01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794; the Repository-layout stale-placeholder claim is gone; ASCII-only and the 400-line ceiling hold. Base state re-measured EMPIRICALLY in a scratch worktree at 17008bf: rc=1 with the named by-design reason 'the Repository layout section still calls e2e/, ops/ and security/ placeholders for later phases'."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v python3 >/dev/null || { echo \"ac2 RED: python3 missing\"; exit 1; }; command -v tr >/dev/null || { echo \"ac2 RED: tr missing\"; exit 1; }; command -v sha256sum >/dev/null || { echo \"ac2 RED: sha256sum missing\"; exit 1; }; test -f README.md || { echo \"ac2 RED: README.md missing\"; exit 1; }; test -f docs/state/merge_test_index.json || { echo \"ac2 RED: merge-test index missing\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"ac2 RED: docs_verification.py missing\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"ac2 RED: docs_verification.md report missing\"; exit 1; }; ENT=$(python3 -c \"import json;print(len(json.load(open(\\\"docs/state/merge_test_index.json\\\",encoding=\\\"utf-8\\\"))[\\\"tests\\\"]))\" 2>/dev/null); [ \"${ENT:-0}\" -ge 256 ] || { echo \"ac2 RED: the index holds ${ENT:-0} entries, fewer than the 256 this card was groomed against - the DYNAMIC floor is >=256 so this leg survives every future orchestrator append\"; exit 1; }; rm -rf /tmp/t712_g; mkdir -p /tmp/t712_g; python3 -c \"import json,sys;o=\\\"/tmp/t712_g\\\";t=json.load(open(\\\"docs/state/merge_test_index.json\\\",encoding=\\\"utf-8\\\"))[\\\"tests\\\"];[open(o+\\\"/\\\"+str(i)+\\\".sh\\\",\\\"w\\\",newline=\\\"\\\").write(t[i][\\\"command\\\"].replace(chr(13)+chr(10),chr(10))+chr(10)) for i in [27,119,128,135,144,201,232,233,234,235,236,242,243,244,245,246,247,248,249,250,251,252,253,254,255,227,231]]\" || { echo \"ac2 RED: stored gates could not be extracted\"; exit 1; }; [ -s /tmp/t712_g/227.sh ] || { echo \"ac2 RED: the retired-pin exclusion source tests[227] is missing from the index\"; exit 1; }; grep -qF \"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\" /tmp/t712_g/227.sh || { echo \"ac2 RED: tests[227] no longer carries the pin-2 README digest - named retired-pin exclusion #1 is not what this card was groomed against\"; exit 1; }; [ -s /tmp/t712_g/231.sh ] || { echo \"ac2 RED: the retired-pin exclusion source tests[231] is missing from the index\"; exit 1; }; grep -qF \"f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8\" /tmp/t712_g/231.sh || { echo \"ac2 RED: tests[231] no longer carries the pin-3 README digest - named retired-pin exclusion #2 is not what this card was groomed against\"; exit 1; }; echo \"ac2 evidence: the two named retired-pin exclusions are tests[227] (t59 ac4, asserts the pin-2 README digest and the pin-2-era report digest) and tests[231] (t63, asserts pin-3 equality) - both are extracted for settlement proof and EXCLUDED from the replay by construction, recorded by the orchestrator per the Q1a ruling pattern, never by an index edit\"; echo \"ac2 evidence: tests[191] (t47) pins the pre-t63 README digest 8d141fb2 and is a pre-existing RED excluded from this replay with that reason - not executed, not silently skipped\"; for i in 27 119 128 135 144 201 232 233 234 235 236 242 243 244 245 246 247 248 249 250 251 252 253 254 255; do [ -s /tmp/t712_g/$i.sh ] || { echo \"ac2 RED: stored tests[$i] extracted empty\"; exit 1; }; bash /tmp/t712_g/$i.sh >/tmp/t712_o.txt 2>&1 || { echo \"ac2 RED: carried stored gate tests[$i] went RED - inspect /tmp/t712_o.txt\"; head -3 /tmp/t712_o.txt; exit 1; }; done; echo \"ac2 evidence: 25 carried gates rc=0 (set 27,119,128,135,144,201,232,233,234,235,236,242,243,244,245,246,247,248,249,250,251,252,253,254,255)\"; echo \"ac2 GREEN: 25 of 25 carried README-touching stored gates rc=0 VERBATIM from the 256-entry merge-test index - the count floor is DYNAMIC (>=256, never an exact count) so this fence survives its own orchestrator append; tests[201] (exactly-15 criteria rows) and tests[135] (the Render token set) are the load-bearing carried gates of this card\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t71v/final2_ac2.txt",
+        "note": "rc=0 GREEN, run VERBATIM (fence body 3662B). In-fence: 25 of 25 carried gates rc=0 for the set 27,119,128,135,144,201,232,233,234,235,236,242,243,244,245,246,247,248,249,250,251,252,253,254,255; the two named retired-pin exclusions tests[227]/tests[231] are extracted for settlement and excluded by construction (orchestrator Q1a ruling, never an index edit); tests[191] named as a pre-existing RED, not silently skipped. The verifier INDEPENDENTLY re-derived the replay set from the 256-entry index: 32 gates mention README.md = the card's 25 + {191,227,231} (named exclusions) + {149,155,196,210}; the 4 extras only reference other READMEs (mcp-server/README.md, an agent-hooks find -name README.md, the literal inside docs/ownership.md and docs/architecture.md) and none reads the root README - all 4 were run anyway and are rc=0. All 39 non-excluded gates replayed VERBATIM by the verifier outside the fence: 39/39 rc=0. An extra anti-trust sweep of gates referencing the other changed artifacts (217,218,219,220,221,222,223,226) is 8/8 rc=0 - no regression from the docs_verification.py / report change. Base state re-measured at 17008bf: rc=0 (replay fence, GREEN by design, 25/25)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v python3 >/dev/null || { echo \"ac3 RED: python3 missing\"; exit 1; }; command -v tr >/dev/null || { echo \"ac3 RED: tr missing\"; exit 1; }; command -v sha256sum >/dev/null || { echo \"ac3 RED: sha256sum missing\"; exit 1; }; test -f README.md || { echo \"ac3 RED: README.md missing\"; exit 1; }; test -f docs/state/merge_test_index.json || { echo \"ac3 RED: merge-test index missing\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"ac3 RED: docs_verification.py missing\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"ac3 RED: docs_verification.md report missing\"; exit 1; }; command -v cmd.exe >/dev/null || { echo \"ac3 RED: cmd.exe missing - the base blob must be read through git on the Windows side (WSL git cannot see this worktree)\"; exit 1; }; G=$(wslpath -w \"$PWD\"); GT() { cmd.exe /c \"git -C $G $1\" </dev/null 2>/dev/null | tr -d \"\\r\"; }; GT \"show 777a167:README.md\" > /tmp/t713_base_readme.bin; test -s /tmp/t713_base_readme.bin || { echo \"ac3 RED: the 777a167 README blob could not be extracted\"; exit 1; }; BD=$(tr -d \"\\r\" < /tmp/t713_base_readme.bin | sha256sum | cut -c1-64); [ \"$BD\" = \"b8795ac8db5418d1324d64601e6a6dd9e373930dd6e8b4e6261166a04ee73ae4\" ] || { echo \"ac3 RED: the 777a167 README blob hashes to $BD, not the measured base b8795ac8db5418d1324d64601e6a6dd9e373930dd6e8b4e6261166a04ee73ae4\"; exit 1; }; echo \"ac3 evidence: base README blob verified ($BD)\"; FL() { tr -d \"\\r\" | awk \"/^## (Repository layout|Criteria mapping|Evidence checklist|License)\\$/{s=1;next} /^## /{s=0} s==0\" | sha256sum | cut -c1-64; }; OUT_BASE=$(FL < /tmp/t713_base_readme.bin); OUT_NOW=$(FL < README.md); echo \"ac3 evidence: outside-region extract base=$OUT_BASE now=$OUT_NOW\"; [ \"$OUT_BASE\" = \"49aa2b41ca8c1a2694678e3b97fe3ffe7ec2a09befd4c63c43cd2969a8c870c8\" ] || { echo \"ac3 RED: the base outside-region extract does not hash to the measured 49aa2b41...\"; exit 1; }; [ \"$OUT_NOW\" = \"$OUT_BASE\" ] || { echo \"ac3 RED: bytes OUTSIDE the four owned regions CHANGED - this card owns only Repository layout, Criteria mapping, Evidence checklist and License\"; exit 1; }; echo \"ac3 evidence: everything outside the owned regions is byte-identical to the base blob\"; mkdir -p /tmp/t713_neg; cp README.md /tmp/t713_neg/sab.bin; printf \"SABOTAGE - an outside-region line added by the negative control\\n\" >> /tmp/t713_neg/sab.bin; SC=$(FL < /tmp/t713_neg/sab.bin); [ \"$SC\" != \"$OUT_NOW\" ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the outside-region comparison accepted a README whose ## Features heading was renamed; the leg is inert\"; exit 1; }; echo \"ac3 evidence: negative control - an outside-region sabotage ($SC) is REFUSED by the same comparison\"; T=$(tr -d \"\\r\" < README.md); N=$(printf \"%s\\n\" \"$T\" | wc -l | tr -dc \"0-9\"); H=$(printf \"%s\\n\" \"$T\" | grep -cE \"^## \" | tr -dc \"0-9\"); CR=$(tr -cd \"\\015\" < README.md | wc -c | tr -dc \"0-9\"); NL=$(tr -cd \"\\n\" < README.md | wc -c | tr -dc \"0-9\"); D=$(printf \"%s\\n\" \"$T\" | sha256sum | cut -c1-64); echo \"ac3 attestation: README lines=${N:-0} level2_headings=${H:-0} cr_bytes=${CR:-0} lf_bytes=${NL:-0} cr_sha256=$D\"; [ \"${H:-0}\" = \"17\" ] || { echo \"ac3 RED: the 17-heading set changed\"; exit 1; }; [ \"${CR:-0}\" = \"${NL:-1}\" ] || { echo \"ac3 RED: CRLF is not uniform (CR=${CR:-0} LF=${NL:-0})\"; exit 1; }; LC_ALL=C grep -qP \"[^\\x00-\\x7F]\" README.md && { echo \"ac3 RED: non-ASCII byte in README.md\"; exit 1; }; echo \"ac3 GREEN: ISOLATION AND INVARIANTS - the delta touches only the four owned regions, every other byte equals the 777a167 blob, the 17-heading set, uniform CRLF and pure ASCII hold, and the measured attestation prints the current digest $D for the pin-4 settlement in ac4\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t71v/final2_ac3.txt",
+        "note": "rc=0 GREEN, run VERBATIM (fence body 3688B). Base README blob verified b8795ac8db5418d1324d64601e6a6dd9e373930dd6e8b4e6261166a04ee73ae4; outside-region extract base=49aa2b41ca8c1a2694678e3b97fe3ffe7ec2a09befd4c63c43cd2969a8c870c8 now=49aa2b41ca8c1a2694678e3b97fe3ffe7ec2a09befd4c63c43cd2969a8c870c8 (byte-identical); the in-fence negative control shows an outside-region sabotage (1a40139955db8dc1dc3b126c49f638080a58e5989d81d91812d971fa0463f798) is REFUSED by the same comparison. The verifier repeated the isolation cut independently in Python: identical 49aa2b41... digest on both sides, and the 17 level-2 heading names are the same set as base. Base state re-measured at 17008bf: rc=0 (isolation fence, GREEN by design)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v python3 >/dev/null || { echo \"ac4 RED: python3 missing\"; exit 1; }; command -v tr >/dev/null || { echo \"ac4 RED: tr missing\"; exit 1; }; command -v sha256sum >/dev/null || { echo \"ac4 RED: sha256sum missing\"; exit 1; }; test -f README.md || { echo \"ac4 RED: README.md missing\"; exit 1; }; test -f docs/state/merge_test_index.json || { echo \"ac4 RED: merge-test index missing\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"ac4 RED: docs_verification.py missing\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"ac4 RED: docs_verification.md report missing\"; exit 1; }; PY=$(cat backend/scripts/docs_verification.py | tr -d \"\\r\"); CD=$(printf \"%s\\n\" \"$PY\" | grep -oE \"^README_DIGEST = \\\"[0-9a-f]{64}\\\"\" | grep -oE \"[0-9a-f]{64}\"); CL=$(printf \"%s\\n\" \"$PY\" | grep -oE \"^README_LINES = [0-9]+\" | grep -oE \"[0-9]+$\"); FL=$(printf \"%s\\n\" \"$PY\" | grep -oE \"^INDEX_FLOOR = [0-9]+\" | grep -oE \"[0-9]+$\"); echo \"ac4 evidence: docs_verification.py constants README_DIGEST=${CD:-none} README_LINES=${CL:-none} INDEX_FLOOR=${FL:-none}\"; [ -n \"${CD:-}\" ] && [ -n \"${CL:-}\" ] && [ -n \"${FL:-}\" ] || { echo \"ac4 RED: the three pin constants could not be parsed from docs_verification.py\"; exit 1; }; T=$(tr -d \"\\r\" < README.md); N=$(tr -d \"\\r\" < README.md | wc -l | tr -dc \"0-9\"); D=$(tr -d \"\\r\" < README.md | sha256sum | cut -c1-64); ENDS=$(tail -c 2 README.md | od -An -tx1 | tr -d \" \\n\"); echo \"ac4 measured: README cr_sha256=$D lines=$N tail=${ENDS:-none}\"; [ \"$ENDS\" = \"0d0a\" ] || { echo \"ac4 RED: README.md does not end in CRLF - the pin-4 line count is only well-defined (wc -l equals the generator splitlines count) when the file ends with a newline\"; exit 1; }; [ \"$D\" = \"$CD\" ] || { echo \"ac4 RED: the README digest $D is not the README_DIGEST constant $CD - the builder moved the README without moving the pin (or moved only one of the two)\"; exit 1; }; [ \"$N\" = \"$CL\" ] || { echo \"ac4 RED: the README line count $N is not the README_LINES constant $CL - the pin-2 era constant 308 must be replaced by the MEASURED value, and the measured value must match the file\"; exit 1; }; R=$(tr -d \"\\r\" < docs/criteria/docs_verification.md); RL=$(printf \"%s\\n\" \"$R\" | grep -E \"^README_MEASURE PASS lines=[0-9]+ digest=[0-9a-f]{64}$\" | tail -1); echo \"ac4 evidence: report row: ${RL:-missing}\"; [ -n \"${RL:-}\" ] || { echo \"ac4 RED: the regenerated report carries no README_MEASURE PASS line - the report was not regenerated after the constants moved\"; exit 1; }; printf \"%s\\n\" \"$RL\" | grep -qF \"lines=$N\" || { echo \"ac4 RED: the report attests a different line count than the measured $N\"; exit 1; }; printf \"%s\\n\" \"$RL\" | grep -qF \"digest=$D\" || { echo \"ac4 RED: the report attests a different README digest than the measured $D\"; exit 1; }; printf \"%s\\n\" \"$R\" | grep -q \"^ALL_CHECKS_PASS$\" || { echo \"ac4 RED: the regenerated report does not end in ALL_CHECKS_PASS - the documentation verifier is RED on this tree\"; exit 1; }; printf \"%s\\n\" \"$R\" | grep -q \"^DOC_MAP_DOCS PASS root=20 team=3$\" || { echo \"ac4 RED: the DOC_MAP_DOCS check is not green - docs_verification.py still lists the pre-t66 17-file docs set while the tree carries 20 tracked docs/*.md files (development.md, screenshots.md, verification.md arrived with t66); this card owns that correction\"; exit 1; }; RD=$(printf \"%s\\n\" \"$R\" | sha256sum | cut -c1-64); [ \"$RD\" != \"29d22affc0216c289dc69468ec3d643e0faa494e0adec800c6272a3c217272e9\" ] || { echo \"ac4 RED: the report is byte-identical to the pin-2 era committed report - it was never regenerated\"; exit 1; }; echo \"ac4 evidence: report cr_sha256=$RD (moved off the stale 29d22aff...)\"; for OLD in a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8 b8795ac8db5418d1324d64601e6a6dd9e373930dd6e8b4e6261166a04ee73ae4; do [ \"$D\" != \"$OLD\" ] || { echo \"ac4 RED: the shared pin value still equals a retired README digest ($OLD) - the switchover did not happen\"; exit 1; }; [ \"$CD\" != \"$OLD\" ] || { echo \"ac4 RED: the README_DIGEST constant still equals a retired digest ($OLD)\"; exit 1; }; done; printf \"%s\\n\" \"$PY\" | grep -q \"README_LINES = 308\" && { echo \"ac4 RED: docs_verification.py still carries the stale pin-2 README_LINES = 308\"; exit 1; }; printf \"%s\\n\" \"$PY\" | grep -q \"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\" && { echo \"ac4 RED: docs_verification.py still carries the stale pin-2 README_DIGEST\"; exit 1; }; echo \"ac4 evidence: the shared value differs from pin-2 a64efaa2, pin-3 f0fd9eda and the pre-card base b8795ac8\"; [ \"${N:-0}\" -le 400 ] || { echo \"ac4 RED: the pin-4 line ceiling would be $N - over the 400 hard ceiling this card budgets\"; exit 1; }; [ \"${N:-0}\" -ge 340 ] || { echo \"ac4 RED: the pin-4 line value $N is below the 340 floor - the README shrank unexpectedly\"; exit 1; }; ENT=$(python3 -c \"import json;print(len(json.load(open(\\\"docs/state/merge_test_index.json\\\",encoding=\\\"utf-8\\\"))[\\\"tests\\\"]))\" 2>/dev/null); echo \"ac4 evidence: INDEX_FLOOR=${FL:-none} actual index entries=${ENT:-0}\"; [ \"${FL:-9999}\" -le \"${ENT:-0}\" ] || { echo \"ac4 RED: INDEX_FLOOR ${FL:-none} exceeds the actual ${ENT:-0} index entries - the floor leg is monotone-safe (floor <= count, never equality) so it survives every future append\"; exit 1; }; [ \"${ENT:-0}\" -ge 256 ] || { echo \"ac4 RED: the index holds ${ENT:-0} entries, fewer than the 256 this card was groomed against\"; exit 1; }; HEX=$(printf \"%s\\n\" \"$PY\" | grep -coE \"\\\"[0-9a-f]{64}\\\"\"); echo \"ac4 evidence: 64-hex literals in docs_verification.py=$HEX (base 13: 1 README pin + 4 carried digests + 8 index anchors)\"; [ \"$HEX\" = \"13\" ] || { echo \"ac4 RED: docs_verification.py carries $HEX 64-hex literals, not the 13 the base carries - this card may only REPLACE the README pin value, never add or remove a pinned literal\"; exit 1; }; echo \"ac4 GREEN: PIN-4 SWITCHOVER SETTLED BY CROSS-CONSISTENCY - README cr_sha256=$D equals the README_DIGEST constant, the measured line count $N equals the README_LINES constant, the regenerated report attests the same pair and ends ALL_CHECKS_PASS, the shared value differs from pin-2/pin-3/base, INDEX_FLOOR ${FL} <= ${ENT} entries, and exactly 13 64-hex literals remain. THIS FENCE IS THE NEW LIVE PIN: the orchestrator appends it VERBATIM at merge as the pin-4 gate, and it stays true across every later index append (dynamic count floor) until the next README-content card legitimately moves the digest\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t71v/final2_ac4.txt",
+        "note": "rc=0 GREEN, run VERBATIM (fence body 6478B). docs_verification.py constants README_DIGEST=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0, README_LINES=391, INDEX_FLOOR=217 (floor <= 256 entries, monotone-safe); measured README cr_sha256=58894964... lines=391 tail=0d0a (trailing CRLF); report row 'README_MEASURE PASS lines=391 digest=58894964...' with report cr_sha256=fed5c6306e278303a278d8de3d7d4fc8719cc0e9856a478870a2bc63d72adfca moved off the stale 29d22aff...; DOC_MAP_DOCS PASS root=20 team=3. The verifier independently recomputed the whole pin-4 triple: own cr-stripped sha256 of README.md = 58894964.../391 == the two script constants == the regenerated report row; and it differs from pin-2 a64efaa2.../308 (commit 21d254e), pin-3 f0fd9eda96a2.../367 (commit d3dbcba) and base b8795ac8.../385 (commit c05d3b6), each located by walking git log -- README.md. Generator re-run twice with the canonical in-place invocation: content byte-identical to the committed blob after CR-normalisation (idempotent). Base state re-measured at 17008bf: rc=1 'README.md does not end in CRLF ... tail=292e' with the constants still at pin-2 a64efaa2/308."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'command -v python3 >/dev/null || { echo \"ac5 RED: python3 missing\"; exit 1; }; command -v tr >/dev/null || { echo \"ac5 RED: tr missing\"; exit 1; }; command -v sha256sum >/dev/null || { echo \"ac5 RED: sha256sum missing\"; exit 1; }; test -f README.md || { echo \"ac5 RED: README.md missing\"; exit 1; }; test -f docs/state/merge_test_index.json || { echo \"ac5 RED: merge-test index missing\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"ac5 RED: docs_verification.py missing\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"ac5 RED: docs_verification.md report missing\"; exit 1; }; command -v cmd.exe >/dev/null || { echo \"ac5 RED: cmd.exe missing\"; exit 1; }; G=$(wslpath -w \"$PWD\"); GT() { cmd.exe /c \"git -C $G $1\" </dev/null 2>/dev/null | tr -d \"\\r\"; }; IDX=$(tr -d \"\\r\" < docs/state/merge_test_index.json | sha256sum | cut -c1-64); [ \"$IDX\" = \"e3f0b59dd1c05cbd51730a37e2a67ee91b6dd5068135e2b50924a3628b2601dd\" ] || { echo \"ac5 RED: the merge-test index bytes changed - the index is byte-frozen for this card at 256 entries; pin custody moves ONLY by orchestrator append at merge, never by a card edit\"; exit 1; }; ENT=$(python3 -c \"import json;print(len(json.load(open(\\\"docs/state/merge_test_index.json\\\",encoding=\\\"utf-8\\\"))[\\\"tests\\\"]))\" 2>/dev/null); [ \"${ENT:-0}\" -eq 256 ] || { echo \"ac5 RED: the index holds ${ENT:-0} entries, not the 256 this card was groomed against\"; exit 1; }; P3=$(grep -cF \"f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8\" docs/state/merge_test_index.json); [ \"$P3\" = \"1\" ] || { echo \"ac5 RED: the pin-3 digest literal appears $P3 times in the index, not exactly once (inside tests[231] only) - the card edited pin custody\"; exit 1; }; P2=$(grep -cF \"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\" docs/state/merge_test_index.json); [ \"$P2\" = \"1\" ] || { echo \"ac5 RED: the pin-2 digest literal appears $P2 times in the index, not exactly once (inside tests[227] only)\"; exit 1; }; DVP=$(tr -d \"\\r\" < backend/scripts/docs_verification.py | sha256sum | cut -c1-64); [ \"$DVP\" != \"46bb473c81af0830887ac4999fcebf2ad8ae6afc9878754694d9fdd1a6d18b28\" ] || { echo \"ac5 RED: docs_verification.py is byte-identical to the base - this card OWNS the pin-4 constant move (README_DIGEST, README_LINES, the t66 docs/*.md list) and the report regeneration; leaving the generator untouched means the switchover never happened\"; exit 1; }; echo \"ac5 evidence: docs_verification.py moved off the base blob ($DVP) - the one file this card is permitted to mutate besides README.md and its own report\"; for p in docs/requirements.md docs/plan.md backend/app backend/tests frontend/src e2e ops security .github/workflows Makefile package.json AGENTS.md CLAUDE.md docs/ai-workflow.md docs/architecture.md docs/verification.md docs/development.md docs/screenshots.md openapi.yaml render.yaml Dockerfile product-spec.md; do CH=$(GT \"diff --name-only 777a167 -- $p\" | grep -c .); echo \"ac5 evidence: frozen path $p changed-files=$CH\"; [ \"${CH:-0}\" = 0 ] || { echo \"ac5 RED: $p carries $CH changed file(s) since the base commit - outside this card delta envelope (README.md, docs_verification.py, docs/criteria/docs_verification.md, plus this card, its mirror and this handoff)\"; exit 1; }; done; CH=$(GT \"diff --name-only 777a167 -- docs/criteria\" | grep -vE \"^docs/criteria/docs_verification[.]md$\" | grep -c .); [ \"${CH:-0}\" = 0 ] || { echo \"ac5 RED: a criteria report besides docs_verification.md changed - the other six generated reports are byte-frozen for this card\"; exit 1; }; CH2=$(GT \"diff --name-only 777a167 -- backend/scripts\" | grep -vE \"^backend/scripts/docs_verification[.]py$\" | grep -c .); [ \"${CH2:-0}\" = 0 ] || { echo \"ac5 RED: a generator script besides docs_verification.py changed - req_coverage, agent_pack, dashboard, security_ops and infra verification scripts are byte-frozen for this card\"; exit 1; }; DIFF=$(GT \"diff --name-only 777a167\"); UNTRACK=$(GT \"ls-files --others --exclude-standard\"); ALL=$(printf \"%s\\n%s\\n\" \"$DIFF\" \"$UNTRACK\" | grep -v \"^[[:space:]]*$\" | sort -u); echo \"ac5 evidence: files touched since 777a167:\"; printf \"%s\\n\" \"$ALL\" | sed \"s/^/    /\"; BAD=$(printf \"%s\\n\" \"$ALL\" | grep -vE \"^(README[.]md|backend/scripts/docs_verification[.]py|docs/criteria/docs_verification[.]md|docs/issues/t71[.]md|docs/issues/groom/t71[.]md|docs/state/outputs/t71_[a-z_0-9]+[.]json)$\" | grep -v \"^[[:space:]]*$\" | grep -c .); [ \"${BAD:-0}\" = 0 ] || { echo \"ac5 RED: $BAD file(s) outside the 6-file allow-list changed - the whole envelope is README.md, docs_verification.py, docs_verification.md, the card, its mirror and this handoff\"; exit 1; }; NF=$(printf \"%s\\n\" \"$ALL\" | grep -c .); echo \"ac5 evidence: files changed=$NF (allow-list ceiling 6)\"; [ \"${NF:-0}\" -le 6 ] || { echo \"ac5 RED: $NF files changed, over the 6-file ceiling\"; exit 1; }; cmp -s docs/issues/t71.md docs/issues/groom/t71.md || { echo \"ac5 RED: the groom mirror is not byte-identical to the card\"; exit 1; }; FULL=$(grep -coE \"REQ-[A-Z]+-[0-9]+\" docs/issues/groom/t71.md); echo \"ac5 evidence: full-form requirement ids in the card=$FULL (must be 0 - the card cites in short form so the coverage matrix stays generator-inert)\"; [ \"${FULL:-0}\" = \"0\" ] || { echo \"ac5 RED: the card carries $FULL full-form requirement ids - it would be ingested as a citation source and move the generated matrix\"; exit 1; }; M1=/tmp/t715_m1.md; M2=/tmp/t715_m2.md; export PATH=\"$HOME/.local/bin:$PATH\"; (cd backend && REQ_COVERAGE_OUT=$M1 uv run python scripts/req_coverage_verification.py >/tmp/t715_rc1.log 2>&1; REQ_COVERAGE_OUT=$M2 uv run python scripts/req_coverage_verification.py >/tmp/t715_rc2.log 2>&1); cmp -s $M1 $M2 || { echo \"ac5 RED: the coverage matrix generator is not idempotent on this tree\"; exit 1; }; ROWS=$(grep -cE \"^REQ_ROW \" $M1); echo \"ac5 evidence: regenerated matrix rows=$ROWS (base 749)\"; [ \"${ROWS:-0}\" = \"749\" ] || { echo \"ac5 RED: the regenerated coverage matrix carries ${ROWS:-0} REQ_ROW rows, not the 749 the base carries\"; exit 1; }; cmp -s $M1 docs/criteria/req_coverage_verification.md && echo \"ac5 evidence: regenerated matrix is CR-identical to the committed matrix\" || { diff $M1 docs/criteria/req_coverage_verification.md > /tmp/t715_md.txt 2>&1; ROWSDIFF=$(tr -d \"\\r\" < $M1 | grep -cE \"^REQ_ROW \") ; BASEDIFF=$(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md | grep -cE \"^REQ_ROW \"); [ \"$ROWSDIFF\" = \"$BASEDIFF\" ] || { echo \"ac5 RED: matrix row counts differ\"; exit 1; }; CRDIFF=$(tr -d \"\\r\" < $M1 | sha256sum | cut -c1-64); CRBASE=$(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md | sha256sum | cut -c1-64); [ \"$CRDIFF\" = \"$CRBASE\" ] || { echo \"ac5 RED: the regenerated matrix content differs from the committed matrix ($CRDIFF vs $CRBASE) - README is a citation source and the id-set must not move\"; exit 1; }; echo \"ac5 evidence: matrix differs only in line-ending bytes (committed CRLF vs generated LF), CR-stripped content identical\"; }; echo \"ac5 GREEN: ZERO TOUCH AND DELTA PURITY - the merge-test index is byte-frozen at 256 entries with its pin-3 literal exactly once, docs_verification.py moved off its base blob exactly as this card owns, every other frozen path is untouched, every touched file sits inside the 6-file allow-list, the regenerated coverage matrix holds its 749 rows, and the card plus mirror are byte-identical and generator-inert\"'",
+        "exit_code": 0,
+        "output_path": "/tmp/t71v/final2_ac5.txt",
+        "note": "rc=0 GREEN, run VERBATIM (fence body 7393B). docs_verification.py moved off its base blob (15f34fbb556b219da939aa19991db16d59fb5585188d29cfdfd149837d5370b2); 20 frozen paths changed-files=0; files touched since 777a167 = exactly the 6-file allow-list (README.md, backend/scripts/docs_verification.py, docs/criteria/docs_verification.md, card, mirror, t71 definer handoff), changed=6 against ceiling 6; card full-form REQ ids=0; regenerated matrix rows=749 with the committed copy differing only in line-ending bytes (CR-stripped content identical). The verifier independently confirmed: index cr-sha256=e3f0b59dd1c05cbd51730a37e2a67ee91b6dd5068135e2b50924a3628b2601dd at 256 entries, HEAD blob f639015c3421ee8f64e52e06da9fe56a97a0b70c == origin/main blob (byte-identical), pin-3 full literal exactly once (inside tests[231]), pin-2 full literal once by line count; no gate edited, reordered or removed. Delta vs groom tip 17008bf = exactly 3 files, numstat +23/-16 (12/7 + 7/5 + 4/4) matching the builder claim. Card and mirror cmp-identical. Matrix regenerated twice to /tmp: 749 REQ_ROW rows, cr-sha256 93fc7cfbbc146fab8bf412710dc58dbf43ff72474d67eb89237dea64cb5f8c08 == committed, idempotent. Base state re-measured at 17008bf: rc=1 'docs_verification.py is byte-identical to the base'."
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "test_summary_note": "The five card fences are this card's test surface (documentation + pin-switchover card; the only code file in the envelope is the docs_verification.py constant block, ruff-clean). 5/5 rc=0 run VERBATIM from fences extracted from the committed card at tip d021645, twice, with every GREEN line and negative-control line printed in the same run. Base states measured EMPIRICALLY in a scratch worktree at 17008bf: ac1 rc=1, ac2 rc=0, ac3 rc=0, ac4 rc=1, ac5 rc=1 - exactly the card's declared table. Additionally 39 carried stored gates replayed independently outside the fences: 39/39 rc=0, and the three named retired/pre-existing pins settled at rc=1 as required.",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_detail": "ruff check over backend: 'All checks passed!' (the only code delta is backend/scripts/docs_verification.py). README.md measured pure ASCII (0 non-ASCII bytes), CR=LF=391, trailing CRLF, 391 lines <= the 400 ceiling.",
+    "test_quality_warnings": [
+      "docs_verification.py LINK_CHECK does not skip .pytest_cache: a gitignored backend/.pytest_cache/README.md created by gate replay moved the report's LINK_CHECK files 201->202, so the committed report is not fully hermetic against test side effects (pre-existing generator weakness, not introduced by this card; the cache was removed and the report regenerated byte-identical to prove it).",
+      "ac5 'exactly once' pin legs are grep -cF LINE counts, not occurrence counts: the pin-2 full literal sits on 1 line but occurs 2 times in the raw index file (4 times inside the tests[227] command body); the pin-3 full literal occurs exactly once anywhere. The card's leg passes as written; the counting semantics are worth tightening in future cards."
+    ],
+    "dod_verified": {
+      "all_five_fences_green_verbatim_at_tip": true,
+      "fence_byte_lengths_match_card_declaration_4986_3662_3688_6478_7393": true,
+      "ac_hash_recomputed_equals_card_pin": true,
+      "base_states_measured_empirically_ac1_ac4_ac5_RED_ac2_ac3_GREEN": true,
+      "twentyfive_carried_readme_gates_replay_green_in_fence_and_independently": true,
+      "independent_replay_derivation_32_readme_mentioning_gates_explained": true,
+      "retired_pin_tests_227_and_231_settled_rc1_with_index_untouched": true,
+      "tests_191_pre_existing_red_excluded_by_name_not_silence": true,
+      "pin4_triple_agreement_readme_equals_script_constants_equals_report": true,
+      "pin4_differs_from_pin2_pin3_and_base": true,
+      "index_frozen_256_entries_origin_main_byte_identical_pin3_literal_once": true,
+      "readme_invariants_391_lines_17_headings_ascii_crlf_trailing_crlf": true,
+      "criteria_mapping_exactly_15_rows_checklist_14_rows": true,
+      "repository_layout_placeholder_claim_removed_e2e_ops_security_exist": true,
+      "mit_license_and_ai_workflow_and_agents_pointers_present": true,
+      "honesty_zero_new_urls_only_localhost_urls_no_render_live_domain_61_placeholder_intact": true,
+      "outside_owned_regions_byte_identical_to_base_blob": true,
+      "card_and_mirror_byte_identical_zero_full_form_req_ids": true,
+      "matrix_749_rows_cr_stripped_identical_idempotent": true,
+      "delta_purity_three_files_vs_groom_tip_six_files_vs_base_allow_list": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verdict_rationale": "PASS - all five card fences GREEN verbatim at the builder tip with base states matching the card's RED/GREEN table; the pin-4 switchover is internally consistent across README, generator constants and regenerated report; the two retired-pin gates are RED for exactly the declared reason with the merge-test index byte-frozen against origin/main; no carried gate regressed; the README delta stays inside its four owned regions and its honesty duty is met.",
+    "branch_sha": "d0216455367dfa124e0ec3b4d2c443eac11c6981",
+    "base_sha": "777a167",
+    "groom_tip_sha": "17008bf",
+    "fence_extraction_proof": "Five BARE single-line fences extracted from docs/issues/t71.md in document order (each one line starting 'bash -c '' and ending ''', CR-stripped and trimmed; no triple-backtick blocks involved). Byte lengths measured before any run: 4986, 3662, 3688, 6478, 7393 - identical to the card's declaration. The builder handoff's ac_mapping bodies are byte-identical to the card fences 5/5 (no BUILDER_COMMAND_MISMATCH). No fence hardcodes the new pin-4 digest (grep of the full 64-hex literal in all five bodies = 0 hits), so pin-4 is proven by cross-consistency, not by a self-fulfilling constant.",
+    "ac_hash_recomputed": "sha256:812e59cb4c6f40d2c97a5c41aa9e26ebe524f9fce43e8291092c9b05d146569e",
+    "ac_hash_pin_on_card": "sha256:812e59cb4c6f40d2c97a5c41aa9e26ebe524f9fce43e8291092c9b05d146569e",
+    "ac_hash_match": true,
+    "ac_hash_method": "sha256 over JSON.stringify of the five full fence lines (compact separators ,:) - the method that reproduces the card's pin",
+    "independent_replay_set": {
+      "index_entries": 256,
+      "gates_mentioning_README_md": 32,
+      "card_carried_set": [
+        27,
+        119,
+        128,
+        135,
+        144,
+        201,
+        232,
+        233,
+        234,
+        235,
+        236,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ],
+      "named_exclusions": {
+        "tests[191]": "pre-existing RED (pins pre-t63 README digest 8d141fb2...)",
+        "tests[227]": "retired pin-2",
+        "tests[231]": "retired pin-3"
+      },
+      "derivation_extras": {
+        "gates": [
+          149,
+          155,
+          196,
+          210
+        ],
+        "reason": "these four mention README.md only incidentally (mcp-server/README.md, an agent-hooks find -name README.md, the literal token inside docs/ownership.md, the literal token inside docs/architecture.md); none reads the root README.md, so the card's 25-gate set is the correct carried set",
+        "run_anyway_rc": {
+          "149": 0,
+          "155": 0,
+          "196": 0,
+          "210": 0
+        }
+      },
+      "verifier_replay_rc": {
+        "27": 0,
+        "119": 0,
+        "128": 0,
+        "135": 0,
+        "144": 0,
+        "201": 0,
+        "232": 0,
+        "233": 0,
+        "234": 0,
+        "235": 0,
+        "236": 0,
+        "242": 0,
+        "243": 0,
+        "244": 0,
+        "245": 0,
+        "246": 0,
+        "247": 0,
+        "248": 0,
+        "249": 0,
+        "250": 0,
+        "251": 0,
+        "252": 0,
+        "253": 0,
+        "254": 0,
+        "255": 0
+      },
+      "verifier_replay_result": "25/25 rc=0 VERBATIM",
+      "all_non_excluded_readme_gates": "29/29 rc=0 (25 carried + 4 explained extras)",
+      "regression_sweep_artifact_gates": {
+        "217": 0,
+        "218": 0,
+        "219": 0,
+        "220": 0,
+        "221": 0,
+        "222": 0,
+        "223": 0,
+        "226": 0
+      },
+      "regression_sweep_result": "8/8 rc=0 for gates referencing docs_verification.py / docs/criteria reports (217,218,219,220,221,222,223,226)"
+    },
+    "retired_pin_settlement": {
+      "tests_227_rc": 1,
+      "tests_227_evidence": "ac4 evidence: README cr-stripped sha256=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0 lines=391 / ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone",
+      "tests_231_rc": 1,
+      "tests_231_evidence": "t63-pin3 evidence: README cr-stripped digest=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0 / t63-pin3 RED: README digest moved off pin-3",
+      "tests_191_rc": 1,
+      "tests_191_evidence": "pre-existing RED: fails at 'ac4 RED: frontend failed tests present' before reaching its README leg; its pin 8d141fb2... (202-line README) is unsatisfiable post-t63 regardless of this card",
+      "expected": "both retired gates rc=1 with the README now at pin-4 - EXPECTED RED, not fixed, not index-edited",
+      "index_entries": 256,
+      "index_cr_stripped_sha256": "e3f0b59dd1c05cbd51730a37e2a67ee91b6dd5068135e2b50924a3628b2601dd",
+      "index_head_blob": "f639015c3421ee8f64e52e06da9fe56a97a0b70c",
+      "index_origin_main_blob": "f639015c3421ee8f64e52e06da9fe56a97a0b70c",
+      "index_byte_identical_to_origin_main": true,
+      "pin3_full_literal_line_count": 1,
+      "pin3_full_literal_gates": [
+        "tests[231]"
+      ],
+      "pin2_full_literal_line_count": 1,
+      "pin2_full_literal_occurrences_raw": 2,
+      "gate_edit_reorder_removal": "none - no gate edited, reordered or removed; retirement is by orchestrator ruling (Q1a pattern), never an index edit"
+    },
+    "pin4_cross_consistency": {
+      "verifier_measured_readme_cr_stripped_sha256": "5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0",
+      "verifier_measured_readme_lines": 391,
+      "script_constant_README_DIGEST": "5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0",
+      "script_constant_README_LINES": 391,
+      "script_constant_INDEX_FLOOR": 217,
+      "index_floor_monotone_safe": "217 <= 256 entries",
+      "report_row": "README_MEASURE PASS lines=391 digest=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0",
+      "report_ends": "ALL_CHECKS_PASS",
+      "report_cr_stripped_sha256": "fed5c6306e278303a278d8de3d7d4fc8719cc0e9856a478870a2bc63d72adfca",
+      "report_moved_off_base": "29d22aff (stale) - confirmed",
+      "triple_agreement": true,
+      "differs_from_pin2": "a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c / 308 lines (commit 21d254e)",
+      "differs_from_pin3": "f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8 / 367 lines (commit d3dbcba)",
+      "differs_from_base": "b8795ac8db5418d1324d64601e6a6dd9e373930dd6e8b4e6261166a04ee73ae4 / 385 lines (commit c05d3b6)",
+      "generator_invocation": "cd backend && PATH=$HOME/.local/bin:$PATH uv run python scripts/docs_verification.py (canonical, writes in place per the OUT constant; no env override exists)",
+      "generator_idempotent": "run twice, exit 0 both times, output content byte-identical to the committed blob after CR-normalisation"
+    },
+    "readme_invariants": {
+      "lines": 391,
+      "ceiling": 400,
+      "cr_bytes": 391,
+      "lf_bytes": 391,
+      "trailing_crlf": true,
+      "non_ascii_bytes": 0,
+      "level2_headings": 17,
+      "heading_set_equals_base": true,
+      "criteria_mapping_rows": 15,
+      "evidence_checklist_rows": 14,
+      "base_rows": "15/14 (unchanged shape, tests[201] leg)",
+      "repository_layout": "no stale placeholder claim; e2e/, ops/, security/ all exist on disk",
+      "license_and_pointers": "MIT License statement present; docs/ai-workflow.md and AGENTS.md pointers present"
+    },
+    "honesty_check": {
+      "new_urls_added_by_the_diff": 0,
+      "url_set_in_readme": "only http://localhost:5173, http://127.0.0.1:5173, http://localhost:8000 (+ /api/v1/health) - the same set as base",
+      "render_live_domain_present": false,
+      "onrender_domain_present": false,
+      "residual_61_placeholder": "intact (README lines 56/355/357 keep the honest pending-deployment wording)",
+      "verdict": "PASS - the new sections claim no live deployed URL"
+    },
+    "delta_purity": {
+      "vs_groom_tip_17008bf": [
+        "README.md",
+        "backend/scripts/docs_verification.py",
+        "docs/criteria/docs_verification.md"
+      ],
+      "vs_base_777a167": [
+        "README.md",
+        "backend/scripts/docs_verification.py",
+        "docs/criteria/docs_verification.md",
+        "docs/issues/t71.md",
+        "docs/issues/groom/t71.md",
+        "docs/state/outputs/t71_definer_groom.json"
+      ],
+      "numstat": "+23/-16 (README 12/7, docs_verification.py 7/5, report 4/4) - matches the builder claim",
+      "card_mirror": "cmp-identical, zero full-form REQ ids",
+      "frozen_paths_changed_files": "0 across all 20 fence-listed frozen paths"
+    },
+    "matrix_verification": {
+      "rows": 749,
+      "idempotent": true,
+      "cr_stripped_sha256": "93fc7cfbbc146fab8bf412710dc58dbf43ff72474d67eb89237dea64cb5f8c08",
+      "equals_committed": true,
+      "note": "the committed copy is CRLF, the generator writes LF on this host; CR-stripped content is identical (the ac5 fence itself reports this)"
+    },
+    "base_state_verification": {
+      "method": "scratch worktree at 17008bf (git worktree add via cmd.exe, removed with git worktree remove --force afterwards; removal confirmed)",
+      "ac1": "rc=1 - stale Repository-layout placeholder claim",
+      "ac2": "rc=0 - 25/25 replay GREEN by design",
+      "ac3": "rc=0 - isolation GREEN by design",
+      "ac4": "rc=1 - tail=292e (no trailing CRLF), constants still pin-2 a64efaa2/308",
+      "ac5": "rc=1 - docs_verification.py byte-identical to base (cr-sha 46bb473c...)"
+    },
+    "run_environment": "worktree C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t71-verify detached at d021645, tree clean at the end; per-worktree venv via 'cd backend && uv sync'; js-yaml and argparse copied into the gitignored frontend/node_modules so tests[134]/the generator STORED_GATES leg could run; backend/.pytest_cache removed after gate replay; docs/criteria/agent_pack_verification.md, docs/criteria/docs_verification.md and docs/criteria/req_coverage_verification.md restored with 'git checkout --' after generator/gate side effects (line-ending phantoms under core.autocrlf=true). All git write operations went through cmd.exe.",
+    "discrepancies_and_observations": [
+      "NON-BLOCKING: the card Context inverts the base line counts - measured base blob is 385 LF lines (wc -l) / 386 splitlines with no trailing newline; the fence legs measure the file, not the prose, so nothing is affected.",
+      "NON-BLOCKING: card prose 'the other six reports under docs/criteria/' - docs/criteria holds 6 files total (5 others). Prose only.",
+      "NON-BLOCKING: ac5 'exactly once' legs are grep -cF line counts; the pin-2 full literal occurs 2 times in the raw file on 1 line (4 times inside the decoded tests[227] body). The leg passes as written.",
+      "NON-BLOCKING: the base ac3 attestation digest 1561899915d4... differs from the base blob digest b8795ac8... purely because the fence normalises with printf '%s\\n' and the base file has no trailing newline; the tip file ends in CRLF so the asymmetry disappears at the tip.",
+      "NON-BLOCKING: the generator LINK_CHECK leg is not hermetic against .pytest_cache (see test_quality_warnings).",
+      "NON-BLOCKING: core.autocrlf=true makes git status show phantom ' M' entries after generator/matrix regeneration while git diff is content-empty; all phantoms were restored.",
+      "NON-BLOCKING: tests[191] rc=1 in this environment fires at its frontend vitest leg before its README-pin leg; its README unsatisfiability (pin 8d141fb2...) is established by reading the body.",
+      "NON-BLOCKING: the added README line describing docs/state/ uses process vocabulary ('merge test index, merge history, and role handoffs') but it is card-mandated and the t71 fences carry no jargon leg.",
+      "NON-BLOCKING: the only outside-owned-region byte change is the card-mandated trailing CRLF on the file's last line (inside ## Deployment on Render), sanctioned by ac4 and normalized by the ac3 awk-record cut.",
+      "NON-BLOCKING: the docs_verification.py delta carries one cosmetic extra blank line beyond the three semantic changes; ruff clean."
+    ],
+    "notes": "Anti-trust verification: every number above was re-derived from the card, the index and the working tree, not from the builder report. The builder's claims that were checked (fence bodies, byte lengths, ac_hash, 25-gate set, pin-4 values, delta numstat, matrix digest, index digest, base-state table) all matched; no BUILDER_COMMAND_MISMATCH and no falsified claim found."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t71_verifier_verify.json"
+    ],
+    "platform_issue": 77,
+    "output_path": "docs/state/outputs/t71_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-15T20:23:07Z",
+  "retry_count": 0
+}
