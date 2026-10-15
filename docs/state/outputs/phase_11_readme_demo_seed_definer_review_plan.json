@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t65",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_11_readme_demo_seed",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t65", "t66", "t67", "t68", "t69", "t70", "t71"],
+    "findings": [
+      {
+        "issue_id": "t66",
+        "category": "other",
+        "severity": "warning",
+        "description": "COMPAT-BLOCK VS THE t63 ac4 CHECKER (measured). t66 must keep the tests[128] token set greppable in README.md, but the same README is also gated by the carried t63 ac4 checker (index 0-based 235; WAL tests[236]) which asserts (a) a heading matching ^#{1,6}.*[Aa]lternative EXISTS in README.md, (b) the line of '## Quick Start' PRECEDES that Alternative heading, and (c) the Prerequisites block does not present make as a plain requirement bullet. t66's body says the make content 'may move to docs/development.md' while a compat block keeps the tokens - so the compat block MUST itself carry an Alternative heading and sit AFTER Quick Start, or the ac4 leg goes RED for a reason no card owns. The tests[128] legs are line-anchored, so the compat block must reproduce them literally: ^## Local development modes$, ^### Mode A - full Docker stack$, ^### Mode B - hybrid (container database, host processes)$, ^### Development versus production$, and the line-initial commands 'docker compose up --build', 'docker compose down', 'docker compose up db', 'make dev-backend', 'make dev-frontend' (plus 'make migrate', 'uvicorn --reload', 'Vite dev server', REQ-CICD-025, REQ-CICD-026, REQ-DB-082). REMEDY at groom: name the compat block's own heading '## Alternative paths - Linux/WSL via make' (or any Alternative-bearing heading) placed after Quick Start, and add the ac4 legs to the card fences."
+      },
+      {
+        "issue_id": "t66",
+        "category": "other",
+        "severity": "warning",
+        "description": "t66 ACCEPTANCE DRAFT IS INCOMPLETE AND ITS ac2 IS WORDABLE-ONLY-AS-DUPLICATE. (a) ac2 asserts the relocated content is present in the three new docs files 'measured by the heading set and the command tokens it carried' - the identical token set must also stay in README.md for tests[128], so the AC must be phrased as duplication-with-custody, not exclusive relocation, or the two ACs contradict at Gate 2. (b) The draft has only ac1-ac4 and never names the other stored gates that read README.md at this card's merge: the t4 gate (0-based 27: '^#{1,6}.*quick start', '^#{1,6}.*running tests', 'cp .env.example .env', make setup / make dev-backend / make dev-frontend / make test / make lint, 'prerequisite', MIT word, 30<=lines<=500) and the t49 ac4 W1-survival block (0-based 201) that re-greps the same tokens. REMEDY at groom: add an explicit stored-gate replay AC to t66 naming 0-based 27/128/135/201/232-236 with the single sanctioned pin-3 (0-based 231) exemption, keeping the AC count at or under the max_acs 6 limit."
+      },
+      {
+        "issue_id": "t66",
+        "category": "other",
+        "severity": "warning",
+        "description": "RELOCATION SET COLLIDES WITH CONTENT THE CARRIED CRITERIA GATE READS IN README.md (measured over index 0-based 201, t49 ac4). That gate counts EXACTLY 14 rows in the sed range /^## Evidence checklist/ -> /^## Live verification/, greps all 14 Chapter-24.5 names, requires the headings '## Live verification in five minutes' and '## Local verification in five minutes' with their step tokens (register / Add an expense / budget / five charts / Switch month / Log out / git clone / cp .env.example .env / docker compose up --build / localhost:8000 / Register an account) and the DEFERRED-honesty line, plus '^## Features$', the docs/criteria/dashboard_verification.md pointer and the six /api/v1/dashboard/{summary,by-category,trend,cumulative,heatmap,recent} tokens. t66's Goal relocates exactly the Evidence checklist, both five-minute sections and the Dashboard API endpoints block. REMEDY at groom: either keep those sections in README.md (relocate only the Alternative / Local development modes / Screenshots material) or record the 0-based-201 disposition as an orchestrator-owned named retirement in t66 AND t71 - a card may not silently break a carried gate, and the milestone brief's '15-section map preserved' plus the criteria-mapping row count assume this gate stays GREEN."
+      },
+      {
+        "issue_id": "t66",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "GRANULARITY (limits.issue_granularity: max_acs 6, max_files 4, max_diff_lines 300, warn_only true). Measured at the phase_11 base README (367 lines): 'Alternative paths' -> 'Repository layout' is 92 lines, 'Evidence checklist' -> 'License' is 61 lines, plus the Screenshots block, so README sheds roughly 150-160 lines while three new docs files add roughly 180-250 lines of relocated content - an estimated 330-400 diff lines across exactly 4 files. File count is at the ceiling and the diff estimate exceeds max_diff_lines; AC count is 4 as drafted but rises to 6 once the F2 gate legs are added (still at the ceiling). REMEDY at groom: either split (card A authors the three docs files, card B slims README) or fold the README deletion into the t67..t71 section rewrites so no single card carries the whole move; if the card stays whole, record the over-limit estimate in the card as a disclosed warn-only exception."
+      },
+      {
+        "issue_id": "t70",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "t70 ac2 REQUIRES A LINK TO docs/api.md, WHICH DOES NOT EXIST IN THIS REPO (measured: docs/ contains architecture.md, coding_standards.md, ownership.md, verification plan/summary, rulings/, criteria/, requirements/ - no api.md). Either the API overview links openapi.yaml plus docs/architecture.md, or docs/api.md must be authored by a card that owns it (docs/ detailed documents are definer-authored, builder-landed per docs/ownership.md). REMEDY at groom: fix the link target or add the docs/api.md deliverable inside t70's own file budget (t70 currently declares 1 file, so there is headroom)."
+      },
+      {
+        "issue_id": "t71",
+        "category": "other",
+        "severity": "warning",
+        "description": "PIN-4 SWITCHOVER MUST NAME THREE README-DIGEST ENTRIES, NOT TWO (measured over all 237 stored commands). Entries carrying a fixed README sha256: 0-based 191 (t47 main-floors composite, pin-1 8d141fb2 - already RED on main, today handled as identity-only/not-executed under the t52/t59 precedent), 0-based 227 (t59 ac4, pin-2 a64efaa2/308L + docs_verification.md 29d22aff/blob d849c775 - the Q1a settlement t71 records) and 0-based 231 (t63 pin-3 f0fd9eda/367L - retiring at this merge). t71's ac4 names only the pin-2 and pin-3 exclusions; the next full composite (the t64 fence hard-codes required=223 / skipped=14) will report an unowned RED unless 0-based 191 is carried in the disposition set too. The regenerated docs/criteria/docs_verification.md (56 lines today) also changes bytes, so t71 must prove the row-shape/deferral legs the t57/t58 gates grep (0-based 219/220/223/226) still exit 0 and that the sibling CARRIED_DIGESTS reports stay byte-unchanged. REMEDY at groom: enumerate the replay set as NAMED-GREEN / IDENTITY-ONLY-NOT-EXECUTED (naming 0-based 191) / RETIRED-BY-RULING (0-based 227 and 231), never as 'loop the index'."
+      },
+      {
+        "issue_id": "t71",
+        "category": "other",
+        "severity": "warning",
+        "description": "INDEX-COUNT GUARDS AND GENERATOR CONSTANTS MUST BE RECONCILED WITH THE APPEND (measured). docs_verification.py carries README_DIGEST/README_LINES at lines 34-35 (STALE pin-2 a64efaa2/308L - t71 repairs, confirmed) and INDEX_FLOOR = 217 at line 36 (a floor, so growth is safe), plus a nine-entry STORED_GATES set that the generator RE-EXECUTES verbatim - after the rewrite those legs must be proven GREEN, not assumed. Separately, the t64 composite fence asserts the literal index count 237 and the sha256 of entry 227 as staleness guards; appending pin-4 plus t71's own fences pushes the index past 237, so that fence goes RED BY DESIGN and any later composite must be re-groomed with the new count (the t64 card's own wording already says 'stale and must be re-groomed, not trusted'). REMEDY at groom: state in t71's card that the append changes the index count and that the composite-count guard is the orchestrator's to re-groom, never an index edit by the card branch."
+      },
+      {
+        "issue_id": "t67",
+        "category": "other",
+        "severity": "warning",
+        "description": "GATE CITATION OFF-BY-ONE IN THE ACCEPTANCE DRAFT (ambiguity, not a defect). t67 ac4 says 'tests[27], tests[128], tests[135], tests[201] all replay verbatim GREEN'; at those WAL (1-based) indices the stored commands are the LICENSE-file gate (t4), the .dockerignore/Dockerfile gate (t24), the Makefile/render.yaml+README gate (t26) and the openapi.yaml gate (t49 ac3). The README-reading siblings are one index later (0-based 27/128/135/201 = WAL 28/129/136/202). The survey states the numbering convention and the intent is unambiguous by issue id, but the groomed card must cite each gate by issue id AND index-file position and show the command source, or a verifier replaying 'tests[27]' literally replays the LICENSE gate and calls the README gate untested."
+      },
+      {
+        "issue_id": "t69",
+        "category": "other",
+        "severity": "warning",
+        "description": "STEP 2 OF THE DOCUMENTED FLOW IS 'cp .env.example .env' WHILE THE REPO'S STANDING WORKING-TREE RULE IS .env-FREE (the t64 Gate-1 false-RED lesson). The step is CORRECT as documentation - the carried t63 ac1 checker (0-based 232) requires the env-file copy leg inside the Quick Start section - but the card must state that the builder/verifier replays run in an .env-free tree and that the README instruction is an operator action, so no card branch ever commits or leaves an untracked .env behind (several phase_9 entries are .env/tree sensitive and replay RED in a dirty tree)."
+      },
+      {
+        "issue_id": "t65",
+        "category": "other",
+        "severity": "warning",
+        "description": "t65 FILE BUDGET IS AT THE CEILING WITH A CONDITIONAL FOURTH FILE. The expected surface lists backend/app/scripts/seed_demo.py, root package.json, backend/tests/unit/test_seed_demo.py and backend/tests/integration/test_seed_demo_api.py 'only if ac2 needs the API leg' - max_files is 4, so there is no headroom once the integration leg is authored, and the groomed card must carry a FINAL file list, not a conditional. Also confirm at groom that the fixed demo password literal stays out of every .env file and out of the security-report entries (0-based 161-177 are already named-disposition live-drift rows), and that seed.py / the Makefile seed target stay untouched as the body states. Positive confirmations: t65 touches no README and no pins (stated verbatim), depends [] matches the DAG, the demo account is fixed to demo@example.com / demo-password-123, the wipe is scoped to the demo account, the seed is deterministic, and NO REQ id is invented (authority REQ-DOC-010 + operator directive 2026-10-15)."
+      },
+      {
+        "issue_id": "t71",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "THE 12-V2-SECTION MODEL IS NOT MAPPED NAME-BY-NAME TO THE 15 REQ-DOC-010 SECTIONS IN ANY CARD BODY. REQ-DOC-010 (docs/requirements.md:8183) lists exactly: title, live demo, features, tech stack, architecture, quick start, tests, API docs, AI workflow, agent pack, security, ops, criteria mapping, project structure, license. The cards enumerate v2 sections 1-12 and every body repeats '15-section map preserved (link-style acceptable)', but the machine gates only enforce Quick Start, Running tests, Features, Deployment on Render, the criteria-mapping rows and the License-adjacent tokens - tech stack, architecture, AI workflow, agent pack, security and ops have NO stored gate, so a v2 rewrite could silently drop them and still go GREEN. REMEDY at groom: have t67..t71 (or t71's ac1) enumerate the 15 section names to their v2 host section/link, and add that enumeration as a fence leg on the final card."
+      }
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_11_readme_demo_seed.json",
+      "docs/state/outputs/phase_11_readme_demo_seed_definer_review_plan.json"
+    ],
+    "platform_issue": 71,
+    "output_path": "docs/state/outputs/phase_11_readme_demo_seed_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-15T05:35:00Z",
+  "retry_count": 0
+}
