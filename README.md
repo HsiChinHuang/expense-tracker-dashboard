@@ -57,18 +57,20 @@ demo above is the demo path.
 
 ## Prerequisites
 
-The npm path is the operator path and it needs two host tools only:
+This is the whole host list. Install these three tools and nothing else:
 
-- Node.js 20+ with npm (the Windows binaries are fine; the four dev scripts
-  run natively on win32 through cmd.exe or PowerShell)
-- [uv](https://docs.astral.sh/uv/) (provides `uv`; typically installed to
-  `~/.local/bin` on Linux/WSL)
+- Node.js 20+ with npm (npm is the only daily command surface)
+- uv (no Python to install - uv manages the interpreter inside
+  backend/.venv)
 - Git (to clone this repository)
+- No Python knowledge is needed: uv installs and manages the interpreter,
+  so you never install or configure Python yourself
+- Docker is not needed and is not used locally
+- No make or bash knowledge is needed: GNU make is not needed for the npm
+  path, and the carried make targets stay documented under Alternative
+  paths below for Linux/WSL users
 
-Python 3.12 is not a host requirement: `uv sync` manages it inside
-`backend/.venv`. GNU make and bash are NOT needed for the npm path - the
-operator box is Windows 11 and ships neither; the carried make targets remain
-documented for Linux/WSL users in the Alternative paths section below.
+That is the whole host list: there is nothing else to install.
 
 ## Quick Start
 
