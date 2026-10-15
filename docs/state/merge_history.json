@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-14T20:49:30Z",
+  "updated_at": "2026-10-15T13:27:51Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -976,6 +976,30 @@
       "verifier_run": "c099fd56-8621-410e-8c0a-5ee9bf0e1c80",
       "human_review": "operator approved README diff at Gate 3",
       "summary": "First phase_11 README card merged. Reviewer-section relocation with compatibility-surface design (W3): README 367->335 keeps every tests[128]/tests[201] token while three new docs absorb the prose; Documentation map carries exactly 3 one-line links. Verifier anti-trust PASS: 6/6 fences, independent 11/11 carried-gate replay, 293/293, mypy/ruff clean, digest attestation 0f5730a0/335L, matrix byte-identical 749 rows. tests[231] pin-3 RED = sanctioned pin-leg until t71 switchover; index/docs_verification byte-frozen (pin custody t71). ac5/ac6 excluded from index (per-card attestation digest + milestone-scoped composite). Diff 325 lines > advisory 300 warn-only disclosed."
+    },
+    {
+      "issue_id": "t67",
+      "platform_issue": 73,
+      "branch": "issue/t67-readme-v2a",
+      "merge_sha": "f55d2b53cd75477d9a6c8ec2c34a48be840b6952",
+      "pre_merge_sha": "5a8dbb61e1b2606dc338f1f21a72e871ff0efafb",
+      "merged_from_sha": "824d60d5cc6e18b2c864f1cb71ebf3fc1c45174b",
+      "into": "main",
+      "merged_at": "2026-10-15T13:27:51Z",
+      "merge_type": "no-ff",
+      "test_suite": "293 passed in 336.74s (merged main)",
+      "retries": 0,
+      "tests_appended": [
+        "t67/ac1",
+        "t67/ac2"
+      ],
+      "regressions": [],
+      "ac_hash": "sha256:f27448006fbda350af360360147f37bd94075dcced056b8bd825494b125046c1",
+      "index_entries_added": 2,
+      "index_count_after": 248,
+      "verifier_run": "f6d86e63-cc87-43c0-b478-76309c61fe74",
+      "human_review": "waived by operator ruling 2026-10-15; orchestrator rigorous pre-merge re-check WAL 811 + Gate-3 signing WAL 814",
+      "summary": "README v2 sections 1-2: cold-reviewer pitch, Features + screenshots link with full citation preservation, honest Online demo with fixed seeded account and no fabricated URL; pin-3 untouched, tests[231] sanctioned RED until t71"
     }
   ]
 }
