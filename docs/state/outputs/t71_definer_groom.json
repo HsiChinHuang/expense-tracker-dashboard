@@ -248,11 +248,15 @@
       "dialect": "each fence: starts bash -c singlequote, exactly two single quotes, zero backticks, pure ASCII, one line"
     }
   },
-  "artifacts": [
-    "docs/issues/t71.md",
-    "docs/issues/groom/t71.md",
-    "docs/state/outputs/t71_definer_groom.json"
-  ],
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t71.md",
+      "docs/issues/groom/t71.md",
+      "docs/state/outputs/t71_definer_groom.json"
+    ],
+    "platform_issue": 77,
+    "output_path": "docs/state/outputs/t71_definer_groom.json"
+  },
   "error": null,
   "next_action": null,
   "timestamp": "2026-10-16T03:40:00Z",
