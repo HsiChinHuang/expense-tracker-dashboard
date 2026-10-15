@@ -1035,6 +1035,24 @@
         "t69-ac2",
         "t69-ac3"
       ]
+    },
+    {
+      "issue_id": "t70",
+      "platform_issue": 76,
+      "branch": "issue/t70-readme-v2d",
+      "merge_sha": "b2ac75de32d38cef3a0bd3b4b89e07a0b740d699",
+      "pre_merge_sha": "4be65c950a18a648fbe3b7ca1650e7d912225049",
+      "merged_from_sha": "c05d3b68bb89114f94f543ba858a7b507e03351e",
+      "into": "main",
+      "merged_at": "2026-10-15T18:02:54Z",
+      "merge_type": "no-ff",
+      "test_suite": "293 passed in 103.75s (merged main)",
+      "retries": 0,
+      "tests_appended": [
+        "t70-ac1",
+        "t70-ac2",
+        "t70-ac3"
+      ]
     }
   ]
 }
