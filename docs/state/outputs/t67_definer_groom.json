@@ -214,11 +214,25 @@
       ]
     },
     "validation": {
-      "handoff_validator": "see validation_result below",
-      "gate_checker": "see gate_check_result below"
+      "invoked_via": "cmd.exe from the WORKTREE after creating an mklink /J node_modules junction to the main checkout (the t66 pattern). Note for the record: the main checkouts node_modules had been emptied on this host before this session (t66 ran while it was full); it was restored with npm ci (147 packages, a gitignored directory, no delta impact).",
+      "validate_handoff": "[OK] docs state outputs t67_definer_groom.json is valid for definer:groom",
+      "gate_check": "{passed: true, gate: gate1_groom_complete, errors: []}",
+      "gate_check_invocation": "cmd.exe /c node node_modules tsx dist cli.mjs scripts gate_check.ts definer groom docs state outputs t67_definer_groom.json defined - current_state=defined is the platform-issue state this groom advances from.",
+      "both_gates_observed": "PASS - validate_handoff and gate1 both green BEFORE the commit; the handoff was re-validated after the post-commit fields below were filled."
     },
     "post_commit_recompute": {
-      "note": "filled in after the commit from the COMMITTED mirror blob"
+      "status": "DONE",
+      "recomputed_from": "git show HEAD:docs/issues/groom/t67.md (and the card path) read through cmd.exe from the worktree; six bash fences extracted in document order, CR-stripped and trimmed, hashed as a COMPACT-separator JSON array (the t58/t62/t63/t64/t65/t66 recipe)",
+      "recorded_ac_hash": "sha256:f27448006fbda350af360360147f37bd94075dcced056b8bd825494b125046c1",
+      "committed_mirror_ac_hash": "sha256:f27448006fbda350af360360147f37bd94075dcced056b8bd825494b125046c1",
+      "match": true,
+      "fences_found_in_committed_blob": 6,
+      "fences_match_individually": true,
+      "committed_card_blob_equals_mirror_blob": true,
+      "committed_blob_cr_sha256_card_and_mirror": "2c160578f50bae2e726989af7b5962070f2b8730d4d64faf2448a6c39ea10c68",
+      "committed_blob_bytes_lf_normalised": 62836,
+      "full_form_req_ids_in_committed_card": 0,
+      "blob_eol_note": "the committed BLOB is LF (core.autocrlf=true) while the checked-out card and mirror are CRLF; the digest is computed over CR-stripped bytes so the two forms cannot disagree (the t65/t66 relationship)."
     },
     "notes": [
       "The waiver wording and the same-day clarification (rigorous check, no leniency, no change to acceptance criteria) appear in Context and Definition of Done as prose; the card adds no AC for it, removes none, and softens no fence, negative control, replay or pin rule.",
