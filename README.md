@@ -230,8 +230,12 @@ REQ-DB-082). Secrets never enter the build context (REQ-CICD-070).
 
 - `backend/` - FastAPI application (uv-managed Python 3.12 project)
 - `frontend/` - React + TypeScript single-page app (Vite, npm)
+- `e2e/` - Playwright end-to-end suites and fixtures
+- `ops/` - runbook, health check, logging, diagnosis, deployment record
+- `security/` - audit reports (gitleaks, semgrep, trivy, pip/npm audit)
 - `docs/` - requirements, plan, commands, and coding standards
-- `e2e/`, `ops/`, `security/` - placeholders for later phases
+- `docs/criteria/` - machine-generated verification reports (never hand-edited)
+- `docs/state/` - merge test index, merge history, and role handoffs
 
 See `docs/commands.md` for the raw toolchain commands and
 `docs/coding_standards.md` for contribution style.
@@ -266,8 +270,8 @@ its evidence (REQ-DOC-081, REQ-PROJ-005).
 | 2 | All docs present | REQ-DOC-002 | `docs/` (see Evidence checklist below) |
 | 3 | Screenshots present | REQ-DOC-040 | `screenshots/dashboard.png`, `screenshots/expense-form.png`, `screenshots/budget-page.png`, `screenshots/health-check.png` |
 | 4 | Criteria mapping present | REQ-PROJ-005, REQ-DOC-081 | this section |
-| 5 | AI workflow documented with real sessions | REQ-AI-110 to REQ-AI-113 | `docs/ai-workflow.md` (lands with t50) |
-| 6 | Correction log present | REQ-AI-120 to REQ-AI-122 | `docs/ai-workflow.md` (lands with t50) |
+| 5 | AI workflow documented with real sessions | REQ-AI-110 to REQ-AI-113 | `docs/ai-workflow.md` |
+| 6 | Correction log present | REQ-AI-120 to REQ-AI-122 | `docs/ai-workflow.md` |
 | 7 | Agent Extension Pack functional | REQ-EXT-001 to REQ-EXT-083 | `docs/agent-extension-pack.md` |
 | 8 | Hook tests pass | REQ-EXT-072 | `docs/criteria/agent_pack_verification.md` |
 | 9 | Permissions documented | REQ-EXT-060 | `docs/permissions.md` |
@@ -287,8 +291,8 @@ file (or directory) a reviewer opens.
 | # | Criterion (Chapter 24.5) | Requirement range | File to open |
 |---|---|---|---|
 | 1 | Problem Description | REQ-PROJ-001 to REQ-PROD-007 | `product-spec.md` |
-| 2 | AI Workflow | REQ-AI-001 to REQ-AI-143 | `docs/ai-workflow.md` (lands with t50) |
-| 3 | Architecture | REQ-TECH-001 to REQ-ARCH-082 | `docs/architecture.md` (lands with t51) |
+| 2 | AI Workflow | REQ-AI-001 to REQ-AI-143 | `docs/ai-workflow.md` |
+| 3 | Architecture | REQ-TECH-001 to REQ-ARCH-082 | `docs/architecture.md` |
 | 4 | Frontend | REQ-FE-001 to REQ-FE-144 | `frontend/` |
 | 5 | API Contract | REQ-API-001 to REQ-API-114 | `openapi.yaml` |
 | 6 | Backend | REQ-BE-001 to REQ-BE-152 | `backend/` |
@@ -341,7 +345,8 @@ docker compose up --build
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE)
-file for details.
+file for details. The AI-assisted workflow the project follows is documented
+in `docs/ai-workflow.md`; the agent contribution rules live in `AGENTS.md`.
 
 ## Deployment on Render
 
