@@ -20,17 +20,15 @@ criteria-table rows 17-26/32, recorded REQ-PROD-020 timings).
 
 ### Dashboard API endpoints
 
-All six endpoints require a bearer token and are read-only:
+All six endpoints require a bearer token and are read-only; the full
+parameter and response-shape detail lives in `docs/development.md`:
 
-| Method | Path | Purpose |
-|---|---|---|
-| GET | `/api/v1/dashboard/summary?year_month=YYYY-MM` | Seven-key monthly summary (total, budget, remaining, percentage, over-budget, category count) |
-| GET | `/api/v1/dashboard/by-category?year_month=YYYY-MM` | Category breakdown, amount-descending |
-| GET | `/api/v1/dashboard/trend?months=N` | Contiguous month trend (1..24, default 6), empty months included |
-| GET | `/api/v1/dashboard/cumulative?year_month=YYYY-MM` | One cumulative point per calendar day |
-| GET | `/api/v1/dashboard/heatmap?weeks=N` | Monday-aligned seven-day heatmap rows (1..52, default 12) |
-| GET | `/api/v1/dashboard/recent?limit=N` | Newest expenses (1..50, default 10) |
-
+- `/api/v1/dashboard/summary?year_month=YYYY-MM`
+- `/api/v1/dashboard/by-category?year_month=YYYY-MM`
+- `/api/v1/dashboard/trend?months=N`
+- `/api/v1/dashboard/cumulative?year_month=YYYY-MM`
+- `/api/v1/dashboard/heatmap?weeks=N`
+- `/api/v1/dashboard/recent?limit=N`
 ## Prerequisites
 
 The npm path is the operator path and it needs two host tools only:
@@ -119,71 +117,51 @@ names:
 
 ## Alternative paths - Linux/WSL via make
 
-The GNU make surface below is the carried Linux/WSL path. It is an
-alternative, not the operator path: on Windows 11 use the four npm commands
-in the Quick Start above. Every make target listed here still works where
-make and bash exist.
+The GNU make surface below is the carried Linux/WSL alternative to the npm
+Quick Start. The target table, the test commands and the lint commands with
+their full rationale live in `docs/development.md`.
 
 ### Other targets
 
-| Target | Purpose |
-|---|---|
-| `make setup` / `make setup-backend` / `make setup-frontend` | Install dependencies |
-| `make dev` | Hint: run backend and frontend in two terminals |
-| `make down` | Stop services (services land in phase 5) |
-| `make migrate` | Database migrations (Alembic, lands in phase 2) |
-| `make seed` | Seed data (lands in phase 3) |
-| `make e2e` | End-to-end tests (Playwright, lands in phase 5) |
-| `make security` | Security scans (gitleaks/semgrep/trivy, land in phase 7) |
+```bash
+make setup
+make migrate
+```
 
 ### Running tests
 
 ```bash
-# Both suites (backend pytest + frontend vitest)
 make test
-
-# Backend only (pytest, runs in backend/ via uv)
 make test-backend
-
-# Frontend only (vitest, runs in frontend/ via npm)
 make test-frontend
 ```
 
 ### Linting
 
 ```bash
-# Both stacks (ruff + mypy for backend, eslint + tsc for frontend)
 make lint
-
 make lint-backend
 make lint-frontend
 ```
-
 ## Local development modes
 
 Two sanctioned local modes exist (REQ-CICD-025, REQ-CICD-026); pick one per
 working session. Both read the same `.env` contract and target the same
-migration surface (REQ-DB-082).
+migration surface (REQ-DB-082). The mode narrative and the compose,
+migration and secret-rule rationale live in `docs/development.md`.
 
 ### Mode A - full Docker stack
-
-One command builds the multi-stage image and starts both compose services
-(`db` + `app`, REQ-CICD-023):
 
 ```text
 docker compose up --build
 docker compose down
 ```
 
-The app container runs `alembic upgrade head` in its start command before
-uvicorn serves the API and the built frontend from `backend/static`
-(REQ-DB-082, REQ-TECH-042). The API is on `http://localhost:8000` with the
-health contract at `/api/v1/health`.
+Builds the image and starts both compose services (`db` + `app`,
+REQ-CICD-023); the container runs the migration in its start command
+(REQ-DB-082, REQ-TECH-042).
 
 ### Mode B - hybrid (container database, host processes)
-
-Only the database is containerized; the API and SPA run as host processes
-with hot reload:
 
 ```text
 docker compose up db
@@ -193,21 +171,15 @@ make dev-backend
 make dev-frontend
 ```
 
-`make migrate` is the manual REQ-DB-082 step in this mode - the host process
-has no container-start hook, so you run the migrations yourself after the
-exported `DATABASE_URL` points at the containerized database. The Vite dev
-server serves the SPA on `http://localhost:5173`, the API on `:8000`.
+The database runs in the container and you run `make migrate` yourself
+after pointing `DATABASE_URL` at it; the Vite dev server serves the SPA and
+`uvicorn --reload` serves the API.
 
 ### Development versus production
 
-Development uses the Vite dev server plus `uvicorn --reload` against a
-managed or containerized PostgreSQL. Production is the single container
-built by the `Dockerfile`: FastAPI serves the built frontend static files
-with an SPA fallback, and the same `alembic upgrade head` migration runs in
-the container start command (REQ-CICD-025, REQ-CICD-026, REQ-DB-082). Secrets
-never enter the build context (REQ-CICD-070); the compose placeholders are
-replaced by the platform at deploy time.
-
+Development uses the Vite dev server plus `uvicorn --reload`; production is
+the single container built by the `Dockerfile` (REQ-CICD-025, REQ-CICD-026,
+REQ-DB-082). Secrets never enter the build context (REQ-CICD-070).
 ## Repository layout
 
 - `backend/` - FastAPI application (uv-managed Python 3.12 project)
@@ -218,28 +190,24 @@ replaced by the platform at deploy time.
 See `docs/commands.md` for the raw toolchain commands and
 `docs/coding_standards.md` for contribution style.
 
+## Documentation map
+
+- [Verification evidence](docs/verification.md)
+- [Development guide](docs/development.md)
+- [Screenshots](docs/screenshots.md)
+
 ## Screenshots
 
-Four reviewer-facing images captured from one measured local run of the
-merged stack (uvicorn on 127.0.0.1:8000 with the SQLite fallback engaged, the
-Vite dev server on 127.0.0.1:5173, Playwright Chromium at a 1440x900 viewport,
-no Docker daemon anywhere). Every figure in every image is fictional demo data
-seeded through the public API - no real personal data appears in any image
-(REQ-DOC-040, REQ-DOC-041, REQ-DOC-082).
+The screenshot prose, the capture recipe and the seed shape moved to
+`docs/screenshots.md`; the four reviewer-facing PNG files stay in
+`screenshots/` (REQ-DOC-040, REQ-DOC-041, REQ-DOC-082).
 
-| File | What it shows |
-|---|---|
-| `screenshots/dashboard.png` | The four KPI cards, the five charts, the budget progress bar and the recent list for a seeded month |
-| `screenshots/expense-form.png` | The Add expense form on the expenses page, filled with one demo entry |
-| `screenshots/budget-page.png` | The budget page: the month budget, the progress surface and the set-month history |
-| `screenshots/health-check.png` | The `/api/v1/health` payload as served through the dev-server proxy |
-
-Each file is a PNG under 500 KB. The capture recipe and the exact seed shape
-are pinned in the t52 grooming card under `docs/issues/`; the images are
-evidence artifacts, not test fixtures, and no gate hashes their pixels (the
-phase_8 ruling is that screenshots are measured artifacts gated on presence,
-magic bytes, viewport width and size).
-
+| File |
+|---|
+| `screenshots/dashboard.png` |
+| `screenshots/expense-form.png` |
+| `screenshots/budget-page.png` |
+| `screenshots/health-check.png` |
 ## Criteria mapping
 
 One row per Chapter 24.3 quality-acceptance table (rows 1-15) - the
