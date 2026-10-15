@@ -69,7 +69,7 @@
 | t64 | phase_10 exit composite: full index replay minus retired tests[227] + pin-3 green + floors + byte-pins + matrix rows re-marked + dev-workflow probes (milestone exit) | [t60, t61, t62, t63] | #70 | closed |
 | t65 | Demo-seed product capability: backend/app/scripts/seed_demo.py + root npm script seed:demo (demo@example.com fixed, idempotent wipe+rebuild, non-demo users untouched, no README touch) | [] | #71 | closed |
 | t66 | Move internal reviewer sections out of README.md into docs/verification.md, docs/development.md, docs/screenshots.md with one-line README links (no pins; tests[128] token set preserved) | [t65] | #72 | closed |
-| t67 | README v2 sections 1-2: pitch, features, screenshots link, online-demo placeholder with the fixed demo account (no pins) | [t66] | #73 | defined |
+| t67 | README v2 sections 1-2: pitch, features, screenshots link, online-demo placeholder with the fixed demo account (no pins) | [t66] | #73 | closed |
 | t68 | README v2 section 3: Prerequisites stated plainly - no Python/Docker/make knowledge needed, npm only (no pins) | [t67] | #74 | defined |
 | t69 | README v2 sections 4-6: run-locally flow npm run check / cp .env.example .env / setup:local / dev / open http://localhost:5173, first-run register, seed:demo demo data, npm run stop (no pins) | [t68] | #75 | defined |
 | t70 | README v2 sections 7-9: troubleshooting, API overview, Render deployment PLACEHOLDER only - carried tests[135] heading/token set preserved, residual #61 cited (no pins) | [t69] | #76 | defined |

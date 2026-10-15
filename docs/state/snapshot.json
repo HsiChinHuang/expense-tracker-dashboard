@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-15T11:45:22.757Z",
-  "last_seq": 801,
+  "updated_at": "2026-10-15T13:27:51Z",
+  "last_seq": 815,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -21,7 +21,7 @@
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
-    "t64"
+    "t68"
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
