@@ -1000,6 +1000,23 @@
       "verifier_run": "f6d86e63-cc87-43c0-b478-76309c61fe74",
       "human_review": "waived by operator ruling 2026-10-15; orchestrator rigorous pre-merge re-check WAL 811 + Gate-3 signing WAL 814",
       "summary": "README v2 sections 1-2: cold-reviewer pitch, Features + screenshots link with full citation preservation, honest Online demo with fixed seeded account and no fabricated URL; pin-3 untouched, tests[231] sanctioned RED until t71"
+    },
+    {
+      "issue_id": "t68",
+      "platform_issue": 74,
+      "branch": "issue/t68-readme-v2b",
+      "merge_sha": "1107fffabe6d2123cd23265d9b2c5ca81db96eaa",
+      "pre_merge_sha": "8a325d7e8bc672e92ea6dc321f31f3b962718280",
+      "merged_from_sha": "3767d45966cd93e8e524decc17f5e61122ae756b",
+      "into": "main",
+      "merged_at": "2026-10-15T15:30:52Z",
+      "merge_type": "no-ff",
+      "test_suite": "293 passed in 381.05s (merged main)",
+      "retries": 0,
+      "tests_appended": [
+        "t68-ac1",
+        "t68-ac3"
+      ]
     }
   ]
 }
