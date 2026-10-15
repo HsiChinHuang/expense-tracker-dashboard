@@ -23,10 +23,13 @@ verification method behind it is summarised in `docs/verification.md`.
 
 - Reviewer screenshots: [docs/screenshots.md](docs/screenshots.md)
 
-### Dashboard API endpoints
+### API overview
 
-Every endpoint below is read-only and needs a bearer token; the full
-parameter and response-shape detail lives in `docs/development.md`:
+The dashboard reads its numbers through six read-only endpoints under
+`/api/v1/dashboard/`. Every one of them needs a bearer token in the
+Authorization header; the request parameters and response shapes are
+documented in [docs/api.md](docs/api.md) and machine-readable in
+[openapi.yaml](openapi.yaml).
 
 - `/api/v1/dashboard/summary?year_month=YYYY-MM`
 - `/api/v1/dashboard/by-category?year_month=YYYY-MM`
@@ -148,13 +151,13 @@ What the reaper does (the same behaviour `scripts/dev/stop.ts` implements):
 
 ## Troubleshooting
 
-The failure modes the dev scripts actually surface, with the remedy each one
-names:
+The four failure modes the dev scripts actually print, each with the
+remedy the scripts themselves name:
 
 | Symptom (what you see) | Why it happens | Remedy (what the scripts tell you to run) |
 |---|---|---|
-| check or dev reports an occupied dev port 8000 or 5173 with its owning PID | a previous run left an orphan listener; check reports occupied ports only, not touched, and never kills them | run `npm run stop` (the port-scoped reaper), then `npm run dev` again |
-| check reports `backend/.venv missing` (typical after the venv was created under WSL and you switched to native Windows) | the venv was never built for this platform, or it is unusable here | run `npm run setup:local`, which rebuilds `backend/.venv` with `uv sync --frozen` |
+| check or dev reports an occupied dev port 8000 or 5173 with its owning PID | a previous run left an orphan listener; check reports occupied ports as reported only, not touched, and never kills them | run `npm run stop` (the port-scoped reaper), then `npm run dev` again |
+| check reports `backend/.venv` missing (typical after a venv built under one platform is reused from the other) | the venv was never built for this platform, or it is unusable here | run `npm run setup:local`, which rebuilds `backend/.venv` with `uv sync --frozen` |
 | check prints `host tool uv: MISSING (not on PATH)` | uv is not installed or not on PATH; check detects and reports host tools, it never installs them | install uv, then re-run `npm run check` and `npm run setup:local` |
 | `http://127.0.0.1:5173` refuses the connection although dev printed the vite URL | vite binds the IPv6 loopback ::1, so the IPv4 literal never reaches it | open `http://localhost:5173/` instead of the 127.0.0.1 literal |
 
@@ -342,9 +345,11 @@ file for details.
 
 ## Deployment on Render
 
-The pipeline in `.github/workflows/` ships this app to Render after a green
-E2E run; `render.yaml` is the Render Blueprint that declares the whole
-deployment as code (REQ-CICD-030, REQ-CICD-036).
+PLACEHOLDER - this deployment is pending and has not been published.
+No Render service is live yet, no live address is fabricated here, and
+the address stays unpublished until residual issue #61 is resolved: the
+operator still needs to configure the `RENDER_DEPLOY_HOOK` secret and
+import the blueprint. The procedure below is what runs once #61 lands.
 
 ### Why Render
 
@@ -355,24 +360,27 @@ deploy, review, and roll back without owning any infrastructure
 
 ### First deployment
 
-1. Push the branch and import the repository as a Render Blueprint.
+1. Import the repository as a Render Blueprint - `render.yaml` is the
+   deployment-as-code deliverable and is not imported or live yet.
 2. Add the `RENDER_DEPLOY_HOOK` value as a GitHub secret so `deploy.yml`
    can trigger releases (the hook URL itself is never committed).
-3. Render builds the Docker image, runs migrations at container start, and
-   serves the app; verify `/api/v1/health` turns green (REQ-CICD-036).
+3. Render builds the Docker image, runs migrations at container start,
+   and serves the app; verify `/api/v1/health` turns green
+   (REQ-CICD-036).
 
 ### Free tier
 
-The free PostgreSQL instance expires after 30 days and the free web service
-sleeps when idle, so the first request after a quiet period pays a cold start
-of tens of seconds (REQ-TECH-061, REQ-CICD-033, REQ-CICD-040). Budget the
-review window accordingly: expect one cold start per idle gap, keep the
-database plan within free limits, and treat any longer outage as a redeploy
-question, not an incident (REQ-CICD-042).
+The free PostgreSQL instance expires after 30 days and the free web
+service sleeps when idle, so the first request after a quiet period pays
+a cold start of tens of seconds (REQ-TECH-061, REQ-CICD-033,
+REQ-CICD-040). Budget the review window accordingly: expect one cold
+start per idle gap, keep the database plan within free limits, and treat
+any longer outage as a redeploy question, not an incident (REQ-CICD-042).
 
 ### UptimeRobot
 
-Ping `/api/v1/health` from UptimeRobot every 10 min to keep the free service
-warm and to get an outside-the-platform view of availability (REQ-CICD-041).
-Reviewers should open the deployed URL early in the session so the reported
-latency is a warm-service number, not the cold start (REQ-CICD-043).
+Once a service exists, ping `/api/v1/health` from UptimeRobot every
+10 min to keep the free service warm and to get an outside-the-platform
+view of availability (REQ-CICD-041). Reviewers should open the deployed
+URL early in the session so the reported latency is a warm-service
+number, not the cold start (REQ-CICD-043).
