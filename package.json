@@ -20,7 +20,8 @@
     "check": "tsx scripts/dev/check.ts",
     "setup:local": "tsx scripts/dev/setup.ts",
     "dev": "tsx scripts/dev/dev.ts",
-    "stop": "tsx scripts/dev/stop.ts"
+    "stop": "tsx scripts/dev/stop.ts",
+    "seed:demo": "cd backend && uv run python -m app.scripts.seed_demo"
   },
   "dependencies": {
     "ajv": "^8.12.0",
