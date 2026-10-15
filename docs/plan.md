@@ -1452,14 +1452,19 @@ zero orphans.
 
 - No Docker locally; git writes via cmd.exe.
 - README is a reviewer-owned root doc (docs/ownership.md: reviewer-approved
-  definer). HUMAN-REVIEW RULING (operator, 2026-10-15, after t66): the
-  per-card operator approval of README diffs is WAIVED for the remaining
-  phase_11 README cards (t67-t71). Instead the orchestrator performs a
-  mandatory pre-merge re-check of the README diff itself (heading-level
-  diff review, carried-token survival, ASCII/CRLF/line-budget invariants,
-  no fabricated URLs or internal vocabulary) and WALs that re-check as the
-  Gate-3 review evidence. t66 remains fully approved on the record
-  (operator packet + explicit approval, WAL 800).
+  definer). HUMAN-REVIEW RULING (operator, 2026-10-15, after t66; clarified
+  same day: 嚴謹檢查，不可以放水或改驗收標準): the per-card operator
+  approval of README diffs is WAIVED for the remaining phase_11 README cards
+  (t67-t71). INSTEAD the orchestrator performs a mandatory, RIGOROUS pre-merge
+  re-check of the README diff: full heading-level diff, line-by-line scan of
+  removed lines against the carried-token/gate set, every carried stored gate
+  replayed on the branch tip, ASCII/CRLF/line-budget measured not assumed,
+  no fabricated URLs, no internal vocabulary, delta-envelope purity. The
+  waiver touches ONLY who signs the Gate-3 review - it does NOT relax, remove
+  or weaken any AC, fence, replay, digest attestation, or verifier requirement;
+  acceptance criteria are exactly as groomed. The re-check is WALed as the
+  Gate-3 review evidence with its measurements. t66 remains fully approved on
+  the record (operator packet + explicit approval, WAL 800).
 - Single-container architecture (backend serves the built SPA); SQLite
   fallback is a startup-only latch; money as 2-decimal strings; pagination
   {items,total,page,page_size}; JWT HS256 24h.
