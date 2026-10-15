@@ -66,3 +66,4 @@ Runtime-maintained by Orchestrator.
 | t62 | npm-script dev workflow: root package.json check/setup:local/dev/stop + scripts/dev 5 node-builtin helpers, win32-native, Docker untouched (Q1/Q2/Q6, delta-purity fence form) | #68 |
 | t63 | README Quick Start npm-first rewrite (check/setup:local/dev/stop primary, Stopping section, troubleshooting table, make demoted to Alternative, all-English; pin-2 retired, pin-3 f0fd9eda/367L) | #69 |
 | t61 | Logout control into AppShell header (data-testid=logout-button, guard-wrapped); in-page dashboard logout removed (Q3a) | #67 |
+| t65 | Demo-seed capability: backend/app/scripts/seed_demo.py (fixed demo@example.com/demo-password-123, 10 system categories, 90-day offset-pure dataset, per-month budgets, idempotent wipe+rebuild, non-demo byte-identical) + root npm seed:demo pinned line (no README touch, operator-directive anchor) | #71 |
