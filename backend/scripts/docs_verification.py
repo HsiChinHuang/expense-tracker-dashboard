@@ -31,8 +31,8 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c"
-README_LINES = 308
+README_DIGEST = "5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0"
+README_LINES = 391
 INDEX_FLOOR = 217
 
 # The eight byte-pinned index anchors (issue_id + sha256 of the canonical
@@ -54,9 +54,11 @@ DOC_MAP_ROOT = ["AGENTS.md", "CLAUDE.md", "LICENSE", "README.md", "openapi.yaml"
 DOCS_ROOT_MD = ["agent-extension-pack.md", "ai-workflow.md", "api.md",
                 "architecture.md", "backlog.md", "coding_standards.md",
                 "commands.md", "config_reference.md", "design-system.md",
-                "documentation_standards.md", "ownership.md", "permissions.md",
-                "plan.md", "process.md", "requirements.md", "task-template.md",
-                "testing-guidelines.md"]
+                "development.md", "documentation_standards.md", "ownership.md",
+                "permissions.md", "plan.md", "process.md", "requirements.md",
+                "screenshots.md", "task-template.md", "testing-guidelines.md",
+                "verification.md"]
+
 DOCS_TEAM = ["pm.md", "qa-engineer.md", "software-engineer.md"]
 SECURITY_ARTIFACTS = ["agent-security-notes.md", "ai-tool-data-policy.md",
                       "gitleaks-report.json", "npm-audit-report.txt",
