@@ -1324,7 +1324,11 @@ REQ-DOC-010 (the README "live demo" section) plus the operator directive
 
 - Live pin is pin-3: README cr-stripped digest
   f0fd9eda96a242e4efdb378b2ad4fdc40458d05cd1395ad7088bf21f129995d8,
-  367 lines (the t63 merge_test_index entry; WAL-recorded as tests[232]).
+  367 lines. CORRECTION recorded at t66 groom (definer-verified against the
+  index): the digest gate is tests[231] (issue t63, ac pin3); tests[232] is
+  t63 ac1, the npm-first Quick Start checker. Earlier WAL/plan text
+  misattributed the pin to tests[232]. t66..t70 may turn tests[231] RED as
+  the sanctioned pin-leg; t71 performs the sole pin-4 switchover.
 - t66..t70 each change README.md content while the stored pin gate stays at
   pin-3. Their gates therefore use a CARD-SCOPED MEASURED-DIGEST
   ATTESTATION (each card reports the cr-stripped sha256 + line count of the
