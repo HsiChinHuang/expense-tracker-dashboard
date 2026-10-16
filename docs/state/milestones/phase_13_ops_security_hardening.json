@@ -3,7 +3,10 @@
   "milestone": "phase_13_ops_security_hardening",
   "queued_at": "2026-10-16T10:43:08Z",
   "survey_completed_at": "2026-10-16T11:20:00Z",
-  "review_plan_status": "in_progress",
+  "review_plan_status": "passed",
+  "review_plan_completed_at": "2026-10-16T11:18:26Z",
+  "review_plan_verdict": "PASS_WITH_WARNINGS",
+  "review_plan_attempts": 1,
   "issues_generated": [
     "t75",
     "t76",
