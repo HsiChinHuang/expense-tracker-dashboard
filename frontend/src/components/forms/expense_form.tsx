@@ -11,11 +11,21 @@
 // Focus (REQ-FE-111): the first field receives focus on mount (open) and,
 // when the modal unmounts (the parent closes it on success/cancel), focus
 // returns to the element that was active before opening (the trigger).
+//
+// t73: the category control is a <select> of category NAMES fed by the
+// merged use_categories query (the expenses_page filter select is the
+// precedent markup), so a raw category UUID is never typed by hand. The
+// payload still carries the selected row's category_id, and the zod
+// min(1) leg in validation.ts is untouched — the select makes an invalid
+// id unproducible. Pending/failed query states follow the merged t17
+// inline role="status" / role="alert" + Retry conventions, and a list
+// with no suitable category hints at the merged /categories page.
 
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import type { Expense } from '../../api/expenses';
 import type { ApiError } from '../../api/client';
+import { use_categories } from '../../hooks/use_categories';
 import { applyApiErrors, expenseFormSchema, zodResolver } from '../../utils/validation';
 import type { ExpenseFormValues } from '../../utils/validation';
 
@@ -47,12 +57,21 @@ export const ExpenseForm = ({ expense, onSubmit, onCancel }: ExpenseFormProps): 
     setFocus,
     setError,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting }
   } = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     mode: 'onChange',
     defaultValues: initialValues(expense)
   });
+
+  const categories = use_categories();
+  const categoryList = categories.data?.categories ?? [];
+  // Controlled value: the option list arrives asynchronously, and a
+  // controlled select reapplies the current value once the edited
+  // expense's option renders (an uncontrolled one would drop to '').
+  const categoryIdValue = watch('category_id');
 
   useEffect(() => {
     restoreRef.current = document.activeElement;
@@ -111,14 +130,52 @@ export const ExpenseForm = ({ expense, onSubmit, onCancel }: ExpenseFormProps): 
           </div>
           <div>
             <label className="block text-sm text-slate-700" htmlFor="expense-category">
-              Category id
+              Category
             </label>
-            <input
-              className="w-full rounded border border-slate-300 p-2"
-              id="expense-category"
-              autoComplete="off"
-              {...bindField('category_id')}
-            />
+            {categories.isPending ? (
+              <p role="status" className="text-sm text-slate-600">
+                Loading categories…
+              </p>
+            ) : null}
+            {categories.isError ? (
+              <div role="alert" className="rounded bg-red-50 p-2 text-sm text-red-700">
+                <p>Could not load categories.</p>
+                <button
+                  type="button"
+                  className="mt-1 rounded border border-red-300 px-2 py-1"
+                  onClick={() => {
+                    void categories.refetch();
+                  }}
+                >
+                  Retry
+                </button>
+              </div>
+            ) : null}
+            {!categories.isPending && !categories.isError ? (
+              <>
+                <select
+                  className="w-full rounded border border-slate-300 bg-white p-2"
+                  id="expense-category"
+                  name="category_id"
+                  value={categoryIdValue}
+                  onChange={(event) => {
+                    setValue('category_id', event.target.value, { shouldValidate: true });
+                  }}
+                >
+                  <option value="">Select a category</option>
+                  {categoryList.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                {categoryList.length === 0 ? (
+                  <p className="mt-1 text-sm text-slate-600">
+                    No suitable category? Add one on the Categories page (/categories) first.
+                  </p>
+                ) : null}
+              </>
+            ) : null}
             {errors.category_id ? (
               <p className="mt-1 text-sm text-red-600">{errors.category_id.message}</p>
             ) : null}

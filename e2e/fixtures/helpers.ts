@@ -67,21 +67,23 @@ export const dayInMonth = (yearMonth: string, day: number): string => {
 };
 
 /**
- * Add one expense through the /expenses "Add expense" dialog. The category
- * is resolved by name from the merged /categories page (system categories
- * carry no id in the UI, and the dialog takes the raw id text).
+ * Add one expense through the /expenses "Add expense" dialog. The t73
+ * category select takes the VISIBLE category NAME (selectOption on the
+ * dialog's Category control); the HTTP-id resolution workaround this
+ * helper used while the dialog took a raw category UUID is retired and
+ * deleted. Consumed by THREE specs - happy-path, isolation, month-switch
+ * - all of which run in the CI e2e gate (make e2e).
  */
 export const addExpense = async (
   page: Page,
   options: { amount: string; categoryName: string; date: string; note?: string }
 ): Promise<void> => {
   await test.step('addExpense', async () => {
-    const categoryId = await resolveCategoryId(page, options.categoryName);
     await page.goto('/expenses');
     await page.getByRole('button', { name: 'Add expense' }).click();
     const dialog = page.getByRole('dialog', { name: 'Add expense' });
     await dialog.getByLabel('Amount').fill(options.amount);
-    await dialog.getByLabel('Category id').fill(categoryId);
+    await dialog.getByLabel('Category').selectOption({ label: options.categoryName });
     await dialog.getByLabel('Date').fill(options.date);
     if (options.note !== undefined) {
       await dialog.getByLabel('Note').fill(options.note);
@@ -147,25 +149,3 @@ export const chartSurfaces = [
   { role: 'grid', name: 'Weekly spending heatmap grid' },
   { role: 'progressbar', name: 'Budget usage' }
 ] as const;
-
-/**
- * Resolve a category id by name. The merged UI renders system rows without
- * their ids (the /categories list shows name + color only), so the id is
- * read from the same GET /api/v1/categories response the page consumes -
- * the API base the frontend itself is configured against (E2E_API_URL).
- */
-const resolveCategoryId = async (page: Page, categoryName: string): Promise<string> => {
-  const front = process.env.E2E_BASE_URL ?? 'http://localhost:5173';
-  const apiBase =
-    process.env.E2E_API_URL ?? `${new URL(front).origin}/api/v1`;
-  const token = await page.evaluate(() => window.localStorage.getItem('token'));
-  const response = await page.request.get(`${apiBase}/categories`, {
-    headers: token === null ? {} : { Authorization: `Bearer ${token}` }
-  });
-  const body = (await response.json()) as { categories: { id: string; name: string }[] };
-  const match = body.categories.find((category) => category.name === categoryName);
-  if (match === undefined) {
-    throw new Error(`category not found: ${categoryName}`);
-  }
-  return match.id;
-};
