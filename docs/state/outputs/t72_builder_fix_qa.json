@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t72",
+  "role": "builder",
+  "phase": "fix_qa",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t72-readme-offline-hotfix",
+    "branch_sha": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+    "merge_commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+    "fix_qa_mode_note": "Branch-kept fix_qa (materiality 28.57% < 50): the definer re_groom c7ecdd5 landed the two premise-only fence corrections on main; this run merged origin/main (7bc12d1) into the branch and replayed all seven fences VERBATIM from the merged card. NO product edits were needed or made - the two formerly-RED legs (ac7 P4 stored-pins guard, ac6 tests[254] named collateral) go GREEN on the unchanged product delta purely because the card now matches the frozen index.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac1.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac2.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac3.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac4.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac5.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac6.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      },
+      "ac7": {
+        "commit": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+        "test": "bash /tmp/t72_ac7.sh (fence extracted VERBATIM from the merged docs/issues/t72.md: every line beginning with the six characters bash -c ', CR-stripped and trimmed, run from the worktree root; extraction digest sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be matches the card's ac_hash line)",
+        "verdict": "PASS"
+      }
+    },
+    "per_fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0,
+      "ac7": 0
+    },
+    "formerly_failing_legs_now_green": {
+      "ac7_p4_stored_pins_guard": "GREEN at the merged tip: the corrected leg asserts the three stored README-pin literals a64efaa2 / f0fd9eda / b8795ac8 PRESENT in the frozen index (matched 3 of 3) AND the new digest df1775e5... absent (grep -cF = 0) - strictly stronger than the false groom premise (pin-4 exactly once; measured ZERO at a77f98a0). Fence evidence line: 'the new digest df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5 appears 0 times in the frozen index (want 0 - the switchover collides with no stored pin), the stored pin literals matched 3 of 3, and pin-4 58894964 appears 0 times'.",
+      "ac6_tests_254_named_collateral": "GREEN at the merged tip: ac6 now replays 28 gates verbatim (254 excluded by named disposition) and marker-proves tests[254] with its own replay-list literal '249 250 251 252'. Independent re-measure of the extracted stored gate 254: rc=1 with 21 GREEN legs and exactly ONE RED at idx=250 - the expected collateral of the sanctioned EIGHT->NINE rewrite, matching the card's measured row exactly."
+    },
+    "test_summary": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "failed_acs_addressed": [
+      {
+        "ac_id": "ac6",
+        "fix_description": "No product change required: the failure was the card's false premise that tests[257] was the only collateral of the sanctioned tests[250] rewrite. The re_groom (c7ecdd5) names tests[254] as the second named collateral of the EIGHT->NINE rewrite, marker-proven by its own replay-list literal and excluded from the 28-gate verbatim replay. Replay on this merged tip: ac6 rc=0, 28/28 verbatim gates GREEN, all six marker legs (250/257/254/258/227/231) proven, index untouched."
+      },
+      {
+        "ac_id": "ac7",
+        "fix_description": "No product change required: the failure was the card's false premise that the pin-4 literal appears exactly once in the frozen index (measured ZERO times at a77f98a0 inside tests[258], which embeds pin-2/pin-3/pre-card base instead). The re_groom restated the P4 leg to assert the three stored pins a64efaa2/f0fd9eda/b8795ac8 PRESENT (3 of 3) plus the new digest absent (0 hits) - strictly stronger. Replay on this merged tip: ac7 rc=0, cross-consistency fully settled."
+      }
+    ],
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_recomputed": "sha256:5f4c87caf6001d4adfe0713b5cae7691316fc5b59f45cd470d25bf66f6d896be",
+    "ac_hash_note": "Recomputed from the MERGED card (worktree docs/issues/t72.md, git blob fc6d8011) by the card's own recipe: every line beginning with the six characters bash -c ', CR-stripped and trimmed, seven elements in document order, JSON separators (',',':'), sha256 - matches the card's ac_hash line byte-for-byte, so the seven fences replayed are the card's own. Worktree file and origin/main card are the same blob (fc6d801182fb9cc0b0bfaee7b9318e06230a5e9b); the on-disk sha256 differs from a raw git show only by git-autocrlf CRLF materialization. Card and mirror docs/issues/groom/t72.md are byte-identical (cmp clean).",
+    "tip_sha": "9aa8ab68238f0dc55f0cc741cee539b94f6e194f",
+    "delta_vs_main": "git diff origin/main..HEAD on this branch touches exactly the product files this card owns: README.md (four fixes: install step + NINE-step flow, honest OPTIONAL .env step naming backend/.env, tsx troubleshooting row, seed:demo second-terminal truth), backend/scripts/docs_verification.py (pin-5 constants README_LINES=398 / README_DIGEST=df1775e5...), docs/criteria/docs_verification.md (regenerated report). Main's re_groom files (docs/issues/t72.md, docs/issues/groom/t72.md, docs/state/*) merged clean with zero conflicts and zero edits by this run; the index docs/state/merge_test_index.json is byte-frozen at a77f98a0.../259 entries and was not touched by any leg.",
+    "pin5_pair": {
+      "README_DIGEST": "df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5",
+      "README_LINES": 398,
+      "cross_consistency": "measured cr-stripped README sha256 == constant; measured line count == constant; regenerated docs/criteria/docs_verification.md carries 'README_MEASURE PASS lines=398 digest=df1775e5...' and ends ALL_CHECKS_PASS off the stale fed5c630 blob; value differs from pin-2 a64efaa2 / pin-3 f0fd9eda / pin-4 58894964 / pre-card base b8795ac8; exactly 13 64-hex literals in docs_verification.py; INDEX_FLOOR 217 <= 259."
+    },
+    "environment_notes": [
+      "All git/node/npx ran through cmd.exe from the worktree root (Windows esbuild in node_modules); fences themselves ran under bash from the worktree root per the card's extraction dialect.",
+      "python3 (WSL, 3.12) satisfies the ac6 'command -v python3' extraction leg exactly as in the implement run; frontend/node_modules and the generator interpreter setup from the implement run are unchanged.",
+      "The merge materialized a stale docs/criteria/agent_pack_verification.md working-tree artifact (its generator re-ran at WSL-platform vantage showing 293 nodes); it was restored with git checkout -- so the tree is clean and the committed report stays the main-carried win32-measured one. Nothing was committed from it.",
+      ".env for scripts/platform.ts was copied untracked from the main checkout (gitignored, never committed).",
+      "No heredoc JSON: this handoff is written by build/t72b/write_fix_qa_handoff.py (gitignored scratch)."
+    ],
+    "notes": "Product-complete branch carried through the sanctioned re_groom merge; zero product edits in this fix_qa run because both FAILs were card-side false premises that the definer corrected premise-only on main. The merge commit 9aa8ab6 is the verification tip; the orchestrator appends ac7 VERBATIM at merge as the pin-5 gate. Recommended next hop for the orchestrator: verifier verify_issue on tip 9aa8ab68238f0dc55f0cc741cee539b94f6e194f (issue #78 labeled built)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t72_builder_fix_qa.json"
+    ],
+    "platform_issue": 78,
+    "output_path": "docs/state/outputs/t72_builder_fix_qa.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-16T08:19:11Z",
+  "retry_count": 0
+}
