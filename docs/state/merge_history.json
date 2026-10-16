@@ -1140,7 +1140,7 @@
       "issue_id": "t80",
       "platform_issue": 86,
       "branch": "issue/t80-evidence-collector",
-      "merge_sha": "8a9cb437c0ba071a17bcadb5f1378194ad96d8ee",
+      "merge_sha": "7bed97d30eba53413d431e1c5a0113ea4cfa3b90",
       "merged_at": "2026-10-16T13:22:00Z",
       "retries": 0,
       "tests_appended": 4,
