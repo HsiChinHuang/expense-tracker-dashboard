@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T05:31:21Z",
-  "last_seq": 895,
+  "updated_at": "2026-10-16T05:34:10Z",
+  "last_seq": 898,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t72",
       "role": "builder",
       "phase": "build",
-      "run_id": null,
-      "spawn_at": "2026-10-16T05:31:21Z",
-      "last_activity_at": "2026-10-16T05:31:21Z",
+      "run_id": "14d4a8db-3825-4a39-9650-02482ae4a1ba",
+      "spawn_at": "2026-10-16T05:34:10Z",
+      "last_activity_at": "2026-10-16T05:34:10Z",
       "worktree_path": "../worktrees/t72"
     },
     {
