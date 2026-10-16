@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T11:00:00Z",
+  "updated_at": "2026-10-16T11:28:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1105,6 +1105,25 @@
         "t73-ac2",
         "t73-ac3",
         "t73-ac4"
+      ]
+    },
+    {
+      "issue_id": "t74",
+      "platform_issue": 80,
+      "branch": "issue/t74-color-icon-ux",
+      "merge_sha": "5201b2a",
+      "pre_merge_sha": "c769972",
+      "merged_from_sha": "7fa566a",
+      "into": "main",
+      "merged_at": "2026-10-16T11:28:00Z",
+      "merge_type": "no-ff",
+      "test_suite": "208 passed / 0 failed frontend (merged main); backend unchanged by this card (delta has zero backend files)",
+      "retries": 0,
+      "tests_appended": [
+        "t74-ac1",
+        "t74-ac2",
+        "t74-ac3",
+        "t74-ac4"
       ]
     }
   ]
