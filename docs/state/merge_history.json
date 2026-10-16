@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T17:00:00Z",
+  "updated_at": "2026-10-16T17:15:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1194,6 +1194,16 @@
       "merged_at": "2026-10-16T17:00:00Z",
       "retries": 0,
       "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t83",
+      "platform_issue": 89,
+      "branch": "issue/t83-incidents-scaffold",
+      "merge_sha": "6982c2ef139842586f5a16a9e04f6f73d8f0df50",
+      "merged_at": "2026-10-16T17:15:00Z",
+      "retries": 0,
+      "tests_appended": 3,
       "regressions": 0
     }
   ]
