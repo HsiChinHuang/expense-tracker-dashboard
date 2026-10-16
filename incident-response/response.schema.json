@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pi-agent/schemas/incident-response/response.schema.json",
+  "title": "Incident responder answer",
+  "description": "The machine-checkable answer an AI on-call pass produces for one bundle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "incident_id",
+    "summary",
+    "classification",
+    "severity",
+    "root_cause_hypothesis",
+    "evidence_refs",
+    "actions_taken",
+    "confidence",
+    "recovery_verified"
+  ],
+  "properties": {
+    "incident_id": {
+      "type": "string",
+      "description": "The incident, spelled as the bundle directory names it.",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,79}$",
+      "maxLength": 80
+    },
+    "summary": {
+      "type": "string",
+      "description": "What the bundle shows, in plain prose. A two-word stub is not an answer.",
+      "minLength": 40,
+      "maxLength": 600
+    },
+    "classification": {
+      "type": "string",
+      "description": "The subsystem the evidence points at; the list is closed.",
+      "enum": [
+        "database",
+        "backend",
+        "frontend",
+        "observability",
+        "infrastructure",
+        "unknown"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "description": "How bad the measured state is, on the pinned ladder.",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "root_cause_hypothesis": {
+      "type": "string",
+      "description": "The most likely cause, stated as a hypothesis tied to the evidence.",
+      "minLength": 20,
+      "maxLength": 600
+    },
+    "evidence_refs": {
+      "type": "array",
+      "description": "The bundle files this answer read; a ref may never escape the bundle.",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "pattern": "^incidents/[^/.]+/evidence/(health|log_tail|manifest|metrics|version)\\.[a-z]+$"
+      }
+    },
+    "actions_taken": {
+      "type": "array",
+      "description": "The reads performed, plus the answer document; each entry needs a justification.",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action",
+          "justification"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "One of the six read-only actions; a policy-allow-list subset.",
+            "enum": [
+              "read_health",
+              "read_metrics",
+              "read_logs",
+              "read_version",
+              "read_manifest",
+              "write_report"
+            ]
+          },
+          "justification": {
+            "type": "string",
+            "description": "The observation that made this read necessary.",
+            "minLength": 10,
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "description": "How much the responder stands behind the hypothesis, from 0 to 1.",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "recovery_verified": {
+      "type": "boolean",
+      "description": "Pinned to false: recovery is asserted only by the merged verification step.",
+      "enum": [
+        false
+      ]
+    }
+  }
+}
