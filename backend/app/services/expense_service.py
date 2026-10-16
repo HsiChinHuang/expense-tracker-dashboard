@@ -28,7 +28,7 @@ Contract pins this module is judged against:
 
 The t79 observability seam is count-only: ``create_expense`` nudges the
 t78-substrate counters through :func:`app.telemetry.get_business_counter`
-and the imported name constants — no metric string is restated here.
+and the imported name constants - no metric string is restated here.
 Observability changes NO behaviour: the failure leg is
 ``except AppError:`` + bare ``raise`` (the exception object propagates
 unchanged, no wide catch exists) and the success nudge runs only after
