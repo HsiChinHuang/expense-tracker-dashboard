@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-17T09:08:00Z",
-  "last_seq": 1077,
+  "updated_at": "2026-10-17T09:56:00Z",
+  "last_seq": 1080,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t86",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "b4cdb2b8-cbaa-453c-8fb2-0c8f8c1c63cd",
-      "spawn_at": "2026-10-17T09:07:00Z",
+      "issue_id": "t87",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "e7e43183-f236-475b-9fde-d65c951b3c87",
+      "spawn_at": "2026-10-17T09:55:00Z",
       "last_activity_at": null,
-      "worktree_path": "../worktrees/t86b2"
+      "worktree_path": "../worktrees/t87g"
     },
     {
       "slot_id": "slot_2",
@@ -45,7 +45,7 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "aec4cd3",
+  "main_tip_sha": "57c0d51",
   "merge_history_entries": 84,
   "closed_issues": [
     75,
@@ -66,5 +66,5 @@
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1077
+  "last_wal_seq": 1080
 }
