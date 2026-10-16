@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T17:40:00Z",
+  "updated_at": "2026-10-17T03:10:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1212,6 +1212,16 @@
       "branch": "issue/t79-business-counters",
       "merge_sha": "a0ede30e00c39f919ec080e0927689f89aeaa483",
       "merged_at": "2026-10-16T17:40:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t84",
+      "platform_issue": 90,
+      "branch": "issue/t84-measured-drill",
+      "merge_sha": "87b1d515afc835908ec9f7de04ada212a87d7293",
+      "merged_at": "2026-10-17T03:10:00Z",
       "retries": 0,
       "tests_appended": 4,
       "regressions": 0
