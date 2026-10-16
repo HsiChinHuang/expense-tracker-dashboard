@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T14:38:47Z",
-  "last_seq": 1010,
+  "updated_at": "2026-10-16T14:45:50Z",
+  "last_seq": 1014,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t81",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "d35485a7-48f5-46e1-aef2-33ef0f41ed3d",
-      "spawn_at": "2026-10-16T14:37:38Z",
-      "last_activity_at": "2026-10-16T14:37:38Z",
-      "worktree_path": "../worktrees/t81-verify"
-    },
-    {
-      "slot_id": "slot_2",
       "issue_id": "t77",
       "role": "definer",
       "phase": "groom",
       "run_id": "9304dcdc-f4f2-40d8-8469-e76e1938bed6",
-      "spawn_at": "2026-10-16T14:38:47Z",
-      "last_activity_at": "2026-10-16T14:38:47Z",
+      "spawn_at": "2026-10-16T14:45:50Z",
+      "last_activity_at": "2026-10-16T14:45:50Z",
       "worktree_path": "../worktrees/t77"
+    },
+    {
+      "slot_id": "slot_2",
+      "issue_id": "t79",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "003cdae6-5f17-47ce-a2ed-a4fd5b5e04c2",
+      "spawn_at": "2026-10-16T14:45:50Z",
+      "last_activity_at": "2026-10-16T14:45:50Z",
+      "worktree_path": "../worktrees/t79"
     }
   ],
   "merge_queue": [],
