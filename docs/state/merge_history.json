@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T12:20:00Z",
+  "updated_at": "2026-10-16T13:22:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1132,6 +1132,16 @@
       "branch": "issue/t75-observability-skeleton",
       "merge_sha": "b79b92d5e64f6f67ddebee133671cc0b376706af",
       "merged_at": "2026-10-16T12:20:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t80",
+      "platform_issue": 86,
+      "branch": "issue/t80-evidence-collector",
+      "merge_sha": "8a9cb437c0ba071a17bcadb5f1378194ad96d8ee",
+      "merged_at": "2026-10-16T13:22:00Z",
       "retries": 0,
       "tests_appended": 4,
       "regressions": 0
