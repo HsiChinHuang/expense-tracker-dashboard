@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T13:36:27Z",
-  "last_seq": 994,
+  "updated_at": "2026-10-16T14:10:24Z",
+  "last_seq": 997,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t81",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "57bef655-48d4-4566-8c8c-fbd4e920eee1",
-      "spawn_at": "2026-10-16T13:36:27Z",
-      "last_activity_at": "2026-10-16T13:36:27Z",
-      "worktree_path": "../worktrees/t81"
+      "issue_id": "t76",
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "7941aa87-2bd1-495b-8cbd-4dd8258d6331",
+      "spawn_at": "2026-10-16T14:10:24Z",
+      "last_activity_at": "2026-10-16T14:10:24Z",
+      "worktree_path": "../worktrees/t76"
     },
     {
       "slot_id": "slot_2",
