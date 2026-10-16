@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T10:40:00Z",
+  "updated_at": "2026-10-16T11:00:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1086,6 +1086,25 @@
       "retries": 0,
       "tests_appended": [
         "t72-ac7"
+      ]
+    },
+    {
+      "issue_id": "t73",
+      "platform_issue": 79,
+      "branch": "issue/t73-category-select",
+      "merge_sha": "9fe1343",
+      "pre_merge_sha": "cae5bce",
+      "merged_from_sha": "cba62f8",
+      "into": "main",
+      "merged_at": "2026-10-16T11:00:00Z",
+      "merge_type": "no-ff",
+      "test_suite": "203 passed / 0 failed frontend (merged main); backend unchanged by this card (delta has zero backend files)",
+      "retries": 0,
+      "tests_appended": [
+        "t73-ac1",
+        "t73-ac2",
+        "t73-ac3",
+        "t73-ac4"
       ]
     }
   ]
