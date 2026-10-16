@@ -1675,3 +1675,391 @@ only safe concurrency and they are the only pair that needs it.
 - Platform numbering: highest existing issue is #77 (closed, verified via
   `issue get 77`); #78/#79/#80 verified 404 before creation. The three cards are
   #78, #79, #80, one create call each, labels [defined] read back per issue.
+
+## phase_13_ops_security_hardening - Operational diagnosis, observability, incident response and security-report hardening (operator directive 2026-10-16)
+
+**Origin and scope statement (read this first).** Final Project criterion 13
+(Security, Audit, DevOps hardening) currently sits at the 1-point bar: the
+security scan set exists and its accepted-findings loop is closed, but the
+operational half is a STATIC worked example (`ops/diagnosis.md` documents one
+hand-run smoke sequence) and the two carrier directories the criterion names -
+an observability stack and an incident-response record - do not exist at all
+(measured at `245cd49`: `ls` shows `ops/` with 5 names and `security/` with 8
+names, and there is NO `observability/` and NO `incident-response/` directory).
+This milestone makes criterion 13 provably reach the 2-point bar by upgrading
+that static example into an ALERT-DRIVEN, MEASURED operational loop (alert rule
+-> collector -> AI responder -> resolution -> reconstruction) and by adding the
+two carrier directories plus a single reviewer-facing report.
+
+**SCOPE SUPERSESSION (explicit, and it is the reason the coverage matrix must
+be re-derived rather than argued).** `docs/requirements.md` REQ-OPS-082 ("CPU,
+memory, latency, error rate, connection pool, disk usage are not monitored in
+MVP", Priority: Should) and REQ-OPS-083 ("Prometheus metrics, Grafana, alert on
+fallback, alert on error rate, structured log export, distributed tracing",
+Priority: Could) describe the MVP-scope NEGATION. This milestone is an
+intentional EXTENSION beyond that MVP scope: after it merges, the sentences
+"not monitored in MVP" and the "future" framing no longer describe the tree -
+Prometheus + Alertmanager + Grafana exist locally, `observability/alerts.yaml`
+carries a fallback alert and a business error-rate alert, and metrics/logs are
+exported. The operator directive of 2026-10-16 therefore SUPERSEDES the
+MVP-scope WORDING of REQ-OPS-082/083; it does not delete the REQ-IDs, does not
+edit `docs/requirements.md`, and does not invent any new REQ-ID. Because the
+requirement text is unchanged, the coverage matrix rows for those two REQ-IDs
+are re-derived by the generator (`req_coverage_verification.py`) from the new
+tree, exactly as for every other phase; NO card in this milestone may
+hand-edit `docs/criteria/req_coverage_verification.md`, which is
+generator-owned. `docs/criteria/security_ops_verification.md` is the criterion
+13 evidence file and IS hand-maintained - t89 is its only writer in this
+milestone.
+
+**The single-authority rule that makes the 15 cards one system instead of 15
+artifacts.** `observability/alerts.yaml` (t76) is the SINGLE SOURCE OF TRUTH
+for every alert name and metric name used anywhere in this milestone. t79's
+counter names must match it verbatim, t83's `alert.json` is a byte-copy of its
+`DBFallbackActive` entry, t77's dashboard panels read its metric names, and
+t85's rewritten diagnosis takes its alert name from it. No other card may
+invent an alert or metric name. Likewise `incident-response/incidents/
+2026-10-17-db-fallback-01/` is owned by exactly one card (t83 creates the ID
+and directory, t84 fills the evidence/response/resolution trio inside it) and
+README's criterion-13 row is owned by exactly one card (t89).
+
+### Measured base state this plan relies on (commands actually run at survey, on `245cd49`)
+
+| claim | command actually run | measured result |
+|---|---|---|
+| the two carrier directories do not exist | `ls` at repo root; `ls ops security` | root has `ops/` (deployment-health.md, diagnosis.md, health-check.md, logging.md, runbook.md) and `security/` (agent-security-notes.md, ai-tool-data-policy.md, gitleaks-report.json, npm-audit-report.txt, pip-audit-report.txt, pr-audit.md, semgrep-report.json, trivy-report.json); `observability` and `incident-response` -> "No such file or directory" |
+| the diagnosis example is static and hand-run, and its strings are gate-pinned | `grep -n "^## " ops/diagnosis.md`; `grep -c . ops/diagnosis.md` | sections Scenario / Diagnosis Steps / Expected Output / Expected Behavior / Verification / Recovery / Findings / Lessons, 130 lines; `docs/state/merge_test_index.json` tests[16]-era t41 fences pin `^curl -fsS http://127[.]0[.]0[.]1:8137/api/v1/health`, `DIAGNOSIS_ROWS scenario=1 steps=6 output=match recovery=1 PASS`, the 7x4 runbook counts and the 17-event logging table |
+| 8137 and 8001 are the two ports nothing may collide with | `grep -rn "8137" docs/criteria/security_ops_verification.md`; `grep -n "ports" -A 2 docker-compose.yml`; `grep -n "DEV_PORTS" -A 3 scripts/dev/common.ts` | `DIAGNOSIS_ENDPOINT http://127.0.0.1:8137/api/v1/health PASS` (the t41 gate's pinned local endpoint); compose maps `"8000:8000"` for the app service and 8001 is the recorded alternate Docker-stack mapping (t41 card: "port 8001 is held by the concurrent t46 Docker stack"); `DEV_PORTS = [8000, 5173]`; the t41 gate also uses `18137`-style host ports in the infra evidence, so the observability stack uses its own documented band (see the t75 pin below) |
+| the fallback state the alert reads already exists in the merged API | `grep -n "fallback" backend/app/database.py`; `grep -n "fallback_active" backend/app/routers/health.py backend/app/schemas/health.py` | `FALLBACK_DATABASE_URL: Final[str] = "sqlite:///./fallback.db"`, `is_fallback()`, and health reports `fallback_active` with `status` = `"degraded"` exactly when a fallback is active - so `DBFallbackActive` can be defined against a REAL measured payload, not a hypothetical one |
+| the business counters have named landing points | `grep -n "def create_expense" backend/app/services/expense_service.py`; `grep -n "def create_category" backend/app/services/category_service.py` | `create_expense` at expense_service.py:157, `create_category` at category_service.py:107 - the two paths t79 instruments, plus `backend/app/main.py` as the factory the OTel setup and `/metrics` mount ride on |
+| the backend has no telemetry dependency yet | `sed -n 1,20p backend/pyproject.toml` | dependencies are fastapi/uvicorn/sqlalchemy/alembic/pydantic/pydantic-settings/python-jose/passlib/bcrypt/httpx/psycopg - NO opentelemetry package, so t78 is the only card that may add dependencies and it adds them to `backend/pyproject.toml` only |
+| the five scan reports are parseable and count-pinned | `head -40 docs/criteria/security_ops_verification.md` | `SCAN_REPORT_ROWS reports=5`, `GITLEAKS_ZERO findings=0`, `REPORT_ROWS 0,32,42,3,22`, `REGISTER_COUNT_ROWS tools=5 measured=5`, `SCAN_LOOP_ROWS findings=96 registered=96 equal=true` - so a t86 refresh that changes any count MUST be re-closed by t87 against the register, and the t41 gate that re-parses the five committed reports is a carried gate t86 must disposition |
+| README has 3 lines of headroom, not 100 | `wc -l README.md`; `grep -n "README_LINES\|over 500" backend/scripts/docs_verification.py` | README = 398 lines; `README_LINES = 398` and `if lines > 500: fail("README_MEASURE FAIL ... over 500")` in the docs verifier, whose `README_MEASURE PASS lines=398 digest=df1775e5...` row is a live pin. t89 therefore budgets AT MOST 3 added lines and pins `wc -l README.md` itself |
+| the pipeline convention the 15 cards must mirror | `git show 985b2c9:docs/issues/t73.md`; `npx tsx scripts/platform.ts issue get 80` | survey-stage cards are DEFINED-stage stubs (Metadata / Goal / AC draft / Dependencies / Constraints / DoD template, `labels: [defined]`, `owner: definer-survey`); the ac_hash digest recipe (sha256 over the JSON-compact array of the card's fenced bash commands, CR-stripped and trimmed) is authored at GROOM (t74 groom's `ac_hash: sha256:4f3df182...`), so the survey card records the recipe and the fence-count plan instead of a digest constant |
+
+### Milestone issue template (fifteen cards, the exact operator-approved split)
+
+> Issue template (Batch A):
+> - Requirement: criterion 13 (22.14 / 24.2 row 19) + REQ-OPS-082/083 as
+>   SUPERSEDED-beyond-MVP wording (see the scope-supersession paragraph) +
+>   operator directive 2026-10-16. No new REQ-ID is invented anywhere.
+> - Title: t75 observability skeleton - `observability/README.md` +
+>   `observability/compose.yaml` (Prometheus, Alertmanager, Grafana; OTel
+>   collector / Loki / Tempo present but commented optional)
+> - Acceptance: the compose file is valid YAML with exactly the three enabled
+>   services and the optional block commented; the chosen host-port band is
+>   documented and provably collides with NEITHER 8001 nor 8137 (nor 8000 /
+>   5173 / 18137); the README states what each component does for THIS repo.
+> - Files: observability/README.md, observability/compose.yaml
+> - Depends: []
+>
+> Issue template (Batch A):
+> - Requirement: criterion 13 + REQ-OPS-040..048 (diagnosis/records) extended
+>   by the operator directive; REQ-OPS-082/083 superseded wording
+> - Title: t80 incident-response evidence collector -
+>   `incident-response/collect-evidence.sh` + `incident-response/README.md`,
+>   including the `--simulate-fallback` mode that produces REAL degraded
+>   evidence
+> - Acceptance: the collector gathers the health payload, a `/metrics`
+>   snapshot, a backend log tail and the deployed version into
+>   `incidents/<ID>/evidence/`; `--simulate-fallback` points DATABASE_URL at a
+>   dead PostgreSQL, restarts the local uvicorn, captures the degraded
+>   evidence, and RESTORES the original state; the script is bash-clean and
+>   touches no production system.
+> - Files: incident-response/collect-evidence.sh, incident-response/README.md
+> - Depends: []
+
+> Issue template (Batch B):
+> - Requirement: criterion 13; REQ-OPS-083's Prometheus/Grafana/alert-on-fallback
+>   items, realised rather than deferred
+> - Title: t76 Prometheus scrape config + the alerts authority -
+>   `observability/prometheus.yml` + `observability/alerts.yaml`
+> - Acceptance: `alerts.yaml` is the single source of truth and defines at
+>   least `HighExpenseCreationFailures` (business metric, threshold + `for:`
+>   duration + annotations service/environment/version/dashboard URL) and
+>   `DBFallbackActive` (health degraded / `fallback_active` sustained 5m);
+>   `prometheus.yml` scrapes the local backend `/metrics` and itself; both
+>   files parse under the pinned validator.
+> - Files: observability/prometheus.yml, observability/alerts.yaml
+> - Depends: [t75]
+>
+> Issue template (Batch B):
+> - Requirement: criterion 13 (AI-driven incident response); operator directive
+> - Title: t81 responder prompt + response schema -
+>   `incident-response/responder-task.md` +
+>   `incident-response/response.schema.json` + one validator/test file
+> - Acceptance: the schema is machine-validated by a PINNED command (a
+>   jsonschema validation leg that is RED at base because the file does not
+>   exist and GREEN once it does); the prompt states the responder's read-only
+>   scope and the required output shape.
+> - Files: incident-response/responder-task.md,
+>   incident-response/response.schema.json,
+>   incident-response/validate_response.py (validator/test leg)
+> - Depends: [t80]
+>
+> Issue template (Batch B):
+> - Requirement: criterion 13; REQ-OPS-083 metrics substrate (superseded
+>   wording); REQ-TECH-020/025 for the toolchain
+> - Title: t78 OTel metrics substrate (backend) -
+>   `backend/app/telemetry.py` + `backend/pyproject.toml` + the app factory +
+>   its test file
+> - Acceptance: OTel SDK + Prometheus exporter with Resource attributes
+>   `service.name` / `deployment.environment` / `service.version`; a `/metrics`
+>   endpoint that is LOCAL-ONLY by a stated mechanism; the substrate is proven
+>   by a backend test, not by an attestation.
+> - Files: backend/app/telemetry.py, backend/pyproject.toml,
+>   backend/app/main.py, backend/tests/unit/test_telemetry.py
+> - Depends: []
+> - HARD CONSTRAINTS recorded in the card: `openapi.yaml` is FROZEN and
+>   `/metrics` is DELIBERATELY EXEMPTED from it - the exemption is recorded in
+>   the card text, never by editing the contract (contract_first applies to
+>   backend/api/database, and this is the one documented carve-out); the
+>   local-only mechanism must be named in the card (loopback bind /
+>   separate-mount gate), not implied.
+>
+> Issue template (Batch B):
+> - Requirement: criterion 13 business signal; REQ-OPS-083 error-rate item
+>   (superseded wording)
+> - Title: t79 business counters - `expense_created_total`,
+>   `expense_create_failures_total`, `category_created_total` on the merged
+>   create paths
+> - Acceptance: the three counters increment on the merged
+>   `create_expense` / `create_category` service paths (including the failure
+>   leg), the metric NAMES match `observability/alerts.yaml` verbatim (the
+>   card proves it by extraction, not restatement), and backend tests prove
+>   the increments.
+> - Files: backend/app/services/expense_service.py,
+>   backend/app/services/category_service.py, backend/app/telemetry.py,
+>   backend/tests/unit/test_business_metrics.py
+> - Depends: [t78, t76]
+>
+> Issue template (Batch B):
+> - Requirement: criterion 13 incident record; operator directive
+> - Title: t83 incidents scaffold + the incident-ID authority -
+>   `incident-response/incidents/README.md` + the
+>   `2026-10-17-db-fallback-01` `alert.json` + that incident's `README.md`
+> - Acceptance: this card OWNS the incident-ID constant
+>   `2026-10-17-db-fallback-01`; `alert.json` is a VERBATIM copy of the
+>   `DBFallbackActive` entry of `observability/alerts.yaml` (proven by
+>   extraction against the t76 file); the incidents README states the ID
+>   grammar and the directory contract every later card obeys.
+> - Files: incident-response/incidents/README.md,
+>   incident-response/incidents/2026-10-17-db-fallback-01/alert.json,
+>   incident-response/incidents/2026-10-17-db-fallback-01/README.md
+> - Depends: [t76, t80]
+
+> Issue template (Batch C):
+> - Requirement: criterion 13; REQ-OPS-083 Grafana item (superseded wording)
+> - Title: t77 dashboard + collector - `observability/dashboard.json` +
+>   `observability/collector.yaml`
+> - Acceptance: `dashboard.json` is valid JSON under a pinned validator and
+>   carries panels for expense creation rate, creation failure rate and
+>   fallback state, reading the t76 metric names; `collector.yaml` is the
+>   documented optional OTel collector config.
+> - Files: observability/dashboard.json, observability/collector.yaml
+> - Depends: [t76]
+>
+> Issue template (Batch C):
+> - Requirement: criterion 13 (autonomy boundary + response actions); operator
+>   directive
+> - Title: t82 autonomy policy + runbooks -
+>   `incident-response/autonomy-policy.yaml` + `runbooks/rollback.sh` +
+>   `runbooks/verify-recovery.sh`
+> - Acceptance: the policy DENIES restart-of-production / DB mutation / merge
+>   and ALLOWS read-only log+metric reads and report writing;
+>   `verify-recovery.sh` asserts health `status ok` and `fallback_active
+>   false` and exits non-zero otherwise.
+> - Files: incident-response/autonomy-policy.yaml,
+>   incident-response/runbooks/rollback.sh,
+>   incident-response/runbooks/verify-recovery.sh
+> - Depends: [t80]
+>
+> Issue template (Batch C):
+> - Requirement: criterion 13 measured evidence; operator directive
+> - Title: t84 measured drill + incident record - execute the t80 harness and
+>   land `evidence.json`, `response.json`, `resolution.md` for
+>   `2026-10-17-db-fallback-01`
+> - Acceptance: the evidence is REAL measured degraded output from the t80
+>   `--simulate-fallback` run (never attested-by-reference); `response.json`
+>   validates against the t81 schema (an AI on-call pass over the evidence);
+>   `resolution.md` carries the recovery-verification output and a timeline.
+> - Files: incident-response/incidents/2026-10-17-db-fallback-01/evidence.json,
+>   .../response.json, .../resolution.md
+> - Depends: [t80, t81, t82, t83, t78, t79]
+
+> Issue template (Batch C):
+> - Requirement: criterion 13 scan currency (REQ-SEC-070/071/074 family)
+> - Title: t86 scan refresh - re-run all five committed reports against the
+>   final tree
+> - Acceptance: `security/gitleaks-report.json`, `npm-audit-report.txt`,
+>   `pip-audit-report.txt`, `semgrep-report.json`, `trivy-report.json` are
+>   re-run so their timestamps and tree hash describe the merged final tree;
+>   gitleaks stays measured-zero; the t41 re-parse gate and the t40
+>   accepted-findings closed loop are dispositioned line-by-line.
+> - Files: security/gitleaks-report.json, security/npm-audit-report.txt,
+>   security/pip-audit-report.txt, security/semgrep-report.json,
+>   security/trivy-report.json
+> - Depends: [t84] - it MUST merge after every product-code card so the
+>   reports describe the final tree.
+
+> Issue template (Batch D):
+> - Requirement: criterion 13 alert-driven diagnosis (REQ-OPS-040..048,
+>   REQ-ARCH-033) + operator directive
+> - Title: t85 diagnosis rewrite to alert-driven - `ops/diagnosis.md` +
+>   `ops/runbook.md`
+> - Acceptance: the narrative is alert-driven (alert name verbatim from
+>   `observability/alerts.yaml`, proven by extraction) and points at the t84
+>   measured evidence directory; the healthy-baseline smoke section and every
+>   assertion string the merged t41 gate depends on stay BYTE-IDENTICAL - the
+>   card is ADD-only for existing sections and pins a check that re-greps the
+>   t41-pinned strings (`^curl -fsS http://127[.]0[.]0[.]1:8137/api/v1/health`,
+>   `DIAGNOSIS_ROWS scenario=1 steps=6 output=match recovery=1 PASS`, the 7x4
+>   runbook counts, the 17 logging events).
+> - Files: ops/diagnosis.md, ops/runbook.md
+> - Depends: [t84, t76]
+>
+> Issue template (Batch D):
+> - Requirement: criterion 13 accepted-findings loop (REQ-SEC-074) +
+>   REQ-OPS-083 trace limitation
+> - Title: t87 accepted-findings refresh - bind the t86 findings to
+>   dispositions and record traces as a documented limitation
+> - Acceptance: every newly surfaced finding is bound to a disposition in
+>   `security/agent-security-notes.md`; `security/ai-tool-data-policy.md`
+>   records that metrics + logs are implemented while TRACES are not, as a
+>   named limitation rather than a claim.
+> - Files: security/agent-security-notes.md, security/ai-tool-data-policy.md
+> - Depends: [t86]
+>
+> Issue template (Batch D):
+> - Requirement: criterion 13 reviewer-facing summary (REQ-DOC-010 family)
+> - Title: t88 single report - `docs/operations-and-security-report.md`
+> - Acceptance: one document with PR audit summary, security scan summary,
+>   agent + extension security, operational diagnosis, AI tool/data policy,
+>   the incident reconstruction chain (ID -> alert -> evidence -> response ->
+>   resolution -> scan finding -> disposition, each with a real file path),
+>   known limitations and future improvements.
+> - Files: docs/operations-and-security-report.md
+> - Depends: [t85, t87]
+>
+> Issue template (Batch D):
+> - Requirement: criterion 13 evidence map (22.14 / 24.2 row 19)
+> - Title: t89 evidence map + criteria closeout - `README.md` +
+>   `docs/criteria/security_ops_verification.md`
+> - Acceptance: the README criterion-13 row gains the new artifacts within a
+>   HARD budget of at most 3 added lines (`wc -l README.md` pinned, base 398,
+>   the docs verifier's 500-line ceiling and its `README_LINES`/digest pin
+>   dispositioned); the criterion-13 evidence file gains the new artifact rows.
+> - Files: README.md, docs/criteria/security_ops_verification.md
+> - Depends: [t88]
+
+### Batch plan (generation discipline) and scheduling
+
+N = 15, so `batch_size = min(5, max(1, ceil(15/3))) = 5` and
+`total_batches = 3` for CARD GENERATION. The approved card list is
+non-contiguous in ID space, so the batches are the operator-approved batches:
+
+| batch | cards | written in this pass |
+|---|---|---|
+| A | t75, t80 | 2 cards (roots of the two carrier directories) |
+| B | t76, t78, t79, t81, t83 | 5 cards |
+| C | t77, t82, t84, t86 | 4 cards |
+| D | t85, t87, t88, t89 | 4 cards |
+
+Batch A is smaller than the batch cap because the approved DAG puts both
+directory-creating cards first; batches C+D are 4+4 rather than 5+3 so that the
+scan-refresh card (t86, which must merge LAST of the product cards) sits in the
+same written batch as the drill that produces its tree, and the four
+documentation-closeout cards land together. Every batch is persisted before the
+next begins.
+
+Scheduling constraints the orchestrator must honour (from the dep sets, not
+invented here): t79 requires BOTH t78 and t76 merged; t84 is the widest fan-in
+card in the project so far (six deps) and cannot start until t78/t79/t81/t82/
+t83 have all merged; t86 must merge after every card that changes product code
+(t78, t79 above all) because its reports describe the final tree; t89 is last
+because it edits the pinned README row. With `MAX_SLOTS=2` the safe concurrency
+is (t75, t80), then (t76, t78), then (t77, t82, t81 pairwise), then t79, t83,
+t84, t86, t85, t87, t88, t89 sequentially - t85/t87/t88/t89 are a strict chain
+and must never be co-scheduled with each other.
+
+### Port allocation decision (pinned once, here, so no card invents one)
+
+| port | owner | evidence |
+|---|---|---|
+| 8000 | compose app service + `npm run dev` API | `docker-compose.yml` `"8000:8000"`, `scripts/dev/common.ts` `DEV_PORTS = [8000, 5173]` |
+| 5173 | vite dev | `scripts/dev/common.ts` |
+| 8001 | the recorded alternate Docker-stack mapping - FORBIDDEN for this milestone | t41 card: "port 8001 is held by the concurrent t46 Docker stack" |
+| 8137 | the pinned local verification endpoint - FORBIDDEN for this milestone | `DIAGNOSIS_ENDPOINT http://127.0.0.1:8137/api/v1/health PASS` |
+| 9090 / 9093 / 3000 | Prometheus / Alertmanager / Grafana host bindings chosen by t75 | measured FREE at survey: `grep -rn "9090\|9093\|3000"` over `docker-compose.yml`, `render.yaml`, `scripts/dev/` returns ZERO hits, so the band is uncontested; t75 must still re-measure with `netstat -ano -p tcp` at build time and record the output |
+
+t75 owns this band; t76/t77 reference it; no other card picks a port.
+
+### Verification-command discipline (the t72/t73/t74 lesson, binding on groom)
+
+- Every pinned fence must be SELF-CONTAINED. The t73/t74 ac5 legs were
+  excluded from the merge index append because they pinned a moving git base
+  into an appendable fence; the orchestrator recorded it in the append commits
+  ("ac5 excluded - BASE-pinned quality/delta leg not append-safe").
+- If a card needs a delta-purity check, the card TEXT declares the BASE-pinned
+  leg non-appendable, or the purity leg is expressed against a FIXED immutable
+  ref (a tagged commit or the milestone base `245cd49`), never against "main
+  tip at run time".
+- No fence may pin a moving count upward as its only signal (the t72
+  eight-steps-to-nine lesson): where a count legitimately grows, the card
+  states the new count, the carried gate that pins the old one, and the
+  disposition of that gate.
+- `ac_hash` is authored at GROOM with the established recipe (sha256 over the
+  `JSON.stringify` array of the card's fenced bash command bodies in ac1..acN
+  order with COMPACT separators, each body CR-stripped and trimmed). The
+  survey card records the fence count and the recipe, never a digest constant.
+- Windows discipline: git/npm/npx go through
+  `cmd.exe /d /c "cd /d . && <one command>"`, one logical operation per call,
+  no `/dev/null` redirection (use `nul` in cmd.exe, or no redirection at all);
+  every write is verified by a separate read-back call.
+
+### Standing constraints for every card in this milestone
+
+- `docs/criteria/req_coverage_verification.md` is GENERATOR-OWNED: no card
+  edits it. `docs/criteria/security_ops_verification.md` is hand-maintained
+  and t89 is its only writer here.
+- `openapi.yaml` is FROZEN for the whole milestone. `/metrics` is the one
+  documented, card-text-recorded exemption (t78); no card edits the contract.
+- `docs/state/merge_test_index.json` (268 entries at `245cd49`),
+  `merge_history` (74 entries) and the WAL are orchestrator-owned; no card
+  branch edits them, and the deferral register in the criterion-13 evidence
+  file stays honest (a deferred row is never written as PASS).
+- Product-code changes are confined to t78 and t79 (backend telemetry
+  substrate + counters) and are ADDITIVE: no endpoint contract change, no
+  schema/migration change, no behaviour change to the create paths beyond
+  emitting a counter, and no change to the health payload vocabulary that the
+  t41 gate cross-greps (`fallback_active`, `status`).
+- Docker is used ONLY as committed configuration (t75's compose file is
+  authored and validated, and the t84 drill runs against the LOCAL uvicorn on
+  the pinned endpoint, not against the observability stack). No card requires
+  a running Prometheus to pass its fence, and no card kills a stack it does
+  not own.
+- The autonomy boundary is a card, not a comment: t82's policy denies
+  restart-of-production, DB mutation and merge; anything the t84 responder
+  does must sit inside the allowed set, and `resolution.md` must show the
+  verification leg rather than assert recovery.
+- README.md is reviewer-owned by `docs/ownership.md`; the phase_11 HUMAN-REVIEW
+  RULING carries forward (per-card approval waived, replaced by a mandatory
+  rigorous orchestrator pre-merge re-check; no AC, fence, replay or digest
+  attestation is relaxed). t89's 3-line budget is the operative constraint.
+- Cards follow the phase_12 pipeline convention: survey writes DEFINED-stage
+  stubs (Metadata, Goal, AC draft, Dependencies, Constraints, DoD template)
+  with the rulings and hard constraints embedded; Context, Out of scope, the
+  fenced ACs and the `ac_hash` are authored at groom.
+- Granularity: max_files=4, max_acs=6, max_diff_lines=300 (warn-only, per
+  `docs/config.yaml` via the factpack `config_subset`). Every card is at most
+  FIVE ACs and at most FOUR files EXCEPT ONE DISCLOSED EXCEPTION: t86 names
+  FIVE files (the five scan reports). The exception is deliberate and is the
+  operator-approved split - the five reports MUST be refreshed by a single card
+  in a single run or they describe five different trees, which is exactly the
+  currency claim the criterion asks for; splitting them into two cards would
+  trade a warn-only limit for a false evidence statement. `within_limits` is
+  therefore reported FALSE in the survey handoff (honest, not rounded up), the
+  limit is `warn_only: true`, and no other card in the milestone exceeds four
+  files. t86's five files are machine-generated report output, not hand-written
+  code, and its diff-line count is disclosed as expected-over-cap for the
+  report bodies.

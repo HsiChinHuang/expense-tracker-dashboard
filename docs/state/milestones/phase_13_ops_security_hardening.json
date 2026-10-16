@@ -2,7 +2,24 @@
   "schema_version": "1.0",
   "milestone": "phase_13_ops_security_hardening",
   "queued_at": "2026-10-16T10:43:08Z",
+  "survey_completed_at": "2026-10-16T11:20:00Z",
   "review_plan_status": "pending",
-  "issues_generated": [],
-  "survey_attempts": 0
+  "issues_generated": [
+    "t75",
+    "t76",
+    "t77",
+    "t78",
+    "t79",
+    "t80",
+    "t81",
+    "t82",
+    "t83",
+    "t84",
+    "t85",
+    "t86",
+    "t87",
+    "t88",
+    "t89"
+  ],
+  "survey_attempts": 1
 }
