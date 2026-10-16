@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "card": "t86",
+  "purpose": "groom-measured SAME-RUN sweep record for the five-tool scan refresh. gitleaks, pip-audit and npm-audit stamp no timestamp in their output at all, so this file is the cross-check the committed reports must agree with: the fences compare the committed report of each tool against the count THIS file records for the same sweep, never against a number typed into the card. The builder regenerates this file at build time from its own sweep of its own tree (two passes: sweep, write, re-sweep gitleaks with the anchor present, commit); the fences then check AGREEMENT between the two committed artefacts, not a pinned literal.",
+  "base": "67c9db975d75e0e6ae53667c02318a54c2524912",
+  "run_at": "2026-10-17T06:16:30+08:00",
+  "run_window_local": "2026-10-17T04:54:40+08:00..2026-10-17T06:16:30+08:00 (the five measured report completions of the re-groom sweep, first to last; the gitleaks leg re-measured last as the fixed point AFTER the card, mirror and handoff re-splices landed, so the committed report describes the tree as committed)",
+  "mechanism": "make -n security five subtargets, frozen (gitleaks v8.30.1 + t36 gate-time allowlist, semgrep via uvx, trivy v0.75.0, pip-audit via uvx over uv export, npm audit read-only from frontend/)",
+  "tools": {
+    "gitleaks": {
+      "rc": 1,
+      "findings": 17,
+      "report": "security/gitleaks-report.json",
+      "fingerprint_suffixes": [
+        "docs/issues/groom/t76.md:generic-api-key:263",
+        "docs/issues/groom/t86.md:generic-api-key:113",
+        "docs/issues/groom/t86.md:generic-api-key:208",
+        "docs/issues/t76.md:generic-api-key:263",
+        "docs/issues/t86.md:generic-api-key:113",
+        "docs/issues/t86.md:generic-api-key:208",
+        "docs/state/outputs/t51_builder_implement.json:generic-api-key:74",
+        "docs/state/outputs/t51_verifier_verify.json:generic-api-key:45",
+        "docs/state/outputs/t61_verifier_verify_issue.json:generic-api-key:95",
+        "docs/state/outputs/t61_verifier_verify_issue.json:generic-api-key:96",
+        "docs/state/outputs/t76_builder_implement.json:generic-api-key:35",
+        "docs/state/outputs/t76_definer_groom.json:generic-api-key:18",
+        "docs/state/outputs/t76_verifier_verify_issue.json:generic-api-key:41",
+        "docs/state/outputs/t78_definer_groom.json:generic-api-key:32",
+        "docs/state/outputs/t78_verifier_verify_issue.json:generic-api-key:94",
+        "docs/state/outputs/t80_definer_groom.json:generic-api-key:57",
+        "docs/state/outputs/t86_definer_groom.json:generic-api-key:15"
+      ],
+      "finished_at": "2026-10-17T06:16:30+08:00"
+    },
+    "semgrep": {
+      "rc": 0,
+      "findings": 33,
+      "scanned_paths": 905,
+      "report": "security/semgrep-report.json",
+      "finished_at": "2026-10-17T04:54:40+08:00"
+    },
+    "trivy": {
+      "rc": 0,
+      "findings": 42,
+      "report": "security/trivy-report.json",
+      "created_at": "2026-10-17T04:56:43.222689919+08:00",
+      "finished_at": "2026-10-17T04:56:43+08:00"
+    },
+    "pip_audit": {
+      "rc": 1,
+      "findings": 3,
+      "report": "security/pip-audit-report.txt",
+      "finished_at": "2026-10-17T04:57:03+08:00"
+    },
+    "npm_audit": {
+      "rc": 1,
+      "findings": 23,
+      "report": "security/npm-audit-report.txt",
+      "finished_at": "2026-10-17T04:57:08+08:00"
+    }
+  },
+  "pre_refresh_counts": {
+    "gitleaks": 0,
+    "semgrep": 32,
+    "trivy": 42,
+    "pip_audit": 3,
+    "npm_audit": 22
+  },
+  "finding_id_loop": {
+    "base": 96,
+    "refreshed": 98,
+    "new_ids": [
+      "PYSEC-2026-4298",
+      "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+    ],
+    "gone_ids": []
+  },
+  "reference_run": {
+    "what": "the grooms sweep of the grooms tree, recorded once and immutable; disclosure, never a target. The builder's tools section above (which the builder regenerates) is what the fences compare against; THIS section exists so a reader can see which sweep produced the card prose.",
+    "tree": "worktree groom/t86-r2 at HEAD 95f1d04 with the re-groomed card, mirror and groom handoff in place (fixed-point re-measure after the leg-(v) fence re-splice)",
+    "counts": {
+      "gitleaks": 17,
+      "semgrep": 33,
+      "trivy": 42,
+      "pip_audit": 3,
+      "npm_audit": 23
+    },
+    "gitleaks_classification": "17 = 12 BASE-file hits + 4 card/mirror self-reference hits + 1 groom-handoff hit; the builders prospective base measures 21 and classifies 21/21 ACCEPT (14 BASE-file, 6 named-path, 1 WAL) with zero REJECT; the fences check floor, per-file classification and anchor agreement, never a bare count"
+  },
+  "disclosed_limits": [
+    "gitleaks stamps no timestamp in its JSON report and its File field carries the per-run mktemp prefix, so its findings are pinned by the path:rule:line suffix, not by the full fingerprint",
+    "pip-audit and npm-audit stamp nothing at all and their counts depend on the upstream advisory database at sweep time; a later sweep whose FOUR code/dependency counts differ must re-groom this card rather than force the old numbers",
+    "the t41 generator was NOT run into the tree, so docs/criteria/security_ops_verification.md stays byte-clean at BASE and the two stored t41 gate rows stay RED by design until the follow-up card regenerates the doc and re-pins the generators values",
+    "this anchor file sits inside the gitleaks swept set once committed; it is authored FP-shape-free (measured: a temp-repo scan of this file returns zero hits), and the builder still re-runs the gitleaks sweep with the anchor present before committing, so the committed report always describes the tree as committed"
+  ]
+}
