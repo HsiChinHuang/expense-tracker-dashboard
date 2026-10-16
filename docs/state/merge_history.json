@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T16:00:00Z",
+  "updated_at": "2026-10-16T16:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1172,6 +1172,16 @@
       "branch": "issue/t81-responder-schema",
       "merge_sha": "0a68302bd6b759a95416dd5c505b2782649c3ffd",
       "merged_at": "2026-10-16T16:00:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t82",
+      "platform_issue": 88,
+      "branch": "issue/t82-autonomy-policy",
+      "merge_sha": "3a8040e9896c9441cef1cf14dc03fbaa35f6736d",
+      "merged_at": "2026-10-16T16:40:00Z",
       "retries": 0,
       "tests_appended": 4,
       "regressions": 0
