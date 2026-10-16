@@ -77,34 +77,37 @@ That is the whole host list: there is nothing else to install.
 
 ## Quick Start
 
-Eight numbered steps bring the whole app up locally, natively on Windows 11
+Nine numbered steps bring the whole app up locally, natively on Windows 11
 from the repository root (cmd.exe or PowerShell - no make, no bash, no
-Docker):
+Docker). Step 1 installs the tsx binary that every root npm script needs:
 
 ```bash
 # 0. Clone the repository
 git clone <repo-url> && cd expense-tracker-dashboard
 
-# 1. Detect the environment state (host tools, dev ports, venv, frontend deps)
+# 1. Install the root dev tooling every step below runs on (fresh clone: nothing is installed yet)
+npm install
+
+# 2. Detect the environment state (host tools, dev ports, venv, frontend deps)
 npm run check
 
-# 2. Create the local environment file (placeholders only - fill secrets locally)
+# 3. OPTIONAL env file: check, setup:local and vite read no .env, so skip it or edit backend/.env
 cp .env.example .env
 
-# 3. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
+# 4. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
 npm run setup:local
 
-# 4. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
+# 5. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
 npm run dev
 
-# 5. Open http://localhost:5173 in your browser
+# 6. Open http://localhost:5173 in your browser
 
-# 6. Register an account (first run only - a fresh database has no account yet)
+# 7. Register an account (first run only - a fresh database has no account yet)
 
-# 7. Load the deterministic demo dataset for the fixed demo account
+# 8. Load the deterministic demo dataset for the fixed demo account
 npm run seed:demo
 
-# 8. Stop both servers again when you are done
+# 9. Stop both servers again when you are done
 npm run stop
 ```
 
@@ -112,8 +115,9 @@ Both servers log into one interleaved stream prefixed `[backend]` and
 `[frontend]`, and dev prints the two clickable URLs when they are up. The
 backend health contract is `GET /api/v1/health` (served directly at
 `http://localhost:8000/api/v1/health` and proxied by the vite dev server
-through `/api`). Configuration lives in `.env` (never committed);
-`.env.example` lists every variable with placeholder values. See
+through `/api`). Configuration lives in `.env` (never committed); `.env.example` lists
+every variable with placeholder values, and copying it is optional for this offline
+flow: the repo-root `.env.example` defaults match the application defaults. See
 `docs/requirements/Chapter3_TechStack.md` section 3.10 for the variable
 reference.
 
@@ -121,8 +125,10 @@ The `npm run seed:demo` step is safe to re-run: the seed wipes and rebuilds
 only the fixed demo account (`demo@example.com` / `demo-password-123`) and
 its own demo rows, never your own accounts or data, and the dataset is
 deterministic - the same demo rows every time. Sign in with that account to
-see the populated dashboard. To stop both servers again, see the
-`## Stopping the app` section below.
+see the populated dashboard. Run the seed in a second terminal while dev keeps
+running - no dev restart is needed, nothing visible changes in the terminal,
+and the data appears in the browser only after you sign in as the demo account (log out of your own
+account first). To stop both servers again, see the `## Stopping the app` section below.
 
 ## Stopping the app
 
@@ -151,8 +157,8 @@ What the reaper does (the same behaviour `scripts/dev/stop.ts` implements):
 
 ## Troubleshooting
 
-The four failure modes the dev scripts actually print, each with the
-remedy the scripts themselves name:
+The failure modes the operator and the dev scripts actually run into, each
+with the remedy the scripts themselves name:
 
 | Symptom (what you see) | Why it happens | Remedy (what the scripts tell you to run) |
 |---|---|---|
@@ -160,6 +166,7 @@ remedy the scripts themselves name:
 | check reports `backend/.venv` missing (typical after a venv built under one platform is reused from the other) | the venv was never built for this platform, or it is unusable here | run `npm run setup:local`, which rebuilds `backend/.venv` with `uv sync --frozen` |
 | check prints `host tool uv: MISSING (not on PATH)` | uv is not installed or not on PATH; check detects and reports host tools, it never installs them | install uv, then re-run `npm run check` and `npm run setup:local` |
 | `http://127.0.0.1:5173` refuses the connection although dev printed the vite URL | vite binds the IPv6 loopback ::1, so the IPv4 literal never reaches it | open `http://localhost:5173/` instead of the 127.0.0.1 literal |
+| `'tsx' is not recognized as an internal or external command` when any root `npm run` script is typed | the root `node_modules` folder is missing, and every root npm script runs on the tsx binary installed there | run `npm install` at the repo root, then re-run the script |
 
 ## Alternative paths - Linux/WSL via make
 
