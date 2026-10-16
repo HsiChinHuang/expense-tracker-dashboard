@@ -1,0 +1,58 @@
+# observability/alerts.yaml - the SINGLE SOURCE OF TRUTH for every alert
+# name and every metric name used by any other card in phase_13. If a name
+# is not in this file, it does not exist in this milestone. t76 DECLARES
+# these names; t79 IMPLEMENTS the emitters in backend/app/telemetry.py (the
+# only permitted code-side mirror) and t77/t83/t85 consume them unchanged.
+#
+# The machine-readable inventory line below (the doubled marker makes it a
+# comment AND a greppable line) is exactly the four-name emit-set with the
+# declared instrument types. Adding a fifth name here is a card FAIL.
+#
+# db_fallback_active is a GAUGE (0/1), the supervisor-approved Option B:
+# the alert reads the declared fallback-latch gauge, NOT up == 0 - a liveness
+# rule wearing a fallback name is exactly the defect this milestone removes.
+# t79 MUST emit it via a callback gauge on the merged is_fallback() latch.
+# End-to-end firing is demonstrated in the t84 drill via --simulate-fallback.
+#
+# Annotation values mirror the merged config: APP_VERSION "1.0.0" and
+# ENVIRONMENT "development" (backend/app/config.py). The dashboard URL is
+# the local Grafana from t75's observability/compose.yaml - loopback only.
+# The DBFallbackActive entry below is byte-frozen by the canonical digest
+# sha256:631fff291c752ec026e7f585ccd3ad57f71dd868eb0ca94745a428aa49daeca0
+# pinned in docs/issues/t76.md; t83 byte-copies it into the incident
+# alert.json, so any change to any key or value forces a t83/t84 re-check.
+
+# # METRIC-INVENTORY: expense_created_total=counter, expense_create_failures_total=counter, category_created_total=counter, db_fallback_active=gauge
+
+groups:
+  - name: expense-tracker-alerts
+    rules:
+      # Error-rate ratio over the two declared creation counters.
+      - alert: HighExpenseCreationFailures
+        expr: sum(rate(expense_create_failures_total[5m])) / sum(rate(expense_created_total[5m])) > 0.1
+        for: "10m"
+        labels:
+          severity: warning
+        annotations:
+          service: expense-tracker-api
+          environment: development
+          version: "1.0.0"
+          owner: tw097
+          dashboard: http://127.0.0.1:3000/d/expense-tracker/expense-tracker
+          summary: more than 10 percent of expense creations are failing over the last 5 minutes
+
+      # The database fallback latch (backend/app/database.py is_fallback())
+      # is engaged and the API is serving from the fallback store. Pinned
+      # Option B form: db_fallback_active == 1, for 5m, severity critical.
+      - alert: DBFallbackActive
+        expr: db_fallback_active == 1
+        for: "5m"
+        labels:
+          severity: critical
+        annotations:
+          dashboard: http://127.0.0.1:3000/d/expense-tracker/expense-tracker
+          environment: development
+          owner: tw097
+          service: expense-tracker-api
+          summary: the database fallback latch is engaged and the API is serving from the fallback store
+          version: "1.0.0"
