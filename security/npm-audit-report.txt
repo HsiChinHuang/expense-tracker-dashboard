@@ -115,7 +115,7 @@ PostCSS: Arbitrary file read and information disclosure via attacker-controlled 
 PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset - https://github.com/advisories/GHSA-fxqj-rqcc-2cmp
 PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure - https://github.com/advisories/GHSA-r28c-9q8g-f849
 fix available via `npm audit fix --force`
-Will install postcss@8.5.29, which is outside the stated dependency range
+Will install postcss@8.5.30, which is outside the stated dependency range
 node_modules/postcss
 
 postcss-selector-parser  <7.1.6
@@ -134,15 +134,18 @@ Severity: critical
 Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution - https://github.com/advisories/GHSA-5gmw-xhrv-c9v3
 Tinypool: Prototype Pollution Gadget to RCE in run() options - https://github.com/advisories/GHSA-85c8-ppgw-ccpr
 fix available via `npm audit fix --force`
-Will install vitest@1.6.1, which is outside the stated dependency range
+Will install @vitest/coverage-v8@1.6.1, which is outside the stated dependency range
 node_modules/tinypool
   vitest  <=4.0.0-beta.19
   Depends on vulnerable versions of tinypool
   node_modules/vitest
+    @vitest/coverage-v8  1.3.0 - 1.6.0
+    Depends on vulnerable versions of vitest
+    node_modules/@vitest/coverage-v8
 
 
 
-22 vulnerabilities (3 moderate, 17 high, 2 critical)
+23 vulnerabilities (3 moderate, 17 high, 3 critical)
 
 To address issues that do not require attention, run:
   npm audit fix

@@ -3,8 +3,8 @@
   "Trivy": {
     "Version": "0.75.0"
   },
-  "ReportID": "01a12f67-1f36-7e93-b3a6-1162bef011e8",
-  "CreatedAt": "2026-10-12T17:17:29.782959158+08:00",
+  "ReportID": "01a146e5-c425-718b-a950-d4d7ad346925",
+  "CreatedAt": "2026-10-17T06:47:05.509103937+08:00",
   "ArtifactName": ".",
   "ArtifactType": "filesystem",
   "Results": [
@@ -18,7 +18,7 @@
           "Name": "expense-tracker-backend",
           "Identifier": {
             "PURL": "pkg:pypi/expense-tracker-backend@0.1.0",
-            "UID": "76437c5e43e64ae2"
+            "UID": "ec52368f95711f7b"
           },
           "Version": "0.1.0",
           "Relationship": "root",
@@ -27,7 +27,10 @@
             "bcrypt@4.0.1",
             "fastapi@0.142.2",
             "httpx@0.28.1",
+            "opentelemetry-exporter-prometheus@0.66b1",
+            "opentelemetry-sdk@1.45.1",
             "passlib@1.7.4",
+            "psycopg@3.3.6",
             "pydantic-settings@2.15.0",
             "pydantic@2.13.5",
             "python-jose@3.5.0",
@@ -100,6 +103,38 @@
           "AnalyzedBy": "uv"
         },
         {
+          "ID": "opentelemetry-exporter-prometheus@0.66b1",
+          "Name": "opentelemetry-exporter-prometheus",
+          "Identifier": {
+            "PURL": "pkg:pypi/opentelemetry-exporter-prometheus@0.66b1",
+            "UID": "cc96a2ad287e3a76"
+          },
+          "Version": "0.66b1",
+          "Relationship": "direct",
+          "DependsOn": [
+            "opentelemetry-api@1.45.1",
+            "opentelemetry-sdk@1.45.1",
+            "prometheus-client@0.26.0"
+          ],
+          "AnalyzedBy": "uv"
+        },
+        {
+          "ID": "opentelemetry-sdk@1.45.1",
+          "Name": "opentelemetry-sdk",
+          "Identifier": {
+            "PURL": "pkg:pypi/opentelemetry-sdk@1.45.1",
+            "UID": "50c2b78b405d5aa2"
+          },
+          "Version": "1.45.1",
+          "Relationship": "direct",
+          "DependsOn": [
+            "opentelemetry-api@1.45.1",
+            "opentelemetry-semantic-conventions@0.66b1",
+            "typing-extensions@4.16.0"
+          ],
+          "AnalyzedBy": "uv"
+        },
+        {
           "ID": "passlib@1.7.4",
           "Name": "passlib",
           "Identifier": {
@@ -110,6 +145,22 @@
           "Relationship": "direct",
           "DependsOn": [
             "bcrypt@4.0.1"
+          ],
+          "AnalyzedBy": "uv"
+        },
+        {
+          "ID": "psycopg@3.3.6",
+          "Name": "psycopg",
+          "Identifier": {
+            "PURL": "pkg:pypi/psycopg@3.3.6",
+            "UID": "df722ff7cea1b54a"
+          },
+          "Version": "3.3.6",
+          "Relationship": "direct",
+          "DependsOn": [
+            "psycopg-binary@3.3.6",
+            "typing-extensions@4.16.0",
+            "tzdata@2026.5"
           ],
           "AnalyzedBy": "uv"
         },
@@ -402,6 +453,46 @@
           "AnalyzedBy": "uv"
         },
         {
+          "ID": "opentelemetry-semantic-conventions@0.66b1",
+          "Name": "opentelemetry-semantic-conventions",
+          "Identifier": {
+            "PURL": "pkg:pypi/opentelemetry-semantic-conventions@0.66b1",
+            "UID": "3872656dd41b250d"
+          },
+          "Version": "0.66b1",
+          "Indirect": true,
+          "Relationship": "indirect",
+          "DependsOn": [
+            "opentelemetry-api@1.45.1",
+            "typing-extensions@4.16.0"
+          ],
+          "AnalyzedBy": "uv"
+        },
+        {
+          "ID": "prometheus-client@0.26.0",
+          "Name": "prometheus-client",
+          "Identifier": {
+            "PURL": "pkg:pypi/prometheus-client@0.26.0",
+            "UID": "9f7190c2d11e7d89"
+          },
+          "Version": "0.26.0",
+          "Indirect": true,
+          "Relationship": "indirect",
+          "AnalyzedBy": "uv"
+        },
+        {
+          "ID": "psycopg-binary@3.3.6",
+          "Name": "psycopg-binary",
+          "Identifier": {
+            "PURL": "pkg:pypi/psycopg-binary@3.3.6",
+            "UID": "d100abae56572fa4"
+          },
+          "Version": "3.3.6",
+          "Indirect": true,
+          "Relationship": "indirect",
+          "AnalyzedBy": "uv"
+        },
+        {
           "ID": "pyasn1@0.6.4",
           "Name": "pyasn1",
           "Identifier": {
@@ -532,6 +623,18 @@
           "DependsOn": [
             "typing-extensions@4.16.0"
           ],
+          "AnalyzedBy": "uv"
+        },
+        {
+          "ID": "tzdata@2026.5",
+          "Name": "tzdata",
+          "Identifier": {
+            "PURL": "pkg:pypi/tzdata@2026.5",
+            "UID": "f63afed46daa2c18"
+          },
+          "Version": "2026.5",
+          "Indirect": true,
+          "Relationship": "indirect",
           "AnalyzedBy": "uv"
         },
         {
@@ -3133,7 +3236,9 @@
             "https://access.redhat.com/errata/RHSA-2026:66488",
             "https://access.redhat.com/errata/RHSA-2026:66545",
             "https://access.redhat.com/security/cve/CVE-2026-42264",
+            "https://advisory.echohq.com/cve/CVE-2026-42264",
             "https://bugzilla.redhat.com/show_bug.cgi?id=2467927",
+            "https://github.com/advisories/GHSA-q8qp-cvcw-x6jj",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/commit/47915144662f2733e6c051bdcb895a8c8f0586aa",
             "https://github.com/axios/axios/commit/47915144662f2733e6c051bdcb895a8c8f0586aa%20%28v1.15.2%29",
@@ -3460,7 +3565,9 @@
             "https://access.redhat.com/errata/RHSA-2026:66488",
             "https://access.redhat.com/errata/RHSA-2026:66545",
             "https://access.redhat.com/security/cve/CVE-2026-44488",
+            "https://advisory.echohq.com/cve/CVE-2026-44488",
             "https://bugzilla.redhat.com/show_bug.cgi?id=2487949",
+            "https://github.com/advisories/GHSA-777c-7fjr-54vf",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/pull/10795",
             "https://github.com/axios/axios/pull/10796",
@@ -3569,7 +3676,9 @@
             "https://access.redhat.com/errata/RHSA-2026:66488",
             "https://access.redhat.com/errata/RHSA-2026:66545",
             "https://access.redhat.com/security/cve/CVE-2026-44494",
+            "https://advisory.echohq.com/cve/CVE-2026-44494",
             "https://bugzilla.redhat.com/show_bug.cgi?id=2487942",
+            "https://github.com/advisories/GHSA-35jp-ww65-95wh",
             "https://github.com/advisories/GHSA-fvcv-3m26-pcqx",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/security/advisories/GHSA-35jp-ww65-95wh",
@@ -3899,7 +4008,7 @@
             "https://www.cve.org/CVERecord?id=CVE-2025-62718"
           ],
           "PublishedDate": "2026-04-09T15:16:08.65Z",
-          "LastModifiedDate": "2026-09-10T13:17:26.047Z"
+          "LastModifiedDate": "2026-10-14T17:10:00.21Z"
         },
         {
           "VulnerabilityID": "CVE-2026-101902",
@@ -4003,6 +4112,7 @@
           },
           "References": [
             "https://access.redhat.com/security/cve/CVE-2026-101904",
+            "https://advisory.echohq.com/cve/CVE-2026-101904",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/commit/d19040bda7a8be2f82c3c6e1a5bc03917daee39a",
             "https://github.com/axios/axios/pull/11141",
@@ -4058,6 +4168,7 @@
           },
           "References": [
             "https://access.redhat.com/security/cve/CVE-2026-101908",
+            "https://advisory.echohq.com/cve/CVE-2026-101908",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/commit/d19040bda7a8be2f82c3c6e1a5bc03917daee39a",
             "https://github.com/axios/axios/pull/11141",
@@ -4337,6 +4448,8 @@
           },
           "References": [
             "https://access.redhat.com/security/cve/CVE-2026-42037",
+            "https://advisory.echohq.com/cve/CVE-2026-42037",
+            "https://github.com/advisories/GHSA-445q-vr5w-6q77",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/security/advisories/GHSA-445q-vr5w-6q77",
             "https://nvd.nist.gov/vuln/detail/CVE-2026-42037",
@@ -4753,7 +4866,9 @@
             "https://access.redhat.com/errata/RHSA-2026:42078",
             "https://access.redhat.com/errata/RHSA-2026:50300",
             "https://access.redhat.com/security/cve/CVE-2026-42044",
+            "https://advisory.echohq.com/cve/CVE-2026-42044",
             "https://bugzilla.redhat.com/show_bug.cgi?id=2461624",
+            "https://github.com/advisories/GHSA-3w6x-2g7m-8v23",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/security/advisories/GHSA-3w6x-2g7m-8v23",
             "https://nvd.nist.gov/vuln/detail/CVE-2026-42044",
@@ -5067,6 +5182,8 @@
           },
           "References": [
             "https://access.redhat.com/security/cve/CVE-2026-67317",
+            "https://advisory.echohq.com/cve/CVE-2026-67317",
+            "https://github.com/advisories/GHSA-jqh4-m9w3-8hp9",
             "https://github.com/axios/axios",
             "https://github.com/axios/axios/commit/32fc489632377d214db55bfa4e2c48486a7d7ce2",
             "https://github.com/axios/axios/pull/11000",
