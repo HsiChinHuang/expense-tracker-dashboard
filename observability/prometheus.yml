@@ -1,0 +1,37 @@
+# observability/prometheus.yml - the Prometheus scrape configuration for
+# THIS repo's local backend (t76, phase_13, criterion 13; REQ-OPS-083).
+# The observability stack itself (services, ports 9090/9093/3000) is t75's
+# observability/compose.yaml and is not touched here; this file is the one
+# config that compose file already mounts at /etc/prometheus/prometheus.yml.
+#
+# Every scrape target is loopback-only. No remote target, no cloud exporter
+# and no hosted endpoint appears anywhere in this file. The alert and metric
+# names this config evaluates are declared in observability/alerts.yaml, the
+# single source of truth for the milestone; nothing is named here.
+#
+# Follow-up, recorded in the t76 card "Out of scope": t75's compose file
+# mounts ONLY this file, not observability/alerts.yaml, so the rule_files
+# path below is not yet materialised inside the container. Fixing the mount
+# means editing t75's file, which the second-writer rule forbids for this
+# card; it belongs to a later card granted that file. Consequence until
+# then: Prometheus starts and evaluates zero rules.
+
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - "/etc/prometheus/alerts.yaml"
+
+scrape_configs:
+  # The local backend /metrics endpoint (t78's telemetry substrate), read at
+  # the t41-pinned local verification endpoint 127.0.0.1:8137.
+  - job_name: backend
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["127.0.0.1:8137"]
+
+  # Prometheus scrapes itself so the operator can see the server is up and
+  # that rule evaluation is running.
+  - job_name: prometheus
+    static_configs:
+      - targets: ["127.0.0.1:9090"]
