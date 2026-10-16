@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T15:10:00Z",
+  "updated_at": "2026-10-16T16:00:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1164,6 +1164,16 @@
       "merged_at": "2026-10-16T15:10:00Z",
       "retries": 0,
       "tests_appended": 3,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t81",
+      "platform_issue": 87,
+      "branch": "issue/t81-responder-schema",
+      "merge_sha": "0a68302bd6b759a95416dd5c505b2782649c3ffd",
+      "merged_at": "2026-10-16T16:00:00Z",
+      "retries": 0,
+      "tests_appended": 4,
       "regressions": 0
     }
   ]
