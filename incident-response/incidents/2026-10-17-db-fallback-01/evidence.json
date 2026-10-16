@@ -1,0 +1,33 @@
+{
+  "incident_id": "2026-10-17-db-fallback-01",
+  "collected_at": "2026-10-16T18:19:18Z",
+  "endpoint": "http://127.0.0.1:8137/api/v1",
+  "legs": {
+    "health": {
+      "status": "ok",
+      "file": "health.json",
+      "bytes": 82,
+      "content": "{\"status\":\"degraded\",\"database\":\"sqlite\",\"fallback_active\":true,\"version\":\"0.1.0\"}"
+    },
+    "log_tail": {
+      "status": "ok",
+      "file": "log_tail.txt",
+      "bytes": 628,
+      "content": "INFO:     Started server process [2036246]\nINFO:     Waiting for application startup.\nPostgreSQL unreachable for postgresql+psycopg://expense:change-me-locally@127.0.0.1:55432/expense_tracker; falling back to sqlite:///./fallback.db (REQ-BE-130)\nINFO:     Application startup complete.\nINFO:     Uvicorn running on http://127.0.0.1:8137 (Press CTRL+C to quit)\nINFO:     127.0.0.1:59114 - \"GET /api/v1/health HTTP/1.1\" 200 OK\nINFO:     127.0.0.1:59116 - \"GET /api/v1/health HTTP/1.1\" 200 OK\nINFO:     127.0.0.1:59130 - \"GET /api/v1/health HTTP/1.1\" 200 OK\nINFO:     127.0.0.1:59138 - \"GET /api/v1/metrics HTTP/1.1\" 404 Not Found\n"
+    },
+    "metrics": {
+      "status": "unavailable",
+      "file": "metrics.txt",
+      "bytes": 0,
+      "content": ""
+    },
+    "version": {
+      "status": "ok",
+      "file": "version.txt",
+      "bytes": 41,
+      "content": "86fbe454adfb132dfb31221bba5f54d1d364b62a\n"
+    }
+  },
+  "tree_hash": "30980c4a7e4f13423caab81a51d7279e9522026e4f7362f940b3117afb963cd6",
+  "script_sha256": "7fee18e7e307294e4816a20ccbd34bc50e1427999f5b313f9f9853e4d8af26aa"
+}
