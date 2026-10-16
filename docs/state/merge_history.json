@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T11:28:00Z",
+  "updated_at": "2026-10-16T12:20:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1125,6 +1125,16 @@
         "t74-ac3",
         "t74-ac4"
       ]
+    },
+    {
+      "issue_id": "t75",
+      "platform_issue": 81,
+      "branch": "issue/t75-observability-skeleton",
+      "merge_sha": "b79b92d5e64f6f67ddebee133671cc0b376706af",
+      "merged_at": "2026-10-16T12:20:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0
     }
   ]
 }
