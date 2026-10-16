@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T16:49:11Z",
+  "updated_at": "2026-10-16T17:53:00Z",
   "last_seq": 1039,
   "slots": [
     {
@@ -36,12 +36,35 @@
   "freeze_reason": null,
   "environment_note": "t59 merged at 39d22feb - phase_9 exit composite; 58 cards closed; index 228. Phase_9 milestone close + complete.md rewrite next. Only operator-infra #61 remains open by design.",
   "merges_closed": 58,
-  "index_count": 228,
+  "index_count": 302,
   "milestones": [],
   "closed": [
     "t57",
     "t58",
     "t59"
   ],
-  "merged_issues": 4
+  "merged_issues": 4,
+  "milestone": "phase_13_ops_security_hardening",
+  "main_tip_sha": "c0a0de0",
+  "merge_history_entries": 83,
+  "closed_issues": [
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83
+  ],
+  "open_cards": {
+    "t84": "grooming (definer 6c44ce0f)",
+    "t85": "todo (deps t84,t76)",
+    "t86": "todo (deps t84; MERGE BEFORE t85)",
+    "t87": "todo",
+    "t88": "todo (W1)",
+    "t89": "todo (W2, README<=500)"
+  },
+  "last_wal_seq": 1044
 }
