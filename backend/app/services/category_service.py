@@ -23,6 +23,11 @@ frozen W2 ruling: unknown / cross-user / system deletes are all 404 —
 :func:`validate_category_access` (section 6.7.4's "missing or not
 owned" taxonomy). 404 (never 403) so existence is not revealed
 (REQ-SEC-032).
+
+The t79 observability seam is count-only: a persisted custom category
+nudges the substrate counter through the imported name constant and
+:func:`app.telemetry.get_business_counter` - no metric string is
+restated here and no behaviour changes.
 """
 
 import uuid
@@ -39,6 +44,7 @@ from app.core.errors import (
 from app.models.category import Category
 from app.models.expense import Expense
 from app.models.user import User
+from app.telemetry import CATEGORY_CREATED_TOTAL, get_business_counter
 
 NOT_FOUND = "NOT_FOUND"
 """Appendix B generic 404 code (field ``-``).
@@ -139,6 +145,7 @@ def create_category(
     session.add(category)
     session.commit()
     session.refresh(category)
+    get_business_counter(CATEGORY_CREATED_TOTAL).add(1)
     return category
 
 
