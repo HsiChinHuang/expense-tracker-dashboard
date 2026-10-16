@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T13:22:00Z",
+  "updated_at": "2026-10-16T13:50:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1142,6 +1142,16 @@
       "branch": "issue/t80-evidence-collector",
       "merge_sha": "7bed97d30eba53413d431e1c5a0113ea4cfa3b90",
       "merged_at": "2026-10-16T13:22:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t78",
+      "platform_issue": 84,
+      "branch": "issue/t78-otel-metrics",
+      "merge_sha": "1612dc7c93fa7680060b4486a13fdac0421b7e42",
+      "merged_at": "2026-10-16T13:50:00Z",
       "retries": 0,
       "tests_appended": 4,
       "regressions": 0
