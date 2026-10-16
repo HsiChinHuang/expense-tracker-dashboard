@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-17T04:43:00Z",
-  "last_seq": 1061,
+  "updated_at": "2026-10-17T05:46:00Z",
+  "last_seq": 1066,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t85",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "6b721328-9146-4921-931b-5ad41b4cb0c9",
-      "spawn_at": "2026-10-17T04:42:00Z",
+      "role": null,
+      "phase": "verified-queued",
+      "run_id": null,
+      "spawn_at": null,
       "last_activity_at": null,
-      "worktree_path": "../worktrees/t85b"
+      "worktree_path": null
     },
     {
       "slot_id": "slot_2",
       "issue_id": "t86",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "58419b9e-3703-4f59-a08d-0fff41e132e7",
-      "spawn_at": "2026-10-17T03:27:00Z",
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "2234f049-1407-440c-8ea5-8282cbb7a378",
+      "spawn_at": "2026-10-17T05:42:00Z",
       "last_activity_at": null,
-      "worktree_path": "../worktrees/t86"
+      "worktree_path": "../worktrees/t86b"
     }
   ],
   "merge_queue": [],
@@ -45,7 +45,7 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "4f607eb",
+  "main_tip_sha": "8f52a61",
   "merge_history_entries": 84,
   "closed_issues": [
     75,
@@ -60,11 +60,11 @@
     84
   ],
   "open_cards": {
-    "t85": "building (builder 6b721328); MERGE AFTER t86+t87",
-    "t86": "grooming (definer 58419b9e; MERGE FIRST)",
-    "t87": "todo (groom after t86 merge; binding input = t86 refreshed-report findings)",
+    "t85": "VERIFIED (ff4d6cf0) - merge queue AFTER t86->t87",
+    "t86": "building (builder 2234f049); MERGE FIRST",
+    "t87": "todo (groom after t86 merge; binding input = t86 refreshed findings)",
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1061
+  "last_wal_seq": 1066
 }
