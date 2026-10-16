@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T11:04:58Z",
-  "last_seq": 952,
+  "updated_at": "2026-10-16T11:19:10Z",
+  "last_seq": 956,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": "2026-10-16T09:43:59Z",
-      "last_activity_at": "2026-10-16T09:43:59Z",
+      "issue_id": "t75",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "f00d5b14-ece0-4364-acc8-86297105332c",
+      "spawn_at": "2026-10-16T11:18:26Z",
+      "last_activity_at": "2026-10-16T11:18:26Z",
       "worktree_path": null
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t75",
+      "issue_id": "t78",
       "role": "definer",
-      "phase": "review_plan",
-      "run_id": "3e218e4d-9058-4be2-bfed-f3cccd5db70b",
-      "spawn_at": "2026-10-16T11:04:58Z",
-      "last_activity_at": "2026-10-16T11:04:58Z",
+      "phase": "groom",
+      "run_id": "a9b4b112-cda6-4769-95cd-9040a7bf005a",
+      "spawn_at": "2026-10-16T11:19:10Z",
+      "last_activity_at": "2026-10-16T11:19:10Z",
       "worktree_path": null
     }
   ],
