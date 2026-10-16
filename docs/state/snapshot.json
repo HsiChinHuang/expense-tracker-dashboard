@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T09:43:59Z",
-  "last_seq": 933,
+  "updated_at": "2026-10-16T10:10:43Z",
+  "last_seq": 937,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,13 +15,13 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t72",
-      "role": "verifier",
-      "phase": "verify",
-      "run_id": "55ddd840-fd3d-4d26-b25c-e227c2a39752",
-      "spawn_at": "2026-10-16T09:43:59Z",
-      "last_activity_at": "2026-10-16T09:43:59Z",
-      "worktree_path": "../worktrees/t72-verify"
+      "issue_id": "t73",
+      "role": "orchestrator",
+      "phase": "merge",
+      "run_id": null,
+      "spawn_at": "2026-10-16T10:10:43Z",
+      "last_activity_at": "2026-10-16T10:10:43Z",
+      "worktree_path": "../worktrees/t73-merge"
     }
   ],
   "merge_queue": [],
