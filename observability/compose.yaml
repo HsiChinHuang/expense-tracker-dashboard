@@ -1,0 +1,63 @@
+# Observability stack for THIS repo (phase_13, criterion 13; REQ-OPS-083
+# realised rather than deferred). This is a SECOND, separate compose file:
+# the app stack in docker-compose.yml is FROZEN and is not touched here.
+# Exactly three services are enabled: prometheus (metrics scrape and rule
+# evaluation), alertmanager (alert routing) and grafana (visualisation).
+# The OTel collector / Loki / Tempo block at the bottom is commented
+# optional YAML and stays inert for this milestone.
+# Port band pinned once in docs/plan.md: 9090 / 9093 / 3000, mapped in
+# HOST:CONTAINER equal form. It collides with neither 8001 (the recorded
+# alternate Docker-stack mapping) nor 8137 (the pinned local verification
+# endpoint), nor 8000 / 5173 / 18137. All credentials below are local
+# placeholders in the merged change-me-locally style; no real secret and
+# no cloud endpoint appears anywhere in this file.
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      # t76 owns observability/prometheus.yml and observability/alerts.yaml;
+      # this skeleton only fixes the mount point they will attach to.
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    ports:
+      - "9093:9093"
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: change-me-locally
+    ports:
+      - "3000:3000"
+
+  # ----------------------------------------------------------------------
+  # Optional traces and logs block - COMMENTED OUT ON PURPOSE.
+  # The OTel collector, Loki and Tempo block is commented out and is NOT
+  # enabled for this milestone (the same traces limitation t87 records).
+  # Uncomment the three services below to add the pipeline; no gate in
+  # this milestone depends on it, and the live service set above must
+  # stay exactly prometheus + alertmanager + grafana while commented.
+  #
+  # otel-collector:
+  #   image: otel/opentelemetry-collector-contrib:0.102.0
+  #   # Would add: a collector that receives and fans out traces.
+  #   # Not enabled for this milestone: traces stay a recorded limitation.
+  #
+  # loki:
+  #   image: grafana/loki:3.1.0
+  #   # Would add: a logs aggregation backend queried by Grafana.
+  #   # Not enabled for this milestone: logs stay a recorded limitation.
+  #
+  # tempo:
+  #   image: grafana/tempo:2.5.0
+  #   # Would add: trace storage and query alongside the collector.
+  #   # Not enabled for this milestone: traces stay a recorded limitation.
+  # ----------------------------------------------------------------------
