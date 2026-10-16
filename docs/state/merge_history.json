@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T03:10:00Z",
+  "updated_at": "2026-10-17T09:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1225,6 +1225,17 @@
       "retries": 0,
       "tests_appended": 4,
       "regressions": 0
+    },
+    {
+      "issue_id": "t86",
+      "platform_issue": 92,
+      "branch": "issue/t86-scan-refresh-r2",
+      "merge_sha": "2e525fe59619e7aa1086cba51f1d61196fedc40c",
+      "merged_at": "2026-10-17T09:40:00Z",
+      "retries": 0,
+      "tests_appended": 4,
+      "regressions": 1,
+      "regressions_note": "DISCLOSED pre-existing design-RED tests[184] (t41 security_ops_verification regenerate leg) - RED at pre-merge parent 0a8686c, unchanged by this merge, closes at t87; t86 ac5 EXCLUDED from index (BASE-pinned purity fence, rc=1 = 9 enumerated ANCESTOR_YES ancestor rows, 0 builder dirt, swap proof purity legs GREEN)"
     }
   ]
 }
