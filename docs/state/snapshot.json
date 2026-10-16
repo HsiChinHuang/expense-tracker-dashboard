@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T05:31:21Z",
-  "last_seq": 895,
+  "updated_at": "2026-10-16T08:13:04Z",
+  "last_seq": 918,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t72",
       "role": "builder",
-      "phase": "build",
-      "run_id": null,
-      "spawn_at": "2026-10-16T05:31:21Z",
-      "last_activity_at": "2026-10-16T05:31:21Z",
+      "phase": "fix_qa",
+      "run_id": "d01a188d-6da6-4f97-aebd-54e46ccc71f9",
+      "spawn_at": "2026-10-16T08:13:04Z",
+      "last_activity_at": "2026-10-16T08:13:04Z",
       "worktree_path": "../worktrees/t72"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t74",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "2c191ac0-c8d5-4398-bf73-394c7e7937b9",
-      "spawn_at": "2026-10-16T05:21:55Z",
-      "last_activity_at": "2026-10-16T05:21:55Z",
-      "worktree_path": "."
+      "issue_id": "t73",
+      "role": "verifier",
+      "phase": "verify",
+      "run_id": "5059ef2a-965f-4d55-b5da-731160f96cce",
+      "spawn_at": "2026-10-16T08:09:55Z",
+      "last_activity_at": "2026-10-16T08:09:55Z",
+      "worktree_path": "../worktrees/t73-verify"
     }
   ],
   "merge_queue": [],
