@@ -1,0 +1,42 @@
+{
+  "incident_id": "2026-10-17-db-fallback-01",
+  "summary": "The bundle shows the API serving degraded from the SQLite fallback store. health.json reads status degraded, database sqlite, fallback_active true. The log tail carries the merged startup warning: PostgreSQL unreachable for the pinned dead loopback target, falling back to sqlite:///./fallback.db (REQ-BE-130). The metrics leg is a disclosed gap: the collector recorded unavailable at zero bytes, so this pass observed no gauge sample and says so rather than inferring one. version.txt captures commit 86fbe454adfb132dfb31221bba5f54d1d364b62a.",
+  "classification": "database",
+  "severity": "critical",
+  "root_cause_hypothesis": "Hypothesis (observation: the log tail warning and the degraded health payload; inference labelled here): the PostgreSQL target named by DATABASE_URL refused the startup connection, so the merged startup probe engaged the SQLite fallback latch and the process has been serving from the fallback store ever since. The evidence shows the engagement and its symptoms, not why the primary target was unreachable.",
+  "evidence_refs": [
+    "incidents/2026-10-17-db-fallback-01/evidence/health.json",
+    "incidents/2026-10-17-db-fallback-01/evidence/log_tail.txt",
+    "incidents/2026-10-17-db-fallback-01/evidence/metrics.txt",
+    "incidents/2026-10-17-db-fallback-01/evidence/version.txt",
+    "incidents/2026-10-17-db-fallback-01/evidence/manifest.json"
+  ],
+  "actions_taken": [
+    {
+      "action": "read_health",
+      "justification": "health.json is the primary state surface; it showed status degraded with fallback_active true, which is the alerting condition."
+    },
+    {
+      "action": "read_metrics",
+      "justification": "metrics.txt was recorded unavailable at zero bytes; reading it confirms the gap is the collector's own leg rather than an absent exposition."
+    },
+    {
+      "action": "read_logs",
+      "justification": "log_tail.txt carries the startup warning naming the unreachable PostgreSQL target and the fallback engagement, tying the health state to a cause."
+    },
+    {
+      "action": "read_version",
+      "justification": "version.txt pins the running commit so the diagnosis is attributed to the exact build under drill."
+    },
+    {
+      "action": "read_manifest",
+      "justification": "manifest.json lists the four legs, their statuses and byte counts; it is how the metrics gap is established as disclosed rather than suspected."
+    },
+    {
+      "action": "write_report",
+      "justification": "This answer document is the sole write the read-only responder role permits, per the autonomy policy."
+    }
+  ],
+  "confidence": 0.9,
+  "recovery_verified": false
+}
