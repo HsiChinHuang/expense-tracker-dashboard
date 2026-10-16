@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T04:59:58Z",
-  "last_seq": 886,
+  "updated_at": "2026-10-16T05:21:40Z",
+  "last_seq": 890,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,12 +15,12 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t73",
+      "issue_id": "t74",
       "role": "definer",
       "phase": "groom",
-      "run_id": "d65964ea-a950-481c-b3d7-94a23c374e12",
-      "spawn_at": "2026-10-16T04:29:02Z",
-      "last_activity_at": "2026-10-16T04:59:58Z",
+      "run_id": null,
+      "spawn_at": "2026-10-16T05:21:40Z",
+      "last_activity_at": "2026-10-16T05:21:40Z",
       "worktree_path": "."
     }
   ],
@@ -28,7 +28,8 @@
   "max_slots": 2,
   "active_issues": [
     "t72",
-    "t73"
+    "t73",
+    "t74"
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
