@@ -1,0 +1,61 @@
+# observability/collector.yaml - the OPTIONAL OTel collector configuration.
+#
+# This file is NOT ENABLED for this milestone. It corresponds to the
+# COMMENTED optional otel-collector service block in
+# observability/compose.yaml - the same traces limitation t87 records -
+# and it documents that option; it does not activate it. Nothing in this
+# repo starts a collector, mounts this file, or sends data to it.
+#
+# How to enable (both edits belong to a later card that is granted those
+# files; this card performs neither of them):
+#   1. uncomment the otel-collector service in observability/compose.yaml
+#   2. mount this file into that service as its collector configuration.
+#
+# Endpoints are loopback-only, no credential appears anywhere in this
+# file, and no cloud or hosted endpoint is named. The scrape-and-alert
+# metrics path (prometheus + alertmanager + grafana) works without this
+# file; the collector is the legible, inert option for traces and logs.
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 127.0.0.1:4317
+      http:
+        endpoint: 127.0.0.1:4318
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 512
+  memory_limiter:
+    check_interval: 2s
+    limit_mib: 256
+    spike_limit_mib: 64
+
+exporters:
+  # Fan out to the same loopback Prometheus that scrapes the API. The
+  # metric names it receives are the t76 inventory in
+  # observability/alerts.yaml; this file declares none of its own.
+  prometheus:
+    endpoint: 127.0.0.1:8889
+    send_timestamps: true
+    metric_expiration: 10m
+  file:
+    path: ./otel-received.json
+
+extensions:
+  health_check:
+    endpoint: 127.0.0.1:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [file]
