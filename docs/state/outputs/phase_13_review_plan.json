@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t75",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_13_ops_security_hardening",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t75", "t76", "t77", "t78", "t79", "t80", "t81", "t82", "t83", "t84", "t85", "t86", "t87", "t88", "t89"],
+    "findings": [
+      {
+        "issue_id": "t88",
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "Unassigned carried-gate pin update: adding docs/operations-and-security-report.md REDs the docs verifier's DOC_MAP_DOCS leg (measured at review: backend/scripts/docs_verification.py DOCS_ROOT_MD is an EXACT 20-file list and the leg fails on root_md != DOCS_ROOT_MD, it is not a missing-only check), which removes ALL_CHECKS_PASS from the regenerated docs/criteria/docs_verification.md and therefore REDs the stored live gates tests[258] (t71 ac4, which pins 'DOC_MAP_DOCS PASS root=20 team=3' and '^ALL_CHECKS_PASS$') that re-run at every merge. t88's own card anticipates the collision and says the pin must be moved 'by the card that owns the pin mechanism, as a named disposition' - but NO phase_13 card owns editing DOCS_ROOT_MD: t88 is 1-file, and t89's constraint limits docs_verification.py to 'README constants ONLY'. Groom must assign the DOCS_ROOT_MD += operations-and-security-report.md edit to a named card (t89 is the natural owner, its constraint would need the operator-visible widening to 'README constants plus the doc-map list') or route the report to an uncounted path. Non-blocking because the discovery-and-disposition path is explicit in the card, but it MUST be resolved before t88's fence is authored."
+      },
+      {
+        "issue_id": "t89",
+        "category": "other",
+        "severity": "warning",
+        "description": "README 3-line budget collides with a stored live-gate band: t89 pins wc -l in [398,401], but the stored t71 gates tests[256] (ac1) and tests[258] (ac4) - both re-run at every merge - carry 'N >= 340 && N <= 400' README line-band legs (measured in docs/state/merge_test_index.json at review). A 401-line README passes t89 and REDs tests[256]/[258]; 399/400 passes both. The card's Measured base state cites the docs_verification.py constants and the 500 ceiling but never mentions the 400 band, so the survey under-specified this pin surface. Groom must either tighten t89's budget to <= 400 (the criterion-13 row can ride the existing line 312 in-place, which the card already prefers) or name the band-switchover disposition the way t72 handled the digest/lines pins. Non-blocking: the collision is one measured number, the t72 switchover pattern exists, and no AC is unsatisfiable - but it must not be discovered for the first time at t89 build."
+      },
+      {
+        "issue_id": "t86",
+        "category": "dependency_error",
+        "severity": "warning",
+        "description": "t86's 'reports describe the FINAL tree' claim is not fully DAG-encoded: t86 depends only on [t84], and the DAG leaves t86 vs t85 order unconstrained (t88 depends on both t85 and t87, so either merge order is legal). t85 edits ops/diagnosis.md, which backend/scripts/security_ops_verification.py PARSES (DIAGNOSIS_ROWS scenario/steps derivation, measured at the generator source during review), and t86's ac4 route regenerates docs/criteria/security_ops_verification.md from the tree it stands on. If t86 merges before t85, the regenerated rows describe the pre-t85 doc and t89's later closeout re-bases them; the plan's scheduling narrative does order t86 before t85, but the DAG does not enforce the plan text. Groom/orchestrator must either pin the merge order explicitly (t86 before t85, per the plan's batch-D scheduling note) or add the ordering edge at groom time via the milestone plan; no card edit is needed if the orchestrator honours the plan's stated sequence."
+      },
+      {
+        "issue_id": "t86",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "5 named files (the five committed security reports) against limits.issue_granularity.max_files=4, and a diff-line count disclosed as expected-over-cap for the report bodies (max_diff_lines=300). This is the ONE operator-approved exception, disclosed in three places (card Measured base state, plan standing-constraints section, survey handoff within_limits=false), and the limit is warn_only: true in docs/config.yaml. The single-card rationale (five reports refreshed in one run or they describe five different trees) is sound. Accepted as-is; no action beyond groom keeping the disclosure intact."
+      },
+      {
+        "issue_id": "t78",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "4 authored files plus backend/uv.lock as a disclosed machine-generated fifth path (the lockfile is tracked - re-verified at review - so any pyproject dependency change necessarily touches it). Disclosed in the card's Constraints as an exceedance of warn-only max_files=4 with the reason (a pyproject whose lock does not match breaks every later uv sync leg). Accepted as-is; groom must keep the 'measured diff line count reported separately' obligation in the fenced ACs."
+      },
+      {
+        "issue_id": "t81",
+        "category": "contradictory_ac",
+        "severity": "warning",
+        "description": "Plan-vs-card file-name disagreement on the validator: docs/plan.md Batch B template names 'incident-response/validate_response.py (validator/test leg)' while the t81 card - the authoritative artifact - names 'incident-response/validate_response.mjs' pinned to root ajv 8.20.0 (ajv 8.20.0 re-verified present in root node_modules at review; WSL jsonschema also importable as the stated fallback). The card itself allows a Python validator if named before the fence is authored, so the surfaces are reconcilable, but the plan text and the card currently state different files for the same artifact. Groom must fence the .mjs route (or restate) so plan, card, and issue body agree; the issue body is currently byte-identical to the card, so only the plan line is out of step."
+      },
+      {
+        "issue_id": "t83",
+        "category": "other",
+        "severity": "warning",
+        "description": "The incidents-README ownership contract has one unowned artifact: t83 ac3 requires the README to name 'evidence/' with owner t80, but t80 merges BEFORE t83 and its file list is exactly 2 files (it cannot commit into an incident directory that does not exist yet), while t84 is limited to exactly 3 files and its constraint only says 'if the run leaves raw files behind, the card states where they went and why they are or are not committed'. So the committed home of the raw evidence/ capture is undefined - the directory can legally end up promised-but-empty. Groom should either state in t83/t84 that evidence/ is a runtime output that is NOT committed (the README names it as such, with the committed evidence.json as its distilled record - the honest reading of t84's constraint) or widen t84's allow-list explicitly. Non-blocking: no AC contradicts another; the gap is an under-specification the ownership table would expose."
+      },
+      {
+        "issue_id": null,
+        "category": "orphan",
+        "severity": "warning",
+        "description": "Pre-existing orphan nodes: t72, t73, t74 have zero edges in docs/state/dag.json (their cards carry depends: [] by design). This predates phase_13 (the phase_12 review recorded the same warning) and phase_13 correctly added no edges to or from them, but the survey handoff's dependency_check claims orphans_detected: [] which is inaccurate against the 90-node graph. No action for phase_13 cards; recorded so the state file, not just the handoff, reflects the truth."
+      }
+    ],
+    "checks_passed": [
+      "DAG: 90 nodes / 132 edges, Kahn over the 15 phase_13 cards' depends sets matches the DAG edges exactly for all 15 (card frontmatter == dag.json == backlog.md dep column == platform issue bodies), zero cycles (Kahn completes 90/90), stored topological_order consistent with every edge, t89 last, t84's six deps all precede it, t86 precedes nothing that requires it later, dependency-chain length max 8 (t89) against dep_chain_warn 10.",
+      "Card/issue byte identity machine-verified for all 15 pairs (t75->#81 .. t89->#95) via direct GitHub REST read-back: each issue body equals its card minus the frontmatter block after GitHub's unavoidable leading/trailing whitespace normalisation; all 15 open, labels exactly [defined], titles <= 256 chars (max 256 at t80).",
+      "All 15 cards pure ASCII (zero bytes > 0x7F), LF endings matching the committed form of prior cards.",
+      "Single-source-of-truth constants: DBFallbackActive appears only in t76 (authority) and t83 (declared byte-copy); the three metric names appear only in t76 (declarer) and t77/t79 (declared extractors); incident ID 2026-10-17-db-fallback-01 appears only in t83 (owner), t84, t85 (declared obeyers); no card invents a competing alert/metric/incident name.",
+      "REQ token integrity: every full-form REQ id appearing in the 15 cards (17 distinct) exists in docs/requirements.md; no new REQ-ID invented; supersession of REQ-OPS-082/083 wording is stated in the plan appendix AND in the affected cards' requirement-anchors lines; docs/criteria/req_coverage_verification.md is named as generator-owned and touched by no card.",
+      "Hard constraints hold in card text: openapi.yaml frozen with the /metrics exemption recorded in t78's text only; local-only mechanism must be NAMED and fenced both-sides in t78 ac3; README touched only by t89 with a <= 3 added-line pinned wc -l check (398 base re-measured); t85 is ADD-only with an ac1 that re-runs the t41 survival greps (ops/runbook.md counts re-measured at review: exactly 7 '## N.' sections and 28 clause headers); every delta-purity AC is expressed against a named immutable ref and declares the non-appendable leg (t72/t73/t74 lesson applied in all 15 cards).",
+      "Survey measured-base claims spot-verified against the tree: observability/ and incident-response/ absent; ops/diagnosis.md 130 lines / 8 sections; README.md 398 lines with criterion-13 row at line 312; README_LINES=398 + README_DIGEST df1775e5 + the >500 fail leg in docs_verification.py; DEV_PORTS [8000,5173]; 9090/9093 free over the plan's grep scope; FALLBACK_DATABASE_URL/is_fallback present; create_expense:157 / create_category:107; no telemetry deps in backend/pyproject.toml; the five pinned scan rows and DIAGNOSIS_ENDPOINT 8137 row present in the criterion file; Makefile security subtargets at lines 108-138; tests[256] digest 01f36118 leg confirmed in the stored index; issue_map 67->82 mappings with t75..t89 -> #81..#95.",
+      "Granularity: AC counts 4-5 (all <= max_acs 6); file counts <= 4 except the two disclosed warn-only exceedances above; every card's DoD fence count matches its AC count; no two cards write the same file (one-writer-per-file holds across all 15 file lists)."
+    ],
+    "notes": "Verdict rationale: no error-severity finding exists - the DAG is sound, the surfaces are in sync, and every risk found is either a disclosed warn-only exceedance or a carried-gate collision that groom can disposition with one measured number or one named file-list edit (findings 1 and 2 are the two that MUST be dispositioned at groom, not at build). PASS_WITH_WARNINGS; the milestone proceeds to groom in dependency order (t75/t78/t80 roots first), with the three groom-mandatory dispositions named in findings t88/coverage_gap, t89/other, t81/contradictory_ac."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/phase_13_review_plan.json",
+      "docs/state/milestones/phase_13_ops_security_hardening.json"
+    ],
+    "platform_issue": 81,
+    "output_path": "docs/state/outputs/phase_13_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-16T12:25:00Z",
+  "retry_count": 0
+}

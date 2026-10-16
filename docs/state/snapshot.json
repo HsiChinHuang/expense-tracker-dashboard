@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T17:53:00Z",
-  "last_seq": 1039,
+  "updated_at": "2026-10-17T03:28:00Z",
+  "last_seq": 1054,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
+      "issue_id": "t85",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "64638497-31e7-49f8-92ee-5cdf5b25e143",
+      "spawn_at": "2026-10-17T03:24:00Z",
       "last_activity_at": null,
-      "worktree_path": null
+      "worktree_path": "../worktrees/t85"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
+      "issue_id": "t86",
+      "role": "definer",
+      "phase": "groom",
+      "run_id": "58419b9e-3703-4f59-a08d-0fff41e132e7",
+      "spawn_at": "2026-10-17T03:27:00Z",
       "last_activity_at": null,
-      "worktree_path": null
+      "worktree_path": "../worktrees/t86"
     }
   ],
   "merge_queue": [],
@@ -36,7 +36,7 @@
   "freeze_reason": null,
   "environment_note": "t59 merged at 39d22feb - phase_9 exit composite; 58 cards closed; index 228. Phase_9 milestone close + complete.md rewrite next. Only operator-infra #61 remains open by design.",
   "merges_closed": 58,
-  "index_count": 302,
+  "index_count": 306,
   "milestones": [],
   "closed": [
     "t57",
@@ -45,8 +45,8 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "c0a0de0",
-  "merge_history_entries": 83,
+  "main_tip_sha": "67c9db9",
+  "merge_history_entries": 84,
   "closed_issues": [
     75,
     76,
@@ -56,15 +56,15 @@
     80,
     81,
     82,
-    83
+    83,
+    84
   ],
   "open_cards": {
-    "t84": "grooming (definer 6c44ce0f)",
-    "t85": "todo (deps t84,t76)",
-    "t86": "todo (deps t84; MERGE BEFORE t85)",
+    "t85": "grooming (definer 64638497)",
+    "t86": "grooming (definer 58419b9e; MERGE BEFORE t85)",
     "t87": "todo",
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1044
+  "last_wal_seq": 1054
 }
