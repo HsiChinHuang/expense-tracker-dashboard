@@ -11,7 +11,7 @@ DOC_MAP_DOCS PASS root=20 team=3
 DOC_MAP_SECURITY PASS artifacts=8
 DOC_MAP_OPS PASS artifacts=5
 DOC_MAP_SCREENSHOTS PASS files=4
-README_MEASURE PASS lines=391 digest=5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0
+README_MEASURE PASS lines=398 digest=df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5
 CRITERIA243_ROWS PASS rows=15
 EVIDENCE_CHECKLIST PASS rows=14
 FIVE_MIN_PATHS PASS sections=2
@@ -23,12 +23,12 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=201 links=41 broken=0
+LINK_CHECK PASS files=205 links=41 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
 CARRIED_REPORT PASS file=docs/criteria/security_ops_verification.md rows=23
-INDEX_ANCHORS PASS floor=217 entries=256
+INDEX_ANCHORS PASS floor=217 entries=259
 STORED_GATES PASS executed=9 failures=0 restored=1
 DEFERRAL_REGISTER 4 DEFERRED
 | LIVE_DEPLOYMENT_STATE | DEFERRED | reason=ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404 | live_check=curl -sS https://expense-tracker-dashboard.onrender.com/api/v1/health |
