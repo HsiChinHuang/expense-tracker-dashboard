@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T12:02:28Z",
-  "last_seq": 967,
+  "updated_at": "2026-10-16T12:03:51Z",
+  "last_seq": 969,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t75",
-      "role": "reviewer",
-      "phase": "verify",
-      "run_id": "a206c237-3597-4593-bd6a-a7863ad9ae0d",
-      "spawn_at": "2026-10-16T12:02:01Z",
-      "last_activity_at": "2026-10-16T12:02:01Z",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "b7bdbe6b-acc9-4d8a-9abb-59a3d18d2f89",
+      "spawn_at": "2026-10-16T12:03:51Z",
+      "last_activity_at": "2026-10-16T12:03:51Z",
       "worktree_path": "../worktrees/t75-verify"
     },
     {
