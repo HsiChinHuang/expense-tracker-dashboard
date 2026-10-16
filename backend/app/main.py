@@ -23,6 +23,7 @@ from app.routers.categories import router as categories_router
 from app.routers.dashboard import router as dashboard_router
 from app.routers.expenses import router as expenses_router
 from app.routers.health import router as health_router
+from app.telemetry import register_metrics, setup_telemetry
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +97,14 @@ def create_app() -> FastAPI:
     application.include_router(expenses_router)
     application.include_router(budgets_router)
     application.include_router(dashboard_router)
+
+    # t78 metrics substrate (additive wiring, P6): the provider is
+    # installed first so the exposition route can serve it, and BOTH
+    # entry points run before the SPA catch-all below, or a
+    # built-frontend deployment would swallow /metrics into
+    # serve_spa_frontend.
+    setup_telemetry(application)
+    register_metrics(application)
 
     static_dir = resolve_static_dir()
     index_file = static_dir / SPA_INDEX_FILE
