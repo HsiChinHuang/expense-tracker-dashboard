@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-17T03:28:00Z",
-  "last_seq": 1054,
+  "updated_at": "2026-10-17T04:43:00Z",
+  "last_seq": 1061,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t85",
-      "role": "definer",
-      "phase": "groom",
-      "run_id": "64638497-31e7-49f8-92ee-5cdf5b25e143",
-      "spawn_at": "2026-10-17T03:24:00Z",
+      "role": "builder",
+      "phase": "implement",
+      "run_id": "6b721328-9146-4921-931b-5ad41b4cb0c9",
+      "spawn_at": "2026-10-17T04:42:00Z",
       "last_activity_at": null,
-      "worktree_path": "../worktrees/t85"
+      "worktree_path": "../worktrees/t85b"
     },
     {
       "slot_id": "slot_2",
@@ -45,7 +45,7 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "67c9db9",
+  "main_tip_sha": "4f607eb",
   "merge_history_entries": 84,
   "closed_issues": [
     75,
@@ -60,11 +60,11 @@
     84
   ],
   "open_cards": {
-    "t85": "grooming (definer 64638497)",
-    "t86": "grooming (definer 58419b9e; MERGE BEFORE t85)",
-    "t87": "todo",
+    "t85": "building (builder 6b721328); MERGE AFTER t86+t87",
+    "t86": "grooming (definer 58419b9e; MERGE FIRST)",
+    "t87": "todo (groom after t86 merge; binding input = t86 refreshed-report findings)",
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1054
+  "last_wal_seq": 1061
 }
