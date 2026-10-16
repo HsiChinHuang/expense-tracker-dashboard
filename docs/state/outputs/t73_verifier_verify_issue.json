@@ -1,0 +1,242 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t73",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS_WITH_WARNINGS",
+    "branch_sha_verified": "cba62f88d48ff157f98fb8620f998a0a82924b11",
+    "branch": "issue/t73-category-select",
+    "worktree": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t73-verify (detached at cba62f8, porcelain clean before and after all runs)",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c 'D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/forms/expense_form.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numPassedTests\\\":[1-9]\" || { echo \"ac1 RED: the vitest json report carries no passed tests - the suite did not run on this tree\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac1 RED: expense_form.test.tsx has failing nodes - the select rewrite broke a frozen t17 title that stored gate tests[88] replays\"; exit 1; }; grep -q \"<select\" frontend/src/components/forms/expense_form.tsx || { echo \"ac1 RED: expense_form.tsx renders no select - the category control is still the bare text input (RED at base by design: this card adds the select)\"; exit 1; }; ! grep -q \"Category id\" frontend/src/components/forms/expense_form.tsx || { echo \"ac1 RED: the Category id label text survives in expense_form.tsx - the field is labelled Category once the control names categories\"; exit 1; }; for t in \"the category field is a labelled select rather than a text input\" \"the category select lists category names from the categories query and submits the selected id\" \"the category select renders both system and custom names from a per-test override\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || { echo \"ac1 RED: node [$t] is not GREEN - see the frozen node inventory in the card\"; exit 1; }; done; echo \"ac1 GREEN: SELECT OF NAMES - a labelled select fed by the categories query, three ac1 nodes GREEN, no Category id text remains\"'",
+        "exit_code": 0,
+        "note": "verbatim card fence at tip: labelled Category select, no 'Category id' text in expense_form.tsx, all 3 named nodes GREEN (independent vitest json replay)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c 'D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/forms/expense_form.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac2 RED: expense_form.test.tsx has failing nodes - the prefill rewrite broke a frozen t17 title\"; exit 1; }; for t in \"the edit form preselects the category of the expense being edited\" \"the edit form prefills existing values and submits the changed amount\" \"form values are preserved when the create mutation fails\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || { echo \"ac2 RED: node [$t] is not GREEN - the edit prefill and the values-preserved legs are the REQ-FE-082 half of this card\"; exit 1; }; done; echo \"ac2 GREEN: EDIT PREFILL AND PRESERVATION - the select prefills the edited expense category, the preserved-values pin is GREEN on its rewritten body, and the frozen edit-prefill title still passes\"'",
+        "exit_code": 0,
+        "note": "verbatim at tip: edit-prefill node GREEN; both frozen titles GREEN on rewritten bodies (P1/P2 executed, titles byte-identical)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c 'D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run src/components/forms/expense_form.test.tsx --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac3 RED: expense_form.test.tsx has failing nodes\"; exit 1; }; grep -q \"/categories\" frontend/src/components/forms/expense_form.tsx || { echo \"ac3 RED: expense_form.tsx never points at the merged /categories route - the no-suitable-category hint must name the real route, never invent one (RED at base by design)\"; exit 1; }; for t in \"an unset category blocks submission with the required error before any network request\" \"the category hint points at the categories page when the list offers no suitable category\" \"the category select shows a loading status while the categories query is pending and an error retry when it fails\"; do printf \"%s\" \"$out\" | grep -qF \"\\\"status\\\":\\\"passed\\\",\\\"title\\\":\\\"$t\\\"\" || { echo \"ac3 RED: node [$t] is not GREEN - validation, the hint and the loading/error states are the t17 inline-convention half of this card\"; exit 1; }; done; echo \"ac3 GREEN: VALIDATION HINT AND STATES - the required error still blocks an unset category, the hint names the Categories page on the merged /categories route, and the loading/error states follow the t17 inline conventions\"'",
+        "exit_code": 0,
+        "note": "verbatim at tip: /categories hint present, required-error/hint/loading-error nodes GREEN."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c 'test -f e2e/fixtures/helpers.ts || { echo \"ac4 RED: e2e/fixtures/helpers.ts missing\"; exit 1; }; grep -q \"resolveCategoryId\" e2e/fixtures/helpers.ts && { echo \"ac4 RED: the resolveCategoryId HTTP workaround is still in helpers.ts - with a name select the id round-trip through the API retires (RED at base by design)\"; exit 1; }; grep -q \"Category id\" e2e/fixtures/helpers.ts && { echo \"ac4 RED: addExpense still drives dialog.getByLabel(Category id) - the helper must select the category by visible name in the dialog\"; exit 1; }; grep -qE \"selectOption\" e2e/fixtures/helpers.ts || { echo \"ac4 RED: helpers.ts carries no selectOption call - the e2e addExpense leg must select the category option by name\"; exit 1; }; grep -qE \"getByLabel..Category.\\)\" e2e/fixtures/helpers.ts || { echo \"ac4 RED: the helper does not address the dialog Category control by its new exact label\"; exit 1; }; for s in happy-path isolation month-switch; do test -f \"e2e/tests/$s.spec.ts\" || { echo \"ac4 RED: e2e/tests/$s.spec.ts missing - the three-spec blast radius of the helper change cannot be named\"; exit 1; }; done; echo \"ac4 evidence: helper rewritten; the three specs that consume addExpense are happy-path.spec.ts, isolation.spec.ts, month-switch.spec.ts - all three run in the CI e2e gate (make e2e), which is the measured run for this AC\"; echo \"ac4 GREEN: E2E HELPER SELECTS BY NAME - resolveCategoryId retired, addExpense selects by visible name, and the three consuming specs are named for the CI run\"'",
+        "exit_code": 0,
+        "note": "verbatim at tip: resolveCategoryId deleted (independent code sweep: zero matches in any .ts/.tsx in the worktree; remaining matches are docs-only), addExpense uses dialog.getByLabel('Category').selectOption({label: options.categoryName}); the three consuming specs exist and were statically reviewed: all three call addExpense with categoryName ('Food & Dining' / 'Transportation' / CATEGORY='Food & Dining'), which are the merged t10 system category names, and the helper's exact-label control matches the product's htmlFor 'Category' label. Local e2e run DEFERRED per t27 - NOT assumed green; measured run is the CI e2e gate (make e2e)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c 'D=$(wslpath -w \"$PWD/frontend\") && out=$(cmd.exe /c \"cd /d $D && npx.cmd vitest run --reporter=json\" 2>/dev/null); printf \"%s\" \"$out\" | grep -qE \"\\\"numPassedTests\\\":[1-9]\" || { echo \"ac5 RED: the vitest json report carries no passed tests - the suite did not run on this tree\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numFailedTests\\\":0\" || { echo \"ac5 RED: the full frontend suite has failing nodes - zero regressions is the floor\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numPendingTests\\\":0\" || { echo \"ac5 RED: pending tests - no node may be skipped out of the floor\"; exit 1; }; printf \"%s\" \"$out\" | grep -qE \"\\\"numTodoTests\\\":0\" || { echo \"ac5 RED: todo tests - no node may be todo-ed out of the floor\"; exit 1; }; n=$(printf \"%s\" \"$out\" | grep -oE \"\\\"status\\\":\\\"passed\\\",\\\"title\\\"\" | wc -l | tr -dc \"0-9\"); echo \"ac5 evidence: passed nodes=$n (floor 203 = measured base 196 + 7 new nodes named in the card)\"; [ \"${n:-0}\" -ge 199 ] || { echo \"ac5 RED: only $n passed nodes against the 203 floor (measured base 196 at 9ae21b2 + the 7 named new nodes) - a merged node went missing or a new node never landed\"; exit 1; }; cmd.exe /c \"cd /d $D && npx.cmd tsc --noEmit\" >/dev/null 2>&1 || { echo \"ac5 RED: tsc --noEmit exits non-zero\"; exit 1; }; cmd.exe /c \"cd /d $D && npm.cmd run lint\" >/dev/null 2>&1 || { echo \"ac5 RED: npm run lint exits non-zero\"; exit 1; }; ! grep -RnE \":[[:space:]]*any\\b|as any\\b|<any>|Array<any>|Record<[^>]*, *any>\" frontend/src/components/forms/expense_form.tsx frontend/src/components/forms/expense_form.test.tsx | grep -q . || { echo \"ac5 RED: any found in the touched frontend files\"; exit 1; }; ! grep -nE \"parseFloat|toFixed\" frontend/src/components/forms/expense_form.tsx | grep -q . || { echo \"ac5 RED: money coercion appears in expense_form.tsx - REQ-PROD-023\"; exit 1; }; echo \"ac5 GREEN: QUALITY GATES - full suite >= 199 passed / 0 failed / 0 pending / 0 todo, tsc and lint clean, no any, no money coercion\"; command -v cmd.exe >/dev/null || { echo \"ac6 RED: cmd.exe missing - this worktree gitdir holds Windows-formatted paths, so git reads go through cmd.exe (the t65 ac1 lesson)\"; exit 1; }; G=$(wslpath -w \"$PWD\"); GT(){ cmd.exe /c \"git -C $G $1\" </dev/null 2>/dev/null | tr -d \"\\r\"; }; BASE=9ae21b211a14095855e6e15e422d5b4c63eb74ca; for p in backend README.md docs/requirements docs/criteria docs/plan.md openapi.yaml e2e/tests frontend/src/pages frontend/src/components/forms/category_form.tsx frontend/src/components/forms/category_form.test.tsx frontend/src/test frontend/src/utils/validation.ts frontend/src/hooks docs/state/merge_test_index.json; do CH=$(GT \"diff --name-only $BASE -- $p\" | grep -c .); echo \"ac6 evidence: frozen path $p changed-files=${CH:-0}\"; [ \"${CH:-0}\" = 0 ] || { echo \"ac6 RED: $p carries $CH changed file(s) since the base commit - outside this cards delta envelope\"; exit 1; }; done; DIFF=$(GT \"diff --name-only $BASE\"); UNTRACK=$(GT \"ls-files --others --exclude-standard\"); ALL=$(printf \"%s\\n%s\\n\" \"$DIFF\" \"$UNTRACK\" | grep -v \"^[[:space:]]*$\" | grep -vE \"^(docs/state/|\\.pi/|scratch/|build/)\" | sort -u); echo \"ac6 evidence: files touched since the base commit (orchestrator state under docs/state/, .pi/, scratch/ and build/ is excluded as not this cards product delta):\"; printf \"%s\\n\" \"$ALL\" | sed \"s/^/    /\"; BAD=$(printf \"%s\\n\" \"$ALL\" | grep -vE \"^(frontend/src/components/forms/expense_form[.]tsx|frontend/src/components/forms/expense_form[.]test[.]tsx|frontend/src/pages/expenses_page[.]test[.]tsx|e2e/fixtures/helpers[.]ts|docs/issues/t73[.]md|docs/issues/groom/t73[.]md)$\" | grep -v \"^[[:space:]]*$\" | grep -c .); [ \"${BAD:-0}\" = 0 ] || { echo \"ac6 RED: $BAD file(s) outside the allow-list changed - the product envelope is expense_form.tsx, expense_form.test.tsx, e2e/fixtures/helpers.ts and the conditionally-admitted expenses_page.test.tsx only\"; exit 1; }; DL=$(GT \"diff --numstat $BASE -- frontend/src/components/forms/expense_form.tsx\" | awk \"{a+=\\$1; d+=\\$2} END {print a+d}\"); echo \"ac6 evidence: measured expense_form.tsx delta=${DL:-0} lines (max_diff_lines 300 is warn-only)\"; [ \"${DL:-0}\" -ge 5 ] || { echo \"ac6 RED: expense_form.tsx carries only ${DL:-0} changed lines since the base commit - the select rewrite never landed (RED at base by design)\"; exit 1; }; if [ \"${DL:-0}\" -gt 300 ]; then echo \"ac6 evidence: WARN - the measured delta exceeds the advisory 300-line cap\"; fi; echo \"ac6 GREEN: DELTA PURITY - every frozen path is byte-clean against the base commit and every touched product file sits inside the named allow-list\"'",
+        "exit_code": 1,
+        "note": "RAW rc=1 reproduced independently, solely on the allow-list leg: 'ac6 RED: 2 file(s) outside the allow-list changed' counting exactly docs/issues/t72.md + docs/issues/groom/t72.md. Contamination story independently verified (see contamination_verification): both files are base content inherited via d00b292 (ancestor of both e550d8a and origin/main), byte-identical (CRLF-normalized) to the e550d8a/d00b292 blobs - zero builder edits. Every other leg GREEN verbatim: passed nodes=203 (>= 203 floor), 0 failed / 0 pending / 0 todo, tsc --noEmit rc=0, npm run lint rc=0, no any, no money coercion, all 14 frozen paths changed-files=0 vs 9ae21b2, expense_form.tsx delta 71 lines (64+/7-) inside the warn-only 300 cap. Recorded PASS per the supervisor PASS-with-disclosed-cause ruling of this run; the orchestrator replays this fence at Gate 3 against the true merge base where the t72 docs diff is empty by construction."
+      }
+    },
+    "test_summary": {
+      "total": 203,
+      "passed": 203,
+      "failed": 0
+    },
+    "test_summary_detail": "independent full-suite vitest json run at tip: numTotalTests=203 numPassedTests=203 numFailedTests=0 numPendingTests=0 numTodoTests=0 success=true; passed-title count 203; base corroboration: expense_form.test.tsx holds 9 it() nodes at e550d8a and 16 at tip (+7 exactly as named); 196 + 7 = 203 arithmetic consistent.",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 4
+    },
+    "lint_detail": "npm run lint rc=0 with exactly the 4 pre-existing react-refresh/only-export-components warnings (auth_context.tsx:118, toast_context.tsx:146, budget_page.tsx:46, budget_page.tsx:55) - none in touched files; matches builder claim.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "all five fences run verbatim from the repository root": true,
+      "ac1-ac4 GREEN at tip (rc=0)": true,
+      "ac5 GREEN on every leg except the allow-list leg, which fails only on inherited t72 docs (supervisor-ruled PASS-with-disclosed-cause)": true,
+      "category control is a labelled Category select fed by use_categories showing names, submitting category_id, prefilling on edit, preserving through failed submit, blocking unset before any network request, hinting /categories, t17 inline loading/error states": true,
+      "pin disposition table executed: P1/P2 rewritten titles kept, P3 untouched (expenses_page.test.tsx byte-clean), P4 rewritten with resolveCategoryId deleted": true,
+      "9 frozen expense_form.test.tsx titles byte-identical and GREEN (tests[88] replayable, rc=0 measured)": true,
+      "7 new named nodes exist and pass": true,
+      "full suite >= 203 passed / 0 failed / 0 pending / 0 todo": true,
+      "tsc --noEmit and npm run lint exit 0": true,
+      "three e2e specs named with CI gate as measured run, local run DEFERRED per t27 recorded as residual risk not a pass": true,
+      "diff confined to Files: allow-list (own delta vs branch base e550d8a is exactly the 3 allowed product files)": true,
+      "every frozen path byte-clean against the base commit": true,
+      "delta line count reported honestly (71 vs warn-only 300 cap)": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_recomputed": "sha256:5c68269ac0fb4f2e51ba026c0990756fcbb372a1abd0b5858bf2cba120ea43e4",
+    "ac_hash_match": "MATCH - independently recomputed from the 5 card fences (sha256 over JSON.stringify of the CR-stripped trimmed fence bodies in ac1..ac5 order, t58/t62..t67 recipe) equals the card pin, the groom handoff ac_hash and the builder's ac_hash_at_implementation.",
+    "fence_extraction_proof": "5 ```bash fences extracted from docs/issues/t73.md at tip; each body is a single bash -c one-liner with exactly two single quotes, pure ASCII; each fence body is byte-identical to the corresponding evidence.ac_mapping.acN.test in the builder handoff (checked with strict === in node).",
+    "builder_command_mismatch": "none - all five ac_mapping commands byte-identical to the card fences.",
+    "delta_purity": {
+      "own_delta_vs_branch_base": "git diff --name-only e550d8a cba62f8 = EXACTLY 3 files: e2e/fixtures/helpers.ts (7+/27-), frontend/src/components/forms/expense_form.test.tsx (254+/14-), frontend/src/components/forms/expense_form.tsx (64+/7-). Builder claim (1) CONFIRMED. Worktree porcelain clean, zero untracked files.",
+      "expense_form_tsx_delta_lines": "71 (64 insertions + 7 deletions) - >= 5 floor, inside the warn-only 300 cap."
+    },
+    "contamination_verification": {
+      "raw_ac5_rc": 1,
+      "raw_failure_line": "ac6 RED: 2 file(s) outside the allow-list changed",
+      "counted_files": [
+        "docs/issues/t72.md",
+        "docs/issues/groom/t72.md"
+      ],
+      "allow_list_leg_output_files": [
+        "docs/issues/groom/t72.md",
+        "docs/issues/groom/t73.md",
+        "docs/issues/t72.md",
+        "docs/issues/t73.md",
+        "e2e/fixtures/helpers.ts",
+        "frontend/src/components/forms/expense_form.test.tsx",
+        "frontend/src/components/forms/expense_form.tsx"
+      ],
+      "t73_docs_note": "docs/issues/t73.md and docs/issues/groom/t73.md also appear in the touched list but are ON the fence allow-list (docs/issues/t73[.]md, docs/issues/groom/t73[.]md patterns) and arrived at e550d8a before the builder commit; they contribute 0 to the BAD count.",
+      "ancestry": "d00b292 IS an ancestor of e550d8a (merge-base --is-ancestor rc=0) and IS an ancestor of origin/main (rc=0) - the two t72 docs files are main-resident base content inherited by the branch base, not this card's delta.",
+      "byte_identity": "worktree docs/issues/t72.md and docs/issues/groom/t72.md are byte-identical (CRLF-normalized sha256 faf7d988e543319b...) to the e550d8a AND d00b292 blobs - zero builder edits. Nuance disclosed: origin/main has SINCE advanced its t72.md copy (blob ebef07132af43edf, 336 lines vs the branch-inherited 312-line faf7d988e543319b copy), so a naive origin/main comparison shows a diff; the correct base comparison (branch base e550d8a / introducing commit d00b292) is byte-clean, confirming base content, not builder edits.",
+      "ruling_reference": "supervisor ruling of this run: PASS-with-disclosed-cause (recorded in the builder handoff evidence.ac5_disclosed_cause.verdict_disposition and orchestrator WAL 904-908, commit c4d6c64); the fence will be replayed by the orchestrator at Gate 3 against the true merge base where the t72 docs diff is empty by construction.",
+      "conclusion": "CONTAMINATION STORY CONFIRMED INDEPENDENTLY - the ac5 allow-list rc=1 is fully explained by inherited base content; the builder's own delta sits 100% inside the allow-list."
+    },
+    "tests88_recomputation": {
+      "source": "docs/state/merge_test_index.json entry 88 (issue t17) read at tip; index is 259 entries, blob a77f98a0117d1d0b07695f2d1a1a34a3b1bbb2dcccf8687cc0f0d5a21cb578f4 at 9ae21b2, e550d8a and cba62f8 (unchanged by this card).",
+      "pinned_titles_extracted": 9,
+      "replay_against_tip_vitest_json": "all 9 pinned titles status=passed in the independent tip expense_form.test.tsx run (16/16 nodes passed, 0 failed)",
+      "byte_presence_in_tip_test_file": "all 9 titles byte-present as it() literals in frontend/src/components/forms/expense_form.test.tsx at tip",
+      "base_vs_tip_title_diff": "base (e550d8a) 9 titles -> tip 16 titles: 0 base titles missing, exactly the 7 card-named new titles added, 0 unexpected extras",
+      "stored_gate_verbatim_replay": "bash <tests[88].command> executed at tip: rc=0",
+      "conclusion": "tests[88] stays GREEN with no pin switchover and no index edit - builder 'titles kept' claim CONFIRMED independently."
+    },
+    "frozen_path_audit": [
+      {
+        "path": "frontend/src/components/forms/category_form.tsx",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "blob eeb3084 unchanged"
+      },
+      {
+        "path": "frontend/src/components/forms/category_form.test.tsx",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "does not exist at base and is STILL ABSENT at tip - confirmed via ls-tree"
+      },
+      {
+        "path": "frontend/src/pages/categories_page.tsx",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "frontend/src/pages/categories_page.test.tsx",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "frontend/src/test/handlers.ts",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "covered by the frontend/src/test fence path"
+      },
+      {
+        "path": "frontend/src/pages/expenses_page.test.tsx",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "P3 conditional allowance NOT used"
+      },
+      {
+        "path": "frontend/src/utils/validation.ts",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "frontend/src/hooks",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "backend",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "README.md",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "docs/design-system.md",
+        "changed_vs_e550d8a": 0,
+        "note": "tip and e550d8a blobs both sha256 529ab51c205b138f... - byte-identical"
+      },
+      {
+        "path": "docs/requirements",
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "docs/criteria",
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "docs/plan.md",
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "openapi.yaml",
+        "changed_vs_9ae21b2": 0
+      },
+      {
+        "path": "e2e/tests",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "the three consuming specs untouched - helper is the single edit point as fenced"
+      },
+      {
+        "path": "docs/state/merge_test_index.json",
+        "changed_vs_e550d8a": 0,
+        "changed_vs_9ae21b2": 0,
+        "note": "259 entries; blob sha256 a77f98a0117d1d0b07695f2d1a1a34a3b1bbb2dcccf8687cc0f0d5a21cb578f4 at tip (worktree file differs only by CRLF line-ending phantom; CR-stripped hash matches the pinned digest exactly)"
+      }
+    ],
+    "resolveCategoryId_sweep": "grep -rn over all .ts/.tsx in the worktree (node_modules excluded): ZERO matches - deleted outright, no dead references anywhere in code. Remaining textual matches are docs-only (docs/issues/t73.md, docs/issues/groom/t73.md, docs/issues/closed/t56.md) and are card prose, not code.",
+    "e2e_static_review": {
+      "helper": "addExpense drives dialog.getByLabel('Category').selectOption({ label: options.categoryName }); signature unchanged ({amount, categoryName, date, note?}); resolveCategoryId and its E2E_API_URL id round-trip deleted.",
+      "consumers": [
+        "e2e/tests/happy-path.spec.ts - 3 addExpense calls, categoryName: CATEGORY ('Food & Dining')",
+        "e2e/tests/isolation.spec.ts - 1 addExpense call, categoryName: 'Food & Dining'",
+        "e2e/tests/month-switch.spec.ts - 2 addExpense calls, categoryName: 'Food & Dining' / 'Transportation'"
+      ],
+      "consistency": "all call sites already passed categoryName (unchanged at e550d8a) - the helper rewrite is signature-compatible; the selected names are the merged t10 system categories which the use_categories-fed select renders by name; the product label 'Category' (htmlFor expense-category) matches the helper's exact getByLabel. No spec file edited (frozen).",
+      "measured_run": "CI e2e gate (make e2e) over the three named specs; local browser execution DEFERRED per the t27 ruling (browser store absent) - recorded as residual risk, NOT assumed green."
+    },
+    "quality_gates": {
+      "tsc_noEmit_rc": 0,
+      "npm_run_lint_rc": 0,
+      "lint_warnings": 4,
+      "lint_warning_files": [
+        "auth_context.tsx:118",
+        "toast_context.tsx:146",
+        "budget_page.tsx:46",
+        "budget_page.tsx:55"
+      ],
+      "any_sweep_touched_files": "clean (rc=1 no matches)",
+      "money_coercion_sweep_expense_form_tsx": "clean (no parseFloat/toFixed)"
+    },
+    "run_environment": "All node/tsx/npm/git via cmd.exe from the worktree (WSL esbuild is win32-x64 - wrong platform - direct WSL npx fails); git reads via cmd.exe /c git -C <windows-path> per the t65 ac1 lesson (WSL git cannot resolve this worktree's Windows-formatted gitdir pointer). [VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH unset - no-op for this Node stack. Read-only verifier discipline: no checkout, no push, no index edit, no code/test/issue edits; only this handoff JSON written (in the MAIN CHECKOUT, t65-t71 precedent). Worktree porcelain clean at the end.",
+    "platform_actions_note": "Platform verdict comment and label transition (built -> verified) on #79 intentionally left to the orchestrator per the t65/t66/t70 precedent and this run's task directive (verdict + handoff only); additionally the platform CLI is not executable in this environment: .env is absent from the worktree and the WSL node has the wrong-platform esbuild (cmd.exe run from the worktree fails on missing .env).",
+    "notes": "Anti-trust verification: every builder claim was re-derived from the card, the index, and the working tree, not from the builder report. Claims checked and CONFIRMED: (1) 3-file own delta; (2) five verbatim fences (byte-identical ac_mapping, ac_hash recomputed match) with ac1-ac4 rc=0 and ac5 rc=1 solely on the inherited t72 docs pair - contamination story independently verified via ancestry + byte-identity; (3) 203/0/0/0 suite, +7 nodes, 9 frozen titles byte-identical, tests[88] recomputed from the index and replayed verbatim rc=0; (4) resolveCategoryId fully deleted; (5) three-spec static consistency; (6) tsc rc=0, lint rc=0 with exactly the 4 pre-existing warnings; (7) every frozen path byte-clean, category_form.test.tsx still absent, index 259 entries at the pinned digest. No falsified claim found. PASS_WITH_WARNINGS: the ac5 raw rc=1 (supervisor-ruled disclosed cause) and the DEFERRED local e2e leg (CI gate is the measurement) are the disclosed warnings/residual risks."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t73_verifier_verify_issue.json"
+    ],
+    "platform_issue": 79,
+    "output_path": "docs/state/outputs/t73_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-16T08:20:41.396Z",
+  "retry_count": 0
+}
