@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-16T10:22:16Z",
-  "last_seq": 941,
+  "updated_at": "2026-10-16T10:32:14Z",
+  "last_seq": 946,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,13 +15,13 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t74",
-      "role": "orchestrator",
-      "phase": "merge",
+      "issue_id": null,
+      "role": null,
+      "phase": null,
       "run_id": null,
-      "spawn_at": "2026-10-16T10:22:16Z",
-      "last_activity_at": "2026-10-16T10:22:16Z",
-      "worktree_path": "../worktrees/t74-merge"
+      "spawn_at": null,
+      "last_activity_at": "2026-10-16T10:32:14Z",
+      "worktree_path": null
     }
   ],
   "merge_queue": [],
