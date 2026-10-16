@@ -1,0 +1,16 @@
+{
+  "alert": "DBFallbackActive",
+  "expr": "db_fallback_active == 1",
+  "for": "5m",
+  "labels": {
+    "severity": "critical"
+  },
+  "annotations": {
+    "dashboard": "http://127.0.0.1:3000/d/expense-tracker/expense-tracker",
+    "environment": "development",
+    "owner": "tw097",
+    "service": "expense-tracker-api",
+    "summary": "the database fallback latch is engaged and the API is serving from the fallback store",
+    "version": "1.0.0"
+  }
+}
