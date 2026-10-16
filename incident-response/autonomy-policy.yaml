@@ -1,0 +1,149 @@
+# incident-response/autonomy-policy.yaml
+#
+# The bounded-autonomy authority for AI-driven incident response
+# (Final Project criterion 13, card t82). A boundary written as a
+# paragraph is a review opinion; this file is the machine-readable
+# artifact the responder loop consults BEFORE acting.
+#
+# Decision model:
+#   - an action named in denied_actions is DENIED;
+#   - an action named in allowed_actions is permitted ONLY inside the
+#     scope written on its entry;
+#   - an action named in NEITHER list falls to unknown_action_decision,
+#     which is deny - an unnamed action can never be defaulted into
+#     permission;
+#   - anything the file does not decide falls to default_decision,
+#     which is deny.
+#
+# Authority boundaries (stated so no consumer redefines them here):
+#   - Alert and metric names belong to observability/alerts.yaml (t76);
+#     this file CITES that source and restates no name of its own: the
+#     fallback signal db_fallback_active is defined in the source file
+#     observability/alerts.yaml and is named here only as a citation.
+#   - Incident IDs and the incidents/ scaffold belong to t83; the write
+#     scope below is a GRAMMAR, not a pre-authored record.
+#   - The responder task and its response schema belong to t81; their
+#     action enum must be a SUBSET of allowed_actions below. This file
+#     is the authority; a drift is fixed by re-grooming the card that
+#     drifted, never by editing a fence.
+#   - The human symptom vocabulary lives in ops/runbook.md (t85); the
+#     executable steps live in incident-response/runbooks/ and the gate
+#     between them is this policy.
+#
+# The two runbooks under incident-response/runbooks/ are safe by
+# construction: neither starts a server, binds a port, touches a
+# container or orchestrator, nor contacts a non-loopback address. The
+# denied classes below are the same classes ac3 of this card scans the
+# scripts for, so the deny list is a test, not a wish.
+
+version: 1
+policy_id: t82-autonomy-policy
+applies_to:
+  - incident-response/runbooks/rollback.sh
+  - incident-response/runbooks/verify-recovery.sh
+
+# Two deny floors: named denials below, plus these two defaults, so
+# neither a listed gap nor an unlisted action can leak a permission.
+default_decision: deny
+unknown_action_decision: deny
+
+denied_actions:
+  # Deny 1: nothing in an autonomous response may restart production.
+  # A restart destroys the evidence the drill must measure and masks
+  # the fallback signal db_fallback_active whose source is the authority
+  # observability/alerts.yaml; the recovery claim depends on that signal.
+  - id: restart_production
+    reason: >-
+      Restarting a service, container or host is outside the response
+      envelope: it destroys live evidence, hides the degraded state
+      instead of measuring it, and only a human operator may cycle a
+      production deployment.
+    forbidden_commands:
+      - "systemctl restart <unit>"
+      - "service <name> restart"
+      - "docker restart <container>"
+      - "kubectl rollout restart deployment/<name>"
+
+  # Deny 2: the response loop reads data, it never writes data. A
+  # mutation performed mid-incident destroys the very rows a later
+  # audit needs and turns an incident into a migration.
+  - id: database_mutation
+    reason: >-
+      Writing, altering or deleting database state during an incident
+      destroys forensic evidence and cannot be undone by the runbooks;
+      schema and data changes belong to a reviewed change, not to the
+      responder.
+    forbidden_commands:
+      - "UPDATE <table> SET <col> = <value>"
+      - "DELETE FROM <table> WHERE <cond>"
+      - "ALTER TABLE <table> ADD <col> <type>"
+      - "DROP TABLE <table>"
+
+  # Deny 3: the responder may propose, never integrate. Merge authority
+  # belongs to the human review flow that owns branch protection.
+  - id: merge
+    reason: >-
+      Integrating code is a human-reviewed act guarded by branch
+      protection; an autonomous merge would bypass the review that is
+      the whole point of the review gate.
+    forbidden_commands:
+      - "git merge <ref>"
+      - "git rebase <ref>"
+      - "git push origin <branch>"
+      - "git reset --hard <ref>"
+
+allowed_actions:
+  # Allow class 1: read-only reads. Every endpoint is loopback-only and
+  # every verb is GET or a file read; the set is exactly the artifact
+  # surface the merged collector (t80) and the merged health contract
+  # already expose.
+  - id: read_health
+    class: read_only_reads
+    method: GET
+    endpoints:
+      - "http://127.0.0.1:8137/api/v1/health"
+    scope: >-
+      Read the local health payload (status, database, fallback_active,
+      version) over loopback only; this is the read verify-recovery.sh
+      performs and it grants no write of any kind.
+  - id: read_metrics
+    class: read_only_reads
+    method: GET
+    endpoints:
+      - "http://127.0.0.1:8137/metrics"
+    scope: >-
+      Read the local metrics snapshot over loopback only, including the
+      fallback series named in observability/alerts.yaml (that file is
+      the source of the name; this policy grants the read, not the
+      name).
+  - id: read_logs
+    class: read_only_reads
+    method: READ
+    paths:
+      - "logs/"
+      - "incident-response/incidents/<incident-id>/evidence/"
+    scope: >-
+      Read application log tails and the evidence bundle files the
+      merged collector writes for the open incident; file reads only,
+      no tail-follow, no log mutation.
+
+  # Allow class 2: report writing. Paths are relative to the repository
+  # root and expressed as a grammar so no incident record is
+  # pre-authored here; the forbidden paths restate the
+  # coding-standards forbidden-actions table on the write scope itself.
+  - id: write_incident_report
+    class: report_writing
+    paths:
+      - "incident-response/incidents/<incident-id>/report.md"
+      - "incident-response/incidents/<incident-id>/resolution.md"
+    forbidden_paths:
+      - ".env"
+      - "~/.ssh"
+      - ".git/"
+      - "backend/app/"
+      - "openapi.yaml"
+    scope: >-
+      Write the incident report and resolution documents for the open
+      incident under the incidents grammar above, relative to the
+      repository root; nothing outside those two paths is writable and
+      secret-bearing locations are explicitly excluded.
