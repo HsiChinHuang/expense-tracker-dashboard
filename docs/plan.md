@@ -1478,3 +1478,200 @@ zero orphans.
 - Platform numbering: highest existing issue was #70 (closed); the seven
   cards are #71..#77, one create call each, labels [defined] read back per
   issue.
+
+---
+
+## phase_12_readme_ux_fixes - Offline-verification README fixes and two form UX defects (operator directive 2026-10-16)
+
+**Origin.** The operator cloned the repository fresh, followed `README.md`
+Quick Start verbatim, and it failed at step 1; then tried the demo path and
+the two category-touching forms, and hit three more defects (which terminal
+runs `npm run seed:demo`, a bare 36-char UUID field, a bare colour field with
+no format hint). This milestone is the operator-reported-defect batch: one
+README hotfix card and two small frontend cards. Base for the milestone is
+`594c817` (main tip at survey time; the README there is 391 lines, pure ASCII,
+CRLF, cr-stripped sha256 `5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0`,
+which is the CURRENT live pin-4 value also carried in
+`backend/scripts/docs_verification.py` lines 34-35; `docs/state/merge_test_index.json`
+holds 259 entries, cr-stripped sha256 `a77f98a0117d1d0b07695f2d1a1a34a3b1bbb2dcccf8687cc0f0d5a21cb578f4`).
+
+**Reproductions this plan relies on (commands actually run at survey).**
+
+| claim | command actually run | measured result |
+|---|---|---|
+| `npm run check` fails with the tsx message on a fresh clone | `cmd.exe /c "mkdir %TEMP%\t72repro\scripts\dev" && cmd.exe /c "copy /Y <repo>\package.json %TEMP%\t72repro\ && copy /Y <repo>\scripts\dev\*.ts %TEMP%\t72repro\scripts\dev\ && cd /d %TEMP%\t72repro && npm run check"` | prints `> pi-agent-orchestrator@1.0.0 check` / `> tsx scripts/dev/check.ts` then `'tsx' ... is not recognized as an internal or external command.` (codepage-garbled rendering of the same sentence); with the root `node_modules` present the same command prints `[check] platform=win32 native=yes (node v24.16.0)` |
+| tsx is a ROOT dependency and every npm script invokes it | `grep -n '"scripts"' -A 20 package.json; grep -n '"tsx"' package.json` | lines 11-24: every script line begins `tsx ...`; line 30 `"tsx": "^4.7.0"` inside `dependencies` |
+| the API reads `backend/.env`, not the repo-root file | `grep -n "env_file" backend/app/config.py` -> line 29 `env_file=".env"`; `grep -n "cwd" scripts/dev/dev.ts` -> line 59 `cwd: backendDir()` on the uvicorn spawn | CWD-relative `.env` + uvicorn started with cwd=`backend` => the file the API would read is `backend/.env` |
+| no repo-root `.env` is needed offline | `grep -n "env" scripts/dev/check.ts` (only `backend/.venv` lines), `grep -rn "\.env" scripts/dev/*.ts` (only `FORCE_COLOR`), `grep -rn "import.meta.env" frontend/src` (only `frontend/src/api/client.ts:84` `VITE_API_BASE_URL ?? ''`), `sed -n 1,20p frontend/vite.config.ts` (proxy `/api` -> `http://127.0.0.1:8000`) | check / setup:local / dev read no `.env`; vite needs no env file because the proxy is in `vite.config.ts` |
+| every app default equals the example value | `sed -n 30,45p backend/app/config.py` vs `grep -n "DATABASE_URL\|JWT_SECRET\|CORS_ORIGINS\|ENVIRONMENT" .env.example` | `sqlite:///./dev.db`, `change-me`, `["http://localhost:5173"]`, `development` on both sides; `grep -n "change-me" backend/app/config.py` -> line 16 placeholder, rejected only in the `ENVIRONMENT == "production"` model validator |
+| the expense form demands a raw UUID | `sed -n 108,124p frontend/src/components/forms/expense_form.tsx` | label text `Category id`, plain `<input>` bound to `category_id`; `grep -n "\.id" frontend/src/pages/categories_page.tsx` -> `category.id` is used only as a React `key`, never printed |
+| the category colour format and its failure mode | `grep -n "HEX_COLOR_PATTERN" -A 3 backend/app/schemas/category.py` -> line 24 `HEX_COLOR_PATTERN = r"^#[0-9A-Fa-f]{6}$"`, line 47 `color: str = Field(pattern=HEX_COLOR_PATTERN)`; `grep -rn "ck_categories_color_format" backend/app/models/category.py` -> line 55 `sa.CheckConstraint(COLOR_CHECK_SQL, name="ck_categories_color_format")` | schema regex + DB CHECK; the frontend's only client-side leg is `frontend/src/utils/validation.ts:120-127` (`color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Color must be a 6-digit HEX value')`) with no placeholder and no example in the input |
+
+**DISCLOSED FACTPACK DIVERGENCE (do not silently adopt the factpack wording).**
+The operator-approved brief describes `backend/.env.example` whose defaults
+include `CORS http://localhost:5173,http://localhost:4173` and
+`EXTERNAL_API_ENABLED=false`. Measured at the `594c817` base, neither the file
+nor those values exist: `git ls-tree 594c817 backend/ --name-only` lists no
+`.env.example`, `git ls-files | grep -i example` lists only the repo-root
+`.env.example`, and `grep -rn "EXTERNAL_API" backend/app` plus
+`grep -rn "4173" backend/app` return zero application hits. The card therefore
+cites the repo-root `.env.example` and the `Settings` defaults it can actually
+point at, and never prints a `4173` origin or an `EXTERNAL_API_ENABLED` key
+into the README. The CWD-relative-`.env` claim (the part the operator needs)
+is verified above and stands.
+
+### Milestone issue template (three cards, exact operator-approved split)
+
+> Issue template:
+> - Requirement: REQ-DOC-010 (README as the operator entry point) + operator
+>   directive 2026-10-16 (offline verification failed on a fresh clone)
+> - Title: t72 README offline-verification hotfix - add `npm install`, mark the
+>   `.env` step optional with the `backend/.env` location stated, add the tsx
+>   troubleshooting row, strengthen the `seed:demo` instructions, and perform
+>   the SINGLE pin-5 switchover by cross-consistency
+> - Acceptance:
+>     - Quick Start carries an explicit `npm install` step before any `npm run`
+>       command, the numbered-step gate is restated from EIGHT to NINE steps in
+>       the fenced order, and the carried `tests[232]`/`tests[250]`/`tests[251]`/
+>       `tests[252]` npm-first + eight-step gates are dispositioned line-by-line
+>       (the step-count leg is the ONE sanctioned rewrite; the order legs stay)
+>     - the .env step survives with its carried `cp .env.example .env` token
+>       and its two carried claim legs, is marked optional for offline local
+>       mode, and states that the API reads `backend/.env` (uvicorn runs with
+>       cwd=`backend`) while check / setup:local / dev read no .env at all
+>     - `## Troubleshooting` gains the tsx row (row-class gates are >=1-per-class
+>       and row count is >=5, so a fifth row is additive-safe)
+>     - the `seed:demo` step states: second terminal, `npm run dev` keeps
+>       running, no restart, nothing visible afterwards, results appear only in
+>       the browser as `demo@example.com`, log out first if signed in elsewhere
+>     - README invariants hold: <=400 lines (9 lines of headroom, so a line
+>       budget is declared and overflow prose may move to `docs/` with a
+>       one-line pointer), pure ASCII, uniform CRLF, trailing CRLF, exactly 17
+>       level-2 headings, no placeholder language, all-English, and the distinct
+>       full-form requirement-id set is unchanged (`01f36118...` per `tests[256]`)
+>     - pin-5 switchover by the t71 ac4 CROSS-CONSISTENCY pattern: measured
+>       README digest/lines == `docs_verification.py` constants == regenerated
+>       report; new values differ from pin-2/pin-3/pin-4 and the base; retired
+>       pins `tests[227]`/`tests[231]` stay untouched
+> - Files: README.md, docs/development.md (only if prose is relocated),
+>   backend/scripts/docs_verification.py, docs/criteria/docs_verification.md
+> - Depends: []
+> - Platform: #78
+
+> Issue template:
+> - Requirement: REQ-FE-081 / REQ-FE-082 (ExpenseForm), REQ-FE-034 (data hooks),
+>   REQ-FE-065 (categories surface); operator directive 2026-10-16
+> - Title: t73 expense form category dropdown - replace the bare Category-id
+>   UUID input with a select populated from the existing categories query
+> - Acceptance:
+>     - the category control is a `select` populated from `use_categories`
+>       showing category NAMES (system rows plus the caller's own custom rows)
+>       and submitting a valid `category_id`
+>     - editing an existing expense preselects that expense's category
+>     - when no suitable category exists the form points at the Categories page
+>     - the bare-input pins are dispositioned explicitly, not silently:
+>       `expense_form.test.tsx:40` + `:328` (`getByLabelText('Category id')`),
+>       `categories_page.test.tsx:83-90` is out of scope, and
+>       `e2e/fixtures/helpers.ts:84` (`dialog.getByLabel('Category id').fill(id)`)
+>     - backend, API, DB, seed and README are untouched
+> - Files: frontend/src/components/forms/expense_form.tsx,
+>   frontend/src/components/forms/expense_form.test.tsx,
+>   e2e/fixtures/helpers.ts (+ frontend/src/pages/expenses_page.test.tsx only
+>   if a measured pin in it breaks)
+> - Depends: []
+> - Platform: #79
+
+> Issue template:
+> - Requirement: REQ-FE-065 / REQ-FE-080 / REQ-FE-082 (CategoryForm),
+>   REQ-DB-070 family (colour format), operator directive 2026-10-16
+> - Title: t74 category form colour and icon UX - native colour picker plus a
+>   `#RRGGBB` text field with example, live swatch, client-side validation and
+>   an icon hint
+> - Acceptance:
+>     - `<input type="color">` plus a text field whose placeholder shows the
+>       `#RRGGBB` example, with a live swatch preview
+>     - a fixed neutral default colour `#6B7280`
+>     - client-side validation uses a regex byte-identical to `HEX_COLOR_PATTERN`
+>       quoted FROM `backend/app/schemas/category.py` line 24 by the card (not
+>       from memory), with a human-readable error message
+>     - the icon label carries a hint of the form `(optional, e.g. utensils)`
+>     - the card explains what the colour is for (per-category chart colours -
+>       `frontend/src/components/charts/category_pie_chart.tsx` renders
+>       `row.color` verbatim as the slice fill)
+>     - frontend validation is advisory; the backend schema and the
+>       `ck_categories_color_format` DB CHECK stay the final gate
+>     - the `getByLabelText('Color')` pins in `categories_page.test.tsx:84` are
+>       dispositioned explicitly
+>     - backend, API, DB, seed and README are untouched
+> - Files: frontend/src/components/forms/category_form.tsx,
+>   frontend/src/pages/categories_page.test.tsx
+> - Depends: []
+> - Platform: #80
+
+### Split rationale (the operator asked explicitly about finer splitting)
+
+- **t72 stays ONE card.** All four README items edit the same file and land on
+  the same measured digest. Splitting them would force a pin switchover per
+  card (each README change moves the digest) and could not be parallelised,
+  because README.md has exactly one writer at a time.
+- **t73 and t74 are SEPARATE cards.** Their file and test ownership is
+  disjoint (`expense_form.tsx` + `expense_form.test.tsx` + `e2e/fixtures/helpers.ts`
+  versus `category_form.tsx` + `categories_page.test.tsx`), so they can run as
+  parallel worktrees, and each stays small enough to groom in one run.
+- **General rule recorded for future surveys:** same-file / same-pin-domain
+  changes merge into ONE card; disjoint file ownership splits.
+
+### Dependencies, DAG and scheduling
+
+All three cards have `depends: []` - t72 touches only README + the docs
+verifier, t73/t74 touch disjoint frontend files, and none of them depends on
+another's output. Milestone-local dep_chain = 0 edges, far inside the
+warn-10 / halt-20 limits. Global DAG: `docs/state/dag.json` + `dag.mmd`
+regenerate to 75 nodes / 111 edges (72 + 3 nodes, no new edges); Kahn is
+machine-verified with zero cycles and zero orphans.
+
+`docs/state/snapshot.json` currently reports `max_slots: 2`
+(`.env MAX_SLOTS=2`, which takes precedence over `docs/config.yaml slots.max=3`),
+so at most two cards run concurrently. **Scheduling note for the orchestrator:
+t72 goes first; t73 and t74 are the parallel pair.** t72 owns the README pin
+domain and the `docs_verification.py` / report regeneration, so it must not be
+co-scheduled with anything that could re-pin; the two frontend cards are the
+only safe concurrency and they are the only pair that needs it.
+
+### Standing constraints for every card in this milestone
+
+- No Docker locally; git writes via cmd.exe. Platform CLI via cmd.exe from the
+  repo root (the Bash tool is WSL and its `node_modules` esbuild is the wrong
+  platform).
+- README.md is a reviewer-owned root doc (`docs/ownership.md`). The phase_11
+  HUMAN-REVIEW RULING (operator, 2026-10-15: per-card approval WAIVED for the
+  README cards, replaced by a mandatory rigorous orchestrator pre-merge
+  re-check, and explicitly "do not relax the acceptance criteria") is carried
+  forward to t72 unchanged: the waiver touches only who signs Gate 3, never an
+  AC, fence, replay, or digest attestation.
+- README.md invariants: <=400 lines, pure ASCII, uniform CRLF, trailing CRLF,
+  exactly 17 level-2 headings, all-English, no placeholder language, and the
+  distinct full-form requirement-id set must not move (the 749-row coverage
+  matrix scans README.md).
+- `docs/state/merge_test_index.json` is orchestrator-owned; no card branch
+  edits it. Pin moves happen ONLY by orchestrator append at merge, and the
+  retired-pin exclusions `tests[227]` (pin-2) and `tests[231]` (pin-3) stay
+  untouched.
+- Carried gates are dispositioned line-by-line, never silently changed. The
+  README-touching carried set at the 259-entry index is 34 entries
+  (27, 119, 128, 135, 144, 149, 150, 155, 191, 196, 199, 201, 210, 227,
+  231-236, 242-258); the replay set t72 inherits from t71 ac2 is the 25-entry
+  set 27, 119, 128, 135, 144, 201, 232-236, 242-255 plus t71's own 256-258,
+  with 227/231 as the two named retired-pin exclusions and 191 as the named
+  pre-existing RED.
+- Contract-first is enabled for backend/api/database and this milestone changes
+  none of them: t72 is documentation + the docs verifier, t73/t74 are UI/UX,
+  which `contract_first.allow_natural_for` permits.
+- NO `docs/issues/<id>.md` full Gate-1 card at survey (established convention
+  since t44): the three local cards carry the DEFINED-stage sections (Metadata,
+  Goal, AC draft, Dependencies, Constraints, DoD template) with the rulings and
+  hard constraints embedded; Context, Out of scope and the DoD specifics are
+  authored at groom.
+- Platform numbering: highest existing issue is #77 (closed, verified via
+  `issue get 77`); #78/#79/#80 verified 404 before creation. The three cards are
+  #78, #79, #80, one create call each, labels [defined] read back per issue.

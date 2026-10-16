@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-15T04:55:00Z",
-  "milestone": "phase_11_readme_demo_seed",
+  "generated_at": "2026-10-16T04:10:00Z",
+  "milestone": "phase_12_readme_ux_fixes",
   "nodes": [
     "t0",
     "t1",
@@ -194,6 +194,21 @@
       "id": "t71",
       "status": "defined",
       "milestone": "phase_11_readme_demo_seed"
+    },
+    {
+      "id": "t72",
+      "status": "defined",
+      "milestone": "phase_12_readme_ux_fixes"
+    },
+    {
+      "id": "t73",
+      "status": "defined",
+      "milestone": "phase_12_readme_ux_fixes"
+    },
+    {
+      "id": "t74",
+      "status": "defined",
+      "milestone": "phase_12_readme_ux_fixes"
     }
   ],
   "edges": [
@@ -715,7 +730,10 @@
     "t53",
     "t57",
     "t58",
-    "t59"
+    "t59",
+    "t72",
+    "t73",
+    "t74"
   ],
   "critical_path": [
     "t0",

@@ -74,3 +74,6 @@
 | t69 | README v2 sections 4-6: run-locally flow npm run check / cp .env.example .env / setup:local / dev / open http://localhost:5173, first-run register, seed:demo demo data, npm run stop (no pins) | [t68] | #75 | closed |
 | t70 | README v2 sections 7-9: troubleshooting, API overview, Render deployment PLACEHOLDER only - carried tests[135] heading/token set preserved, residual #61 cited (no pins) | [t69] | #76 | closed |
 | t71 | README v2 sections 10-12 + SINGLE pin-4 switchover: criteria mapping (exactly-15 rows), project structure, license/AI-workflow pointers + README re-pin + tests[227] Q1a settlement + docs_verification.py pin repair + report regeneration | [t70] | #77 | closed |
+| t72 | README offline-verification hotfix: explicit npm install step, honest optional .env step naming backend/.env, tsx troubleshooting row, seed:demo second-terminal truth + SINGLE pin-5 switchover by cross-consistency | [] | #78 | defined |
+| t73 | Expense form category dropdown: replace the bare Category-id UUID input with a select fed by use_categories (frontend only; e2e + form pins dispositioned) | [] | #79 | defined |
+| t74 | Category form colour/icon UX: native colour picker + #RRGGBB text field with example, live swatch, #6B7280 default, client-side validation quoted from backend/app/schemas/category.py (frontend only) | [] | #80 | defined |
