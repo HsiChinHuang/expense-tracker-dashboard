@@ -27,6 +27,63 @@ recovery requires a restart after the primary database is reachable again
 real measured output; the degraded half of the flow is attested by the
 merged t25/t28 fallback evidence and the runbook's database sections.
 
+
+The alert-driven reading of the same flow. On 2026-10-17 this scenario did
+not open with a user report at all: the alert DBFallbackActive fired, and the
+drill left measured evidence behind. The rule lives in
+observability/alerts.yaml, the single source of truth for every alert name
+and metric name in this milestone, and it fires on the declared gauge
+db_fallback_active (`== 1` for 5m, severity critical). The user report, if it
+arrives at all, is the second signal - the fired rule is the first, and the
+captured evidence is what an operator reads instead of a retelling.
+
+### Alert-driven extension (of the healthy baseline)
+
+This extension keeps every step of the healthy baseline above and changes
+only the entry point: the operator starts from the firing rule and from what
+the drill measured, then re-uses the same probes to confirm the state with
+their own eyes.
+
+1. The rule and its names. The firing rule is DBFallbackActive, declared in
+   observability/alerts.yaml; the gauge it reads, db_fallback_active, is
+   emitted by backend/app/telemetry.py from the merged startup latch, and the
+   scrape that evaluates the rule is configured in
+   observability/prometheus.yml. The operator view over the same series is
+   observability/dashboard.json. Nothing here restates a name from memory:
+   the rule file is where the names live.
+2. The measured evidence chain. The drill's record is
+   incident-response/incidents/2026-10-17-db-fallback-01/ and the three
+   measured artifacts inside it:
+   incident-response/incidents/2026-10-17-db-fallback-01/evidence.json (the
+   harness manifest and captured legs),
+   incident-response/incidents/2026-10-17-db-fallback-01/response.json (the
+   read-only responder pass) and
+   incident-response/incidents/2026-10-17-db-fallback-01/resolution.md (the
+   measured resolution record). The bundle was collected by
+   incident-response/collect-evidence.sh. Point at those files; do not
+   re-author their contents here.
+3. What a responder actually looks at. First the health payload, because
+   `"status": "degraded"` with `"fallback_active": true` is the fallback
+   signal this document already pins. Then the four telemetry series the rule
+   set is built on: the db_fallback_active gauge the alert reads, plus the
+   expense_created_total, expense_create_failures_total and
+   category_created_total counters. Then the target_info attributes
+   (service_name, deployment_environment, service_version), which say which
+   build the numbers came from. In the drill the gauge read 1.0 while health
+   said degraded - two independent legs agreeing on one fact.
+4. Recovery verification. Recovery is not "the complaint stopped"; it is the
+   merged runbook's conjunction - status ok AND fallback_active false -
+   measured by incident-response/runbooks/verify-recovery.sh against the
+   pinned loopback endpoint. The drill's real run, marker line and exit code
+   are quoted in the incident's resolution.md.
+5. The disclosed limits. The drill's own metrics leg came back `unavailable`
+   at zero bytes, and the incident's resolution.md names the measured reason
+   and defers the fix to a follow-up card rather than calling it fixed; the
+   direct root-exposition capture in that record is what proves the series
+   while the gap stands. The rule file is likewise not yet mounted into the
+   running Prometheus container (recorded as a follow-up in the t76 card), so
+   rule evaluation inside that container is a documented follow-up, not a
+   present fact.
 ## Diagnosis Steps
 
 Run each command from the repository root and compare its output against
@@ -71,6 +128,12 @@ A degraded fallback run instead reports `"status":"degraded"` with
 `"fallback_active":true` - that pair, not the HTTP code, is the fallback
 signal (REQ-OPS-011/012).
 
+
+The alert-driven counterpart of this section is the incident record, not a
+second copy of the output: the degraded health body, the log tail, the gauge
+value and the counter values captured during the drill are held verbatim in
+incident-response/incidents/2026-10-17-db-fallback-01/evidence.json and
+summarised with their timestamps in the resolution.md beside it.
 ## Expected Behavior
 
 The health endpoint answers `200` with the four documented fields
@@ -107,6 +170,15 @@ deployment) carry the cause/diagnosis/action clauses, including
 `db.fallback_triggered` and `db.connection_restored` in the logging
 vocabulary of `ops/logging.md`.
 
+
+The alert side of recovery is equally mechanical: DBFallbackActive fires on
+the db_fallback_active gauge while the latch is engaged, so the rule clears
+only once a restarted process serves with the latch released and the scrape
+sees the gauge back at 0. The verification is the merged
+incident-response/runbooks/verify-recovery.sh, which reads the same payload
+this section already names and refuses anything but the loopback endpoint;
+the drill's measured recovery run is in
+incident-response/incidents/2026-10-17-db-fallback-01/resolution.md.
 ## Findings
 
 The measured run reproduced the documented healthy baseline exactly: 6 of
@@ -117,6 +189,11 @@ repository. No drift was found between the documented vocabulary
 (`backend/app/routers/health.py`, `backend/app/schemas/health.py`) and the
 served payload.
 
+
+The alert-driven pass added one finding of its own: the two independent
+surfaces agreed. The gauge the fired rule reads and the health payload
+reported the same fact at the same moment, which is what makes the alert
+trustworthy as an entry point rather than a second opinion.
 ## Lessons
 
 One timing fact is worth recording: with port 8001 held by a concurrent
@@ -128,3 +205,10 @@ pair, including the deployed URL once its live comparison is un-deferred
 picture either: health stays truthful (`degraded`, not `ok`) while SQLite
 carries the load, which is exactly what makes the runbook's first question
 - "what does health say?" - the right one.
+
+The second lesson is a voice lesson: this document used to start from what an
+operator suspected. Starting from the fired rule and the captured evidence is
+faster and auditable, because the rule name, the metric name and the evidence
+paths are all files in the repository - observability/alerts.yaml for the
+names, the incident directory for the measurements - and a document that
+points at them cannot drift away from them the way a retelling can.

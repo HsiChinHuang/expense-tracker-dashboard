@@ -89,6 +89,19 @@ in the primary database.
 *Source: Chapter 13 §13.3.3; the reconnect-on-next-request behaviour is
 asserted by the merged fallback tests.*
 
+
+The alert-driven entry to this section. When this state is reached in the
+merged milestone, the operator usually learns it from the rule, not from a
+ticket: DBFallbackActive is the alert declared for exactly this condition in
+observability/alerts.yaml, and it fires on the declared gauge
+db_fallback_active (`== 1` for 5m, severity critical). Confirming it is the
+same reading as above - the health payload for the state, the exposition for
+the series - and the worked instance of that reading, with its captured
+health body, log tail, gauge value and recovery run, is the measured record
+at incident-response/incidents/2026-10-17-db-fallback-01/ (see its
+evidence.json, response.json and resolution.md). Recovery is verified by
+incident-response/runbooks/verify-recovery.sh, which asserts the conjunction
+status ok AND fallback_active false rather than either field alone.
 ## 3. 503 DATABASE_UNAVAILABLE
 
 ### Symptom
@@ -262,6 +275,13 @@ occasionally the CI environment itself (dependency install, Docker build).
    GitHub issue with the symptom, the log lines, and the health payload, and
    assign it to the project maintainer (the sole operator on this project).
 
+
+The order above still stands, but the first question has a sharper form now
+that a rule set exists: which rule fired, and where is its evidence? The
+alert names live in observability/alerts.yaml, and a fired drill leaves a
+measured record under incident-response/incidents/ - the worked example is
+incident-response/incidents/2026-10-17-db-fallback-01/resolution.md. Read the
+rule and the record before forming a hypothesis.
 ## Incident Response
 
 Breach DETECTION for this project is log- and health-based: the event
@@ -293,6 +313,16 @@ Response steps:
   both tools consume; `ops/health-check.md` documents its fields and the
   four state combinations.
 
+
+The merged observability surface adds a fourth view that is not a probe: a
+scraped metrics path. The local backend exposes its exposition on the root
+/metrics route, observability/prometheus.yml is the scrape configuration that
+reads it (loopback-only targets), observability/alerts.yaml declares the rules
+evaluated over it, and observability/dashboard.json is the operator view. What
+a responder reads there is the db_fallback_active gauge the fallback alert is
+built on, the creation counters behind the error-rate rule, and the
+target_info attributes that attribute the numbers to a service, environment
+and version.
 ## Alerting
 
 No pager exists on this project. UptimeRobot sends an email when the health
@@ -300,6 +330,14 @@ probe fails (and when it recovers); Render emails deploy failures. The
 operator reads email — that is the entire alerting chain, and it is a known
 limitation rather than an oversight (REQ-OPS-081 documents the boundary).
 
+
+Which of these lines the merged observability stack has since touched is worth
+naming, because the list above reads as a single block: a metrics path now
+exists and is scraped (observability/prometheus.yml), and the creation
+counters are aggregated by the rule set in observability/alerts.yaml. The rest
+of the list stands as written - CPU, memory, latency percentiles, the
+connection pool and the fallback file's disk usage are still unobserved, and
+no pager sits behind any of these rules.
 ## What Is Not Monitored
 
 The following are deliberately outside the MVP monitoring boundary:
