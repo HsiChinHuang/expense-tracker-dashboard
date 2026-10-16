@@ -25,6 +25,14 @@ Contract pins this module is judged against:
   :func:`expense_to_dict` (REQ-BE-075, Chapter 6 6.8.6 verbatim).
 * Cross-user access is 404 ``NOT_FOUND`` (field ``None``), never 403
   (REQ-SEC-031); every query filters ``user_id`` (REQ-SEC-030).
+
+The t79 observability seam is count-only: ``create_expense`` nudges the
+t78-substrate counters through :func:`app.telemetry.get_business_counter`
+and the imported name constants - no metric string is restated here.
+Observability changes NO behaviour: the failure leg is
+``except AppError:`` + bare ``raise`` (the exception object propagates
+unchanged, no wide catch exists) and the success nudge runs only after
+the commit landed.
 """
 
 import uuid
@@ -39,6 +47,11 @@ from app.core.errors import INVALID_AMOUNT, VALIDATION_ERROR, AppError
 from app.models.expense import Expense
 from app.models.user import User
 from app.services.category_service import validate_category_access
+from app.telemetry import (
+    EXPENSE_CREATE_FAILURES_TOTAL,
+    EXPENSE_CREATED_TOTAL,
+    get_business_counter,
+)
 
 NOT_FOUND = "NOT_FOUND"
 """Appendix B generic 404 code (t11's local-constant precedent)."""
@@ -164,12 +177,69 @@ def create_expense(
     note: str | None,
     ip_address: str | None = None,
 ) -> Expense:
+    """Create an expense, counting the outcome without changing it (t79).
+
+    The merged create path lives in :func:`_create_expense_core`; this
+    public entry point is that path plus the t79 observability seam:
+    the failure nudge sits on the ``except AppError:`` branch followed
+    immediately by a bare ``raise`` (the exception object propagates
+    byte-identical to the merged behaviour, no wide catch exists) and
+    the success nudge runs only after the core returned, i.e. after the
+    ONE commit landed. The counters come from the t78 substrate via
+    :func:`app.telemetry.get_business_counter` and this module's
+    imported name constants - no metric string is restated here.
+
+    Args:
+        session: Request-scoped session (the ONE session for the request).
+        user: The caller who will own the row.
+        amount: Client amount string (validated via :func:`parse_amount`).
+        category_id: Category to attach (validated by t11's helper).
+        date: Calendar date, timezone-naive by type.
+        note: Optional free text (length bound owned by the schema).
+        ip_address: Best-effort client IP for the audit row.
+
+    Returns:
+        Expense: The persisted row with its category loaded.
+
+    Raises:
+        AppError: 422 INVALID_AMOUNT (field ``amount``) or 404
+            CATEGORY_NOT_FOUND (field ``category_id``), unchanged.
+    """
+    try:
+        expense = _create_expense_core(
+            session,
+            user,
+            amount=amount,
+            category_id=category_id,
+            date=date,
+            note=note,
+            ip_address=ip_address,
+        )
+    except AppError:
+        get_business_counter(EXPENSE_CREATE_FAILURES_TOTAL).add(1)
+        raise
+    get_business_counter(EXPENSE_CREATED_TOTAL).add(1)
+    return expense
+
+
+def _create_expense_core(
+    session: Session,
+    user: User,
+    *,
+    amount: str,
+    category_id: uuid.UUID,
+    date: date,
+    note: str | None,
+    ip_address: str | None = None,
+) -> Expense:
     """Create an expense and its CREATE audit row in ONE transaction.
 
     Chapter 6 6.8.1: validate the category, ``add`` + ``flush`` (id
     without committing), stage the audit row, then a SINGLE ``commit()``
     + ``refresh``. The audit row and the expense therefore appear or
-    vanish together (REQ-ARCH-078, REQ-PROD-021).
+    vanish together (REQ-ARCH-078, REQ-PROD-021). The body is the
+    merged create path verbatim; the only t79 change is that the
+    counters are nudged by the public wrapper, never here.
 
     Args:
         session: Request-scoped session (the ONE session for the request).
