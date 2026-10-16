@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t72",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_12_readme_ux_fixes",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": [
+      "t72",
+      "t73",
+      "t74"
+    ],
+    "findings": [
+      {
+        "issue_id": "t72",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "AC count 7 (ac1..ac7) exceeds limits.issue_granularity.max_acs=6 (warn_only). The overshoot is structural, not padding: ac7 is the SINGLE pin-5 switchover which cannot be split off without a second README card re-pinning the same digest (the operator-approved split rationale). File count is exactly 4 = max_files ceiling (README.md, docs_verification.py, regenerated report, conditional docs/development.md). No action required at groom beyond keeping each AC single-fence measurable; if groom can fold ac5's invariants into ac6's disposition table without losing a RED-at-base leg, the card drops to 6 ACs."
+      },
+      {
+        "issue_id": "t72",
+        "category": "other",
+        "severity": "warning",
+        "description": "LINE-BUDGET FEASIBILITY PROOF (orchestrator-mandated gate). ac5 states the budget rule (391/400 = 9 lines headroom, overflow prose moves to docs/development.md with a one-line pointer) and requires the card to declare its line budget up front, but the DEFINED-stage card carries no per-item line-count arithmetic proving the four additions + the nine-step restatement fit inside 9 lines. Measured: README is 391 lines at working tree, matching the card and docs_verification.py pin-4 (lines 34-36: digest 58894964..., LINES=391, INDEX_FLOOR=217). Groom MUST carry the itemized line budget (ac1 step insertion + ac2 optional/.env-location sentences + ac3 table row + ac4 seed:demo facts, each with its line delta) and the docs/development.md relocation decision BEFORE the first build attempt; docs/development.md exists (111 lines) so the relocation target is real."
+      },
+      {
+        "issue_id": "t72",
+        "category": "other",
+        "severity": "warning",
+        "description": "STEP-COUNT GATE NAMING GAP (minor, plan vs card). The plan's t72 acceptance names tests[232]/tests[250]/tests[251]/tests[252] as the npm-first + eight-step gates to disposition, with the step-count leg as the ONE sanctioned rewrite. The card explicitly names only tests[250] as that sanctioned rewrite; tests[251] and tests[252] are covered only implicitly by ac6's range (242-255) plus the 'no other RED tolerated, every RED dispositioned line-by-line' rule. This is enforceable as written, but groom's disposition table must name tests[251] and tests[252] explicitly (252 is already constrained ADDITIONS-ONLY in the card's Constraints; 251's order legs must be shown to stay GREEN post-edit) so no step-count RED can hide inside a range."
+      },
+      {
+        "issue_id": "t73",
+        "category": "other",
+        "severity": "warning",
+        "description": "E2E BLAST RADIUS UNDERSTATED (measured). e2e/fixtures/helpers.ts addExpense (line ~75-95) is consumed by THREE spec files - e2e/tests/happy-path.spec.ts, isolation.spec.ts, month-switch.spec.ts - while the card's DoD says 'the affected e2e spec' (singular) and ac4 says 'the affected e2e spec'. The helper change (getByLabel('Category id').fill(id) -> select-by-name, retire resolveCategoryId lines 152-168) touches all three specs' shared code path. Groom must name all three specs in the measured-run command set (or one command that runs the whole gated suite); the DoD already forbids assuming e2e green, so this is a naming fix, not a scope change. Verified at base: 'Category id' appears in no spec file directly, only via the helper, so the helper is the single edit point."
+      },
+      {
+        "issue_id": "t74",
+        "category": "other",
+        "severity": "warning",
+        "description": "TEST REACHABILITY VS ALLOW-LIST. category_form.test.tsx does not exist at base (measured); the base allow-list is 2 files, so every new behaviour (picker<->text sync, live swatch, #6B7280 default + reset-to-default, regex-identity proof, icon hint) must be reachable through categories_page.test.tsx's fillCreateForm path unless groom proves otherwise and explicitly admits the colocated test file. The card already anticipates this ('may be ADDED only if the groom proves the page test cannot reach the new behaviour'), and even then the list is 3 files, inside max_files=4. Groom must make that reachability determination explicitly rather than defaulting either way; the reset-to-default leg (ac2) is the most likely page-test-unreachable leg."
+      },
+      {
+        "issue_id": null,
+        "category": "orphan",
+        "severity": "warning",
+        "description": "t72, t73, t74 are the only zero-edge nodes in the global DAG besides t0 (verified against docs/state/dag.json: 75 nodes, 111 edges, cycles=0, all three appear in topological_order; depends: [] on all three). This is the intended, operator-approved design - t72 owns the README/pin domain alone, t73/t74 own disjoint frontend files - and the plan states the 75/111/zero-cycle/zero-halt figures which match the measured DAG exactly. Recorded as a warning only because the role checklist flags any non-t0 orphan: with max_slots=2 the scheduler must still serialize t72 before any re-pin-capable card and may run t73||t74 as the parallel pair, per the plan's scheduling note; the 'orphan' status carries no dep-chain risk (milestone dep_chain = 0 edges)."
+      }
+    ],
+    "checklist": {
+      "coverage_check": "complete - all four operator-reported defects map to cards (README items 1-4 -> t72 ac1-ac4; UUID dropdown -> t73 ac1-ac3; colour/icon UX -> t74 ac1/ac4); all cited requirement anchors exist in requirements.md (REQ-DOC-010 line 8183, REQ-FE-034 3801, REQ-FE-065 3983, REQ-FE-080 4058, REQ-FE-081 4070, REQ-FE-082 4082, REQ-DB-070 2100); the factpack divergence (backend/.env.example, 4173, EXTERNAL_API_ENABLED measured absent) is disclosed in the plan AND enforced as a prohibition in t72's Constraints - no silent adoption.",
+      "granularity_check": "complete - t72: 7 ACs (over max_acs=6, warn_only) / 4 files (at ceiling); t73: 5 ACs / 3+1 conditional files; t74: 6 ACs / 2+1 conditional files. No card under threshold (all have ACs and files).",
+      "dependency_check": "complete - all depends: [] reference nothing nonexistent; DAG has zero cycles (machine-checked), zero missing edge endpoints, 75 nodes / 111 edges matching the plan's claim; orphans = t72/t73/t74 by design (warning recorded).",
+      "duplicate_contradiction_check": "complete - no duplicate ACs across cards; no contradictions: t73/t74 Constraints cross-forbid each other's files (disjoint ownership verified against the base tree); t72's file set is disjoint from t73/t74; t73 explicitly disclaims categories_page.test.tsx which t74 owns - consistent with the plan.",
+      "issue_map_check": "complete - t72->#78, t73->#79, t74->#80 in docs/state/issue_map.json match each card's frontmatter platform_issue and the plan's platform numbering rule (one create call each, prior max #77)."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/milestones/phase_12_readme_ux_fixes.json",
+      "docs/state/outputs/phase_12_review_plan.json",
+      "docs/state/outputs/phase_12_readme_ux_fixes_definer_review_plan.json"
+    ],
+    "platform_issue": 78,
+    "output_path": "docs/state/outputs/phase_12_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-16T05:05:00Z",
+  "retry_count": 0
+}
