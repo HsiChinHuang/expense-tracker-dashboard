@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-16T13:50:00Z",
+  "updated_at": "2026-10-16T15:10:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1154,6 +1154,16 @@
       "merged_at": "2026-10-16T13:50:00Z",
       "retries": 0,
       "tests_appended": 4,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t76",
+      "platform_issue": 82,
+      "branch": "issue/t76-alerts-authority",
+      "merge_sha": "2c33be10486ea7109fbac1d0c21376884713856d",
+      "merged_at": "2026-10-16T15:10:00Z",
+      "retries": 0,
+      "tests_appended": 3,
       "regressions": 0
     }
   ]
