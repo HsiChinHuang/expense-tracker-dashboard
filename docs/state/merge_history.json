@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-15T20:28:48Z",
+  "updated_at": "2026-10-16T10:40:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1070,6 +1070,22 @@
         "t71-ac1",
         "t71-ac2",
         "t71-ac4"
+      ]
+    },
+    {
+      "issue_id": "t72",
+      "platform_issue": 78,
+      "branch": "issue/t72-readme-offline-hotfix",
+      "merge_sha": "86a1c79",
+      "pre_merge_sha": "0405566",
+      "merged_from_sha": "c7b0bab",
+      "into": "main",
+      "merged_at": "2026-10-16T10:40:00Z",
+      "merge_type": "no-ff",
+      "test_suite": "290 passed / 3 pre-existing env failures reproduced on pre-merge main (sqlite fallback x2, static serving); t72 delta touches no backend runtime",
+      "retries": 0,
+      "tests_appended": [
+        "t72-ac7"
       ]
     }
   ]
