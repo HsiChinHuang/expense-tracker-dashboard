@@ -31,8 +31,8 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "5889496439a8d24f4ff6179272a52f6e0333eedfc8c32c336f65833a3ceb4dc0"
-README_LINES = 391
+README_DIGEST = "df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5"
+README_LINES = 398
 INDEX_FLOOR = 217
 
 # The eight byte-pinned index anchors (issue_id + sha256 of the canonical
