@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T13:55:00Z",
+  "updated_at": "2026-10-17T18:10:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1265,6 +1265,19 @@
       "regressions": 0,
       "regressions_note": "0 NEW at merge: index tests[184]/tests[185] were ALREADY RED at the pre-merge parent 9419f60 (introduced by the t86 merge, corrected attribution in entry 85) and remain RED unchanged; tests[186]-[188] GREEN at HEAD. Merge deliberately deferred until after t86+t87 per plan.",
       "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t85mc): ac1-ac5 all rc=0 GREEN verbatim; ac_hash bf8de007 recomputed MATCH on merged card. Index append = ac2+ac3 ONLY per prior ruling: ac1 excluded (re-runs the t41 generator whose GITLEAKS_ZERO premise is the known t86-induced defect, closure route t89), ac4 excluded (BASE-pinned ADD-ONLY purity leg - would false-RED if ops/ legitimately changes in a later phase), ac5 excluded (BASE-pinned delta purity, same class as t86 ac5 / t87 ac4)."
+    },
+    {
+      "issue_id": "t88",
+      "platform_issue": 94,
+      "branch": "issue/t88-reviewer-report",
+      "merge_sha": "6bbf88aa3b5f1b358e6d995fac0b01486357aa77",
+      "merged_at": "2026-10-17T18:10:00Z",
+      "retries": 0,
+      "tests_appended": 3,
+      "regressions": 0,
+      "regressions_note": "0 NEW at merge: carried tests[184]/[185] (t86-merge-introduced, t89 closure route) RED unchanged; tests[186]-[188] and tests[314]/[315] (t85 appends) GREEN at merged bytes.",
+      "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t88mc, node_modules pre-seeded): ac1-ac5 all rc=0 GREEN verbatim; ac_hash a0e0f33e recomputed MATCH on merged card. Verifier c66b7513 PASS independently (5 fences, ac_hash three-way, ANCESTOR_YES 6/7-row enumeration + self-performed 7->1 swap, 12/12 MEASURED re-extractions, 302 passed). Verifier finding 1 actioned by orchestrator BEFORE merge: final builder handoff committed on-branch as 77d6d63 (validate [OK] re-run after commit); stale scratch copy left as allow-listed scratch, NOT used as record.",
+      "index_append_ruling": "ac1+ac2+ac3 appended (content legs measured live: sections, alert-driven narrative with extraction, MEASURED lines vs owning artifacts). ac4 EXCLUDED (doc-map leg compares the docs verifier + its report byte-clean vs the pinned BASE - would false-RED when t89 legitimately extends the generator). ac5 EXCLUDED (BASE-pinned delta purity, same class as t86 ac5 / t87 ac4 / t85 ac4-ac5)."
     }
   ]
 }
