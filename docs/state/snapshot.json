@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-17T20:41:00Z",
-  "last_seq": 1091,
+  "updated_at": "2026-10-17T22:11:00Z",
+  "last_seq": 1092,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t89",
-      "role": "builder",
-      "phase": "implement",
-      "run_id": "e306157c-ed82-4d00-8076-4910d5cc2135",
-      "spawn_at": "2026-10-17T20:40:00Z",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "14facbe0-8f05-455a-99af-6613b5e6bbd7",
+      "spawn_at": "2026-10-17T22:10:00Z",
       "last_activity_at": null,
-      "worktree_path": "../worktrees/t89b"
+      "worktree_path": "../worktrees/t89v"
     },
     {
       "slot_id": "slot_2"
@@ -38,7 +38,7 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "1e92459",
+  "main_tip_sha": "f0b82d0",
   "merge_history_entries": 84,
   "closed_issues": [
     75,
@@ -59,5 +59,5 @@
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1091
+  "last_wal_seq": 1092
 }
