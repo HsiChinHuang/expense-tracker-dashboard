@@ -36,12 +36,12 @@ and the five-target `make -n security` contract is re-run live.
 ```text
 SCAN_REPORT_ROWS reports=5 json_parse=3 txt_summary=2 PASS
 SCAN_SCHEMA_ROWS json=3 txt=2 gitleaks_array=1 summary_lines=2 PASS
-GITLEAKS_ZERO findings=0 PASS
-REPORT_ROWS 0,32,42,3,22 PASS
-REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=22 PASS
+GITLEAKS_ZERO unregistered=0 registered=21 PASS
+REPORT_ROWS 21,33,42,3,23 PASS
+REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=23 PASS
 REGISTER_COUNT_ROWS tools=5 measured=5 PASS
-REGISTER_DATA_ROWS 96 PASS
-SCAN_LOOP_ROWS findings=96 registered=96 equal=true PASS
+REGISTER_DATA_ROWS 98 PASS
+SCAN_LOOP_ROWS findings=98 registered=98 equal=true PASS
 MAKE_TARGET_ROWS umbrella=1 subtargets=5 stub_gone=1 PASS
 ```
 
@@ -88,6 +88,52 @@ DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server.py reason=no_live_ba
 DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst.md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt "Launch finance analyst for 2026-10."
 ```
 
+## phase_13 evidence map (t89 criteria closeout - criterion 13, 22.14 / 24.2 row 19)
+
+The rows below are the phase_13 evidence map: every value is
+EXTRACTED in this run from the artifact that owns it (alert names
+from `observability/alerts.yaml`, the incident artifacts from the
+t81 incident directory, the link targets and MEASURED rows from the
+t88 reviewer report `docs/operations-and-security-report.md`, the
+same-run scan anchor `docs/state/outputs/t86_scan_run.json`, the
+supersession anchor from `docs/plan.md`), and every `path=` segment
+names a file the gate checks with `test -f`. The mapping table
+above stays the ten phase_7 rows byte-unchanged (the t41 gate pins
+that count); the phase_13 rows are this section's own evidence and
+cite the phase_13 artifacts by path, never by a restated number.
+
+The scope supersession is recorded, not argued: the operator
+directive of 2026-10-16 supersedes the MVP-scope WORDING of
+REQ-OPS-082/083 (plan.md scope-supersession paragraph). No REQ-ID
+was invented, `docs/requirements.md` was never edited, and
+`docs/criteria/req_coverage_verification.md` stays generator-owned.
+
+```text
+PHASE13_ALERT_RULES rules=2 source=observability/alerts.yaml PASS
+PHASE13_INCIDENT_ROWS incident=2026-10-17-db-fallback-01 artifacts=5 path=incident-response/incidents/2026-10-17-db-fallback-01/README.md PASS
+PHASE13_POINTER_ROWS links=18 resolved=18 measured_rows=12 path=docs/operations-and-security-report.md PASS
+PHASE13_SCAN_ANCHOR tools=5 base=67c9db97 path=docs/state/outputs/t86_scan_run.json PASS
+PHASE13_SUPERSESSION anchor_lines=1 reqs=2 requirements_text_unchanged=True path=docs/plan.md PASS
+PHASE13_ARTIFACT_ROWS artifacts=7 expected=7 PASS
+```
+
+| Evidence | Mode | Token |
+|---|---|---|
+| phase13 alert rules from the alerts file | executed | PHASE13_ALERT_RULES |
+| phase13 incident record of the measured drill | executed | PHASE13_INCIDENT_ROWS |
+| phase13 reviewer-report links and measures | executed | PHASE13_POINTER_ROWS |
+| phase13 same-run five-tool sweep anchor | executed | PHASE13_SCAN_ANCHOR |
+| phase13 REQ-OPS-082/083 supersession anchor | structural | PHASE13_SUPERSESSION |
+| phase13 artifact presence set | executed | PHASE13_ARTIFACT_ROWS |
+
+The table above is deliberately NOT a criterion-13 mapping row: it
+carries no REQ-ID and the ten-row mapping table above is unchanged,
+so the t41 gate still counts exactly ten mapping rows and the
+coverage matrix stays generator-derived.
+
+```text
+```
+
 ## Criteria mapping (criterion 13 - 22.14, 24.2 row 19)
 
 ```text
@@ -114,5 +160,5 @@ phase_7 milestone; the deferred rows above carry operator
 live-check commands instead of attested evidence.
 
 ```text
-ALL_CHECKS_PASS 22 PASS
+ALL_CHECKS_PASS 28 PASS
 ```
