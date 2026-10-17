@@ -1,0 +1,148 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t88",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:a0e0f33e199a7b9180420a820325bc6073f899e20479b2f2fc2a242500c1b71d",
+    "ac_hash_recipe": "sha256 over JSON.stringify of the five FENCED BLOCKS in ac1..ac5 order, each block exactly as it sits between its ```bash fences (the bash -c wrapper INCLUDED), trimmed, COMPACT separators (',',':') - the t58/t62..t87 recipe. Recomputed at handoff time by parsing the shipped card docs/issues/t88.md and its mirror: both parse to 5 blocks, byte-identical to each other and to the measured fence list, and the recomputed digest equals the card-pinned literal sha256:a0e0f33e...b71d.",
+    "ac_count": 5,
+    "verification_commands": {
+      "ac1": "bash -c 'command -v python3 >/dev/null 2>&1 || { echo \"ac1 RED: python3 is missing - a skipped probe proves nothing about a pointer document, so this fence fails loudly instead of skipping\"; exit 1; }; D=$(mktemp -d); printf \"%s\" \"<base64 t88_common.py + t88_ac1_probe.py, pinned in full in docs/issues/t88.md>\" | base64 -d ... ; python3 \"$D/t88_ac1_probe.py\" \"$PWD\" || {...}; rm -rf \"$D\"; echo \"ac1 GREEN: THE POINTER DOCUMENT IS STRUCTURED AND CLEAN ...\"'  [full 12849-byte fence text lives verbatim in docs/issues/t88.md between its ```bash fences and in t88_scratch/fences.json; the handoff carries the recipe and the measured behaviour, the CARD is the executable artifact]",
+      "ac2": "bash -c '... base64-pinned t88_ac2_probe.py ... python3 \"$D/t88_ac2_probe.py\" \"$PWD\" ...'  [full text in docs/issues/t88.md + t88_scratch/fences.json] - citation-resolution fence: every cited path resolves, the 14-member owning set is cited, the incident section walks the 7 stages id->alert->evidence->response->resolution->finding->disposition IN ORDER, the incident id matches the grammar extracted from incident-response/incidents/README.md and resolves to a real directory, the quoted alert rule is one EXTRACTED from observability/alerts.yaml with BASE grandfathering via git grep.",
+      "ac3": "bash -c '... base64-pinned t88_ac3_probe.py ... python3 \"$D/t88_ac3_probe.py\" \"$PWD\" ...'  [full text in docs/issues/t88.md + t88_scratch/fences.json] - numbers fence: quantities appear ONLY as 'MEASURED <key>=<value> source=<path>' lines; all 12 values are recomputed live from their owning artifacts and must be equal; internal-consistency legs (per-tool sum = total, register covers every distinct finding id, alert-rule/metric counts declared, incident record/artifact counts real); card-side anchor-count integrity.",
+      "ac4": "bash -c '... base64-pinned t88_ac4_probe.py ... python3 \"$D/t88_ac4_probe.py\" \"$PWD\" <BASE> ...'  [full text in docs/issues/t88.md + t88_scratch/fences.json] - doc-map disposition fence: the tree docs/*.md set grew by EXACTLY this card document (equality-of-extractions vs BASE git ls-tree, no magic number), the new file is the single name outside the verifiers extracted DOCS_ROOT_MD pin, the report itself discloses the pin move as t89s named disposition, and backend/scripts/docs_verification.py + docs/verification.md stay byte-identical to BASE (this card NEVER runs the generator).",
+      "ac5": "bash -c '... base64-pinned t88_ac5_probe.py ... python3 \"$D/t88_ac5_probe.py\" \"$PWD\" ...'  [full text in docs/issues/t88.md + t88_scratch/fences.json] - purity + hygiene fence: only the product file plus this cards room may move; the ANCESTOR_YES route is derived LIVE from the two pinned ancestor literals (not widen-able by hand); never-touch trees byte-clean by BLOB HASH; non-duplication (no run of >2 substantive identical lines vs any cited source); no secret shapes; no pasted evidence payload."
+    },
+    "verification_commands_source": "byte-identical to the five ```bash blocks of docs/issues/t88.md (and its cmp-identical mirror docs/issues/groom/t88.md); the protocol runner EXECUTES the blocks parsed out of the card itself, so the measured fence is the shipped fence and the digest cannot drift from what was run.",
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "contract_first_disclosure": "All five ACs are machine-decided by a fenced command; none needs a human judgement call. Each fence is a single bash -c one-liner with exactly two single quotes, no heredoc, no backtick, pure ASCII; the python probes travel as base64 literals into a mktemp -d scratch (system temp, OUTSIDE the repo, so probe files can never pollute the purity count) and self-delete. Every fence REDs loudly when python3 is missing rather than skipping, and every probe prints named acN RED: reasons per leg so a failure is self-describing.",
+    "base_sha": "b5441295693f661170d9e55df9569fa8485283e8",
+    "milestone_base_sha": "b5441295693f661170d9e55df9569fa8485283e8",
+    "base_sha_disclosure": "The fences pin the LITERAL sha b5441295693f661170d9e55df9569fa8485283e8 as an argument to every probe; it is never a branch, a tag, or HEAD. Measured via git rev-parse HEAD; its single parent 212230b42ecdc50667cd664b3b71893346b13615 was measured via git show --no-patch --format=%P (NEVER a caret revision - cmd.exe mangles carets). If the base moves, this card is RE-GROOMED; the legs are NON-APPENDABLE.",
+    "queue_disclosure": "t88 was groomed AFTER both of its depends (t85 and t87) had merged, because the document it lands is a pointer at THEIR products (the refreshed security reports + register from t85/t86, the agent-security/extension/policy material from t87, the diagnosis from t85, the incident chain from t83/t84, the alert rules from t76). BASE is therefore the linear bookkeeping tip b544129 whose tree already contains all of them - verified by path existence at BASE, not by narrative.",
+    "ancestor_family": {
+      "t85_base": "67c9db975d75e0e6ae53667c02318a54c2524912",
+      "t87_base": "57c0d5138ffe2342de40da93a8f67fbb3d330fee",
+      "method": "union of git diff --name-only T85_BASE..BASE (32 paths) and T87_BASE..BASE (14 paths); the union is 32 unique paths (the t87 span is a subset of the t85 span in path space). ac5 derives the ANCESTOR_YES route LIVE from these two pinned diffs inside the probe - the route cannot be widened by hand without editing the pinned fence.",
+      "paths": [
+        "docs/issues/groom/t85.md", "docs/issues/groom/t86.md", "docs/issues/groom/t87.md",
+        "docs/issues/t85.md", "docs/issues/t86.md", "docs/issues/t87.md",
+        "docs/log/orchestrator_wal.jsonl",
+        "docs/state/merge_history.json", "docs/state/merge_test_index.json",
+        "docs/state/outputs/phase_13_review_plan.json",
+        "docs/state/outputs/t85_builder_implement.json", "docs/state/outputs/t85_definer_groom.json", "docs/state/outputs/t85_verifier_verify_issue.json",
+        "docs/state/outputs/t86_builder_implement.json", "docs/state/outputs/t86_builder_implement_BLOCKER.json", "docs/state/outputs/t86_definer_groom.json", "docs/state/outputs/t86_scan_run.json", "docs/state/outputs/t86_verifier_verify_issue.json",
+        "docs/state/outputs/t87_builder_implement.json", "docs/state/outputs/t87_definer_groom.json", "docs/state/outputs/t87_verifier_verify_issue.json",
+        "docs/state/seq.txt", "docs/state/snapshot.json",
+        "ops/diagnosis.md", "ops/runbook.md",
+        "security/agent-security-notes.md", "security/ai-tool-data-policy.md",
+        "security/gitleaks-report.json", "security/npm-audit-report.txt", "security/pip-audit-report.txt",
+        "security/semgrep-report.json", "security/trivy-report.json"
+      ],
+      "swap_measurement_note": "The card tells the builder explicitly (t86/t87 pattern, docs/state/outputs/t86_builder_implement.json and t87_builder_implement.json): the BASE swap is MEASURED, not asserted, and a swap-reflexive card-text anti-tamper leg REDs BY DESIGN under swap - that RED is expected evidence of the swap, not a defect to fix."
+    },
+    "measurement_log": {
+      "doc_map_check": "MEASURED, not assumed: backend/scripts/docs_verification.py::check_doc_map() compares sorted(glob(docs/*.md)) against a hardcoded 20-name DOCS_ROOT_MD pin (root=20 team=3 at BASE, matching the survey measurement). Scratch run at groom: the candidate report was copied to docs/operations-and-security-report.md inside a SCRATCH COPY and the verifier executed - the DOC_MAP_DOCS leg moved to root=21 team=3 (FAIL). Disposition = ROUTE (a): the report lands at docs/operations-and-security-report.md anyway; the DOCS_ROOT_MD pin move + regeneration is recorded as t89s NAMED DISPOSITION and the report itself carries the disposition line; ac4 enforces the growth-by-exactly-one (equality-of-extractions vs BASE git ls-tree) and pins docs_verification.py + docs/verification.md byte-identical to BASE. A silent RED was not acceptable and route (b) (hiding the file at an uncounted path) would have violated the product contract.",
+      "citation_resolution": "Every material path cited by the fences was verified to exist at BASE: security/pr-audit.md, the five refreshed scan reports (gitleaks/semgrep/trivy .json + pip/npm-audit .txt), the register inside security/agent-security-notes.md, security/agent-security-notes.md, security/ai-tool-data-policy.md, ops/diagnosis.md, observability/alerts.yaml, extensions/, agent-hooks/, mcp-server/, incident-response/incidents/README.md and the incident directory incident-response/incidents/2026-10-17-db-fallback-01/ (5 artifacts). Alert names and register ids are EXTRACTED by the probes (observability/alerts.yaml, the register table), never restated as literals in card prose where extraction works.",
+      "extraction_table": {
+        "scan_findings_total": 122, "scan_finding_ids": 98, "register_rows": 98,
+        "limitations_rows": 13, "alert_rules": 2, "metric_names": 4,
+        "incident_records": 1, "incident_artifacts": 5, "pr_audit_sections": 5,
+        "policy_sections": 8, "diagnosis_sections": 8, "extension_tools": 19
+      },
+      "extraction_note": "All twelve MEASURED keys were extracted live at groom from their owning artifacts; the candidate report states each as 'MEASURED key=value source=<owner>' and ac3 recomputes every value on the fly. The two alert rule names and the incident id in ac2 evidence were extracted, and grandfathering of any BASE-quoted name is checked with git grep at BASE.",
+      "index_baseline": "Index tests GREEN at BASE (after the known first-run-dirties/second-run-greens side effect): 219, 220, 223, 226, 242, 256, 278. Already RED at BASE for their own disclosed reasons: 227, 257, 258, 259, 279, 301 - plus the KNOWN OPEN DEFECT tests[184]/[185] (t41 generator GITLEAKS_ZERO/REPORT_ROWS/SCAN_LOOP_ROWS/CRITERIA_ROWS/CRITERIA_NUMBERS premises) RED since the t86 merge. t88 does NOT depend on any of them being GREEN and no t88 fence re-runs the t41 generator or docs_verification.py. t89 owns the closure route; t88 did not fix it.",
+      "ownership_check": "docs/ownership.md pins ownership of docs/operations-and-security-report.md to the reviewer role - which is exactly what this card lands (a reviewer pointer document). The ownership map pins CONTENT areas, not a file-count; adding this file does not trip any ownership leg, and the fences keep every pinned owner tree byte-clean.",
+      "base_choice": "git rev-parse HEAD = b5441295693f661170d9e55df9569fa8485283e8 (= origin/main at groom time), single parent 212230b42ecdc50667cd664b3b71893346b13615. Chosen because it is the tip this worktree carries and its tree contains every depends product the pointer cites."
+    },
+    "protocol": "Full mutation protocol executed in this worktree by t88_scratch/mutation_protocol.py, which parses the five ```bash blocks OUT OF THE CARD and runs them: ALL_RED at BASE (5/5) -> candidate GREEN (5/5, candidate applied to docs/) -> 21 mutants M01..M21, each required to RED only the ACs whose contract it breaks -> purity control (planted non-ancestor dirt t88_planted_dirt.txt: ac5 RED, ac1-ac4 GREEN) -> RESTORED_GREEN (5/5) -> PROTOCOL PASS. Tree restored: git status shows only the card, its mirror, and the disclosed t88_scratch/ room. NO COMMIT.",
+    "base_execution_evidence": {
+      "ac1": {"rc": 1, "first_red": "ac1 RED: docs/operations-and-security-report.md does not exist - the reviewer pointer document this card lands has not been written (RED at BASE by design)"},
+      "ac2": {"rc": 1, "first_red": "ac2 RED: docs/operations-and-security-report.md does not exist - there is no pointer chain to resolve"},
+      "ac3": {"rc": 1, "first_red": "ac3 RED: docs/operations-and-security-report.md does not exist - there is nothing to compare against the owning artifacts"},
+      "ac4": {"rc": 1, "first_red": "ac4 RED: docs/operations-and-security-report.md does not exist - the doc-map disposition cannot be carried by an absent document"},
+      "ac5": {"rc": 1, "first_red": "ac5 RED: docs/operations-and-security-report.md does not exist - a purity and non-duplication check over an absent product is vacuous, so absence is RED (this is the leg that makes ac5 RED at BASE)"},
+      "all_red": true
+    },
+    "candidate_green_evidence": {
+      "ac1": "rc=0 - the eight required sections present exactly once with non-empty regions, nothing else claims a section, ASCII, placeholder-free, no fenced copy surface, no hand-typed number in prose",
+      "ac2": "rc=0 - every cited path exists, the whole required owning-artifact set is cited, the incident section walks the seven stages in order, the incident ID obeys the grammar the scaffold README declares, the quoted alert rule is a declared one",
+      "ac3": "rc=0 - quantities only as MEASURED lines with fixed owners, each value equals the live extraction, internal consistency legs hold, card-side anchor counts hold",
+      "ac4": "rc=0 - docs/*.md grew by exactly this cards document, it is the single name outside the extracted DOCS_ROOT_MD pin, the report discloses the pin move as t89s named disposition, verifier + committed report byte-identical to BASE",
+      "ac5": "rc=0 - every changed path is card room or an enumerated ancestor row from the pinned literals, owning trees byte-clean, no cited source copied >2 lines on end, no secret shapes",
+      "all_green": true,
+      "reconfirmed_at_handoff": true
+    },
+    "mutant_table": {
+      "M01 section heading deleted": [1, 2],
+      "M02 extra top-level section smuggled in": [1, 3],
+      "M03 placeholder injected": [1],
+      "M04 non-ASCII character injected": [1],
+      "M05 bare number injected into prose": [1],
+      "M06 fenced block (copy surface) injected": [1],
+      "M07 broken pointer": [2],
+      "M08 required material no longer cited": [2],
+      "M09 stage marker dropped from the chain": [2],
+      "M10 stage order broken": [2],
+      "M11 incident id invented": [2],
+      "M12 alert rule name replaced by an undeclared one": [2],
+      "M13 MEASURED value flipped": [3],
+      "M14 MEASURED source swapped to the wrong owner": [3],
+      "M15 MEASURED line deleted": [3],
+      "M16 doc-map disposition removed": [4],
+      "M17 second root doc smuggled in": [4, 5],
+      "M18 cited source copied wholesale (duplication)": [1, 5],
+      "M19 secret shape injected": [5],
+      "M20 never-touch file tampered": [4, 5],
+      "M21 verifier output hand-edited": [4, 5]
+    },
+    "mutant_reading": "21 mutants, each REDs exactly the ACs whose contract it breaks and nothing else (table lists the RED set per mutant). No mutant is a no-op and none is a shotgun. The count exceeds the >=12 floor.",
+    "control_c1": "Purity control: a planted NON-ancestor untracked file (t88_planted_dirt.txt) made ac5 RED while ac1-ac4 stayed GREEN - the purity leg fires on foreign dirt without blinding the contract legs.",
+    "restored_green_evidence": "After the last mutant the candidate was restored byte-identical and all five fences re-ran GREEN (5/5); PROTOCOL PASS printed. Re-confirmed at handoff time: ALL_RED with the candidate absent, ALL_GREEN with it applied, candidate then removed; git status --porcelain shows only M docs/issues/t88.md, ?? docs/issues/groom/t88.md, ?? t88_scratch/.",
+    "red_at_base_reconfirmed": true,
+    "non_appendable_declaration": "Every leg is non-appendable: section presence is exact-once, citation sets are equality-of-extractions, MEASURED values must EQUAL live owner extractions, the docs/*.md set must grow by EXACTLY one, purity is a closed allow-list plus the LIVE-derived ancestor route. Adding a section, a number, or a path cannot pass silently.",
+    "extraction_disclosure": "Where extraction works, nothing is restated: alert rule names, metric names, incident id, register ids, section counts, tool counts, finding counts - all recomputed by the probes from their owners. The report is a POINTER document: it summarises and cites; the fences prove non-duplication (longest shared substantive run <= 2 lines) so it can never become a second source of truth.",
+    "documentation_room_disclosure": "Card room = docs/issues/t88.md, docs/issues/groom/t88.md, docs/state/outputs/t88_*.json, plus the disclosed scratch room t88_scratch/ at the worktree root (ALL scratch stayed inside this worktree so no other trees purity counts were polluted). Product path = docs/operations-and-security-report.md and nothing else.",
+    "never_touch": ["README.md (t89s room)", "openapi.yaml (FROZEN)", "Makefile", "docs/criteria", "docs/team", "ops/", "observability/", "the five security scan reports + register", "security/agent-security-notes.md", "security/ai-tool-data-policy.md", "incident-response/", "backend/scripts", "docs/ownership.md", "docs/verification.md", "docs/development.md", "extensions/", "agent-hooks/", "mcp-server/", "docs/state/outputs/t86_scan_run.json", "docs/state/merge_test_index.json", "docs/state/merge_history.json", "the t41 generator"],
+    "environment_disclosure": "Windows. ALL git operations run through the cmd.exe bridge (bash-side git fails on the Windows-format gitdir pointer of this worktree); one git op per cmd.exe call; literal shas, never carets. node_modules is Windows-platform (esbuild win32-x64) so WSL-side npx tsx cannot run; the platform channel is the Windows node.exe (D:\\Program\\nodejs\\node.exe) executing node_modules/tsx/dist/cli.mjs with execFileSync ARRAY argv. The repo package.json sets type=module, so helper scripts use .cjs. The probe files materialise in system temp (mktemp -d) OUTSIDE the repo so they never count as untracked dirt.",
+    "platform_sync": {
+      "issue": 94,
+      "comment": "posted 2026-10-17T01:19:30Z via Windows node.exe + tsx cli.mjs + execFileSync ARRAY argv (file payload from t88_scratch/platform_comment.md, no shell string): the ac_hash, the BASE literal + single parent, the queue disclosure, the five fenced ACs, the 21-mutant protocol + purity control, the doc-map disposition, the disclosed BASE-red index tests.",
+      "labels_set": ["groomed"],
+      "read_back": "issue get 94 read back labels [groomed]; issue latest-comment 94 read back the posted body - normalised (CRLF-stripped, trim-end) sha256 of the remote body EQUALS the local payload sha256 1a878cb8e12100cbfcd3100ddbc030d3171c027770ce4427c8f930f079bc0957; created_at 2026-10-17T01:19:30Z.",
+      "env_note": "scripts/platform.ts requires a .env (PLATFORM/API_TOKEN/REPO_ID/API_URL) at the repo root; none existed in this worktree. The main worktrees .env was copied in ONLY for the two API calls and was deleted immediately after (verified: git status shows no .env; it is git-ignored regardless)."
+    },
+    "validation": {
+      "mirror_byte_identical": true,
+      "mirror_cmp": "cmp -s docs/issues/t88.md docs/issues/groom/t88.md -> rc=0 (both 207,605 bytes, pure ASCII, LF)",
+      "ac_hash_cross_checked": "the ac_hash was RECOMPUTED at handoff time by parsing the ```bash blocks out of the shipped card AND the mirror (5 blocks each, mutually identical, identical to t88_scratch/fences.json): digest sha256:a0e0f33e199a7b9180420a820325bc6073f899e20479b2f2fc2a242500c1b71d equals the card-pinned literal.",
+      "fences_measured_from_the_card": "the protocol runner extracts the blocks from docs/issues/t88.md itself, so the measured fence is the shipped fence.",
+      "handoff_validator": "npx tsx scripts/validate_handoff.ts docs/state/outputs/t88_definer_groom.json definer groom (executed via the Windows node.exe + tsx cli.mjs bridge)",
+      "validator_output": "[OK] docs/state/outputs/t88_definer_groom.json is valid for definer:groom (rc=0)",
+      "gate_check": "gate_check.ts definer groom docs/state/outputs/t88_definer_groom.json defined (same bridge; the CLI takes role phase handoff current_state)",
+      "gate_check_output": "{\"passed\": true, \"gate\": \"gate1_groom_complete\", \"errors\": []} (rc=0)"
+    },
+    "granularity": "5 fences, inside max_acs=6; the five cover structure, pointer resolution, extraction-equality of numbers, the measured doc-map disposition, and purity + non-duplication. The card is 207,605 bytes because the five probes travel base64-pinned inside the fences - that is the contract-first cost, measured not estimated.",
+    "changes_made": ["Rewrote docs/issues/t88.md ACs as five self-contained fenced bash commands with pinned probes and the Context/Constraints/DoD prose carrying the queue disclosure, the doc-map disposition, the ANCESTOR_YES route, the swap-MEASURED builder note, and the known-open t41 defect disclosure", "Created the byte-identical mirror docs/issues/groom/t88.md", "Pinned the ac_hash literal in the card", "Posted the #94 groom comment and set the groomed label", "Wrote this handoff"],
+    "builder_notes": "The builder writes EXACTLY ONE product file: docs/operations-and-security-report.md (the candidate that went GREEN lives at t88_scratch/candidate_report.md as a reference, but the builder must treat the card, not the candidate, as the contract). The report must summarise and CITE, never restate quantities outside MEASURED lines, never copy more than two substantive lines from any cited source, and must carry the doc-map disposition line naming t89 for the DOCS_ROOT_MD pin move. The BASE swap is MEASURED not asserted; a swap-reflexive card-text anti-tamper leg REDs by design under swap. Do not run docs_verification.py or the t41 generator; do not touch README (t89s room).",
+    "notes": "t88 is a pointer-document card: the whole risk it manages is becoming a second source of truth, so the contract leans on extraction-equality (ac3), citation resolution (ac2), and non-duplication (ac5) rather than content assertions. The doc-map collision was measured at groom and routed explicitly with a named disposition owner (t89) rather than left as a silent RED."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t88.md",
+      "docs/issues/groom/t88.md",
+      "docs/state/outputs/t88_definer_groom.json"
+    ],
+    "platform_issue": 94,
+    "output_path": "docs/state/outputs/t88_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-17T01:25:00Z",
+  "retry_count": 0
+}
