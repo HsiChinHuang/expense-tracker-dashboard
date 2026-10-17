@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T09:40:00Z",
+  "updated_at": "2026-10-17T13:30:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1234,8 +1234,25 @@
       "merged_at": "2026-10-17T09:40:00Z",
       "retries": 0,
       "tests_appended": 4,
-      "regressions": 1,
-      "regressions_note": "DISCLOSED pre-existing design-RED tests[184] (t41 security_ops_verification regenerate leg) - RED at pre-merge parent 0a8686c, unchanged by this merge, closes at t87; t86 ac5 EXCLUDED from index (BASE-pinned purity fence, rc=1 = 9 enumerated ANCESTOR_YES ancestor rows, 0 builder dirt, swap proof purity legs GREEN)"
+      "regressions": 2,
+      "regressions_note": "CORRECTED (measured at 2e525fe vs parent 0a8686c in clean worktrees): the t86 merge ITSELF turned index tests[184] and tests[185] RED. Cause verbatim from the t41 generator at the merged tree: 'CHECK_FAILURES GITLEAKS_ZERO,REPORT_ROWS,SCAN_LOOP_ROWS,CRITERIA_ROWS,CRITERIA_NUMBERS FAIL' -> nonzero generator exit -> tests[184] 'ac1: regenerate run 1 failed' and tests[185] 'ac2: gitleaks report is not the measured empty array'. The generator's GITLEAKS_ZERO premise (gitleaks measured-zero) is contradicted by the refreshed reality t86 had to commit (21 hits, rc=1) - this is the t86 AC2 zero-premise defect already on the follow-up list. BOTH legs GREEN at 67c9db9 and at 0a8686c (measured), so the earlier note claiming tests[184] was pre-existing RED at 0a8686c was MEASURED FALSE and is retracted. Closure route: t89 (generator-extension route named in its own card).",
+      "correction": {
+        "corrected_at": "2026-10-17T13:30:00Z",
+        "original_claim": "regressions:1 pre-existing design-RED tests[184] RED at pre-merge parent",
+        "why_wrong": "measured at 0a8686c in a clean detached worktree: rc=0 GREEN; the RED appeared only at the t86 merge commit"
+      }
+    },
+    {
+      "issue_id": "t87",
+      "platform_issue": 93,
+      "branch": "issue/t87-findings-refresh",
+      "merge_sha": "759b2f74b54dc296e3b096f12c9f545b230eb9a4",
+      "merged_at": "2026-10-17T13:20:00Z",
+      "retries": 0,
+      "tests_appended": 3,
+      "regressions": 0,
+      "regressions_note": "0 NEW: index tests[184]/tests[185] RED at the pre-merge parent 2e525fe and unchanged RED at HEAD (same two, same cause, introduced by the t86 merge); tests[186]-[188] GREEN at HEAD. t87 did NOT close them (t87's own ac1-ac3 measure the loop against the refreshed reports and pass; the failing legs belong to the t41 generator's own premises, which t89 owns via its generator-extension route).",
+      "gate3_waiver_recheck": "orchestrator re-ran all four fences at the merged bytes in a CLEAN detached worktree (t87mc): ac1/ac2/ac3/ac4 all rc=0 GREEN lines verbatim; ac_hash a46f7b70 recomputed MATCH on merged card; policy file ADD-ONLY 20 insertions/0 deletions; product delta exactly the two security/ files + branch handoff. ac4 EXCLUDED from the index as a BASE-pinned purity fence (same class as t86 ac5): it enumerates ancestor rows on any later tree. NOTE the purity fence correctly RED'd in the MAIN checkout because orchestrator scratch/ dirs (t65,t66f,t71,...) are untracked dirt - moved to ../worktrees/archive_scratch; the fence was right, my scratch was wrong."
     }
   ]
 }
