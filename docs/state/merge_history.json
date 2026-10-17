@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T18:10:00Z",
+  "updated_at": "2026-10-17T23:06:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1278,6 +1278,19 @@
       "regressions_note": "0 NEW at merge: carried tests[184]/[185] (t86-merge-introduced, t89 closure route) RED unchanged; tests[186]-[188] and tests[314]/[315] (t85 appends) GREEN at merged bytes.",
       "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t88mc, node_modules pre-seeded): ac1-ac5 all rc=0 GREEN verbatim; ac_hash a0e0f33e recomputed MATCH on merged card. Verifier c66b7513 PASS independently (5 fences, ac_hash three-way, ANCESTOR_YES 6/7-row enumeration + self-performed 7->1 swap, 12/12 MEASURED re-extractions, 302 passed). Verifier finding 1 actioned by orchestrator BEFORE merge: final builder handoff committed on-branch as 77d6d63 (validate [OK] re-run after commit); stale scratch copy left as allow-listed scratch, NOT used as record.",
       "index_append_ruling": "ac1+ac2+ac3 appended (content legs measured live: sections, alert-driven narrative with extraction, MEASURED lines vs owning artifacts). ac4 EXCLUDED (doc-map leg compares the docs verifier + its report byte-clean vs the pinned BASE - would false-RED when t89 legitimately extends the generator). ac5 EXCLUDED (BASE-pinned delta purity, same class as t86 ac5 / t87 ac4 / t85 ac4-ac5)."
+    },
+    {
+      "issue_id": "t89",
+      "platform_issue": 95,
+      "branch": "issue/t89-evidence-map",
+      "merge_sha": "d25c67304e2e93aadd8c49a0bc36689de8742ea9",
+      "merged_at": "2026-10-17T23:05:00Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0,
+      "regressions_note": "0 NEW at merge and TWO CARRIED CLOSED: the amended stored gates tests[184]/[185] (t86-merge-introduced RED pair) are GREEN on merged bytes (measured rc=0 in the merge-checkout alongside tests[183]/[186]/[187]/[256]/[258]); tests[220] remains the disclosed pre-existing RED. This merge closes the phase_13 criterion-13 gap.",
+      "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t89mc, node_modules+frontend/node_modules+backend/.venv pre-seeded by copy): ac1/ac3/ac4 rc=0 GREEN verbatim on the checkout; ac2 rc=0 GREEN with the two generated carried reports de-CRLF'd to their committed LF blobs (the checkout ran under core.autocrlf=true which materializes the LF-pinned reports as CRLF; builder/verifier trees held faithful LF bytes - the report digests and the ac2 byte-compare are LF-exact, disclosed); ac5 rc=0 GREEN in its designed dirty-mode at the exact merged product bytes on the groom base (7 allow-listed, 0 unaccounted, purity control FIRED, never-touch byte-clean). ac_hash 770bef35 recomputed MATCH on merged card. TWO MERGE-TIME CORRECTIONS BY ORCHESTRATOR, both disclosed, both verifier-owned artifacts only, zero product bytes: (1) correction commit d6053ad (main, after merge d25c673) removed docs/state/outputs/t89_verifier_logs/platform_comment.md - the only .md in verifier logs (t88 precedent: .txt only); docs_verification LINK_CHECK counts every .md, the committed report pins files=243 while the tree with that log regenerates files=244, so the ac2 committed==regenerated leg REDs on merged bytes with it present; the comment body survives in the handoff JSON and on issue #95. (2) verifier commits 66513ed/a0a650e confirmed via git diff --name-only to touch ONLY docs/state/outputs/t89_* paths.",
+      "index_append_ruling": "NO APPEND (the card's own non_appendable_declaration: t89 APPENDS zero gates; INDEX_FLOOR 217 is a floor). The card's distinguishing merge-time act is the GATE AMENDMENT, applied by the orchestrator in commit 2f6f2ae per supervisor decision 0822e068 and docs/state/outputs/t89_definer_gate_amendment.json: tests[184]/tests[258] re-premised to measured reality, old defective premises RED and new commands GREEN both independently measured by builder AND verifier, no leg deleted (verifier text-diff proof). Index count stays 318."
     }
   ]
 }
