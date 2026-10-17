@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T13:30:00Z",
+  "updated_at": "2026-10-17T13:55:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1253,6 +1253,18 @@
       "regressions": 0,
       "regressions_note": "0 NEW: index tests[184]/tests[185] RED at the pre-merge parent 2e525fe and unchanged RED at HEAD (same two, same cause, introduced by the t86 merge); tests[186]-[188] GREEN at HEAD. t87 did NOT close them (t87's own ac1-ac3 measure the loop against the refreshed reports and pass; the failing legs belong to the t41 generator's own premises, which t89 owns via its generator-extension route).",
       "gate3_waiver_recheck": "orchestrator re-ran all four fences at the merged bytes in a CLEAN detached worktree (t87mc): ac1/ac2/ac3/ac4 all rc=0 GREEN lines verbatim; ac_hash a46f7b70 recomputed MATCH on merged card; policy file ADD-ONLY 20 insertions/0 deletions; product delta exactly the two security/ files + branch handoff. ac4 EXCLUDED from the index as a BASE-pinned purity fence (same class as t86 ac5): it enumerates ancestor rows on any later tree. NOTE the purity fence correctly RED'd in the MAIN checkout because orchestrator scratch/ dirs (t65,t66f,t71,...) are untracked dirt - moved to ../worktrees/archive_scratch; the fence was right, my scratch was wrong."
+    },
+    {
+      "issue_id": "t85",
+      "platform_issue": 91,
+      "branch": "issue/t85-alert-driven-diagnosis",
+      "merge_sha": "65d96240361373d4d9969f10fd35f5f01803b06e",
+      "merged_at": "2026-10-17T13:55:00Z",
+      "retries": 0,
+      "tests_appended": 2,
+      "regressions": 0,
+      "regressions_note": "0 NEW at merge: index tests[184]/tests[185] were ALREADY RED at the pre-merge parent 9419f60 (introduced by the t86 merge, corrected attribution in entry 85) and remain RED unchanged; tests[186]-[188] GREEN at HEAD. Merge deliberately deferred until after t86+t87 per plan.",
+      "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t85mc): ac1-ac5 all rc=0 GREEN verbatim; ac_hash bf8de007 recomputed MATCH on merged card. Index append = ac2+ac3 ONLY per prior ruling: ac1 excluded (re-runs the t41 generator whose GITLEAKS_ZERO premise is the known t86-induced defect, closure route t89), ac4 excluded (BASE-pinned ADD-ONLY purity leg - would false-RED if ops/ legitimately changes in a later phase), ac5 excluded (BASE-pinned delta purity, same class as t86 ac5 / t87 ac4)."
     }
   ]
 }
