@@ -92,3 +92,23 @@ secret in a prompt or the tree, an agent acting beyond its user's JWT):
    runbook): user-data-leak runbook entry 5, then escalation.
 4. Verify blast radius from the `audit_logs` trail and record the
    post-incident note under `docs/log/`.
+
+## Recorded Limitation: Distributed Tracing (t87 accepted-findings refresh)
+
+Distributed tracing is NOT implemented for this milestone. Like the t86
+self-reference boundary this policy already records, this disclosure is
+documentation-only: it names a measurement gap and grants no new data
+access — no secret, no personal data, and no expense row crosses the local
+boundary because of it. The observability stack implements two of three
+telemetry signals: metrics and logs are implemented, distributed tracing is
+NOT. The OTel exporter stays disabled and the otel-collector / Loki / Tempo
+block in `observability/compose.yaml` stays commented out on purpose (the
+collector image is not published for this milestone), so no span exists for
+any tool — scanner, agent, or auditor — to measure, trace, or disposition.
+The t86 sweep therefore scanned metrics, logs, and the tree, and honestly
+could not measure traces; the gap is recorded as limitation row 13 of the
+Accepted Limitations table in `security/agent-security-notes.md`, matches the
+same commented-block statement in `observability/README.md` and
+`observability/collector.yaml`, and is closed only by a dedicated tracing
+card that publishes the collector, uncommented compose block, and wired
+exporter — after which spans can be measured and this row dropped.
