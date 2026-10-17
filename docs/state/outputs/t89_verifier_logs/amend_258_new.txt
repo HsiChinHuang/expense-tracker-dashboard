@@ -1,0 +1,9 @@
+ac4 evidence: docs_verification.py constants README_DIGEST=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644 README_LINES=398 INDEX_FLOOR=217
+ac4 measured: README cr_sha256=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644 lines=398 tail=0d0a
+ac4 evidence: report row: README_MEASURE PASS lines=398 digest=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644
+ac4 evidence: doc-map pinned_list=21 live_glob=21 report_root=21
+ac4 evidence: report cr_sha256=701f886b55f7c8884c1a75e5aaedf44771e58d039005f46df31384d09f9f7b9b (moved off the stale 29d22aff...)
+ac4 evidence: the shared value differs from pin-2 a64efaa2, pin-3 f0fd9eda and the pre-card base b8795ac8
+ac4 evidence: INDEX_FLOOR=217 actual index entries=318
+ac4 evidence: 64-hex literals in docs_verification.py=13 (base 13: 1 README pin + 4 carried digests + 8 index anchors)
+ac4 GREEN: PIN-4 SWITCHOVER SETTLED BY CROSS-CONSISTENCY - README cr_sha256=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644 equals the README_DIGEST constant, the measured line count 398 equals the README_LINES constant, the regenerated report attests the same pair and ends ALL_CHECKS_PASS, the shared value differs from pin-2/pin-3/base, INDEX_FLOOR 217 <= 318 entries, and exactly 13 64-hex literals remain. THIS FENCE IS THE NEW LIVE PIN: the orchestrator appends it VERBATIM at merge as the pin-4 gate, and it stays true across every later index append (dynamic count floor) until the next README-content card legitimately moves the digest

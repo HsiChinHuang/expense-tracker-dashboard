@@ -309,7 +309,7 @@ file (or directory) a reviewer opens.
 | 10 | Deployment | REQ-CICD-030 to REQ-CICD-062 | `render.yaml`, `ops/deployment-health.md` |
 | 11 | CI/CD | REQ-CICD-010 to REQ-CICD-083 | `.github/workflows/` |
 | 12 | Agent Extension Pack | REQ-EXT-001 to REQ-EXT-083 | `docs/agent-extension-pack.md` |
-| 13 | Security/Audit/DevOps | REQ-SEC-001 to REQ-OPS-113 | `security/`, `ops/` |
+| 13 | Security/Audit/DevOps | REQ-SEC-001 to REQ-OPS-113 | `security/`, `ops/`, `observability/`, `incident-response/`, `docs/operations-and-security-report.md` |
 | 14 | Reproducibility | REQ-PROJ-009, REQ-DOC-070 to REQ-DOC-072 | this README, `Makefile` |
 
 ## Live verification in five minutes

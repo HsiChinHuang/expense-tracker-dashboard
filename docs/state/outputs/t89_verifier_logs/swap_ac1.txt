@@ -1,0 +1,9 @@
+ac1 evidence: invariants hold: 398 lines, 17 level-2 headings, CRLF on every line, ASCII-only, 15 criteria rows
+ac1 evidence: line budget: 398 lines inside the measured band 398..400 (floor = base measurement, ceiling = the live tests[256] ceiling)
+ac1 evidence: the verifier's own `if lines > 500` ceiling leg is untouched in its source
+ac1 evidence: every path the row names resolves on disk: docs/operations-and-security-report.md, incident-response/, observability/, ops/, security/
+ac1 evidence: switchover settled by cross-consistency: measured cr_sha256=ca9343a83784... == constant == report row, and the line count 398 == constant == report row; the base-era pair (398/df1775e5...) is gone
+ac1 evidence: the 60 distinct full-form REQ ids in README are the same set the merged tests[256] gate pins (sha256 01f3611817b9...)
+ac1 evidence: this card quotes no content digest: the README pair, the carried pins and the ac_hash are each re-extracted by the fence that needs them
+ac1 RED: this card names git id(s) 1675ef6c031c... that are neither BASE (1e924598...), its parent (5b30606e...) nor the t88 ancestor root (b5441295...) - those three are the pinned refs, so no other ref may be introduced here by hand
+ac1 RED: the probe exited non-zero - its own RED lines above name the failing leg

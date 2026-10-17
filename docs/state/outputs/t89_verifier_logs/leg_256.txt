@@ -1,0 +1,5 @@
+ac1 evidence: README lines=398 level2_headings=17 cr_bytes=398 lf_bytes=398 cr_sha256=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644
+ac1 evidence: invariants hold (17 level-2 headings, CRLF on every line, ASCII-only, 398 lines within the 400 ceiling)
+ac1 evidence: criteria rows=15 (exactly 15 required)
+ac1 evidence: distinct full-form REQ id set sha256=01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794
+ac1 GREEN: sections 10-12 rewritten in place (Repository layout describes the real tree, criteria and evidence tables carry current evidence with no stale lands-with markers, License names MIT plus the docs/ai-workflow.md and AGENTS.md pointers), exactly 15 criteria rows, the citation id-set unchanged, 17 headings, CRLF, ASCII, within the 400-line ceiling

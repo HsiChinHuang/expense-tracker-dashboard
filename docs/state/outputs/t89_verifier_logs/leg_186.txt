@@ -1,0 +1,1 @@
+ac4 GREEN: diagnosis worked example (8 sections, measured output, merged fallback flow, runbook escalation) + deployment records (2 x 5 fields, smoke vocabulary, DEFERRED pointer)

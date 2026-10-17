@@ -31,7 +31,7 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5"
+README_DIGEST = "ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644"
 README_LINES = 398
 INDEX_FLOOR = 217
 
@@ -54,7 +54,8 @@ DOC_MAP_ROOT = ["AGENTS.md", "CLAUDE.md", "LICENSE", "README.md", "openapi.yaml"
 DOCS_ROOT_MD = ["agent-extension-pack.md", "ai-workflow.md", "api.md",
                 "architecture.md", "backlog.md", "coding_standards.md",
                 "commands.md", "config_reference.md", "design-system.md",
-                "development.md", "documentation_standards.md", "ownership.md",
+                "development.md", "documentation_standards.md",
+                "operations-and-security-report.md", "ownership.md",
                 "permissions.md", "plan.md", "process.md", "requirements.md",
                 "screenshots.md", "task-template.md", "testing-guidelines.md",
                 "verification.md"]
@@ -77,7 +78,7 @@ CARRIED: dict[str, int] = {
     "docs/criteria/agent_pack_verification.md": 22,
     "docs/criteria/dashboard_verification.md": 25,
     "docs/criteria/infra_verification.md": 24,
-    "docs/criteria/security_ops_verification.md": 23,
+    "docs/criteria/security_ops_verification.md": 29,
 }
 CARRIED_DIGESTS = {
     "docs/criteria/agent_pack_verification.md":
@@ -87,7 +88,7 @@ CARRIED_DIGESTS = {
     "docs/criteria/infra_verification.md":
         "33d49691321903c596af2406500cc67e5766e19025ddf632664b094bd0baf6c4",
     "docs/criteria/security_ops_verification.md":
-        "c33fab0b0994642f723eedc2d39b09bc6cb9e8e66d81666070c25cf0971da24a",
+        "ee0418b9b4f3063b46b6a7362ae6775acd16d0607c7cf1b1e7799ee94122876d",
 }
 # The nine stored README/render gates, by index position + issue_id identity.
 STORED_GATES = [(27, "t4"), (119, "t23"), (128, "t24"), (134, "t26"), (135, "t26"),

@@ -7,11 +7,11 @@ byte-identically. Deterministic: no timestamps, no git metadata.
 ## Documentation map (REQ-DOC-002)
 
 DOC_MAP_ROOT PASS files=6 set=AGENTS.md,CLAUDE.md,LICENSE,README.md,openapi.yaml,product-spec.md
-DOC_MAP_DOCS PASS root=20 team=3
+DOC_MAP_DOCS PASS root=21 team=3
 DOC_MAP_SECURITY PASS artifacts=8
 DOC_MAP_OPS PASS artifacts=5
 DOC_MAP_SCREENSHOTS PASS files=4
-README_MEASURE PASS lines=398 digest=df1775e5030a1ab196f2243486f7e91a20c4e66f88b44f35c34f9fa01b6bc0a5
+README_MEASURE PASS lines=398 digest=ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644
 CRITERIA243_ROWS PASS rows=15
 EVIDENCE_CHECKLIST PASS rows=14
 FIVE_MIN_PATHS PASS sections=2
@@ -23,12 +23,12 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=205 links=41 broken=0
+LINK_CHECK PASS files=243 links=67 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
-CARRIED_REPORT PASS file=docs/criteria/security_ops_verification.md rows=23
-INDEX_ANCHORS PASS floor=217 entries=259
+CARRIED_REPORT PASS file=docs/criteria/security_ops_verification.md rows=29
+INDEX_ANCHORS PASS floor=217 entries=318
 STORED_GATES PASS executed=9 failures=0 restored=1
 DEFERRAL_REGISTER 4 DEFERRED
 | LIVE_DEPLOYMENT_STATE | DEFERRED | reason=ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404 | live_check=curl -sS https://expense-tracker-dashboard.onrender.com/api/v1/health |
