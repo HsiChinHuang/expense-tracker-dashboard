@@ -1,0 +1,1 @@
+ac2: gitleaks report is not the measured empty array

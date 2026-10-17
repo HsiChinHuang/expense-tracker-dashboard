@@ -1,0 +1,1 @@
+ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed

@@ -1,0 +1,7 @@
+docs/issues/groom/t89.md
+docs/issues/t89.md
+docs/log/orchestrator_wal.jsonl
+docs/state/outputs/t89_definer_gate_amendment.json
+docs/state/outputs/t89_definer_groom.json
+docs/state/seq.txt
+docs/state/snapshot.json

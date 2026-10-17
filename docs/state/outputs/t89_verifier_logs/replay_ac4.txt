@@ -1,0 +1,10 @@
+ac4 evidence: authority anchor: plan.md carries exactly 1 supersession line naming REQ-OPS-082 and REQ-OPS-083 (extracted, not restated)
+ac4 evidence: the criterion file records the supersession: directive date, both REQ-OPS ids, and that the matrix re-derives by generator
+ac4 evidence: requirements.md is byte-identical to BASE and still states the MVP wording it supersedes (REQ-OPS-082: not monitored; REQ-OPS-083: future monitoring) - no REQ-ID was invented and no requirement was rewritten
+ac4 evidence: the coverage matrix is byte-identical to its BASE blob - this card never hand-edited generator output
+ac4 evidence: regeneration: 749 REQ_ROW PASS rows in both, 2 line(s) differ in POINTER ORDER ONLY (REQ-DB-104, REQ-FE-065) - the [:3]-over-os.walk pointer slice in backend/scripts/req_coverage_verification.py is pre-existing (it reproduces at BASE, which is why tests[220] is RED there too) and is disclosed, not fixed by this card
+ac4 evidence: pointer link leg: all 18 distinct link targets in docs/operations-and-security-report.md resolve under the verifier's own rule
+ac4 evidence: pointer document: 25 line(s) moved against BASE and every one carries a link target; 12 MEASURED lines and the eight ## headings are byte-unchanged
+ac4 evidence: the regenerated report attests LINK_CHECK PASS files=243 links=67 broken=0 (read from the report, not restated)
+ac4 GREEN: SUPERSESSION RECORDED, MATRIX UNTOUCHED, LINK LEG FIXED - the criterion file points at the single plan.md anchor naming REQ-OPS-082/083, requirements.md and the coverage matrix are byte-identical to BASE, a fresh matrix run reproduces the committed REQ_ROW PASS count, every link in the t88 pointer document resolves and only link targets moved in it, and the regenerated verifier report attests LINK_CHECK broken=0
+ac4 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

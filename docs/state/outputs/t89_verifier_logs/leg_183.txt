@@ -1,0 +1,1 @@
+ac1 GREEN: generator hermetic + ruff/mypy clean + byte-stable, ALL_CHECKS_PASS 28 (floor 18)

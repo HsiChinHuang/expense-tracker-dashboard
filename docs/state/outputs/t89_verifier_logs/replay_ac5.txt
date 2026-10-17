@@ -1,0 +1,7 @@
+ac5 evidence: all five product paths are modified: README.md, docs/criteria/security_ops_verification.md, docs/criteria/docs_verification.md, backend/scripts/security_ops_verification.py, backend/scripts/docs_verification.py
+ac5 evidence: classification: 7 allow-listed, 0 ANCESTOR_YES (live family from b5441295), 0 unaccounted
+ac5 evidence: budget: 7 path(s) changed, numeric budget 12 (5 product + 1 authorised t88 link-leg fix + 2 card files + up to 4 t89 artefacts)
+ac5 evidence: never-touch set byte-clean: the five security/ reports, the register, t86_scan_run.json, the merge index, the coverage matrix, requirements/plan/ownership, Makefile, openapi.yaml, observability/, ops/, incident-response/, backend/app/, frontend/src/ and docs/log/ are untouched
+ac5 evidence: purity control FIRED: the planted docs/PURITY_CONTROL_t89.md was classified UNACCOUNTED, so the leg is live
+ac5 GREEN: DELTA PURITY HOLDS - the five required product paths moved, every other change is ANCESTOR_YES by LIVE measurement, the never-touch set is byte-clean against BASE, the change budget holds, and the purity control was executed and fired
+ac5 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

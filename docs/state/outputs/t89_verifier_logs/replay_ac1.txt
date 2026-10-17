@@ -1,0 +1,10 @@
+ac1 evidence: invariants hold: 398 lines, 17 level-2 headings, CRLF on every line, ASCII-only, 15 criteria rows
+ac1 evidence: line budget: 398 lines inside the measured band 398..400 (floor = base measurement, ceiling = the live tests[256] ceiling)
+ac1 evidence: the verifier's own `if lines > 500` ceiling leg is untouched in its source
+ac1 evidence: every path the row names resolves on disk: docs/operations-and-security-report.md, incident-response/, observability/, ops/, security/
+ac1 evidence: switchover settled by cross-consistency: measured cr_sha256=ca9343a83784... == constant == report row, and the line count 398 == constant == report row; the base-era pair (398/df1775e5...) is gone
+ac1 evidence: the 60 distinct full-form REQ ids in README are the same set the merged tests[256] gate pins (sha256 01f3611817b9...)
+ac1 evidence: this card quotes no content digest: the README pair, the carried pins and the ac_hash are each re-extracted by the fence that needs them
+ac1 evidence: the only git ids the card names are the three refs its gates pin (BASE, BASE's parent, the t88 ancestor root): 3 distinct id(s)
+ac1 GREEN: THE EVIDENCE MAP ROW LANDED IN PLACE - the criterion-13 row names the phase_13 artifacts and every path it cites resolves, the README stays 398..400 lines with its 17 headings / 15 criteria rows / CRLF+ASCII invariants intact, the digest+line switchover is one measured value across file, constant and regenerated report, and the REQ-id set the merged gate pins is untouched
+ac1 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

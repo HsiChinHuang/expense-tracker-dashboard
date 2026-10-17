@@ -1,0 +1,36 @@
+SCAN_REPORT_ROWS reports=5 json_parse=3 txt_summary=2 PASS
+SCAN_SCHEMA_ROWS json=3 txt=2 gitleaks_array=1 summary_lines=2 PASS
+GITLEAKS_ZERO unregistered=0 registered=21 PASS
+REPORT_ROWS 21,33,42,3,23 PASS
+REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=23 PASS
+REGISTER_COUNT_ROWS tools=5 measured=5 PASS
+REGISTER_DATA_ROWS 98 PASS
+SCAN_LOOP_ROWS findings=98 registered=98 equal=true PASS
+MAKE_TARGET_ROWS umbrella=1 subtargets=5 stub_gone=1 PASS
+RUNBOOK_SECTIONS sections=7 clauses=28 PASS
+LOGGING_EVENT_ROWS events=17 PASS
+HEALTH_VOCAB_ROWS fields=4 match PASS
+OPS_DOC_ROWS runbook_sections=7 clauses=28 logging_events=17 health_values=match PASS
+DIAGNOSIS_ENDPOINT http://127.0.0.1:8137/api/v1/health PASS
+DIAGNOSIS_SECTION_ROWS sections=8 required=8 PASS
+DIAGNOSIS_ROWS scenario=1 steps=6 output=match recovery=1 PASS
+DEPLOYMENT_ANCHOR_ROWS dockerfile_cmd=1 render_health_path=1 smoke_vocabulary=4 PASS
+DEPLOYMENT_ROWS records=2 fields=10 deferred_live_state=1 PASS
+LAYOUT_ROWS security=8 ops=5 gitkeep_only=0 PASS
+WORKFLOW_SET_ROWS workflows=3 scan_jobs=0 PASS
+PHASE13_ALERT_RULES rules=2 source=observability/alerts.yaml PASS
+PHASE13_INCIDENT_ROWS incident=2026-10-17-db-fallback-01 artifacts=5 path=incident-response/incidents/2026-10-17-db-fallback-01/README.md PASS
+PHASE13_POINTER_ROWS links=18 resolved=18 measured_rows=12 path=docs/operations-and-security-report.md PASS
+PHASE13_SCAN_ANCHOR tools=5 base=67c9db97 path=docs/state/outputs/t86_scan_run.json PASS
+PHASE13_SUPERSESSION anchor_lines=1 reqs=2 requirements_text_unchanged=True path=docs/plan.md PASS
+PHASE13_ARTIFACT_ROWS artifacts=7 expected=7 PASS
+DEFERRAL_REGISTER 5 DEFERRED
+DEFERRED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health.md reason=live_render_url_returns_404_measured live_check=curl -s -o /dev/null -w '%{http_code}' https://expense-tracker-dashboard.onrender.com/api/v1/health then compare to the deployment record
+DEFERRED_ROW SCAN_TIMING_DOC artifact=docs/ai-workflow.md reason=docs_tree_owned_by_phase_8 live_check=read the scan-timing section once phase_8_docs lands docs/ai-workflow.md
+DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL.md reason=agent_runtime_is_this_pipeline_not_the_project_pack live_check=pi-agent session prompt "Generate a monthly report for 2026-10."
+DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server.py reason=no_live_backend_session_in_harness live_check=MCP_JWT_SECRET=... MCP_API_BASE_URL=... MCP_USER_TOKEN=... python mcp-server/server.py
+DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst.md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt "Launch finance analyst for 2026-10."
+CRITERIA_ROWS mapping=10 PASS
+CRITERIA_NUMBERS 13 PASS
+ALL_CHECKS_PASS 28 PASS
+WROTE docs/criteria/security_ops_verification.md

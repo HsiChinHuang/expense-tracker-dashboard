@@ -1,0 +1,8 @@
+ac2 evidence: doc map: DOCS_ROOT_MD == live docs/*.md (21 entries, the base carried 20) and the regenerated report attests DOC_MAP_DOCS PASS root=21 team=3
+ac2 evidence: README pin: measured 398 / ca9343a83784... == constant == report row, and the base-era 398/df1775e5 pair is retired
+ac2 evidence: carried pins: all 4 carried criteria reports match their pinned PASS-row count and digest, and the report attests each (security_ops moved 23 -> 29 as the generator grew the phase_13 rows ac3 owns)
+ac2 evidence: 13 quoted 64-hex literals: 1 README pin + 4 carried digests + 8 index anchors - replaced, never added
+ac2 evidence: INDEX_FLOOR 217 <= 318 index entries (floor, never equality - it survives every future append)
+ac2 evidence: execution: the verifier ran on the work tree, exited 0, and regenerated its report byte-identically (56 lines)
+ac2 GREEN: PIN SWITCHOVER SETTLED BY CROSS-CONSISTENCY - the pinned docs/*.md set equals the live tree (21 files, the base pinned 20), the README pair and every carried pin equal a fresh measurement, exactly 13 quoted 64-hex literals remain, the verifier's own ceilings and checks are untouched, and the verifier EXECUTES green and regenerates its report byte-identically
+ac2 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
