@@ -210,7 +210,15 @@
     },
     "platform_sync": {
       "issue": 95,
-      "status": "pending - see the updated record after the comment/label/read-back steps complete"
+      "comment": "posted 2026-10-17T06:09:47Z via Windows node.exe + node_modules/tsx/dist/cli.mjs + scripts/platform.ts through execFileSync with ARRAY argv and NO shell string (driver C:/tmp/t89v/t89v_platform_driver.cjs, body file docs/state/outputs/t89_verifier_logs/platform_comment.md): fence rc=0 all five, ac_hash three-way 770bef35, gate amendment NEW 184/258 GREEN + OLD RED + no-leg-deleted, index legs, ANCESTOR_YES + swap reproduction, 302 passed, disclosed defects.",
+      "labels_before": [
+        "built"
+      ],
+      "labels_set": [
+        "verified"
+      ],
+      "read_back": "issue get 95 read back labels [verified] (updated_at 2026-10-17T06:09:50Z); issue latest-comment 95 read back the posted body with COMMENT_MATCHES true (CRLF-stripped/trim equality); comment created_at 2026-10-17T06:09:47Z.",
+      "env_note": "scripts/platform.ts requires a .env at the repo root; none existed in this worktree. The main worktree .env was copied in ONLY for the four API calls (get, comment, label set, get) plus the latest-comment read-back and DELETED immediately after (verified: ls .env fails; git status shows no .env; it is git-ignored regardless)."
     }
   },
   "artifacts": {
@@ -237,7 +245,8 @@
       "docs/state/outputs/t89_verifier_logs/suite.txt",
       "docs/state/outputs/t89_verifier_logs/gen_run1.txt",
       "docs/state/outputs/t89_verifier_logs/gen_run2.txt",
-      "docs/state/outputs/t89_verifier_logs/ancestor_rows_BASE_to_parent.txt"
+      "docs/state/outputs/t89_verifier_logs/ancestor_rows_BASE_to_parent.txt",
+      "docs/state/outputs/t89_verifier_logs/platform_comment.md"
     ],
     "platform_issue": 95,
     "output_path": "docs/state/outputs/t89_verifier_verify_issue.json"
