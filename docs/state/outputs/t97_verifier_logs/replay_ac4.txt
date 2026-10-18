@@ -1,0 +1,6 @@
+evidence: full suite: 302 passed, 296 warnings in 92.36s (0:01:32) (rc=0, Makefile target 'test-backend' shape)
+evidence: unit suite: 141 passed, 37 warnings in 24.55s (rc=0, Makefile target 'test-backend-unit' shape)
+evidence: integration suite: 161 passed, 263 warnings in 69.43s (0:01:09) (rc=0, Makefile target 'test-backend-integration' shape)
+evidence: test_health_api.py still asserts body[version] == application.version (its 0.1.0 occurrence is a docstring word, asserted by nothing)
+ac4 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac4 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

@@ -1,0 +1,139 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t97",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "branch_sha": "caf82c9e9bc777247919158415905675e3704613",
+    "branch_sha_match": "git rev-parse HEAD in the worktree == caf82c9e9bc777247919158415905675e3704613 == builder handoff commit_sha == git ls-remote origin refs/heads/issue/t97-health-version-single-source; parent 00bc18f9aee827f56d6fe74983d2b07142ed3de3.",
+    "ac_hash_three_way": {
+      "card_literal_spaced_groups": "d89c435e 37a0049c 81ca14e8 3f0d784a ef95959b 799384f3 8474ad3b 2cd0d460",
+      "recomputed_from_card_fences": "sha256:d89c435e37a0049c81ca14e83f0d784aef95959b799384f38474ad3b2cd0d460",
+      "groom_handoff": "sha256:d89c435e37a0049c81ca14e83f0d784aef95959b799384f38474ad3b2cd0d460",
+      "match": true,
+      "recipe": "t58/t62..t91 recipe: sha256 over JSON.stringify (compact separators) of the five fenced blocks in ac1..ac5 order, each CR-stripped and trimmed, exactly as extracted from docs/issues/t97.md by scratch/t97v/extract_fences.py (5 blocks parsed, all 45181 bytes, matching the card's stated sizes). The five handoff verification_commands in t97_definer_groom.json are byte-equal to the card fences (len 45181 each). Probe payload sha256 ba0d58af06f1046f1e778a34fa138f234d80463fca58e57788e36777e0e01c52 matches the card's ba0d58af pin.",
+      "ac_mapping_consistency": "builder ac_mapping describes exactly the five card fences (self-contained probe, modes ac1..ac5); no [BUILDER_COMMAND_MISMATCH]; card ## Verification commands used as authoritative."
+    },
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the `bash -c '...'` fence in the `### ac1` section above",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t97_verifier_logs/replay_ac1.txt",
+        "note": "Run verbatim from the card (extracted by script, never hand-copied) on caf82c9. Line 81 moves exactly OLD->NEW (version=\"0.1.0\" -> version=get_settings().APP_VERSION), no other of the 132 lines differs, no 0.1.0 literal survives, existing 'from app.config import get_settings' kept, no module-level settings binding, ruff and mypy clean on app/main.py (both legs executed inside the fence)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the `bash -c '...'` fence in the `### ac2` section above",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t97_verifier_logs/replay_ac2.txt",
+        "note": "Re-run verbatim in the orchestrator-recreated worktree (Windows-side git worktree add at the SAME bytes caf82c9): all frozen HEAD blobs hold (README 3282ada8, config 41028cfc, telemetry 7e3c7af9, pyproject d9016b23, test_health_api 2b71b7fe, index a9f600be, openapi 684cd411), render.yaml == post-t91 blob c5e25538 and byte-clean, committed product delta vs merge-base 00bc18f == ['backend/app/main.py'], working product delta main.py plus card/book/scratch room only. See deviations_disclosed for the first-pass environment RED this supersedes."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the `bash -c '...'` fence in the `### ac3` section above",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t97_verifier_logs/replay_ac3.txt",
+        "note": "Stored tests[17]/[18]/[19] re-ran verbatim rc=0; in-process GET /api/v1/health returns 200 with exactly the four documented fields; payload version == application.version == config APP_VERSION == '1.0.0'; cached get_settings() agrees; measured payload {\"database\":\"sqlite\",\"fallback_active\":false,\"status\":\"ok\",\"version\":\"1.0.0\"}."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the `bash -c '...'` fence in the `### ac4` section above",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t97_verifier_logs/replay_ac4.txt",
+        "note": "Full suite 302 passed rc=0 (92.36s), unit 141 passed rc=0 (24.55s), integration 161 passed rc=0 (69.43s); no skipped/deselected/xfailed/error in any summary line; the t3 invariant assert body[\"version\"] == application.version is still in test_health_api.py."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the `bash -c '...'` fence in the `### ac5` section above",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t97_verifier_logs/replay_ac5.txt",
+        "note": "Scan set re-derived read-only from all 318 entries == the groom-measured 16 [8,17,18,19,20,22,120,122,123,124,130,134,171,185,210,276]; no gate command contains the literal 0.1.0; tests[134] byte-identical (len 2403, sha256 636d912f, issue t26); every gate re-ran verbatim to its BASE rc (zero flips); tests[276] stays rc=1 for its exact recorded CRLF-grep reason (sanctioned set member); index HEAD blob a9f600be untouched; no t97 gate-amendment artifact exists."
+      }
+    },
+    "gate_leg_rc": {
+      "tests[8]": 0,
+      "tests[17]": 0,
+      "tests[18]": 0,
+      "tests[19]": 0,
+      "tests[20]": 0,
+      "tests[22]": 0,
+      "tests[120]": 0,
+      "tests[122]": 0,
+      "tests[123]": 0,
+      "tests[124]": 0,
+      "tests[130]": 0,
+      "tests[134]": 0,
+      "tests[171]": 0,
+      "tests[185]": 0,
+      "tests[210]": 0,
+      "tests[276]": 1
+    },
+    "sanctioned_red_classification": "The only RED across all legs is tests[276] rc=1. It is NOT a member of the dispatch-listed milestone sanctioned set {tests[227], tests[161], tests[162], tests[191], tests[220]} (none of those five gates is in this card's 16-gate scan set and none REDd in any leg I ran). tests[276] is sanctioned by this card's own contract instead: the groom gate_scan discloses it as a pre-existing RED at BASE (t78 greps CRLF telemetry.py with ^-anchored patterns) and ac5 ASSERTS both rc=1 and the exact reason string ('service.name is not the pinned SERVICE_NAME constant expense-tracker-api'), which the replay matched verbatim. Zero gate flips; no unsanctioned RED observed anywhere.",
+    "tests22_note": "First ac5 pass measured tests[22] rc=128 ('fatal: not a git repository') — exactly the transient the groom's gate_scan.note_on_gates_that_cannot_run predicts for a worktree whose .git gitdir is not resolvable by the git the gate invokes. The card records rc=0 under the repo-root convention. Remediation WITHOUT touching the fence command: a scratch PATH shim (scratch/t97v/bin/git) translating the Windows-form GIT_DIR/GIT_WORK_TREE bridge (exported via WSLENV for the probe's cmd.exe git calls) back to WSL form for WSL-side bare git. With the shim the verbatim gate returned rc=0 and the fence went GREEN; the recreated tree's Windows-form .git pointer resolves natively for cmd.exe git.",
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "test_summary_note": "5 = the five card AC fences, each self-contained and rc-measured on caf82c9 (ac1/ac3/ac4/ac5 on the first pass, archived in replay_ac1/3/4/5.txt; ac2 on the recreated tree per the orchestrator's Option-C ruling; ac5 GREEN after the tests[22] gitdir bridge, archived replay_ac5.txt). Inside the fences: backend suite 302/141/161 rc=0, stored gates tests[17]/[18]/[19] rc=0, 16-gate scan zero flips with the tests[276] sanctioned RED.",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_detail": "uv run ruff check --output-format=json from backend/ (docs/commands.md lint command) -> rc=0, output [] (0 findings). ruff and mypy on app/main.py additionally executed inside the ac1 fence, both clean.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_ac1_one_line_fix": true,
+      "dod2_ac2_nothing_else_moves": true,
+      "dod3_ac3_three_agree": true,
+      "dod4_ac4_suite_whole": true,
+      "dod5_ac5_gate_scan_holds": true,
+      "dod6_ac_hash_reproduces": true,
+      "dod7_commit_message_deploy_note": true
+    },
+    "dod_notes": "dod6: digest reproduced from the shipped fences on disk (three-way MATCH above). dod7: commit caf82c9 message states '/api/v1/health now reports the configured APP_VERSION 1.0.0' and the card's deploy-only live move is recorded in the message body and the card's Constraints; the live host is NOT claimed to have moved (deploy is out of scope).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "deviations_disclosed": [
+      "First-pass ac2 RED (WORKING-delta leg): the t97v worktree had been created with WSL-side git, materializing the five .agents/** symlinks (mode 120000) as WSL name-surrogate reparse points (fsutil tag 0xa000001d) that Windows git cannot hash ('Function not implemented'), so the probe's cmd.exe git reported them as typechange. Proof of zero product involvement: committed delta vs merge-base was EXACTLY ['backend/app/main.py']; .agents blob byte-identical BASE==HEAD (96add706); 'git diff 00bc18f HEAD -- .agents' empty; WSL-side git reported the working delta clean. Orchestrator ruling (Option C): worktree-creation defect — no waiver, no tolerance-hook change, no verifier_failed label. Tree removed and recreated with Windows-side git at the SAME bytes caf82c9 (real Symbolic Link reparse points, tag 0xa000000c), junctions re-seeded; ac2 re-run VERBATIM -> rc=0 (replay_ac2.txt). The handoff reflects the recreated-tree measurement; the old RED is not graded into it.",
+      "tests[22] rc=128 on the first ac5 pass was the same WSL-worktree gitdir class of artifact (card's own note_on_gates_that_cannot_run); resolved via the scratch PATH shim without modifying any command string — see tests22_note.",
+      "[VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH were empty at spawn. Used the dispatch-named shared venv explicitly via absolute UV_PROJECT_ENVIRONMENT=backend/.pi-agent/venvs/2876b1d8c5e8a14c (bucket pre-existed from the orchestrator's 20:29 create; uv legs resolved to it, verified via sys.executable). PYTHONPATH intentionally not set: the probe's _env() deliberately drops it so the tree under test is first on the path.",
+      "Platform comment body lost literal double-quote characters in transit (cmd.exe argument quoting): posted body == read-back body byte-for-byte, so the posted record is self-consistent; the cosmetic delta vs the local scratch/t97v/comment.md is only the stripped quotes around 1.0.0 in the ac3 line."
+    ],
+    "platform_sync": {
+      "issue": 104,
+      "comment": "posted via cmd.exe /d /c node --import tsx scripts/platform.ts issue comment 104 --body <PowerShell Get-Content -Raw UTF8 file body> (rc=0, author HsiChinHuang); read back via issue latest-comment: posted body == latest body (self-consistent).",
+      "labels_before": [
+        "built"
+      ],
+      "labels_set": [
+        "verified"
+      ],
+      "label_command": "label set 104 --labels verified (UNQUOTED, per dispatch; atomic built->verified swap, t89/t91 precedent)",
+      "read_back": "issue get 104 -> labels ['verified'], state open (updated_at 2026-10-18T14:41:37Z).",
+      "env_note": "scripts/platform.ts requires the repo-root .env; none existed in this worktree. The main-worktree .env was copied in ONLY for the five API calls (get, comment, label set, get, latest-comment) and DELETED immediately after (verified: ls .env fails; .env is git-ignored regardless)."
+    },
+    "run_environment": "WSL2 Ubuntu-24.04 (bash, python3 3.12.3, node v18.19.1; uv at ~/.local/bin prepended to PATH exactly as the probe's _env convention expects) in worktree t97v at caf82c9. Git: the probe's internal git bridge uses cmd.exe /d /c git; in the recreated tree the Windows-form .git pointer resolves natively (pass-1 required the WSLENV GIT_DIR/GIT_WORK_TREE passthrough plus the scratch shim). platform.ts via cmd.exe node (WSL npx breaks on win32 esbuild). No state-changing git was run by the verifier (read-only: rev-parse, status, diff, log, ls-remote, show, check-ignore, worktree list)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t97_verifier_verify_issue.json (this handoff)",
+      "docs/state/outputs/t97_verifier_logs/replay_ac1.txt (pass 1, first tree)",
+      "docs/state/outputs/t97_verifier_logs/replay_ac2.txt (recreated tree, authoritative)",
+      "docs/state/outputs/t97_verifier_logs/replay_ac3.txt (pass 1, first tree)",
+      "docs/state/outputs/t97_verifier_logs/replay_ac4.txt (pass 1, first tree)",
+      "docs/state/outputs/t97_verifier_logs/replay_ac5.txt (shimmed run, rc=0)",
+      "scratch/t97v/ (extract_fences.py, ac1..ac5.sh verbatim fence extracts, bin/git gitdir shim, t22.sh, ruff.json, comment.md + platform I/O)"
+    ],
+    "platform_issue": 104,
+    "output_path": "docs/state/outputs/t97_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T14:46:00Z",
+  "retry_count": 0
+}

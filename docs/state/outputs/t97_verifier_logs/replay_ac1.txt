@@ -1,0 +1,7 @@
+evidence: line 81 moves exactly '    application = FastAPI(title="Expense Tracker Dashboard API", version="0.1.0")' -> '    application = FastAPI(title="Expense Tracker Dashboard API", version=get_settings().APP_VERSION)' and no other of the 132 lines differs
+evidence: backend/app/main.py contains no 0.1.0 literal at all (the only other 0.1.0 in backend/ is a docstring word in test_health_api.py:60, which no gate asserts)
+evidence: the module keeps its existing from app.config import get_settings import (no new import surface, no module-level settings binding)
+evidence: ruff clean on app/main.py (All checks passed!)
+evidence: mypy clean on app/main.py (Success: no issues found in 1 source file)
+ac1 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac1 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

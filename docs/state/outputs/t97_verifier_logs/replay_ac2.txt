@@ -1,0 +1,13 @@
+evidence: HEAD:README.md == 3282ada83bc5 (untouched)
+evidence: HEAD:backend/app/config.py == 41028cfc41fe (untouched)
+evidence: HEAD:backend/app/telemetry.py == 7e3c7af994da (untouched)
+evidence: HEAD:backend/pyproject.toml == d9016b232ecd (untouched)
+evidence: HEAD:backend/tests/integration/test_health_api.py == 2b71b7feab41 (untouched)
+evidence: HEAD:docs/state/merge_test_index.json == a9f600be048a (untouched)
+evidence: HEAD:openapi.yaml == 684cd411cb46 (untouched)
+evidence: config.py still carries '    APP_VERSION: str = "1.0.0"' - the single source keeps the value render.yaml and tests[134] pin
+evidence: render.yaml is byte-clean against HEAD (t91's APP_VERSION/CORS surface stays as merged)
+evidence: committed product delta against merge-base 00bc18f9aee8: ['backend/app/main.py'] (empty = groom measurement, ['backend/app/main.py'] = builder commit)
+evidence: working product delta is backend/app/main.py plus card/book/scratch room only
+ac2 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac2 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

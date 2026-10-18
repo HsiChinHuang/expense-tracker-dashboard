@@ -1,0 +1,8 @@
+evidence: stored tests[17] (t3) re-ran verbatim, rc=0
+evidence: stored tests[18] (t3) re-ran verbatim, rc=0
+evidence: stored tests[19] (t3) re-ran verbatim, rc=0
+evidence: body fields are exactly the four documented ones and status='ok'
+evidence: payload version == application.version == config APP_VERSION == '1.0.0', and the router reads the same cached get_settings() object (cached_settings_agree=True)
+evidence: measured payload: {"database": "sqlite", "fallback_active": false, "status": "ok", "version": "1.0.0"}
+ac3 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac3 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

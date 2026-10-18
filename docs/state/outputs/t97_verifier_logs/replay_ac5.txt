@@ -1,0 +1,8 @@
+evidence: scan set re-derived read-only from all 318 entries: [8, 17, 18, 19, 20, 22, 120, 122, 123, 124, 130, 134, 171, 185, 210, 276]
+evidence: no gate command in the scan set contains the literal 0.1.0 - no stored gate pins the health version VALUE, so nothing here needs an amendment
+evidence: tests[134] is byte-identical to the groom measurement (len=2403, sha256=636d912f, issue_id=t26)
+evidence: tests[276] stays RED for its own recorded pre-existing reason (it greps a CRLF source file with ^-anchored patterns and cannot match; predates this card, healed by no card here, and this card's diff cannot reach it)
+evidence: rc table on the candidate tree: {"120": 0, "122": 0, "123": 0, "124": 0, "130": 0, "134": 0, "17": 0, "171": 0, "18": 0, "185": 0, "19": 0, "20": 0, "210": 0, "22": 0, "276": 1, "8": 0} (BASE: {"120": 0, "122": 0, "123": 0, "124": 0, "130": 0, "134": 0, "17": 0, "171": 0, "18": 0, "185": 0, "19": 0, "20": 0, "210": 0, "22": 0, "276": 1, "8": 0}) - zero flips across 16 gates
+evidence: no t97 gate-amendment artifact exists, and none is needed: unlike t89/t90 there is nothing to hand the orchestrator for the merge window
+ac5 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac5 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
