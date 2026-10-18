@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_14_render_live_closeout",
+  "survey_completed_at": "2026-10-18T10:20:00Z",
+  "review_plan_status": "pending",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": [
+    "t90",
+    "t91",
+    "t92",
+    "t93",
+    "t98",
+    "t94",
+    "t95",
+    "t96",
+    "t97"
+  ],
+  "survey_attempts": 1
+}

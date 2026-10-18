@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t90",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_14_render_live_closeout",
+    "issues_generated": [
+      "t90",
+      "t91",
+      "t92",
+      "t93",
+      "t98",
+      "t94",
+      "t95",
+      "t96",
+      "t97"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "NO NEW REQ-ID ANYWHERE (checked in all nine cards): every card's requirement-anchors line cites existing REQ families already carried by the gates it touches (REQ-CICD-030/034/036/040..043, REQ-TECH-061, REQ-SEC-070/074, REQ-OPS-041/070, REQ-DOC-070/071/072, REQ-PROJ-009) plus the operator audit. The milestone invents no id and deletes none.",
+        "SCOPE IS CLOSEOUT, NOT FEATURE: the seven factpack gaps G1-G7 plus the uncommitted operator deploy.yml edit are the whole scope. No card adds an endpoint, dependency, table, or UI surface; a card whose diff reaches beyond its named files is a FAIL by its own Constraints.",
+        "THE HOSTED DEMO ACCOUNT IS NOT CLAIMED ANYWHERE (deliberate non-coverage): the live app has no seeded account, so t94 publishes the URL and states the absence instead. t96's Quick Start keeps the LOCAL seeded demo path. No artifact in the milestone implies a hosted login.",
+        "LIVE-STATE VERIFICATION IS SINGLE-RUN AND TIME-BOUNDED (disclosed, not silently claimed): t92 records ONE workflow_run at ONE time on a free tier with no retention guarantee, and t93/t94 record the free-tier 30-day inactivity exposure. No card claims continuous uptime or alert delivery.",
+        "PARKED BY OPERATOR DECISION U5 AND NOT TOUCHED: tests[161]/[162]/[191]/[227] milestone-pin rotation, the tests[220] [:3] os.walk defect, the five older follow-up cards (t80 harness-metrics URL, t86 AC2 wording, t84 ac3 prose, the semgrep Makefile pin, builder-task wording), 35 ruff UP031 findings and the flaky backend env tests. tests[227] stays RED: t94/t96 move the digest CONSTANT because a README edit must, and neither may claim the gate is fixed.",
+        "ASSUMPTIONS HANDED TO GROOM (each named as ASSUMED in its card, none asserted as measured): t90 - that no other stored gate greps deploy.yml for the changed shapes; t91 - the exact base CORS_ORIGINS shape; t93 - the current ops prose text and whether a verified-row token vocabulary exists; t98 - the surrounding text at infra_verification.py:602; t95 - whether scripts/platform.ts can carry a multi-line comment body through cmd.exe; t94/t96 - the per-edit README gate flip sets; t92 - that a green deploy log contains the exact 'deploy verified: health endpoint is ok' string (if it differs, groom pins the real string as a disclosed premise correction).",
+        "TWO RECON DISAGREEMENTS SURFACED, NOT RESOLVED BY GUESSING: (1) c_d_recon places the mandated README:340 cp line inside '## Deployment on Render' while the survey heading map puts '## Local verification in five minutes' at 334 and '## Deployment on Render' at 358 - t94 and t96 both require the line to survive and make groom pin its owning section from the base blob. (2) the stored tests[255] command requires the Render section to state a pending-deployment placeholder while the recon describes 255 as only the heading gate - t94 names that leg as the premise-invalidated candidate for a re-premise rather than assuming it stays green.",
+        "MEASUREMENT PROVENANCE: every gate/config value in the cards is attributed to orchestrator_measured_recon / b1_register_recon / c_d_recon. The survey's own copy-based flip-set probe was abandoned mid-run and nothing relies on it; flip sets are groom's job by read-only gate execution."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 4,
+      "within_limits": false
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "phase_14_render_live_closeout survey, TIMEOUT RECOVERY retry 1 (retry_count 1: the first attempt timed out at 31 min re-measuring gate flip sets; this run measured NOTHING and consumed the factpack recon as ground truth per WAL 1099). NINE CARDS from the operator-approved eight-card audit: B1 was split into B1a/B1b under orchestrator_context.b1_register_recon ('the Orchestrator accepts the split'), and the split ids are t93 and t98 rather than t93a/t93b because schemas/definer/survey.json and schemas/state/milestone.json both constrain an issue id to ^t[0-9]+$; the mapping (B1a=t93 #99, B1b=t98 #100) is stated in the plan appendix, the milestone record and both cards. PLAN: docs/plan.md appended in place, 2065 -> 2283 lines, CRLF preserved, the original 142444-byte prefix byte-identical (verified by read-back), appendix pure ASCII. CARDS: docs/issues/t90.md,t91,t92,t93,t98,t94,t95,t96,t97 (106-160 lines each), DEFINED-stage stubs in the established survey format (frontmatter + Metadata + Goal + Measured base state + AC draft + Dependencies + Constraints + DoD template), all ASCII, all-CRLF, frontmatter platform_issue 96..104 filled, labels [defined], owner definer-survey; Context/Out-of-scope/fenced ACs/ac_hash left to groom. PLATFORM: 9 issues created via scripts/platform.ts through cmd.exe (issue #96 was first created with mangled quoting - MSYS strips backslash-escaped quotes on the cmd.exe boundary - and was repaired in place with 'issue update 96', so #96 carries the correct title and the single 'defined' label; the other eight were created through a batch file to get native Windows quoting). issue_map.json, backlog.md and the card frontmatter all carry the numbers. DAG: dag.json additively extended (90->99 nodes, 132->142 edges, cycles [], topological order verified against every edge with the correct child->parent direction), dag.mmd regenerated (99 declarations, 142 edges byte-consistent with dag.json, 0 drift) and its pre-existing malformed class statement repaired (it was truncated at t64, leaving t60+ unstyled); the class list is now regenerated from the backlog status column. WHAT THE CARDS ENCODE: t90 RE-PREMISES tests[133]'s single-secret assertion into a CLOSED two-secret allowlist with a third-secret negative control and commits the operator deploy.yml edit byte-identically; t91 changes render.yaml only (the recon proves tests[134] is a substring check that survives the -1qtu move, so the card forbids any gate edit); t92 is the real-workflow_run evidence card and states that a fabricated or reused run id is a FAIL; t93 and t98 carry BOTH register migrations (security_ops 5->4 literal at :568, docs 4->3 derived from the :416 list length) with re-premise records for tests[187] (incl. its pinned old-URL/404-reason row text), tests[219], tests[223] and tests[226], each replacing a count pin with a verified-row assertion rather than deleting protection, and both forbid hand-editing docs/criteria/** (regenerate only); t94 backfills the README with the live URL, forbids any hosted-demo-account claim, moves the triple pin in-card, and names the tests[255] placeholder-status leg as the known premise-invalidated candidate to be re-premised; t95 is the only card allowed to touch a pre-existing issue (#61) and must prove the close by read-back; t96 deletes Quick Start step 3, keeps README:340, does NOT relax tests[27] (it stays GREEN via README:340) and redefines tests[251]'s sabotage victim to README:340 in the same handover, with the re-premise set {232, 250, 251} plus tests[243]/tests[252] only if groom's read-only run proves they flip, plus the tests[227] digest-pin move and the README line-count/digest re-pin; t97 is the one-line version single-source fix (backend/app/main.py:81 -> settings.APP_VERSION, config.py:43 already 1.0.0, no stored gate pins the health version value, openapi.yaml frozen). MEASUREMENT DISCIPLINE: every measured value in the cards is attributed to the factpack recon (orchestrator_measured_recon, b1_register_recon, c_d_recon); where nobody measured a value the card says ASSUMED and assigns the measurement to groom (t90's other deploy.yml-greping gates, t91's base CORS_ORIGINS shape, t93's ops prose text and verified-row token vocabulary, t98's infra :602 surrounding text, t95's platform.ts comment-body surface, t94/t96's per-edit flip sets). The survey's own copy-based README flip-set probe was abandoned mid-run as unsafe and NOTHING relies on it; the cards say 'groom re-measures by executing stored gates read-only', never 'survey proved'. SCOPE HYGIENE: docs/criteria/** untouched by this run (the earlier reverted edits stayed reverted, git diff -- docs/criteria is empty); no code, no tests, no gate index edit, no scratch tree, no pytest, no gate execution; the uncommitted .github/workflows/deploy.yml operator edit was left exactly as found for t90's builder to commit. PLATFORM BODIES: the nine issue bodies are compact POINTERS to the card files plus the plan appendix, not mirrors of them. Two reasons, both disclosed: (a) the cards run 3-6 KB and cmd.exe's command line caps at 8191 characters while scripts/platform.ts takes a body only as a --body flag (no body-file option), so a full card cannot cross the win32 boundary; (b) the bodies written at create time predated this run's later card edits, so all nine were re-synced with 'issue update <n> --body' (nine successes, updated_at 09:53:43-09:53:54Z). CAVEAT: scripts/platform.ts prints number/title/state/labels/updated_at on get and update but NOT body, so body content is not verifiable through the CLI; write success is evidenced by the advancing updated_at values, and groom or a verifier with API read access should confirm one body if it matters. CORRECTION MADE IN-FLIGHT: the #96 body initially pointed at a supposed preserved pre-recovery body at docs/state/history/phase_14_survey_pre_recovery/t90_body.md. That file does not exist (the timed-out attempt committed no artifacts; docs/state/history/ holds only merge_cp_t66_stale.json), so it was a false reference and #96's body was re-updated to drop it. The only surviving pre-recovery material is untracked scratch/ probes from the timed-out attempt (scratch/ac133.sh, scratch/health.json, scratch/gate_survey.log, scratch/gates/*.sh), which this run neither wrote nor deletes - scratch/ is outside the survey write scope and predates it. No card or plan statement cites any of them. CARD EDITS AFTER FIRST AUTHORING (all verified after the fact): t93a/t93b -> t93/t98 across plan, backlog, cards, dag.json, dag.mmd, issue_map, milestone and the two platform titles; t96's AC draft merged from 7 items to 6 to respect max_acs=6 (the Quick Start renumbering and its step-count prose fix became one AC, which is also the correct unit because tests[250]'s re-premise must agree with the numbering exactly); the plan's granularity bullet rewritten to state the authored-vs-delta-path counting convention explicitly. Final AC counts: t90 5, t91 5, t92 6, t93 6, t98 6, t94 6, t95 5, t96 6, t97 6 - all within the cap. REVIEW_PLAN FOCUS (next_action is null because status is COMPLETE, so the guidance lives here): review_plan should specifically re-check (a) the B1 split into t93/t98 against b1_register_recon, (b) the README single-writer ordering t94-then-t96 and the docs_verification.py sequential three-writer rule t98 -> t94 -> t96, (c) that every re-premise (tests[133], [187], [219], [223], [226], [232], [250], [251]) replaces a pin with a stronger assertion rather than relaxing it, (d) the disclosed within_limits=false exceedances, and (e) that t92/t95 forbid fabricated platform evidence and t94 forbids a hosted-demo-account claim. STATE-FILE NOTE: this milestone record is written strictly to schemas/state/milestone.json, which sets additionalProperties:false and therefore omits the queued_at key that the phase_1..13 records carry (those extras would fail the schema); the survey start time and the split/platform-number mapping that would have lived in a notes key are recorded in this handoff, in the plan appendix, and in the card frontmatter instead."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t90.md",
+      "docs/issues/t91.md",
+      "docs/issues/t92.md",
+      "docs/issues/t93.md",
+      "docs/issues/t98.md",
+      "docs/issues/t94.md",
+      "docs/issues/t95.md",
+      "docs/issues/t96.md",
+      "docs/issues/t97.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/backlog.md",
+      "docs/state/milestones/phase_14_render_live_closeout.json",
+      "docs/state/outputs/phase_14_render_live_closeout_definer_survey.json"
+    ],
+    "platform_issue": 96,
+    "output_path": "docs/state/outputs/phase_14_render_live_closeout_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T10:35:00Z",
+  "retry_count": 1
+}

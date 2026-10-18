@@ -2063,3 +2063,221 @@ t75 owns this band; t76/t77 reference it; no other card picks a port.
   files. t86's five files are machine-generated report output, not hand-written
   code, and its diff-line count is disclosed as expected-over-cap for the
   report bodies.
+
+## phase_14_render_live_closeout - Render go-live closeout: gate re-premise, live-URL backfill, evidence and the two README fixes (operator-approved audit, WAL 1098)
+
+**Origin and scope statement (read this first).** The app is LIVE. Measured by
+the operator and recorded in the factpack `orchestrator_context.live_state`:
+`https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health` answers
+`200 {"status":"ok","database":"postgresql","fallback_active":false,
+"version":"0.1.0"}`, the old no-suffix URL answers `404`, both GitHub secrets
+(`RENDER_DEPLOY_HOOK`, `RENDER_APP_URL`) exist, the UptimeRobot monitor is
+green on the `-1qtu` URL, and `main` == `origin/main` == `890680e`. What is
+missing is not a feature but the CLOSEOUT: seven gaps (G1-G7 in the factpack)
+where the tree still describes a deployment that has not happened, plus one
+uncommitted operator edit to `.github/workflows/deploy.yml` that a stored gate
+currently rejects. This milestone closes exactly those gaps. It adds NO new
+feature, NO new endpoint, NO new dependency, NO new REQ-ID, and it does not
+reopen, close or edit any pre-existing platform issue except #61 (t95's single
+sanctioned close).
+
+**Nine cards, the operator-approved split, and the issue map.** The approved
+audit named eight cards (A1, A2, A3, B1, B2, B3, C, D). B1 is split at survey
+into B1a/B1b under the mid-run register recon
+(`orchestrator_context.b1_register_recon`: "the Orchestrator accepts the
+split"), so this milestone DEFINES NINE cards. CARD-ID MAPPING, stated once
+because the letters and the ids differ: B1a is card **t93** (platform #99)
+and B1b is card **t98** (platform #100) - the ids are `t93`/`t98` rather than
+`t93a`/`t93b` because `schemas/definer/survey.json` and
+`schemas/state/milestone.json` both constrain an issue id to `^t[0-9]+$`, so a
+letter-suffixed id would be schema-invalid in the handoff and the milestone
+record; `t93` was free (the audit's B1 slot) and `t98` is the next free id
+above t97. The nine cards are therefore t90, t91, t92, t93, t98, t94, t95, t96,
+t97, and the card letters (A1, A2, A3, B1a, B1b, B2, B3, C, D) keep the
+operator's naming so the audit trail stays one-to-one.
+
+| card | issue | one-line definition | depends |
+|---|---|---|---|
+| A1 | t90 | Formal gate amendment for `docs/state/merge_test_index.json` tests[133] (t26), RE-PREMISE not relax, plus the builder commits the operator's `deploy.yml` edit | [] |
+| A2 | t91 | `render.yaml` `CORS_ORIGINS` moves to the real `-1qtu` domain as a quoted JSON array; `APP_VERSION` stays the quoted string `"1.0.0"`; tests[134] re-runs GREEN | [] |
+| A3 | t92 | Real `workflow_run` green evidence (run id + the `deploy verified: health endpoint is ok` log line + Render build/migration logs) closing the REQ-CICD-034 final-step gap | [t90, t91] |
+| B1a | t93 | The `security_ops` half of the live-state move: `RENDER_HEALTH_PATH` (`security_ops_verification.py:62`) moves to the `-1qtu` host, `LIVE_DEPLOYMENT_STATE` leaves the deferral register as a VERIFIED row, the literal header at `:568` moves `5 DEFERRED -> 4 DEFERRED`, the criteria report is REGENERATED, and `ops/deployment-health.md` + `ops/diagnosis.md` prose moves NOT_YET_LIVE/404 -> live with the UptimeRobot confirmation and the free-tier 30-day inactivity note. Carries the tests[187] re-premise (count AND the old-URL/404-reason row text) | [t92] |
+| B1b | t98 | The `docs`/`infra` half: the `docs_verification.py:416` register list drops `LIVE_DEPLOYMENT_STATE` (the emitted count at `:448` is DERIVED from the list length, so `4 DEFERRED -> 3 DEFERRED` follows), the `:422` live_check URL moves to `-1qtu`, `infra_verification.py:602` moves, both criteria reports are REGENERATED, and the tests[219]/[223]/[226] register-count pins are re-premised as verified-row assertions | [t92, t93] |
+| B2 | t94 | README `## Online demo` and `## Deployment on Render` backfill the real URL, with the README triple-pin moved in the SAME card, and the honest statement that the hosted app has NO seeded demo account | [t98] |
+| B3 | t95 | Close platform issue #61 with the A3 + B1a + B1b + B2 evidence bundled | [t92, t93, t98, t94] |
+| C | t96 | Remove README Quick Start step 3 (`cp .env.example .env`, README:94-95) and re-premise tests[232] plus the tests[251] sabotage victim; the README:340 copy STAYS (REQ-DOC-071 mandated, tests[201]/tests[255]) | [] |
+| D | t97 | Health version single source: `backend/app/main.py:81` builds `FastAPI(..., version=settings.APP_VERSION)` so the live `/api/v1/health` reports `1.0.0` | [] |
+
+**Why B1 is two cards and not one (measured, not invented).** The approved B1
+brief read as a URL-constant patch. The register recon measured it as a
+generator-and-gate migration: `security_ops_verification.py:568` appends the
+LITERAL `"DEFERRAL_REGISTER 5 DEFERRED"`, `docs_verification.py:416` builds a
+list whose length `:448` emits (the docs-side count is DERIVED, not literal),
+`docs/criteria/*.md` are GENERATED artifacts a builder regenerates and never
+hand-edits, and the counts are pinned verbatim by stored gates - tests[187]
+pins `^DEFERRAL_REGISTER 5 DEFERRED$`, a `DEFERRED_ROW` count of 5 AND the
+whole `LIVE_DEPLOYMENT_STATE` row text including
+`reason=live_render_url_returns_404_measured` and the OLD no-suffix
+`https://expense-tracker-dashboard.onrender.com/api/v1/health`; tests[219],
+tests[223] and tests[226] each pin `DEFERRAL_REGISTER 4 DEFERRED` in
+`docs/criteria/docs_verification.md` (tests[226] in prose: "the register must
+stay at 4 DEFERRED"). One card doing both halves would own five authored files
+across two generators plus three regenerated reports and two separate
+gate-amendment sets; splitting on the generator boundary gives two cards inside
+`max_files=4` with one amendment set each, and the split point is exactly where
+the write ownership already falls.
+
+**Batch plan (batch_size = min(5, max(1, ceil(9/3))) = 3; three batches).**
+
+| batch | cards | why this grouping |
+|---|---|---|
+| 1 | t90, t91, t92 | The two gate/config cards and the evidence card that consumes both. t92 is written in batch 1 but CANNOT START until t90 and t91 have merged and been pushed - its dep set says so and the push/wait is real wall-clock, not a formality. |
+| 2 | t93, t98, t94 | The live-state backfill: the `security_ops` generator + ops record, then the `docs`/`infra` generator half with its three register pins, then the README. t98 follows t93 because both move the same `LIVE_DEPLOYMENT_STATE` row and t93 lands the verified-row pattern t98 reuses. |
+| 3 | t95, t96, t97 | The residual close (which consumes batch 2) plus the two independent fixes, both `depends: []`, safe to co-schedule under `MAX_SLOTS=2`. |
+
+**Scheduling constraints the orchestrator must honour.**
+
+- t92 is the only card in the project with an EXTERNAL precondition: a real push
+  to `main`, a real E2E `workflow_run` completion, the deploy job firing, and
+  Render build/migration logs. It cannot be simulated; a fabricated run id is a
+  FAIL, not a shortcut.
+- t93 merges after t92 because its `ops/deployment-health.md` evidence IS the
+  A3 capture. t98 after t93 (shared row, shared pattern). t94 after t98
+  because the README cites the state the registers record. t95 last because it
+  bundles all of them.
+- **README single-writer rule:** README.md is touched by exactly TWO cards, t94
+  and t96, and they must NEVER be co-scheduled or merged in one window. Both
+  move the README triple-pin; two writers in one window is how a pin-custody
+  dispute (the tests[259] `pin custody moves ONLY by orchestrator append at
+  merge` leg) is born. Order: t94 first, t96 after.
+- **`docs_verification.py` is a three-writer file, sequential:** t98 (register
+  list + live_check), then t94 (README pin constants), then t96 (README pin
+  constants + the tests[251] re-premise). Never concurrent, never in one window.
+- Gate amendments are applied by the ORCHESTRATOR in the strict merge window,
+  never by a builder, a verifier, or the definer. The definer authors the
+  amendment RECORD only, on the t89 precedent
+  (`docs/state/outputs/t89_definer_gate_amendment.json`). That covers t90
+  (tests[133]), t93 (tests[187] and any consistency leg that flips), t98
+  (tests[219]/[223]/[226]) and t96 (tests[232], tests[251], and any flip-set
+  member groom measures).
+- t97 is backend product code; t96 is README plus stored-gate re-premises.
+  Neither interacts with batch 1/2 beyond the shared file noted above.
+
+**Shared-file ownership (one writer per file, per merge window).**
+
+| file | owner | note |
+|---|---|---|
+| `.github/workflows/deploy.yml` | t90 only | The builder commits the operator edit byte-identical to the diff the factpack records. No other card touches `.github/**`. |
+| `render.yaml` | t91 only | tests[134] is RE-RUN, never amended. |
+| `docs/state/merge_test_index.json` | ORCHESTRATOR only | t90 / t93 / t98 / t96 each hand over an amendment RECORD; none edits the file. |
+| `backend/scripts/security_ops_verification.py` | t93 only | |
+| `backend/scripts/infra_verification.py` | t98 only | |
+| `backend/scripts/docs_verification.py` | t98, then t94, then t96 | Sequential; see the three-writer rule above. |
+| `ops/deployment-health.md`, `ops/diagnosis.md` | t93 only | |
+| `docs/criteria/*.md` | GENERATOR only | Regenerated by RUNNING the owning generator. t93 owns the `security_ops` report; t98 the `docs` and `infra` reports; t94/t96 the `docs` report through the generator only. No card hand-edits a criteria report. |
+| `README.md` | t94 then t96, never concurrently | The triple pin moves with each edit. |
+| `backend/app/main.py` | t97 only | |
+| platform issue #61 | t95 only | The only pre-existing issue any card may close. |
+
+**Measured base state this plan relies on.** Every value is consumed from the
+factpack (`orchestrator_measured_recon`, `b1_register_recon`, `c_d_recon`; WAL
+1099 and later: "DO NOT RE-MEASURE"), plus phase_13-era measurements already on
+the record. Where a value was NOT measured by anyone, the row says ASSUMED and
+the owning card's Constraints repeat it as a groom-time measurement.
+
+| claim | source | value |
+|---|---|---|
+| the gate index is append-only and identity-pinned | recon `index` | 318 entries in `tests[]`, identity = index + `issue_id` |
+| tests[133] (t26) is RED on exactly one leg | recon `tests_133` | `RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got RENDER_DEPLOY_HOOK,RENDER_APP_URL`; every other leg (hook secret present, no `api.render.com/deploy/` literal, `-X POST`, `seq 1`, `sleep`, `exit 1`, `/api/v1/health`, >=2 steps, all e2e.yml legs) measured GREEN |
+| the amendment target | recon `tests_133.amendment_target` | Replace ONLY the single-secret assertion with a CLOSED allowlist `{RENDER_DEPLOY_HOOK (hook step), RENDER_APP_URL (health-verify step)}`; every other leg byte-identical; a third distinct secret must still turn it RED (negative control) |
+| the operator edit | recon `operator_deploy_yml_diff` | health-verify step gains `env: APP_HEALTH_URL: ${{ secrets.RENDER_APP_URL }}`, the curl line becomes `curl -fsS "$APP_HEALTH_URL"`; `deploy.yml` then references exactly 2 secrets |
+| tests[134] stays GREEN on a corrected CORS value | recon `tests_134.cors_leg` | `String(ev.CORS_ORIGINS.value).indexOf("onrender.com")>=0` - a substring test, so `-1qtu` passes |
+| tests[134] APP_VERSION leg | recon `tests_134.app_version_leg` | `String(ev.APP_VERSION.value)==="1.0.0"` - unquoted `1.0.0` parses to the float `1.0` and FAILS; the value must stay a quoted string |
+| the README pin surface | recon `readme_pin_indices` | [227, 232, 243, 250, 251, 252, 255, 201]; 227 is the t59 digest pin (already RED, parked under U5), 232 is the `cp .env.example .env` Quick Start gate card C re-premises, 243 is the section-heading gate that must stay GREEN across C and B2, 250/251/252 are the t69 gates, 255 is the `## Deployment on Render` heading gate B2 must keep, 201 is the t49 copy gate mandating the README:340 text card C must NOT delete |
+| the env-copy token appears TWICE | `c_d_recon` | README:94-95 (Quick Start step 3, to be deleted by C) AND README:340 inside `## Deployment on Render` (MUST STAY - REQ-DOC-071 mandated, pinned by tests[201] and tests[255]) |
+| tests[27] must not be relaxed | `c_d_recon` | tests[27] (t4) is an UNanchored grep and stays GREEN through README:340 - C proves it GREEN, it does not amend it |
+| tests[251] needs a victim redefinition | `c_d_recon` | tests[251] (t69 ac2) is a sabotage-based carried-gate replay whose victim is "the env-file copy line"; once step 3 is gone, sabotaging that line may no longer turn tests[27] RED, so the victim moves to the README:340 copy in the SAME card |
+| the three URL constants | `script_url_constants` + `b1_register_recon` | `security_ops_verification.py:62 RENDER_HEALTH_PATH`, `docs_verification.py:422 live_check`, `infra_verification.py:602`; plus `ops/deployment-health.md:56` (CORS_ORIGINS deviation row quotes the old domain) and `ops/diagnosis.md:8` (deployed-endpoint prose) |
+| the register counts are hardcoded and pinned | `b1_register_recon` | `security_ops_verification.py:568` literal; `docs_verification.py:416`/`:448` derived; pinned by tests[187] (count + row text + old URL), tests[183]/[184]/[185] (generator/criteria consistency), tests[219], [223], [226] |
+| the deferral registers today | measured at survey by `grep -n "^DEFERRAL_REGISTER" docs/criteria/*.md` | `security_ops_verification.md:83 = 5 DEFERRED`, `docs_verification.md:33 = 4 DEFERRED`, `infra_verification.md:83 = 7 DEFERRED`, `agent_pack_verification.md:98 = 3 DEFERRED` |
+| the version drift is real and unpinned | survey grep + `c_d_recon` | `backend/app/main.py:81` is `FastAPI(title="Expense Tracker Dashboard API", version="0.1.0")`; `backend/app/config.py:43 APP_VERSION: str = "1.0.0"` is read only by `backend/app/telemetry.py:131`; `grep -rn "0\.1\.0" backend/tests` returns ZERO hits and no stored gate asserts the health version value, so t97 has no gate to amend - only not to break |
+| the README is at its ceiling | survey measurement + phase_13 plan | README.md = 398 lines, 17 level-2 headings, CRLF on every line, ASCII-only; `docs_verification.py` carries `README_DIGEST = "ca9343a8..."`, `README_LINES = 398`, and fails on `lines > 500` |
+
+**The triple-pin move, stated once, binding on t94 and t96.** A README edit is
+legal in this milestone only if the SAME card moves all three members: (1)
+`README_DIGEST`/`README_LINES` in `backend/scripts/docs_verification.py`, (2)
+the regenerated `README_MEASURE PASS lines=... digest=...` row in
+`docs/criteria/docs_verification.md` produced by RUNNING that generator, and (3)
+the stored gates that compare them (recon set 227/232/243/250/251/252/255/201,
+plus the tests[258] constant-comparison and tests[259] pin-custody legs measured
+GREEN/RED respectively at survey). A card that edits README and leaves a member
+behind is a FAIL, not a follow-up. Which members actually flip is a per-edit
+property: groom re-measures the flip set per card by EXECUTING the stored
+README-scoped gates read-only against the candidate tree (a command execution,
+not a repo copy - the survey's copy-based flip probe was abandoned as unsafe and
+nothing here relies on it), and every card says "groom re-measures", never
+"survey proved".
+
+**Parked by operator decision U5 - out of scope, recorded so no card drifts.**
+The pre-existing RED pairs tests[161]/[162]/[191]/[227] (milestone-pin
+rotation), the tests[220] known defect (`[:3]`-truncated `os.walk`), the five
+older follow-up cards (t80 harness-metrics URL `collect-evidence.sh:186`, t86
+AC2 wording, t84 ac3 prose, the semgrep Makefile pin, builder-task wording),
+the 35 ruff UP031 findings and the 2-3 flaky backend env tests. No phase_14 card
+may "helpfully" fix a parked item; a card whose diff touches a parked surface is
+a FAIL. tests[227] being already RED matters only in that a card must not claim
+to have made it GREEN - the digest pin still moves in the same card as any
+README edit.
+
+**Hard constraints carried into every card (factpack `hard_constraints`).** The
+README is triple-pinned at 398 lines / digest `ca9343a8`; `openapi.yaml` is
+FROZEN; a stored gate that greps a product file pins a literal, and changing
+that literal requires a FORMAL gate-amendment card that RE-PREMISES (never
+relaxes) the rule; `MAX_SLOTS=2` (`.env MAX_SLOTS=2` overrides `config
+slots.max=3`); the orchestrator never writes code or edits issues, and all
+platform operations go through `scripts/platform.ts`.
+
+**Granularity.** `max_files=4`, `max_acs=6`, `max_diff_lines=300`
+(`docs/config.yaml`, warn-only). All nine cards are inside `max_files` and
+`max_acs` as authored files. TWO DISCLOSED EXCEPTIONS, both on the regenerated
+artifacts the register/README moves force:
+
+- Counting convention used here: AUTHORED = a file the builder writes;
+  DELTA PATH = anything in the diff, including a generator-REGENERATED
+  criteria report and the card's gate-amendment record. `max_files=4` is a
+  cap on authored files; the regenerated reports are disclosed separately
+  because no card may hand-edit them.
+- **t93**: 4 authored (`security_ops_verification.py`,
+  `ops/deployment-health.md`, `ops/diagnosis.md`, the amendment record) - at
+  cap; 5 delta paths with the REGENERATED
+  `docs/criteria/security_ops_verification.md`.
+- **t98**: 3 authored (`docs_verification.py`, `infra_verification.py`, the
+  amendment record); 5 delta paths with the REGENERATED
+  `docs/criteria/docs_verification.md` and `infra_verification.md`.
+- **t94 / t96**: 3 authored each (`README.md`, `docs_verification.py`, the
+  amendment record); 4 delta paths each with the REGENERATED
+  `docs/criteria/docs_verification.md`.
+- **t90 / t91 / t92 / t95 / t97**: 1-2 authored files, well inside the cap.
+- Diff lines: t90, t93, t98, t96 and t97 are modest. t92 and t94 are
+  disclosed as likely-over-cap for the same reason t86/t88 were in phase_13:
+  an evidence capture and a README backfill are prose bodies, not patches.
+  `within_limits` is therefore reported FALSE in this handoff, honestly, with
+  the exceedance named per card; the limit is `warn_only: true`, and the same
+  shape was operator-approved in phase_13.
+
+**Verification-command discipline (unchanged from phase_13, binding on groom).**
+Every pinned fence is self-contained; a delta-purity leg is expressed against a
+FIXED immutable ref (the milestone base `890680e`), never "main tip at run
+time"; no fence pins a moving count upward as its only signal; `ac_hash` is
+authored at GROOM by the established recipe (sha256 over the JSON-compact array
+of the card's fenced bash bodies in ac1..acN order, CR-stripped and trimmed) and
+the survey card records the fence count and the recipe, never a digest constant;
+every git/npm/npx call goes through `cmd.exe /d /c "cd /d . && <one command>"`,
+one logical operation per call, no `/dev/null` redirection, and every write is
+verified by a separate read-back.
+
+**Pipeline convention.** Survey writes DEFINED-stage stubs (Metadata, Goal,
+Measured base state, AC draft, Dependencies, Constraints, DoD template) with the
+rulings and hard constraints embedded; Context, Out of scope, the fenced ACs and
+the `ac_hash` are authored at groom. No survey AC draft is fenced and no survey
+card claims a digest.
