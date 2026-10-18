@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-17T23:06:00Z",
+  "updated_at": "2026-10-18T12:23:46Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1291,6 +1291,19 @@
       "regressions_note": "0 NEW at merge and TWO CARRIED CLOSED: the amended stored gates tests[184]/[185] (t86-merge-introduced RED pair) are GREEN on merged bytes (measured rc=0 in the merge-checkout alongside tests[183]/[186]/[187]/[256]/[258]); tests[220] remains the disclosed pre-existing RED. This merge closes the phase_13 criterion-13 gap.",
       "gate3_waiver_recheck": "orchestrator re-ran ALL FIVE fences at merged bytes in a CLEAN detached worktree (t89mc, node_modules+frontend/node_modules+backend/.venv pre-seeded by copy): ac1/ac3/ac4 rc=0 GREEN verbatim on the checkout; ac2 rc=0 GREEN with the two generated carried reports de-CRLF'd to their committed LF blobs (the checkout ran under core.autocrlf=true which materializes the LF-pinned reports as CRLF; builder/verifier trees held faithful LF bytes - the report digests and the ac2 byte-compare are LF-exact, disclosed); ac5 rc=0 GREEN in its designed dirty-mode at the exact merged product bytes on the groom base (7 allow-listed, 0 unaccounted, purity control FIRED, never-touch byte-clean). ac_hash 770bef35 recomputed MATCH on merged card. TWO MERGE-TIME CORRECTIONS BY ORCHESTRATOR, both disclosed, both verifier-owned artifacts only, zero product bytes: (1) correction commit d6053ad (main, after merge d25c673) removed docs/state/outputs/t89_verifier_logs/platform_comment.md - the only .md in verifier logs (t88 precedent: .txt only); docs_verification LINK_CHECK counts every .md, the committed report pins files=243 while the tree with that log regenerates files=244, so the ac2 committed==regenerated leg REDs on merged bytes with it present; the comment body survives in the handoff JSON and on issue #95. (2) verifier commits 66513ed/a0a650e confirmed via git diff --name-only to touch ONLY docs/state/outputs/t89_* paths.",
       "index_append_ruling": "NO APPEND (the card's own non_appendable_declaration: t89 APPENDS zero gates; INDEX_FLOOR 217 is a floor). The card's distinguishing merge-time act is the GATE AMENDMENT, applied by the orchestrator in commit 2f6f2ae per supervisor decision 0822e068 and docs/state/outputs/t89_definer_gate_amendment.json: tests[184]/tests[258] re-premised to measured reality, old defective premises RED and new commands GREEN both independently measured by builder AND verifier, no leg deleted (verifier text-diff proof). Index count stays 318."
+    },
+    {
+      "issue_id": "t91",
+      "platform_issue": 97,
+      "branch": "issue/t91-render-cors-appversion",
+      "merge_sha": "f181d65",
+      "merged_at": "2026-10-18T12:23:46Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0,
+      "regressions_note": "0 NEW: 318/318 pre-merge sweep 282G/36RED all classified pre-existing/environmental/sanctioned (verdict PASS, 0 attributable - delta is render.yaml alone 2+/2-); merged-bytes recheck ac1/ac2/ac3/ac5 rc=0 + ac4 disclosed provenance RED (counts orchestrator seq.txt/snapshot.json WAL bookkeeping in committed delta; measured product delta merged-HEAD vs candidate 90de370 EXCLUDING docs/state+docs/log is EMPTY = byte-identical, t83 precedent); gates 133/134/135/170/255 all rc=0 on merged bytes; tests[134] byte-identical to BASE unamended per card ZERO-gate-edits constraint. INDEX APPEND WITHHELD (t71-style settlement): t91 fences ac3/ac5 scan the WHOLE index for render.yaml-mentioning gates + exact entry count 318, so appending ac1/ac2/ac3/ac5 flips ac3 (322!=318) and ac5 (new render-mentioning idx 321) RED post-append - measured rc=1 then restored 318 and both GREEN again. Fences live as archived artifacts (groom handoff + verifier replays); index stays 318 entries.",
+      "merge_type": "clean",
+      "test_suite": "affected (5 card fences + 5 render/CORS gate legs verbatim on merged bytes)"
     }
   ]
 }
