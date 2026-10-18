@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T14:40:47Z",
-  "last_seq": 1119,
+  "updated_at": "2026-10-18T14:44:08Z",
+  "last_seq": 1120,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -17,11 +17,11 @@
       "slot_id": "slot_2",
       "issue_id": "t97",
       "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "204e2246-deea-4db2-8f0f-bb50b8f15fb5",
-      "spawn_at": "2026-10-18T14:15:16Z",
-      "last_activity_at": "2026-10-18T14:40:47Z",
-      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t97v"
+      "phase": "verify_pre_merge",
+      "run_id": "3a5b4c8e-5f03-4961-bf97-ae1c1b78b159",
+      "spawn_at": "2026-10-18T14:44:08Z",
+      "last_activity_at": "2026-10-18T14:44:08Z",
+      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\verify-t97"
     }
   ],
   "merge_queue": [],
