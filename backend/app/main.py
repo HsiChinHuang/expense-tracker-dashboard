@@ -78,7 +78,7 @@ def create_app() -> FastAPI:
     Returns:
         FastAPI: The configured application instance.
     """
-    application = FastAPI(title="Expense Tracker Dashboard API", version="0.1.0")
+    application = FastAPI(title="Expense Tracker Dashboard API", version=get_settings().APP_VERSION)
 
     register_error_handlers(application)
 
