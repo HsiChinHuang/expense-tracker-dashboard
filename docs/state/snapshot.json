@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-17T23:21:00Z",
-  "last_seq": 1093,
+  "updated_at": "2026-10-18T07:52:00Z",
+  "last_seq": 1094,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -38,7 +38,7 @@
   ],
   "merged_issues": 4,
   "milestone": "phase_13_ops_security_hardening",
-  "main_tip_sha": "2b3630b",
+  "main_tip_sha": "0ff2d93",
   "merge_history_entries": 84,
   "closed_issues": [
     75,
@@ -59,6 +59,6 @@
     "t88": "todo (W1)",
     "t89": "todo (W2, README<=500)"
   },
-  "last_wal_seq": 1093,
+  "last_wal_seq": 1094,
   "milestone_state": "phase_13_ops_security_hardening COMPLETE 15/15; operator-pending follow-ups t80-harness-url, t86-ac2-wording, t84-ac3-prose, semgrep-makefile-pin, builder-task-wording (approval required, NOT started)"
 }
