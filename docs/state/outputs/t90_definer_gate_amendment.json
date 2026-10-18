@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "artifact": "t90_definer_gate_amendment",
+  "role": "definer",
+  "phase": "groom",
+  "card": "t90",
+  "platform_issue": 96,
+  "milestone": "phase_14_render_live_closeout",
+  "base": "890680e251dd69a39e18289a6b5348d81788ba7c",
+  "applied_by": "the orchestrator in the strict merge window - the definer and the builder NEVER edit docs/state/merge_test_index.json (orchestrator-owned, never-touch for this card; ac4 fences it byte-clean). This file is the RECORD of what to replace, not the replacement, exactly the t89 precedent.",
+  "why_this_file_exists": "tests[133] (issue_id t26) greps .github/workflows/deploy.yml and asserts that RENDER_DEPLOY_HOOK is the ONLY secret the workflow may reference. The operator's approved method-2 edit adds the second secret RENDER_APP_URL, so the stored premise is falsified by the milestone itself and tests[133] is RED on exactly that one leg (measured: rc=1, 'RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got RENDER_DEPLOY_HOOK,RENDER_APP_URL'). A stored gate that greps a product file pins a literal, and changing that literal requires a FORMAL gate-amendment card that RE-PREMISES the rule - never relaxes it. This record is that card's instrument.",
+  "no_leg_deleted": true,
+  "re_premise_not_relax": "the single-secret equality is replaced by a CLOSED two-secret allowlist plus a placement control, not by a widened bound or a deleted leg: (1) every secrets.* name in deploy.yml must be inside {RENDER_DEPLOY_HOOK, RENDER_APP_URL} and RENDER_DEPLOY_HOOK must still be present, so a third distinct secret REDS the gate; (2) RENDER_APP_URL may appear at most once and only after the 'Verify the deployed health endpoint' step marker, so the hook step cannot borrow it and a second reference REDS the gate. The rule is different but no weaker: RENDER_DEPLOY_HOOK remains the only deploy-hook secret, the plaintext hook URL stays forbidden (the api.render.com/deploy/ leg is untouched), and the workflow now has a named second secret with a named job.",
+  "amendments": [
+    {
+      "index": 133,
+      "issue_id": "t26",
+      "old_command": "bash -c 'test -f .github/workflows/e2e.yml || exit 1; test -f .github/workflows/deploy.yml || exit 1; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./frontend/node_modules/js-yaml\\\"),CR=String.fromCharCode(13);const RAW=f=>fs.readFileSync(\\\".github/workflows/\\\"+f+\\\".yml\\\",\\\"utf8\\\").split(CR).join(\\\"\\\");const L=f=>y.load(RAW(f));const bad=[];const t=(c,m)=>{if(!c){bad.push(m)}};const ea=L(\\\"e2e\\\"),de=L(\\\"deploy\\\");const steps=[];for(const k of Object.keys(ea.jobs||{})){for(const s of ((ea.jobs[k]||{}).steps||[])){steps.push({txt:String(s.name||\\\"\\\")+\\\" | \\\"+String(s.run||\\\"\\\")+\\\" | \\\"+String(s.uses||\\\"\\\")+\\\" | \\\"+String(s.if||\\\"\\\")+\\\" | \\\"+JSON.stringify(s.with||{}),iff:String(s.if||\\\"\\\")})}};const n=steps.map(s=>s.txt);const at=(pat)=>{for(let i=0;i<n.length;i++){if(n[i].indexOf(pat)>=0){return i}}return -1};const iUp=at(\\\"docker compose up\\\"),iHealth=at(\\\"/api/v1/health\\\"),iPw=at(\\\"playwright install\\\"),iE2e=at(\\\"make e2e\\\"),iDown=at(\\\"docker compose down\\\");t(iUp>=0,\\\"e2e.yml must build/start the t24 compose stack (REQ-CICD-012)\\\");t(iHealth>=0,\\\"e2e.yml must wait for /api/v1/health\\\");t(iPw>=0,\\\"e2e.yml must install the Playwright browsers\\\");t(iE2e>=0,\\\"e2e.yml must run the suite through make e2e (REQ-TEST-051)\\\");t(iDown>=0,\\\"e2e.yml must stop the stack with docker compose down\\\");t(iHealth>iUp&&iPw>iHealth&&iE2e>iPw&&iDown>iE2e,\\\"e2e steps must run in order: stack up, health wait, browsers, suite, teardown\\\");let upIdx=-1;for(let i=0;i<steps.length;i++){if(n[i].indexOf(\\\"actions/upload-artifact\\\")>=0&&steps[i].iff.indexOf(\\\"failure()\\\")>=0){upIdx=i;break}};t(upIdx>=0,\\\"the Playwright report must be uploaded with if: failure()\\\");t(upIdx>iE2e,\\\"the report upload must sit after the suite run\\\");t(n.some(x=>x.indexOf(\\\"playwright-report\\\")>=0),\\\"the uploaded artifact must be the Playwright report path\\\");t(RAW(\\\"e2e\\\").indexOf(\\\"ms-playwright\\\")>=0,\\\"a Playwright browser cache step is required (REQ-CICD-017)\\\");const draw=RAW(\\\"deploy\\\");t(draw.indexOf(\\\"secrets.RENDER_DEPLOY_HOOK\\\")>=0,\\\"deploy.yml must invoke the hook through secrets.RENDER_DEPLOY_HOOK (REQ-CICD-070)\\\");const names=[];const re=/secrets[.]([A-Za-z0-9_]+)/g;let m;while((m=re.exec(draw))!==null){if(names.indexOf(m[1])<0){names.push(m[1])}};t(names.length===1&&names[0]===\\\"RENDER_DEPLOY_HOOK\\\",\\\"RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got \\\"+names.join(\\\",\\\"));t(draw.indexOf(\\\"api.render.com/deploy/\\\")<0,\\\"no literal deploy-hook URL may be committed\\\");t(draw.indexOf(\\\"-X POST\\\")>=0,\\\"deploy.yml must POST the deploy hook\\\");t(draw.indexOf(\\\"seq 1\\\")>=0&&draw.indexOf(\\\"sleep \\\")>=0,\\\"deploy.yml must poll health with a bounded retry loop\\\");t(draw.indexOf(\\\"exit 1\\\")>=0,\\\"deploy.yml must fail the workflow when health never turns ok (REQ-CICD-060)\\\");t(draw.indexOf(\\\"/api/v1/health\\\")>=0,\\\"deploy.yml must verify the health endpoint\\\");const dj=Object.keys(de.jobs||{});const dl=((de.jobs||{})[dj[0]]||{}).steps||[];t(dl.length>=2,\\\"the deploy job needs a hook step AND a health-verification step\\\");if(bad.length){console.error(bad.join(\\\" | \\\"));process.exit(1)}\" || exit 1'",
+      "new_command": "bash -c 'test -f .github/workflows/e2e.yml || exit 1; test -f .github/workflows/deploy.yml || exit 1; node -e \"const fs=require(\\\"fs\\\"),y=require(\\\"./frontend/node_modules/js-yaml\\\"),CR=String.fromCharCode(13);const RAW=f=>fs.readFileSync(\\\".github/workflows/\\\"+f+\\\".yml\\\",\\\"utf8\\\").split(CR).join(\\\"\\\");const L=f=>y.load(RAW(f));const bad=[];const t=(c,m)=>{if(!c){bad.push(m)}};const ea=L(\\\"e2e\\\"),de=L(\\\"deploy\\\");const steps=[];for(const k of Object.keys(ea.jobs||{})){for(const s of ((ea.jobs[k]||{}).steps||[])){steps.push({txt:String(s.name||\\\"\\\")+\\\" | \\\"+String(s.run||\\\"\\\")+\\\" | \\\"+String(s.uses||\\\"\\\")+\\\" | \\\"+String(s.if||\\\"\\\")+\\\" | \\\"+JSON.stringify(s.with||{}),iff:String(s.if||\\\"\\\")})}};const n=steps.map(s=>s.txt);const at=(pat)=>{for(let i=0;i<n.length;i++){if(n[i].indexOf(pat)>=0){return i}}return -1};const iUp=at(\\\"docker compose up\\\"),iHealth=at(\\\"/api/v1/health\\\"),iPw=at(\\\"playwright install\\\"),iE2e=at(\\\"make e2e\\\"),iDown=at(\\\"docker compose down\\\");t(iUp>=0,\\\"e2e.yml must build/start the t24 compose stack (REQ-CICD-012)\\\");t(iHealth>=0,\\\"e2e.yml must wait for /api/v1/health\\\");t(iPw>=0,\\\"e2e.yml must install the Playwright browsers\\\");t(iE2e>=0,\\\"e2e.yml must run the suite through make e2e (REQ-TEST-051)\\\");t(iDown>=0,\\\"e2e.yml must stop the stack with docker compose down\\\");t(iHealth>iUp&&iPw>iHealth&&iE2e>iPw&&iDown>iE2e,\\\"e2e steps must run in order: stack up, health wait, browsers, suite, teardown\\\");let upIdx=-1;for(let i=0;i<steps.length;i++){if(n[i].indexOf(\\\"actions/upload-artifact\\\")>=0&&steps[i].iff.indexOf(\\\"failure()\\\")>=0){upIdx=i;break}};t(upIdx>=0,\\\"the Playwright report must be uploaded with if: failure()\\\");t(upIdx>iE2e,\\\"the report upload must sit after the suite run\\\");t(n.some(x=>x.indexOf(\\\"playwright-report\\\")>=0),\\\"the uploaded artifact must be the Playwright report path\\\");t(RAW(\\\"e2e\\\").indexOf(\\\"ms-playwright\\\")>=0,\\\"a Playwright browser cache step is required (REQ-CICD-017)\\\");const draw=RAW(\\\"deploy\\\");t(draw.indexOf(\\\"secrets.RENDER_DEPLOY_HOOK\\\")>=0,\\\"deploy.yml must invoke the hook through secrets.RENDER_DEPLOY_HOOK (REQ-CICD-070)\\\");const names=[];const re=/secrets[.]([A-Za-z0-9_]+)/g;let m;while((m=re.exec(draw))!==null){if(names.indexOf(m[1])<0){names.push(m[1])}};t(names.every(x=>[\\\"RENDER_DEPLOY_HOOK\\\",\\\"RENDER_APP_URL\\\"].indexOf(x)>=0)&&names.indexOf(\\\"RENDER_DEPLOY_HOOK\\\")>=0,\\\"deploy.yml secrets must stay inside the closed allowlist {RENDER_DEPLOY_HOOK (hook step), RENDER_APP_URL (health-verify step)}, got \\\"+names.join(\\\",\\\"));t(names.indexOf(\\\"RENDER_APP_URL\\\")<0||(draw.indexOf(\\\"secrets.RENDER_APP_URL\\\")===draw.lastIndexOf(\\\"secrets.RENDER_APP_URL\\\")&&draw.indexOf(\\\"secrets.RENDER_APP_URL\\\")>draw.indexOf(\\\"Verify the deployed health endpoint\\\")),\\\"RENDER_APP_URL is allowed exactly once and only in the health-verify step\\\");t(draw.indexOf(\\\"api.render.com/deploy/\\\")<0,\\\"no literal deploy-hook URL may be committed\\\");t(draw.indexOf(\\\"-X POST\\\")>=0,\\\"deploy.yml must POST the deploy hook\\\");t(draw.indexOf(\\\"seq 1\\\")>=0&&draw.indexOf(\\\"sleep \\\")>=0,\\\"deploy.yml must poll health with a bounded retry loop\\\");t(draw.indexOf(\\\"exit 1\\\")>=0,\\\"deploy.yml must fail the workflow when health never turns ok (REQ-CICD-060)\\\");t(draw.indexOf(\\\"/api/v1/health\\\")>=0,\\\"deploy.yml must verify the health endpoint\\\");const dj=Object.keys(de.jobs||{});const dl=((de.jobs||{})[dj[0]]||{}).steps||[];t(dl.length>=2,\\\"the deploy job needs a hook step AND a health-verification step\\\");if(bad.length){console.error(bad.join(\\\" | \\\"));process.exit(1)}\" || exit 1'",
+      "old_command_sha256": "748f28c0e49d6e52917d7fe7c9e30be8e7913a0da3793b7a5b07f89010372daf",
+      "new_command_sha256": "b2a662b9aa0c0699e3ba521b06240fbcbb24a02a1ab3d4afb50ea2a5efb70edb",
+      "old_command_len": 3106,
+      "new_command_len": 3547,
+      "replacement_offset": 2248,
+      "old_assertion": "t(names.length===1&&names[0]===\\\"RENDER_DEPLOY_HOOK\\\",\\\"RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got \\\"+names.join(\\\",\\\"));",
+      "new_assertion": "t(names.every(x=>[\\\"RENDER_DEPLOY_HOOK\\\",\\\"RENDER_APP_URL\\\"].indexOf(x)>=0)&&names.indexOf(\\\"RENDER_DEPLOY_HOOK\\\")>=0,\\\"deploy.yml secrets must stay inside the closed allowlist {RENDER_DEPLOY_HOOK (hook step), RENDER_APP_URL (health-verify step)}, got \\\"+names.join(\\\",\\\"));t(names.indexOf(\\\"RENDER_APP_URL\\\")<0||(draw.indexOf(\\\"secrets.RENDER_APP_URL\\\")===draw.lastIndexOf(\\\"secrets.RENDER_APP_URL\\\")&&draw.indexOf(\\\"secrets.RENDER_APP_URL\\\")>draw.indexOf(\\\"Verify the deployed health endpoint\\\")),\\\"RENDER_APP_URL is allowed exactly once and only in the health-verify step\\\");",
+      "defective_premise": "'RENDER_DEPLOY_HOOK must be the ONLY secret referenced' - the operator's approved method-2 health-verify step reads ${{ secrets.RENDER_APP_URL }}, so the one-secret universe the leg was written against no longer exists.",
+      "re_premised_to": "a closed allowlist over {RENDER_DEPLOY_HOOK (hook step), RENDER_APP_URL (health-verify step)} plus an exactly-once placement control on RENDER_APP_URL, measured over the same CR-stripped deploy.yml text the leg already read. Every other leg of the command is byte-identical."
+    }
+  ],
+  "negative_control": {
+    "requirement": "the amendment is only honest if it still bites: a synthetic deploy.yml carrying a THIRD distinct secret must stay RED under the amended command. Executed at groom by running the amended node payload against synthetic workflow texts in memory (a readFileSync stub feeds them; no repo copy, no working-tree write).",
+    "matrix": [
+      {
+        "case": "base_single_secret",
+        "deploy_yml": "the BASE 890680e deploy.yml (one secret)",
+        "expected_rc": 0,
+        "measured_rc": 0,
+        "meaning": "the amendment does not newly RED the pre-edit premise it replaces"
+      },
+      {
+        "case": "operator_edit",
+        "deploy_yml": "the committed operator edit (two secrets)",
+        "expected_rc": 0,
+        "measured_rc": 0,
+        "meaning": "the two-secret workflow is GREEN under the re-premised leg"
+      },
+      {
+        "case": "third_secret",
+        "deploy_yml": "operator edit + EVIL: ${{ secrets.THIRD_SECRET }}",
+        "expected_rc": 1,
+        "measured_rc": 1,
+        "stderr_prefix": "deploy.yml secrets must stay inside the closed allowlist",
+        "meaning": "THE RE-PREMISE CONTROL - a third distinct secret still REDS the gate"
+      },
+      {
+        "case": "app_url_misplaced",
+        "deploy_yml": "RENDER_APP_URL moved into the hook step",
+        "expected_rc": 1,
+        "measured_rc": 1,
+        "stderr_prefix": "RENDER_APP_URL is allowed exactly once and only in the health-verify step",
+        "meaning": "the allow-listed second secret cannot leak into the hook step"
+      },
+      {
+        "case": "app_url_referenced_twice",
+        "deploy_yml": "a second secrets.RENDER_APP_URL reference",
+        "expected_rc": 1,
+        "measured_rc": 1,
+        "stderr_prefix": "RENDER_APP_URL is allowed exactly once and only in the health-verify step",
+        "meaning": "the placement control is exactly-once, not merely 'is in the set'"
+      },
+      {
+        "case": "operator_edit_stored_command",
+        "deploy_yml": "the committed operator edit",
+        "command": "stored (pre-amendment)",
+        "expected_rc": 1,
+        "measured_rc": 1,
+        "stderr_prefix": "RENDER_DEPLOY_HOOK must be the ONLY secret referenced",
+        "meaning": "the pre-amendment RED is real and is what this card settles"
+      }
+    ]
+  },
+  "byte_identical_elsewhere": {
+    "guarantee": "the amendment is EXACTLY ONE contiguous replacement inside one command string: stored[:off] == amended[:off] and stored[off+len(old):] == amended[off+len(new):], verified by string equality in the record's own texts (ac5 re-derives it and rebuilds amended = stored.replace(old_assertion, new_assertion) and requires byte equality with new_command).",
+    "replacement_offset": 2248,
+    "prefix_identical": true,
+    "suffix_identical": true,
+    "untouched_legs": [
+      "secrets.RENDER_DEPLOY_HOOK present (REQ-CICD-070)",
+      "no api.render.com/deploy/ literal (the plaintext hook URL stays forbidden)",
+      "-X POST present",
+      "seq 1 and sleep present (bounded retry loop)",
+      "exit 1 present (REQ-CICD-060)",
+      "/api/v1/health present (line 4 comment; the curl line now uses \"$APP_HEALTH_URL\")",
+      "the deploy job has >= 2 steps",
+      "every e2e.yml leg"
+    ]
+  },
+  "measured": {
+    "measured_by": "Definer at groom (read-only probes + in-memory negative control); the Orchestrator's orchestrator_measured_recon is consumed as ground truth and was NOT re-measured",
+    "stored_133_at_operator_edit": "rc=1 - 'RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got RENDER_DEPLOY_HOOK,RENDER_APP_URL' (only failing leg; all other legs measured GREEN by the Orchestrator recon and re-confirmed by this card's replay)",
+    "amended_133_on_committed_edit": "rc=0 (ac2/ac5 replay the record's new_command against the committed deploy.yml blob read from git objects)",
+    "stored_index_untouched": "docs/state/merge_test_index.json is byte-identical to its HEAD blob at groom - the definer authored a record, not an edit",
+    "other_deploy_yml_gates": "the groom scan of all 318 index entries found the single-secret premise in tests[133] ONLY, and no stored gate pins the old curl literal or the deploy.yml blob id; the other deploy.yml-mentioning entries (5, 131, 161, 162, 167, 177, 191, 227) are name/dir-set or unrelated-premise gates and are carried as disclosed pre-existing REDs, none of them newly RED by this card",
+    "operator_edit_blob": "17c11618859e68230ebc74a6a748f519bc1fe184 (1507 bytes, LF-normalized; BASE blob 8c1e3ab14e74869bbcf958f8d373b942704f1269)"
+  },
+  "disclosure": "this record replaces ONE assertion in ONE stored command. It does not touch tests[134] (render.yaml CORS/APP_VERSION - card t91), the register-count gates (card t93), the README pins (cards t94/t96) or any other index entry. The orchestrator applies new_command verbatim to tests[133].command in the merge window and re-hashes; if the resulting command does not hash to new_command_sha256, the application is wrong and must stop."
+}
