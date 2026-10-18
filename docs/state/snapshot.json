@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T14:01:29Z",
-  "last_seq": 1117,
+  "updated_at": "2026-10-18T14:15:16Z",
+  "last_seq": 1118,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t97",
-      "role": "builder",
-      "phase": "build",
-      "run_id": "22783c1e-da23-4ab5-a85f-1bb4d36b6fcb",
-      "spawn_at": "2026-10-18T14:01:29Z",
-      "last_activity_at": "2026-10-18T14:01:29Z",
-      "worktree_path": null
-    },
-    {
-      "slot_id": "slot_2",
       "issue_id": null,
       "role": null,
       "phase": null,
       "run_id": null,
-      "spawn_at": "2026-10-18T12:20:16Z",
-      "last_activity_at": "2026-10-18T12:20:16Z",
+      "spawn_at": "2026-10-18T14:15:16Z",
+      "last_activity_at": "2026-10-18T14:15:16Z",
       "worktree_path": null
+    },
+    {
+      "slot_id": "slot_2",
+      "issue_id": "t97",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "204e2246-deea-4db2-8f0f-bb50b8f15fb5",
+      "spawn_at": "2026-10-18T14:15:16Z",
+      "last_activity_at": "2026-10-18T14:15:16Z",
+      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t97v"
     }
   ],
   "merge_queue": [],

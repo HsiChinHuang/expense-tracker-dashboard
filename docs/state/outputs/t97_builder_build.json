@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t97",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t97-health-version-single-source",
+    "branch_sha": "caf82c9e9bc777247919158415905675e3704613",
+    "commit_sha": "caf82c9e9bc777247919158415905675e3704613",
+    "commit_tree": "29a19c27564ffac19a5110d4b597ff50736cf0a7",
+    "commit_parent": "00bc18f9aee827f56d6fe74983d2b07142ed3de3",
+    "pushed": true,
+    "push_read_back": "git ls-remote origin refs/heads/issue/t97-health-version-single-source -> caf82c9e9bc777247919158415905675e3704613 (and refs/heads/main -> 00bc18f9aee827f56d6fe74983d2b07142ed3de3, untouched); one git op per cmd.exe /d /c call, read back after push, no force-push, no merge",
+    "base_note": "Card-pinned BASE for every line-level claim is 890680e251dd69a39e18289a6b5348d81788ba7c; the BASE blob of backend/app/main.py (cd681c8f662be72...) equals its HEAD blob, measured: git rev-parse HEAD~1:backend/app/main.py -> cd681c8f662be721911d4a594c39fce18dc0974b. Branch parent is 00bc18f = 120ba22 + orchestrator WAL/seq/snapshot commits only (git diff --name-only 120ba22 00bc18f touches docs/log/orchestrator_wal.jsonl, docs/state/seq.txt, docs/state/snapshot.json and NOTHING under backend/). ac2 measures the committed product delta against merge-base(HEAD, origin/main)=00bc18f and found exactly ['backend/app/main.py'].",
+    "changes": "backend/app/main.py ONLY, exactly one line vs BASE: line 81 '    application = FastAPI(title=\"Expense Tracker Dashboard API\", version=\"0.1.0\")' -> '    application = FastAPI(title=\"Expense Tracker Dashboard API\", version=get_settings().APP_VERSION)'. Applied by a byte-level script (scratch/t97b/edit_main.py) that verified exactly one occurrence of the pinned OLD line INCLUDING its CRLF before swapping; 132 lines stay 132, CRLF preserved, no new import, no module-level settings binding, no 0.1.0 literal survives in the file (ac1-measured). The definer-pinned spelling get_settings().APP_VERSION was used; the survey's settings.APP_VERSION (measured NameError at groom) was NOT.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "caf82c9e9bc777247919158415905675e3704613",
+        "test": "docs/issues/t97.md ac1 fence (self-contained base64 probe, mode ac1): BASE blob pin holds, line 81 moves exactly OLD->NEW with no other of the 132 lines differing, no 0.1.0 literal survives, the existing 'from app.config import get_settings' import is kept and no module-level settings binding was invented, ruff and mypy clean on app/main.py. Run: bash <extracted ac1 fence> from the repo root, rc=0 (also ran GREEN pre-commit on the working tree)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "caf82c9e9bc777247919158415905675e3704613",
+        "test": "docs/issues/t97.md ac2 fence (mode ac2): config.py/openapi.yaml/README.md/telemetry.py/pyproject.toml/test_health_api.py/merge_test_index.json keep their measured HEAD blobs, render.yaml equals the post-t91 HEAD blob c5e25538 and is byte-clean in the working tree, committed product delta vs merge-base 00bc18f is exactly ['backend/app/main.py'], working product delta is main.py plus card/book/scratch room only. Run: bash <extracted ac2 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "caf82c9e9bc777247919158415905675e3704613",
+        "test": "docs/issues/t97.md ac3 fence (mode ac3): stored tests[17]/[18]/[19] (t3 health gates) re-ran verbatim rc=0, in-process GET /api/v1/health returns 200 with exactly the four documented fields and payload version == application.version == config APP_VERSION == '1.0.0' (measured payload {\"database\":\"sqlite\",\"fallback_active\":false,\"status\":\"ok\",\"version\":\"1.0.0\"}), cached get_settings() agrees, no 0.1.0 literal in main.py. Run: bash <extracted ac3 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "caf82c9e9bc777247919158415905675e3704613",
+        "test": "docs/issues/t97.md ac4 fence (mode ac4): full suite 302 passed rc=0 (90.75s), unit 141 passed rc=0, integration 161 passed rc=0, no skipped/deselected/xfailed/error in any summary line, and the t3 invariant 'assert body[\"version\"] == application.version' is still in test_health_api.py. Run: bash <extracted ac4 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "caf82c9e9bc777247919158415905675e3704613",
+        "test": "docs/issues/t97.md ac5 fence (mode ac5): scan set re-derived read-only from all 318 index entries equals the groom-measured 16 [8,17,18,19,20,22,120,122,123,124,130,134,171,185,210,276], no gate command contains the literal 0.1.0, tests[134] byte-identical (len=2403, sha256 636d912f..., issue t26), every gate re-ran verbatim to its BASE rc (zero flips), tests[276] stays rc=1 for its own recorded pre-existing CRLF-grep reason, index HEAD blob a9f600be untouched, no t97 gate-amendment artifact exists. Run: bash <extracted ac5 fence>, rc=0",
+        "verdict": "PASS"
+      }
+    },
+    "per_ac_rc": { "ac1": 0, "ac2": 0, "ac3": 0, "ac4": 0, "ac5": 0 },
+    "gate_leg_rc": {
+      "tests[8]": 0, "tests[17]": 0, "tests[18]": 0, "tests[19]": 0, "tests[20]": 0,
+      "tests[22]": 0, "tests[120]": 0, "tests[122]": 0, "tests[123]": 0, "tests[124]": 0,
+      "tests[130]": 0, "tests[134]": 0, "tests[171]": 0, "tests[185]": 0, "tests[210]": 0,
+      "tests[276]": 1
+    },
+    "sanctioned_red": "tests[276] rc=1 is the groom-recorded pre-existing RED: it greps a CRLF source file with ^-anchored patterns and cannot match. It was RED at BASE with the same reason string (the probe asserts the reason text matches) and stays RED on the candidate for exactly that reason - zero flips, not healed by this card, and this card's one-line diff cannot reach it.",
+    "fence_extraction_proof": "All five fences were extracted from docs/issues/t97.md by script (scratch/t97b/extract_fences.py: the text between each pair of ```bash fences, CR-stripped) into scratch/t97b/ac1..ac5.sh and executed verbatim from the repo root - never hand-copied, never edited. The card parses to 5 blocks; the compact-JSON sha256 over the trimmed blocks (the t58/t62..t91 recipe) recomputed on this branch's card is sha256:d89c435e37a0049c81ca14e83f0d784aef95959b799384f38474ad3b2cd0d460, matching the definer groom handoff ac_hash and the card's eight spaced groups. Full stdout of every fence leg captured to scratch/t97b/ac{1..5}_post.out (ac1 also has a pre-commit working-tree run ac1_pre.out).",
+    "ac_hash_recomputation": "sha256:d89c435e37a0049c81ca14e83f0d784aef95959b799384f38474ad3b2cd0d460 (recomputed from docs/issues/t97.md on the built branch; MATCHES docs/state/outputs/t97_definer_groom.json)",
+    "test_summary": { "total": 5, "passed": 5, "failed": 0 },
+    "test_summary_note": "5 = the five card AC fences, each self-contained and rc-measured post-commit on the branch head (ac1 additionally GREEN pre-commit on the working tree). Inside the fences: backend suite 302/141/161 all rc=0 (ac4), stored gates tests[17]/[18]/[19] rc=0 (ac3), 16-gate scan zero flips with tests[276]'s sanctioned RED (ac5). Honest rc table: every fence GREEN, nothing fudged.",
+    "lint_status": "CLEAN",
+    "lint_detail": "ruff check app/main.py -> 'All checks passed!' and mypy app/main.py -> 'Success: no issues found in 1 source file', both executed by the ac1 fence itself under uv (rc=0 legs). No ruff --fix was needed or run; the edit is one value-expression swap.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_files": ["backend/app/main.py"],
+    "delta_purity": "Committed: exactly ['backend/app/main.py'] vs merge-base 00bc18f (ac2-measured; commit --stat shows 1 file, 1 insertion, 1 deletion). Working tree after commit carries only pre-existing untracked room: scratch/ (my fence extracts + this run's scratch) and docs/state/history/ (orchestrator-owned, untouched, untracked at spawn). .github/workflows/deploy.yml was NEVER staged, reverted, or committed - it carried no tracked diff at spawn in this tree (git status --porcelain at spawn showed only the two untracked dirs) and none after. No git add -A was ever used; backend/app/main.py was staged by explicit path. merge_test_index.json untouched (318 entries measured, HEAD blob a9f600be), README.md frozen 398/ca9343a8 blob 3282ada8 untouched, openapi.yaml untouched, render.yaml byte-clean vs HEAD.",
+    "working_tree_note": "Built in the PARENT tree (shared cwd) as the single builder, per dispatch. Branch created from main tip 00bc18f (which equals 120ba22 plus orchestrator WAL/seq/snapshot commits only - backend/ untouched between them, measured). This handoff is written in the parent checkout and is NOT part of the branch commit; WAL/snapshot/seq were not touched or committed.",
+    "platform_sync": "Issue #104: build verdict + fence rc table comment posted via scripts/platform.ts (rc=0, response author HsiChinHuang) and read back via issue latest-comment (rc=0, body head matches). Labels: 'label set 104 --labels built' (UNQUOTED, per dispatch) then read back via issue get: labels=['built'], state open - the groomed label is gone and built is set. No merge, no close, no PR (the platform.ts CLI exposes no pr resource; merges are the orchestrator's).",
+    "run_environment": "WSL2 Linux (bash, python3 3.12.3, node v18.19.1 under WSL; Windows node v24 via cmd.exe for the platform CLI) in the parent tree. All self-issued git ops wrapped in cmd.exe /d /c, one op per call with read-back (core.autocrlf=true; the edit itself done byte-level in Python preserving CRLF). uv legs: Linux uv at ~/.local/bin (which the probe's _env prepends to PATH) with UV_PROJECT_ENVIRONMENT=backend/.pi-agent/venvs/2876b1d8c5e8a14c (the dispatch-named shared bucket, already present). No inline python heredocs - all drivers under scratch/t97b/. Platform CLI bridged through Windows node (scratch/t97b/platform.mjs: node --import tsx scripts/platform.ts ...) because the WSL node_modules carries win32 esbuild - the known t91-diagnosed constraint; no direct API calls, scripts/platform.ts only."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/main.py (branch commit caf82c9e9bc777247919158415905675e3704613 on issue/t97-health-version-single-source, pushed)",
+      "docs/state/outputs/t97_builder_build.json (parent checkout, not part of the branch commit)",
+      "scratch/t97b/ (gitignored/untracked room: extract_fences.py, edit_main.py, ac1..ac5.sh fence extracts, ac*_post.out full fence outputs, comment.md + platform I/O, g.cmd/g2.cmd git format helpers)"
+    ],
+    "platform_issue": 104,
+    "output_path": "docs/state/outputs/t97_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T14:13:08Z",
+  "retry_count": 0
+}
