@@ -1,17 +1,18 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T08:51:17Z",
-  "last_seq": 1098,
+  "updated_at": "2026-10-18T09:35:19Z",
+  "last_seq": 1100,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
-      "last_activity_at": null,
-      "worktree_path": null
+      "role": "definer",
+      "phase": "survey",
+      "run_id": "9c3966eb-da32-4ddf-b6d5-54de96aabbdd",
+      "spawn_at": "2026-10-18T09:01:35Z",
+      "last_activity_at": "2026-10-18T09:35:19Z",
+      "worktree_path": null,
+      "subject_id": "phase_14_render_live_closeout"
     },
     {
       "slot_id": "slot_2"
