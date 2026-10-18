@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t90",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_14_render_live_closeout",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t90", "t91", "t92", "t93", "t98", "t94", "t95", "t96", "t97"],
+    "findings": [
+      {
+        "issue_id": "t96",
+        "category": "dependency_error",
+        "severity": "warning",
+        "description": "W1 README SINGLE-WRITER ORDERING IS ENFORCED ONLY IN PROSE, NOT IN THE DAG. t96 carries depends: [] and the dag.json edge set confirms it: zero in-edges, zero out-edges for t96 (t97 likewise has no edges, which is fine - it shares no file). The plan's scheduling constraints and both cards state that t94 and t96 must NEVER be co-scheduled or merged in one window (both move the README triple pin; tests[259] pin-custody leg) and that docs_verification.py is a strictly sequential three-writer file t98 -> t94 -> t96. None of that ordering exists as an edge, so a pure-DAG scheduler with MAX_SLOTS=2 can legitimately start t96 in batch 1 alongside t90/t91 and collide with t94 in batch 2. This is a known, deliberate shape (the factpack approved execution_order also places C last, and the plan's batch table puts t96 in batch 3), and adding a t94->t96 edge would misrepresent the data dependency, so it is a warning, not an error. REMEDY (mandatory at groom t96, and an orchestrator scheduling obligation): groom records the merge-window constraint in t96's Context, and the orchestrator must not schedule t96 until t94 has MERGED - treat the prose rule as a hard scheduling gate, not advisory."
+      },
+      {
+        "issue_id": "t94",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 tests[255] PREMISE-INVALIDATION PATH IS DISCLOSED BUT ITS GREEN/RED END-STATE IS UNRESOLVED BY DESIGN. The stored tests[255] command requires the '## Deployment on Render' section to state a pending-deployment placeholder while t94 must publish the live address there - the recon describes 255 only as the heading gate, so nobody in the record measured the placeholder leg's behaviour under a live-URL README. t94 handles this correctly (AC5 names 255 as the known premise-invalidated candidate, routes it to a t89-shaped amendment record that re-premises to a live-state assertion keeping the #61 citation and the health-verification step, and forbids deleting the leg or keeping false prose), and t96's AC5 requires tests[255] GREEN - which is only reachable if t94's amendment actually lands first. The residual risk is sequencing of the AMENDMENT rather than the card: the amendment record is authored by t94 but applied by the orchestrator in the merge window, so if it is deferred, t96's rc table shows an unexplained RED on 255 and t96's own AC5 fails through no defect of t96's. REMEDY at groom t94/t96: groom's read-only flip-set run pins the 255 leg's behaviour on the candidate tree, and the orchestrator must apply t94's 255 amendment in t94's merge window, before t96 is scheduled."
+      },
+      {
+        "issue_id": "t98",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 GATE-INDEX PATH DISAGREES WITH THE FACTPACK. Every card and the plan name the gate index as docs/state/merge_test_index.json; the factpack's forbidden_paths list names docs/criteria/**, README.md, render.yaml, .github/**, src/**, backend/**, frontend/**, scripts/**, tests/** and does not list the gate index, while the survey handoff and the recon both treat the index as orchestrator-only. The cards resolve this in the strict direction (t90/t93/t98/t96 each: the builder authors the amendment RECORD only, never edits the index; the orchestrator applies it in the merge window), so no card can actually reach the file even if the factpack omission were intentional. Recorded so the groom does not mistake the omission for permission; no card change needed."
+      },
+      {
+        "issue_id": "t92",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 EXTERNAL PRECONDITION MAKES t92 THE MILESTONE'S WALL-CLOCK RISK AND ITS STRING ASSUMPTION IS CORRECTLY DEFERRED. t92 depends on t90+t91 in the DAG, but its real precondition is a push of the merged result and a completed workflow_run - which the factpack's own execution_order (A1 -> A2 -> push, wait for workflow_run -> A3 -> ...) acknowledges. The card states this honestly (it blocks; a fabricated or reused run id is a FAIL; the run=38336119379 line in the index is precedent for the citation SHAPE, not a usable value), and the 'deploy verified: health endpoint is ok' string is explicitly an ASSUMPTION groom must replace with the real log wording (recorded as a premise correction, not a quiet weakening). Warning is a risk flag, not a defect: the orchestrator should budget the push/wait as real wall-clock and keep t92's slot released while it waits."
+      },
+      {
+        "issue_id": "t93",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W5 DISCLOSED GRANULARITY EXCEEDANCES ACCEPTED AS-IS (warn_only: true per limits.issue_granularity). As authored, all nine cards are within max_acs=6 (t90 5, t91 5, t92 6, t93 6, t98 6, t94 6, t95 5, t96 6, t97 6) and within max_files=4 on AUTHORED files. The exceedances are the two the plan and survey handoff disclose rather than hide: (a) delta-path counts above 4 for t93 (5, with the regenerated security_ops report), t98 (5, with two regenerated reports), t94/t96 (4 each, with the regenerated docs report) - the plan states the authored-vs-delta counting convention explicitly and no card may hand-edit a criteria report; (b) max_diff_lines=300 likely exceeded by t92 and t94 because an evidence capture and a README backfill are prose bodies, the same shape operator-approved for t86/t88 in phase_13. within_limits=false is reported honestly in the survey handoff. No remedy beyond keeping the regenerated-artifact disclosure in each card's PR body."
+      },
+      {
+        "issue_id": "t91",
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 GROOM-TIME MEASUREMENTS ARE CORRECTLY DECLARED, NOT ASSERTED. The survey measured nothing itself (measurement forbidden after the 31-minute timeout) and every unmeasured value is labelled ASSUMED with an owner: t90 - whether any other stored gate greps deploy.yml for the changed shapes; t91 - the base CORS_ORIGINS shape (bare string vs JSON array vs YAML list) and the escalation path if a render.yaml-greping gate pinned the OLD domain; t93 - the current ops prose text and whether a verified-row token vocabulary exists that tests[187]'s 'no deferred key on a PASS line' leg tolerates; t98 - the surrounding text at infra_verification.py:602; t94/t96 - the per-edit README gate flip sets; t95 - whether scripts/platform.ts can carry a multi-line comment body through cmd.exe; t92 - the deploy-log string. Each card assigns the measurement to groom as a read-only gate execution (never a repo copy). The risk is groom mistaking an ASSUMED value for a measured one; the cards' wording ('groom re-measures', never 'survey proved') is the control, and the review confirms no card asserts an unmeasured value as fact."
+      },
+      {
+        "issue_id": "t96",
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 tests[251] VICTIM REDEFINITION IS THE ONLY TRUE SEMANTIC REWRITE IN THE SET AND NEEDS ITS NEGATIVE CONTROL PINNED AT GROOM. Every other re-premise replaces a count/sequence pin with an equally-strong or stronger assertion; tests[251] is different - its sabotage victim (the Quick Start env-copy line) ceases to exist, so the replay's negative control must move to README:340. t96's AC4 states the correct control (a README with NO 'cp .env.example .env' line anywhere still turns the re-premised 251 RED) and forbids touching tests[27] (which stays GREEN via README:340, reversing t69's recorded no-other-source situation). Warning only: the AC draft is prose, so groom must fence an executable sabotage that proves the moved victim still turns the replayed gate RED; if that sabotage cannot be fenced, t96 is BLOCKED rather than allowed to ship a replay whose control is a comment."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W8 NO GAPS AGAINST OPERATOR-APPROVED SCOPE; TWO DELIBERATE NON-COVERAGES RECORDED. All seven factpack gaps map to a card with no orphan and no overlap: G1->t91, G2->t91 (keep quoted), G3->t90, G4->t93/t98 (three URL sites + ops/deployment-health.md:56 + ops/diagnosis.md:8), G5->t93/t98 (register migration + verified row + UptimeRobot confirmation + the 30-day free-tier note), G6->t97, G7->t93 (record, no new work). The uncommitted operator deploy.yml edit is carried by t90's AC3 byte-identical commit. Two non-coverages are deliberate and correctly stated rather than silently dropped: (1) the hosted app has NO seeded demo account, so t94 publishes the URL and says so while t96 keeps the LOCAL seeded Quick Start path; (2) live-state verification is single-run and time-bounded (t92 discloses one workflow_run at one time on a free tier with no retention guarantee; t93/t98 record the 30-day inactivity exposure). U5-parked items (tests[161]/[162]/[191]/[227] rotation, the tests[220] [:3] os.walk defect, the five older follow-up cards, 35 ruff UP031 findings, the flaky backend env tests) are named out-of-scope in the plan and no card pulls them in - t94/t96 move the digest CONSTANT but neither may claim tests[227] is fixed. Recorded as a warning only to keep the two non-coverage disclosures visible at groom."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 STATE-FILE BOOKKEEPING LEFT TO THE ORCHESTRATOR BY TASK INSTRUCTION, NOT BY OMISSION. skills/definer/details/review_plan.md Step 6 and the mode's Boundaries allow writing docs/state/milestones/phase_14_render_live_closeout.json, but this review_plan run was dispatched with a hard single-writer constraint naming only this handoff file as writable. The milestone record therefore still reads review_plan_status: in_progress, review_plan_completed_at: null, review_plan_verdict: null, review_plan_attempts: 0. The orchestrator must apply the Step 6 update (status passed is not permitted by the schema enum - the mode doc's own wording is 'passed or failed' with verdict PASS_WITH_WARNINGS; use the values the orchestrator's lifecycle expects), increment review_plan_attempts to 1, and record the verdict PASS_WITH_WARNINGS. No card, plan, dag, or backlog edit is required or made by this review."
+      }
+    ],
+    "checks": {
+      "coverage_check": "complete - every operator-approved card A1/A2/A3/B1a/B1b/B2/B3/C/D exists as a card (t90/t91/t92/t93/t98/t94/t95/t96/t97) and every gap G1-G7 maps to a named card; no new REQ-ID is invented and none is deleted; U5 parked items stay out (see W8).",
+      "granularity_check": "complete - all nine cards within max_acs=6 and max_files=4 on authored files; the two exceedance classes (regenerated-report delta paths, t92/t94 prose diff lines) are disclosed in the plan's granularity section and reported as within_limits=false in the survey handoff; warn_only: true. See W5.",
+      "dependency_check": "complete - dag.json parsed programmatically: 99 nodes, 142 edges, cycles field [], independent DFS cycle check found 0 cycles, no duplicate edges, no edge endpoint missing from nodes, topological_order covers all 99 nodes with 0 child-before-parent violations under the child->parent edge convention. All nine new cards' dag deps match their frontmatter depends exactly (t90 [], t91 [], t92 [t90,t91], t93 [t92], t98 [t92,t93], t94 [t98], t95 [t92,t93,t94,t98], t96 [], t97 []). No orphan among the new cards except t96/t97 which are legitimate independent roots (t96's ordering risk is W1); t72/t73/t74/t85/t86/t87/t88/t89 orphans predate this milestone and were reviewed in earlier milestones.",
+      "duplicate_contradiction_check": "complete - no two cards share an identical AC. No contradictory AC found: the register-count story is consistent across plan, t93 (security_ops literal 5->4) and t98 (docs derived 4->3, infra stays 7); the README:340 rule is consistent across t94 (must keep) and t96 (must not delete, and becomes tests[251]'s sabotage victim); tests[27] stays untouched in t96; tests[227] moves-but-is-not-claimed-fixed in both t94 and t96; the single-writer and three-writer file rules agree between the plan table and both README cards. The only cross-card tension (t96 AC5 requiring tests[255] GREEN while only t94's amendment can make it so) is W2, not a contradiction.",
+      "re_premise_direction_check": "complete for every re-premise in the milestone: tests[133] (single-secret assertion -> CLOSED two-secret allowlist + third-secret negative control), tests[187] (count pin -> 4-DEFERRED + verified-row assertion with 200/postgresql/fallback-false + old-URL/404-reason row text moved, negative control: a dropped genuine deferral or a hollow verified row is still RED), tests[219]/[223]/[226] (count pin -> 3-DEFERRED + verified row, tests[226]'s row-for-row REQ_DEFERRAL_KEY leg must survive), tests[232]/[250] (re-premise to the new contiguous step sequence), tests[251] (victim moves, replay still required to go RED), tests[255] (placeholder-status leg -> live-state assertion keeping the #61 citation and health-verification step). tests[134], tests[27] and tests[243]/[252] are explicitly RE-RUN not amended. No re-premise deletes protection to make a gate green; every card states 'RE-PREMISE, never relax' as a FAIL condition.",
+      "measurement_provenance_check": "complete - every gate/config value in the nine cards and the plan's base-state table is attributed to orchestrator_measured_recon, b1_register_recon, c_d_recon, or a survey-time grep that is labelled as such; nothing in the cards claims a flip set as proven; the abandoned copy-based probe is disclaimed in the plan and in t93/t94/t96 Constraints and nothing depends on it. This review measured nothing (no pytest, no gate execution, no scratch tree); the only computation was parsing dag.json and the factpack JSON."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/phase_14_render_live_closeout_definer_review_plan.json"
+    ],
+    "platform_issue": 96,
+    "output_path": "docs/state/outputs/phase_14_render_live_closeout_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T10:02:00Z",
+  "retry_count": 0
+}
