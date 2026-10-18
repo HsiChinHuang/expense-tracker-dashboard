@@ -26,11 +26,11 @@ services:
       - key: JWT_AUDIENCE
         value: expense-tracker-dashboard-web
       - key: CORS_ORIGINS
-        value: "[\"https://expense-tracker-dashboard.onrender.com\"]"
+        value: "[\"https://expense-tracker-dashboard-1qtu.onrender.com\"]"
       - key: ENVIRONMENT
         value: production
       - key: APP_VERSION
-        value: 1.0.0
+        value: "1.0.0"
 
 databases:
   - name: expense-tracker-db
