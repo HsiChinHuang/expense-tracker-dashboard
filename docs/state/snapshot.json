@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T08:10:00Z",
-  "last_seq": 1095,
+  "updated_at": "2026-10-18T08:51:17Z",
+  "last_seq": 1098,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -19,15 +19,11 @@
   ],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [
-    "t72",
-    "t73",
-    "t74"
-  ],
+  "active_issues": [],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
   "freeze_reason": null,
-  "environment_note": "t59 merged at 39d22feb - phase_9 exit composite; 58 cards closed; index 228. Phase_9 milestone close + complete.md rewrite next. Only operator-infra #61 remains open by design.",
+  "environment_note": "phase_13 closed (t75..t89, #81..#95). main==origin/main==adcf566. phase_14_render_live_closeout queued: Definer survey in flight. Only operator-infra #61 open on platform by design.",
   "merges_closed": 58,
   "index_count": 306,
   "milestones": [],
@@ -37,7 +33,7 @@
     "t59"
   ],
   "merged_issues": 4,
-  "milestone": "phase_13_ops_security_hardening",
+  "milestone": "phase_14_render_live_closeout",
   "main_tip_sha": "ae0e46a",
   "merge_history_entries": 84,
   "closed_issues": [
