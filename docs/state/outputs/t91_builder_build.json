@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t91",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t91-render-cors-appversion",
+    "branch_sha": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+    "commit_sha": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+    "commit_tree": "adfbcd810b9bbd58583bafa65a6d57311d5ebe62",
+    "commit_parent": "d9c090f98d12c43f87bfe39b184b75e1d51c7ee0",
+    "pushed": true,
+    "push_read_back": "git ls-remote origin refs/heads/issue/t91-render-cors-appversion -> 90de37048d038d7b94e20e05bd3b6d99e6d42aed (one git op per cmd.exe /d /c call, read back after push)",
+    "base_note": "Card-pinned BASE for every line-level claim is 890680e251dd69a39e18289a6b5348d81788ba7c (render.yaml is byte-identical from BASE to the branch parent for that file - git diff 890680e HEAD -- render.yaml was empty pre-edit). The branch parent is d9c090f, the origin/main tip at build time (t91 groom commit 202e064 plus orchestrator snapshot commits); render.yaml did not move between them.",
+    "changes": "render.yaml only, exactly two value lines vs BASE: G1 CORS_ORIGINS value line '        value: \"[\\\"https://expense-tracker-dashboard.onrender.com\\\"]\"' -> '        value: \"[\\\"https://expense-tracker-dashboard-1qtu.onrender.com\\\"]\"' (index 28); G2 APP_VERSION value line '        value: 1.0.0' (unquoted at BASE) -> '        value: \"1.0.0\"' (index 32). Every other byte of the 39-line file is untouched; old no-suffix origin absent from the whole file.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+        "test": "docs/issues/t91.md ### ac1 fence (self-contained base64 probe, mode ac1): js-yaml parse of the WORKING-TREE render.yaml yields CORS_ORIGINS as a string that is a JSON array CONTAINING the exact live origin https://expense-tracker-dashboard-1qtu.onrender.com, no element equals the old no-suffix origin (element-boundary), raw value line equals the quoted JSON-array form. Run: bash <extracted ac1 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+        "test": "docs/issues/t91.md ### ac2 fence (mode ac2): the gate's own js-yaml parse yields APP_VERSION as the STRING '1.0.0' AND the raw value line is exactly '        value: \"1.0.0\"' (quoted form, gap G2). Run: bash <extracted ac2 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+        "test": "docs/issues/t91.md ### ac3 fence (mode ac3): tests[134] in docs/state/merge_test_index.json is byte-identical to BASE's stored command (issue_id t26, len 2403, sha256 636d912f307b1945ad2da88c198556e81bdbf87b0522dd59fa802310f71cfbf2) and was then EXECUTED verbatim, exit 0. The gate was RE-RUN, never amended. Run: bash <extracted ac3 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+        "test": "docs/issues/t91.md ### ac4 fence (mode ac4): diff vs BASE render.yaml is exactly the two sanctioned env-value lines (line indices 28 and 32), all other 37 lines byte-clean; old origin appears nowhere in the file; COMMITTED product delta vs merge-base(HEAD, origin/main)=d9c090f is exactly ['render.yaml']; working product delta is render.yaml plus only the tolerated uncommitted t90 deploy.yml edit. Run: bash <extracted ac4 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+        "test": "docs/issues/t91.md ### ac5 fence (mode ac5): read-only scan of all 318 index entries finds the render.yaml-mentioning gate set unchanged at [134,135,170,227,255]; no scan-set command pins the old origin literal; tests[134] rc=0, tests[135] rc=0, tests[170] rc=0, tests[255] rc=0; parked tests[227] rc=1 RED for its own pre-existing README-pin-2 rotation reason only (pins 308 lines/a64efaa2, main carries 398/ca9343a8; its render.yaml leg never runs). Run: bash <extracted ac5 fence>, rc=0",
+        "verdict": "PASS"
+      }
+    },
+    "per_ac_rc": { "ac1": 0, "ac2": 0, "ac3": 0, "ac4": 0, "ac5": 0 },
+    "gate_leg_rc": {
+      "tests[134]": 0,
+      "tests[135]": 0,
+      "tests[170]": 0,
+      "tests[227]": 1,
+      "tests[255]": 0
+    },
+    "sanctioned_red": "tests[227] rc=1 is the phase_14-parked milestone-pin RED named in the card: README pin-2 digest drift (308 lines/a64efaa2 pinned vs 398/ca9343a8 on main). Its render.yaml digest leg never even runs because the README leg exits first. The card must keep it RED for exactly this named reason and does; it was not healed and no gate was amended.",
+    "fence_extraction_proof": "Each acN fence was extracted from docs/issues/t91.md (the text between its ```bash fences, CR-stripped, trimmed) and the compact-JSON sha256 over [ac1..ac5] recomputed from THIS branch's card: sha256:1819a5061853f59d03dbd15c57fdfe7ccc118f95b1d43ea8c35e89aa03011f4b, matching the definer groom handoff ac_hash exactly. Fences were then run verbatim from scratch/t91_scratch/acN.sh (extracted by script, never hand-copied).",
+    "ac_hash_recomputation": "sha256:1819a5061853f59d03dbd15c57fdfe7ccc118f95b1d43ea8c35e89aa03011f4b (recomputed post-commit from docs/issues/t91.md on the built branch; MATCHES docs/state/outputs/t91_definer_groom.json)",
+    "test_summary": { "total": 5, "passed": 5, "failed": 0 },
+    "test_summary_note": "5 = the five card AC fences, each self-contained and rc-measured (ac1/ac2 ran pre-commit on the working tree, ac3/ac4/ac5 post-commit). tests[134] re-run inside ac3 and again inside ac5 both exit 0; scan-set legs recorded separately in gate_leg_rc with tests[227]'s sanctioned RED.",
+    "lint_status": "CLEAN",
+    "lint_detail": "The delta is render.yaml (YAML data) only - no .ts/.py/.tsx file was touched, so no lintable product code changed. Edit was done by a line-level byte-swap script (scratch/t91_scratch/edit_render.py) that verified exactly one hit at line indices 28/32 before writing and preserved every other byte including newline style; git diff --stat shows 2 insertions/2 deletions in render.yaml alone.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_files": ["render.yaml"],
+    "delta_purity": "Committed: exactly ['render.yaml'] vs merge-base d9c090f (ac4-measured). Working tree carries only t90-owned dirt that this card never staged: M .github/workflows/deploy.yml (operator/t90 edit), untracked docs/state/history/ and scratch/ (both excluded by the card's books/card_root rules or gitignored). t90's files were never staged, committed, reverted, or modified; no git add -A was ever used - render.yaml was staged by explicit path.",
+    "working_tree_note": "Built in the PARENT tree (shared cwd) because worktree isolation was blocked by t90's uncommitted deploy.yml edit per dispatch. Branch created from main tip; handoff written on the branch checkout but NOT part of the branch commit (branch commit contains the render.yaml change only).",
+    "tooling_gap": "Dispatch requested 'DRAFT PR via npx tsx scripts/platform.ts pr create --draft', but scripts/platform.ts exposes only issue/label resources (no pr resource - verified in source) and no gh CLI exists in this environment. Supervisor was contacted and ruled Option B: the PR step does not exist in this project's flow (every t-card through t89 merged via orchestrator git merge --no-ff of the pushed branch + platform issue close; docs/commands.md forbids direct Platform API calls outside the CLI). No PR was created; the scratch driver prepared for it was deleted, never executed. Merge is expected in the orchestrator's strict merge window.",
+    "dispatch_deviation": "Dispatch named 'scripts/run_gate.ts <index>' for the gate legs; that script does not exist in the repo (never in git history). Per the card-governs rule, the card's own five self-contained AC fences were executed instead - they ARE the gate runners (ac3 executes tests[134] verbatim; ac5 executes the scan set [134,135,170,227,255]) - and rc was recorded per leg, which is what the dispatch asked to capture.",
+    "platform_sync": "No platform writes performed by this build: issue #97 stays groomed for the orchestrator's merge-window handling (t89-style lifecycle). No labels, no comments, no PR.",
+    "run_environment": "WSL2 Linux (bash 5.2.21, python3 3.12.3, node v18.19.1) in the parent tree; all self-issued git ops wrapped in cmd.exe /d /c (core.autocrlf=true), one op per call with read-back; probes' own git bridge uses cmd.exe per the t88 pattern."
+  },
+  "artifacts": {
+    "files_written": [
+      "render.yaml (branch commit 90de37048d038d7b94e20e05bd3b6d99e6d42aed on issue/t91-render-cors-appversion, pushed)",
+      "docs/state/outputs/t91_builder_build.json (parent checkout, not part of the branch commit)",
+      "scratch/t91_scratch/ (gitignored: ac1..ac5.sh fence extracts, edit_render.py, commitmsg.txt)"
+    ],
+    "platform_issue": 97,
+    "output_path": "docs/state/outputs/t91_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T10:51:43Z",
+  "retry_count": 0
+}

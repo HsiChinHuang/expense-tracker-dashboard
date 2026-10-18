@@ -1,0 +1,112 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t90",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t90-deploy-health-url",
+    "branch_sha": "8122b56cfb82226dd6329902d69f3d02d487f125",
+    "commit_sha": "8122b56cfb82226dd6329902d69f3d02d487f125",
+    "commit_tree": "def5f96eeb68fe76a9ecfb502fc2a3cd2c3f4dd0",
+    "commit_parent": "d9c090f98d12c43f87bfe39b184b75e1d51c7ee0",
+    "pushed": true,
+    "push_read_back": "git ls-remote origin refs/heads/issue/t90-deploy-health-url -> 8122b56cfb82226dd6329902d69f3d02d487f125",
+    "base_note": "Milestone base 890680e2; card groom ancestor b318c36b; branch cut from main d9c090f (parent of the commit). INCIDENT, disclosed honestly: the FIRST branch cut (checkout -b) inherited the concurrent t91 builder tip 90de370 (render.yaml-only commit) because the sibling left HEAD on its branch in this shared parent tree; the first push f69abbb therefore carried 90de370 in its ancestry and ac4 REDed on the never-touch render.yaml leg. Corrected per supervisor ruling (WAL 1107 dispatch): local branch reset to d9c090f, operator bytes restored from git object storage (cat-file blob 17c11618 > file, hash-object read-back 17c11618 BEFORE staging), re-committed by explicit path staging (git add -- .github/workflows/deploy.yml only; never git add -A), remote ref DELETED (git push origin :refs/heads/issue/t90-deploy-health-url) and re-pushed - NO force was used (force-with-lease stays blacklisted). ac4 re-run on the clean base: rc=0.",
+    "changes": {
+      "product": ".github/workflows/deploy.yml committed byte-identical to the recorded operator edit: blob 17c11618859e68230ebc74a6a748f519bc1fe184 (1507 bytes LF, sha256 7262fe869db6b0ad...), 3 insertions / 1 deletion vs BASE blob 8c1e3ab1 (1481 bytes, 1 secret). Nothing else moved in the file: no reformat, no reorder, no added comment, no second env binding.",
+      "record_carried_forward": "docs/state/outputs/t90_definer_gate_amendment.json carried UNCHANGED - blob a507b21625a85584b1c8504b548fcb9e78a038ce identical in d9c090f, HEAD, and the working tree (git hash-object read-back). The builder never authored or edited the amendment.",
+      "gate_index": "docs/state/merge_test_index.json NEVER touched (ac5 leg (a): byte-identical to its HEAD blob). The tests[133] amendment is applied by the ORCHESTRATOR in the strict merge window (t89 precedent), NOT by the builder."
+    },
+    "ac_mapping": {
+      "ac1": {
+        "commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+        "test": "docs/issues/t90.md ### ac1 fence (self-contained base64 python probe): the gate-amendment RECORD exists, valid 2-space JSON, index 133/t26, old_command byte-identical to the LIVE stored command (3106 B / 748f28c0...), exact old/new assertion texts, closed-allowlist + third-secret negative control + byte-identical-elsewhere recorded. Run: bash <extracted ac1 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+        "test": "docs/issues/t90.md ### ac2 fence: committed-blob identity vs the RECORDED content + amended-gate replay against the committed blob. Run: bash <extracted ac2 fence>, rc=1 RAW - all byte-identity legs GREEN (HEAD blob 17c11618 != BASE 8c1e3ab1; blob size 1507 + sha256 7262fe86 match the record; worktree hash-object == committed blob; amended-gate replay rc=0), but the probe-side positional-zip moved-leg fires (verbatim RED line in evidence.ac2_red_leg_verbatim). Builder diagnosis: the leg zips BASE vs HEAD line-by-line and cannot represent a mid-file insertion - ANY correct 2-line mid-file insertion yields moved>0 (measured 10 shifted positions); difflib on the same two blobs shows exactly insert base[34:34] head[34:36] + replace base[36:37] head[38:39] = the recorded 3+/1-. Supervisor accepted the diagnosis (record, do not touch the fence); the VERIFIER must re-run ac2 and adjudicate - verifier re-runs are authoritative for Gate 3; if the verifier disagrees the correct channel is re_groom fixing the probe, not a builder fence edit.",
+        "verdict": "FAIL"
+      },
+      "ac3": {
+        "commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+        "test": "docs/issues/t90.md ### ac3 fence: RE-PREMISE matrix executed in memory - base_single_secret rc=0, operator_edit rc=0, third_secret rc=1 (closed allowlist msg), app_url_misplaced rc=1 (placement msg), app_url_referenced_twice rc=1 (placement msg), stored-command on operator edit rc=1 (single-secret msg). Run: bash <extracted ac3 fence>, rc=0",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+        "test": "docs/issues/t90.md ### ac4 fence: delta purity vs ancestor b318c36b with LIVE ANCESTOR_YES family, runtime-tree exemption measured, never-touch set (gate index first) byte-clean, card-discipline legs, executed purity control FIRED. Run: bash <extracted ac4 fence> on the CLEAN base (after delete+re-push), rc=0. (An earlier run on the contaminated base red on the never-touch render.yaml leg - incident + correction in base_note.)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+        "test": "docs/issues/t90.md ### ac5 fence: merge-window contract - gate index byte-identical to HEAD, amendment = exactly ONE contiguous replacement at offset 2248 with byte-identical prefix/suffix, record digests self-reproduce (old 3106/748f28c0, new 3547/b2a662b9), amended command rc=0 vs committed blob, stored command rc=1 naming the single-secret leg. Run: bash <extracted ac5 fence>, rc=0",
+        "verdict": "PASS"
+      }
+    },
+    "per_ac_rc": {
+      "ac1": 0,
+      "ac2": 1,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0
+    },
+    "ac2_red_leg_verbatim": "ac2 RED: the committed diff is not the recorded two-line addition: 10 line(s) differ in place and 2 line(s) were appended (expected 0 moved, 2 added)",
+    "ac2_diagnosis": {
+      "failing_leg": "probe line ~133: `if len(hl) - len(bl) != 2 or moved:` where moved = positional zip(bl, hl) inequality count",
+      "why": "A positional zip compares BASE line i to HEAD line i. The operator edit INSERTS two lines at line index 34 (mid-file), so every following line shifts by 2 and the zip reports 10 false \"moved in place\" lines. The leg can only pass for an edit that appends at EOF or replaces in place; the recorded 3+/1- diff (git diff --stat measured identically) is mid-file by design.",
+      "base_independent": true,
+      "byte_identity_legs_all_green": "blob id 17c11618 == recorded EDIT blob; blob len 1507 == EDIT_BYTES; sha256(head_bytes) == 7262fe869db6b0ad... (record EDIT_LF_SHA256); worktree hash-object == committed blob; amended-gate replay vs committed blob rc=0",
+      "difflib_decomposition": "insert base[34:34] head[34:36] (the 2 env lines) + replace base[36:37] head[38:39] (the curl line) = exactly 3 insertions / 1 deletion, matching the card's measured operator diff",
+      "reproduction": "scratch/t90builder/ac2_debug.py runs the probe's own comparison against the two blobs through the probe's own cmd.exe git bridge and prints the naive-zip count next to the difflib opcodes",
+      "supervisor_ruling": "record verbatim RED-with-diagnosis, NOT a BLOCKER; do not touch the fence; verifier re-run is authoritative; disagreement routes to re_groom, not a builder probe edit"
+    },
+    "fence_extraction_proof": "All five fences extracted from docs/issues/t90.md and compared byte-for-byte against evidence.verification_commands.ac1..ac5 in docs/state/outputs/t90_definer_groom.json: all five MATCH (sizes 15225/15609/13129/23597/14605). ac_hash recomputed from the card on disk (sha256 over JSON.stringify of the five CR-stripped trimmed fenced blocks, compact separators, t58 recipe): 38aa392812e909c03f42c207318fbcf2b726481ed36931991da63bc72147063f == stored. Extractor + extracted fences: scratch/t90builder/extract_fences.cjs, ac1..ac5_fence.sh.",
+    "ac_hash": "sha256:38aa392812e909c03f42c207318fbcf2b726481ed36931991da63bc72147063f",
+    "gate_alignment": {
+      "stored_tests133_rc": 1,
+      "stored_tests133_red_leg_verbatim": "RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got RENDER_DEPLOY_HOOK,RENDER_APP_URL",
+      "amended_tests133_rc": 0,
+      "note": "The tests[133] RED on the pre-amendment index is the STORED PREMISE this card exists to settle - it is EXPECTED RED, recorded verbatim, NOT fixed by the builder. The definer-authored record (carried forward unchanged) is applied by the orchestrator in the strict merge window; ac5 proves the record is exactly one contiguous swap with byte-identical prefix/suffix. Runner: scratch/t90builder/gate_legs.cjs (execFileSync bash -c, read-only)."
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 4,
+      "failed": 1
+    },
+    "test_summary_note": "5 = the five card AC fences, each self-contained and rc-measured on the pushed candidate 8122b56. The one failure is ac2 with raw rc=1 on the probe-side positional-zip leg only (all substantive byte-identity legs GREEN) - see ac_mapping.ac2 / ac2_diagnosis and the supervisor ruling.",
+    "lint_status": "CLEAN",
+    "lint_detail": "The delta is .github/workflows/deploy.yml (YAML workflow data) only - no .ts/.py/.tsx product code touched. The commit reproduces the operator bytes exactly (blob-identity proven), so no lint/reformat was applied or needed.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_files": [
+      ".github/workflows/deploy.yml"
+    ],
+    "delta_purity": "ac4 on the clean base: 5 allow-listed paths changed (deploy.yml + the record + card room + groom handoff lineage), 6 ANCESTOR_YES (live family from b318c36b), 2 RUNTIME_YES (scratch/, docs/state/history/ - measured untracked and un-mentioned by all 318 stored gate commands), 1 SIBLING_YES (docs/state/outputs/t91_builder_build.json, closed t9x pattern only), 0 UNACCOUNTED; never-touch set byte-clean including render.yaml, gate index, README, ci.yml, e2e.yml; purity control planted under docs/ FIRED.",
+    "working_tree_note": "Shared parent tree: orchestrator-owned files (docs/log/orchestrator_wal.jsonl, docs/state/seq.txt, docs/state/snapshot.json modified; docs/state/history/, scratch/, t91 handoff untracked) were NEVER staged - every git add named .github/workflows/deploy.yml explicitly and commit -F used a prepared message file (scratch/t90_commit_msg.txt). Index-lock contention with the sibling builder was handled one-op-per-cmd.exe-call with read-back.",
+    "tooling_gap": "Dispatch PR line erroneous; project flow is branch+merge; no PR required (orchestrator ruling WAL 1107). scripts/platform.ts exposes only issue/label resources (no pr resource - verified in source), no gh CLI exists, and no PR artifact exists in any t1..t89 handoff. No pr create was attempted, no scratch API driver written (direct Platform API calls remain forbidden). Merge is expected via orchestrator git merge --no-ff of this pushed branch.",
+    "platform_sync": {
+      "issue": 96,
+      "note": "Per task dispatch and supervisor ruling, no issue comment/label operations were performed by this builder run: the dispatch replaced the PR step with handoff fields (branch/commit_sha/pushed/tooling_gap), and issue #96 state transitions (groomed -> built) belong to the orchestrator's merge-window sync. No platform issue was closed, commented on, or relabeled by this run; #61 untouched."
+    },
+    "run_environment": "WSL2 Linux (bash, python3 3.12.3, node v18.19.1) in the PARENT tree (worktree isolation blocked by the operator edit this card commits); all self-issued git ops wrapped in cmd.exe /d /c with one op per call and read-back (core.autocrlf=true, LF-normalised comparisons); no inline python heredocs - all probe/driver source written under scratch/t90builder/; no scratch repo copy created.",
+    "notes": [
+      "ac2 verdict FAIL is recorded deliberately at COMPLETE/built status per the supervisor ruling: the product deliverable is byte-exact (blob-identity legs GREEN, ac5 replay rc=0), the failing leg is a probe artifact the builder is forbidden to touch, and the verifier re-run is the authoritative adjudication channel.",
+      "The amended tests[133] was NEVER written to the index by this run; ac2/ac3/ac5 execute it only in-memory / against temp files, exactly as the card prescribes."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      ".github/workflows/deploy.yml",
+      "docs/state/outputs/t90_builder_build.json"
+    ],
+    "platform_issue": 96,
+    "output_path": "docs/state/outputs/t90_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T11:04:08.180Z",
+  "retry_count": 0
+}
