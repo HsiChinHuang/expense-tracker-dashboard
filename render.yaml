@@ -33,7 +33,6 @@ services:
         value: 1.0.0
 
 databases:
-  - type: postgres
-    name: expense-tracker-db
+  - name: expense-tracker-db
     plan: free
-    postgresVersion: 16
+    postgresMajorVersion: "16" 
