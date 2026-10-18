@@ -1,0 +1,6 @@
+ac4 evidence: diff vs BASE is exactly 2 lines: the CORS_ORIGINS value line '        value: "[\\"https://expense-tracker-dashboard.onrender.com\\"]"' -> '        value: "[\\"https://expense-tracker-dashboard-1qtu.onrender.com\\"]"' and the APP_VERSION value line '        value: 1.0.0' -> '        value: "1.0.0"'; every other of the 39 lines is byte-clean
+ac4 evidence: old no-suffix origin absent from the whole file
+ac4 evidence: committed product delta against merge-base d9c090f98d12: ['render.yaml'] (empty = groom measurement, ['render.yaml'] = builder commit)
+ac4 evidence: working product delta is render.yaml plus only the tolerated uncommitted t90 deploy.yml edit
+ac4 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac4 GREEN: see the probe evidence lines above - the render.yaml delta vs BASE is exactly the two sanctioned env-value lines, the old origin appears nowhere, and the product delta is render.yaml alone

@@ -1,0 +1,4 @@
+ac2 evidence: js-yaml yields the STRING '1.0.0' - the same parse tests[134] uses, so its APP_VERSION leg is GREEN
+ac2 evidence: raw line is the quoted string form; the proof is the gate's own parse plus the exact line, never a grep
+ac2 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac2 GREEN: see the probe evidence lines above - the js-yaml parse used by the stored gate yields APP_VERSION as the STRING 1.0.0 and the raw value line is the quoted form

@@ -1,0 +1,9 @@
+ac5 evidence: gate scan set extracted read-only from all 318 entries: [134, 135, 170, 227, 255]
+ac5 evidence: no gate command in the scan set contains the old origin literal (tests[134]'s CORS leg is the 'onrender.com' substring check, so the corrected value keeps it GREEN)
+ac5 evidence: tests[134] rc=0
+ac5 evidence: tests[135] rc=0 (recorded; no command-text pin on the old origin can make this card responsible for a flip)
+ac5 evidence: tests[170] rc=0 (recorded; no command-text pin on the old origin can make this card responsible for a flip)
+ac5 evidence: tests[227] rc=1 RED for its pre-existing parked reason (README pin-2 rotation: the gate pins 308 lines/a64efaa2, main carries 398/ca9343a8; its render.yaml digest leg never even runs because the README leg exits first) - drift predates this card and is not owned here
+ac5 evidence: tests[255] rc=0 (recorded; no command-text pin on the old origin can make this card responsible for a flip)
+ac5 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac5 GREEN: see the probe evidence lines above - the render.yaml gate scan set is unchanged, no gate command pins the old origin, tests[134] is GREEN, and parked tests[227] is RED for its own pre-existing reason only

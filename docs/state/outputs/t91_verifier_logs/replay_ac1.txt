@@ -1,0 +1,5 @@
+ac1 evidence: live origin https://expense-tracker-dashboard-1qtu.onrender.com is an exact JSON-array element
+ac1 evidence: no element equals the old no-suffix origin https://expense-tracker-dashboard.onrender.com
+ac1 evidence: raw value line is the quoted JSON array naming the -1qtu domain (Render's parser sees a string, never a flow sequence)
+ac1 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac1 GREEN: see the probe evidence lines above - the live -1qtu origin is an exact element of the CORS_ORIGINS JSON array, the old no-suffix origin is gone as an element, and the raw value line is the quoted JSON-array form

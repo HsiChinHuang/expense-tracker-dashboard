@@ -1,0 +1,4 @@
+ac3 evidence: tests[134] command byte-identical to BASE: len=2403 sha256=636d912f307b1945ad2da88c198556e81bdbf87b0522dd59fa802310f71cfbf2 issue_id=t26
+ac3 evidence: stored tests[134] executed verbatim, rc=0 (CORS substring leg + APP_VERSION string leg both GREEN on the corrected blueprint, no amendment)
+ac3 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac3 GREEN: see the probe evidence lines above - tests[134] is byte-identical to the BASE stored command and its verbatim re-run exited 0 on the corrected blueprint
