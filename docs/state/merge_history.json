@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-18T12:23:46Z",
+  "updated_at": "2026-10-18T15:44:43Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1304,6 +1304,17 @@
       "regressions_note": "0 NEW: 318/318 pre-merge sweep 282G/36RED all classified pre-existing/environmental/sanctioned (verdict PASS, 0 attributable - delta is render.yaml alone 2+/2-); merged-bytes recheck ac1/ac2/ac3/ac5 rc=0 + ac4 disclosed provenance RED (counts orchestrator seq.txt/snapshot.json WAL bookkeeping in committed delta; measured product delta merged-HEAD vs candidate 90de370 EXCLUDING docs/state+docs/log is EMPTY = byte-identical, t83 precedent); gates 133/134/135/170/255 all rc=0 on merged bytes; tests[134] byte-identical to BASE unamended per card ZERO-gate-edits constraint. INDEX APPEND WITHHELD (t71-style settlement): t91 fences ac3/ac5 scan the WHOLE index for render.yaml-mentioning gates + exact entry count 318, so appending ac1/ac2/ac3/ac5 flips ac3 (322!=318) and ac5 (new render-mentioning idx 321) RED post-append - measured rc=1 then restored 318 and both GREEN again. Fences live as archived artifacts (groom handoff + verifier replays); index stays 318 entries.",
       "merge_type": "clean",
       "test_suite": "affected (5 card fences + 5 render/CORS gate legs verbatim on merged bytes)"
+    },
+    {
+      "issue_id": "t97",
+      "platform_issue": 104,
+      "branch": "issue/t97-health-version-single-source",
+      "merge_sha": "9ffdbb0",
+      "merged_at": "2026-10-18T15:44:43Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0,
+      "regressions_note": "0 NEW: 318/318 pre-merge verbatim sweep on f67bf42 282G/36RED, RED set identical to t91 baseline (verdict PASS, delta backend/app/main.py 1+/1- alone); index untouched per card (no amendment exists; ac5 re-derives scan set live)"
     }
   ]
 }

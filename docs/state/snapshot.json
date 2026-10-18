@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T14:44:08Z",
-  "last_seq": 1120,
+  "updated_at": "2026-10-18T15:45:30Z",
+  "last_seq": 1121,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -15,20 +15,19 @@
     },
     {
       "slot_id": "slot_2",
-      "issue_id": "t97",
-      "role": "verifier",
-      "phase": "verify_pre_merge",
-      "run_id": "3a5b4c8e-5f03-4961-bf97-ae1c1b78b159",
-      "spawn_at": "2026-10-18T14:44:08Z",
-      "last_activity_at": "2026-10-18T14:44:08Z",
-      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\verify-t97"
+      "issue_id": null,
+      "role": null,
+      "phase": null,
+      "run_id": null,
+      "spawn_at": "2026-10-18T15:45:30Z",
+      "last_activity_at": "2026-10-18T15:45:30Z",
+      "worktree_path": null
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
   "active_issues": [
-    "t90",
-    "t97"
+    "t90"
   ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,

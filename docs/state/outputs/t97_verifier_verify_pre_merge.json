@@ -1,0 +1,269 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t97",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - full 318-entry verbatim sweep on the merged tree f67bf42: 282 GREEN / 36 RED, the RED set BYTE-IDENTICAL to the t91 pre-merge baseline, zero RED attributable to the t97 one-line delta (measured product diff 00bc18f..HEAD is backend/app/main.py 1+/1- alone); 5/5 card AC fences re-ran VERBATIM GREEN on the merged tree; ac_hash reproduced; lint clean. MERGE VERDICT: PASS posted on issue #104 at 2026-10-18T15:44Z (full body; a first attempt truncated at the first newline via npx.cmd batch-arg corruption and is superseded by a disclosed correction comment - see deviations).",
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 282,
+      "failed": 36
+    },
+    "cumulative_completeness": "machine-verified: results.tsv 318 rows, indices 0..317 each exactly once, 0 missing, 0 duplicates, 0 skipped. Sweep ran 2026-10-18T14:46:41Z -> 15:37:56Z ('sweep DONE rows=318 elapsed_s=3075', ~51 min wall). Raw sweep result was 280/38; tests[220]/tests[224] re-ran VERBATIM to rc=0 after the mode-doc fallback (uv sync --frozen --offline created backend/.venv, the exact prerequisite their self-test leg names: 'ac4 RED: no backend/.venv python to run the self-test copy (prerequisite: cd backend && uv sync)') -> final 282/36. No command string modified.",
+    "smoke_tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section and docs/config.yaml does not exist, so per the mode-doc fallback the smoke set is the 5 t97 AC verification fences from docs/issues/t97.md, extracted by script (never hand-copied) and executed VERBATIM from the merged-tree root: ac1/ac2/ac3/ac4/ac5 all rc=0. Inside them: line-81 exact OLD->NEW transition + ruff/mypy clean (ac1); all frozen HEAD blobs hold + committed product delta == ['backend/app/main.py'] (ac2); stored tests[17]/[18]/[19] rc=0 + payload version == application.version == config APP_VERSION == 1.0.0 (ac3); suites 302/141/161 pure passes rc=0 (ac4); 16-gate scan zero flips, tests[276] RED for its exact recorded reason, tests[134] byte-identical (ac5).",
+    "failed_tests": [
+      {
+        "test": "tests[139] (t27)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): t27 freeze-scope/e2e typecheck guard, RED at t91 sweep for the same reason; paths byte-identical since before this card"
+      },
+      {
+        "test": "tests[140] (t27)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): committed e2e/fixtures/helpers.ts TS2345, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[161] (t36)",
+        "error_summary": "sanctioned/parked set member (U5 milestone-pin rotation family), RED at t91 baseline"
+      },
+      {
+        "test": "tests[162] (t36)",
+        "error_summary": "sanctioned/parked set member (U5 milestone-pin rotation family), RED at t91 baseline"
+      },
+      {
+        "test": "tests[163] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate over committed report content predating this card"
+      },
+      {
+        "test": "tests[164] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[166] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[167] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[174] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[175] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[177] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report limitation-rows gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[180] (t40)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[181] (t40)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report gate, RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[188] (t47)",
+        "error_summary": "environmental (t91 baseline): docker daemon unreachable in this WSL session, gate fails loudly by design"
+      },
+      {
+        "test": "tests[190] (t47)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): t47 freeze-scope drift list vs a224be8; RED line BYTE-IDENTICAL to the t91 sweep line (main.py was already in the drift list at t91)"
+      },
+      {
+        "test": "tests[191] (t36)",
+        "error_summary": "sanctioned/parked set member: 'ac4 RED: README drifted' (U5 rotation family), RED at t91 baseline"
+      },
+      {
+        "test": "tests[192] (t47)",
+        "error_summary": "environmental (t91 baseline): docker daemon unreachable, gate fails loudly by design"
+      },
+      {
+        "test": "tests[204] (t51)",
+        "error_summary": "pre-existing main-side drift (t91 baseline), RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[216] (t55)",
+        "error_summary": "pre-existing main-side drift (t91 baseline), RED at t91 for the same reason"
+      },
+      {
+        "test": "tests[217] (t57)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): determinism contract over main-side docs/criteria regeneration"
+      },
+      {
+        "test": "tests[227] (t60)",
+        "error_summary": "sanctioned/parked set member: 'README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone', RED at t91 baseline"
+      },
+      {
+        "test": "tests[230] (t62)",
+        "error_summary": "pre-existing RED-by-envelope-design (t91 baseline): ownership-envelope gate counts ANY product file outside its t59-era envelope (t91: render.yaml; t97: main.py); rc unchanged 1->1, same mechanism"
+      },
+      {
+        "test": "tests[231] (t62)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): README digest moved off pin-3"
+      },
+      {
+        "test": "tests[250] (t67)",
+        "error_summary": "pre-existing RED-at-base-by-design (t91 baseline): Quick Start 9-vs-8 numbered steps"
+      },
+      {
+        "test": "tests[254] (t69)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): carried README sections-7-9 rewrite; render-token legs GREEN"
+      },
+      {
+        "test": "tests[257] (t70)",
+        "error_summary": "pre-existing RED-at-base-by-design (t91 baseline): Quick Start numbered-steps count"
+      },
+      {
+        "test": "tests[259] (t71)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): pin-custody gate, index bytes moved by orchestrator appends since the card pin"
+      },
+      {
+        "test": "tests[272] (t80)",
+        "error_summary": "environmental (t91 baseline): autocrlf=true CRLF-smudged working copy breaks bash -n over LF-blob scripts"
+      },
+      {
+        "test": "tests[274] (t81)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the incident/observability shell gate"
+      },
+      {
+        "test": "tests[275] (t82)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the incident/observability shell gate"
+      },
+      {
+        "test": "tests[276] (t78)",
+        "error_summary": "sanctioned by the t97 card contract: ac5 asserts rc=1 with the exact reason 'service.name is not the pinned SERVICE_NAME constant expense-tracker-api' (CRLF grep); replay matched verbatim"
+      },
+      {
+        "test": "tests[289] (t83)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the observability shell gate"
+      },
+      {
+        "test": "tests[290] (t83)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the observability shell gate"
+      },
+      {
+        "test": "tests[294] (t83)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the observability shell gate"
+      },
+      {
+        "test": "tests[296] (t83)",
+        "error_summary": "environmental (t91 baseline): CRLF-smudge breaks the observability shell gate"
+      },
+      {
+        "test": "tests[309] (t86)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): regeneration-custody gate over docs/criteria working-tree state"
+      }
+    ],
+    "red_classification": {
+      "sanctioned_pre_existing": [
+        161,
+        162,
+        191,
+        227,
+        276
+      ],
+      "sanctioned_note": "Dispatch sanctioned/parked set {227,161,162,191,220}: 161/162/191/227 RED as parked, identical to the t91 baseline. tests[220] measured RED in the raw sweep ONLY for the backend/.venv prerequisite (its own RED text names 'cd backend && uv sync' as the prerequisite) and re-ran VERBATIM to rc=0 once the mode-doc uv-sync fallback provided it - it is GREEN in the final tally. tests[276] is sanctioned by the t97 card contract: ac5 asserts rc=1 AND the exact reason string, matched verbatim.",
+      "environmental": [
+        188,
+        192,
+        272,
+        274,
+        275,
+        289,
+        290,
+        294,
+        296
+      ],
+      "environmental_note": "188/192: docker daemon unreachable in this WSL session (both sockets dead), gates fail loudly by design. 272/274/275/289/290/294/296: incident-response/observability shell gates reading LF-blob scripts through the autocrlf=true CRLF working copy (same measurement as the t91 sweep). All nine are in the t91 baseline RED set unchanged.",
+      "pre_existing_main_side_drift": [
+        139,
+        140,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        190,
+        204,
+        216,
+        217,
+        230,
+        231,
+        250,
+        254,
+        257,
+        259,
+        309
+      ],
+      "pre_existing_note": "All 22 are in the t91 pre-merge baseline RED set with unchanged rc and unchanged RED reasons. The two whose logs name backend/app/main.py were individually adjudicated: tests[190] RED line is BYTE-IDENTICAL to its t91 line (main.py was already in the a224be8 freeze-scope drift list before this card; the gate compares against a fixed ancestor, so the t97 one-liner changes neither the list nor the outcome). tests[230] is RED-by-envelope-design for ANY product file (t91 evidence line names render.yaml, t97 names main.py, same merge-base mechanism, rc 1->1 unchanged). The other 20 name no main.py line at all.",
+      "regression_attributable_to_t97": [],
+      "classification_arithmetic": "sanctioned_pre_existing 5 (161,162,191,227,276) + environmental 9 (188,192,272,274,275,289,290,294,296) + pre_existing_main_side_drift 22 (139,140,163,164,166,167,174,175,177,180,181,190,204,216,217,230,231,250,254,257,259,309) + regression 0 = 36, matching the measured RED row count exactly. The 36-set equals the t91 baseline 36-set with {220} removed-and-restored: t91 set minus 220 (GREEN there, GREEN here after the venv fallback) plus 276 (in both sets) - set-diff vs t91: new = {220,224} raw, both flipped GREEN verbatim under the documented fallback; fixed = none.",
+      "key_gates": "tests[8]/[17]/[18]/[19]/[20]/[22]/[120]/[122]/[123]/[124]/[130]/[134]/[171]/[185]/[210] all rc=0 in the sweep itself (tests[22] resolved natively at 216ms via the cmd.exe bridge - no shim hack needed on this Windows-side-git tree, unlike the t97v WSL tree); tests[133]/[135]/[170]/[255] rc=0; tests[276] rc=1 sanctioned."
+    },
+    "candidate": {
+      "worktree": "/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/verify-t97",
+      "branch": "premerge/t97",
+      "head": "f67bf42aabfad27a2ce19eeb61eab69eef12aaff",
+      "merge_parents": "HEAD^1 = bb0d0a6 (main tip carrying the t97 verify_issue handoff + replay logs), HEAD^2 = caf82c9 (candidate, parent 00bc18f) - git merge --no-ff as dispatched; branch --show-current == premerge/t97.",
+      "measured_product_delta": "git diff --numstat 00bc18f..HEAD: backend/app/main.py 1+/1- is the ONLY product path; every other row is book (docs/log/orchestrator_wal.jsonl, docs/state/seq.txt, docs/state/snapshot.json, t97 builder/verifier handoffs + replay logs). git diff --name-only caf82c9..HEAD shows only the book paths the merge brought in. Frozen-blob check: index a9f600be, config 41028cfc, README 3282ada8, openapi 684cd411, telemetry 7e3c7af9, pyproject d9016b23, test_health_api 2b71b7fe, render.yaml c5e25538 - all HEAD==BASE(00bc18f); main.py cd681c8f -> 3d950ae0 is the single product move.",
+      "working_tree": "clean of product edits by the verifier: untracked paths are only node_modules junctions (git-ignored), scratch/t97pm, and my own handoff/log artifacts under docs/state/outputs/. Two TRACKED files show working-tree diffs (docs/criteria/agent_pack_verification.md, docs/criteria/req_coverage_verification.md): regeneration side-effects produced BY the sweep's own generator gates (the t57/t58 regenerate-then-compare fences), NOT verifier edits - the identical phenomenon disclosed by the t91 pre-merge run (its tests[217]/[309] note). Reverting them would be a state-changing git op, forbidden in this mode; committed tree untouched."
+    },
+    "ac_hash_reproduction": "independently recomputed from the card ON DISK with the t58/t62..t91 recipe (sha256 over JSON.stringify, compact separators, of the five fenced blocks in ac1..ac5 order, each CR-stripped and trimmed): d89c435e37a0049c81ca14e83f0d784aef95959b799384f38474ad3b2cd0d460 == the card's spaced-group literal (d89c435e 37a0049c 81ca14e8 3f0d784a ef95959b 799384f3 8474ad3b 2cd0d460). Fence sizes 45182 bytes each (45181 content + newline as extracted); all five carry the identical probe payload; decoded probe sha256 ba0d58af06f1046f1e778a34fa138f234d80463fca58e57788e36777e0e01c52 == the card's ba0d58af pin. Anti-trust check PASSES: the fences executed are the fences the card pins.",
+    "ac_results_on_merged": {
+      "ac1": "GREEN rc=0 (replay_ac1.txt): line 81 exact OLD->NEW, no other of 132 lines differs, no 0.1.0 literal survives, existing get_settings import kept, ruff+mypy clean on app/main.py.",
+      "ac2": "GREEN rc=0 (replay_ac2.txt): all frozen HEAD blobs hold, config keeps APP_VERSION 1.0.0, render.yaml post-t91 bytes and byte-clean, committed product delta vs merge-base bb0d0a6 == ['backend/app/main.py'], working delta main.py plus card/book/scratch only.",
+      "ac3": "GREEN rc=0 (replay_ac3.txt): stored tests[17]/[18]/[19] verbatim rc=0; in-process GET /api/v1/health 200, exactly the four documented fields, payload version == application.version == config APP_VERSION == 1.0.0, cached get_settings() agrees.",
+      "ac4": "GREEN rc=0 (replay_ac4.txt): full 302 passed (127.55s), unit 141 passed (34.01s), integration 161 passed (82.48s), all rc=0, no skipped/deselected/xfailed/error; t3 invariant assert still in test_health_api.py.",
+      "ac5": "GREEN rc=0 (replay_ac5.txt): scan set re-derived from all 318 entries == the groom 16; no gate command contains 0.1.0; tests[134] byte-identical (len 2403, sha256 636d912f); every gate re-ran verbatim to its BASE rc - zero flips; tests[276] rc=1 for its exact recorded reason; index HEAD blob untouched; no t97 gate-amendment artifact."
+    },
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_detail": "uv run ruff check --output-format=json from backend/ (docs/commands.md lint command) against the shared bucket -> rc=0, output [] (0 findings, ruff.json archived). ruff and mypy on app/main.py additionally executed inside the ac1 fence, both clean.",
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN logged: UV_PROJECT_ENVIRONMENT and PYTHONPATH both EMPTY at spawn. Fallback per mode doc: sweep runner and fences set UV_PROJECT_ENVIRONMENT=backend/.pi-agent/venvs/2876b1d8c5e8a14c (the dispatch-seeded Linux bucket; the pyproject+uv.lock hash of THIS tree computes to bucket 21fefaa27a8077f8 which was not seeded - same bucket-substitution the verify_issue pass used and the dispatch endorsed) plus PYTHONPATH=worktree root for the sweep; fences follow the probe's own convention (PYTHONPATH dropped). tests[220]/[224] additionally required the per-worktree backend/.venv their gate text names as prerequisite -> uv sync --offline (rc=0, git-ignored path). No command string modified.",
+      "git_access": "Read-only throughout: WSL git cannot resolve this worktree's Windows-form gitdir pointer, so a PATH shim (scratch/t97pm/bin/git) forwards with WSL-form GIT_DIR/GIT_WORK_TREE, and a cmd.exe bridge (scratch/t97pm/bin/cmd.exe -> /mnt/c/Windows/System32/cmd.exe) serves the stored commands' own cmd.exe git legs. My own measurements used cmd.exe /d /c git with GIT_DIR/GIT_WORK_TREE exported. No checkout, no merge, no push, no index edit, no code/test/issue modification by the verifier.",
+      "sweep_harness": "extract.py extracted all 318 stored commands byte-verified (entries=318 mismatches=0) to scratch/t97pm/cmds/cum_NNN.sh; sweep.cjs (t91-proven harness, paths adapted) executed each VERBATIM (cwd=worktree root, 900s timeout, checkpointed TSV + per-entry logs). Single uninterrupted leg: 14:46:41Z -> 15:37:56Z, 3075s.",
+      "environment_gaps": "Docker daemon unavailable (WSL socket and Windows npipe both dead) -> tests[188]/[192] fail loudly by design; core.autocrlf=true smudges LF blobs to CRLF in the working copy -> the incident-response/observability/telemetry grep-and-bash gates RED environmentally (identical to the t91 sweep measurement)."
+    },
+    "platform": "MERGE VERDICT: PASS posted on issue #104 via scripts/platform.ts issue comment 104 (dup-check first: latest comment was the verify_issue PASS, no prior pre-merge verdict existed). First post truncated at the first newline (npx.cmd batch-argument corruption through the PowerShell wrapper); superseded by a full-body re-post through 'node --import tsx' with a disclosure header - read-back via issue latest-comment is byte-equal to the local body (2058 bytes, 21 newlines). Posted from the main checkout (carries .env + tsx); no .env copied into or left in this worktree. Labels NOT modified (pre-merge mode does not relabel).",
+    "notes": [
+      "CWD/branch/SHA verified as first actions: worktree verify-t97, branch premerge/t97, HEAD f67bf42 == the dispatched merge commit, parents bb0d0a6 + caf82c9 confirmed.",
+      "No gate amendment accompanies this card and none was made: merge_test_index.json HEAD blob a9f600be untouched (ac5 byte-identity leg GREEN).",
+      "The dispatch-listed 'known-flaky backend env tests' and parked set all behaved as recorded; the only two raw-sweep deviations from the t91 baseline (220/224) were the backend/.venv prerequisite, resolved by the mode-doc fallback and re-run verbatim to rc=0 (rerun_220.log/rerun_224.log archived).",
+      "Post-merge follow-up for verify_post_merge: re-run tests[134] against the merged main tree, and re-probe the live host - after deploy the health payload should report version 1.0.0 (the live move itself is out of this card's scope per its Constraints).",
+      "Working-tree residue: the sweep's regeneration gates left docs/criteria/{agent_pack,req_coverage}_verification.md modified vs HEAD (pointer-refresh rows from the generator re-run). Committed tree at f67bf42 is unaffected; disclosed, not reverted (no state-changing git)."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t97_verifier_verify_pre_merge.json (this handoff)",
+      "docs/state/outputs/t97_verifier_logs_premerge/replay_ac1.txt .. replay_ac5.txt (verbatim fence replays on the merged tree, all rc=0)",
+      "docs/state/outputs/t97_verifier_logs_premerge/results.tsv (318-row sweep), sweep.log, rerun_220.log, rerun_224.log, ruff.json, comment_body.md, comment_readback.json, red_NNN.log x36 (RED-leg evidence)",
+      "scratch/t97pm/ (extract.py, sweep.cjs, bin/git + bin/cmd.exe read-only shims, cmds/cum_NNN.sh x318, fences/ac1..ac5.sh, out/ full sweep logs, platform I/O)"
+    ],
+    "platform_issue": 104,
+    "output_path": "docs/state/outputs/t97_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T15:52:00Z",
+  "retry_count": 0
+}
