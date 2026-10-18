@@ -1,0 +1,146 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t91",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - 318/318 verbatim, 282 GREEN / 36 RED, zero RED attributable to this card (committed delta is render.yaml alone); MERGE VERDICT: PASS comment posted on issue #97 at 2026-10-18T12:18:51Z after dup-check (latest comment was the verify_issue PASS, no prior pre-merge verdict).",
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 282,
+      "failed": 36
+    },
+    "cumulative_completeness": "machine-verified: results.tsv 318 rows, indices 0..317 each exactly once, 0 missing, 0 duplicates, 0 skipped. Runner completed at 2026-10-18T12:15:01.581Z ('sweep DONE rows=318 elapsed_s=705' for the second leg; total wall across the two checkpointed legs ~47 min). Orchestrator-observed completion: final results.tsv row count 318, last row '317 t88 0 105', runner process exited (pgrep-verified).",
+    "smoke_tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section and docs/config.yaml does not exist, so per the mode-doc fallback the smoke set is the 5 t91 AC verification fences from docs/issues/t91.md ## Verification commands, executed VERBATIM from the worktree root: ac1..ac5 all rc=0 (5/5 GREEN). ac3 re-ran stored tests[134] verbatim rc=0; ac5 re-measured the render-gate scan set [134,135,170,227,255] unchanged (134/135/170/255 rc=0, 227 rc=1 for its own parked README reason). Plus 6 live-deployment probes (not counted in schema totals): GET /api/v1/health 200 {\"status\":\"ok\",\"database\":\"postgresql\"}, GET / 200, OPTIONS 405 for both live and old Origin on the -1qtu host.",
+    "ac_hash_reproduction": "ac_hash independently recomputed from the card ON DISK with the t58/t62..t90 recipe (sha256 over JSON.stringify of the five fenced blocks in ac1..ac5 order, each CR-stripped and trimmed, compact separators): 1819a5061853f59d03dbd15c57fdfe7ccc118f95b1d43ea8c35e89aa03011f4b == the card-pinned value (docs/issues/t91.md line 183). Fence sizes measured 37843/37791/37784/37820/37836 == the card-pinned sizes. Probe payload sha256 (decoded base64 carried identically in all five fences) = 1aca80712da2332e68b97710af2f082fba5b0a063ead1f1cf2a76d025fae9e47 == the card pin. Anti-trust check PASSES: the fences executed are the fences the card pins.",
+    "candidate": {
+      "worktree": "/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t91v",
+      "head": "90de37048d038d7b94e20e05bd3b6d99e6d42aed",
+      "merge_base_origin_main": "d9c090f98d12c43f87bfe39b184b75e1d51c7ee0",
+      "branch": "verify/t91 (local sweep branch; SAME commit as candidate branch issue/t91-render-cors-appversion - accepted by the dispatch, recorded for the record)",
+      "committed_product_delta_vs_merge_base": "['render.yaml'] - 2 insertions / 2 deletions (CORS_ORIGINS value line -> quoted JSON array naming the -1qtu live origin; APP_VERSION value line -> quoted \"1.0.0\"). Measured: git diff --name-only d9c090f 90de370 == render.yaml only.",
+      "working_tree": "clean of product edits: only untracked scratch/, docs/state/outputs verifier artifacts, the tolerated uncommitted t90 deploy.yml edit (ac4 evidence), and two docs/criteria regeneration artifacts produced BY the sweep's own regeneration gates (217/309 legs), disclosed in red_classification."
+    },
+    "key_gates": "tests[133] rc=0 GREEN (required GREEN - deploy.yml untouched by t91, t90 amendment not merged); tests[134] rc=0 GREEN (byte-identical to BASE len=2403 sha256=636d912f..., re-run verbatim, no amendment); tests[135] rc=0; tests[170] rc=0; tests[255] rc=0; tests[220] rc=0 GREEN (sanctioned-list member whose disclosed os.walk [:3] defect did not bite on these bytes).",
+    "red_classification": {
+      "sanctioned_pre_existing": [
+        161,
+        162,
+        191,
+        227
+      ],
+      "sanctioned_note": "Orchestrator sanctioned set {227,161,162,191,220}: 161/162/191 RED as parked (U5 milestone-pin rotation family - 191's own RED line is 'ac4 RED: README drifted'; 227's RED line is 'README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone', digest ca9343a8/398 lines vs pin-2 a64efaa2/308 - its render leg never runs). 220 measured GREEN rc=0.",
+      "environmental": [
+        188,
+        192,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296
+      ],
+      "environmental_note": "192: 'docker daemon unreachable - open the daemon window, do not skip' (no docker daemon in this WSL session, both sockets dead). 272/274/275/289/290/294/296: incident-response/observability shell gates reading LF-blob scripts through the autocrlf=true CRLF working copy - measured: HEAD blob of incident-response/runbooks/rollback.sh is LF, working copy smudged CRLF, bash fails on $'{\\r'. 276: telemetry key grep leg cannot match 'SERVICE_NAME: str = \"expense-tracker-api\"$' against the CRLF-smudged working copy (measured: 0 matches raw, 1 match after CR-strip) - the pinned constant IS present in the blob.",
+      "pre_existing_main_side_drift": [
+        139,
+        140,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        190,
+        204,
+        216,
+        217,
+        230,
+        231,
+        250,
+        254,
+        257,
+        259,
+        309
+      ],
+      "pre_existing_note": "All legs of these REDs read paths byte-identical between merge-base d9c090f and HEAD 90de370 (backend/app, e2e/fixtures, security/ committed reports, docs/criteria, README, Makefile) - none reachable by a render.yaml-only change. 139/140/204/216: t27 freeze-scope + e2e typecheck guards (139's a224be8 backend/app guard already amended at t28 for main-side drift; 140 fails on committed e2e/fixtures/helpers.ts TS2345). 163/164/166/167/174/175/177/180/181: security-report count gates over committed report content predating this card (gitleaks 21/76 findings vs zero-leak pin, pip-audit 3 vs pinned table, trivy 41 vulns, limitation rows 13 vs 12). 190: t47 freeze-scope drift list = main-side backend/app files. 217: determinism contract over main-side docs/criteria regeneration. 230: ownership-envelope gate counts render.yaml itself as outside its t59-era envelope (delta files against merge-base = 1: render.yaml). 231: README digest moved off pin-3 (ca9343a8). 250/257: RED-at-base-by-design (Quick Start 9-vs-8 numbered steps). 254: carried README-scoped gates RED after the sections-7-9 rewrite; its render-token leg is GREEN (tests[135] load-bearing gate GREEN). 259: pin-custody gate - the merge-test index bytes changed by orchestrator appends since the card's pin. 309: t86 regeneration-custody gate RED because docs/criteria files show in the working-tree diff - the diff rows were produced by the sweep's OWN regeneration legs (217/309 fences regenerate then compare); product delta vs merge-base remains render.yaml alone.",
+      "regression_attributable_to_t91": [],
+      "render_reading_reds": "The render.yaml-mentioning gate set is [134,135,170,227,255] (ac5 scan). 134/135/170/255 all GREEN. The three render-reading REDs named by the orchestrator: 227 REDs on its README pin-2-vs-pin-3 digest leg BEFORE its render leg runs (cum_227 tail: 'README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone'); 254 REDs on the carried sections-7-9 README rewrite (cum_254 tail names README-scoped gates [250], its render-token legs GREEN); 257 RED-at-base-by-design (cum_257 tail: 'Quick Start carries 9 numbered steps, not the eight the card fences (RED at base by design)'). None of the three names a render.yaml leg in its RED lines.",
+      "red_indices_all_36": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        217,
+        227,
+        230,
+        231,
+        250,
+        254,
+        257,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "classification_arithmetic": "sanctioned_pre_existing 4 (161,162,191,227) + environmental 10 (188,192,272,274,275,276,289,290,294,296) + pre_existing_main_side_drift 22 (139,140,163,164,166,167,174,175,177,180,181,190,204,216,217,230,231,250,254,257,259,309) + regression_attributable_to_t91 0 = 36, matching the measured RED row count exactly (set-verified below)."
+    },
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN logged: UV_PROJECT_ENVIRONMENT and PYTHONPATH both EMPTY in this spawn. Fallback per mode doc: per-worktree Linux venv via 'uv sync --offline' at backend/.venv; sweep runner additionally set UV_PROJECT_ENVIRONMENT=backend/.pi-agent/venvs/2876b1d8c5e8a14c and PYTHONPATH=worktree root. No command string modified.",
+      "git_access": "Read-only throughout: WSL git cannot resolve this worktree's Windows-form gitdir pointer, so a PATH shim (scratch/t91pm/bin/git) forwards with GIT_DIR/GIT_WORK_TREE overrides, and the stored commands' own cmd.exe git legs are served by a cmd.exe bridge (scratch/t91pm/bin/cmd.exe -> /mnt/c/Windows/System32/cmd.exe). No checkout, no merge, no push, no index edit, no code/test/issue modification by the verifier.",
+      "sweep_harness": "extract.py extracted all 318 stored commands byte-verified (entries=318 mismatches=0) to scratch/t91pm/cmds/cum_NNN.sh; sweep.cjs executed each VERBATIM (cwd=worktree root, 900s timeout, checkpointed TSV + per-entry logs). Two legs: 0..190 (first run, checkpointed at role cap) and 191..317 (resumed run, survived the run timeout, DONE at 12:15:01Z). The false-alarm attention signal (harness misread of grep/ls output) and the cmd.exe-bridge fix touched no command string.",
+      "environment_gaps": "Docker daemon unavailable (WSL socket and Windows npipe both dead) -> tests[188]/[192] fail loudly by design; e2e/node_modules absent; frontend node_modules carries win32-x64 esbuild (WSL node cannot run vitest legs directly - the stored commands' own cmd.exe legs use Windows node v24.16.0); core.autocrlf=true smudges LF blobs to CRLF in the working copy -> the incident-response/observability/telemetry grep-and-bash gates (272/274/275/276/289/290/294/296) RED environmentally, measured blob-vs-worktree."
+    },
+    "platform": "MERGE VERDICT: PASS comment posted on issue #97 via scripts/platform.ts issue comment 97 --body at 2026-10-18T12:18:51Z (dup-check first: latest comment was the verify_issue PASS, no prior pre-merge verdict existed). Posted from the main checkout (carries .env + tsx) through a PowerShell wrapper reading the body from scratch/t91pm/comment_body.md (UTF-8) to avoid shell-quoting corruption. Labels not modified.",
+    "notes": [
+      "CWD/branch/SHA verified as first actions: worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t91v, HEAD 90de37048d038d7b94e20e05bd3b6d99e6d42aed == candidate bytes, merge-base d9c090f98d12c43f87bfe39b184b75e1d51c7ee0.",
+      "No gate amendment accompanies this card and none was made: docs/state/merge_test_index.json untouched (ac3 byte-identity leg GREEN proves tests[134] unamended).",
+      "The checkpoint handoff (status FAIL = incomplete-at-cap) is superseded by this final handoff; the checkpoint files remain at scratch/t91pm/out/ for audit.",
+      "Post-merge follow-up for verify_post_merge: re-probe the live -1qtu host for the Access-Control-Allow-Origin header with the live Origin (ACAO absent today is expected - the deployed image predates this change), and re-run tests[134] against the merged tree."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t91_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 97,
+    "output_path": "docs/state/outputs/t91_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-18T12:20:30Z",
+  "retry_count": 1
+}
