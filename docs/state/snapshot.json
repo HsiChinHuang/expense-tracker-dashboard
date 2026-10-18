@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T10:46:50Z",
+  "updated_at": "2026-10-18T10:47:32Z",
   "last_seq": 1106,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t90",
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": null,
-      "last_activity_at": null,
+      "role": "builder",
+      "phase": "build",
+      "run_id": "21a1f001-ac05-45bf-a992-8528a3ea09ff",
+      "spawn_at": "2026-10-18T10:47:32Z",
+      "last_activity_at": "2026-10-18T10:47:32Z",
       "worktree_path": null
     },
     {
