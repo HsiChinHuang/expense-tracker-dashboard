@@ -20,13 +20,13 @@ services:
       - key: JWT_ALGORITHM
         value: HS256
       - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
-        value: 1440
+        value: "1440"
       - key: JWT_ISSUER
         value: expense-tracker-dashboard
       - key: JWT_AUDIENCE
         value: expense-tracker-dashboard-web
       - key: CORS_ORIGINS
-        value: https://expense-tracker-dashboard.onrender.com
+        value: "[\"https://expense-tracker-dashboard.onrender.com\"]"
       - key: ENVIRONMENT
         value: production
       - key: APP_VERSION
