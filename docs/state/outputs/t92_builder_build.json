@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t92",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t92-workflow-run-evidence",
+    "branch_sha": "b5207fd6923269ee13a46a36a7fa265f49150341",
+    "commit_sha": "b5207fd6923269ee13a46a36a7fa265f49150341",
+    "commit_parent": "41b2970ebc0640aef30c19d775276a690b85d197",
+    "pushed": true,
+    "push_read_back": "git ls-remote origin -> refs/heads/issue/t92-workflow-run-evidence = the pushed branch tip (read back after every push, MATCH). Branch history: b5207fd product record, then the handoff commit(s) as its children under docs/state/outputs/t92_ (a handoff cannot contain its own containing commit sha - branch_sha pins the product commit b5207fd per the t97 precedent; the final tip is the last handoff commit, visible via ls-remote). refs/heads/main = 67d8b2f3a247cd6353883f817ae59352242a76e4 (orchestrator commits moved main after this branch was cut at 41b2970; NO merge, NO main push, NO force-push from this builder). One git op per cmd.exe /d /c call.",
+    "ac_hash_recompute": "Recomputed from the card ON DISK with the t58/t62..t91 recipe (sha256 over JSON.stringify of the six fenced blocks, CR-stripped+trimmed, compact separators): 2b529a1a03893281a0dfa555142c6630da3e05bb5575318ce755186d6fda9b25 - MATCHES the card's spaced groups 2b529a1a 0389 3281 a0df a555 142c 6630 da3e 05bb 5575 318c e755 186d 6fda 9b25 and the groom handoff ac_hash. All six fences carry the identical probe payload (b64 digest 7ecd5f3d00df53a2...; probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, matches the card's e800beac pin).",
+    "changes": "docs/state/outputs/t92_deploy_evidence.json ONLY (88 lines, new file). Committed delta vs merge-base(HEAD,origin/main)=41b2970 measured by the ac6 fence itself: exactly ['docs/state/outputs/t92_deploy_evidence.json']. Zero gate edits (index HEAD blob stays 13682cf3ba56, 318 entries, tests[133] len 3547 sha b2a662b9aa0c0699 - all re-measured GREEN by ac6), zero product edits, the banked log untouched.",
+    "build_method": "scratch/t92b/build_record.py MEASURED every record value at build time from the three authoritative sources: (1) GitHub actions API (authenticated with the repo .env API_TOKEN, never printed; unauthenticated pool measured 60/60 fresh) for deploy run 39197889153 (completed/success, run_number 487, created 2026-10-19T04:07:17Z, updated 04:07:25Z, head_sha 0c3dd6d6098cdf07aa1343593f5bcd83523ce894, head_branch main), its single job 117884490139 (deploy, success, step 'Verify the deployed health endpoint' success), ci run 39197660838 success, e2e run 39197660957 success, and the superseded baseline run 39190120008 (failure on head_sha 450e229..., failed step 'Verify the deployed health endpoint'); (2) the committed banked job log for the normalized-LF sha256 d9273b32e8b8095824728ede0b50e52e37889b89eca68dd314eeffdab938706c, the executed line (banked line 56), its stamp 2026-10-19T04:07:22.6369180Z, the log line tail and the 4-line context; (3) the live health endpoint for the captured payload (measured NOW: {\"status\":\"ok\",\"database\":\"postgresql\",\"fallback_active\":false,\"version\":\"1.0.0\"}). Nothing was copied from the definer's scratch draft or the card prose; the log line and stamp were DERIVED by locating the banked line whose content follows the curl'd health JSON (the runner also echoes the step source - the script matched the executed-output shape, not a pinned line number).",
+    "job_log_leg": "The live job-log download (GET .../jobs/117884490139/logs) answers 403 without an admin token, which this environment does not carry. The card's fences were premised with this in mind: ac3 asserts against the COMMITTED banked capture (digest-pinned), and the record cites the committed file as the durable copy of that leg with the 403 disclosure in sources/source_notes. No live log download was fabricated or guessed; no supervisor escalation was needed because no fence demands a live download.",
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "fence_rc_provenance": "All six fences run VERBATIM from docs/issues/t92.md (script-extracted by python from the card file, never hand-copied) both pre-commit and post-commit on the branch tip b5207fd; every rc=0 in both runs. The record-dependent legs flipped GREEN exactly per the designed contract {ac1..ac5 RED, ac6 GREEN at groom-without-record}: this build produced the record and all six went GREEN; ac6 stayed GREEN and its committed-delta leg moved from 0 to 1 card-owned path (docs/state/outputs/t92_deploy_evidence.json). rc table in scratch/t92b/rc.txt, per-fence output in scratch/t92b/ac1..ac6.log.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac1 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac1 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac1.log). rc=0 GREEN. Record exists at docs/state/outputs/t92_deploy_evidence.json, valid JSON, all 23 named fields present; every pinned value equals the measured constant (run/job/ci/e2e ids, head_sha, run_conclusion success, deploy_job_name deploy, log line, stamp, run_url, health_url) and banked_log_sha256 equals the live-measured digest of the committed log AND the pin; log_context >=3 lines carrying the mandated line; health_payload the four-key 1.0.0 object; render_log_gap captured=false with a named reason; capture_iso a valid Z timestamp.",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac2 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac2 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac2.log). rc=0 GREEN. Live platform re-read: deploy run 39197889153 completed/success named Deploy on head_sha 0c3dd6d6098cdf07aa1343593f5bcd83523ce894 (main); jobs endpoint returns the single job 117884490139 success with the 'Verify the deployed health endpoint' step success; ci run 39197660838 and e2e run 39197660957 both success on the same head_sha; head_sha, t90 merge 6fd2a0c, t91 merge f181d65 and the fixed base 890680e all ancestors of HEAD; merge_history.json t90/t91 entries cross-read.",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac3 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac3 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac3.log). rc=0 GREEN. Exactly one banked line ENDS with the mandated string (line 56) at stamp 2026-10-19T04:07:22.6369180Z with the health JSON concatenated immediately before it; the echoed step-source line is separately counted (1); both step secrets render as masked *** ; no api.render.com/deploy/ hook URL and no .env token anywhere in the committed capture.",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac4 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac4 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac4.log). rc=0 GREEN. Live https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health answers the four-key shape with version 1.0.0 and fallback_active false, and the record health_payload is byte-equal to the live payload; the survey-era 0.1.0 premise is disclosed as superseded by t97.",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac5 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac5 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac5.log). rc=0 GREEN. render_log_gap named with captured=false, token-named reason and health-named corroboration; zero forbidden captured-Render-log claims; every cited source is a GitHub actions endpoint, the run page, the live health URL, or the committed banked path; disclosed_limits has 5 entries naming single/retention/render.",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "b5207fd6923269ee13a46a36a7fa265f49150341",
+        "test": "docs/issues/t92.md ac6 fence (verbatim fenced bash -c block, 52989 bytes, self-contained base64 probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895, mode ac6 extracted to scratch/t92b/probe_extracted.py; run from the repo root, rc logged in scratch/t92b/rc.txt and full output in scratch/t92b/ac6.log). rc=0 GREEN. Committed delta vs merge-base 41b2970 is exactly ['docs/state/outputs/t92_deploy_evidence.json']; fixed base 890680e ancestor of HEAD; index/merge_history/README/render.yaml/deploy.yml/banked-log byte-clean vs HEAD; working-tree dirt only scratch/; gate matrix as stored: 318 entries, HEAD blob 13682cf3ba56412f1ff43722675fb3c48f86c121, scan sets [222,225,230,306,307,308,309] and [214,222,230,279] unchanged, tests[133] the t90-amended b2a662b9 command (len 3547), t90 amendment record present and cited, and no stored gate mentions t92/the run id/the log line/the banked artifact.",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "lint_note": "The product is one JSON document: json.tool parses it cleanly; no Python/TS source was added to the tracked tree (the build script lives in scratch/). No ruff/escope target exists on this card's delta.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "platform_channel": "All issue-tracker writes went through scripts/platform.ts (Windows node.exe + node_modules/tsx, per the win32-esbuild rule): comment posted via UTF-8 body file (scratch/t92b/comment.md) + PowerShell Get-Content -Raw (scratch/t92b/post.ps1), read back via issue latest-comment and byte-matched to the local body (CRLF-normalized, 3503 chars, author HsiChinHuang); label set 98 --labels built UNQUOTED, read back: #98 open labels ['built']. GitHub actions reads and the health read used curl per the card's disclosed deviation (scripts/platform.ts has no actions/runs resource); issue-tracker writes never bypassed platform.ts.",
+    "ac_suggestions": [],
+    "notes": "(1) The branch was cut at 41b2970 (main tip at dispatch); origin/main has since moved to 67d8b2f with orchestrator-only commits (WAL/backlog bookkeeping) - ac6's merge-base leg measures against the LIVE merge-base (41b2970) and stays GREEN; no rebase/merge performed by this builder. (2) The worktree .env was seeded from the parent checkout for the authenticated GitHub reads (gitignored, left in place; the ac3 token-absence leg then measured the token against the banked log as designed). (3) The definer's scratch draft (scratch/t92_record_measured.json) was NOT copied: the record was independently re-measured and diverges from the draft in structure (measured run_number/created/updated fields, banked_line_no, ci/e2e head_sha fields, source_notes) while every overlapping value matches by measurement, not by copy. (4) No gate mentions this card's evidence, so no gate-amendment handoff is needed for the merge window (per the card's Verification commands section)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t92_deploy_evidence.json",
+      "docs/state/outputs/t92_builder_build.json",
+      "scratch/t92b/build_record.py",
+      "scratch/t92b/probe_extracted.py",
+      "scratch/t92b/fences.sh",
+      "scratch/t92b/rc.txt",
+      "scratch/t92b/ac1.log",
+      "scratch/t92b/ac2.log",
+      "scratch/t92b/ac3.log",
+      "scratch/t92b/ac4.log",
+      "scratch/t92b/ac5.log",
+      "scratch/t92b/ac6.log",
+      "scratch/t92b/comment.md",
+      "scratch/t92b/post.ps1",
+      "scratch/t92b/post_comment_out.txt",
+      "scratch/t92b/readback_comment.json"
+    ],
+    "platform_issue": 98,
+    "output_path": "docs/state/outputs/t92_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-19T05:14:30Z",
+  "retry_count": 0
+}
