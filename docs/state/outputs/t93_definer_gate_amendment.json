@@ -1,0 +1,125 @@
+{
+ "amendments": [
+  {
+   "defective_premise": "'DEFERRAL_REGISTER 5 DEFERRED' plus DEFERRED_ROW LIVE_DEPLOYMENT_STATE with reason=live_render_url_returns_404_measured over the OLD no-suffix host: the register asserts the live deployment is unverified when a green deploy chain (t92) and two live measurements say otherwise.",
+   "index": 187,
+   "issue_id": "t41",
+   "new_command": "bash -c 'test -f docs/criteria/security_ops_verification.md || exit 1; d=docs/criteria/security_ops_verification.md; grep -qE \"^DEFERRAL_REGISTER 4 DEFERRED[[:space:]]*$\" \"$d\" || { echo \"ac5: register header\"; exit 1; }; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\" | tr -dc \"0-9\"); [ \"$r\" -eq 4 ] || { echo \"ac5: DEFERRED_ROW count $r != 4\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_DEPLOYMENT_STATE\" \"$d\" && { echo \"ac5: LIVE_DEPLOYMENT_STATE is still a DEFERRED_ROW\"; exit 1; }; v=$(grep -cE \"^VERIFIED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health[.]md url=https://expense-tracker-dashboard-1qtu[.]onrender[.]com/api/v1/health http_status=200 database=postgresql fallback_active=false version=1[.]0[.]0 evidence=measured_by_t92_record record=docs/state/outputs/t92_deploy_evidence[.]json[[:space:]]*$\" \"$d\" | tr -dc \"0-9\"); [ \"${v:-0}\" -eq 1 ] || { echo \"ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed\"; exit 1; }; grep -qE \"^DEFERRED_ROW SCAN_TIMING_DOC artifact=docs/ai-workflow[.]md reason=docs_tree_owned_by_phase_8 live_check=read the scan-timing section once phase_8_docs lands docs/ai-workflow[.]md[[:space:]]*$\" \"$d\" || { echo \"ac5: SCAN_TIMING_DOC row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL[.]md reason=agent_runtime_is_this_pipeline_not_the_project_pack live_check=pi-agent session prompt .Generate a monthly report for 2026-10[.].{0,2}[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_AGENT_SESSION row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server[.]py reason=no_live_backend_session_in_harness live_check=MCP_JWT_SECRET=[.][.][.] MCP_API_BASE_URL=[.][.][.] MCP_USER_TOKEN=[.][.][.] python mcp-server/server[.]py[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_MCP_SUBPROCESS row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Launch finance analyst for 2026-10[.].{0,2}[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_SUBAGENT_LAUNCH row\"; exit 1; }; for k in SCAN_TIMING_DOC LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: key $k also appears on a PASS line\"; exit 1; }; done; c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"LIVE_DEPLOYMENT_STATE\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: the moved key LIVE_DEPLOYMENT_STATE appears on a PASS line - the verified row carries evidence fields, never a PASS verdict\"; exit 1; }; grep -qE \"^CRITERIA_NUMBERS 13 PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: CRITERIA_NUMBERS\"; exit 1; }; grep -qE \"^CRITERIA_ROWS mapping=10 PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: CRITERIA_ROWS\"; exit 1; }; n=$(grep -cE \"^\\| 13 \\| REQ-[A-Z]+-[0-9]+ \\| (executed|structural) \\| [A-Z_]+ \\|[[:space:]]*$\" \"$d\" | tr -dc \"0-9\"); [ \"$n\" -eq 10 ] || { echo \"ac5: mapping rows $n != 10\"; exit 1; }; grep -qE \"^\\| 13 \\| REQ-SEC-003 \\| executed \\| SCAN_REPORT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-SEC-074 \\| executed \\| SCAN_LOOP_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-TECH-074 \\| executed \\| MAKE_TARGET_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-041 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-070 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-ARCH-033 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-DOC-030 \\| executed \\| LAYOUT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-DOC-031 \\| executed \\| LAYOUT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-113 \\| structural \\| OPS_DOC_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-PROD-043 \\| executed \\| CRITERIA_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; for t in SCAN_REPORT_ROWS SCAN_LOOP_ROWS MAKE_TARGET_ROWS OPS_DOC_ROWS DIAGNOSIS_ROWS LAYOUT_ROWS CRITERIA_ROWS; do grep -qE \"^${t} .*PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: mapped token $t has no PASS row\"; exit 1; }; done; echo \"ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed\"'",
+   "new_command_len": 4299,
+   "new_command_sha256": "35197ca524fb74914dda1c721fab182e05564be9b475ba4e258ad83cef244ba2",
+   "old_command": "bash -c 'test -f docs/criteria/security_ops_verification.md || exit 1; d=docs/criteria/security_ops_verification.md; grep -qE \"^DEFERRAL_REGISTER 5 DEFERRED[[:space:]]*$\" \"$d\" || { echo \"ac5: register header\"; exit 1; }; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\" | tr -dc \"0-9\"); [ \"$r\" -eq 5 ] || { echo \"ac5: DEFERRED_ROW count $r != 5\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health[.]md reason=live_render_url_returns_404_measured live_check=curl -s -o /dev/null -w [^ ]*http_code[^ ]* https://expense-tracker-dashboard[.]onrender[.]com/api/v1/health then compare to the deployment record[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_DEPLOYMENT_STATE row\"; exit 1; }; grep -qE \"^DEFERRED_ROW SCAN_TIMING_DOC artifact=docs/ai-workflow[.]md reason=docs_tree_owned_by_phase_8 live_check=read the scan-timing section once phase_8_docs lands docs/ai-workflow[.]md[[:space:]]*$\" \"$d\" || { echo \"ac5: SCAN_TIMING_DOC row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL[.]md reason=agent_runtime_is_this_pipeline_not_the_project_pack live_check=pi-agent session prompt .Generate a monthly report for 2026-10[.].{0,2}[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_AGENT_SESSION row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server[.]py reason=no_live_backend_session_in_harness live_check=MCP_JWT_SECRET=[.][.][.] MCP_API_BASE_URL=[.][.][.] MCP_USER_TOKEN=[.][.][.] python mcp-server/server[.]py[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_MCP_SUBPROCESS row\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_SUBAGENT_LAUNCH artifact=custom-agent/finance-analyst[.]md reason=no_agent_runtime_in_harness live_check=pi-agent session prompt .Launch finance analyst for 2026-10[.].{0,2}[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_SUBAGENT_LAUNCH row\"; exit 1; }; for k in LIVE_DEPLOYMENT_STATE SCAN_TIMING_DOC LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: key $k also appears on a PASS line\"; exit 1; }; done; grep -qE \"^CRITERIA_NUMBERS 13 PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: CRITERIA_NUMBERS\"; exit 1; }; grep -qE \"^CRITERIA_ROWS mapping=10 PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: CRITERIA_ROWS\"; exit 1; }; n=$(grep -cE \"^\\| 13 \\| REQ-[A-Z]+-[0-9]+ \\| (executed|structural) \\| [A-Z_]+ \\|[[:space:]]*$\" \"$d\" | tr -dc \"0-9\"); [ \"$n\" -eq 10 ] || { echo \"ac5: mapping rows $n != 10\"; exit 1; }; grep -qE \"^\\| 13 \\| REQ-SEC-003 \\| executed \\| SCAN_REPORT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-SEC-074 \\| executed \\| SCAN_LOOP_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-TECH-074 \\| executed \\| MAKE_TARGET_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-041 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-070 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-ARCH-033 \\| executed \\| DIAGNOSIS_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-DOC-030 \\| executed \\| LAYOUT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-DOC-031 \\| executed \\| LAYOUT_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-OPS-113 \\| structural \\| OPS_DOC_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; grep -qE \"^\\| 13 \\| REQ-PROD-043 \\| executed \\| CRITERIA_ROWS \\|[[:space:]]*$\" \"$d\" || exit 1; for t in SCAN_REPORT_ROWS SCAN_LOOP_ROWS MAKE_TARGET_ROWS OPS_DOC_ROWS DIAGNOSIS_ROWS LAYOUT_ROWS CRITERIA_ROWS; do grep -qE \"^${t} .*PASS[[:space:]]*$\" \"$d\" || { echo \"ac5: mapped token $t has no PASS row\"; exit 1; }; done; echo \"ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed\"'",
+   "old_command_len": 3825,
+   "old_command_sha256": "ca6e31fd950339a798d2bbe7ede50b072ab7df4ac7b88fea275ba099c9ccd4cc",
+   "re_premised_to": "4 DEFERRED rows (the four genuinely-deferred keys: SCAN_TIMING_DOC, LIVE_AGENT_SESSION, LIVE_MCP_SUBPROCESS, LIVE_SUBAGENT_LAUNCH) plus exactly one VERIFIED_ROW LIVE_DEPLOYMENT_STATE carrying the eight live fields and citing docs/state/outputs/t92_deploy_evidence.json. Everything else in the stored command is byte-identical.",
+   "replaced_regions": {
+    "count": 2,
+    "new": [
+     "grep -qE \"^DEFERRAL_REGISTER 4 DEFERRED[[:space:]]*$\" \"$d\" || { echo \"ac5: register header\"; exit 1; }; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\" | tr -dc \"0-9\"); [ \"$r\" -eq 4 ] || { echo \"ac5: DEFERRED_ROW count $r != 4\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_DEPLOYMENT_STATE\" \"$d\" && { echo \"ac5: LIVE_DEPLOYMENT_STATE is still a DEFERRED_ROW\"; exit 1; }; v=$(grep -cE \"^VERIFIED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health[.]md url=https://expense-tracker-dashboard-1qtu[.]onrender[.]com/api/v1/health http_status=200 database=postgresql fallback_active=false version=1[.]0[.]0 evidence=measured_by_t92_record record=docs/state/outputs/t92_deploy_evidence[.]json[[:space:]]*$\" \"$d\" | tr -dc \"0-9\"); [ \"${v:-0}\" -eq 1 ] || { echo \"ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed\"; exit 1; }; ",
+     "for k in SCAN_TIMING_DOC LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: key $k also appears on a PASS line\"; exit 1; }; done; c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"LIVE_DEPLOYMENT_STATE\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: the moved key LIVE_DEPLOYMENT_STATE appears on a PASS line - the verified row carries evidence fields, never a PASS verdict\"; exit 1; }; "
+    ],
+    "offset": [
+     117,
+     1904
+    ],
+    "old": [
+     "grep -qE \"^DEFERRAL_REGISTER 5 DEFERRED[[:space:]]*$\" \"$d\" || { echo \"ac5: register header\"; exit 1; }; r=$(grep -cE \"^DEFERRED_ROW [A-Z_]+ artifact=[^ ]+ reason=[^ ]+ live_check=.+\" \"$d\" | tr -dc \"0-9\"); [ \"$r\" -eq 5 ] || { echo \"ac5: DEFERRED_ROW count $r != 5\"; exit 1; }; grep -qE \"^DEFERRED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health[.]md reason=live_render_url_returns_404_measured live_check=curl -s -o /dev/null -w [^ ]*http_code[^ ]* https://expense-tracker-dashboard[.]onrender[.]com/api/v1/health then compare to the deployment record[[:space:]]*$\" \"$d\" || { echo \"ac5: LIVE_DEPLOYMENT_STATE row\"; exit 1; }; ",
+     "for k in LIVE_DEPLOYMENT_STATE SCAN_TIMING_DOC LIVE_AGENT_SESSION LIVE_MCP_SUBPROCESS LIVE_SUBAGENT_LAUNCH; do c=$(grep -E \"PASS[[:space:]]*$\" \"$d\" | grep -c \"$k\" | tr -dc \"0-9\"); [ \"${c:-0}\" -eq 0 ] || { echo \"ac5: key $k also appears on a PASS line\"; exit 1; }; done; "
+    ]
+   }
+  }
+ ],
+ "apply_mechanism": "the orchestrator replaces tests[187].command with amendments[0].new_command in docs/state/merge_test_index.json inside the strict merge window, then appends the t93 room entries. Both steps are orchestrator-only.",
+ "artifact": "t93_definer_gate_amendment",
+ "byte_identical_elsewhere": {
+  "note": "rebuilding stored with the two replaced regions applied in order reproduces new_command byte for byte; those two regions are the ONLY edits in the command (verified by the definer at groom).",
+  "prefix_identical": true,
+  "suffix_identical": true
+ },
+ "card": "t93",
+ "milestone": "phase_14_render_live_closeout",
+ "negative_control": {
+  "command_under_test": "amendments[0].new_command (and amendments[0].old_command for the stored legs)",
+  "matrix": [
+   {
+    "case": "amended/candidate",
+    "expected_rc": 0,
+    "last_line": "ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed",
+    "meaning": "the RE-PREMISED gate accepts the candidate: 4 DEFERRED rows plus the verified row carrying all eight live fields",
+    "measured_rc": 0
+   },
+   {
+    "case": "amended/drop_genuine_row",
+    "expected_rc": 1,
+    "last_line": "ac5: DEFERRED_ROW count 3 != 4",
+    "meaning": "NEGATIVE CONTROL - a register that reaches 4 by dropping a genuinely-deferred row (SCAN_TIMING_DOC) is still RED",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/verified_missing_db",
+    "expected_rc": 1,
+    "last_line": "ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed",
+    "meaning": "NEGATIVE CONTROL - a verified row with no database=postgresql reading is RED",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/verified_missing_fallback",
+    "expected_rc": 1,
+    "last_line": "ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed",
+    "meaning": "NEGATIVE CONTROL - a verified row with no fallback_active=false reading is RED",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/verified_wrong_host",
+    "expected_rc": 1,
+    "last_line": "ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed",
+    "meaning": "NEGATIVE CONTROL - a verified row citing the OLD no-suffix host is RED",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/verified_on_pass_line",
+    "expected_rc": 1,
+    "last_line": "ac5: verified row for LIVE_DEPLOYMENT_STATE missing or malformed",
+    "meaning": "NEGATIVE CONTROL - LIVE_DEPLOYMENT_STATE ending on a PASS line is RED: the mutual-exclusion discipline is kept for the moved key",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/header4_row_stays",
+    "expected_rc": 1,
+    "last_line": "ac5: DEFERRED_ROW count 5 != 4",
+    "meaning": "NEGATIVE CONTROL - a header bumped to 4 while the stale DEFERRED_ROW stays is RED",
+    "measured_rc": 1
+   },
+   {
+    "case": "amended/pre_move",
+    "expected_rc": 1,
+    "last_line": "ac5: register header",
+    "meaning": "the RE-PREMISED gate rejects the PRE-MOVE register: a register that still defers a satisfied obligation is a defect, not a pass - the re-premise is not a relaxation",
+    "measured_rc": 1
+   },
+   {
+    "case": "stored/pre_move",
+    "expected_rc": 0,
+    "last_line": "ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed",
+    "meaning": "the STORED gate is not broken as stored: it is GREEN on the pre-move register and goes RED only when the register legitimately moves - the designed RED this amendment answers",
+    "measured_rc": 0
+   },
+   {
+    "case": "stored/candidate",
+    "expected_rc": 1,
+    "last_line": "ac5: register header",
+    "meaning": "the STORED gate rejects the candidate bytes - exactly the designed RED that forces the re-premise; without the amendment the card could never go green",
+    "measured_rc": 1
+   }
+  ],
+  "measured_by": "definer at groom, this host, against the draft candidate measured in the tree"
+ },
+ "no_leg_deleted": true,
+ "phase": "groom",
+ "platform_issue": 99,
+ "re_premise_not_relax": "the 5-count pin becomes a 4-count pin PLUS an exactly-one verified-row pin whose eight fields (artifact=ops/deployment-health.md, url=<the -1qtu health URL>, http_status=200, database=postgresql, fallback_active=false, version=1.0.0, evidence=measured_by_t92_record, record=docs/state/outputs/t92_deploy_evidence.json) must ALL match, PLUS an explicit leg that REDS if LIVE_DEPLOYMENT_STATE ever reappears as a DEFERRED_ROW or on a PASS line. The four surviving DEFERRED_ROW legs, the criteria-number legs and the mutual-exclusion discipline are kept. A register that drops a genuinely-deferred row, bumps the header while the stale row stays, or prints a verified row missing any live field is still RED - each of those is measured in negative_control.matrix.",
+ "role": "definer",
+ "schema_version": 1,
+ "stale_at_merge_check": "before applying, re-read tests[187].command and require sha256(command.encode()) == old_command_sha256 (ca6e31fd950339a798d2bbe7ede50b072ab7df4ac7b88fea275ba099c9ccd4cc). If it differs, the index moved under this amendment: stop, re-derive against the new stored text, never apply blind.",
+ "why_this_file_exists": "tests[187] (issue_id t41) pins the security_ops deferral register at the literal 'DEFERRAL_REGISTER 5 DEFERRED', at a DEFERRED_ROW count of 5, and at the whole LIVE_DEPLOYMENT_STATE row text including reason=live_render_url_returns_404_measured against the OLD no-suffix host. The live deployment is real: the t92 evidence record and the re-measurement at t93 groom both show https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health answering 200 with database=postgresql and fallback_active=false, while the OLD host still answers 404. The stored row therefore lists a SATISFIED obligation as deferred - the same class of defect as a fabricated PASS. Moving the row necessarily turns tests[187] RED, so the change needs a FORMAL gate amendment that RE-PREMISES the rule. A relaxed gate is not an option.",
+ "written_by_definer_applied_by": "the orchestrator, in the strict merge window, after re-checking stale_at_merge_check. The definer and the builder NEVER edit docs/state/merge_test_index.json (orchestrator-owned; card ac5 fences it byte-clean). This record is the instrument the orchestrator applies - exactly the t89/t90 gate-amendment precedent."
+}
