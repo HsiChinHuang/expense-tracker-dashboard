@@ -78,7 +78,7 @@ That is the whole host list: there is nothing else to install.
 
 ## Quick Start
 
-Nine numbered steps bring the whole app up locally, natively on Windows 11
+Eight numbered steps bring the whole app up locally, natively on Windows 11
 from the repository root (cmd.exe or PowerShell - no make, no bash, no
 Docker). Step 1 installs the tsx binary that every root npm script needs:
 
@@ -92,23 +92,20 @@ npm install
 # 2. Detect the environment state (host tools, dev ports, venv, frontend deps)
 npm run check
 
-# 3. OPTIONAL env file: check, setup:local and vite read no .env, so skip it or edit backend/.env
-cp .env.example .env
-
-# 4. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
+# 3. Build whatever is missing (win32 backend venv, dev.db, frontend deps)
 npm run setup:local
 
-# 5. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
+# 4. Run both servers: backend on http://localhost:8000 and frontend on http://localhost:5173
 npm run dev
 
-# 6. Open http://localhost:5173 in your browser
+# 5. Open http://localhost:5173 in your browser
 
-# 7. Register an account (first run only - a fresh database has no account yet)
+# 6. Register an account (first run only - a fresh database has no account yet)
 
-# 8. Load the deterministic demo dataset for the fixed demo account
+# 7. Load the deterministic demo dataset for the fixed demo account
 npm run seed:demo
 
-# 9. Stop both servers again when you are done
+# 8. Stop both servers again when you are done
 npm run stop
 ```
 
