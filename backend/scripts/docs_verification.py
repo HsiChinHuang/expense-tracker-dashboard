@@ -88,7 +88,7 @@ CARRIED_DIGESTS = {
     "docs/criteria/infra_verification.md":
         "33d49691321903c596af2406500cc67e5766e19025ddf632664b094bd0baf6c4",
     "docs/criteria/security_ops_verification.md":
-        "ee0418b9b4f3063b46b6a7362ae6775acd16d0607c7cf1b1e7799ee94122876d",
+        "4d69122bc9eca30eed5dd1f10333c272ffbb01d4b0ccae5340dbcbbd4175b967",
 }
 # The nine stored README/render gates, by index position + issue_id identity.
 STORED_GATES = [(27, "t4"), (119, "t23"), (128, "t24"), (134, "t26"), (135, "t26"),

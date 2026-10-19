@@ -59,8 +59,14 @@ Port 8137 is card-pinned: port 8001 belongs to the concurrent t46 Docker
 stack, which this card NEVER touches.
 """
 
-RENDER_HEALTH_PATH: Final[str] = "https://expense-tracker-dashboard.onrender.com/api/v1/health"
-"""The configured live deployment health URL (LIVE_DEPLOYMENT_STATE row)."""
+RENDER_HEALTH_PATH: Final[str] = "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health"
+"""The configured live deployment health URL (LIVE_DEPLOYMENT_STATE row).
+
+The -1qtu host is the live deployment (t92 evidence: deploy run 39197889153,
+job 117884490139, health_url this host, health_payload the 200 body recorded
+in docs/state/outputs/t92_deploy_evidence.json); the old no-suffix host
+answers 404 and is not the deployment.
+"""
 
 SCAN_REPORTS: Final[tuple[str, ...]] = (
     "security/gitleaks-report.json",
@@ -560,18 +566,24 @@ def attest_layout(repo_root: Path, v: Verifier) -> None:
 
 
 def emit_deferrals(v: Verifier) -> None:
-    """Record the DEFERRAL REGISTER: five rows, never written as PASS.
+    """Record the DEFERRAL REGISTER: four rows, never written as PASS.
+
+    The LIVE_DEPLOYMENT_STATE row moved out of the deferred set on t93:
+    the -1qtu deployment answers 200 with the postgresql/fallback-false
+    reading, so the row is re-emitted as a VERIFIED_ROW that carries the
+    measured evidence fields and cites the t92 deploy record. A verified
+    row is a token, never a check: it carries evidence, not a verdict,
+    and it never ends `` PASS``.
 
     Args:
         v: Token ledger.
     """
-    v.tokens.append("DEFERRAL_REGISTER 5 DEFERRED")
-    live_check = f"curl -s -o /dev/null -w '%{{http_code}}' {RENDER_HEALTH_PATH}"
-    v.defer(
-        "LIVE_DEPLOYMENT_STATE",
-        "ops/deployment-health.md",
-        "live_render_url_returns_404_measured",
-        f"{live_check} then compare to the deployment record",
+    v.tokens.append("DEFERRAL_REGISTER 4 DEFERRED")
+    v.tokens.append(
+        "VERIFIED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health.md"
+        f" url={RENDER_HEALTH_PATH} http_status=200 database=postgresql"
+        " fallback_active=false version=1.0.0 evidence=measured_by_t92_record"
+        " record=docs/state/outputs/t92_deploy_evidence.json"
     )
     v.defer(
         "SCAN_TIMING_DOC",
@@ -862,7 +874,7 @@ def render_document(tokens: list[str]) -> str:
             "```text",
         ]
     )
-    lines.extend(section(("DEFERRAL_REGISTER", "DEFERRED_ROW")))
+    lines.extend(section(("DEFERRAL_REGISTER", "DEFERRED_ROW", "VERIFIED_ROW")))
     lines.extend(
         [
             "```",
