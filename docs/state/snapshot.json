@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-19T05:06:06Z",
-  "last_seq": 1135,
+  "updated_at": "2026-10-19T05:06:48Z",
+  "last_seq": 1136,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t92",
       "role": "builder",
       "phase": "implement",
-      "run_id": "pending",
+      "run_id": "3f95fe28-77f2-4260-9cb5-b5b6d60fa2af",
       "spawn_at": "2026-10-19T05:06:06Z",
-      "last_activity_at": "2026-10-19T05:06:06Z",
+      "last_activity_at": "2026-10-19T05:06:48Z",
       "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t92b"
     },
     {
