@@ -1,0 +1,157 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t98",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac1 RED: python3 missing - a skipped check proves nothing\"; exit 1; }\ncommand -v uv >/dev/null 2>&1 || { echo \"ac1 RED: uv missing - the verifier lint legs cannot run\"; exit 1; }\ntest -d backend -a -f docs/issues/t98.md || { echo \"ac1 RED: not the repo root - run the fence from the checkout root\"; exit 1; }\nd=backend/scripts/docs_verification.py\ni=backend/scripts/infra_verification.py\ntest -f \"$d\" || { echo \"ac1 RED: $d missing\"; exit 1; }\ntest -f \"$i\" || { echo \"ac1 RED: $i missing\"; exit 1; }\npython3 -c 'import ast,sys\n[ast.parse(open(p, encoding=\"utf-8\", errors=\"replace\").read()) for p in sys.argv[1:]]' \"$d\" \"$i\" \\\n  || { echo \"ac1 RED: a verifier script no longer parses\"; exit 1; }\ngrep -q \"LIVE_DEPLOYMENT_STATE\" \"$d\" && { echo \"ac1 RED: docs_verification.py still names LIVE_DEPLOYMENT_STATE - the register tuple must be gone (a leftover reason string counts)\"; exit 1; }\nn=$(grep -cE '\"LIVE_(AGENT_SESSION|MCP_SUBPROCESS|SUBAGENT_LAUNCH)\"' \"$d\")\n[ \"$n\" -eq 3 ] || { echo \"ac1 RED: expected the 3 surviving register keys in $d, found $n\"; exit 1; }\ngrep -qE 'expense-tracker-dashboard[.]onrender[.]com' \"$d\" && { echo \"ac1 RED: the OLD no-suffix host is still in docs_verification.py\"; exit 1; }\ngrep -qE 'expense-tracker-dashboard[.]onrender[.]com' \"$i\" && { echo \"ac1 RED: the OLD no-suffix host is still in infra_verification.py\"; exit 1; }\ngrep -q 'expense-tracker-dashboard-1qtu[.]onrender[.]com/api/v1/health' \"$i\" \\\n  || { echo \"ac1 RED: infra_verification.py does not name the -1qtu health URL\"; exit 1; }\n(cd backend && PYTHONPATH=. uv run ruff check scripts/docs_verification.py scripts/infra_verification.py >/dev/null 2>&1) \\\n  || { echo \"ac1 RED: ruff is not clean on the two verifiers\"; exit 1; }\n(cd backend && PYTHONPATH=. uv run mypy scripts/docs_verification.py scripts/infra_verification.py >/dev/null 2>&1) \\\n  || { echo \"ac1 RED: mypy is not clean on the two verifiers\"; exit 1; }\necho \"ac1 GREEN: both verifiers parse, the docs register holds exactly the 3 genuinely-deferred keys, the OLD host is absent from both, the -1qtu health URL is present in infra_verification.py, and ruff+mypy are clean\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac1.log",
+        "note": "GREEN: both verifiers parse; register holds exactly the 3 genuinely-deferred keys (LIVE_AGENT_SESSION/LIVE_MCP_SUBPROCESS/LIVE_SUBAGENT_LAUNCH, grep count 3); LIVE_DEPLOYMENT_STATE absent (grep count 0); OLD no-suffix host absent from both files; -1qtu health URL present in infra_verification.py (LIVE_COLD_START live_check); ruff+mypy clean on both verifiers."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac2 RED: python3 missing\"; exit 1; }\ncommand -v uv >/dev/null 2>&1 || { echo \"ac2 RED: uv missing\"; exit 1; }\nr=docs/criteria/docs_verification.md\ntest -f \"$r\" || { echo \"ac2 RED: $r missing\"; exit 1; }\n# CRLF discipline: every leg below runs against a CR-stripped copy, because git\n# checkout normalises this worktree to CRLF while the generator emits LF; the\n# committed-vs-generated comparison is therefore CR-normalised on both sides.\nn=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\nt=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\nu=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\ntr -d '\\r' < \"$r\" > \"$n\"\ntr -d '\\r' < \"$r\" > \"$t\"\ngrep -qxE 'DEFERRAL_REGISTER 3 DEFERRED' \"$n\" || { echo \"ac2 RED: the docs report header is not exactly DEFERRAL_REGISTER 3 DEFERRED\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\npython3 - \"$n\" <<'PYAC2'\nimport sys\ntext = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nlines = text.split(\"\\n\")\nrows = [l for l in lines if l.startswith(\"| \") and \" | DEFERRED | \" in l]\nwant = [\"LIVE_AGENT_SESSION\", \"LIVE_MCP_SUBPROCESS\", \"LIVE_SUBAGENT_LAUNCH\"]\nkeys = [l.split(\"|\")[1].strip() for l in rows]\nassert keys == want, \"register rows %s != the three survivors in order %s\" % (keys, want)\nfor l in rows:\n    assert \" reason=\" in l and \" live_check=\" in l, \"row lost reason=/live_check=: \" + l[:90]\nassert not any(\"LIVE_DEPLOYMENT_STATE\" in l for l in lines), \"the moved key still appears in the docs report\"\nPYAC2\n[ $? -eq 0 ] || { echo \"ac2 RED: the register row set is not the three survivors with reason/live_check intact, or the moved key is still present\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE '^LINK_CHECK PASS files=260 links=67 broken=0$' \"$n\" \\\n  || { echo \"ac2 RED: LINK_CHECK is not files=260 links=67 broken=0 - the count walks EVERY .md in the tree, so it moves with untracked scratch: measured anatomy is 243 committed at HEAD, 260 on a clean zero-untracked tree, 261 with a stray backend/.pytest_cache/README.md, 570 in a polluted main worktree. Work in a clean worktree and rm -rf backend/.pytest_cache before regenerating; never edit this leg to match\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\n# D2: the docs report MUST NOT end ALL_CHECKS_PASS on this milestone. The\n# generator prints its failing legs to stdout only (the document carries just the\n# summary count), so the FAIL set is pinned from stdout: tests[133] is the\n# pre-existing INDEX_ANCHORS staleness (that anchor predates the t90 index append\n# and is stale at HEAD today) and tests[155] is env-specific (GREEN in the\n# official baseline, RED in this WSL env). Anything else is a NEW failure.\ngrep -qxE 'ALL_CHECKS_PASS' \"$n\" && { echo \"ac2 RED: the docs report ends ALL_CHECKS_PASS - with the pre-existing anchor[133] staleness it cannot, so a suddenly-green report means an anchor was quietly edited rather than fixed\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qxE 'CHECKS_FAILED [12]' \"$n\" || { echo \"ac2 RED: the docs report does not end CHECKS_FAILED 1 or 2 - the measured shape is 2 in an env where tests[155] fails and 1 where it passes (133 is mandatory-fail, 155 env-specific); see the D2 disclosure\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py > \"$u\" 2>&1)\nbad=$(grep -oE 'FAIL tests\\[[0-9]+\\]' \"$u\" | grep -oE '[0-9]+' | grep -vE '^(133|155)$' | tr '\\n' ' ')\n[ -z \"$bad\" ] || { echo \"ac2 RED: the docs generator reports a failing stored gate outside the pinned set {133,155}: $bad - escalate, do not absorb it\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE 'FAIL tests\\[133\\]' \"$u\" || { echo \"ac2 RED: the pinned pre-existing tests[133] anchor failure is gone from the generator output - an INDEX_ANCHORS pin was changed, which is NOT this card surface\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE 'docs_verification: RED' \"$u\" || { echo \"ac2 RED: the docs generator did not report RED - see the D2 regeneration protocol in the card\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1)\ntr -d '\\r' < \"$r\" > \"$u\"\ncmp -s \"$u\" \"$t\" || { echo \"ac2 RED: the committed docs report is not generator output - a fresh CR-normalised run differs. Regenerate; never hand-edit the report\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ncp \"$u\" \"$t\"\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1)\ntr -d '\\r' < \"$r\" > \"$u\"\ncmp -s \"$u\" \"$t\" || { echo \"ac2 RED: the docs report is not byte-stable across two generator runs\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -f \"$t\" \"$n\" \"$u\"\necho \"ac2 GREEN: header 3 DEFERRED, the three survivors byte-for-byte with reason/live_check, the moved key absent, LINK_CHECK files=260 links=67 broken=0, CHECKS_FAILED 2 with the stored-gate FAIL set exactly {133,155} (never ALL_CHECKS_PASS), and the committed report is byte-stable generator output\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac2.log",
+        "note": "GREEN: header DEFERRAL_REGISTER 3 DEFERRED; three survivors byte-for-byte with reason=/live_check=; moved key absent; LINK_CHECK PASS files=260 links=67 broken=0; tail CHECKS_FAILED 1 (sanctioned shape 1 or 2, never ALL_CHECKS_PASS); generator stdout FAIL set exactly {133} - tests[155] GREEN in this env (builder env saw the same; the card sanctions subset of {133,155} with 133 present); committed report byte-stable generator output across two fresh runs (cmp on CR-normalised bytes)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac3 RED: python3 missing\"; exit 1; }\nr=docs/criteria/req_coverage_verification.md\ntest -f \"$r\" || { echo \"ac3 RED: $r missing\"; exit 1; }\n# CRLF discipline: every leg greps a CR-stripped copy (git checkout normalises\n# this worktree to CRLF while the generator emits LF).\nn=$(mktemp) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\ntr -d '\\r' < \"$r\" > \"$n\"\ngrep -qE '^REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79$' \"$n\" \\\n  || { echo \"ac3 RED: the matrix is no longer 749 rows / 749 unique / the pinned idset prefix - the move must not change the id set\"; rm -f \"$n\"; exit 1; }\nfor pair in IMPLEMENTED_TESTED:116 IMPLEMENTED_STRUCTURAL:622 DEFERRED_RULLED:10 GAP:0 EXAMPLE_REFERENCE:1; do\n  k=${pair%%:*}; v=${pair##*:}\n  grep -qxE \"REQ_STATUS_COUNT $k $v\" \"$n\" || { echo \"ac3 RED: REQ_STATUS_COUNT $k is not $v (the measured post-move tally is 116/622/10/0/1)\"; rm -f \"$n\"; exit 1; }\ndone\nif grep -qxE 'REQ_STATUS_COUNT (IMPLEMENTED_TESTED 111|DEFERRED_RULLED 15)' \"$n\"; then\n  echo \"ac3 RED: the report still carries the HEAD tally 111/15 - it was not regenerated after the move\"; rm -f \"$n\"; exit 1\nfi\npython3 - \"$n\" <<'PYAC3'\nimport sys\ntext = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nlines = text.split(\"\\n\")\nkeys = {l.split(\"key=\")[1].split(\" \")[0] for l in lines if l.startswith(\"REQ_DEFERRAL_KEY PASS key=\")}\nwant = {\"LIVE_AGENT_SESSION\", \"LIVE_MCP_SUBPROCESS\", \"LIVE_SUBAGENT_LAUNCH\",\n        \"RULING_FE_PERF_LIVE_PROFILING\", \"RULING_TECH_DATEFNS_OVERRULED\"}\nassert keys == want, \"deferral keys %s != %s\" % (sorted(keys), sorted(want))\nrows = [l for l in lines if l.startswith(\"REQ_ROW PASS id=\")]\nfor rid in [\"REQ-OPS-061\", \"REQ-OPS-062\", \"REQ-CICD-041\", \"REQ-DOC-070\", \"REQ-PROD-041\"]:\n    hit = [l for l in rows if (\" id=\" + rid + \" \") in l]\n    assert len(hit) == 1, rid + \" is not present exactly once (the move is a replacement, not a disappearance)\"\n    assert \" status=IMPLEMENTED_TESTED \" in hit[0], rid + \" is not IMPLEMENTED_TESTED after the move: \" + hit[0][:120]\n    assert \" deferral_key=\" not in hit[0], rid + \" still carries a deferral_key\"\nbad = [l for l in rows if \" deferral_key=LIVE_DEPLOYMENT_STATE \" in l]\nassert not bad, \"a row still defers on the moved key: \" + bad[0][:120]\nPYAC3\n[ $? -eq 0 ] || { echo \"ac3 RED: the deferral-key set, one of the five reclassified ids, or the no-stray-deferral_key rule failed\"; rm -f \"$n\"; exit 1; }\ngrep -qE 'pointers=[^ ]*[.]ncbak' \"$n\" && { echo \"ac3 RED: a pointer names a .ncbak scratch artifact - the report was generated from a polluted tree\"; rm -f \"$n\"; exit 1; }\nrm -f \"$n\"\necho \"ac3 GREEN: 749 rows / 749 unique / pinned idset, the measured 116-622-10-0-1 tally, the deferral-key set without the moved key, the five formerly-deferred ids present exactly once as IMPLEMENTED_TESTED with no deferral_key, and no scratch-artifact pointer\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac3.log",
+        "note": "GREEN: REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79; tally 116/622/10/0/1; HEAD-tally (111/15) absent; deferral-key set exactly the 5 survivors (3 LIVE_* + 2 RULING_*); the five ids REQ-OPS-061/062, REQ-CICD-041, REQ-DOC-070, REQ-PROD-041 present exactly once each as IMPLEMENTED_TESTED with no deferral_key; no row defers on LIVE_DEPLOYMENT_STATE; no .ncbak pointer."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v uv >/dev/null 2>&1 || { echo \"ac4 RED: uv missing - the suite cannot run\"; exit 1; }\ntest -f backend/pyproject.toml || { echo \"ac4 RED: backend/pyproject.toml missing - run the fence from the checkout root\"; exit 1; }\no=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\n(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit/test_req_coverage_verification.py -q 2>&1) | tr -d '\\r' | tail -3 > \"$o\"\ngrep -qE '[0-9]+ passed' \"$o\" || { echo \"ac4 RED: the req generator suite is not green:\"; cat \"$o\"; rm -f \"$o\"; exit 1; }\ngrep -qE '[0-9]+ failed|[0-9]+ error' \"$o\" && { echo \"ac4 RED: the req generator suite reports failures:\"; cat \"$o\"; rm -f \"$o\"; exit 1; }\nrm -f \"$o\"\nc=$(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit/test_req_coverage_verification.py --collect-only -q 2>/dev/null | tr -d '\\r' | grep -cE '::')\nx=$(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit --collect-only -q 2>/dev/null | tr -d '\\r' | grep -cE '::')\n[ -n \"$c\" ] && [ -n \"$x\" ] && [ \"$x\" -gt \"$c\" ] \\\n  || { echo \"ac4 RED: the suite is not inside the backend suite (backend collected=$x, req suite collected=$c)\"; exit 1; }\nt=backend/tests/unit/test_req_coverage_verification.py\ngrep -q 'test_t98_live_deployment_state_is_no_longer_carried' \"$t\" \\\n  || { echo \"ac4 RED: the t98 carried-key test is missing from $t\"; exit 1; }\ngrep -q 'expense-tracker-dashboard-1qtu' \"$t\" \\\n  || { echo \"ac4 RED: the t98 test does not assert the -1qtu URL against infra_verification.py\"; exit 1; }\n# D3: the infra report is NEVER compared byte-for-byte - its FALLBACK_WITHIN_5S\n# elapsed= line is nondeterministic per run. The comparison is normalised: CR\n# stripped and the elapsed= token removed, and the committed bytes are restored\n# afterwards so this fence never leaves the tree dirty.\nir=docs/criteria/infra_verification.md\nkeep=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\ndout=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\ncp \"$ir\" \"$keep\"\n(cd backend && PYTHONPATH=. timeout 900 uv run python scripts/infra_verification.py >/dev/null 2>&1)\nnorm() { tr -d '\\r' < \"$1\" | sed -E 's/(FALLBACK_WITHIN_5S elapsed=)[0-9.]+/\\1<T>/'; }\nif diff -u <(norm \"$keep\") <(norm \"$ir\") > \"$dout\" 2>&1; then\n  echo \"ac4 NOTE: the regenerated infra report equals the committed bytes modulo the elapsed= line (normalised comparison)\"\nelse\n  cp \"$keep\" \"$ir\"; rm -f \"$keep\" \"$dout\"\n  echo \"ac4 RED: the regenerated infra report differs from the committed bytes BEYOND the elapsed= line - the :602 URL move is not the only change\"; exit 1\nfi\nrm -f \"$dout\"\ncp \"$keep\" \"$ir\"\ncmp -s \"$keep\" \"$ir\" || { echo \"ac4 RED: ac4 failed to restore $ir to its pre-fence bytes\"; rm -f \"$keep\"; exit 1; }\nrm -f \"$keep\"\necho \"ac4 GREEN: the req generator suite is green and inside the backend suite (collected $x > $c) and the t98 test covering the moved key, the 10-row tally, the five reclassified ids and the -1qtu URL exists - the elapsed/collected lines are compared by pattern, never byte-for-byte, because the infra report elapsed= line is nondeterministic\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac4.log",
+        "note": "GREEN: req generator suite 19 passed 0 failed; inside the backend suite (collected 142 > 19); test_t98_live_deployment_state_is_no_longer_carried present and asserts the -1qtu URL; infra report round-trips the D3 normalised comparison (NOTE leg: equals committed bytes modulo the elapsed= line) and the fence's cmp-restore proved the committed bytes intact (git status clean after the fence)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac5 RED: python3 missing\"; exit 1; }\np=docs/state/merge_test_index.json\ntest -f \"$p\" || { echo \"ac5 RED: $p missing\"; exit 1; }\ngit diff HEAD --quiet -- \"$p\" || { echo \"ac5 RED: the gate index is modified in the working tree - it is orchestrator-owned and NEVER a builder or definer file\"; exit 1; }\nn=$(python3 -c 'import json; print(len(json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]))')\n[ \"$n\" = \"318\" ] || { echo \"ac5 RED: the gate index has $n entries, not 318 - an append happened outside this card\"; exit 1; }\nfor f in README.md render.yaml .github/workflows/deploy-render.yml docs/criteria/security_ops_verification.md docs/criteria/agent_pack_verification.md docs/criteria/dashboard_verification.md; do\n  git diff HEAD --quiet -- \"$f\" || { echo \"ac5 RED: $f is modified - it is NOT this card surface\"; exit 1; }\ndone\nh=$(grep -oE '[0-9a-f]{64}' backend/scripts/docs_verification.py | wc -l | tr -dc '0-9')\n[ \"$h\" = \"13\" ] || { echo \"ac5 RED: docs_verification.py carries $h 64-hex literals, not 13 - the infra pin rotation must be a REPLACE, not an addition\"; exit 1; }\npython3 <<'PYAC5'\nimport hashlib, re\nsrc = open(\"backend/scripts/docs_verification.py\", encoding=\"utf-8\", errors=\"replace\").read()\nblock = re.search(r\"CARRIED_DIGESTS = \\{(.*?)\\n\\}\", src, re.S).group(1)\npairs = re.findall(r'\"([^\"]+\\.md)\":\\s*\"([0-9a-f]{64})\"', block)\nassert len(pairs) == 4, \"expected 4 carried digest entries, found %d\" % len(pairs)\nbad = []\nfor path, pin in pairs:\n    raw = open(path, \"rb\").read().replace(b\"\\r\\n\", b\"\\n\")\n    got = hashlib.sha256(raw).hexdigest()\n    if got != pin:\n        bad.append(\"%s pin=%s actual-CR-stripped=%s\" % (path, pin[:12], got[:12]))\nassert not bad, \"stale carried digest pins:\\n\" + \"\\n\".join(bad)\nPYAC5\n[ $? -eq 0 ] || { echo \"ac5 RED: a CARRIED_DIGESTS pin does not equal its committed report - the infra pin MUST be rotated in this same commit (card two-pass recipe: rotate the pin, then regenerate docs)\"; exit 1; }\necho \"ac5 GREEN: the gate index is byte-clean at 318 entries, README/render/workflow and the three untouched criteria reports are byte-clean, docs_verification.py still holds exactly 13 hex literals, and all four CARRIED_DIGESTS pins equal their committed CR-normalised reports\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac5.log",
+        "note": "GREEN (run with GIT_DIR/GIT_WORK_TREE exported - WSL gitdir-parse artifact of this worktree, tooling class): merge_test_index.json byte-clean, 318 entries, blob e3b31be1c1de1bd1dacaa581bc22fe481b135e04; README.md/render.yaml/.github/workflows/deploy-render.yml + security_ops/agent_pack/dashboard reports byte-clean vs HEAD; exactly 13 64-hex literals in docs_verification.py; all four CARRIED_DIGESTS pins equal their committed CR-normalised reports (independently re-measured: agent_pack 69df80d6.., dashboard 6fd4e18d.., infra 0616af61.., security_ops 4d69122b..)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac6 RED: python3 missing\"; exit 1; }\na=docs/state/outputs/t98_definer_gate_amendment.json\ntest -f \"$a\" || { echo \"ac6 RED: $a missing - the definer authors the gate-amendment record at groom (t89/t90/t93 precedent)\"; exit 1; }\npython3 - \"$a\" <<'PYAC6'\nimport hashlib, json, sys\nrec = json.load(open(sys.argv[1], encoding=\"utf-8\"))\nam = rec[\"amendments\"]\nassert len(am) == 6, \"expected 6 amendments, found %d\" % len(am)\nidx = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nassert len(idx) == 318, \"the live index has %d entries, not 318\" % len(idx)\nnamed = {218, 219, 221, 223, 224, 226}\nseen = set()\nbad = []\nfor e in am:\n    i = e[\"index\"]\n    seen.add(i)\n    stored = idx[i][\"command\"]\n    if hashlib.sha256(stored.encode()).hexdigest() != e[\"old_command_sha256\"]:\n        bad.append(\"tests[%d]: the stored command sha differs from old_command_sha256 - the index moved under this amendment, STOP and re-derive, never apply blind\" % i)\n    if hashlib.sha256(e[\"new_command\"].encode()).hexdigest() != e[\"new_command_sha256\"]:\n        bad.append(\"tests[%d]: new_command does not hash to new_command_sha256\" % i)\n    if len(e[\"new_command\"]) != e[\"new_command_len\"]:\n        bad.append(\"tests[%d]: new_command_len mismatch\" % i)\n    if hashlib.sha256(e[\"old_command\"].encode()).hexdigest() != e[\"old_command_sha256\"]:\n        bad.append(\"tests[%d]: old_command does not hash to old_command_sha256\" % i)\n    nc = e[\"negative_control\"][\"matrix\"]\n    if len(nc) < 5:\n        bad.append(\"tests[%d]: only %d negative-control cases, minimum 5\" % (i, len(nc)))\n    for c in nc:\n        if c[\"measured_rc\"] != c[\"expected_rc\"]:\n            bad.append(\"tests[%d]: negative control %s measured rc=%s want %s\" % (i, c[\"case\"], c[\"measured_rc\"], c[\"expected_rc\"]))\n    kinds = {c[\"case\"].split(\"/\")[1] for c in nc}\n    for need in (\"candidate\", \"base\", \"stored_on_candidate\"):\n        if need not in kinds:\n            bad.append(\"tests[%d]: the matrix lacks a %s leg\" % (i, need))\n    muts = [c for c in nc if c[\"case\"].split(\"/\")[1] == \"mutation\" and c[\"expected_rc\"] == 1]\n    if not muts:\n        bad.append(\"tests[%d]: the matrix has no measured mutation control\" % i)\n    if not any(c[\"case\"].split(\"/\")[1] == \"candidate\" and c[\"expected_rc\"] == 0 for c in nc):\n        bad.append(\"tests[%d]: the matrix has no GREEN candidate leg - a gate that is RED on the candidate is not a shipped gate\" % i)\nassert seen == named, \"the amendment set is %s, not the named six\" % sorted(seen)\nassert rec[\"negative_control\"][\"total_legs\"] == sum(len(e[\"negative_control\"][\"matrix\"]) for e in am)\nassert rec[\"closure\"][\"named\"] == sorted(named), \"the record closure names %s\" % rec[\"closure\"][\"named\"]\nassert rec[\"closure\"][\"amending_221_touches_no_entry_sha_inside_224_W_map\"] is True\nPYAC6\n[ $? -eq 0 ] || { echo \"ac6 RED: the amendment record failed its own rebuild / stale-index / sha / negative-control / closure legs\"; exit 1; }\necho \"ac6 GREEN: the amendment record exists with exactly the named six entries; each carries at least 5 measured negative controls (candidate GREEN, base RED, stored-on-candidate RED, mutation RED), old/new command text that re-hashes to its recorded sha, and a closure statement covering the 224 W-map\"",
+        "exit_code": 0,
+        "output_path": "scratch/t98v/ac6.log",
+        "note": "GREEN (GREEN on base AND candidate BY DESIGN - record-existence/freeze leg): exactly the six named amendments {218,219,221,223,224,226}; each old/new command re-hashes to its recorded sha against the LIVE 318-entry index; >=5 measured negative controls each (candidate GREEN, base RED, stored-on-candidate RED, mutation RED); total_legs consistent; closure names the six and asserts amending-221 touches no entry sha inside 224's W-map."
+      }
+    },
+    "test_summary": {
+      "total": 142,
+      "passed": 142,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_verifiers_move_ruff_mypy_clean": true,
+      "ac2_docs_report_generator_output_shape": true,
+      "ac3_req_matrix_116_622_10_0_1": true,
+      "ac4_suite_green_t98_test_infra_roundtrip": true,
+      "ac5_freeze_pins_carried_digests_four_ok": true,
+      "ac6_amendment_record_six_named_valid": true,
+      "delta_purity_six_product_paths_plus_handoff": true,
+      "builder_commit_message_records_move_reason": true,
+      "ac_hash_reproduces_and_groom_handoff_complete": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_three_way_match": {
+      "recomputed_from_shipped_fences": "d214082d1091b06ead1e387c3031a6b11a35061f355df66a03c3724e406febd1",
+      "card_spaced_groups": "d214082d1091b06ead1e387c3031a6b11a35061f355df66a03c3724e406febd1",
+      "definer_groom_handoff": "sha256:d214082d1091b06ead1e387c3031a6b11a35061f355df66a03c3724e406febd1",
+      "builder_handoff": "sha256:d214082d1091b06ead1e387c3031a6b11a35061f355df66a03c3724e406febd1",
+      "groom_stored_commands_vs_card_fences": "all six byte-identical",
+      "verdict": "MATCH (three-way + card)"
+    },
+    "branch_sha_deviation_note": "Builder branch_sha 2de59daa420ddd95b7ec140899222b3ce9c72c72 is the product tip; the branch tip f69b0bc6a6492f60358a7323471524cff30b91c3 adds only docs/state/outputs/t98_builder_build.json (handoff-only commit, t93 precedent). Verification ran at the branch tip; the product delta is identical at both tips.",
+    "delta_purity": "git diff --name-only aeff4ac68f3949042e32db2f62a739e58ac762c9..f69b0bc = exactly backend/scripts/docs_verification.py, backend/scripts/infra_verification.py, backend/tests/unit/test_req_coverage_verification.py, docs/criteria/docs_verification.md, docs/criteria/infra_verification.md, docs/criteria/req_coverage_verification.md, docs/state/outputs/t98_builder_build.json. merge_test_index.json blob e3b31be1c1de1bd1dacaa581bc22fe481b135e04 (untouched, 318 entries). README.md blob 3282ada83bc55066a7abe73034e27fd823459c4d identical to base, 398 lines, CR-stripped digest prefix ca9343a8.",
+    "regeneration_proof": "git clean -nd EMPTY before every regen. Fresh req-generator run reproduces the committed req report byte-for-byte (CR-stripped sha256 a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445) and leaves the tree clean. Fresh docs-generator run (rc=1, stdout FAIL set exactly {133}, 'docs_verification: RED (1 failing checks)') leaves the tree clean - regenerated bytes equal committed. ac2's own double-run cmp byte-stability passed. No regen dirtied any tracked report.",
+    "d3_rotation_verification": "CARRIED_DIGESTS infra pin 0616af6157ee856988aea5612ba5dda95c3d0c5e7c8180f76677fc180d09da87 equals the CR-normalised sha256 of the COMMITTED infra report (re-measured); all four pins re-measured equal; docs report carries CARRIED_REPORT PASS on all four carried reports; infra report diff vs base is exactly the :602 URL line plus the nondeterministic FALLBACK_WITHIN_5S elapsed= line (0.090 -> 1.354); infra register unchanged at DEFERRAL_REGISTER 7 DEFERRED, 122 lines, ALL_CHECKS_PASS 23 PASS. Byte-equality of the infra report across runs is NOT expected (D3); the ac4 normalised cmp passed.",
+    "gate_spot_check": {
+      "scope": "informational, NOT part of the verdict; pre-validates the merge-window amendment premise",
+      "stored_unamended_rc": {
+        "218": 0,
+        "219": 1,
+        "221": 1,
+        "223": 1,
+        "224": 1,
+        "226": 1
+      },
+      "stored_red_reasons": "each RED on exactly its designed moved literal: 219 register-4-DEFERRED pin; 221 tally 111/15 pin; 223 register-4-rows pin; 224 carried-219 byte-pin + carried-gate-exec legs; 226 tally 111/15 + LDS re-attestation legs. 218 GREEN = disclosed non-flip (guard-leg addition).",
+      "amended_rc": {
+        "218": 0,
+        "219": 0,
+        "221": 0,
+        "223": 0,
+        "224": 1,
+        "226": 0
+      },
+      "amended_224_explanation": "amended-224 rc=1 ONLY on its node byte-pin leg (tests[218]/[219] entry-sha mismatch) because its W-map pins are the POST-amendment entry shas; recomputed post-amendment entry shas for {217,218,219,220} all MATCH the W-map literals (266e00c8.., c8146f9d.., cf42f951.., 767efeb1..). The definer record measured 224/candidate rc=0 against the post-amendment index and carries the idx_stale_pin_vs_amended_index mutation control (expected_rc=1, measured_rc=1) for exactly this state. Consistent with the merge-window premise, not a defect. All other amended legs (suite, hermetic greps, blob-diff, carried-gate execs) passed before the pin leg.",
+      "verdict": "amendment premise CONSISTENT"
+    },
+    "env_notes": [
+      "UV_PROJECT_ENVIRONMENT/PYTHONPATH empty -> [VENV_UNAVAILABLE] logged; per-worktree uv used (junction-seeded backend/.venv), worked.",
+      "WSL git cannot parse this worktree's Windows-format gitdir pointer; all git legs run with GIT_DIR/GIT_WORK_TREE exported (tooling artifact, same as builder env note); ac5 passed with it.",
+      "tests[155] GREEN in this env (docs tail CHECKS_FAILED 1, FAIL set {133}); the card sanctions 1 or 2 and subset-of-{133,155} with 133 present.",
+      ".env copied from the main checkout (gitignored, delta-invisible) to run scripts/platform.ts; tree remained clean."
+    ],
+    "platform_actions": {
+      "verdict_comment": "posted on issue #100, read back byte-equal (scratch/t98v/verdict_comment.md)",
+      "labels": "groomed removed, verified added; read back ['verified'] on issue #100"
+    },
+    "protected_bytes": "README.md blob identical to base (398 lines, ca9343a8.. CR-stripped); render.yaml, .github/workflows/deploy-render.yml, security_ops/agent_pack/dashboard reports byte-clean (ac5 legs); merge_test_index.json blob e3b31be1.. unchanged; no tests[318..] append exists (index at 318).",
+    "builder_command_consistency": "builder ac_mapping references the six card fences; the six fences extracted from the card are byte-identical to the definer groom evidence.verification_commands; no [BUILDER_COMMAND_MISMATCH]."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t98_verifier_verify_issue.json",
+      "scratch/t98v/ac1.log",
+      "scratch/t98v/ac2.log",
+      "scratch/t98v/ac3.log",
+      "scratch/t98v/ac4.log",
+      "scratch/t98v/ac5.log",
+      "scratch/t98v/ac6.log",
+      "scratch/t98v/stored_218.log",
+      "scratch/t98v/stored_219.log",
+      "scratch/t98v/stored_221.log",
+      "scratch/t98v/stored_223.log",
+      "scratch/t98v/stored_224.log",
+      "scratch/t98v/stored_226.log",
+      "scratch/t98v/amended_218.log",
+      "scratch/t98v/amended_219.log",
+      "scratch/t98v/amended_221.log",
+      "scratch/t98v/amended_223.log",
+      "scratch/t98v/amended_224.log",
+      "scratch/t98v/amended_226.log",
+      "scratch/t98v/docs_gen.stdout",
+      "scratch/t98v/reqgen.stdout",
+      "scratch/t98v/ruff.json",
+      "scratch/t98v/verdict_comment.md"
+    ],
+    "platform_issue": 100,
+    "output_path": "docs/state/outputs/t98_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-19T15:34:28Z",
+  "retry_count": 0
+}
