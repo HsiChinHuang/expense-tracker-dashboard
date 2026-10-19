@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-18T15:45:30Z",
-  "last_seq": 1121,
+  "updated_at": "2026-10-19T01:32:20Z",
+  "last_seq": 1122,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": "2026-10-18T14:15:16Z",
-      "last_activity_at": "2026-10-18T14:15:16Z",
+      "issue_id": "t90",
+      "role": "definer",
+      "phase": "re_groom",
+      "run_id": "139ce945-b2a4-47d2-9683-2489cea1939c",
+      "spawn_at": "2026-10-19T01:32:20Z",
+      "last_activity_at": "2026-10-19T01:32:20Z",
       "worktree_path": null
     },
     {
