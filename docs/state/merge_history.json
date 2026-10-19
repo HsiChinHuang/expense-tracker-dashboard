@@ -1336,6 +1336,16 @@
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
+    },
+    {
+      "issue_id": "t93",
+      "platform_issue": 99,
+      "branch": "issue/t93-security-ops-live-state",
+      "merge_sha": "24a0f4cd63517a994a03082ac201cf15ac9eee01",
+      "merged_at": "2026-10-19T10:31:22Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
     }
   ]
 }
