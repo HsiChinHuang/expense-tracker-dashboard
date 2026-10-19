@@ -1,0 +1,1 @@
+ac2 GREEN: ## Deployment on Render states the real -1qtu address, keeps the heading, the four subheadings, the ten tokens, render.yaml, RENDER_DEPLOY_HOOK, /api/v1/health and the #61 citation, prints no hook URL, no credential and no fabricated host, and the negative control is refused by 4 of 4 honesty legs

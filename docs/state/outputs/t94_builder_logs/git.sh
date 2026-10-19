@@ -1,0 +1,16 @@
+#!/bin/bash
+# t94 sweep shim: WSL git cannot parse this worktree's Windows-form .git pointer
+# (WAL 1119 class; t98b/t98pm precedent). Inject explicit GIT_DIR/GIT_WORK_TREE
+# only when the default pointer fails at the t94 worktree root.
+if /usr/bin/git rev-parse --git-dir >/dev/null 2>&1; then
+  exec /usr/bin/git "$@"
+fi
+RT="$(pwd)"
+if [ -f "$RT/README.md" ] && [ -f "$RT/.git" ]; then
+  GD="$(sed -n 's/^gitdir: //p' "$RT/.git" | tr -d '\r')"
+  case "$GD" in
+    [A-Za-z]:*) GD="/mnt/$(printf %s "${GD:0:1}" | tr "A-Z" "a-z")${GD:2}" ;;
+  esac
+  GIT_DIR="$GD" GIT_WORK_TREE="$RT" exec /usr/bin/git "$@"
+fi
+exec /usr/bin/git "$@"

@@ -1,0 +1,1 @@
+ac1 GREEN: ## Online demo states the real -1qtu address, states the hosted app has NO seeded demo account, keeps the local seed:demo path and the fixed local account, names no credential on the hosted side, and the negative control (a hosted-login claim) is refused by 2 of 2 honesty legs

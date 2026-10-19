@@ -1,0 +1,1 @@
+ac6 GREEN: the tests[255] amendment record is present and reconstructs the shipped index bytes in the pre-amendment (old command and entry sha both match the record pins; the regions reconstruct the amended command) state - replaced_regions reverse to old_command_sha256, the entry sha matches the recorded pin, and all 10 negative-control legs are as-expected

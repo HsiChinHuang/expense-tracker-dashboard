@@ -1,0 +1,2 @@
+sed: can't read /tmp/tmp.azTOH7IOhO: No such file or directory
+ac3 GREEN: README triple-pin equals the candidate bytes (lines=399 digest=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146), the old base digest and line count are gone, the shipped report records README_MEASURE PASS for exactly these bytes, the link check passes broken=0 (files/links=), the carried agent_pack row survives, and regeneration is deterministic
