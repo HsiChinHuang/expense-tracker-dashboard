@@ -1,16 +1,16 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-19T09:28:16Z",
-  "last_seq": 1144,
+  "updated_at": "2026-10-19T10:03:00Z",
+  "last_seq": 1145,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t93",
-      "role": "builder",
-      "phase": "build",
-      "run_id": "a3edcee4-c36a-4973-a793-3d816f35a532",
-      "spawn_at": "2026-10-19T09:28:16Z",
-      "last_activity_at": "2026-10-19T09:28:16Z",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "bd6d23b6-3330-4f64-83b7-350f84c7e744",
+      "spawn_at": "2026-10-19T10:03:00Z",
+      "last_activity_at": "2026-10-19T10:03:00Z",
       "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t93b"
     },
     {
