@@ -599,7 +599,7 @@ def emit_register(v: Verifier, facts: dict[str, bool]) -> None:
         "README.md",
         "egress_forbidden",
         "curl -o /dev/null -s -w '%{time_total}' "
-        "https://expense-tracker-dashboard.onrender.com/api/v1/health after an idle gap, "
+        "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health after an idle gap, "
         "gated against the 60s REQ-PROD-020 Should",
     )
 
