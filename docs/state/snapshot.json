@@ -1,27 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-19T02:18:02Z",
-  "last_seq": 1124,
+  "updated_at": "2026-10-19T02:24:42Z",
+  "last_seq": 1125,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t90",
-      "role": "builder",
-      "phase": "build",
-      "run_id": "acf2d199-e4c8-4860-bdfd-e31753d05709",
-      "spawn_at": "2026-10-19T02:14:56Z",
-      "last_activity_at": "2026-10-19T02:18:02Z",
-      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t90b"
-    },
-    {
-      "slot_id": "slot_2",
       "issue_id": null,
       "role": null,
       "phase": null,
       "run_id": null,
-      "spawn_at": "2026-10-18T15:45:30Z",
-      "last_activity_at": "2026-10-18T15:45:30Z",
+      "spawn_at": "2026-10-19T02:24:42Z",
+      "last_activity_at": "2026-10-19T02:24:42Z",
       "worktree_path": null
+    },
+    {
+      "slot_id": "slot_2",
+      "issue_id": "t90",
+      "role": "verifier",
+      "phase": "verify_issue",
+      "run_id": "d309b7fb-4380-4ac5-8abe-bd38eddc058d",
+      "spawn_at": "2026-10-19T02:24:42Z",
+      "last_activity_at": "2026-10-19T02:24:42Z",
+      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t90b"
     }
   ],
   "merge_queue": [],
