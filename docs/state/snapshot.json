@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-19T02:36:43Z",
-  "last_seq": 1127,
+  "updated_at": "2026-10-19T02:44:28Z",
+  "last_seq": 1128,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": "2026-10-19T02:24:42Z",
-      "last_activity_at": "2026-10-19T02:24:42Z",
-      "worktree_path": null
+      "issue_id": "t90",
+      "role": "verifier",
+      "phase": "verify_pre_merge",
+      "run_id": "pending",
+      "spawn_at": "2026-10-19T02:44:28Z",
+      "last_activity_at": "2026-10-19T02:44:28Z",
+      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t90pm"
     },
     {
       "slot_id": "slot_2",
