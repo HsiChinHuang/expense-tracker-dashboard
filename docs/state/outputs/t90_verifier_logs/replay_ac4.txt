@@ -1,0 +1,11 @@
+ac4 evidence: both required changes are present: deploy.yml moved against the ancestor and the amendment record exists
+ac4 evidence: runtime exemption granted and justified: both runtime trees are untracked and un-mentioned by all 318 stored gate commands (1 untracked runtime path(s) classified RUNTIME_YES, none of them a product path)
+ac4 evidence: classification: 5 allow-listed, 6 ANCESTOR_YES (live family from b318c36b), 1 RUNTIME_YES, 2 SIBLING_YES, 0 unaccounted
+ac4 evidence: sibling-card carve-out exercised and bounded: 2 path(s) belong to other cards of this milestone (docs/state/outputs/t90_builder_build.json, docs/state/outputs/t90_definer_re_groom.json) - matched ONLY by the closed t9x card-room pattern, so no product path, workflow, source tree or the gate index can ever be carved out; any such sibling collision would be UNACCOUNTED here
+ac4 evidence: never-touch set byte-clean: the gate index, README, plan, requirements, backlog, render.yaml, openapi.yaml, ci.yml, e2e.yml and the docs/criteria, ops, security, backend, frontend, scripts, tests trees
+ac4 evidence: budget: 5 of 7 allow-listed paths changed
+ac4 evidence: the card quotes no 64-hex content digest: the ac_hash lives in the handoff JSON and every pin is re-measured by the fence that needs it
+ac4 evidence: the card's 40-hex refs are 4 of the four pinned ids (17c11618, 890680e2, 8c1e3ab1, b318c36b) - the pinned set is closed
+ac4 evidence: purity control FIRED: the planted docs/PURITY_CONTROL_t90.md was classified UNACCOUNTED
+ac4 GREEN: DELTA PURITY HOLDS against base 890680e2 - the two required paths moved, every other change is ANCESTOR_YES by live measurement, the never-touch set (gate index first) is byte-clean, the budget holds, and the purity control was executed and fired
+ac4 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

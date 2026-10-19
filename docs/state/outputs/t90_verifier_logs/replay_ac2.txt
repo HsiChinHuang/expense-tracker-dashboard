@@ -1,0 +1,5 @@
+ac2 evidence: HEAD carries deploy.yml blob 17c11618 (BASE was 8c1e3ab1) - the edit is committed
+ac2 evidence: committed vs BASE (difflib, insertion-aware): 3 equal opcode(s) pairing 43 line(s) 1:1, exactly 1 insert opcode (the 2 recorded env lines, pinned after the health-verify step name), 1 replace opcode (curl constant -> "$APP_HEALTH_URL"), 0 delete opcodes, 0 non-equal opcodes outside the mandated hunk
+ac2 evidence: amended-gate replay against the committed blob: rc=0 (the e2e legs ran against the real e2e.yml; the deploy legs ran against the committed bytes from git)
+ac2 GREEN: OPERATOR EDIT COMMITTED BYTE-IDENTICAL - HEAD carries blob 17c11618 (BASE was 8c1e3ab1), the committed bytes equal the recorded operator content, the difflib decomposition is exactly the mandated hunk (2-line env insert + curl-constant replace, 0 deletes, nothing else moved), the secret set is the closed pair, no plaintext hook host, and the amended gate replays rc=0 against the committed blob
+ac2 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

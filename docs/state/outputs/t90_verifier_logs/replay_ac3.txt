@@ -1,0 +1,8 @@
+ac3 evidence: case base_single_secret (amended): rc=0
+ac3 evidence: case operator_edit (amended): rc=0
+ac3 evidence: case third_secret (amended): rc=1 with 'deploy.yml secrets must stay inside the closed allowlist {RENDER_DEPLOY_HOOK (hook step), RENDER_APP_URL (health-verify '
+ac3 evidence: case app_url_misplaced (amended): rc=1 with 'RENDER_APP_URL is allowed exactly once and only in the health-verify step'
+ac3 evidence: case app_url_referenced_twice (amended): rc=1 with 'RENDER_APP_URL is allowed exactly once and only in the health-verify step'
+ac3 evidence: case operator_edit_stored_command (stored): rc=1 with 'RENDER_DEPLOY_HOOK must be the ONLY secret referenced, got RENDER_DEPLOY_HOOK,RENDER_APP_URL'
+ac3 GREEN: RE-PREMISE HOLDS - the amended gate is GREEN on the base single-secret file and on the operator two-secret edit, and REDS with its own allowlist/placement messages on a third distinct secret, on RENDER_APP_URL misplaced into the hook step, and on a second RENDER_APP_URL reference; the stored command is RED on the operator edit, which is why this card exists
+ac3 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

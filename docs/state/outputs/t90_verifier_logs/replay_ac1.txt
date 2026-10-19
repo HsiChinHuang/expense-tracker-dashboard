@@ -1,0 +1,5 @@
+ac1 evidence: stored tests[133] measured live: issue_id t26, len 3106, sha256 748f28c0..., single-secret leg occurs exactly once
+ac1 evidence: record old_command is byte-identical to the live stored command; the exact old and new assertion strings are recorded; new_command carries the closed allowlist and placement legs exactly once and the old leg zero times
+ac1 evidence: the closed-allowlist guarantee, the third-secret negative control, and the byte-identical-elsewhere guarantee are all recorded in the record
+ac1 GREEN: the tests[133] gate-amendment record exists, is valid 2-space-indent JSON, names index 133/t26, carries an old_command byte-identical to the live stored command, the exact old and new assertion strings, the closed-allowlist and placement legs, the third-secret negative control, and the byte-identical-elsewhere guarantee
+ac1 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

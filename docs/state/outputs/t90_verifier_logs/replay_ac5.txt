@@ -1,0 +1,7 @@
+ac5 evidence: the gate index is byte-identical to HEAD - nothing was applied out of band
+ac5 evidence: the amendment is EXACTLY ONE contiguous replacement at offset 2248; the prefix (chars 0..2247) and the suffix are byte-identical between the stored and amended commands - every non-amended leg is untouched
+ac5 evidence: record digests reproduce over its own texts: old 3106/748f28c0..., new 3547/b2a662b9...
+ac5 evidence: amended command vs committed blob: rc=0 (post-amendment GREEN)
+ac5 evidence: stored command vs working tree: rc=1 naming the single-secret leg (the pre-amendment RED is intact and honest)
+ac5 GREEN: MERGE-WINDOW CONTRACT HOLDS - the gate index is untouched out of band, the amendment is exactly one contiguous replacement with byte-identical prefix and suffix, the record's digests reproduce over its own texts, the amended command is rc=0 against the committed blob, and the stored command is still rc=1 on the single-secret leg
+ac5 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
