@@ -53,10 +53,11 @@ Then run the Quick Start commands below and sign in with the fixed account
 demo@example.com / demo-password-123. The seed script touches only its own
 demo rows and is safe to re-run.
 
-A hosted demo address is a placeholder pending the published deployment, and
-no URL is fabricated here: no public service has been published yet, so the
-real address will be filled in when it exists. Until then, the seeded local
-demo above is the demo path.
+The hosted app is live at https://expense-tracker-dashboard-1qtu.onrender.com.
+It has NO seeded demo account: register your own account there before you try
+to sign in. The fixed demo account above exists only in your own local
+database, created by the seed command, and is never available on the hosted
+app. The seeded local demo stays the documented demo path.
 
 ## Prerequisites
 
@@ -357,11 +358,11 @@ in `docs/ai-workflow.md`; the agent contribution rules live in `AGENTS.md`.
 
 ## Deployment on Render
 
-PLACEHOLDER - this deployment is pending and has not been published.
-No Render service is live yet, no live address is fabricated here, and
-the address stays unpublished until residual issue #61 is resolved: the
-operator still needs to configure the `RENDER_DEPLOY_HOOK` secret and
-import the blueprint. The procedure below is what runs once #61 lands.
+The service is live at https://expense-tracker-dashboard-1qtu.onrender.com.
+The deploy-hook automation tracked as residual issue #61 stays open: the
+`RENDER_DEPLOY_HOOK` secret still needs the operator's configuration, so
+release triggers do not fire automatically yet. The procedure below is the
+import-and-verify path, kept for redeploys and rollbacks.
 
 ### Why Render
 
@@ -373,7 +374,7 @@ deploy, review, and roll back without owning any infrastructure
 ### First deployment
 
 1. Import the repository as a Render Blueprint - `render.yaml` is the
-   deployment-as-code deliverable and is not imported or live yet.
+   deployment-as-code deliverable the live service was deployed from.
 2. Add the `RENDER_DEPLOY_HOOK` value as a GitHub secret so `deploy.yml`
    can trigger releases (the hook URL itself is never committed).
 3. Render builds the Docker image, runs migrations at container start,
