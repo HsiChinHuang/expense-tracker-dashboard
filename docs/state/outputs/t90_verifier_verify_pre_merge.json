@@ -1,0 +1,327 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t90",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS",
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 282,
+      "failed": 36
+    },
+    "cumulative_completeness": "machine-verified: results.tsv 318 rows, indices 0..317 each exactly once, 0 missing, 0 duplicates, 0 skipped. Detached runner (scratch/t90pm/sweep.cjs, PID 3668655) ran 2026-10-19T02:49:06Z -> 03:48:48Z ('sweep DONE rows=318 elapsed_s=3582', ~60 min wall), results.tsv checkpointed incrementally, per-entry logs scratch/t90pm/out/cum_NNN.log. Raw sweep tally 280/38; tests[220] and tests[224] re-ran VERBATIM to rc=0 after the mode-doc uv-sync fallback (uv sync --frozen --offline created the gitignored backend/.venv, the exact prerequisite their self-test leg names: 'ac4 RED: no backend/.venv python to run the self-test copy (prerequisite: cd backend && uv sync)') -> final 282/36. No command string modified.",
+    "smoke_tests": {
+      "total": 5,
+      "passed": 1,
+      "failed": 4
+    },
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section and docs/config.yaml does not exist, so per the mode-doc fallback the smoke set is the 5 t90 AC verification fences from docs/issues/t90.md ## Verification, run VERBATIM on the merged bytes. Raw rc: ac1=1, ac2=0, ac3=1, ac4=1, ac5=1. The four REDs are classified premise-pins-obsolete-after-sanctioned-application (ac1/ac3/ac5) and t91-style provenance (ac4) per the supervisor ruling WAL 1129; ac2 (the operator-edit byte-identity fence) is GREEN. Pre-application replay of ac1 on a reconstructed 4beac54^ root returns rc=0 (joint-satisfiability proof).",
+    "per_fence": [
+      {
+        "ac": "ac1",
+        "rc": 1,
+        "class": "premise-pins-obsolete-after-sanctioned-application + autocrlf-smudge",
+        "evidence": "scratch/t90pm/out/replay_ac1.txt; 7 RED lines: 4 legs pin the PRE-amendment stored tests[133] (3106B/sha 748f28c0/old-leg-count-1/old_command==stored) but the stored command IS the sanctioned amended 3547B/b2a662b9 command; 2 legs (record 'carries CRLF'/'not 2-space-indent') are autocrlf working-copy smudge (HEAD blob 16026B/0 CRLF/indent-2 exact, worktree copy 16133B/107 CRLF, LF-normalized equal). PRE-APPLICATION REPLAY rc=0: scratch/t90pm/out/diag_ac1_preapply.txt on git-show 4beac54^ blobs."
+      },
+      {
+        "ac": "ac2",
+        "rc": 0,
+        "class": "GREEN",
+        "evidence": "scratch/t90pm/out/replay_ac2.txt: HEAD deploy.yml blob 17c11618 (BASE 8c1e3ab1), difflib = exactly the mandated hunk (2-line env insert + curl-constant->$APP_HEALTH_URL replace, 0 deletes), amended-gate replay rc=0."
+      },
+      {
+        "ac": "ac3",
+        "rc": 1,
+        "class": "premise-pins-obsolete-after-sanctioned-application",
+        "evidence": "scratch/t90pm/out/replay_ac3.txt: single RED leg operator_edit_stored_command expects rc=1 under the stored command - true only PRE-amendment; post-application the amended stored command exits 0 BY DESIGN (the amendment's DoD). All 5 synthetic control cases behaved correctly (base/edit 0; third_secret/misplaced/twice 1)."
+      },
+      {
+        "ac": "ac4",
+        "rc": 1,
+        "class": "t91-style provenance disclosure",
+        "evidence": "scratch/t90pm/out/replay_ac4.txt + ac4_provenance.txt: exactly the 3 never-touch paths, all ancestor-attributed (merge_test_index.json <- 4beac54 amendment; docs/backlog.md <- 75e84cc t91 closeout; render.yaml <- 90de370 t91 CORS). Candidate never touched any of the three; merge moved nothing beyond main. Purity control FIRED; classification 6 allow-listed/40 ANCESTOR_YES/1 RUNTIME_YES/0 unaccounted."
+      },
+      {
+        "ac": "ac5",
+        "rc": 1,
+        "class": "premise-pins-obsolete-after-sanctioned-application",
+        "evidence": "scratch/t90pm/out/replay_ac5.txt: index byte-identical-to-HEAD leg PASSED (no out-of-band edit); REDs are the pre-amendment pins + the 'STORED command vs working tree must exit 1 until the orchestrator applies the amendment' leg - the amendment IS applied, so it exits 0."
+      }
+    ],
+    "merge_delta_proof": "P1 4beac54..6fd2a0c = .github/workflows/deploy.yml only, 3 insertions/1 deletion. P2 deploy.yml blob 17c11618 identical merge==candidate. P3 candidate delta vs ancestor b318c36b EXCLUDING docs/state,docs/log,docs/issues = deploy.yml ONLY. P4 merge-vs-candidate outside bookkeeping = backend/app/main.py, docs/backlog.md, render.yaml = main-side content byte-identical to 4beac54 in the merge. Product delta = deploy.yml only.",
+    "ac_hash_reproduction": "ac_hash independently recomputed from the card ON DISK (docs/issues/t90.md, 5 ```bash blocks) with the t58/t62..t90 recipe (sha256 over JSON.stringify of the five fenced blocks in ac1..ac5 order, each CR-stripped and trimmed, compact separators): 93216c7cabcff6a679b53557aa7ab53dda00e2632dadbf9a98739c5cb42b1498 == the dispatch-pinned spaced value (9321 6c7c abcf f6a6 79b5 3557 aa7a b53d da00 e263 2dad bf9a 9873 9c5c b42b 1498). All five extracted fence files byte-identical to their card blocks (sizes 15225/21029/13129/23597/14605). Anti-trust check PASSES: the fences executed are the fences the card pins.",
+    "candidate": {
+      "worktree": "/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t90pm",
+      "head": "6fd2a0ced795d374145933fa3cfea2a7b1734695 (DETACHED at the merge commit; dispatch-sanctioned deviation from the mode-doc candidate-branch check)",
+      "merge_base_origin_main": "d9c090f98d12c43f87bfe39b184b75e1d51c7ee0",
+      "candidate_commit": "8122b56cfb82226dd6329902d69f3d02d487f125",
+      "main_side_parent": "4beac54ca7463e80501c8f665e7241a1751cfc09",
+      "candidate_ancestor": "b318c36b78be0b4efd72fd5b8a8b0d5d42407b03",
+      "committed_product_delta_vs_ancestor": "['.github/workflows/deploy.yml'] only (excluding docs/state,docs/log,docs/issues)",
+      "working_tree": "clean of product edits: only untracked node_modules + frontend/node_modules (junction symlinks not matched by the node_modules/ gitignore pattern), untracked scratch/, and two docs/criteria regeneration artifacts (agent_pack_verification.md, req_coverage_verification.md) produced BY the sweep's own t57/t58 regeneration gates during execution - not verifier edits."
+    },
+    "key_gates": "tests[133] rc=0 GREEN (the AMENDED deploy.yml gate - required GREEN post-amendment, WAL 1128 orchestrator recheck rc=0 corroborated); tests[134]/[135]/[170]/[255] rc=0; tests[5] rc=0; tests[220]/[224] rc=0 after the mode-doc uv-sync fallback verbatim re-run; tests[276] rc=1 sanctioned.",
+    "red_classification": {
+      "sanctioned_pre_existing": [
+        161,
+        162,
+        191,
+        227,
+        276
+      ],
+      "sanctioned_note": "Dispatch sanctioned/parked set {227,161,162,191,227,220,22} + {276}: 161/162/191/227 RED as parked (U5 milestone-pin rotation family - 191 'README drifted', 227 'README is not the pin-2 FINAL digest', 162 gitleaks register-activity drift 'leaks found: 90' vs the pinned zero-leak/74-76 premise, 161 t36 premise gate executing the original find command). 276 sanctioned by its card contract (ac5 asserts rc=1 + exact reason string, matched). 220 (dispatch 'defect') re-ran GREEN rc=0 after the uv-sync prerequisite and is GREEN in the final tally.",
+      "environmental": [
+        188,
+        192,
+        272,
+        274,
+        275,
+        289,
+        290,
+        294,
+        296
+      ],
+      "environmental_note": "188/192: 'docker daemon unreachable' (no docker daemon in this WSL session). 272/274/275/289/290/294/296: incident-response/observability shell gates reading LF-blob scripts through the autocrlf=true CRLF working copy (bash fails on $'{\\r'), plus dead-loopback/unreachable-endpoint legs - same measurement as the t91/t97 sweeps.",
+      "pre_existing_main_side_drift": [
+        139,
+        140,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        190,
+        204,
+        216,
+        217,
+        230,
+        231,
+        250,
+        254,
+        257,
+        259,
+        309
+      ],
+      "pre_existing_note": "All 22 are in the t91 pre-merge baseline RED set with unchanged rc and unchanged RED reasons (t27 freeze-scope/e2e typecheck guards, security-report count gates, README-pin/digest gates, t57 determinism contract over main-side docs/criteria regeneration, ownership-envelope and criteria-regeneration gates). None reachable by a deploy.yml-only change.",
+      "regression_attributable_to_t90": [],
+      "red_indices_all_36": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        217,
+        227,
+        230,
+        231,
+        250,
+        254,
+        257,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "classification_arithmetic": "sanctioned_pre_existing 5 (161,162,191,227,276) + environmental 9 (188,192,272,274,275,289,290,294,296) + pre_existing_main_side_drift 22 (139,140,163,164,166,167,174,175,177,180,181,190,204,216,217,230,231,250,254,257,259,309) + regression_attributable_to_t90 0 = 36, matching the measured RED row count exactly. The 36-set EQUALS the t91 baseline 36-set (set-verified True): no new RED class, no t90-attributable regression.",
+      "tests_224_note": "tests[224] (t58) appeared RED in the RAW sweep (38) ONLY for the backend/.venv prerequisite leg ('no backend/.venv python to run the self-test copy'), the same class as tests[220]; re-ran VERBATIM to rc=0 once uv sync provided the gitignored venv -> GREEN in the final tally. It is NOT a new class; it is the mode-doc uv-sync fallback, identical to the t97 precedent."
+    },
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN logged: UV_PROJECT_ENVIRONMENT and PYTHONPATH both EMPTY at spawn. Fallback per mode doc: sweep runner and fences set UV_PROJECT_ENVIRONMENT=backend/.pi-agent/venvs/2876b1d8c5e8a14c (dispatch-seeded Linux bucket) + PYTHONPATH=worktree root; tests[220]/[224] additionally required the per-worktree backend/.venv their gate text names as prerequisite -> uv sync --frozen --offline (rc=0, gitignored path). No command string modified.",
+      "git_access": "Read-only throughout: WSL git cannot resolve this worktree's Windows-form gitdir pointer, so a PATH shim (scratch/t90pm/bin/git) forwards with GIT_DIR/GIT_WORK_TREE overrides, and the stored commands' own cmd.exe git legs are served by a cmd.exe bridge (scratch/t90pm/bin/cmd.exe). No checkout, no merge, no push, no index edit, no code/test/issue modification by the verifier.",
+      "sweep_harness": "extract.py extracted all 318 stored commands byte-verified (entries=318 mismatches=0) to scratch/t90pm/cmds/cum_NNN.sh; sweep.cjs (adapted t97 detached-resumable pattern) executed each VERBATIM (cwd=worktree root, 900s timeout, checkpointed TSV + per-entry logs). Single leg 0..317, DONE at 03:48:48Z.",
+      "environment_gaps": "no docker daemon (188/192 environmental); autocrlf=true CRLF working copy (272/274/275/289/290/294/296 + ac1 record-file legs); node_modules/frontend/node_modules junction symlinks show untracked (not matched by node_modules/ gitignore)."
+    },
+    "supervisor_ruling": "PASS-with-disclosure APPROVED by the orchestrator (WAL 1129 SUPERVISOR RULING t90 pre-merge fences on merged bytes): ac2 GREEN; ac1/ac3/ac5 classified premise-pins-obsolete-after-sanctioned-application; ac4 = t91-style provenance (WAL 1114 precedent). The five fences were premised and verified for CANDIDATE bytes (verify_issue 5/5 GREEN at 8122b56, WAL 1127); the amendment application at 4beac54 is the sanctioned orchestrator merge-window act the card itself schedules (record applied_by: 'the orchestrator in the strict merge window'). WAL 1128 records the orchestrator post-amendment recheck rc=0. Re-grooming the three fences for post-application evaluation was REJECTED as a pointless re-premise.",
+    "notes": [
+      "CWD/HEAD verified as first actions: worktree /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t90pm, HEAD 6fd2a0ced795d374145933fa3cfea2a7b1734695 = merge commit (parents 4beac54 + 8122b56c), detached per dispatch.",
+      "Amendment confirmed applied in the merge window: tests[133] stored = 3547B/sha b2a662b9aa0c = record new_command; pre-amendment at 4beac54^ was 3106B/748f28c0; commit 4beac54 touched exactly entry [133] (differing-entries set == [133]); rebuild(parent,one-swap@offset2248)==HEAD stored True. Sweep used the AMENDED index exactly as stored; nothing reverted or edited.",
+      "Index byte-identical to HEAD (sha256 44b7c5f0c82f89734888eb39c20cbf2ce5996aaf3f5a0f7221502185255be3e0, 318 entries); ac5's out-of-band-edit leg PASSED.",
+      "No state-changing git performed; write scope limited to docs/state/outputs/t90_verifier_verify_pre_merge.json + scratch/t90pm/ (stricter than the t97 precedent which also wrote a logs dir under docs/state/outputs)."
+    ],
+    "failed_tests": [
+      {
+        "test": "tests[139] (t27)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): t27 freeze-scope guard over main-side backend/app drift"
+      },
+      {
+        "test": "tests[140] (t27)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): e2e typecheck guard fails on committed e2e/fixtures TS2345"
+      },
+      {
+        "test": "tests[161] (t36)",
+        "error_summary": "sanctioned/parked: t36 premise gate executes the original find command (RED at baseline)"
+      },
+      {
+        "test": "tests[162] (t36)",
+        "error_summary": "sanctioned/parked: gitleaks register-activity drift (leaks found: 90 vs pinned premise)"
+      },
+      {
+        "test": "tests[163] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate over committed report content"
+      },
+      {
+        "test": "tests[164] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[166] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[167] (t37)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): t37 security-tree premise gate, silent exit 1"
+      },
+      {
+        "test": "tests[174] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[175] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[177] (t38)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): t38 gitleaks-report premise gate, silent exit 1"
+      },
+      {
+        "test": "tests[180] (t40)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[181] (t40)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): security-report count gate"
+      },
+      {
+        "test": "tests[188] (t47)",
+        "error_summary": "environmental: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[190] (t47)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): freeze-scope guard, RED line byte-identical to t91"
+      },
+      {
+        "test": "tests[191] (t47)",
+        "error_summary": "sanctioned/parked: 'ac4 RED: README drifted' (U5 milestone-pin rotation family)"
+      },
+      {
+        "test": "tests[192] (t47)",
+        "error_summary": "environmental: docker daemon unreachable (ac5 leg)"
+      },
+      {
+        "test": "tests[204] (t54)",
+        "error_summary": "pre-existing main-side drift (t91 baseline)"
+      },
+      {
+        "test": "tests[216] (t55)",
+        "error_summary": "pre-existing main-side drift (t91 baseline)"
+      },
+      {
+        "test": "tests[217] (t57)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): determinism contract over main-side docs/criteria regeneration"
+      },
+      {
+        "test": "tests[227] (t59)",
+        "error_summary": "sanctioned/parked: 'README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone'"
+      },
+      {
+        "test": "tests[230] (t62)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): branch-delta ownership-envelope gate"
+      },
+      {
+        "test": "tests[231] (t63)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): 't63-pin3 RED: README digest moved off pin-3'"
+      },
+      {
+        "test": "tests[250] (t69)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): Quick Start numbered-steps count gate"
+      },
+      {
+        "test": "tests[254] (t70)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): carried README-scoped gates"
+      },
+      {
+        "test": "tests[257] (t71)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): RED-at-base-by-design steps gate"
+      },
+      {
+        "test": "tests[259] (t72)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): README digest ca9343a8/398 lines vs pin"
+      },
+      {
+        "test": "tests[272] (t80)",
+        "error_summary": "environmental: autocrlf CRLF-smudged LF-blob script fails bash -n"
+      },
+      {
+        "test": "tests[274] (t80)",
+        "error_summary": "environmental: dead-loopback/autocrlf CRLF-smudge incident-response gate"
+      },
+      {
+        "test": "tests[275] (t80)",
+        "error_summary": "environmental: autocrlf CRLF-smudge - --print-manifest produced no document"
+      },
+      {
+        "test": "tests[276] (t78)",
+        "error_summary": "sanctioned by card contract: ac5 asserts rc=1 + exact reason string (service.name pin), matched verbatim"
+      },
+      {
+        "test": "tests[289] (t82)",
+        "error_summary": "environmental: autocrlf CRLF-smudge - bash -n rejects rollback.sh"
+      },
+      {
+        "test": "tests[290] (t82)",
+        "error_summary": "environmental: dead-loopback endpoint + autocrlf CRLF-smudge family"
+      },
+      {
+        "test": "tests[294] (t77)",
+        "error_summary": "environmental: autocrlf CRLF-smudge - dashboard.json not canonical indent-2 in working copy"
+      },
+      {
+        "test": "tests[296] (t83)",
+        "error_summary": "environmental: autocrlf CRLF-smudge - alert.json carries CRLF bytes in the working copy"
+      },
+      {
+        "test": "tests[309] (t86)",
+        "error_summary": "pre-existing main-side drift (t91 baseline): criteria doc not byte-clean against BASE (report-only gate)"
+      }
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t90_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 96,
+    "output_path": "docs/state/outputs/t90_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-19T04:00:40Z",
+  "retry_count": 0
+}

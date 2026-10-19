@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-18T15:44:43Z",
+  "updated_at": "2026-10-19T04:04:10Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1315,6 +1315,17 @@
       "tests_appended": 0,
       "regressions": 0,
       "regressions_note": "0 NEW: 318/318 pre-merge verbatim sweep on f67bf42 282G/36RED, RED set identical to t91 baseline (verdict PASS, delta backend/app/main.py 1+/1- alone); index untouched per card (no amendment exists; ac5 re-derives scan set live)"
+    },
+    {
+      "issue_id": "t90",
+      "platform_issue": 96,
+      "branch": "issue/t90-deploy-health-url",
+      "merge_sha": "6fd2a0c",
+      "merged_at": "2026-10-19T04:04:10Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0,
+      "regressions_note": "0 NEW: 318/318 pre-merge verbatim sweep on merged bytes 6fd2a0c 282G/36RED, RED set set-equal to t91 baseline (verdict PASS, WAL 1129 ruling PASS-with-disclosure for ac1/ac3/ac5 premise-pins-obsolete-after-sanctioned-amendment-application + ac4 t91-style provenance); tests[133] amendment applied in-window per record (318 entries before/after, byte_identical_elsewhere guaranteed), amended command rc=0 on merged bytes; index untouched otherwise per card zero-index-edit constraint"
     }
   ]
 }
