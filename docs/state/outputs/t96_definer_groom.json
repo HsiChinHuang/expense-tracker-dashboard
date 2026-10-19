@@ -1,0 +1,284 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t96",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "timestamp": "2026-10-19T22:04:42Z",
+  "retry_count": 0,
+  "error": null,
+  "next_action": null,
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t96.md",
+      "docs/state/outputs/t96_definer_gate_amendment.json",
+      "docs/state/outputs/t96_definer_groom.json"
+    ],
+    "platform_issue": 103,
+    "output_path": "docs/state/outputs/t96_definer_groom.json"
+  },
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:5608a09b8d997f16eefea65805e688a8f5478762c804ebf7bc855c6f0dd892a5",
+    "ac_hash_recipe": "sha256 over json.dumps(blocks, separators=(',',':')) where blocks are the six ```bash-fenced blocks of docs/issues/t96.md in ac1..ac6 order, each taken exactly as it sits between its fences, CR-stripped and trimmed - the t58/t62..t94 recipe. Recomputed from the SHIPPED card in this run. Spaced groups: 5608a09b 8d997f16 eefea658 05e688a8 f5478762 c804ebf7 bc855c6f 0dd892a5",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "set -u\ntest -f README.md || { echo \"ac1 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nQ=$(printf \"%s\\n\" \"$T\" | awk '/^## Quick Start[[:space:]]*$/{f=1;next} f&&/^## /{exit} f')\n[ -n \"$Q\" ] || { echo \"ac1 RED: no ## Quick Start section found\"; exit 1; }\nprintf \"%s\\n\" \"$Q\" | grep -qF 'cp .env.example .env' && { echo \"ac1 RED: the Quick Start section still prints cp .env.example .env - check, setup:local and vite read no .env, so the copy is not part of the run-it-now flow\"; exit 1; }; echo \"ac1 evidence: the Quick Start section prints no env-file copy step\"\nprintf \"%s\\n\" \"$Q\" | grep -qiE \"optional env file|OPTIONAL env\" && { echo \"ac1 RED: the OPTIONAL env-file comment line survives - deleting the command but leaving its own justification is a half-edit\"; exit 1; }; echo \"ac1 evidence: the OPTIONAL env-file comment line is gone with its command\"\nGAP=\"\"; for n in 0 1 2 3 4 5 6 7 8; do CN=$(printf \"%s\\n\" \"$Q\" | grep -cE \"^#?[[:space:]]*${n}[.][[:space:]]\"); [ \"${CN:-0}\" = 1 ] || GAP=\"$GAP ${n}=x${CN:-0}\"; done\n[ -z \"$GAP\" ] || { echo \"ac1 RED: the renumbered Quick Start is not contiguous - step numbers appearing${GAP} instead of exactly once each (a deleted step may leave a gap or a duplicate)\"; exit 1; }\nprintf \"%s\\n\" \"$Q\" | grep -qE \"^#?[[:space:]]*9[.][[:space:]]\" && { echo \"ac1 RED: a step 9 survives - t96 deletes one step and renumbers the block to 0..8\"; exit 1; }\necho \"ac1 evidence: the numbered sequence is contiguous 0..8 with no gap, no duplicate and no step 9\"\nMAP=$(printf \"%s\\n\" \"$Q\" | awk '/^#?[[:space:]]*[0-9]+\\./{ n=$0; sub(/^#/,\"\",n); sub(/^[[:space:]]*/,\"\",n); sub(/\\..*$/,\"\",n) } /^npm run setup:local$/{S=n} /^npm run dev$/{D=n} /^npm run seed:demo$/{SD=n} /^npm run stop$/{ST=n} END{print S\" \"D\" \"SD\" \"ST}')\nset -- $MAP\n[ \"${1:-}\" = \"3\" ] && [ \"${2:-}\" = \"4\" ] && [ \"${3:-}\" = \"7\" ] && [ \"${4:-}\" = \"8\" ] || { echo \"ac1 RED: the renumbered commands sit at steps [$MAP], want setup:local=3 dev=4 seed:demo=7 stop=8 - the numbering and the tests[250] amendment must agree exactly\"; exit 1; }\necho \"ac1 evidence: setup:local=$1 dev=$2 seed:demo=$3 stop=$4 - the renumbered command positions match the amendment premise\"\nprintf \"%s\\n\" \"$Q\" | grep -qE \"Eight numbered steps\" || { echo \"ac1 RED: the sentence that counts the steps was not corrected - the block now numbers 0..8 and the prose still says Nine (or was rewritten to a count this block does not have)\"; exit 1; }\nprintf \"%s\\n\" \"$T\" | grep -qiE \"nine numbered steps\" && { echo \"ac1 RED: a Nine-numbered-steps sentence survives somewhere in README.md\"; exit 1; }\necho \"ac1 evidence: the step-counting prose says Eight numbered steps and no Nine-numbered-steps sentence survives\"\nTOT=$(printf \"%s\\n\" \"$T\" | grep -cE '^cp \\.env\\.example \\.env')\n[ \"${TOT:-0}\" = 1 ] || { echo \"ac1 RED: README.md carries $TOT cp .env.example .env command lines, want exactly 1 - the token count must go 2 -> 1, never 2 -> 0 (deleting the mandated copy is a FAIL) and never stay at 2\"; exit 1; }\nLV=$(printf \"%s\\n\" \"$T\" | awk '/^## Local verification in five minutes[[:space:]]*$/{f=1;next} f&&/^## /{exit} f' | grep -cE '^cp \\.env\\.example \\.env')\n[ \"${LV:-0}\" = 1 ] || { echo \"ac1 RED: the single surviving copy line is not inside ## Local verification in five minutes (found $LV there) - the survivor must be the REQ-DOC-071 mandated copy, not a leftover in Quick Start\"; exit 1; }\necho \"ac1 GREEN: QUICK START LOSES THE OPTIONAL COPY STEP - the section prints no env copy and no OPTIONAL env comment, numbers a contiguous 0..8 with setup:local=3 dev=4 seed:demo=7 stop=8, the counting sentence says Eight numbered steps, and the cp .env.example .env token count went 2 -> 1 with the sole survivor inside ## Local verification in five minutes\"",
+      "ac2": "set -u\ntest -f README.md || { echo \"ac2 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nLV=$(printf \"%s\\n\" \"$T\" | awk '/^## Local verification in five minutes[[:space:]]*$/{f=1;next} f&&/^## /{exit} f')\n[ -n \"$LV\" ] || { echo \"ac2 RED: ## Local verification in five minutes is gone - t96 edits Quick Start and may not remove a mandated section\"; exit 1; }\nprintf \"%s\\n\" \"$LV\" | grep -qE '^cp \\.env\\.example \\.env$' || { echo \"ac2 RED: the mandated copy line is missing or reworded - it must survive byte-identical as its own command line\"; exit 1; }\nprintf \"%s\\n\" \"$LV\" | grep -qF 'docker compose up --build' || { echo \"ac2 RED: the copy line no longer shares its fenced block with docker compose up --build - the five-minutes block was restructured, which is out of t96 scope\"; exit 1; }\nprintf \"%s\\n\" \"$LV\" | grep -qF 'git clone' || { echo \"ac2 RED: the five-minutes block lost its git clone line - out of t96 scope\"; exit 1; }\nOD=$(printf \"%s\\n\" \"$T\" | awk '/^## Online demo[[:space:]]*$/{f=1;next} f&&/^## /{exit} f')\nRS=$(printf \"%s\\n\" \"$T\" | awk '/^## Deployment on Render[[:space:]]*$/{f=1;next} f&&/^## /{exit} f')\n[ -n \"$OD\" ] && [ -n \"$RS\" ] || { echo \"ac2 RED: ## Online demo or ## Deployment on Render is missing - both are t94's surface and must be untouched\"; exit 1; }\nfor H in \"### Why Render\" \"### First deployment\" \"### Free tier\" \"### UptimeRobot\"; do\n  printf \"%s\\n\" \"$RS\" | grep -qxF \"$H\" || { echo \"ac2 RED: the Render section lost the carried subheading $H - t96 must not touch t94's sections\"; exit 1; }\ndone\nprintf \"%s\\n\" \"$RS\" | grep -qF 'render.yaml' || { echo \"ac2 RED: the Render section lost render.yaml - tests[135] carries that token set and t96 does not own it\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qE '#61' || { echo \"ac2 RED: the Render section lost its residual #61 citation - t95's close-out depends on it surviving\"; exit 1; }\nprintf \"%s\\n\" \"$T\" | grep -qE '^## Local verification in five minutes[[:space:]]*$' || { echo \"ac2 RED: the five-minutes heading is no longer a level-2 heading\"; exit 1; }\necho \"ac2 GREEN: THE MANDATED COPY SURVIVES - the copy line is byte-identical inside ## Local verification in five minutes alongside docker compose up --build and git clone, and ## Online demo / ## Deployment on Render keep every carried subheading, render.yaml and the residual #61 citation untouched\"",
+      "ac3": "set -u\ntest -f README.md || { echo \"ac3 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\ntest -f backend/scripts/docs_verification.py || { echo \"ac3 RED: backend/scripts/docs_verification.py missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac3 RED: python3 missing\"; exit 1; }\nCL=$(tr -d '\\r' < README.md | wc -l | tr -d \" \")\nCD=$(tr -d '\\r' < README.md | sha256sum | awk '{print $1}')\nPINL=$(tr -d '\\r' < backend/scripts/docs_verification.py | sed -n 's/^README_LINES = \\([0-9][0-9]*\\)$/\\1/p' | head -1)\nPIND=$(tr -d '\\r' < backend/scripts/docs_verification.py | sed -n 's/^README_DIGEST = \"\\([0-9a-f]*\\)\"$/\\1/p' | head -1)\n[ -n \"$PINL\" ] || { echo \"ac3 RED: README_LINES constant not found in backend/scripts/docs_verification.py\"; exit 1; }\n[ -n \"$PIND\" ] || { echo \"ac3 RED: README_DIGEST constant not found in backend/scripts/docs_verification.py\"; exit 1; }\n[ \"$CL\" = \"$PINL\" ] || { echo \"ac3 RED: README_LINES is $PINL but README.md measures $CL lines - MEASURE your own candidate README and write the measured number; the card deliberately pins no post-t96 line count because your base is post-t94, not the survey's 398-line base\"; exit 1; }\n[ \"$CD\" = \"$PIND\" ] || { echo \"ac3 RED: README_DIGEST is $PIND but README.md measures $CD - the digest pin must be measured from your OWN candidate bytes before commit\"; exit 1; }\n[ \"$CD\" != \"ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644\" ] || { echo \"ac3 RED: README_DIGEST still pins the survey-era base README - t96 moves the triple-pin\"; exit 1; }\n[ \"$PINL\" != \"398\" ] || { echo \"ac3 RED: README_LINES still pins the survey-era base line count 398 - t96 moves the triple-pin\"; exit 1; }\nif git rev-parse --git-dir >/dev/null 2>&1 && git cat-file -e HEAD:README.md 2>/dev/null; then\n  OLDD=$(git show HEAD:README.md | tr -d '\\r' | sha256sum | awk '{print $1}')\n  OLDL=$(git show HEAD:README.md | tr -d '\\r' | wc -l | tr -d \" \")\n  [ \"$CD\" != \"$OLDD\" ] || { echo \"ac3 RED: README_DIGEST equals the digest of README.md at HEAD ($OLDD) - the pin did not move, so either the README was not edited or the constant was left behind\"; exit 1; }\n  [ \"$CL\" != \"$OLDL\" ] || { echo \"ac3 RED: README_LINES equals the HEAD line count $OLDL - deleting a step must move the count, and the constant must follow the measurement\"; exit 1; }\n  echo \"ac3 evidence: the pin moved off this cards own base - HEAD README is $OLDL/$OLDD, the candidate is $CL/$CD (base-agnostic: no post-t96 constant is hardcoded in the card)\"\nfi\nG=\"docs/criteria/docs_verification.md\"\ntest -f \"$G\" || { echo \"ac3 RED: $G missing\"; exit 1; }\ngrep -qF \"Generated by \\`backend/scripts/docs_verification.py\\`\" \"$G\" || { echo \"ac3 RED: $G lost its generated-by header - it is tool output, never hand-edit it to pass this gate\"; exit 1; }\ngrep -qE \"^\\| 1 \\| README under 500 lines \\| REQ-DOC-010 \\| executed \\| README_MEASURE \\|$\" \"$G\" || { echo \"ac3 RED: the README_MEASURE row of the evidence table is not executed - the pin move must keep the report honest\"; exit 1; }\ngrep -qE \"README_MEASURE PASS lines=$CL digest=$CD\" \"$G\" || { echo \"ac3 RED: the shipped report does not record README_MEASURE PASS for these candidate bytes ($CL/$CD) - regenerate docs/criteria/docs_verification.md from the candidate tree\"; exit 1; }\ngrep -qE \"LINK_CHECK PASS files=[0-9]+ links=[0-9]+ broken=0\" \"$G\" || { echo \"ac3 RED: the link check no longer passes with zero broken links\"; exit 1; }\nBAK=$(mktemp -d) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\nG1=$(mktemp); G2=$(mktemp) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\ncp docs/criteria/*.md \"$BAK\"/ 2>/dev/null\nif command -v uv >/dev/null || command -v uv.exe >/dev/null; then\n  (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1) || true\n  tr -d '\\r' < \"$G\" > $G1\n  (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1) || true\n  tr -d '\\r' < \"$G\" > $G2\n  cmp -s $G1 $G2 || { echo \"ac3 RED: regenerating the report twice on the same tree produced different bytes - the report is not deterministic\"; cp \"$BAK\"/*.md docs/criteria/ 2>/dev/null; exit 1; }\n  grep -qE \"README_MEASURE PASS lines=$CL digest=$CD\" $G1 || { echo \"ac3 RED: regenerating from THIS tree does not yield README_MEASURE PASS for the shipped pins - the shipped report does not match these candidate bytes\"; cp \"$BAK\"/*.md docs/criteria/ 2>/dev/null; exit 1; }\n  cp \"$BAK\"/*.md docs/criteria/ 2>/dev/null\n  rm -f $G1 $G2\nfi\necho \"ac3 GREEN: README triple-pin equals the candidate bytes measured from this cards own base (lines=$CL digest=$CD), the survey-era constants are gone, the pin moved off HEAD, and the committed report is byte-honest deterministic generator output for exactly these bytes\"",
+      "ac4": "set -u\ntest -f README.md || { echo \"ac4 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nNL=$(python3 -c \"b=open('README.md','rb').read();print(b.count(b'\\n'))\")\nCRLF=$(python3 -c \"b=open('README.md','rb').read();print(b.count(b'\\r\\n'))\")\n[ \"$NL\" = \"$CRLF\" ] || { echo \"ac4 RED: $NL newlines but $CRLF CRLF pairs - README.md must stay all-CRLF like its base bytes\"; exit 1; }\npython3 -c \"b=open('README.md','rb').read();import sys;sys.exit(0 if all(x<128 for x in b) else 1)\" || { echo \"ac4 RED: README.md carries non-ASCII bytes - the base file is pure ASCII\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nCL=$(printf \"%s\\n\" \"$T\" | wc -l | tr -d \" \")\n[ \"$CL\" -ge 340 ] && [ \"$CL\" -le 400 ] || { echo \"ac4 RED: README.md measures $CL lines, outside the 340..400 band that holds every shipped README state - deleting three lines is a copy edit, not a structural rewrite\"; exit 1; }\nH2=$(printf \"%s\\n\" \"$T\" | grep -cE \"^## [^#]\")\n[ \"$H2\" = \"17\" ] || { echo \"ac4 RED: README.md now carries $H2 level-2 headings, not the 17 of the base structure - t96 adds and removes no section\"; exit 1; }\nREQS=$(printf \"%s\\n\" \"$T\" | grep -oE \"REQ-[A-Z]+-[0-9]+\" | sort -u | sha256sum | awk '{print $1}')\n[ \"$REQS\" = \"01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794\" ] || { echo \"ac4 RED: the set of REQ identifiers in README.md changed (sha $REQS) - t96 deletes a step and adds and removes no requirement marker\"; exit 1; }\necho \"ac4 GREEN: README.md envelope holds - $CL lines inside 340..400, all-CRLF, pure ASCII, 17 level-2 headings, the REQ identifier set hash unchanged\"",
+      "ac5": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ntest -f README.md || { echo \"ac5 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\ntest -f docs/state/merge_test_index.json || { echo \"ac5 RED: docs/state/merge_test_index.json missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac5 RED: python3 missing\"; exit 1; }\npython3 -c \"import json;json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))\" || { echo \"ac5 RED: the merge test index is not parseable JSON\"; exit 1; }\nex(){ python3 -c \"import json,sys;sys.stdout.write(json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))['tests'][int(sys.argv[1])]['command'])\" \"$1\"; }\nmkdir -p build/t96 || { echo \"ac5 RED: cannot create build/t96\"; exit 1; }\nN=0\nfor i in 27 119 128 135 144 149 201 210 243 245 249 251 252 253 255 256; do\n  ex $i > build/t96/gate_$i.sh || { echo \"ac5 RED: stored gate tests[$i] could not be extracted\"; exit 1; }\n  S=$(wc -c < build/t96/gate_$i.sh | tr -dc \"0-9\"); [ \"${S:-0}\" -ge 200 ] || { echo \"ac5 RED: extracted tests[$i] is ${S:-0} bytes - an empty extraction would make the replay vacuous\"; exit 1; }\n  OUT=$(bash build/t96/gate_$i.sh 2>&1); RC=$?\n  if [ \"$RC\" != 0 ]; then\n    echo \"ac5 RED: carried README-scoped stored gate tests[$i] exited $RC on the t96 candidate - this gate was GREEN at the merge base and t96 may not break it; its last line follows\"\n    printf \"%s\\n\" \"$OUT\" | tail -1\n    exit 1\n  fi\n  N=$((N+1))\ndone\n[ \"$N\" = \"16\" ] || { echo \"ac5 RED: only $N of 16 carried README-scoped gates were replayed\"; exit 1; }\necho \"ac5 evidence: $N of 16 carried README-scoped gates (27 119 128 135 144 149 201 210 243 245 249 251 252 253 255 256) replayed VERBATIM from the index and all GREEN, including tests[27] which stays GREEN through the surviving copy line and tests[251] whose line-anchored sabotage victim resolves to that survivor\"\nfor i in 232 250; do\n  ex $i > build/t96/amended_$i.sh || { echo \"ac5 RED: tests[$i] could not be extracted\"; exit 1; }\n  OUT=$(bash build/t96/amended_$i.sh 2>&1); RC=$?\n  [ \"$RC\" = 0 ] || { echo \"ac5 RED: the AMENDED tests[$i] premise is RED on this candidate - either the amendment was not applied in this merge window or the README does not match the re-premised gate\"; printf \"%s\\n\" \"$OUT\" | tail -1; exit 1; }\n  printf \"%s\\n\" \"$OUT\" | tail -1 | grep -qE \"^ac1 GREEN\" || { echo \"ac5 RED: tests[$i] exited 0 without its GREEN line - the replay is vacuous\"; exit 1; }\ndone\necho \"ac5 evidence: the two amended gates tests[232] and tests[250] replay GREEN against the candidate - the amendment premise and the shipped README agree\"\nrm -rf build/t96\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  CHANGED=$( { git diff --name-only HEAD; git ls-files --others --exclude-standard; } 2>/dev/null | sort -u )\n  BAD=\"\"\n  for f in $CHANGED; do\n    case \"$f\" in\n      README.md|backend/scripts/docs_verification.py|docs/criteria/docs_verification.md|docs/state/outputs/t96_definer_gate_amendment.json|docs/issues/t96.md|docs/state/outputs/t96_definer_groom.json) : ;;\n      node_modules|*/node_modules|node_modules/*|scratch|scratch/*|docs/state/history|docs/state/history/*) : ;;\n      *) BAD=\"$BAD $f\" ;;\n    esac\n  done\n  [ -z \"${BAD// /}\" ] || { echo \"ac5 RED: delta purity broken - paths changed beyond README.md, the two README pin constants, the regenerated docs report and the t96 records:$BAD\"; exit 1; }\n  if git diff --name-only HEAD | grep -qx \"backend/scripts/docs_verification.py\"; then\n    DIFFLINES=$(git diff -U0 HEAD -- backend/scripts/docs_verification.py | grep -E \"^[+-][^+-]\" | wc -l | tr -d \" \")\n    [ \"$DIFFLINES\" = \"4\" ] || { echo \"ac5 RED: backend/scripts/docs_verification.py changed on $DIFFLINES +/- lines, not the 4 of the two pin constants (2 removed, 2 added) - the register list and live_check are t98 surface and are off limits\"; exit 1; }\n  fi\n  git diff --name-only HEAD | grep -qx \"docs/state/merge_test_index.json\" && { echo \"ac5 RED: the builder edited docs/state/merge_test_index.json - the definer and the builder never touch the index, the orchestrator applies the amendment record at merge\"; exit 1; }\n  git diff --name-only HEAD | grep -qx \"openapi.yaml\" && { echo \"ac5 RED: openapi.yaml is FROZEN and changed\"; exit 1; }\nfi\necho \"ac5 GREEN: REGRESSION GATE - 16 carried README-scoped gates plus the 2 amended gates replay GREEN against the candidate, the index and openapi.yaml are untouched by this card, docs_verification.py moved on exactly the two pin constants, and the delta is the named surface only\"",
+      "ac6": "set -u\ntest -f docs/state/merge_test_index.json || { echo \"ac6 RED: docs/state/merge_test_index.json missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport hashlib, json, os, sys\nA = \"docs/state/outputs/t96_definer_gate_amendment.json\"\nif not os.path.exists(A):\n    sys.stderr.write(\"ac6 RED: %s missing - t96 ships one coordinated amendment record and no merge candidate is verifiable without it\\n\" % A)\n    raise SystemExit(1)\nrec = json.load(open(A, encoding=\"utf-8\"))\nif rec.get(\"card\") != \"t96\":\n    sys.stderr.write(\"ac6 RED: the amendment record does not belong to card t96\\n\"); raise SystemExit(1)\nif rec.get(\"no_leg_deleted\") is not True or rec.get(\"verifier_thresholds_touched\") is not False:\n    sys.stderr.write(\"ac6 RED: the record must declare no_leg_deleted true and verifier_thresholds_touched false\\n\"); raise SystemExit(1)\nidx = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nam = rec.get(\"amendments\", [])\nby = {}\nfor e in am:\n    by[int(e.get(\"index\", -1))] = e\nif sorted(k for k in by if k >= 0) != [232, 250, 251]:\n    sys.stderr.write(\"ac6 RED: the record must carry exactly the amended/self-adapting legs {232, 250, 251}, found %s - tests[243] and tests[252] measured GREEN with their STORED commands and belong in measured_unchanged_no_record_needed, not in the amendment set (a record for a leg that needs no change is a relaxation waiting to happen)\\n\" % sorted(k for k in by if k >= 0)); raise SystemExit(1)\nmnr = rec.get(\"measured_unchanged_no_record_needed\", [])\nif sorted(int(x.get(\"index\", -1)) for x in mnr) != [243, 252]:\n    sys.stderr.write(\"ac6 RED: the record must list tests[243] and tests[252] as measured-unchanged needing no record, found %s\\n\" % sorted(int(x.get(\"index\", -1)) for x in mnr)); raise SystemExit(1)\nif 27 in by:\n    sys.stderr.write(\"ac6 RED: tests[27] must NOT appear in the amendment record - it stays GREEN through the surviving copy line and relaxing it is a FAIL\\n\"); raise SystemExit(1)\ndef esha(e):\n    return hashlib.sha256(json.dumps(e, separators=(\",\", \":\")).encode(\"utf-8\")).hexdigest()\ndef slice_fwd(src, rs):\n    out, prev = [], 0\n    for r in rs:\n        out.append(src[prev:r[\"offset_in_old_command\"]]); out.append(r[\"to\"]); prev = r[\"offset_in_old_command\"] + len(r[\"from\"])\n    out.append(src[prev:]); return \"\".join(out)\ndef slice_rev(src, rs):\n    out, prev = [], 0\n    for r in rs:\n        out.append(src[prev:r[\"offset_in_new_command\"]]); out.append(r[\"from\"]); prev = r[\"offset_in_new_command\"] + len(r[\"to\"])\n    out.append(src[prev:]); return \"\".join(out)\nfor x in mnr:\n    k = int(x[\"index\"])\n    t = idx[str(k)] if isinstance(idx, dict) else idx[k]\n    if hashlib.sha256(t[\"command\"].encode(\"utf-8\")).hexdigest() != x.get(\"shipped_command_sha256\"):\n        sys.stderr.write(\"ac6 RED: tests[%d] is declared measured-unchanged but its shipped command sha moved - the measurement no longer describes the index\\n\" % k); raise SystemExit(1)\n    if esha(t) != x.get(\"entry_sha\"):\n        sys.stderr.write(\"ac6 RED: tests[%d] declared entry sha does not match the shipped entry\\n\" % k); raise SystemExit(1)\n    if x.get(\"measured_rc_on_t96_candidate\") != 0:\n        sys.stderr.write(\"ac6 RED: tests[%d] is declared GREEN on the candidate but the record does not say so\\n\" % k); raise SystemExit(1)\namended, unchanged = [], []\nfor k in (232, 250, 251):\n    e = by[k]\n    t = idx[str(k)] if isinstance(idx, dict) else idx[k]\n    cmd = t[\"command\"]\n    sha = hashlib.sha256(cmd.encode(\"utf-8\")).hexdigest()\n    es = esha(t)\n    rs = e.get(\"replaced_regions\", [])\n    nc = e.get(\"negative_control_matrix\", [])\n    if len(nc) < 5:\n        sys.stderr.write(\"ac6 RED: tests[%d] needs at least five negative-control legs, found %d\\n\" % (k, len(nc))); raise SystemExit(1)\n    bad = [x.get(\"case\") for x in nc if x.get(\"measured_rc\") != x.get(\"expected_rc\")]\n    if bad:\n        sys.stderr.write(\"ac6 RED: tests[%d] ships negative controls whose measured rc disagrees with the expected rc: %s\\n\" % (k, bad)); raise SystemExit(1)\n    if e.get(\"rebuild_verified\") is not True:\n        sys.stderr.write(\"ac6 RED: tests[%d] does not declare rebuild_verified\\n\" % k); raise SystemExit(1)\n    if e.get(\"stored_command_recheck_at_groom\") is not True:\n        sys.stderr.write(\"ac6 RED: tests[%d] does not declare stored_command_recheck_at_groom\\n\" % k); raise SystemExit(1)\n    if rs:\n        amended.append(k)\n        if sha != e.get(\"old_command_sha256\"):\n            sys.stderr.write(\"ac6 RED: STALE AMENDMENT - tests[%d] ships command sha %s but the record expects %s; STOP and request a re-groom amendment rather than guessing bytes\\n\" % (k, sha, e.get(\"old_command_sha256\"))); raise SystemExit(1)\n        if es != e.get(\"entry_sha_before\"):\n            sys.stderr.write(\"ac6 RED: tests[%d] entry sha %s != entry_sha_before %s\\n\" % (k, es, e.get(\"entry_sha_before\"))); raise SystemExit(1)\n        built = slice_fwd(cmd, rs)\n        if hashlib.sha256(built.encode(\"utf-8\")).hexdigest() != e.get(\"new_command_sha256\"):\n            sys.stderr.write(\"ac6 RED: tests[%d] replaced_regions do not reconstruct the recorded new command bytes forward\\n\" % k); raise SystemExit(1)\n        if slice_rev(built, rs) != cmd:\n            sys.stderr.write(\"ac6 RED: tests[%d] replaced_regions do not reverse back to the shipped command - the record is not lossless\\n\" % k); raise SystemExit(1)\n        for r in rs:\n            if cmd.count(r[\"from\"]) != 1:\n                sys.stderr.write(\"ac6 RED: tests[%d] carries a replaced_region whose from-text is not unique in the shipped command\\n\" % k); raise SystemExit(1)\n        e2 = dict(t); e2[\"command\"] = built\n        if esha(e2) != e.get(\"entry_sha_after\"):\n            sys.stderr.write(\"ac6 RED: tests[%d] entry_sha_after does not match the reconstructed entry - the apply is not predictable\\n\" % k); raise SystemExit(1)\n    else:\n        unchanged.append(k)\n        if sha != e.get(\"old_command_sha256\") or sha != e.get(\"new_command_sha256\"):\n            sys.stderr.write(\"ac6 RED: tests[%d] is declared unchanged but its recorded shas do not both equal the shipped command sha\\n\" % k); raise SystemExit(1)\n        if e.get(\"entry_sha_before\") != e.get(\"entry_sha_after\") or es != e.get(\"entry_sha_before\"):\n            sys.stderr.write(\"ac6 RED: tests[%d] is declared unchanged but its entry shas are not the single shipped entry sha\\n\" % k); raise SystemExit(1)\nif amended != [232, 250]:\n    sys.stderr.write(\"ac6 RED: exactly tests[232] and tests[250] may carry regions, found %s\\n\" % amended); raise SystemExit(1)\nif unchanged != [251]:\n    sys.stderr.write(\"ac6 RED: exactly tests[251] must be declared measured-self-adapting with no regions, found %s\\n\" % unchanged); raise SystemExit(1)\ntot = sum(len(by[k][\"negative_control_matrix\"]) for k in (232, 250, 251))\nsys.stdout.write(\"ac6 evidence: amended %s (regions reconstruct byte-for-byte both ways against the shipped index bytes), self-adapting %s, measured-no-record 243/252, %d negative-control legs in total, every one with measured_rc == expected_rc\\n\" % (amended, unchanged, tot))\nsys.stdout.write(\"ac6 GREEN: GATE-AMENDMENT RECORD SOUND - one record at %s for card t96 amending exactly tests[232] and tests[250], documenting tests[251] as self-adapting and 243/252 as measured GREEN with no record, tests[27] absent, the amended legs reconstruct the shipped bytes in both directions with matching entry shas, and no control leg is self-inconsistent\\n\" % A)\nPYEOF"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "base_coordination_ruling": "ORCHESTRATOR AUTHORITY, recorded here as instructed. t96's survey card carried base_sha 890680e251dd69a39e18289a6b5348d81788ba7c and README-at-base measurements (398 lines, digest prefix ca9343a8). BOTH ARE STALE. t94 (README live-URL backfill, builder 5b2490a2, branch issue/t94-readme-live-url-backfill) lands FIRST and moves README.md to 399 lines / digest cf5ed2b2dd1772f3fd17b050da590c5354b8515a4489dbc6333c1c690c925fd7 as groomed (its builder may re-measure slightly differently and will disclose); t95 follows. Milestone merge order is t94 -> t95 -> t96, with t96 the LAST card. This groom is SPEC-ONLY and BASE-AGNOSTIC: no post-t96 README line count or digest is pinned anywhere in the card; ac3 defines a MEASURE-FROM-CANDIDATE-BYTES procedure on the builder's own post-t94/t95 tree, exactly as t94's card did. Amendment pins are against the LIVE index at main tip 6f7939c, which t94 does not touch outside its own merge window (it applies only tests[255] there). If t94's or t95's windows move any pinned leg, the ac6 stale check fails at merge and a re-groom amendment follows - nobody guesses future bytes.",
+    "main_tip_at_groom": "6f7939c",
+    "index_entries_at_groom": 318,
+    "index_touched_by_definer": false,
+    "openapi_yaml_frozen": true,
+    "amendment_set": {
+      "amended": [
+        232,
+        250
+      ],
+      "measured_self_adapting_no_amendment": [
+        251
+      ],
+      "measured_green_no_amendment": [
+        243,
+        252
+      ],
+      "cascade_only_repaired_by_the_232_amendment": [
+        245
+      ],
+      "explicitly_not_amended": [
+        27
+      ],
+      "why_27": "tests[27] is a plain unanchored grep for the copy token over the whole README. It stays GREEN because the ## Local verification occurrence survives. This REVERSES t69's recorded situation ('that token has no other line-anchored source') because the five-minutes line was added later. Measured: rc=0 on the candidate, rc=1 only when the last copy line is removed. Relaxing it is a FAIL even if everything else passes, so it is absent from the amendment record and ac6 asserts its absence.",
+      "why_251_needs_no_amendment": "The survey predicted 251's sabotage negative control would break. Measured: it does not. The victim is LINE-ANCHORED (grep -v \"^cp \\.env\\.example \\.env\"), not line-number anchored, so once the Quick Start occurrence disappears the same pattern resolves automatically to the surviving copy line. Measured GREEN on the candidate with its internal control still biting (VA=1 after the card, VB=0).",
+      "record": "docs/state/outputs/t96_definer_gate_amendment.json",
+      "negative_control_legs_per_record": {
+        "232": 9,
+        "250": 8,
+        "251": 5
+      },
+      "total_negative_control_legs": 22,
+      "minimum_required_per_amended_record": 5,
+      "amended_rebuild_verified": {
+        "232": true,
+        "250": true
+      },
+      "pins": {
+        "232": {
+          "old_command_sha256": "d85b19d67553e4da55802811328839d755f3b233066de8da72d5fbb9683622dd",
+          "new_command_sha256": "b8ee6d5bec7f1ed48e365578978813731622c855119b3a2bfe6eccdb448ae61a",
+          "entry_sha_before": "845a120e26db6fafc7dfeee1d71ac99b2407c051df1bdad69b72b808fb593db7",
+          "entry_sha_after": "42f3d8a4a78c14c42ee021283815eea08748aaf83064a819ef1f308de8e6a4a6",
+          "old_command_len": 4107,
+          "new_command_len": 4309,
+          "replaced_regions": 9
+        },
+        "250": {
+          "old_command_sha256": "19b560cd5e8afc74f74189ebcdbf88bfa6e999fbe0149c8146b8181c159109b4",
+          "new_command_sha256": "b2a9000297369b6f15a34dcaf1b82b96878763785ff51dab50362c457b5b0821",
+          "entry_sha_before": "002d298e6a315db4063eed3d8217124a8a7b5493b00a794105868722659f814c",
+          "entry_sha_after": "f4024ccd2206238e5e776dfb914fc256ed0acc5b5b6bcf472a14753fc1d7d914",
+          "old_command_len": 8099,
+          "new_command_len": 9900,
+          "replaced_regions": 16
+        },
+        "251": {
+          "old_command_sha256": "b5c2c6587aadde122426bd3e39e40276ee26da61844535cd0a81f529448d0543",
+          "new_command_sha256": "b5c2c6587aadde122426bd3e39e40276ee26da61844535cd0a81f529448d0543",
+          "entry_sha_before": "bd6ce38b958b936ce41747929930f9927e1df1b7a73f58a3fab2822d1ea01718",
+          "entry_sha_after": "bd6ce38b958b936ce41747929930f9927e1df1b7a73f58a3fab2822d1ea01718",
+          "old_command_len": 6167,
+          "new_command_len": 6167,
+          "replaced_regions": 0
+        }
+      },
+      "entry_sha_recipe": "sha256(json.dumps(entry, separators=(',',':'))) over the UTF-8 encoding of the whole index entry, exactly as stored",
+      "command_sha_recipe": "sha256 over the UTF-8 bytes of the stored command string",
+      "apply_owner": "orchestrator at merge; the definer and the builder never edit docs/state/merge_test_index.json",
+      "no_leg_deleted": true
+    },
+    "flip_set_vs_shipped_36_red": {
+      "shipped_frozen_36": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        227,
+        230,
+        231,
+        250,
+        254,
+        257,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "measured_red_on_simulated_base_subset": [
+        191,
+        227,
+        231,
+        250,
+        254,
+        257,
+        258,
+        259
+      ],
+      "note_on_subset": "the sweep executed the README/machine-scoped subset of the index on the scratch trees; the remaining frozen legs are backend/ops legs that cannot run in a scratch tree (no backend/.venv) and are unaffected by a README-only edit",
+      "flips_with_STORED_gates_base_to_candidate": {
+        "232": "GREEN -> RED",
+        "245": "GREEN -> RED",
+        "251": "GREEN -> RED"
+      },
+      "flips_with_AMENDED_gates_base_to_candidate": {
+        "250": "RED -> GREEN",
+        "254": "RED -> GREEN",
+        "257": "RED -> GREEN"
+      },
+      "disclosed_change_to_the_frozen_baseline": "DISCLOSED, EXPLICIT, AS INSTRUCTED: tests[250] IS a member of the frozen 36-RED set and this card's re-premise turns it GREEN, taking the RED count from 36 to 35. That is the intended consequence of re-premising a gate whose premise this card falsifies - not a regression and not a silent relaxation: the amended gate is strictly more discriminating (contiguous 0..8, no gap, no duplicate, no step 9, a new no-copy leg), each leg backed by a negative control. The orchestrator must expect 35 RED legs after t96 merges, not 36.",
+      "recovery_legs_also_disclosed": {
+        "254": "RED at base because it replays carried README gates and tests[250] was RED; recovers once 250 is amended",
+        "257": "RED at base because it re-counts the Quick Start steps against the stored eight-step premise; recovers with the amended premise"
+      },
+      "stays_red_out_of_scope": {
+        "227/231/191": "parked digest pins under U5 - this card moves the constants and must not claim them fixed",
+        "anchor[133]/258": "orchestrator-side maintenance, out of scope",
+        "259": "regenerated-report leg, RED for the same reason as 258 in the scratch tree"
+      }
+    },
+    "readme_numbers_are_procedure_defined": {
+      "policy": "no post-t96 README line count or digest is pinned in the card or the handoff",
+      "procedure": "ac3 measures the candidate README (tr -d '\\r' | wc -l and sha256sum) and requires README_LINES/README_DIGEST to equal that measurement, requires both to differ from the survey-era 398/ca9343a8 constants, and (when run in a git tree) requires both to differ from README.md at HEAD so a half-edit cannot pass",
+      "groom_simulation_is_advisory_only": {
+        "simulated_base": "398 lines / ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644 (post-t94-simulated README, 2 copy occurrences)",
+        "simulated_candidate": "395 lines / e8cd7864129100781a9df6297d978395889cf1566939910c9bb022986c596931 (3 lines deleted, renumbered 0..8, Nine->Eight, 1 copy occurrence)",
+        "warning": "these are scratch-tree observations, NOT pins; the builder's own base is post-t94 (399/cf5ed2b2 or its re-measured equivalent) so its numbers will differ"
+      }
+    },
+    "fence_smoke_tests": [
+      {
+        "ac": "ac1",
+        "tree": "simulated base",
+        "rc": 1,
+        "reason": "Quick Start still prints the copy step"
+      },
+      {
+        "ac": "ac1",
+        "tree": "simulated candidate",
+        "rc": 0,
+        "reason": "contiguous 0..8, setup:local=3 dev=4 seed:demo=7 stop=8, Eight numbered steps, token count 2->1 with the survivor in ## Local verification in five minutes"
+      },
+      {
+        "ac": "ac2",
+        "tree": "both",
+        "rc": 0,
+        "reason": "the mandated copy and t94's sections are untouched on both trees, as intended for a guard rail"
+      },
+      {
+        "ac": "ac3",
+        "tree": "simulated base",
+        "rc": 1,
+        "reason": "the triple pin still carries the survey-era constants"
+      },
+      {
+        "ac": "ac3",
+        "tree": "simulated candidate",
+        "rc": 0,
+        "reason": "pins equal the measured candidate bytes and the committed report is byte-honest"
+      },
+      {
+        "ac": "ac4",
+        "tree": "both",
+        "rc": 0,
+        "reason": "envelope holds on base and candidate (398 and 395 lines, all-CRLF, ASCII, 17 h2, unchanged REQ set hash 01f36118...) - the same hash t94 pinned, so this card adds and removes no requirement marker"
+      },
+      {
+        "ac": "ac5",
+        "tree": "not executed in scratch",
+        "rc": null,
+        "reason": "the fence is authored and its gate list is the measured set (16 carried GREEN legs incl. 27/243/245/251/252/255/256 plus the 2 amended legs); it requires a real git tree for the delta-purity and 4-line docs_verification checks, so it is the builder's/verifier's run, not a scratch run"
+      },
+      {
+        "ac": "ac6",
+        "tree": "main checkout at 6f7939c",
+        "rc": 0,
+        "reason": "record sound: 22 negative-control legs, both amended legs reconstruct byte-for-byte in both directions"
+      },
+      {
+        "ac": "ac6 mutation/broken_pin",
+        "tree": "main checkout",
+        "rc": 1,
+        "reason": "STALE AMENDMENT reported"
+      },
+      {
+        "ac": "ac6 mutation/tests27_added_to_record",
+        "tree": "main checkout",
+        "rc": 1,
+        "reason": "refused: the set must be {232,250,251}"
+      },
+      {
+        "ac": "ac6 mutation/region_deleted",
+        "tree": "main checkout",
+        "rc": 1,
+        "reason": "reconstruction fails forward"
+      },
+      {
+        "ac": "ac6 restored",
+        "tree": "main checkout",
+        "rc": 0,
+        "reason": "record file restored byte-identical (sha256 8c53aaea0e4d15ed4245c50b350a2e43113cb2224db15e64ad1f102464281a32)"
+      }
+    ],
+    "negative_controls_executed_outside_the_fences": [
+      "232/amended on candidate: rc=0; on simulated base: rc=1",
+      "232 mutation cp-step-reinserted: rc=1 (the inverted absence leg bites)",
+      "232 mutations make-first / setup:local-dev swapped / 5173->127.0.0.1 / health token renamed: rc=1 each",
+      "232 mutation survivor-copy-line-deleted: rc=0 BY DESIGN - proves the absence leg is section-scoped and does not over-reach into the mandated copy",
+      "250/amended on candidate: rc=0; on simulated base: rc=1 (9 numbered steps)",
+      "250 internal controls 1-5 all report as designed (base counts 5; copy-carrying synthetic count=8 copy-flag=1; unrenumbered synthetic count=7 copy-flag=0; 127.0.0.1 detected; undefined npm script refused)",
+      "251 on candidate with the amendments in place: rc=0 with its sabotage control biting (VA=1, VB=0)",
+      "251 on a candidate with NO copy token anywhere: rc=1 (carried legs 27 128 201 242-248 RED) - the card's stated negative control",
+      "27 on candidate: rc=0; on the no-token candidate: rc=1 - the survivor is its sole remaining source",
+      "243/252 on candidate: rc=0 with their STORED commands (whole-README cp grep)"
+    ],
+    "gaps_and_resume_instructions": [
+      "ac5 was not executed in a scratch tree because its delta-purity and docs_verification 4-line checks need a real git tree; it is authored from the measured gate list and is meant for the builder/verifier run on the merge candidate. No re-sweep is needed to author it.",
+      "The full 318-leg sweep could not run in the scratch trees for the backend/ops legs (no backend/.venv in a copied tree; the working venv lives at backend/.pi-agent/venvs/467a9c6c54be84bc). This is an environment limitation, not a product signal, and does not affect a README-only change.",
+      "docs/criteria/README.md does not exist in this repo although the dispatch listed it; the criteria inputs actually read were docs/criteria/docs_verification.md and the shipped gate index."
+    ]
+  }
+}

@@ -1,0 +1,392 @@
+{
+  "schema_version": "2.0",
+  "role": "definer",
+  "phase": "groom",
+  "artifact": "gate_amendment",
+  "card": "t96",
+  "milestone": "phase_14_render_live_closeout",
+  "platform_issue": 103,
+  "base": {
+    "main_tip_at_groom": "6f7939c",
+    "index_entries": 318,
+    "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip 6f7939c"
+  },
+  "base_note": "t96 MERGES AFTER t94 and t95 (milestone order t94 -> t95 -> t96, t96 LAST). The card text carried base_sha 890680e2 with README-at-base 398 lines / ca9343a8; those numbers are STALE. Every command sha and entry sha here is pinned to the live index bytes at 6f7939c, which t94 does NOT touch (t94 applies only tests[255] inside its own merge window).",
+  "why_this_file_exists": "t96 deletes a README step that stored gates name in their premises. Without this record those gates go RED on a correct product change.",
+  "supervisor_authority": "orchestrator base-coordination ruling (WAL 1171) and the t96 groom dispatch; the amendment set was narrowed by measurement to {232, 250}, with 251 measured self-adapting and 243/252 measured GREEN, none of which needs a record.",
+  "applied_by": "orchestrator at merge time; the DEFINER never edits docs/state/merge_test_index.json",
+  "no_leg_deleted": true,
+  "verifier_thresholds_touched": false,
+  "amendments": [
+    {
+      "index": 232,
+      "issue_id": "t96",
+      "card_ac": "ac1 (README Quick Start premise)",
+      "title": "Quick Start gate inverts the env-copy leg from presence to absence",
+      "defective_premise": "the Quick Start section must CONTAIN cp .env.example .env - falsified by t96: check, setup:local and vite read no .env, so the copy is not part of the run-it-now flow",
+      "re_premised_to": "the Quick Start section must NOT contain cp .env.example .env, must still lead with npm run check / npm run setup:local / npm run dev / npm run stop in that order with zero make invocations, and must keep both localhost URLs and the /api/v1/health contract. The mandated copy in ## Local verification in five minutes is named as the survivor and is explicitly out of this gate's scope.",
+      "old_command_len": 4107,
+      "old_command_sha256": "d85b19d67553e4da55802811328839d755f3b233066de8da72d5fbb9683622dd",
+      "new_command_len": 4309,
+      "new_command_sha256": "b8ee6d5bec7f1ed48e365578978813731622c855119b3a2bfe6eccdb448ae61a",
+      "stored_command_recheck_at_groom": true,
+      "entry_sha_before": "845a120e26db6fafc7dfeee1d71ac99b2407c051df1bdad69b72b808fb593db7",
+      "entry_sha_after": "42f3d8a4a78c14c42ee021283815eea08748aaf83064a819ef1f308de8e6a4a6",
+      "replaced_regions": [
+        {
+          "from": "v\" ||",
+          "to": "v\" &&",
+          "offset_in_old_command": 1144,
+          "offset_in_new_command": 1144
+        },
+        {
+          "from": "s, env-file copy",
+          "to": "s, NO env-file copy step",
+          "offset_in_old_command": 1508,
+          "offset_in_new_command": 1508
+        },
+        {
+          "from": "n, the env-file copy",
+          "to": "n, NO env-file copy step",
+          "offset_in_old_command": 1773,
+          "offset_in_new_command": 1781
+        },
+        {
+          "from": "ry",
+          "to": "ry, and card t96 removed the optional env copy from the run-it-now flow",
+          "offset_in_old_command": 1920,
+          "offset_in_new_command": 1932
+        },
+        {
+          "from": "v\" \"npm run stop\" \"cp .env.example .env",
+          "to": "v\" \"npm run stop",
+          "offset_in_old_command": 2059,
+          "offset_in_new_command": 2140
+        },
+        {
+          "from": "p\" \"npm run check\" \"npm run setup:local\" \"npm run dev\" \"cp .env.example .en",
+          "to": "p\" \"npm run check\" \"npm run setup:local\" \"npm run de",
+          "offset_in_old_command": 2456,
+          "offset_in_new_command": 2514
+        },
+        {
+          "from": "(Q1a",
+          "to": "(Q1a, env-copy step removed by t96",
+          "offset_in_old_command": 3637,
+          "offset_in_new_command": 3672
+        },
+        {
+          "from": "the env-file copy step and",
+          "to": "NO cp .env.example .env step (check, setup:local and vite read no .env, so the copy is not part of the run-it-now flow; the mandated copy lives in ## Local verification in five minutes), carries",
+          "offset_in_old_command": 3803,
+          "offset_in_new_command": 3868
+        },
+        {
+          "from": " and an out-of-order list are rejected by the same checker (RED at base: the carried Quick Start is make-first and names no npm script)",
+          "to": ", an out-of-order list and a Quick Start that still prints the env copy are rejected by the same checker",
+          "offset_in_old_command": 3970,
+          "offset_in_new_command": 4203
+        }
+      ],
+      "rebuild_verified": true,
+      "negative_control_matrix": [
+        {
+          "case": "232/t96cand_amended",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 GREEN: NPM-FIRST QUICK START (Q1a, env-copy step removed by t96) - the Quick Start section leads with npm run check, npm run setup:local, npm run dev and npm run stop in exactly that order with zero make invocations, carries NO cp .env.example .env step"
+        },
+        {
+          "case": "232/t96base_amended",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path"
+        },
+        {
+          "case": "232/mutation/cp_step_reinserted_into_quickstart",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path - the inverted absence leg catches a re-added cp .env.example .env"
+        },
+        {
+          "case": "232/mutation/make_first",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path"
+        },
+        {
+          "case": "232/mutation/setup_local_and_dev_swapped",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path"
+        },
+        {
+          "case": "232/mutation/5173_url_replaced_by_127_0_0_1",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path"
+        },
+        {
+          "case": "232/mutation/health_token_renamed",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the Quick Start section is not the npm-first four-command path"
+        },
+        {
+          "case": "232/mutation/survivor_340_line_deleted_is_out_of_scope",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 GREEN - correctly OUT OF SCOPE: deleting the ## Local verification in five minutes copy line is tests[251] and tests[27] territory, never tests[232]'s. This control proves the new absence leg is section-scoped and does not over-reach into the mandated copy."
+        },
+        {
+          "case": "232/stored_on_t96cand",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the stored premise still REQUIRES the env copy inside Quick Start, so it is RED on the t96 candidate by design - this is exactly the GREEN-to-RED flip this amendment exists to fix"
+        }
+      ]
+    },
+    {
+      "index": 250,
+      "issue_id": "t96",
+      "card_ac": "ac1 (README Quick Start premise)",
+      "title": "run-locally gate moves from the eight-step copy-carrying flow to the renumbered flow with no copy step",
+      "defective_premise": "the Quick Start flow numbers eight steps including the env copy - falsified by t96: the copy step is deleted and the block is renumbered 0..8",
+      "re_premised_to": "the Quick Start block carries a contiguous 0..8 numbering with no gap, no duplicate and no step 9, orders the seven commands check / setup:local / dev / open 5173 / register / seed:demo / stop, and prints NO cp .env.example .env in the run-it-now flow.",
+      "old_command_len": 8099,
+      "old_command_sha256": "19b560cd5e8afc74f74189ebcdbf88bfa6e999fbe0149c8146b8181c159109b4",
+      "new_command_len": 9900,
+      "new_command_sha256": "b2a9000297369b6f15a34dcaf1b82b96878763785ff51dab50362c457b5b0821",
+      "stored_command_recheck_at_groom": true,
+      "entry_sha_before": "002d298e6a315db4063eed3d8217124a8a7b5493b00a794105868722659f814c",
+      "entry_sha_after": "f4024ccd2206238e5e776dfb914fc256ed0acc5b5b6bcf472a14753fc1d7d914",
+      "replaced_regions": [
+        {
+          "from": ": check, env file, setup:local, dev, open localhost:5173, register, seed:demo, stop - clone stays the step-zero preambl",
+          "to": " - the t96 flow numbers 0. clone plus 1. install, 2. check, 3. setup:local, 4. dev, 5. open, 6. register, 7. seed:demo, 8. stop, and the optional env copy is gon",
+          "offset_in_old_command": 1133,
+          "offset_in_new_command": 1133
+        },
+        {
+          "from": "(RED at base by design: the base flow numbers five steps and names no open, register or demo-data step)\"; exit 1; }; P1=\"^npm run check[[:space:]]*$\"; P2=\"^cp [.]env[.]example [.]env",
+          "to": "after t96 deleted the optional env-copy step and renumbered the block\"; exit 1; }; GAP=\"\"; for n in 1 2 3 4 5 6 7 8; do CN=$(printf \"%s\\n\" \"$Q\" | grep -cE \"^#?[[:space:]]*${n}[.][[:space:]]\"); [ \"${CN:-0}\" = 1 ] || GAP=\"$GAP ${n}=x${CN:-0}\"; done; [ -z \"$GAP\" ] || { echo \"ac1 RED: the renumbered Quick Start is not contiguous - step numbers appearing ${GAP} instead of exactly once each (a deleted step may leave a gap or a duplicate)\"; exit 1; }; printf \"%s\\n\" \"$Q\" | grep -qE \"^#?[[:space:]]*9[.][[:space:]]\" && { echo \"ac1 RED: a step 9 survives - t96 renumbers the block to 0..8, so a ninth number means the sequence was not closed\"; exit 1; }; echo \"ac1 evidence: the numbered sequence is contiguous 0..8 with no gap, no duplicate and no step 9\"; P1=\"^npm run check[[:space:]]*$",
+          "offset_in_old_command": 1371,
+          "offset_in_new_command": 1413
+        },
+        {
+          "from": "$P1\" \"$P2",
+          "to": "$P1",
+          "offset_in_old_command": 1788,
+          "offset_in_new_command": 2432
+        },
+        {
+          "from": "eight are npm run check, cp .env.example .env",
+          "to": "seven ordered steps are npm run check",
+          "offset_in_old_command": 2114,
+          "offset_in_new_command": 2752
+        },
+        {
+          "from": "eight steps are present in that order",
+          "to": "seven ordered commands are present in that order\"; printf \"%s\\n\" \"$Q\" | grep -qF \"cp .env.example .env\" && { echo \"ac1 RED: the run-locally flow still prints cp .env.example .env - t96 removed the optional copy from Quick Start because check, setup:local and vite read no .env; the mandated copy belongs to ## Local verification in five minutes\"; rm -f build/t69/ac1_g232.sh /tmp/t69_ac1.log; exit 1; }; echo \"ac1 evidence: the run-locally flow prints no env-file copy step",
+          "offset_in_old_command": 2489,
+          "offset_in_new_command": 3119
+        },
+        {
+          "from": "7=$(printf \"%s\\n\" \"## Quick Start\" \"\" \"",
+          "to": "7=$(printf \"%s\\n\" \"## Quick Start\" \"\" \"0. Clone the repository\" \"",
+          "offset_in_old_command": 5464,
+          "offset_in_new_command": 6530
+        },
+        {
+          "from": "r\" \"7. npm run s",
+          "to": "r\" \"7. npm run seed:demo\" \"8. npm run s",
+          "offset_in_old_command": 5632,
+          "offset_in_new_command": 6724
+        },
+        {
+          "from": "7\" | grep -cE \"^#?[[:space:]]*[1-9][.][[:space:]]\"); ",
+          "to": "7\" | grep -cE \"^#?[[:space:]]*[1-9][.][[:space:]]\"); SC=0; printf \"%s\\n\" \"$SYN7\" | grep -qF \"cp .env.example .env\" && SC=1; ",
+          "offset_in_old_command": 5682,
+          "offset_in_new_command": 6797
+        },
+        {
+          "from": "the counter scores ${S7:-0} on a synthetic seven-step flow (want exactly 7, not 8)\"; [ \"${S7:-0}\" = 7 ]",
+          "to": "a synthetic eight-numbered flow that still prints the env copy scores count=${S7:-0} (want 8, so the count leg alone cannot be the catcher) and copy-flag=${SC:-0} (want 1 from the no-copy leg)\"; { [ \"${S7:-0}\" = 8 ] && [ \"${SC:-0}\" = 1 ]; }",
+          "offset_in_old_command": 5776,
+          "offset_in_new_command": 6962
+        },
+        {
+          "from": "the counter scored ${S7:-0} on a seven-step synthetic, so the exactly-eight leg is",
+          "to": "a flow carrying the env copy scored count=${S7:-0} copy-flag=${SC:-0}, so the count and no-copy legs are",
+          "offset_in_old_command": 5926,
+          "offset_in_new_command": 7249
+        },
+        {
+          "from": "cp .env.example .env\" \"3. npm run setup:local\" \"4. npm run dev\" \"5. Open http://localhost:5173\" \"6. Register an account\" \"7. npm run seed:demo\" \"8",
+          "to": "npm run setup:local\" \"3. npm run dev\" \"4. Open http://localhost:5173\" \"5. Register an account\" \"6. npm run seed:demo\" \"7",
+          "offset_in_old_command": 6168,
+          "offset_in_new_command": 7513
+        },
+        {
+          "from": "8\" | grep -cE \"^#?[[:space:]]*[1-9][.][[:space:]]\"); ",
+          "to": "8\" | grep -cE \"^#?[[:space:]]*[1-9][.][[:space:]]\"); SC8=0; printf \"%s\\n\" \"$SYN8\" | grep -qF \"cp .env.example .env\" && SC8=1; ",
+          "offset_in_old_command": 6359,
+          "offset_in_new_command": 7678
+        },
+        {
+          "from": "the counter scores ${S8:-0} on a step-zero clone plus eight numbered steps (want exactly 8)\"; [ \"${S8:-0}\" = 8 ]",
+          "to": "a seven-numbered synthetic (the pre-t96 shape minus the copy line) scores count=${S8:-0} (want 7, NOT the fenced 8, proving the count leg discriminates a block that was not renumbered up to 8) and copy-flag=${SC8:-0} (want 0, proving the no-copy leg does not fire on a copy-free flow)\"; { [ \"${S8:-0}\" = 7 ] && [ \"${SC8:-0}\" = 0 ]; }",
+          "offset_in_old_command": 6453,
+          "offset_in_new_command": 7845
+        },
+        {
+          "from": "counter scored ${S8:-0} on the conforming synthetic, so the exactly-eight leg cannot coun",
+          "to": "non-conforming synthetic scored count=${S8:-0} copy-flag=${SC8:-0}, so the count leg cannot discriminate and the no-copy leg cannot stay quie",
+          "offset_in_old_command": 6616,
+          "offset_in_new_command": 8229
+        },
+        {
+          "from": "EIGHT-STEP RUN-LOCALLY FLOW - ## Quick Start numbers exactly eight steps in order (npm run check, cp .env.example .env",
+          "to": "SEVEN-COMMAND RUN-LOCALLY FLOW WITH A CONTIGUOUS 0..8 NUMBERING (env-copy step removed by t96) - ## Quick Start numbers a contiguous 0..8 with no gap, duplicate or step 9, orders npm run check",
+          "offset_in_old_command": 7602,
+          "offset_in_new_command": 9267
+        },
+        {
+          "from": ", npm run stop)",
+          "to": " and npm run stop, prints NO cp .env.example .env step in the run-it-now flow",
+          "offset_in_old_command": 7821,
+          "offset_in_new_command": 9560
+        }
+      ],
+      "rebuild_verified": true,
+      "negative_control_matrix": [
+        {
+          "case": "250/t96cand_amended",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 GREEN: SEVEN-COMMAND RUN-LOCALLY FLOW WITH A CONTIGUOUS 0..8 NUMBERING (env-copy step removed by t96)"
+        },
+        {
+          "case": "250/t96base_amended",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: Quick Start carries 9 numbered steps, not the eight the card fences after t96 deleted the optional env-copy step and renumbered the block"
+        },
+        {
+          "case": "250/internal_negative_control_1_base_section_counts",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 evidence: NEGATIVE CONTROL 1 - the base section counts 5 numbered steps and names no npm run seed:demo, so a pass is a measured rewrite of THIS section"
+        },
+        {
+          "case": "250/internal_negative_control_2_copy_carrying_flow",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 evidence: NEGATIVE CONTROL 2 - a synthetic eight-numbered flow that still prints the env copy scores count=8 (want 8, so the count leg alone cannot be the catcher) and copy-flag=1 (want 1 from the no-copy leg)"
+        },
+        {
+          "case": "250/internal_negative_control_3_unrenumbered_flow",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 evidence: NEGATIVE CONTROL 3 - a seven-numbered synthetic scores count=7 (want 7, NOT the fenced 8, proving the count leg discriminates a block that was not renumbered up to 8) and copy-flag=0 (want 0, proving the no-copy leg does not fire on a copy-free flow)"
+        },
+        {
+          "case": "250/internal_negative_control_4_localhost_literal",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 evidence: NEGATIVE CONTROL 4 - the localhost leg detects the 127.0.0.1 literal it refuses above"
+        },
+        {
+          "case": "250/internal_negative_control_5_undefined_script",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac1 evidence: NEGATIVE CONTROL 5 - the manifest check refuses npm run deploy:prod, which the ROOT package.json does not define"
+        },
+        {
+          "case": "250/stored_on_t96cand",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac1 RED: the stored premise requires the cp step and a different step count, so it is RED on the t96 candidate by design; the disclosed RED-to-GREEN recovery happens only with the amended command"
+        }
+      ]
+    },
+    {
+      "index": 251,
+      "issue_id": "t96",
+      "card_ac": "ac2 (carried-gate replay)",
+      "title": "carried-gate replay sabotage victim: MEASURED, NO AMENDMENT REQUIRED",
+      "defective_premise": "the survey predicted that deleting the Quick Start copy line would leave the sabotage victim unmatched and turn the replay RED on its own negative control",
+      "re_premised_to": "NO CHANGE. The victim is LINE-ANCHORED (grep -v \"^cp \\.env\\.example \\.env\"), not line-number anchored, so once t96 deletes the Quick Start occurrence the same pattern resolves to the surviving ## Local verification copy line automatically. Measured GREEN on the t96 candidate with its control still biting.",
+      "old_command_len": 6167,
+      "old_command_sha256": "b5c2c6587aadde122426bd3e39e40276ee26da61844535cd0a81f529448d0543",
+      "new_command_len": 6167,
+      "new_command_sha256": "b5c2c6587aadde122426bd3e39e40276ee26da61844535cd0a81f529448d0543",
+      "stored_command_recheck_at_groom": true,
+      "entry_sha_before": "bd6ce38b958b936ce41747929930f9927e1df1b7a73f58a3fab2822d1ea01718",
+      "entry_sha_after": "bd6ce38b958b936ce41747929930f9927e1df1b7a73f58a3fab2822d1ea01718",
+      "replaced_regions": [],
+      "rebuild_verified": true,
+      "negative_control_matrix": [
+        {
+          "case": "251/t96cand_stored",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac2 GREEN: CARRIED-GATE REPLAY - all nineteen README-scoped stored gates (27, 119, 128, 135, 144, 201, 232-236, 242-249) were extracted byte-for-byte from the index and passed against the rewritten README"
+        },
+        {
+          "case": "251/t96cand_stored_internal_sabotage_control",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "ac2 evidence: NEGATIVE CONTROL - the env-file copy command line appears 1 times in the working README and 0 times in the sabotaged copy (one line deleted). VA goes 2 -> 1 exactly as t96 predicts and VB stays 0, so the control still bites on the surviving :340 line"
+        },
+        {
+          "case": "251/t96cand_no_cp_token_anywhere",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "ac2 RED: the carried README-scoped gates [ 27 128 201 242 243 244 245 246 247 248] are RED after the run-locally rewrite"
+        },
+        {
+          "case": "27/t96cand_token_survives",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "last_line": "tests[27] stays GREEN on the t96 candidate through the surviving :340 copy line - DO NOT relax it"
+        },
+        {
+          "case": "27/t96cand_no_cp_token_anywhere",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "last_line": "tests[27] goes RED only when the LAST copy line is removed, proving the survivor is its sole remaining source"
+        }
+      ]
+    }
+  ],
+  "measured_unchanged_no_record_needed": [
+    {
+      "index": 243,
+      "why_no_record": "measured GREEN on the t96 candidate with the STORED command - its cp grep is whole-README scoped, so the surviving ## Local verification occurrence keeps it satisfied; an amendment would be a relaxation, not a re-premise",
+      "shipped_command_sha256": "36635b45abc2a55563ff027ba23c8290705ceb3868eef42e7d040be02497b881",
+      "shipped_command_len": 5901,
+      "entry_sha": "62e08964f607744c9ed9a79864e23a200a80c0ce14b73e9f782577b0319c466f",
+      "measured_rc_on_t96_candidate": 0,
+      "measured_rc_on_simulated_base": 0
+    },
+    {
+      "index": 252,
+      "why_no_record": "measured GREEN on the t96 candidate with the STORED command - its cp grep is whole-README scoped, so the surviving ## Local verification occurrence keeps it satisfied; an amendment would be a relaxation, not a re-premise",
+      "shipped_command_sha256": "cfb29226b120d2d5d6efb78681d5478feca987dbbb60b7f8bb4512fdac6a3436",
+      "shipped_command_len": 8174,
+      "entry_sha": "13541cd8ddca53921ea41840a36a7fb5ca881ae5232c410d3e2a8a006540f915",
+      "measured_rc_on_t96_candidate": 0,
+      "measured_rc_on_simulated_base": 0
+    }
+  ],
+  "coordination": "Apply 232 and 250 in the t96 merge window ONLY, after t94 and t95 have merged. Re-run the stale check immediately before applying.",
+  "stale_at_merge_check": "for each amendment with a non-empty replaced_regions: sha256(index[idx].command) == old_command_sha256 AND applying replaced_regions forward reproduces new_command_sha256 byte-for-byte. If either fails, STOP and request a re-groom amendment; do not guess future bytes.",
+  "apply_mechanism": "python3 - reconstruct the new command by OFFSET SLICING the shipped command with replaced_regions (old[0:i1] + to + old[i2_prev:i1_next] ... + to_last + old[i2_last:]), each from asserted unique in the shipped command and each to unique in the result; never rewrite the entry wholesale, never touch any other index field, never delete a leg.",
+  "flip_set": {
+    "see_groom_handoff": "docs/state/outputs/t96_definer_groom.json"
+  },
+  "out_of_scope_disclosure": "anchor[133]/tests[258] stays RED under orchestrator-side maintenance; tests[227]/[231]/[191] stay RED under U5; tests[27] is NOT amended and must not be relaxed; openapi.yaml is FROZEN.",
+  "measurement_provenance": "scratch trees under the project worktrees dir: t96base (post-t94-simulated README, 398 lines / ca9343a8..., 2 copy occurrences) and t96cand (post-t96 README, 395 lines / e8cd7864..., 1 occurrence). README-derived numbers from these trees are ADVISORY ONLY per the base-coordination ruling; the builder measures from its own post-t94 candidate bytes.",
+  "written_by_definer_applied_by": "definer writes; orchestrator applies"
+}
