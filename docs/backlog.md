@@ -100,4 +100,4 @@
 | t94 | README live-URL backfill - Online demo and Deployment on Render state the -1qtu address honestly with no hosted demo account claimed, and the README triple pin moves in the same card | [t98] | #101 | defined |
 | t95 | Close platform issue 61 with the bundled A3 plus B1a plus B1b plus B2 evidence - the deploy-hook secret residual is discharged, recorded once and traceably | [t92, t93, t98, t94] | #102 | defined |
 | t96 | Remove the misleading Quick Start env-copy step from README and re-premise its coordinated gate set 232 250 251 plus the digest and line-count re-pin; the README 340 copy line stays | [] | #103 | defined |
-| t97 | Health version single source - backend/app/main.py builds FastAPI with version=settings.APP_VERSION so the live health payload reports 1.0.0 instead of the hardcoded 0.1.0 | [] | #104 | defined |
+| t97 | Health version single source - backend/app/main.py builds FastAPI with version=settings.APP_VERSION so the live health payload reports 1.0.0 instead of the hardcoded 0.1.0 | [] | #104 | closed |
