@@ -1,0 +1,271 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t98",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t98.md",
+   "docs/state/outputs/t98_definer_gate_amendment.json",
+   "docs/state/outputs/t98_definer_groom.json"
+  ],
+  "platform_issue": 100,
+  "output_path": "docs/state/outputs/t98_definer_groom.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-19T15:04:57Z",
+ "retry_count": 0,
+ "evidence": {
+  "evidence_type": "grooming",
+  "ac_hash": "sha256:d214082d1091b06ead1e387c3031a6b11a35061f355df66a03c3724e406febd1",
+  "ac_hash_recipe": "sha256 over json.dumps(blocks, separators=(',',':')) where blocks are the six ```bash-fenced blocks of docs/issues/t98.md in ac1..ac6 order, each taken exactly as it sits between its fences, CR-stripped and trimmed - the t58/t62..t93 recipe. Recomputed from the SHIPPED card in this run; equal to the eight spaced groups in the card (d214082d 1091b06e ad1e387c 3031a6b1 1a35061f 355df66a 03c3724e 406febd1) and to this handoff.",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac1 RED: python3 missing - a skipped check proves nothing\"; exit 1; }\ncommand -v uv >/dev/null 2>&1 || { echo \"ac1 RED: uv missing - the verifier lint legs cannot run\"; exit 1; }\ntest -d backend -a -f docs/issues/t98.md || { echo \"ac1 RED: not the repo root - run the fence from the checkout root\"; exit 1; }\nd=backend/scripts/docs_verification.py\ni=backend/scripts/infra_verification.py\ntest -f \"$d\" || { echo \"ac1 RED: $d missing\"; exit 1; }\ntest -f \"$i\" || { echo \"ac1 RED: $i missing\"; exit 1; }\npython3 -c 'import ast,sys\n[ast.parse(open(p, encoding=\"utf-8\", errors=\"replace\").read()) for p in sys.argv[1:]]' \"$d\" \"$i\" \\\n  || { echo \"ac1 RED: a verifier script no longer parses\"; exit 1; }\ngrep -q \"LIVE_DEPLOYMENT_STATE\" \"$d\" && { echo \"ac1 RED: docs_verification.py still names LIVE_DEPLOYMENT_STATE - the register tuple must be gone (a leftover reason string counts)\"; exit 1; }\nn=$(grep -cE '\"LIVE_(AGENT_SESSION|MCP_SUBPROCESS|SUBAGENT_LAUNCH)\"' \"$d\")\n[ \"$n\" -eq 3 ] || { echo \"ac1 RED: expected the 3 surviving register keys in $d, found $n\"; exit 1; }\ngrep -qE 'expense-tracker-dashboard[.]onrender[.]com' \"$d\" && { echo \"ac1 RED: the OLD no-suffix host is still in docs_verification.py\"; exit 1; }\ngrep -qE 'expense-tracker-dashboard[.]onrender[.]com' \"$i\" && { echo \"ac1 RED: the OLD no-suffix host is still in infra_verification.py\"; exit 1; }\ngrep -q 'expense-tracker-dashboard-1qtu[.]onrender[.]com/api/v1/health' \"$i\" \\\n  || { echo \"ac1 RED: infra_verification.py does not name the -1qtu health URL\"; exit 1; }\n(cd backend && PYTHONPATH=. uv run ruff check scripts/docs_verification.py scripts/infra_verification.py >/dev/null 2>&1) \\\n  || { echo \"ac1 RED: ruff is not clean on the two verifiers\"; exit 1; }\n(cd backend && PYTHONPATH=. uv run mypy scripts/docs_verification.py scripts/infra_verification.py >/dev/null 2>&1) \\\n  || { echo \"ac1 RED: mypy is not clean on the two verifiers\"; exit 1; }\necho \"ac1 GREEN: both verifiers parse, the docs register holds exactly the 3 genuinely-deferred keys, the OLD host is absent from both, the -1qtu health URL is present in infra_verification.py, and ruff+mypy are clean\"",
+   "ac2": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac2 RED: python3 missing\"; exit 1; }\ncommand -v uv >/dev/null 2>&1 || { echo \"ac2 RED: uv missing\"; exit 1; }\nr=docs/criteria/docs_verification.md\ntest -f \"$r\" || { echo \"ac2 RED: $r missing\"; exit 1; }\n# CRLF discipline: every leg below runs against a CR-stripped copy, because git\n# checkout normalises this worktree to CRLF while the generator emits LF; the\n# committed-vs-generated comparison is therefore CR-normalised on both sides.\nn=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\nt=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\nu=$(mktemp) || { echo \"ac2 RED: mktemp failed\"; exit 1; }\ntr -d '\\r' < \"$r\" > \"$n\"\ntr -d '\\r' < \"$r\" > \"$t\"\ngrep -qxE 'DEFERRAL_REGISTER 3 DEFERRED' \"$n\" || { echo \"ac2 RED: the docs report header is not exactly DEFERRAL_REGISTER 3 DEFERRED\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\npython3 - \"$n\" <<'PYAC2'\nimport sys\ntext = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nlines = text.split(\"\\n\")\nrows = [l for l in lines if l.startswith(\"| \") and \" | DEFERRED | \" in l]\nwant = [\"LIVE_AGENT_SESSION\", \"LIVE_MCP_SUBPROCESS\", \"LIVE_SUBAGENT_LAUNCH\"]\nkeys = [l.split(\"|\")[1].strip() for l in rows]\nassert keys == want, \"register rows %s != the three survivors in order %s\" % (keys, want)\nfor l in rows:\n    assert \" reason=\" in l and \" live_check=\" in l, \"row lost reason=/live_check=: \" + l[:90]\nassert not any(\"LIVE_DEPLOYMENT_STATE\" in l for l in lines), \"the moved key still appears in the docs report\"\nPYAC2\n[ $? -eq 0 ] || { echo \"ac2 RED: the register row set is not the three survivors with reason/live_check intact, or the moved key is still present\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE '^LINK_CHECK PASS files=260 links=67 broken=0$' \"$n\" \\\n  || { echo \"ac2 RED: LINK_CHECK is not files=260 links=67 broken=0 - the count walks EVERY .md in the tree, so it moves with untracked scratch: measured anatomy is 243 committed at HEAD, 260 on a clean zero-untracked tree, 261 with a stray backend/.pytest_cache/README.md, 570 in a polluted main worktree. Work in a clean worktree and rm -rf backend/.pytest_cache before regenerating; never edit this leg to match\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\n# D2: the docs report MUST NOT end ALL_CHECKS_PASS on this milestone. The\n# generator prints its failing legs to stdout only (the document carries just the\n# summary count), so the FAIL set is pinned from stdout: tests[133] is the\n# pre-existing INDEX_ANCHORS staleness (that anchor predates the t90 index append\n# and is stale at HEAD today) and tests[155] is env-specific (GREEN in the\n# official baseline, RED in this WSL env). Anything else is a NEW failure.\ngrep -qxE 'ALL_CHECKS_PASS' \"$n\" && { echo \"ac2 RED: the docs report ends ALL_CHECKS_PASS - with the pre-existing anchor[133] staleness it cannot, so a suddenly-green report means an anchor was quietly edited rather than fixed\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qxE 'CHECKS_FAILED [12]' \"$n\" || { echo \"ac2 RED: the docs report does not end CHECKS_FAILED 1 or 2 - the measured shape is 2 in an env where tests[155] fails and 1 where it passes (133 is mandatory-fail, 155 env-specific); see the D2 disclosure\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py > \"$u\" 2>&1)\nbad=$(grep -oE 'FAIL tests\\[[0-9]+\\]' \"$u\" | grep -oE '[0-9]+' | grep -vE '^(133|155)$' | tr '\\n' ' ')\n[ -z \"$bad\" ] || { echo \"ac2 RED: the docs generator reports a failing stored gate outside the pinned set {133,155}: $bad - escalate, do not absorb it\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE 'FAIL tests\\[133\\]' \"$u\" || { echo \"ac2 RED: the pinned pre-existing tests[133] anchor failure is gone from the generator output - an INDEX_ANCHORS pin was changed, which is NOT this card surface\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ngrep -qE 'docs_verification: RED' \"$u\" || { echo \"ac2 RED: the docs generator did not report RED - see the D2 regeneration protocol in the card\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1)\ntr -d '\\r' < \"$r\" > \"$u\"\ncmp -s \"$u\" \"$t\" || { echo \"ac2 RED: the committed docs report is not generator output - a fresh CR-normalised run differs. Regenerate; never hand-edit the report\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\ncp \"$u\" \"$t\"\nrm -rf backend/.pytest_cache\n(cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1)\ntr -d '\\r' < \"$r\" > \"$u\"\ncmp -s \"$u\" \"$t\" || { echo \"ac2 RED: the docs report is not byte-stable across two generator runs\"; rm -f \"$t\" \"$n\" \"$u\"; exit 1; }\nrm -f \"$t\" \"$n\" \"$u\"\necho \"ac2 GREEN: header 3 DEFERRED, the three survivors byte-for-byte with reason/live_check, the moved key absent, LINK_CHECK files=260 links=67 broken=0, CHECKS_FAILED 2 with the stored-gate FAIL set exactly {133,155} (never ALL_CHECKS_PASS), and the committed report is byte-stable generator output\"",
+   "ac3": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac3 RED: python3 missing\"; exit 1; }\nr=docs/criteria/req_coverage_verification.md\ntest -f \"$r\" || { echo \"ac3 RED: $r missing\"; exit 1; }\n# CRLF discipline: every leg greps a CR-stripped copy (git checkout normalises\n# this worktree to CRLF while the generator emits LF).\nn=$(mktemp) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\ntr -d '\\r' < \"$r\" > \"$n\"\ngrep -qE '^REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79$' \"$n\" \\\n  || { echo \"ac3 RED: the matrix is no longer 749 rows / 749 unique / the pinned idset prefix - the move must not change the id set\"; rm -f \"$n\"; exit 1; }\nfor pair in IMPLEMENTED_TESTED:116 IMPLEMENTED_STRUCTURAL:622 DEFERRED_RULLED:10 GAP:0 EXAMPLE_REFERENCE:1; do\n  k=${pair%%:*}; v=${pair##*:}\n  grep -qxE \"REQ_STATUS_COUNT $k $v\" \"$n\" || { echo \"ac3 RED: REQ_STATUS_COUNT $k is not $v (the measured post-move tally is 116/622/10/0/1)\"; rm -f \"$n\"; exit 1; }\ndone\nif grep -qxE 'REQ_STATUS_COUNT (IMPLEMENTED_TESTED 111|DEFERRED_RULLED 15)' \"$n\"; then\n  echo \"ac3 RED: the report still carries the HEAD tally 111/15 - it was not regenerated after the move\"; rm -f \"$n\"; exit 1\nfi\npython3 - \"$n\" <<'PYAC3'\nimport sys\ntext = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nlines = text.split(\"\\n\")\nkeys = {l.split(\"key=\")[1].split(\" \")[0] for l in lines if l.startswith(\"REQ_DEFERRAL_KEY PASS key=\")}\nwant = {\"LIVE_AGENT_SESSION\", \"LIVE_MCP_SUBPROCESS\", \"LIVE_SUBAGENT_LAUNCH\",\n        \"RULING_FE_PERF_LIVE_PROFILING\", \"RULING_TECH_DATEFNS_OVERRULED\"}\nassert keys == want, \"deferral keys %s != %s\" % (sorted(keys), sorted(want))\nrows = [l for l in lines if l.startswith(\"REQ_ROW PASS id=\")]\nfor rid in [\"REQ-OPS-061\", \"REQ-OPS-062\", \"REQ-CICD-041\", \"REQ-DOC-070\", \"REQ-PROD-041\"]:\n    hit = [l for l in rows if (\" id=\" + rid + \" \") in l]\n    assert len(hit) == 1, rid + \" is not present exactly once (the move is a replacement, not a disappearance)\"\n    assert \" status=IMPLEMENTED_TESTED \" in hit[0], rid + \" is not IMPLEMENTED_TESTED after the move: \" + hit[0][:120]\n    assert \" deferral_key=\" not in hit[0], rid + \" still carries a deferral_key\"\nbad = [l for l in rows if \" deferral_key=LIVE_DEPLOYMENT_STATE \" in l]\nassert not bad, \"a row still defers on the moved key: \" + bad[0][:120]\nPYAC3\n[ $? -eq 0 ] || { echo \"ac3 RED: the deferral-key set, one of the five reclassified ids, or the no-stray-deferral_key rule failed\"; rm -f \"$n\"; exit 1; }\ngrep -qE 'pointers=[^ ]*[.]ncbak' \"$n\" && { echo \"ac3 RED: a pointer names a .ncbak scratch artifact - the report was generated from a polluted tree\"; rm -f \"$n\"; exit 1; }\nrm -f \"$n\"\necho \"ac3 GREEN: 749 rows / 749 unique / pinned idset, the measured 116-622-10-0-1 tally, the deferral-key set without the moved key, the five formerly-deferred ids present exactly once as IMPLEMENTED_TESTED with no deferral_key, and no scratch-artifact pointer\"",
+   "ac4": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ncommand -v uv >/dev/null 2>&1 || { echo \"ac4 RED: uv missing - the suite cannot run\"; exit 1; }\ntest -f backend/pyproject.toml || { echo \"ac4 RED: backend/pyproject.toml missing - run the fence from the checkout root\"; exit 1; }\no=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\n(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit/test_req_coverage_verification.py -q 2>&1) | tr -d '\\r' | tail -3 > \"$o\"\ngrep -qE '[0-9]+ passed' \"$o\" || { echo \"ac4 RED: the req generator suite is not green:\"; cat \"$o\"; rm -f \"$o\"; exit 1; }\ngrep -qE '[0-9]+ failed|[0-9]+ error' \"$o\" && { echo \"ac4 RED: the req generator suite reports failures:\"; cat \"$o\"; rm -f \"$o\"; exit 1; }\nrm -f \"$o\"\nc=$(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit/test_req_coverage_verification.py --collect-only -q 2>/dev/null | tr -d '\\r' | grep -cE '::')\nx=$(cd backend && PYTHONPATH=. timeout 900 uv run pytest tests/unit --collect-only -q 2>/dev/null | tr -d '\\r' | grep -cE '::')\n[ -n \"$c\" ] && [ -n \"$x\" ] && [ \"$x\" -gt \"$c\" ] \\\n  || { echo \"ac4 RED: the suite is not inside the backend suite (backend collected=$x, req suite collected=$c)\"; exit 1; }\nt=backend/tests/unit/test_req_coverage_verification.py\ngrep -q 'test_t98_live_deployment_state_is_no_longer_carried' \"$t\" \\\n  || { echo \"ac4 RED: the t98 carried-key test is missing from $t\"; exit 1; }\ngrep -q 'expense-tracker-dashboard-1qtu' \"$t\" \\\n  || { echo \"ac4 RED: the t98 test does not assert the -1qtu URL against infra_verification.py\"; exit 1; }\n# D3: the infra report is NEVER compared byte-for-byte - its FALLBACK_WITHIN_5S\n# elapsed= line is nondeterministic per run. The comparison is normalised: CR\n# stripped and the elapsed= token removed, and the committed bytes are restored\n# afterwards so this fence never leaves the tree dirty.\nir=docs/criteria/infra_verification.md\nkeep=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\ndout=$(mktemp) || { echo \"ac4 RED: mktemp failed\"; exit 1; }\ncp \"$ir\" \"$keep\"\n(cd backend && PYTHONPATH=. timeout 900 uv run python scripts/infra_verification.py >/dev/null 2>&1)\nnorm() { tr -d '\\r' < \"$1\" | sed -E 's/(FALLBACK_WITHIN_5S elapsed=)[0-9.]+/\\1<T>/'; }\nif diff -u <(norm \"$keep\") <(norm \"$ir\") > \"$dout\" 2>&1; then\n  echo \"ac4 NOTE: the regenerated infra report equals the committed bytes modulo the elapsed= line (normalised comparison)\"\nelse\n  cp \"$keep\" \"$ir\"; rm -f \"$keep\" \"$dout\"\n  echo \"ac4 RED: the regenerated infra report differs from the committed bytes BEYOND the elapsed= line - the :602 URL move is not the only change\"; exit 1\nfi\nrm -f \"$dout\"\ncp \"$keep\" \"$ir\"\ncmp -s \"$keep\" \"$ir\" || { echo \"ac4 RED: ac4 failed to restore $ir to its pre-fence bytes\"; rm -f \"$keep\"; exit 1; }\nrm -f \"$keep\"\necho \"ac4 GREEN: the req generator suite is green and inside the backend suite (collected $x > $c) and the t98 test covering the moved key, the 10-row tally, the five reclassified ids and the -1qtu URL exists - the elapsed/collected lines are compared by pattern, never byte-for-byte, because the infra report elapsed= line is nondeterministic\"",
+   "ac5": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac5 RED: python3 missing\"; exit 1; }\np=docs/state/merge_test_index.json\ntest -f \"$p\" || { echo \"ac5 RED: $p missing\"; exit 1; }\ngit diff HEAD --quiet -- \"$p\" || { echo \"ac5 RED: the gate index is modified in the working tree - it is orchestrator-owned and NEVER a builder or definer file\"; exit 1; }\nn=$(python3 -c 'import json; print(len(json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]))')\n[ \"$n\" = \"318\" ] || { echo \"ac5 RED: the gate index has $n entries, not 318 - an append happened outside this card\"; exit 1; }\nfor f in README.md render.yaml .github/workflows/deploy-render.yml docs/criteria/security_ops_verification.md docs/criteria/agent_pack_verification.md docs/criteria/dashboard_verification.md; do\n  git diff HEAD --quiet -- \"$f\" || { echo \"ac5 RED: $f is modified - it is NOT this card surface\"; exit 1; }\ndone\nh=$(grep -oE '[0-9a-f]{64}' backend/scripts/docs_verification.py | wc -l | tr -dc '0-9')\n[ \"$h\" = \"13\" ] || { echo \"ac5 RED: docs_verification.py carries $h 64-hex literals, not 13 - the infra pin rotation must be a REPLACE, not an addition\"; exit 1; }\npython3 <<'PYAC5'\nimport hashlib, re\nsrc = open(\"backend/scripts/docs_verification.py\", encoding=\"utf-8\", errors=\"replace\").read()\nblock = re.search(r\"CARRIED_DIGESTS = \\{(.*?)\\n\\}\", src, re.S).group(1)\npairs = re.findall(r'\"([^\"]+\\.md)\":\\s*\"([0-9a-f]{64})\"', block)\nassert len(pairs) == 4, \"expected 4 carried digest entries, found %d\" % len(pairs)\nbad = []\nfor path, pin in pairs:\n    raw = open(path, \"rb\").read().replace(b\"\\r\\n\", b\"\\n\")\n    got = hashlib.sha256(raw).hexdigest()\n    if got != pin:\n        bad.append(\"%s pin=%s actual-CR-stripped=%s\" % (path, pin[:12], got[:12]))\nassert not bad, \"stale carried digest pins:\\n\" + \"\\n\".join(bad)\nPYAC5\n[ $? -eq 0 ] || { echo \"ac5 RED: a CARRIED_DIGESTS pin does not equal its committed report - the infra pin MUST be rotated in this same commit (card two-pass recipe: rotate the pin, then regenerate docs)\"; exit 1; }\necho \"ac5 GREEN: the gate index is byte-clean at 318 entries, README/render/workflow and the three untouched criteria reports are byte-clean, docs_verification.py still holds exactly 13 hex literals, and all four CARRIED_DIGESTS pins equal their committed CR-normalised reports\"",
+   "ac6": "set -u\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac6 RED: python3 missing\"; exit 1; }\na=docs/state/outputs/t98_definer_gate_amendment.json\ntest -f \"$a\" || { echo \"ac6 RED: $a missing - the definer authors the gate-amendment record at groom (t89/t90/t93 precedent)\"; exit 1; }\npython3 - \"$a\" <<'PYAC6'\nimport hashlib, json, sys\nrec = json.load(open(sys.argv[1], encoding=\"utf-8\"))\nam = rec[\"amendments\"]\nassert len(am) == 6, \"expected 6 amendments, found %d\" % len(am)\nidx = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nassert len(idx) == 318, \"the live index has %d entries, not 318\" % len(idx)\nnamed = {218, 219, 221, 223, 224, 226}\nseen = set()\nbad = []\nfor e in am:\n    i = e[\"index\"]\n    seen.add(i)\n    stored = idx[i][\"command\"]\n    if hashlib.sha256(stored.encode()).hexdigest() != e[\"old_command_sha256\"]:\n        bad.append(\"tests[%d]: the stored command sha differs from old_command_sha256 - the index moved under this amendment, STOP and re-derive, never apply blind\" % i)\n    if hashlib.sha256(e[\"new_command\"].encode()).hexdigest() != e[\"new_command_sha256\"]:\n        bad.append(\"tests[%d]: new_command does not hash to new_command_sha256\" % i)\n    if len(e[\"new_command\"]) != e[\"new_command_len\"]:\n        bad.append(\"tests[%d]: new_command_len mismatch\" % i)\n    if hashlib.sha256(e[\"old_command\"].encode()).hexdigest() != e[\"old_command_sha256\"]:\n        bad.append(\"tests[%d]: old_command does not hash to old_command_sha256\" % i)\n    nc = e[\"negative_control\"][\"matrix\"]\n    if len(nc) < 5:\n        bad.append(\"tests[%d]: only %d negative-control cases, minimum 5\" % (i, len(nc)))\n    for c in nc:\n        if c[\"measured_rc\"] != c[\"expected_rc\"]:\n            bad.append(\"tests[%d]: negative control %s measured rc=%s want %s\" % (i, c[\"case\"], c[\"measured_rc\"], c[\"expected_rc\"]))\n    kinds = {c[\"case\"].split(\"/\")[1] for c in nc}\n    for need in (\"candidate\", \"base\", \"stored_on_candidate\"):\n        if need not in kinds:\n            bad.append(\"tests[%d]: the matrix lacks a %s leg\" % (i, need))\n    muts = [c for c in nc if c[\"case\"].split(\"/\")[1] == \"mutation\" and c[\"expected_rc\"] == 1]\n    if not muts:\n        bad.append(\"tests[%d]: the matrix has no measured mutation control\" % i)\n    if not any(c[\"case\"].split(\"/\")[1] == \"candidate\" and c[\"expected_rc\"] == 0 for c in nc):\n        bad.append(\"tests[%d]: the matrix has no GREEN candidate leg - a gate that is RED on the candidate is not a shipped gate\" % i)\nassert seen == named, \"the amendment set is %s, not the named six\" % sorted(seen)\nassert rec[\"negative_control\"][\"total_legs\"] == sum(len(e[\"negative_control\"][\"matrix\"]) for e in am)\nassert rec[\"closure\"][\"named\"] == sorted(named), \"the record closure names %s\" % rec[\"closure\"][\"named\"]\nassert rec[\"closure\"][\"amending_221_touches_no_entry_sha_inside_224_W_map\"] is True\nPYAC6\n[ $? -eq 0 ] || { echo \"ac6 RED: the amendment record failed its own rebuild / stale-index / sha / negative-control / closure legs\"; exit 1; }\necho \"ac6 GREEN: the amendment record exists with exactly the named six entries; each carries at least 5 measured negative controls (candidate GREEN, base RED, stored-on-candidate RED, mutation RED), old/new command text that re-hashes to its recorded sha, and a closure statement covering the 224 W-map\""
+  },
+  "verification_commands_source": "docs/issues/t98.md#verification-commands",
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "contract_first_applied": true,
+  "contract_first_disclosure": "all six ACs are executable fences with clean 0/1 exits; none left manual. ac5 and ac6 are GREEN on BOTH trees BY DESIGN (freeze + amendment-record-existence legs); their RED evidence is the amendment record's 68 measured negative-control legs. ac1/ac2/ac3/ac4 are GREEN on the candidate and RED on the base tree (measured, final fences).",
+  "base_sha": "890680e251dd69a39e18289a6b5348d81788ba7c",
+  "base_sha_disclosure": "the milestone base the survey pinned, PLUS merged t92 and t93. Groom measured everything at HEAD = 9a09e9878055e98c386e7b1d7b6d704c8ea65ca2 (contains t92 and t93). If the index or either generator moves before the merge, the amendment record's stale_at_merge_check requires re-derivation, never blind application.",
+  "measured_evidence_state": {
+   "live_health_url": "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health",
+   "live_http_status": 200,
+   "live_body": {
+    "status": "ok",
+    "database": "postgresql",
+    "fallback_active": false,
+    "version": "1.0.0"
+   },
+   "old_host_status": 404,
+   "candidate_digests": {
+    "docs/criteria/docs_verification.md": "8107c49598b11dc67d640d98585ec20b66bfa1c9e96f04394943ef0756638fc7",
+    "docs/criteria/req_coverage_verification.md": "8f2c109e513025f556766b8013f93be9bf561abf9bee4cb6b292ff38dc6ef261"
+   },
+   "infra_digest_policy": "NO infra digest literal is pinned anywhere - the infra report carries a nondeterministic FALLBACK_WITHIN_5S elapsed= line (two groom runs gave dee994c4.. then 6abfaed0..); comparisons are CR+elapsed-normalised (D3) and the CARRIED_DIGESTS rotation is a two-pass builder recipe, measured equal at the final candidate (pin dee994c4a5d70de51572d4c21414b83bdd229e0c903aaabb6f5161f0de7b97bc at that instant).",
+   "candidate_shapes": {
+    "docs_report": "53 lines, CHECKS_FAILED 2, LINK_CHECK PASS files=260 links=67 broken=0, DEFERRAL_REGISTER 3 DEFERRED",
+    "req_tally": "116/622/10/0/1, 749 rows",
+    "head_docs_report": "56 lines, ALL_CHECKS_PASS, files=243, 4 DEFERRED (stale bytes)",
+    "head_req_tally": "111/622/15/0/1"
+   },
+   "link_check_anatomy": "243 committed at HEAD / 260 clean zero-untracked / 261 with a stray backend/.pytest_cache/README.md / 570 in a polluted main worktree; any new tracked .md outside docs/state and docs/issues moves the count and requires re-groom, never a hand-edit",
+   "anchor133": "INDEX_ANCHORS[133] STALE at HEAD (pin 6e9723e84f91.. vs live 09cb7d9adbab..) - pre-existing since t90's index append; the docs report can therefore never end ALL_CHECKS_PASS on this milestone"
+  },
+  "stored_gate_matrix_at_groom": {
+   "measured_by": "executing the stored commands read-only on the candidate product bytes (/tmp/t98clean, index simulated post-amendment) and on the base tree; scratch/t98groom/nc2.py, stored_on_base.py, sweep_nb.py",
+   "amendments_stored_rc_on_candidate": {
+    "218": 0,
+    "219": 1,
+    "221": 1,
+    "223": 1,
+    "224": 1,
+    "226": 1
+   },
+   "amendments_amended_rc_on_candidate": {
+    "218": 0,
+    "219": 0,
+    "221": 0,
+    "223": 0,
+    "224": 0,
+    "226": 0
+   },
+   "amendments_amended_rc_on_base": {
+    "218": 1,
+    "219": 1,
+    "221": 1,
+    "223": 1,
+    "224": 1,
+    "226": 1
+   },
+   "stored_rc_on_base": {
+    "218": 0,
+    "219": 0,
+    "221": "1-IN-THIS-ENV (stale-report artifact; official runner recorded GREEN; the 36-line HEAD req-report drift is disclosed in the card)",
+    "223": 0,
+    "224": 0,
+    "226": 0
+   },
+   "disclosed_non_flip": "218: the amendment ADDS a guard leg rather than flipping a premise, so stored 218 is GREEN on the candidate too; recorded with expected_rc=0 so all_as_expected stays true without hiding the mismatch; the mutation control (re-added deferral_key row) is RED only under the amended command",
+   "neighbourhood_sweep": "22 non-amended gates executed on both trees; stable GREEN 115/134/141/142/143/144/145/156/183/187/220/255/256/278; stable RED 222/227/257/259/279/301; EXACTLY TWO FLIPS: 217 RED->GREEN (regeneration repairs the stale committed req report - an improvement) and 258 GREEN->RED (it asserts the regenerated docs report ends ALL_CHECKS_PASS, which the pre-existing anchor[133] staleness makes impossible for ANY regeneration on this milestone - surfaced, not caused; the anchor refresh is orchestrator-side maintenance, in Out of scope). tests[203] (historical 627 literal, unrelated leg) not swept - escalate if it moves.",
+   "flip_set_summary": "pre-amendment designed RED at merge {219,221,223,224,226} (218 disclosed non-flip, GREEN both sides); post-amendment all six GREEN on candidate / RED on base; neighbourhood {217 RED->GREEN, 258 GREEN->RED}; shipped shape 36 RED / 282 GREEN - count-equal to the official baseline with the two disclosed set swaps"
+  },
+  "gate_scan": {
+   "index": "docs/state/merge_test_index.json (read-only; never edited by definer or builder)",
+   "entries": 318,
+   "closure_scan": "read-only python re.search over every tests[i]['command'] for 622/627, DEFERRED_RULLED 15/10, DEFERRAL_REGISTER 4 DEFERRED, LIVE_DEPLOYMENT_STATE, the three report paths, both hosts (driver scratch/t98groom/closure_scan.json): 622->{221,226}; DR15->{221,223,226}; req-report refs->{217,218,219,220,221,222,223,226}; docs-report refs->{219,220,223,226,227,256,257,258,259,279}; REG4/LDS->{187(t93, already merged),219,223,226}. Named closure {218,219,221,223,224,226}; entry-sha closure: only 224 pins amended entry shas and its W-map covers {217,218,219,220} - 221 is OUTSIDE the W-map, so amending 221 touches no entry sha inside it; 224's amendment carries exactly the two sha replacements (218,219).",
+   "semantic_closure": [
+    218,
+    219,
+    221,
+    223,
+    224,
+    226
+   ]
+  },
+  "gate_amendment": {
+   "record": "docs/state/outputs/t98_definer_gate_amendment.json",
+   "authored_by": "definer at groom (t89/t90/t93 precedent); applied by the ORCHESTRATOR in the strict merge window after re-hashing each stored command (stale_at_merge_check), never by definer or builder",
+   "amendments": [
+    218,
+    219,
+    221,
+    223,
+    224,
+    226
+   ],
+   "negative_control_legs": 68,
+   "per_gate_case_counts": {
+    "218": 9,
+    "219": 13,
+    "221": 11,
+    "223": 11,
+    "224": 7,
+    "226": 17
+   },
+   "all_as_expected": true,
+   "append_withheld": "this card defines NO tests[318..] entries; the amendment record applies six replacements only and the t98 room append is a separate orchestrator action with its own record"
+  },
+  "fences": {
+   "shape": "plain multi-line bash, one self-contained fence per AC, no shared probe - a disclosed deviation from the t93 base64-probe exemplar (every leg here is a direct file/report/gate measurement; the deviation is disclosed in the card's Acceptance-criteria preamble)",
+   "measured_rc": {
+    "candidate": {
+     "ac1": 0,
+     "ac2": 0,
+     "ac3": 0,
+     "ac4": 0,
+     "ac5": 0,
+     "ac6": 0
+    },
+    "base": {
+     "ac1": 1,
+     "ac2": 1,
+     "ac3": 1,
+     "ac4": 1,
+     "ac5": 0,
+     "ac6": 0
+    }
+   },
+   "fence_bodies_sha256_prefix": [
+    "ac08a6e1e2cb",
+    "ca2dc5156674",
+    "3d315c6394f4",
+    "5b8038fab20d",
+    "6b7661cf21dd",
+    "79cb39312263"
+   ],
+   "hygiene": "fences run from the checkout root; CRLF-tolerant (every report grep is against a CR-stripped mktemp copy); ac4 restores the infra report and proves the restore by cmp against its own pre-fence copy (never git diff HEAD); ac5/ac6 were re-executed from the SHIPPED card bytes and reproduce (ac6 GREEN on the candidate; ac5 GREEN once the candidate's simulated index is restored to the HEAD blob - its RED on the simulated index is the fence correctly refusing a modified gate index)"
+  },
+  "repo_restoration": "the definer wrote NO product code. The candidate lived in /tmp/t98clean (detached worktree at HEAD, product bytes rebuilt by scratch drivers); the main worktree's temporary candidate edits are discarded with git checkout HEAD -- and the gate index is byte-clean everywhere. docs/state/merge_test_index.json was NEVER edited in the real tree.",
+  "card_shape": {
+   "path": "docs/issues/t98.md",
+   "bytes": 48137,
+   "line_ending": "CRLF",
+   "ascii_only": true,
+   "fenced_blocks": 6,
+   "sections": [
+    "Metadata",
+    "Goal",
+    "Context (measured at groom against the pinned base)",
+    "Acceptance criteria",
+    "Verification commands",
+    "Regeneration protocol (D2) and the infra digest (D3)",
+    "Gate matrix (which tests[] legs this card pins or flips)",
+    "Constraints (hard)",
+    "Out of scope",
+    "Definition of Done"
+   ],
+   "dod_corrected": "the survey DoD said 'five named paths' and three gate amendments; the groomed DoD says the SIX named product paths (5 + backend/tests/unit/test_req_coverage_verification.py) and the SIX amendments {218,219,221,223,224,226}"
+  },
+  "delta_purity": "exactly six product paths vs the merge base: backend/scripts/docs_verification.py, backend/scripts/infra_verification.py, backend/tests/unit/test_req_coverage_verification.py, docs/criteria/docs_verification.md, docs/criteria/infra_verification.md, docs/criteria/req_coverage_verification.md - three authored files + three regenerated reports; plus this card and the two definer JSONs. max_files granularity exception disclosed in the card Constraints.",
+  "never_touch": [
+   "docs/state/merge_test_index.json (orchestrator-owned; ac5 fences it byte-clean at 318 entries; the room append is WITHHELD)",
+   "docs/criteria/** as a hand-edit target (generator output only - ac2's two-pass byte-stability leg fences it)",
+   "README.md / README_DIGEST / README_LINES (frozen, t94/W1)",
+   "security_ops_verification.py and its report, ops/** (t93, merged)",
+   "render.yaml, .github/**, backend/app/**, other tests/**, frontend/**, top-level scripts/**",
+   "the stale INDEX_ANCHORS[133] pin (orchestrator-side maintenance; refreshing it here would silently change what docs_verification.py pins)"
+  ],
+  "environment_disclosure": "host is WSL bash over a Windows working tree. gh is NOT available; platform sync goes through scripts/platform.ts invoked as node + node_modules/tsx/dist/cli.mjs from a python subprocess so each payload crosses as ONE argv element (t93 precedent). tests[224]'s git-blob legs use cmd.exe /c git -C $(wslpath -w $PWD); cmd.exe refuses UNC working directories from this home, so measurement used the documented single substitution cmd.exe /c 'git -C $G ...' -> git -C <tree> ... (same git, same repo, same legs); the stored command in the record is byte-for-byte the index text. git legs in /tmp need GIT_CONFIG_COUNT=1 safe.directory=*. uv lives in ~/.local/bin which the fences prepend.",
+  "platform_sync": {
+   "issue": 100,
+   "channel": "scripts/platform.ts via python subprocess (node + node_modules/tsx/dist/cli.mjs); quote-free payloads (embedded quotes mangle the CLI bridge)",
+   "body": "compact ASCII pointer to docs/issues/t98.md",
+   "labels": "defined -> groomed, read back"
+  },
+  "deviations_disclosed": [
+   "THREE files written: the card, the gate-amendment record and this handoff. The t89/t90/t93 precedent is that the DEFINER authors the amendment record at groom; the record was finished in the killed prior run and is unchanged this run.",
+   "Plain multi-line bash fences instead of t93's base64-embedded shared probe (budget; every leg measured on both trees; deviation stated in the card).",
+   "ac2 accepts CHECKS_FAILED 1 or 2 at document level (env tolerance for tests[155]) while pinning the stdout FAIL set to exactly {133,155} with 133 mandatory - never ALL_CHECKS_PASS.",
+   "tests[221] measures RED on the BASE tree in this definer env (stale committed req report, 36 lines of pointer drift; official runner recorded GREEN) - disclosed, and this card's regeneration repairs it.",
+   "tests[218] is a disclosed NON-FLIP (guard-leg addition); recorded with expected_rc=0 rather than massaged.",
+   "The neighbourhood sweep covers the 22 gates reachable from the two reports; tests[203] not swept (historical 627 literal, unrelated leg) - escalate if it moves at merge."
+  ],
+  "granularity": "one register tuple, two URL sites, three regenerated reports, one test-file edit (ruling D1(a): exactly ONE test file), six gate amendments. Anything larger - the README move, the anchor refresh, the room append - is a separate card/action.",
+  "measurement_log": [
+   {
+    "case": "fences ac1-ac6 on final candidate /tmp/t98clean",
+    "rc": 0,
+    "note": "ac1..ac4 GREEN, ac5 GREEN after restoring the HEAD index blob (RED on the simulated index = correct bite), ac6 GREEN; re-executed from the shipped card bytes"
+   },
+   {
+    "case": "fences ac1-ac6 on base tree (HEAD blobs)",
+    "rc": 1,
+    "note": "ac1..ac4 RED with named legs; ac5/ac6 GREEN by design"
+   },
+   {
+    "case": "negative-control matrix (68 legs across the six gates)",
+    "rc": 0,
+    "note": "all as expected except the disclosed 218 non-flip; scratch/t98groom/nc2_{green,base,pre,nc}.json"
+   },
+   {
+    "case": "stored commands on base tree",
+    "rc": 0,
+    "note": "218/219/223/224/226 GREEN; 221 RED in this env (stale-report artifact, disclosed)"
+   },
+   {
+    "case": "neighbourhood sweep, 22 gates x 2 trees",
+    "rc": 0,
+    "note": "exactly two flips: 217 RED->GREEN, 258 GREEN->RED; both disclosed"
+   },
+   {
+    "case": "ac_hash recomputation from the shipped card",
+    "rc": 0,
+    "note": "matches the eight groups in the card and this handoff"
+   }
+  ],
+  "builder_notes": [
+   "Edit ONLY the three authored files per the card Context (register tuple + :422 URL in docs_verification.py; :602 URL in infra_verification.py; the carried-set assertion + new t98 test in backend/tests/unit/test_req_coverage_verification.py).",
+   "Then the D2 protocol in a zero-untracked tree (rm -rf backend/.pytest_cache first) and the D3 two-pass CARRIED_DIGESTS rotation; regenerate all three reports; run the six fences; commit product files + card + the two definer JSONs; do NOT touch the gate index; do NOT commit or push - the orchestrator commits and applies the six amendments after the stale_at_merge_check.",
+   "If LINK_CHECK files= is not 260 because the merge window added a tracked .md, STOP and escalate for re-groom; never hand-edit a report."
+  ],
+  "validation": {
+   "handoff_validates": "against schemas/definer/groom.json (+ schemas/common/handoff.json): evidence_type=grooming, ac_hash matches ^sha256:[a-f0-9]{64}$, ac_count=6, verification_commands keys ac1..ac6 only with minLength>=5, sections_filled has all four required sections, reached_state=groomed",
+   "card_fences_equal_handoff": "the six fenced blocks were extracted from the SHIPPED docs/issues/t98.md with /^```bash\\n(.*?)\\n```$/ and are byte-equal to evidence.verification_commands",
+   "ac5_ac6_reexecuted_from_shipped_card": "passed (see fences.measured_rc and measurement_log)"
+  },
+  "changes_made": {
+   "product_bytes": "none - the definer wrote no product code; the candidate lived in /tmp; the main worktree's temporary candidate edits are discarded (git checkout HEAD --) and docs/state/merge_test_index.json is untouched in the real tree",
+   "files_written": [
+    "docs/issues/t98.md (full groomed card, 48137 bytes, CRLF, ASCII-only)",
+    "docs/state/outputs/t98_definer_gate_amendment.json (finished in the prior killed run, unchanged this run)",
+    "docs/state/outputs/t98_definer_groom.json (this handoff)"
+   ]
+  },
+  "notes": "Ship shape = 6 amendments (premise 218/219/223/226 + byte-pin coordination 224 + tally-pin coordination 221), 6-path delta, append WITHHELD. Rulings honoured: D1(a) exactly one test file; D2 never ALL_CHECKS_PASS with the FAIL set pinned from stdout; D3 normalised comparison + two-pass rotation with NO infra digest literal in the card. The measured truth is 116/622/10. The definer-env 221-RED on base is a stale-report artifact vs the official GREEN and this card's regeneration repairs it."
+ }
+}
