@@ -1,0 +1,233 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t94",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "set -u\ntest -f README.md || { echo \"ac1 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nO=$(printf \"%s\\n\" \"$T\" | sed -n '/^## Online demo/,/^## /p')\n[ -n \"$O\" ] || { echo \"ac1 RED: no ## Online demo section - the section is rewritten in place, never removed\"; exit 1; }\nprintf \"%s\\n\" \"$O\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || { echo \"ac1 RED: ## Online demo does not state the real live -1qtu address - the whole point of this card is that the reader gets the measured URL, not a placeholder\"; exit 1; }\nprintf \"%s\\n\" \"$O\" | grep -qiE \"no seeded demo account\" || { echo \"ac1 RED: ## Online demo does not state that the hosted app has NO seeded demo account - claiming a hosted demo login is a FAIL, the factpack records no such account\"; exit 1; }\nprintf \"%s\\n\" \"$O\" | grep -qF \"npm run seed:demo\" || { echo \"ac1 RED: ## Online demo lost the local seeded demo path - the local demo stays the documented demo route\"; exit 1; }\nprintf \"%s\\n\" \"$O\" | grep -qF \"demo@example.com\" || { echo \"ac1 RED: ## Online demo lost the fixed local demo account - tests[237] seeds exactly that account and the section names it\"; exit 1; }\nHOSTED=$(printf \"%s\\n\" \"$O\" | sed -n '/expense-tracker-dashboard-1qtu[.]onrender[.]com/,$p')\nif printf \"%s\\n\" \"$HOSTED\" | grep -qE \"demo@example[.]com|demo-password\"; then\n  echo \"ac1 RED: the hosted-address region names demo credentials - the fixed demo account exists only in a LOCAL database after npm run seed:demo and must never be implied on the live host\"; exit 1\nfi\nSM=0\nprintf \"%s\\n\" \"$O\" | grep -qiE \"no seeded demo account\" || SM=$((SM+1))\nprintf \"%s\\n\" \"$HOSTED\" | grep -qE \"demo@example[.]com|demo-password\" && SM=$((SM+1))\nSYN=$(printf '%s\\n' '## Online demo' '' 'Sign in on https://expense-tracker-dashboard-1qtu.onrender.com with the hosted demo account demo@example.com / demo-password-123 - every visitor shares it.')\nSYNH=$(printf \"%s\\n\" \"$SYN\" | sed -n '/expense-tracker-dashboard-1qtu[.]onrender[.]com/,$p')\nprintf \"%s\\n\" \"$SYN\" | grep -qiE \"no seeded demo account\" || SM=$((SM+1))\nprintf \"%s\\n\" \"$SYNH\" | grep -qE \"demo@example[.]com|demo-password\" && SM=$((SM+1))\n[ \"$SM\" -eq 2 ] || { echo \"ac1 RED: NEGATIVE CONTROL FAILED - a section claiming a hosted shared demo login was refused by $SM of 2 honesty legs (want 2), so the legs above are vacuous\"; exit 1; }\necho \"ac1 GREEN: ## Online demo states the real -1qtu address, states the hosted app has NO seeded demo account, keeps the local seed:demo path and the fixed local account, names no credential on the hosted side, and the negative control (a hosted-login claim) is refused by 2 of 2 honesty legs\"",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac1.txt",
+        "note": "GREEN: README ## Online demo states https://expense-tracker-dashboard-1qtu.onrender.com and that the hosted app has NO seeded demo account (register there), keeps the local seed:demo path and the fixed local account, names no credential on the hosted side; ## Deployment on Render states the live -1qtu service, keeps the #61 citation for RENDER_DEPLOY_HOOK, the First-deployment bullet says render.yaml is the deliverable the live service was deployed from; headings, four subheadings, tests[135] token set, render.yaml, RENDER_DEPLOY_HOOK, /api/v1/health all survive; all-CRLF, pure ASCII, 17 level-2 headings, REQ-id set hash unchanged. | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac1.txt'"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "set -u\ntest -f README.md || { echo \"ac2 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nprintf \"%s\\n\" \"$T\" | grep -qE \"^## Deployment on Render[[:space:]]*$\" || { echo \"ac2 RED: the ## Deployment on Render heading is gone - tests[135] and tests[201] grep it and it is load-bearing\"; exit 1; }\nRS=$(printf \"%s\\n\" \"$T\" | sed -n '/^## Deployment on Render/,$ p')\nfor H in \"^### Why Render[[:space:]]*$\" \"^### First deployment[[:space:]]*$\" \"^### Free tier[[:space:]]*$\" \"^### UptimeRobot[[:space:]]*$\"; do\n  printf \"%s\\n\" \"$RS\" | grep -qE \"$H\" || { echo \"ac2 RED: the Render section lost the carried subheading $H - the tests[135] heading set survives the live-state rewrite verbatim\"; exit 1; }\ndone\nRX=REQ-\nMISS=\"\"\nfor tok in Blueprint \"cold start\" \"10 min\" \"${RX}CICD-030\" \"${RX}CICD-036\" \"${RX}CICD-040\" \"${RX}CICD-041\" \"${RX}CICD-042\" \"${RX}CICD-043\" \"${RX}TECH-061\"; do\n  printf \"%s\\n\" \"$RS\" | grep -qF \"$tok\" || MISS=\"$MISS $tok\"\ndone\n[ -z \"${MISS// /}\" ] || { echo \"ac2 RED: the Render section lost the carried tests[135] token set:$MISS - prose is reworded, every token stays\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qF \"render.yaml\" || { echo \"ac2 RED: the Render section never names render.yaml - the blueprint is the deployment-as-code deliverable\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qiE \"RENDER_DEPLOY_HOOK\" || { echo \"ac2 RED: the Render section lost the deploy-hook secret step - residual #61 lives there\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qE \"/api/v1/health\" || { echo \"ac2 RED: the Render section lost the health-check verification step\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qE \"#61\" || { echo \"ac2 RED: the Render section no longer cites residual #61 - t95 closes it against this README, the citation must survive the live-state prose\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || { echo \"ac2 RED: the Render section does not state the real live -1qtu address\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qE \"api[.]render[.]com/deploy/\" && { echo \"ac2 RED: the Render section prints an api.render.com deploy-hook URL - tests[135] forbids it and this card fabricates nothing\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -qEi \"ghp_[A-Za-z0-9]{4,}|github_pat_|AKIA[0-9A-Z]{16}\" && { echo \"ac2 RED: the Render section looks like it pasted a credential\"; exit 1; }\nprintf \"%s\\n\" \"$RS\" | grep -oE \"https?://[A-Za-z0-9._/-]+\" | grep -vE \"^https?://(localhost|127[.]0[.]0[.]1|expense-tracker-dashboard-1qtu[.]onrender[.]com)\" >/dev/null && { echo \"ac2 RED: the Render section names a URL that is neither localhost nor the real -1qtu host - the card states the measured address and fabricates no other host\"; exit 1; }\nSM=0\nprintf \"%s\\n\" \"$RS\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || SM=$((SM+1))\nSYN=$(printf '%s\\n' '## Deployment on Render' '' '### Why Render' '' '### First deployment' '' '### Free tier' '' '### UptimeRobot' '' 'The blueprint render.yaml is imported and the service is live at https://expense-tracker.onrender.com - ping it from https://uptimerobot.example.com and trigger releases via https://api.render.com/deploy/srv-abc123.')\nprintf \"%s\\n\" \"$SYN\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || SM=$((SM+1))\nprintf \"%s\\n\" \"$SYN\" | grep -qE \"#61\" || SM=$((SM+1))\nBADU=0\nfor u in $(printf \"%s\\n\" \"$SYN\" | grep -oE \"https?://[A-Za-z0-9._/-]+\"); do\n  case \"$u\" in http://localhost:*|https://localhost:*|http://127.0.0.1*|https://expense-tracker-dashboard-1qtu.onrender.com*) : ;; *) BADU=$((BADU+1)) ;; esac\ndone\n[ \"$BADU\" -ge 1 ] && SM=$((SM+1))\nprintf \"%s\\n\" \"$SYN\" | grep -qE \"api[.]render[.]com/deploy/\" && SM=$((SM+1))\n[ \"$SM\" -eq 4 ] || { echo \"ac2 RED: NEGATIVE CONTROL FAILED - a fabricated-host Render section was refused by $SM of 4 honesty legs (want 4), so the legs above are vacuous\"; exit 1; }\necho \"ac2 GREEN: ## Deployment on Render states the real -1qtu address, keeps the heading, the four subheadings, the ten tokens, render.yaml, RENDER_DEPLOY_HOOK, /api/v1/health and the #61 citation, prints no hook URL, no credential and no fabricated host, and the negative control is refused by 4 of 4 honesty legs\"",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac2.txt",
+        "note": "GREEN: docs_verification.py pins exactly the two constants (README_LINES 398->399, README_DIGEST ca9343a8...->16426cc0...), exactly 4 changed +/- lines, register list / INDEX_ANCHORS / live_check untouched; docs/criteria/docs_verification.md regenerates byte-stably (CR-normalised) with README_MEASURE PASS lines=399 digest=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146, LINK_CHECK PASS files=261 links=67 broken=0, CARRIED_REPORT agent_pack rows=22 intact, tail CHECKS_FAILED 1 (sanctioned anchor[133] drift). | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac2.txt'"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "set -u\ntest -f README.md || { echo \"ac3 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\ntest -f backend/scripts/docs_verification.py || { echo \"ac3 RED: backend/scripts/docs_verification.py missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac3 RED: python3 missing\"; exit 1; }\ncommand -v uv >/dev/null || command -v uv.exe >/dev/null || command -v cmd.exe >/dev/null || { echo \"ac3 RED: no uv and no cmd.exe - the report cannot be regenerated\"; exit 1; }\nCL=$(tr -d '\\r' < README.md | wc -l | tr -d \" \")\nCD=$(tr -d '\\r' < README.md | sha256sum | awk '{print $1}')\nPINL=$(tr -d '\\r' < backend/scripts/docs_verification.py | sed -n 's/^README_LINES = \\([0-9][0-9]*\\)$/\\1/p' | head -1)\nPIND=$(tr -d '\\r' < backend/scripts/docs_verification.py | sed -n 's/^README_DIGEST = \"\\([0-9a-f]*\\)\"$/\\1/p' | head -1)\n[ -n \"$PINL\" ] || { echo \"ac3 RED: README_LINES constant not found in backend/scripts/docs_verification.py\"; exit 1; }\n[ -n \"$PIND\" ] || { echo \"ac3 RED: README_DIGEST constant not found in backend/scripts/docs_verification.py\"; exit 1; }\n[ \"$CL\" = \"$PINL\" ] || { echo \"ac3 RED: README_LINES is $PINL but README.md measures $CL lines - the builder must MEASURE the candidate README and write the measured number, never guess or carry the old 398\"; exit 1; }\n[ \"$CD\" = \"$PIND\" ] || { echo \"ac3 RED: README_DIGEST is $PIND but README.md measures $CD - the digest pin must be measured from the builders OWN candidate bytes before commit\"; exit 1; }\n[ \"$CD\" != \"ca9343a83784548c2a6a49f1a5f7196b0e14f3b0fe49d0e2e8f5f9d6896c5644\" ] || { echo \"ac3 RED: README_DIGEST still pins the old base README - t94 moves the triple-pin\"; exit 1; }\n[ \"$PINL\" != \"398\" ] || { echo \"ac3 RED: README_LINES still pins the old base line count 398 - t94 moves the triple-pin\"; exit 1; }\nG=\"docs/criteria/docs_verification.md\"\nBAK=$(mktemp -d) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\nG1=$(mktemp) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\nG2=$(mktemp) || { echo \"ac3 RED: mktemp failed\"; exit 1; }\ncp docs/criteria/*.md \"$BAK\"/\ntest -f \"$G\" || { echo \"ac3 RED: $G missing\"; exit 1; }\ngrep -qF \"Generated by \\`backend/scripts/docs_verification.py\\`\" \"$G\" || { echo \"ac3 RED: $G lost its generated-by header - it is tool output, never hand-edit it to pass this gate\"; exit 1; }\ngrep -qE \"^\\| 1 \\| README under 500 lines \\| REQ-DOC-010 \\| executed \\| README_MEASURE \\|$\" \"$G\" || { echo \"ac3 RED: the README_MEASURE row of the evidence table is not executed - the pin move must keep the report honest\"; exit 1; }\ngrep -qE \"^CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22$\" \"$G\" || { echo \"ac3 RED: the carried agent_pack report row broke - t94 must not touch docs/criteria/agent_pack_verification.md\"; exit 1; }\ngrep -qE \"LINK_CHECK PASS files=[0-9]+ links=[0-9]+ broken=0\" \"$G\" || { echo \"ac3 RED: the link check no longer passes with zero broken links - the rewritten README must keep every relative link real\"; exit 1; }\ngrep -qE \"README_MEASURE PASS lines=$CL digest=$CD\" \"$G\" || { echo \"ac3 RED: the shipped report does not record README_MEASURE PASS for these candidate bytes ($CL/$CD) - regenerate docs/criteria/docs_verification.md from the candidate tree with the pinned uv environment\"; exit 1; }\nR=$CD\nif command -v uv >/dev/null; then\n  (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1) || true\n  tr -d '\\r' < \"$G\" > $G1\n  (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py >/dev/null 2>&1) || true\n  tr -d '\\r' < \"$G\" > $G2\n  cmp -s $G1 $G2 || { echo \"ac3 RED: regenerating the report twice on the same tree produced different bytes - the report is not deterministic, fix the generator before shipping\"; cp \"$BAK\"/*.md docs/criteria/; exit 1; }\n  grep -qE \"README_MEASURE PASS lines=$CL digest=$CD\" $G1 || { echo \"ac3 RED: regenerating the report from THIS tree does not yield README_MEASURE PASS for the shipped pins - the shipped report does not match these candidate bytes\"; cp \"$BAK\"/*.md docs/criteria/; exit 1; }\n  grep -qE \"LINK_CHECK PASS files=[0-9]+ links=[0-9]+ broken=0\" $G1 || { echo \"ac3 RED: regenerated link check is not PASS broken=0\"; cp \"$BAK\"/*.md docs/criteria/; exit 1; }\n  grep -qE \"^CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22$\" $G1 || { echo \"ac3 RED: regenerated carried agent_pack row broke\"; cp \"$BAK\"/*.md docs/criteria/; exit 1; }\n  cp \"$BAK\"/*.md docs/criteria/\n  rm -f \"$G1\" \"$G2\"\n  R=$(sed -n 's/^.*LINK_CHECK PASS files=\\([0-9]*\\) links=\\([0-9]*\\) broken=0.*$/\\1 \\2/p' $G1 | head -1)\nfi\necho \"ac3 GREEN: README triple-pin equals the candidate bytes (lines=$CL digest=$CD), the old base digest and line count are gone, the shipped report records README_MEASURE PASS for exactly these bytes, the link check passes broken=0 (files/links=$R), the carried agent_pack row survives, and regeneration is deterministic\"",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac3.txt",
+        "note": "GREEN: independent re-measurement of the SHIPPED README bytes = 399 lines / CR-stripped sha256 16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 == the builder pin == the docs_verification.py constants (no delta). Clean-tree regeneration (backend/.pytest_cache removed, zero untracked .md) reproduces the committed report byte-equal CR-normalised: README_MEASURE PASS, LINK_CHECK PASS files=261 links=67 broken=0, tail CHECKS_FAILED 1, FAIL set exactly {133}. Note: the fence as shipped rm -f $G1 before sed writes it, so the files=/links= echo shows empty and stderr carries a No-such-file line; rc=0, non-blocking, disclosed as a test-quality note (the fence is the contract and was not edited). | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac3.txt'"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "set -u\ntest -f README.md || { echo \"ac4 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\nRAW=$(od -An -tx1 README.md | tr -d ' \\n')\nNL=$(python3 -c \"import sys;b=open('README.md','rb').read();print(b.count(b'\\n'))\")\nCRLF=$(python3 -c \"import sys;b=open('README.md','rb').read();print(b.count(b'\\r\\n'))\")\n[ \"$NL\" = \"$CRLF\" ] || { echo \"ac4 RED: $NL newlines but $CRLF CRLF pairs - README.md must stay all-CRLF like its base bytes\"; exit 1; }\npython3 -c \"import sys;b=open('README.md','rb').read();sys.exit(0 if all(x<128 for x in b) else 1)\" || { echo \"ac4 RED: README.md carries non-ASCII bytes - the base file is pure ASCII and the merge diff filter treats a byte flip as a rewrite\"; exit 1; }\nT=$(tr -d '\\r' < README.md)\nCL=$(printf \"%s\\n\" \"$T\" | wc -l | tr -d \" \")\n[ \"$CL\" -ge 340 ] && [ \"$CL\" -le 400 ] || { echo \"ac4 RED: README.md measures $CL lines, outside the 340..400 envelope that holds every shipped README state - a structural rewrite is out of t94 scope\"; exit 1; }\nH2=$(printf \"%s\\n\" \"$T\" | grep -cE \"^## [^#]\")\n[ \"$H2\" = \"17\" ] || { echo \"ac4 RED: README.md now carries $H2 level-2 headings, not the 17 of the base structure - t94 edits two sections in place and adds no heading\"; exit 1; }\nREQS=$(printf \"%s\\n\" \"$T\" | grep -oE \"REQ-[A-Z]+-[0-9]+\" | sort -u | sha256sum | awk \"{print \\$1}\")\n[ \"$REQS\" = \"01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794\" ] || { echo \"ac4 RED: the set of REQ identifiers in README.md changed (sha $REQS, expected 01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794) - t94 rewords prose but adds and removes no requirement marker\"; exit 1; }\necho \"ac4 GREEN: README.md envelope holds - $CL lines inside 340..400, all-CRLF, pure ASCII, 17 level-2 headings, the REQ identifier set hash unchanged\"",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac4.txt",
+        "note": "GREEN: README contains the -1qtu URL in BOTH ## Online demo and ## Deployment on Render; no hosted demo account is claimed for the hosted app; run.app / amber-moss appear NOWHERE in the product delta (grep whole tree: only in WAL/card/handoff records documenting the WAL 1169 ruling that -1qtu is canonical and run.app was an orchestrator transcription error); the Quick Start cp .env.example .env token count is exactly 2 (lines 96 and 341 - t96 deletes the Quick Start one later, NOT this card); README is all-CRLF (399/399) and pure ASCII. | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac4.txt'"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\ntest -f README.md || { echo \"ac5 RED: README.md missing - run the fence from the checkout root\"; exit 1; }\ntest -f docs/state/merge_test_index.json || { echo \"ac5 RED: docs/state/merge_test_index.json missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac5 RED: python3 missing\"; exit 1; }\npython3 -c \"import json;json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))\" || { echo \"ac5 RED: the merge test index is not parseable JSON\"; exit 1; }\nN=0\nfor i in 27 119 128 135 144 149 201 210 243 245 249 251 252 253 256; do\n  CMD=$(python3 -c \"import json;print(json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))['tests'][$i]['command'])\")\n  OUT=$(bash -c \"$CMD\" 2>&1); RC=$?\n  if [ \"$RC\" != \"0\" ]; then\n    echo \"ac5 RED: stored README-scoped gate tests[$i] exited $RC on the t94 candidate - t94 may not break any gate that was GREEN at the merge base; the last line of its output follows\"\n    printf \"%s\\n\" \"$OUT\" | tail -1\n    exit 1\n  fi\n  N=$((N+1))\ndone\n[ \"$N\" = \"15\" ] || { echo \"ac5 RED: only $N of 15 carried README-scoped gates were replayed\"; exit 1; }\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  CHANGED=$( { git diff --name-only HEAD; git ls-files --others --exclude-standard; } 2>/dev/null | sort -u )\n  BAD=\"\"\n  for f in $CHANGED; do\n    case \"$f\" in\n      README.md|backend/scripts/docs_verification.py|docs/criteria/docs_verification.md|docs/state/outputs/t94_definer_gate_amendment.json|docs/issues/t94.md|docs/state/outputs/t94_definer_groom.json) : ;;\n      node_modules|*/node_modules|node_modules/*|*/node_modules/*|scratch|scratch/*) : ;;\n      *) BAD=\"$BAD $f\" ;;\n    esac\n  done\n  [ -z \"${BAD// /}\" ] || { echo \"ac5 RED: delta purity broken - paths changed beyond README.md, the two README pin constants, the regenerated docs report and the t94 records:$BAD\"; exit 1; }\n  if git diff --name-only HEAD | grep -qx \"backend/scripts/docs_verification.py\"; then\n    DIFFLINES=$(git diff -U0 HEAD -- backend/scripts/docs_verification.py | grep -E \"^[+-][^+-]\" | wc -l | tr -d \" \")\n    [ \"$DIFFLINES\" = \"4\" ] || { echo \"ac5 RED: backend/scripts/docs_verification.py changed on $DIFFLINES +/- lines, not the 4 of the two pin constants (2 removed, 2 added) - the register list and live_check are t98 surface and are off limits\"; exit 1; }\n  fi\nfi\necho \"ac5 GREEN: all 15 carried README-scoped stored gates (27 119 128 135 144 149 201 210 243 245 249 251 252 253 256) replay GREEN against the t94 candidate - the only premised gate in the whole index is tests[255], handled by the amendment record\"",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac5.txt",
+        "note": "GREEN: the delta 1aec1f6..HEAD touches exactly README.md, backend/scripts/docs_verification.py and docs/criteria/docs_verification.md (plus the builder handoff/logs commit); product commit 0ff904e is the ONLY product commit; index/card/amendment/openapi/render.yaml untouched; ruff clean on docs_verification.py. | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac5.txt'"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "set -u\ntest -f docs/state/merge_test_index.json || { echo \"ac6 RED: docs/state/merge_test_index.json missing\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport hashlib, json, os, sys\nA = \"docs/state/outputs/t94_definer_gate_amendment.json\"\nif not os.path.exists(A):\n    sys.stderr.write('ac6 RED: %s missing - t94 ships exactly one amendment record (tests[255]) and no merge candidate is verifiable without it\\n' % A)\n    raise SystemExit(1)\nrec = json.load(open(A, encoding=\"utf-8\"))\nif rec.get(\"card\") != \"t94\":\n    sys.stderr.write(\"ac6 RED: the amendment record does not belong to card t94\\n\"); raise SystemExit(1)\nam = rec.get(\"amendments\", [])\nif len(am) != 1:\n    sys.stderr.write(\"ac6 RED: t94 ships exactly one amendment, found %d\\n\" % len(am)); raise SystemExit(1)\ne = am[0]\nif e.get(\"index\") != 255:\n    sys.stderr.write(\"ac6 RED: the amendment does not target tests[255]\\n\"); raise SystemExit(1)\nidx = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nt = idx[str(255)] if isinstance(idx, dict) else idx[255]\ncmd = t[\"command\"]\nentry_sha = hashlib.sha256(json.dumps(t, separators=(\",\", \":\")).encode(\"utf-8\")).hexdigest()\ncmd_sha = hashlib.sha256(cmd.encode(\"utf-8\")).hexdigest()\nregions = e.get(\"replaced_regions\", [])\nif not regions:\n    sys.stderr.write(\"ac6 RED: the amendment carries no replaced_regions - the edit must be reconstructible\\n\"); raise SystemExit(1)\ndef apply_regions(src, pairs, direction):\n    out = src\n    for r in pairs:\n        needle = r[\"from\"] if direction == \"forward\" else r[\"to\"]\n        repl = r[\"to\"] if direction == \"forward\" else r[\"from\"]\n        if out.count(needle) != 1:\n            sys.stderr.write(\"ac6 RED: a replaced_region %s text is not unique in the shipped tests[255] command - the record does not describe the shipped bytes\\n\" % (\"from\" if direction == \"forward\" else \"to\")); raise SystemExit(1)\n        out = out.replace(needle, repl, 1)\n    return out\nnc = e.get(\"negative_control_matrix\", [])\nif len(nc) < 5:\n    sys.stderr.write(\"ac6 RED: the amendment needs at least five negative-control legs, found %d\\n\" % len(nc)); raise SystemExit(1)\nbad = [x.get(\"case\") for x in nc if x.get(\"measured_rc\") != x.get(\"expected_rc\")]\nif bad:\n    sys.stderr.write(\"ac6 RED: negative-control legs not as expected: \" + \",\".join(str(b) for b in bad) + \"\\n\"); raise SystemExit(1)\nif cmd_sha == e[\"old_command_sha256\"]:\n    if entry_sha != e[\"entry_sha_before\"]:\n        sys.stderr.write(\"ac6 RED: the index still holds the OLD tests[255] command but the entry sha moved - the entry was edited outside the amendment record\\n\"); raise SystemExit(1)\n    fwd = apply_regions(cmd, regions, \"forward\")\n    if hashlib.sha256(fwd.encode(\"utf-8\")).hexdigest() != e[\"new_command_sha256\"]:\n        sys.stderr.write(\"ac6 RED: applying the replaced_regions forward to the shipped OLD command does not reproduce new_command_sha256 - the record does not describe the intended edit\\n\"); raise SystemExit(1)\n    state = \"pre-amendment (old command and entry sha both match the record pins; the regions reconstruct the amended command)\"\nelif cmd_sha == e[\"new_command_sha256\"]:\n    if entry_sha != e[\"entry_sha_after\"]:\n        sys.stderr.write(\"ac6 RED: the index holds the AMENDED tests[255] command but not the recorded entry sha - the amended entry drifted from the record\\n\"); raise SystemExit(1)\n    rev = apply_regions(cmd, regions, \"reverse\")\n    if hashlib.sha256(rev.encode(\"utf-8\")).hexdigest() != e[\"old_command_sha256\"]:\n        sys.stderr.write(\"ac6 RED: reversing the replaced_regions out of the shipped AMENDED command does not reproduce old_command_sha256 - the record and the index disagree\\n\"); raise SystemExit(1)\n    if \"ac3 GREEN: API OVERVIEW AND RENDER LIVE STATE\" not in cmd:\n        sys.stderr.write(\"ac6 RED: the amended command lost its LIVE STATE GREEN message\\n\"); raise SystemExit(1)\n    state = \"post-amendment (new command and entry sha both match the record pins; the regions reverse to the old command)\"\nelse:\n    sys.stderr.write(\"ac6 RED: the shipped tests[255] command sha %s matches NEITHER old_command_sha256 nor new_command_sha256 - the index drifted under the amendment\\n\" % cmd_sha[:16]); raise SystemExit(1)\nprint(\"ac6 GREEN: the tests[255] amendment record is present and reconstructs the shipped index bytes in the %s state - replaced_regions reverse to old_command_sha256, the entry sha matches the recorded pin, and all %d negative-control legs are as-expected\" % (state, len(nc)))\nPYEOF",
+        "exit_code": 0,
+        "output_path": "scratch/t94v/out_v/fence_ac6.txt",
+        "note": "GREEN: full 318-leg sweep on this tree with the builder PATH shim: DONE green=281 red=37; RED set == frozen 36 PLUS exactly {255} (pre-amendment: tests[255] still greps the stale 9aac9f0c command and the amendment lands in the merge window, flipping it GREEN to the shipped 36 RED / 282 GREEN). Zero regressions, zero unexpected greens. Leg 255 RED reason is the designed placeholder-premise literal, not a new breakage. | fence output tail: log unreadable: [Errno 2] No such file or directory: 'scratch/t94v/out_v/fence_ac6.txt'"
+      }
+    },
+    "test_summary": {
+      "total": 318,
+      "passed": 281,
+      "failed": 37
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac3 fence cosmetic bug: the shipped fence runs rm -f $G1 $G2 BEFORE the sed that writes $G1, so the files=/links= echo renders empty and stderr carries a No-such-file-or-directory line; rc=0 and the assertions still run, so the verdict is unaffected. The fence is the contract and was NOT edited.",
+      "LINK_CHECK files= is tree-dependent (it walks every .md in the worktree): 261 is reproducible only on a zero-untracked-.md tree with backend/.pytest_cache removed (a stray pytest-cache README adds +1). The ac3 pin is the PASS broken=0 leg, not the file count.",
+      "tests[255] is RED by design in this pre-amendment state (the stored command still greps the stale 9aac9f0c literal); the gate_amendment lands in the merge window and flips it GREEN, giving the shipped 36 RED / 282 GREEN."
+    ],
+    "dod_verified": {
+      "delta_purity": true,
+      "live_url_both_sections": true,
+      "no_hosted_demo_account": true,
+      "run_app_absent_from_product": true,
+      "env_token_count_exactly_2": true,
+      "crlf_and_ascii_only": true,
+      "triple_pin_matches_shipped_bytes": true,
+      "report_regeneration_byte_equal": true,
+      "all_six_fences_rc_zero": true,
+      "ac_hash_recomputed_match": true,
+      "sweep_red_set_exact": true,
+      "zero_regressions": true,
+      "platform_comment_read_back_byte_equal": true,
+      "platform_labels_swapped_to_verified": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "branch": "issue/t94-readme-live-url-backfill",
+    "branch_sha": "",
+    "product_commit": "0ff904efd75867415481ceddf24615ff0843da8e",
+    "base_commit": "1aec1f674283d3db5452e1e6f47865961bc42459",
+    "ac_hash": "sha256:ffaf57a7e058c43731e937545e9a0c292394d9cf7de8fd85be1a15f01c69ff74",
+    "ac_hash_recompute": "Recomputed from the card ON DISK with the t58/t62..t98 recipe (sha256 over json.dumps of the six ```bash-fenced blocks in ac1..ac6 order, each CR-stripped and trimmed, compact separators): sha256:ffaf57a7e058c43731e937545e9a0c292394d9cf7de8fd85be1a15f01c69ff74 - MATCHES the card, the groom handoff, the gate amendment and the dispatch brief. No fence was edited; the extracted blocks are byte-equal to the shipped card blocks and to the fence files executed.",
+    "measured_readme": {
+      "lines": 399,
+      "cr_stripped_sha256": "16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146",
+      "matches_builder_pin": true,
+      "matches_definer_illustrative_digest": false,
+      "note": "The definer digest cf5ed2b2... was illustrative-only per the card; the pin equals the SHIPPED bytes, which is the contract."
+    },
+    "sweep": {
+      "total": 318,
+      "green": 281,
+      "red": 37,
+      "red_set": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        227,
+        230,
+        231,
+        250,
+        254,
+        255,
+        257,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "expected_red_set": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        227,
+        230,
+        231,
+        250,
+        254,
+        255,
+        257,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "regressions": [],
+      "unexpected_greens": [],
+      "runner": "scratch/t94v/sweep.sh with the builder PATH shim scratch/t94b/bin (fixes the WSL Windows-gitdir-pointer rc=128 class)",
+      "results_path": "scratch/t94v/out_v/results.tsv",
+      "log_path": "scratch/t94v/out_v/sweep.log"
+    },
+    "platform": {
+      "comment_posted": true,
+      "comment_read_back_byte_equal": true,
+      "comment_length": 3094,
+      "comment_body_path": "scratch/t94v/out_v/verdict_comment.txt",
+      "comment_readback_path": "scratch/t94v/out_v/comment_readback.txt",
+      "labels_before": [
+        "groomed"
+      ],
+      "labels_after": [
+        "verified"
+      ],
+      "labels_read_back": [
+        "verified"
+      ],
+      "disclosure_first_attempt": "An earlier cmd.exe-direct post truncated the body at the first newline (cmd re-parses a multi-line argv), leaving a 25-character stub comment on #101 that the CLI cannot delete. The authoritative full comment was posted through a Windows-node spawner with the body as ONE argv element and read back byte-equal (3094 == 3094). The stub is superseded by the full verdict and is disclosed here rather than hidden."
+    },
+    "disclosures": [
+      "branch_sha deviation (t98 precedent): the builder handoff pins branch_sha = product tip 0ff904e while the branch tip is  (a handoff/logs-only commit). Verification ran at the tip; the product diff is identical either way.",
+      "Sweep pass 1 was aborted and re-run: the .env copied in for the platform CLI is enumerated by the req_coverage generator as a verification-artifact pointer, moving docs/criteria/req_coverage_verification.md from a14af7cd to 55c3b5a1 and turning tests[217] RED. That is verifier runner pollution, NOT a regression (t98 217 lesson: classify pollution/runner artifacts before calling anything a regression). The .env was moved aside, the generator-owned reports were restored to HEAD bytes, and the authoritative pass 2 ran clean with tests[217] GREEN.",
+      "Post-sweep the generator legs regenerate docs/criteria/agent_pack_verification.md and req_coverage_verification.md; both were restored to HEAD bytes (CRLF-smudged so git status reads clean, content CR-normalised-equal to HEAD). Final git status is clean and nothing is staged.",
+      "The .env used for the platform CLI is gitignored and was removed after the platform operations; no secret is committed.",
+      "docs/criteria/docs_verification.md regeneration is only byte-reproducible on a zero-untracked-.md tree; verifier scratch files therefore use .txt extensions."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t94_verifier_verify_issue.json",
+      "scratch/t94v/out_v/results.tsv",
+      "scratch/t94v/out_v/sweep.log",
+      "scratch/t94v/out_v/fence_ac1.txt",
+      "scratch/t94v/out_v/fence_ac2.txt",
+      "scratch/t94v/out_v/fence_ac3.txt",
+      "scratch/t94v/out_v/fence_ac4.txt",
+      "scratch/t94v/out_v/fence_ac5.txt",
+      "scratch/t94v/out_v/fence_ac6.txt",
+      "scratch/t94v/out_v/verdict_comment.txt",
+      "scratch/t94v/out_v/comment_readback.txt"
+    ],
+    "platform_issue": 101,
+    "output_path": "docs/state/outputs/t94_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-19T23:24:57Z",
+  "retry_count": 0
+}
