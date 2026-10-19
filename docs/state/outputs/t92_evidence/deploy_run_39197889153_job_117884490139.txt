@@ -1,0 +1,57 @@
+﻿2026-10-19T04:07:21.2310214Z Current runner version: '2.337.0'
+2026-10-19T04:07:21.2338321Z ##[group]Runner Image Provisioner
+2026-10-19T04:07:21.2339128Z Hosted Compute Agent
+2026-10-19T04:07:21.2339732Z Version: 20261012.601
+2026-10-19T04:07:21.2340310Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-19T04:07:21.2340967Z Build Date: 2026-10-12T17:48:21Z
+2026-10-19T04:07:21.2341549Z Worker ID: {68f37650-632a-41ee-8110-7678ac1d3f40}
+2026-10-19T04:07:21.2342177Z Region: westus3
+2026-10-19T04:07:21.2342723Z Cloud: Azure
+2026-10-19T04:07:21.2343191Z ##[endgroup]
+2026-10-19T04:07:21.2344416Z ##[group]Operating System
+2026-10-19T04:07:21.2345013Z Ubuntu
+2026-10-19T04:07:21.2345518Z 24.04.5
+2026-10-19T04:07:21.2346019Z LTS
+2026-10-19T04:07:21.2346462Z ##[endgroup]
+2026-10-19T04:07:21.2346954Z ##[group]Runner Image
+2026-10-19T04:07:21.2347526Z Image: ubuntu-24.04
+2026-10-19T04:07:21.2348161Z Version: 20261012.334.1
+2026-10-19T04:07:21.2349282Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-19T04:07:21.2350547Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-19T04:07:21.2351369Z ##[endgroup]
+2026-10-19T04:07:21.2352356Z ##[group]GITHUB_TOKEN Permissions
+2026-10-19T04:07:21.2354154Z Contents: read
+2026-10-19T04:07:21.2354718Z Metadata: read
+2026-10-19T04:07:21.2355204Z ##[endgroup]
+2026-10-19T04:07:21.2357305Z Secret source: Actions
+2026-10-19T04:07:21.2358273Z Cache mode: write
+2026-10-19T04:07:21.2359129Z Prepare workflow directory
+2026-10-19T04:07:21.2628084Z Prepare all required actions
+2026-10-19T04:07:21.2714117Z Complete job name: deploy
+2026-10-19T04:07:21.3442219Z ##[group]Run if [ -z "$RENDER_HOOK" ]; then
+2026-10-19T04:07:21.3442903Z [36;1mif [ -z "$RENDER_HOOK" ]; then[0m
+2026-10-19T04:07:21.3443774Z [36;1m  echo "RENDER_DEPLOY_HOOK secret is not configured"[0m
+2026-10-19T04:07:21.3444570Z [36;1m  exit 1[0m
+2026-10-19T04:07:21.3445081Z [36;1mfi[0m
+2026-10-19T04:07:21.3445608Z [36;1mcurl -fsS -X POST "$RENDER_HOOK"[0m
+2026-10-19T04:07:21.9552522Z shell: /usr/bin/bash -e {0}
+2026-10-19T04:07:21.9553348Z env:
+2026-10-19T04:07:21.9554159Z   RENDER_HOOK: ***
+2026-10-19T04:07:21.9554602Z ##[endgroup]
+2026-10-19T04:07:22.4426564Z {"deploy":{"id":"dep-dbapeum1egvs73bk8v0g"}}
+2026-10-19T04:07:22.4549200Z ##[group]Run for i in $(seq 1 30); do
+2026-10-19T04:07:22.4550454Z [36;1mfor i in $(seq 1 30); do[0m
+2026-10-19T04:07:22.4551671Z [36;1m  if curl -fsS "$APP_HEALTH_URL"; then[0m
+2026-10-19T04:07:22.4553084Z [36;1m    echo "deploy verified: health endpoint is ok"[0m
+2026-10-19T04:07:22.4554372Z [36;1m    exit 0[0m
+2026-10-19T04:07:22.4555260Z [36;1m  fi[0m
+2026-10-19T04:07:22.4556114Z [36;1m  sleep 10[0m
+2026-10-19T04:07:22.4556996Z [36;1mdone[0m
+2026-10-19T04:07:22.4558292Z [36;1mecho "health endpoint never turned ok after the deploy"[0m
+2026-10-19T04:07:22.4559646Z [36;1mexit 1[0m
+2026-10-19T04:07:22.4620187Z shell: /usr/bin/bash -e {0}
+2026-10-19T04:07:22.4621154Z env:
+2026-10-19T04:07:22.4622820Z   APP_HEALTH_URL: ***
+2026-10-19T04:07:22.4623713Z ##[endgroup]
+2026-10-19T04:07:22.6369180Z {"status":"ok","database":"postgresql","fallback_active":false,"version":"1.0.0"}deploy verified: health endpoint is ok
+2026-10-19T04:07:22.6462824Z Cleaning up orphan processes
