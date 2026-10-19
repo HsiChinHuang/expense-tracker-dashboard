@@ -1,0 +1,1 @@
+ac5 GREEN: all 15 carried README-scoped stored gates (27 119 128 135 144 149 201 210 243 245 249 251 252 253 256) replay GREEN against the t94 candidate - the only premised gate in the whole index is tests[255], handled by the amendment record
