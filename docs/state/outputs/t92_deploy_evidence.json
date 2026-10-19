@@ -1,0 +1,88 @@
+{
+  "artifact": "t92_deploy_evidence",
+  "banked_log_line_count": 58,
+  "banked_log_path": "docs/state/outputs/t92_evidence/deploy_run_39197889153_job_117884490139.txt",
+  "banked_log_sha256": "d9273b32e8b8095824728ede0b50e52e37889b89eca68dd314eeffdab938706c",
+  "capture_iso": "2026-10-19T05:11:38Z",
+  "card": "t92",
+  "ci_run_api": "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197660838",
+  "ci_run_conclusion": "success",
+  "ci_run_head_sha": "0c3dd6d6098cdf07aa1343593f5bcd83523ce894",
+  "ci_run_id": 39197660838,
+  "deploy_job_conclusion": "success",
+  "deploy_job_id": 117884490139,
+  "deploy_job_name": "deploy",
+  "deploy_jobs_api": "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153/jobs",
+  "deploy_run_api": "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153",
+  "disclosed_limits": [
+    "single run: this record is ONE deploy run at ONE wall-clock time (deploy run 39197889153 at 2026-10-19T04:07Z); it proves the chain ran green once on these bytes, not that it always does",
+    "free tier: the Render service is a free-tier instance; cold starts and pauses are expected and are not deploy failures",
+    "no retention guarantee: GitHub Actions run metadata and job logs are subject to platform retention policy; the committed banked log is the durable copy, the live API reads are not guaranteed to answer forever",
+    "render logs missing: the Render-side build and migration log content is NOT captured (see render_log_gap); the migration is corroborated structurally (Dockerfile CMD alembic upgrade head) and by the healthy database postgresql payload, never by a Render-side log this environment could not read",
+    "the version premise moved: the survey-era factpack quoted version 0.1.0; t97 bumped the served version, and this record captures what the endpoint and the banked log answer now"
+  ],
+  "e2e_run_api": "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197660957",
+  "e2e_run_conclusion": "success",
+  "e2e_run_head_sha": "0c3dd6d6098cdf07aa1343593f5bcd83523ce894",
+  "e2e_run_id": 39197660957,
+  "head_branch": "main",
+  "head_sha": "0c3dd6d6098cdf07aa1343593f5bcd83523ce894",
+  "health_payload": {
+    "database": "postgresql",
+    "fallback_active": false,
+    "status": "ok",
+    "version": "1.0.0"
+  },
+  "health_url": "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health",
+  "health_verify_step": {
+    "conclusion": "success",
+    "name": "Verify the deployed health endpoint"
+  },
+  "log_context": [
+    "2026-10-19T04:07:22.4622820Z   APP_HEALTH_URL: ***",
+    "2026-10-19T04:07:22.4623713Z ##[endgroup]",
+    "2026-10-19T04:07:22.6369180Z {\"status\":\"ok\",\"database\":\"postgresql\",\"fallback_active\":false,\"version\":\"1.0.0\"}deploy verified: health endpoint is ok",
+    "2026-10-19T04:07:22.6462824Z Cleaning up orphan processes"
+  ],
+  "log_line": "deploy verified: health endpoint is ok",
+  "log_line_banked_line_no": 56,
+  "log_line_timestamp": "2026-10-19T04:07:22.6369180Z",
+  "milestone": "phase_14_render_live_closeout",
+  "platform_issue": 98,
+  "render_log_gap": {
+    "captured": false,
+    "corroborated_by": "the deploy job hook POST response in the banked GitHub job log and the live health endpoint answering version 1.0.0 with database postgresql, which is what a successful Render build, alembic migration and container start imply",
+    "reason": "no Render API token exists in .env (the file carries only PLATFORM/API_TOKEN/REPO_ID/MAX_SLOTS) and the GitHub token downloads GitHub job logs, not Render service logs, so the Render-side build and migration log content cannot be captured from this environment",
+    "replacement": "GitHub run/job metadata (ac2 re-read live), the committed banked job log carrying the hook POST response and the mandated line, and the live health endpoint stand in for the Render-side logs"
+  },
+  "run_conclusion": "success",
+  "run_created_at": "2026-10-19T04:07:17Z",
+  "run_name": "Deploy",
+  "run_number": 487,
+  "run_status": "completed",
+  "run_updated_at": "2026-10-19T04:07:25Z",
+  "run_url": "https://github.com/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153",
+  "schema_version": 1,
+  "source_notes": {
+    "log_line_occurrences": "the mandated string also appears on the runner's echoed step-source line; the executed output line is the one measured at banked line 56",
+    "method": "every value was measured at build time by scratch/t92b_build_record.py from the GitHub actions API, the committed banked log, and the live health endpoint; nothing was typed from the card's prose"
+  },
+  "sources": [
+    "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153",
+    "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153/jobs",
+    "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197660838",
+    "https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197660957",
+    "https://github.com/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153",
+    "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health",
+    "docs/state/outputs/t92_evidence/deploy_run_39197889153_job_117884490139.txt (committed verbatim job-log capture of job 117884490139; the logs endpoint https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153/jobs/117884490139/logs answers 403 to unauthenticated reads, so this committed file is the durable copy of that leg)"
+  ],
+  "superseded_baseline_run": {
+    "conclusion": "failure",
+    "failed_step": "Verify the deployed health endpoint",
+    "head_sha": "450e2291a48fcb5bca1b7ff3aa6262db0a44a507",
+    "id": 39190120008,
+    "note": "pre-t90 bytes (450e229 era); the failing baseline this green run supersedes - disclosed for context, it is NOT this card's evidence",
+    "run_number": 486
+  },
+  "workflow_run_id": 39197889153
+}
