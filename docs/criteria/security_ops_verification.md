@@ -80,8 +80,8 @@ re-measured reasons. A deferred row is never attested, and no
 deferred key appears on any evidence line above.
 
 ```text
-DEFERRAL_REGISTER 5 DEFERRED
-DEFERRED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health.md reason=live_render_url_returns_404_measured live_check=curl -s -o /dev/null -w '%{http_code}' https://expense-tracker-dashboard.onrender.com/api/v1/health then compare to the deployment record
+DEFERRAL_REGISTER 4 DEFERRED
+VERIFIED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health.md url=https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health http_status=200 database=postgresql fallback_active=false version=1.0.0 evidence=measured_by_t92_record record=docs/state/outputs/t92_deploy_evidence.json
 DEFERRED_ROW SCAN_TIMING_DOC artifact=docs/ai-workflow.md reason=docs_tree_owned_by_phase_8 live_check=read the scan-timing section once phase_8_docs lands docs/ai-workflow.md
 DEFERRED_ROW LIVE_AGENT_SESSION artifact=agent-capabilities/monthly-report/SKILL.md reason=agent_runtime_is_this_pipeline_not_the_project_pack live_check=pi-agent session prompt "Generate a monthly report for 2026-10."
 DEFERRED_ROW LIVE_MCP_SUBPROCESS artifact=mcp-server/server.py reason=no_live_backend_session_in_harness live_check=MCP_JWT_SECRET=... MCP_API_BASE_URL=... MCP_USER_TOKEN=... python mcp-server/server.py

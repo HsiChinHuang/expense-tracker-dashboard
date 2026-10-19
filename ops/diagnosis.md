@@ -5,9 +5,12 @@ real scenario carried end to end - symptom, steps, expected output copied
 from a REAL measured run, expected behavior, verification, recovery,
 findings and lessons. The steps below were executed against the local
 backend on `127.0.0.1:8137` (the verification endpoint pinned by the t41
-gate; the deployed endpoint is `https://expense-tracker-dashboard.onrender.com`
-and its live comparison is carried as the `LIVE_DEPLOYMENT_STATE` deferral
-row in `docs/criteria/security_ops_verification.md`). When a step's output
+gate; the deployed endpoint is
+`https://expense-tracker-dashboard-1qtu.onrender.com` and its measured live
+health reading - `200` with `{"status":"ok","database":"postgresql",
+"fallback_active":false,"version":"1.0.0"}` - is carried as the
+`VERIFIED_ROW LIVE_DEPLOYMENT_STATE` in
+`docs/criteria/security_ops_verification.md`). When a step's output
 does not match, escalate to the numbered symptom sections of
 `ops/runbook.md` - this file is the worked example, the runbook is the
 decision tree.
