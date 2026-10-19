@@ -36,7 +36,7 @@ HEALTH_FIELDS status,database,fallback_active,version PASS
 FALLBACK_TABLES users,categories,expenses,budgets,audit_logs PASS
 FALLBACK_SEEDED_CATEGORIES 10 PASS
 FALLBACK_NO_ALEMBIC_IMPORT alembic=absent PASS
-FALLBACK_WITHIN_5S elapsed=0.090 bound=5 PASS
+FALLBACK_WITHIN_5S elapsed=1.354 bound=5 PASS
 ```
 
 The fallback schema arrives via create_all plus the merged seed
@@ -87,7 +87,7 @@ DEFERRED_ROW CI_PR_RUN artifact=.github/workflows/ci.yml reason=actions_untrigge
 DEFERRED_ROW E2E_RUN artifact=e2e/playwright.config.ts reason=actions_untriggerable live_check=gh run list --workflow=e2e.yml --limit 5
 DEFERRED_ROW RENDER_DEPLOY artifact=render.yaml reason=egress_forbidden live_check=curl -fsS https://api.render.com/v1/services/srv-REPLACE_ME/deploys
 DEFERRED_ROW UPTIMEROBOT_MONITOR artifact=README.md reason=egress_forbidden live_check=uptime checks get --all
-DEFERRED_ROW LIVE_COLD_START artifact=README.md reason=egress_forbidden live_check=curl -o /dev/null -s -w '%{time_total}' https://expense-tracker-dashboard.onrender.com/api/v1/health after an idle gap, gated against the 60s REQ-PROD-020 Should
+DEFERRED_ROW LIVE_COLD_START artifact=README.md reason=egress_forbidden live_check=curl -o /dev/null -s -w '%{time_total}' https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health after an idle gap, gated against the 60s REQ-PROD-020 Should
 ```
 
 ## Criteria mapping (REQ-CICD-001 - criteria 8,10,11)

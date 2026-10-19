@@ -86,7 +86,7 @@ CARRIED_DIGESTS = {
     "docs/criteria/dashboard_verification.md":
         "6fd4e18d55422c268b3d5848b0dfa59ce22474382d4c789a052aba20789751b6",
     "docs/criteria/infra_verification.md":
-        "33d49691321903c596af2406500cc67e5766e19025ddf632664b094bd0baf6c4",
+        "0616af6157ee856988aea5612ba5dda95c3d0c5e7c8180f76677fc180d09da87",
     "docs/criteria/security_ops_verification.md":
         "4d69122bc9eca30eed5dd1f10333c272ffbb01d4b0ccae5340dbcbbd4175b967",
 }
@@ -414,14 +414,6 @@ def check_index_and_stored_gates() -> None:
 
 def emit_deferrals() -> None:
     register = [
-        (
-            "LIVE_DEPLOYMENT_STATE",
-            "ops/deployment-health.md live columns still say NOT_YET_LIVE; "
-            "the render blueprint exists but the service is not provisioned, "
-            "so the public health URL answers 404",
-            "curl -sS https://expense-tracker-dashboard.onrender.com"
-            "/api/v1/health",
-        ),
         (
             "LIVE_AGENT_SESSION",
             "docs/ai-workflow.md records are transcript attestations of real "

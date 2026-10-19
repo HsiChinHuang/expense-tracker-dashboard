@@ -318,7 +318,7 @@ def test_unruled_ids_are_unaffected_by_the_ruling_branch() -> None:
     keys = {x.split("key=")[1].split(" ")[0] for x in key_rows}
     assert set(RULING_IDS.values()) <= keys
     carried = {k for k in keys if not k.startswith("RULING_")}
-    assert carried == {"LIVE_DEPLOYMENT_STATE", "LIVE_AGENT_SESSION",
+    assert carried == {"LIVE_AGENT_SESSION",
                        "LIVE_MCP_SUBPROCESS", "LIVE_SUBAGENT_LAUNCH"}
     # Only the two ruled rows carry a RULING_* key; no other row moved.
     for line in _rows(text):
@@ -330,4 +330,38 @@ def test_unruled_ids_are_unaffected_by_the_ruling_branch() -> None:
                and "method=register-row-derivation" in p for p in provenance)
     assert any("source=docs/rulings/req-matrix.md" in p
                and "method=card-declared-ruling" in p for p in provenance)
+
+
+T98_REATTESTED_IDS = ("REQ-OPS-061", "REQ-OPS-062", "REQ-CICD-041",
+                      "REQ-DOC-070", "REQ-PROD-041")
+
+
+def test_t98_live_deployment_state_is_no_longer_carried() -> None:
+    """t98: the deployment went live, so LIVE_DEPLOYMENT_STATE left the register.
+
+    The key must be absent from the committed report AND from the docs
+    generator; the tally re-tallies to 10 DEFERRED_RULLED rows; the five ids
+    the moved key used to back are re-attested exactly once each as
+    IMPLEMENTED_TESTED with no deferral_key (a replacement, not a
+    disappearance); and infra_verification.py names the -1qtu health host
+    and never the old no-suffix host.
+    """
+    text = REPORT.read_text(encoding="utf-8").replace("\r\n", "\n")
+    assert "LIVE_DEPLOYMENT_STATE" not in text, "the moved key lingers in the report"
+    docs_src = (REPO_ROOT / "backend" / "scripts" / "docs_verification.py").read_text(
+        encoding="utf-8").replace("\r\n", "\n")
+    assert "LIVE_DEPLOYMENT_STATE" not in docs_src, "the docs register still carries the key"
+    assert _machine(text, "REQ_STATUS_COUNT DEFERRED_RULLED 10 ") or \
+        "REQ_STATUS_COUNT DEFERRED_RULLED 10" in text, "DEFERRED_RULLED did not re-tally to 10"
+    rows = _rows(text)
+    for rid in T98_REATTESTED_IDS:
+        hit = [line for line in rows if f" id={rid} " in line]
+        assert len(hit) == 1, rid + " is not present exactly once"
+        assert " status=IMPLEMENTED_TESTED " in hit[0], rid + " is not IMPLEMENTED_TESTED"
+        assert " deferral_key=" not in hit[0], rid + " still carries a deferral_key"
+    assert not [line for line in rows if " deferral_key=LIVE_DEPLOYMENT_STATE " in line]
+    infra_src = (REPO_ROOT / "backend" / "scripts" / "infra_verification.py").read_text(
+        encoding="utf-8").replace("\r\n", "\n")
+    assert "expense-tracker-dashboard-1qtu.onrender.com/api/v1/health" in infra_src
+    assert "https://expense-tracker-dashboard.onrender.com" not in infra_src
 

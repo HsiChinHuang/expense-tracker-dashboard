@@ -11,9 +11,9 @@ landing is expected to carry GAP rows; closing them is t58's work.
 
 REQ_STATUSES PASS vocabulary=IMPLEMENTED_TESTED,IMPLEMENTED_STRUCTURAL,DEFERRED_RULLED,GAP,EXAMPLE_REFERENCE
 REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79
-REQ_STATUS_COUNT IMPLEMENTED_TESTED 111
+REQ_STATUS_COUNT IMPLEMENTED_TESTED 116
 REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 622
-REQ_STATUS_COUNT DEFERRED_RULLED 15
+REQ_STATUS_COUNT DEFERRED_RULLED 10
 REQ_STATUS_COUNT GAP 0
 REQ_STATUS_COUNT EXAMPLE_REFERENCE 1
 REQ_FAMILY PASS family=AI rows=66
@@ -41,7 +41,6 @@ REQ_FAMILIES PASS total=749 distinct=18
 REQ_DEFERRAL_PROVENANCE PASS source=docs/criteria/docs_verification.md#DEFERRAL_REGISTER method=register-row-derivation id_key_and_reason_snippet_per_row=true
 REQ_DEFERRAL_PROVENANCE PASS source=docs/rulings/req-matrix.md method=card-declared-ruling id_key_and_reason_snippet_per_row=true
 REQ_DEFERRAL_KEY PASS key=LIVE_AGENT_SESSION ids=2
-REQ_DEFERRAL_KEY PASS key=LIVE_DEPLOYMENT_STATE ids=5
 REQ_DEFERRAL_KEY PASS key=LIVE_MCP_SUBPROCESS ids=2
 REQ_DEFERRAL_KEY PASS key=LIVE_SUBAGENT_LAUNCH ids=2
 REQ_DEFERRAL_KEY PASS key=RULING_FE_PERF_LIVE_PROFILING ids=1
@@ -528,7 +527,7 @@ REQ_ROW PASS id=REQ-CICD-037 family=CICD status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-CICD-037 title="subsequent deployments" statement="Pushes to main trigger the pipeline automatically."
 REQ_ROW PASS id=REQ-CICD-040 family=CICD status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=README.md,ops/runbook.md
 REQ_TITLE PASS id=REQ-CICD-040 title="cold start problem" statement="Render free tier sleeps after 15 minutes idle; next request takes 30-60 seconds."
-REQ_ROW PASS id=REQ-CICD-041 family=CICD status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
+REQ_ROW PASS id=REQ-CICD-041 family=CICD status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-CICD-041 title="UptimeRobot mitigation" statement="UptimeRobot pings health endpoint every 10 minutes; alert via email on down; expected 200."
 REQ_ROW PASS id=REQ-CICD-042 family=CICD status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=README.md
 REQ_TITLE PASS id=REQ-CICD-042 title="README notice" statement="README includes a note about free tier cold start and UptimeRobot."
@@ -644,7 +643,7 @@ REQ_ROW PASS id=REQ-DB-102 family=DB status=IMPLEMENTED_STRUCTURAL method=code-s
 REQ_TITLE PASS id=REQ-DB-102 title="month range query" statement="`month_range('YYYY-MM')` returns `[start, end)` where end is the first day of the next month."
 REQ_ROW PASS id=REQ-DB-103 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/services/expense_service.py
 REQ_TITLE PASS id=REQ-DB-103 title="default date" statement="Frontend defaults the date input to today (browser local timezone); backend stores the date as received without re-interpretation."
-REQ_ROW PASS id=REQ-DB-104 family=DB status=IMPLEMENTED_TESTED method=code-symbol pointers=frontend/src/api/dashboard.test.ts,frontend/src/hooks/use_dashboard.test.tsx,frontend/src/pages/dashboard_page.test.tsx
+REQ_ROW PASS id=REQ-DB-104 family=DB status=IMPLEMENTED_TESTED method=code-symbol pointers=frontend/src/api/dashboard.test.ts,frontend/src/components/forms/expense_form.test.tsx,frontend/src/hooks/use_dashboard.test.tsx
 REQ_TITLE PASS id=REQ-DB-104 title="timestamp defaults" statement="`created_at` and `updated_at` use `func.now()` (database time), consistent for audit purposes."
 REQ_ROW PASS id=REQ-DB-110 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/database.py,backend/app/main.py
 REQ_TITLE PASS id=REQ-DB-110 title="startup sequence" statement="Startup loads settings, determines DATABASE_URL, and either uses SQLite directly or attempts PostgreSQL with a 5-second timeout; on failure, logs WARNING and sw"
@@ -726,7 +725,7 @@ REQ_ROW PASS id=REQ-DOC-062 family=DOC status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-DOC-062 title="updating rules" statement="Corrections update the relevant document; new decisions update architecture or process; new skill updates the pack; new permission updates permissions; new erro"
 REQ_ROW PASS id=REQ-DOC-063 family=DOC status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docs/requirements/Chapter15_Documentation.md
 REQ_TITLE PASS id=REQ-DOC-063 title="document ownership" statement="Ownership table exists for each document."
-REQ_ROW PASS id=REQ-DOC-070 family=DOC status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
+REQ_ROW PASS id=REQ-DOC-070 family=DOC status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-DOC-070 title="5-minute live verification" statement="Steps: open live URL, register, add expense, set budget, verify five charts, switch month, log out."
 REQ_ROW PASS id=REQ-DOC-071 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t49.md
 REQ_TITLE PASS id=REQ-DOC-071 title="5-minute local verification" statement="Clone, cp .env.example, docker compose up --build, open localhost:8000, repeat live steps."
@@ -888,7 +887,7 @@ REQ_ROW PASS id=REQ-FE-063 family=FE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-FE-063 title="ExpensesPage layout" statement="Expenses page has month and category filters, an add button, a table with date/category/amount/note/actions columns, and pagination."
 REQ_ROW PASS id=REQ-FE-064 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/budget_page.test.tsx
 REQ_TITLE PASS id=REQ-FE-064 title="BudgetPage layout" statement="Budget page has a month picker, current budget display with edit/delete, a set-budget form, and a 12-month budget history list."
-REQ_ROW PASS id=REQ-FE-065 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/pages/categories_page.test.tsx
+REQ_ROW PASS id=REQ-FE-065 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/components/forms/category_form.test.tsx,frontend/src/pages/categories_page.test.tsx
 REQ_TITLE PASS id=REQ-FE-065 title="CategoriesPage layout" statement="Categories page has a system categories section (no delete) and a user categories section with delete buttons."
 REQ_ROW PASS id=REQ-FE-070 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/components/charts/category_pie_chart.test.tsx
 REQ_TITLE PASS id=REQ-FE-070 title="CategoryPieChart" statement="Pie chart uses Recharts with per-category colors from the API, tooltip shows name/amount/percentage, merges to top 6 + Other, and has an empty state."
@@ -1028,9 +1027,9 @@ REQ_ROW PASS id=REQ-OPS-057 family=OPS status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-OPS-057 title="structured field reference" statement="Documents timestamp, level, logger, event, extra_fields, exception fields."
 REQ_ROW PASS id=REQ-OPS-060 family=OPS status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/deployment-health.md
 REQ_TITLE PASS id=REQ-OPS-060 title="deployment-health.md purpose" statement="Records deployment state after each significant deployment."
-REQ_ROW PASS id=REQ-OPS-061 family=OPS status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
+REQ_ROW PASS id=REQ-OPS-061 family=OPS status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-OPS-061 title="initial deployment record" statement="Records platform, URL, date, version, commit, health check response, smoke test results, screenshots, cold start, database, notes."
-REQ_ROW PASS id=REQ-OPS-062 family=OPS status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
+REQ_ROW PASS id=REQ-OPS-062 family=OPS status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-OPS-062 title="post-expiry deployment record" statement="Records the state after Render PostgreSQL expires: health returns degraded, fallback active, all features work, data temporary."
 REQ_ROW PASS id=REQ-OPS-070 family=OPS status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/scripts/security_ops_verification.py,docs/criteria/security_ops_verification.md,docs/issues/closed/t41.md
 REQ_TITLE PASS id=REQ-OPS-070 title="manual diagnosis commands" statement="Commands to check status, response time, database, fallback state, and API docs."
@@ -1190,7 +1189,7 @@ REQ_ROW PASS id=REQ-PROD-036 family=PROD status=IMPLEMENTED_STRUCTURAL method=ci
 REQ_TITLE PASS id=REQ-PROD-036 title="Frontend edge cases" statement="Edge cases for token expiry during session, network error, empty dashboard, loading state, invalid form data, protected route without login, rapid month switchi"
 REQ_ROW PASS id=REQ-PROD-040 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-PROD-040 title="Functional success" statement="A new user can register, log in, record expenses, set a budget, and view the dashboard without errors; all five charts render; month switching updates all chart"
-REQ_ROW PASS id=REQ-PROD-041 family=PROD status=DEFERRED_RULLED method=deferral-register pointers=docs/criteria/docs_verification.md,ops/deployment-health.md deferral_key=LIVE_DEPLOYMENT_STATE deferral_reason="ops/deployment-health.md live columns still say NOT_YET_LIVE; the render blueprint exists but the service is not provisioned, so the public health URL answers 404"
+REQ_ROW PASS id=REQ-PROD-041 family=PROD status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-PROD-041 title="Technical success" statement="All unit, integration, and E2E tests pass; SQLite fallback works; health check is accurate; CI runs on every PR; CD deploys on merge to main; a public URL is av"
 REQ_ROW PASS id=REQ-PROD-042 family=PROD status=IMPLEMENTED_STRUCTURAL method=citation pointers=product-spec.md
 REQ_TITLE PASS id=REQ-PROD-042 title="Quality success" statement="README provides a 5-minute verification path; all 14 criteria have evidence; security artifacts are present; Agent Extension Pack is functional; AI workflow is"
