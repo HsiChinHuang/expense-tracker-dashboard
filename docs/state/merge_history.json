@@ -1346,6 +1346,16 @@
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
+    },
+    {
+      "issue_id": "t98",
+      "platform_issue": 100,
+      "branch": "issue/t98-docs-infra-live-state",
+      "merge_sha": "5ba977579b001774513de37d9f6892a587a9618b",
+      "merged_at": "2026-10-19T15:36:09Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
     }
   ]
 }
