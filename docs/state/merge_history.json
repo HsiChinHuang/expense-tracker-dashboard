@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-19T04:04:10Z",
+  "updated_at": "2026-10-19T06:49:50Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1326,6 +1326,16 @@
       "tests_appended": 0,
       "regressions": 0,
       "regressions_note": "0 NEW: 318/318 pre-merge verbatim sweep on merged bytes 6fd2a0c 282G/36RED, RED set set-equal to t91 baseline (verdict PASS, WAL 1129 ruling PASS-with-disclosure for ac1/ac3/ac5 premise-pins-obsolete-after-sanctioned-amendment-application + ac4 t91-style provenance); tests[133] amendment applied in-window per record (318 entries before/after, byte_identical_elsewhere guaranteed), amended command rc=0 on merged bytes; index untouched otherwise per card zero-index-edit constraint"
+    },
+    {
+      "issue_id": "t92",
+      "platform_issue": 98,
+      "branch": "issue/t92-deploy-evidence-record",
+      "merge_sha": "8956d32d3a5ac0f31ad6df910745b420a0caab95",
+      "merged_at": "2026-10-19T06:49:50Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
     }
   ]
 }
