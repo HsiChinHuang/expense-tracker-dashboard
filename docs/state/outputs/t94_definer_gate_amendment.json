@@ -1,0 +1,198 @@
+{
+ "schema_version": 1,
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "t94_definer_gate_amendment",
+ "card": "t94",
+ "milestone": "phase_14_render_live_closeout",
+ "platform_issue": 101,
+ "base": "3e3c2a2",
+ "base_note": "measured against docs/state/merge_test_index.json as shipped at main tip 3e3c2a2 (t98 merge); the definer measured in a clean worktree whose WAL-carrying tip is b454ea9 - README.md, docs/state/merge_test_index.json and backend/scripts/docs_verification.py are byte-identical between 3e3c2a2 and b454ea9 (b454ea9 appends docs/state/WAL.jsonl only), so every sha below is pinned to the live 3e3c2a2 bytes",
+ "why_this_file_exists": "t94 backfills the live URL https://expense-tracker-dashboard-1qtu.onrender.com into README ## Online demo and ## Deployment on Render. tests[255] (card t70 ac3) asserts the Render section IS an honest placeholder: it goes RED the moment the section honestly states the live address, and its internal negative control (fake-live section must be refused by 4 of 4 honesty legs) inverts once fake-live is the truth. It is the ONLY premise-invalidated gate in the index: every other README-scoped GREEN gate was replayed against the candidate and survives (ac5 replays 15 of them; the full 71-gate README/constants sweep is in the groom handoff).",
+ "supervisor_authority": "supervisor decision entry 4b1ac15f confirmed the canonical live host is expense-tracker-dashboard-1qtu.onrender.com and that the amber-moss run.app string in the dispatch brief is an orchestrator transcription error (WAL 1169, commit b454ea9); the amended command allows ONLY the -1qtu host plus localhost",
+ "applied_by": "the orchestrator at merge time - the definer NEVER edits docs/state/merge_test_index.json; the orchestrator replaces tests[255].command with new_command verbatim, then verifies the entry sha",
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "amendments": [
+  {
+   "index": 255,
+   "issue_id": "t70",
+   "card_ac": "ac3",
+   "title": "README Render-section gate moves from honest-placeholder premise to live-state premise",
+   "defective_premise": "the Render section must state a placeholder/pending status and must NOT carry any non-localhost URL - falsified by the t98 live deployment and by this card: the section now honestly states the -1qtu address",
+   "re_premised_to": "the Render section must state the real -1qtu live address, keep citing residual #61, keep naming render.yaml / RENDER_DEPLOY_HOOK / /api/v1/health and the whole carried tests[135] token set, and must fabricate NO host other than -1qtu and localhost; the internal negative control now plants a fabricated-host section and must still be refused by 4 of 4 honesty legs",
+   "old_command": "bash -c 'test -f README.md || { echo \"ac3 RED: README.md missing\"; exit 1; }; T=$(tr -d \"\\r\" < README.md); printf \"%s\\n\" \"$T\" | grep -qE \"^## Deployment on Render[[:space:]]*$\" || { echo \"ac3 RED: the ## Deployment on Render heading is gone - tests[135] (t26) and tests[201] (t49) grep it from README.md and it is the load-bearing carried gate of this card\"; exit 1; }; RS=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Deployment on Render/,$ p\"); [ -n \"$RS\" ] || { echo \"ac3 RED: the Render section is empty\"; exit 1; }; for H in \"^### Why Render[[:space:]]*$\" \"^### First deployment[[:space:]]*$\" \"^### Free tier[[:space:]]*$\" \"^### UptimeRobot[[:space:]]*$\"; do printf \"%s\\n\" \"$RS\" | grep -qE \"$H\" || { echo \"ac3 RED: the Render section lost the carried subheading $H - the tests[135] heading set survives the PLACEHOLDER rewrite verbatim, only prose is reworded\"; exit 1; }; done; RX=REQ-; MISS=\"\"; for tok in Blueprint \"cold start\" \"10 min\" \"${RX}CICD-030\" \"${RX}CICD-036\" \"${RX}CICD-040\" \"${RX}CICD-041\" \"${RX}CICD-042\" \"${RX}CICD-043\" \"${RX}TECH-061\"; do printf \"%s\\n\" \"$RS\" | grep -qF \"$tok\" || MISS=\"$MISS $tok\"; done; [ -z \"${MISS// /}\" ] || { echo \"ac3 RED: the Render section lost the carried tests[135] token set:$MISS - the placeholder may reword prose but every token stays in this section verbatim\"; exit 1; }; echo \"ac3 evidence: the Render section carries the full tests[135] heading and token set (4 subheadings, Blueprint, cold start, 10 min, the ten full-form anchors the stored gate greps)\"; printf \"%s\\n\" \"$RS\" | grep -qiE \"placeholder|not published|pending|no live address yet|no URL is fabricated\" || { echo \"ac3 RED: the Render section states no honest placeholder status - the deployment is pending residual #61 and the section must say so (RED at base by design: the base section never states that no service has been published)\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"#61\" || { echo \"ac3 RED: the Render placeholder does not cite residual #61 - the reader must be able to find what is still outstanding\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qiE \"RENDER_DEPLOY_HOOK\" || { echo \"ac3 RED: the Render section lost the deploy-hook secret step - the First deployment procedure stays documented\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"/api/v1/health\" || { echo \"ac3 RED: the Render section lost the health-check verification step\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qF \"render.yaml\" && { printf \"%s\\n\" \"$RS\" | grep -qiE \"placeholder|not imported|no live\" || { echo \"ac3 RED: render.yaml is named bare - the placeholder must be explicit that the blueprint is not yet imported or live\"; }; } || { echo \"ac3 RED: the Render section never names render.yaml - the blueprint is the deployment-as-code deliverable\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"api[.]render[.]com/deploy/\" && { echo \"ac3 RED: the Render section prints an api.render.com deploy-hook URL - tests[135] forbids it and this card fabricates nothing\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qEi \"ghp_[A-Za-z0-9]{4,}|github_pat_|AKIA[0-9A-Z]{16}\" && { echo \"ac3 RED: the Render section looks like it pasted a credential\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qiE \"UptimeRobot\" && printf \"%s\\n\" \"$RS\" | grep -qiE \"https?://[A-Za-z0-9.-]+\" && { printf \"%s\\n\" \"$RS\" | grep -oE \"https?://[A-Za-z0-9._/-]+\" | grep -vE \"^https?://(localhost|127[.]0[.]0[.]1)\" >/dev/null && { echo \"ac3 RED: the UptimeRobot prose carries a non-localhost URL - the monitor stays a name, not a fabricated address\"; exit 1; }; }; echo \"ac3 evidence: Render placeholder honesty - status stated, residual #61 cited, no hook URL, no fabricated address\"; test -f docs/api.md || { echo \"ac3 RED: docs/api.md is missing - the API overview must link a document that exists\"; exit 1; }; test -f openapi.yaml || { echo \"ac3 RED: openapi.yaml is missing - the API overview must link the contract that exists\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^### API overview[[:space:]]*$\" || { echo \"ac3 RED: no ### API overview subheading under ## Features - the API overview is this card deliverable and no level-2 section may be added (RED at base by design: the base has only the endpoint-subset subheading)\"; exit 1; }; AS=$(printf \"%s\\n\" \"$T\" | sed -n \"/^### API overview/,/^## /p\"); for L in \"(docs/api[.]md)\" \"(openapi[.]yaml)\"; do printf \"%s\\n\" \"$AS\" | grep -qE \"$L\" || { echo \"ac3 RED: the API overview never links $L - the plan names docs/api.md + openapi.yaml as the overview targets\"; exit 1; }; done; printf \"%s\\n\" \"$AS\" | grep -qE \"/api/v1/dashboard/summary\" || { echo \"ac3 RED: the API overview lost the carried dashboard endpoint path set - tests[119] (t23) and tests[243] (t66 ac2) grep the six /api/v1/dashboard/* paths from README.md\"; exit 1; }; printf \"%s\\n\" \"$AS\" | grep -qiE \"bearer\" || { echo \"ac3 RED: the API overview no longer states the bearer-token rule\"; exit 1; }; printf \"%s\\n\" \"$AS\" | grep -qE \"127[.]0[.]0[.]1\" && { echo \"ac3 RED: the API overview names the 127.0.0.1 literal - the IPv4 trap belongs in the Troubleshooting row, not the API prose (RED at base by design: the base Quick Start tail carries that literal)\"; exit 1; }; echo \"ac3 evidence: API overview links docs/api.md and openapi.yaml and keeps the endpoint path set\"; JAR=\"ORCHESTRATOR GROOM HANDOFF SUBAGENT WAL PIN DEFERRAL MERGE_TEST PHASE\"; for j in $JAR; do J=$(printf \"%s\" \"$j\" | tr \"A-Z\" \"a-z\"); if printf \"%s\\n\" \"$RS$AS\" | grep -qiE \"(^|[^a-z])${J}([^a-z]|$)\"; then echo \"ac3 RED: the owned prose uses internal-pipeline vocabulary ($j) - residual #61 is an issue number, not pipeline vocabulary\"; exit 1; fi; done; echo \"ac3 evidence: zero internal-pipeline words in the owned prose\"; SYN=$(printf \"%s\\n\" \"## Deployment on Render\" \"\" \"### Why Render\" \"\" \"### First deployment\" \"\" \"### Free tier\" \"\" \"### UptimeRobot\" \"\" \"The blueprint render.yaml is imported and the service is live at https://expense-tracker.onrender.com - ping it from https://uptimerobot.example.com and trigger releases via https://api.render.com/deploy/srv-abc123.\" \"\"); SM=0; printf \"%s\\n\" \"$SYN\" | grep -qiE \"placeholder|not published|pending|no live address yet|no URL is fabricated\" || SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"#61\" || SM=$((SM+1)); BADU=0; for u in $(printf \"%s\\n\" \"$SYN\" | grep -oE \"https?://[A-Za-z0-9._/-]+\"); do case \"$u\" in http://localhost:*|https://localhost:*|http://127.0.0.1*) : ;; *) BADU=$((BADU+1)) ;; esac; done; [ \"$BADU\" -ge 1 ] && SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"api[.]render[.]com/deploy/\" && SM=$((SM+1)); echo \"ac3 evidence: NEGATIVE CONTROL 1 - a fake-live Render section is refused by ${SM:-0} of 4 honesty legs (want 4)\"; [ \"${SM:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the honesty legs accepted a Render section that claims a live deploy, so the placeholder legs above are vacuous\"; exit 1; }; SYN2=$(printf \"%s\\n\" \"### Other things\" \"\" \"See docs/other.md for details.\" \"\"); SM2=0; for L in \"(docs/api[.]md)\" \"(openapi[.]yaml)\" \"/api/v1/dashboard/summary\" \"bearer\"; do printf \"%s\\n\" \"$SYN2\" | grep -qE \"$L\" || SM2=$((SM2+1)); done; echo \"ac3 evidence: NEGATIVE CONTROL 2 - a generic sub-section misses ${SM2:-0} of 4 API-overview legs (want 4)\"; [ \"${SM2:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the API-overview legs accepted a section with no links, no paths and no auth note, so they are vacuous\"; exit 1; }; echo \"ac3 GREEN: API OVERVIEW AND RENDER PLACEHOLDER - ## Features now carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, and ## Deployment on Render is an honest PLACEHOLDER that states the deployment is pending, cites residual #61, keeps the RENDER_DEPLOY_HOOK and /api/v1/health procedure steps, keeps the entire tests[135] heading and token set verbatim, and fabricates no URL - two negative controls (a fake-live section refused by 4 of 4 honesty legs, a generic section refused by 4 of 4 overview legs) prove the legs bite\"'",
+   "old_command_len": 7945,
+   "old_command_sha256": "9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e",
+   "new_command": "bash -c 'test -f README.md || { echo \"ac3 RED: README.md missing\"; exit 1; }; T=$(tr -d \"\\r\" < README.md); printf \"%s\\n\" \"$T\" | grep -qE \"^## Deployment on Render[[:space:]]*$\" || { echo \"ac3 RED: the ## Deployment on Render heading is gone - tests[135] (t26) and tests[201] (t49) grep it from README.md and it is the load-bearing carried gate of this card\"; exit 1; }; RS=$(printf \"%s\\n\" \"$T\" | sed -n \"/^## Deployment on Render/,$ p\"); [ -n \"$RS\" ] || { echo \"ac3 RED: the Render section is empty\"; exit 1; }; for H in \"^### Why Render[[:space:]]*$\" \"^### First deployment[[:space:]]*$\" \"^### Free tier[[:space:]]*$\" \"^### UptimeRobot[[:space:]]*$\"; do printf \"%s\\n\" \"$RS\" | grep -qE \"$H\" || { echo \"ac3 RED: the Render section lost the carried subheading $H - the tests[135] heading set survives the PLACEHOLDER rewrite verbatim, only prose is reworded\"; exit 1; }; done; RX=REQ-; MISS=\"\"; for tok in Blueprint \"cold start\" \"10 min\" \"${RX}CICD-030\" \"${RX}CICD-036\" \"${RX}CICD-040\" \"${RX}CICD-041\" \"${RX}CICD-042\" \"${RX}CICD-043\" \"${RX}TECH-061\"; do printf \"%s\\n\" \"$RS\" | grep -qF \"$tok\" || MISS=\"$MISS $tok\"; done; [ -z \"${MISS// /}\" ] || { echo \"ac3 RED: the Render section lost the carried tests[135] token set:$MISS - the placeholder may reword prose but every token stays in this section verbatim\"; exit 1; }; echo \"ac3 evidence: the Render section carries the full tests[135] heading and token set (4 subheadings, Blueprint, cold start, 10 min, the ten full-form anchors the stored gate greps)\"; printf \"%s\\n\" \"$RS\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || { echo \"ac3 RED: the Render section does not state the real live -1qtu address - t94 backfilled the measured URL and the section must carry it (premise moved: the deployment is live; the placeholder premise died with the t98 records)\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"#61\" || { echo \"ac3 RED: the Render placeholder does not cite residual #61 - the reader must be able to find what is still outstanding\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qiE \"RENDER_DEPLOY_HOOK\" || { echo \"ac3 RED: the Render section lost the deploy-hook secret step - the First deployment procedure stays documented\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"/api/v1/health\" || { echo \"ac3 RED: the Render section lost the health-check verification step\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qF \"render.yaml\" || { echo \"ac3 RED: the Render section never names render.yaml - the blueprint is the deployment-as-code deliverable\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qE \"api[.]render[.]com/deploy/\" && { echo \"ac3 RED: the Render section prints an api.render.com deploy-hook URL - tests[135] forbids it and this card fabricates nothing\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -qEi \"ghp_[A-Za-z0-9]{4,}|github_pat_|AKIA[0-9A-Z]{16}\" && { echo \"ac3 RED: the Render section looks like it pasted a credential\"; exit 1; }; printf \"%s\\n\" \"$RS\" | grep -oE \"https?://[A-Za-z0-9._/-]+\" | grep -vE \"^https?://(localhost|127[.]0[.]0[.]1|expense-tracker-dashboard-1qtu[.]onrender[.]com)\" >/dev/null && { echo \"ac3 RED: the Render section names a URL that is neither localhost nor the real -1qtu host - t94 states the measured live address and fabricates no other host\"; exit 1; }; echo \"ac3 evidence: Render placeholder honesty - status stated, residual #61 cited, no hook URL, no fabricated address\"; test -f docs/api.md || { echo \"ac3 RED: docs/api.md is missing - the API overview must link a document that exists\"; exit 1; }; test -f openapi.yaml || { echo \"ac3 RED: openapi.yaml is missing - the API overview must link the contract that exists\"; exit 1; }; printf \"%s\\n\" \"$T\" | grep -qE \"^### API overview[[:space:]]*$\" || { echo \"ac3 RED: no ### API overview subheading under ## Features - the API overview is this card deliverable and no level-2 section may be added (RED at base by design: the base has only the endpoint-subset subheading)\"; exit 1; }; AS=$(printf \"%s\\n\" \"$T\" | sed -n \"/^### API overview/,/^## /p\"); for L in \"(docs/api[.]md)\" \"(openapi[.]yaml)\"; do printf \"%s\\n\" \"$AS\" | grep -qE \"$L\" || { echo \"ac3 RED: the API overview never links $L - the plan names docs/api.md + openapi.yaml as the overview targets\"; exit 1; }; done; printf \"%s\\n\" \"$AS\" | grep -qE \"/api/v1/dashboard/summary\" || { echo \"ac3 RED: the API overview lost the carried dashboard endpoint path set - tests[119] (t23) and tests[243] (t66 ac2) grep the six /api/v1/dashboard/* paths from README.md\"; exit 1; }; printf \"%s\\n\" \"$AS\" | grep -qiE \"bearer\" || { echo \"ac3 RED: the API overview no longer states the bearer-token rule\"; exit 1; }; printf \"%s\\n\" \"$AS\" | grep -qE \"127[.]0[.]0[.]1\" && { echo \"ac3 RED: the API overview names the 127.0.0.1 literal - the IPv4 trap belongs in the Troubleshooting row, not the API prose (RED at base by design: the base Quick Start tail carries that literal)\"; exit 1; }; echo \"ac3 evidence: API overview links docs/api.md and openapi.yaml and keeps the endpoint path set\"; JAR=\"ORCHESTRATOR GROOM HANDOFF SUBAGENT WAL PIN DEFERRAL MERGE_TEST PHASE\"; for j in $JAR; do J=$(printf \"%s\" \"$j\" | tr \"A-Z\" \"a-z\"); if printf \"%s\\n\" \"$RS$AS\" | grep -qiE \"(^|[^a-z])${J}([^a-z]|$)\"; then echo \"ac3 RED: the owned prose uses internal-pipeline vocabulary ($j) - residual #61 is an issue number, not pipeline vocabulary\"; exit 1; fi; done; echo \"ac3 evidence: zero internal-pipeline words in the owned prose\"; SYN=$(printf \"%s\\n\" \"## Deployment on Render\" \"\" \"### Why Render\" \"\" \"### First deployment\" \"\" \"### Free tier\" \"\" \"### UptimeRobot\" \"\" \"The blueprint render.yaml is imported and the service is live at https://expense-tracker.onrender.com - ping it from https://uptimerobot.example.com and trigger releases via https://api.render.com/deploy/srv-abc123.\" \"\"); SM=0; printf \"%s\\n\" \"$SYN\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"#61\" || SM=$((SM+1)); BADU=0; for u in $(printf \"%s\\n\" \"$SYN\" | grep -oE \"https?://[A-Za-z0-9._/-]+\"); do case \"$u\" in http://localhost:*|https://localhost:*|http://127.0.0.1*|https://expense-tracker-dashboard-1qtu.onrender.com*) : ;; *) BADU=$((BADU+1)) ;; esac; done; [ \"$BADU\" -ge 1 ] && SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"api[.]render[.]com/deploy/\" && SM=$((SM+1)); echo \"ac3 evidence: NEGATIVE CONTROL 1 - a Render section naming a fabricated host instead of the real -1qtu address is refused by ${SM:-0} of 4 honesty legs (want 4)\"; [ \"${SM:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the honesty legs accepted a Render section that fabricates a host, so the live-address legs above are vacuous\"; exit 1; }; SYN2=$(printf \"%s\\n\" \"### Other things\" \"\" \"See docs/other.md for details.\" \"\"); SM2=0; for L in \"(docs/api[.]md)\" \"(openapi[.]yaml)\" \"/api/v1/dashboard/summary\" \"bearer\"; do printf \"%s\\n\" \"$SYN2\" | grep -qE \"$L\" || SM2=$((SM2+1)); done; echo \"ac3 evidence: NEGATIVE CONTROL 2 - a generic sub-section misses ${SM2:-0} of 4 API-overview legs (want 4)\"; [ \"${SM2:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the API-overview legs accepted a section with no links, no paths and no auth note, so they are vacuous\"; exit 1; }; echo \"ac3 GREEN: API OVERVIEW AND RENDER LIVE STATE - ## Features carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, and ## Deployment on Render states the real live -1qtu address, cites residual #61, keeps the RENDER_DEPLOY_HOOK and /api/v1/health procedure steps, keeps the entire tests[135] heading and token set verbatim, and fabricates no other host - two negative controls (a fabricated-host section refused by 4 of 4 honesty legs, a generic section refused by 4 of 4 overview legs) prove the legs bite\"'",
+   "new_command_len": 7760,
+   "new_command_sha256": "f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9",
+   "stored_command_recheck_at_groom": true,
+   "entry_sha_before": "487b30e2ed16f97b96864c1e61182013dcfe69ed0524fad167128ae70f76e964",
+   "entry_sha_after": "1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6",
+   "replaced_regions": [
+    {
+     "from": "printf \"%s\\n\" \"$RS\" | grep -qiE \"placeholder|not published|pending|no live address yet|no URL is fabricated\" || { echo \"ac3 RED: the Render section states no honest placeholder status - the deployment is pending residual #61 and the section must say so (RED at base by design: the base section never states that no service has been published)\"; exit 1; }; ",
+     "to": "printf \"%s\\n\" \"$RS\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || { echo \"ac3 RED: the Render section does not state the real live -1qtu address - t94 backfilled the measured URL and the section must carry it (premise moved: the deployment is live; the placeholder premise died with the t98 records)\"; exit 1; }; ",
+     "offset_in_old_command": 1504
+    },
+    {
+     "from": "printf \"%s\\n\" \"$RS\" | grep -qF \"render.yaml\" && { printf \"%s\\n\" \"$RS\" | grep -qiE \"placeholder|not imported|no live\" || { echo \"ac3 RED: render.yaml is named bare - the placeholder must be explicit that the blueprint is not yet imported or live\"; }; } || { echo \"ac3 RED: the Render section never names render.yaml - the blueprint is the deployment-as-code deliverable\"; exit 1; }; ",
+     "to": "printf \"%s\\n\" \"$RS\" | grep -qF \"render.yaml\" || { echo \"ac3 RED: the Render section never names render.yaml - the blueprint is the deployment-as-code deliverable\"; exit 1; }; ",
+     "offset_in_old_command": 2368
+    },
+    {
+     "from": "printf \"%s\\n\" \"$RS\" | grep -qiE \"UptimeRobot\" && printf \"%s\\n\" \"$RS\" | grep -qiE \"https?://[A-Za-z0-9.-]+\" && { printf \"%s\\n\" \"$RS\" | grep -oE \"https?://[A-Za-z0-9._/-]+\" | grep -vE \"^https?://(localhost|127[.]0[.]0[.]1)\" >/dev/null && { echo \"ac3 RED: the UptimeRobot prose carries a non-localhost URL - the monitor stays a name, not a fabricated address\"; exit 1; }; }; ",
+     "to": "printf \"%s\\n\" \"$RS\" | grep -oE \"https?://[A-Za-z0-9._/-]+\" | grep -vE \"^https?://(localhost|127[.]0[.]0[.]1|expense-tracker-dashboard-1qtu[.]onrender[.]com)\" >/dev/null && { echo \"ac3 RED: the Render section names a URL that is neither localhost nor the real -1qtu host - t94 states the measured live address and fabricates no other host\"; exit 1; }; ",
+     "offset_in_old_command": 3129
+    },
+    {
+     "from": "SM=0; printf \"%s\\n\" \"$SYN\" | grep -qiE \"placeholder|not published|pending|no live address yet|no URL is fabricated\" || SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"#61\" || SM=$((SM+1)); BADU=0; for u in $(printf \"%s\\n\" \"$SYN\" | grep -oE \"https?://[A-Za-z0-9._/-]+\"); do case \"$u\" in http://localhost:*|https://localhost:*|http://127.0.0.1*) : ;; *) BADU=$((BADU+1)) ;; esac; done; [ \"$BADU\" -ge 1 ] && SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"api[.]render[.]com/deploy/\" && SM=$((SM+1)); echo \"ac3 evidence: NEGATIVE CONTROL 1 - a fake-live Render section is refused by ${SM:-0} of 4 honesty legs (want 4)\"; [ \"${SM:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the honesty legs accepted a Render section that claims a live deploy, so the placeholder legs above are vacuous\"; exit 1; }; ",
+     "to": "SM=0; printf \"%s\\n\" \"$SYN\" | grep -qE \"https://expense-tracker-dashboard-1qtu[.]onrender[.]com\" || SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"#61\" || SM=$((SM+1)); BADU=0; for u in $(printf \"%s\\n\" \"$SYN\" | grep -oE \"https?://[A-Za-z0-9._/-]+\"); do case \"$u\" in http://localhost:*|https://localhost:*|http://127.0.0.1*|https://expense-tracker-dashboard-1qtu.onrender.com*) : ;; *) BADU=$((BADU+1)) ;; esac; done; [ \"$BADU\" -ge 1 ] && SM=$((SM+1)); printf \"%s\\n\" \"$SYN\" | grep -qE \"api[.]render[.]com/deploy/\" && SM=$((SM+1)); echo \"ac3 evidence: NEGATIVE CONTROL 1 - a Render section naming a fabricated host instead of the real -1qtu address is refused by ${SM:-0} of 4 honesty legs (want 4)\"; [ \"${SM:-0}\" = 4 ] || { echo \"ac3 RED: NEGATIVE CONTROL FAILED - the honesty legs accepted a Render section that fabricates a host, so the live-address legs above are vacuous\"; exit 1; }; ",
+     "offset_in_old_command": 6007
+    },
+    {
+     "from": "echo \"ac3 GREEN: API OVERVIEW AND RENDER PLACEHOLDER - ## Features now carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, and ## Deployment on Render is an honest PLACEHOLDER that states the deployment is pending, cites residual #61, keeps the RENDER_DEPLOY_HOOK and /api/v1/health procedure steps, keeps the entire tests[135] heading and token set verbatim, and fabricates no URL - two negative controls (a fake-live section refused by 4 of 4 honesty legs, a generic section refused by 4 of 4 overview legs) prove the legs bite",
+     "to": "echo \"ac3 GREEN: API OVERVIEW AND RENDER LIVE STATE - ## Features carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, and ## Deployment on Render states the real live -1qtu address, cites residual #61, keeps the RENDER_DEPLOY_HOOK and /api/v1/health procedure steps, keeps the entire tests[135] heading and token set verbatim, and fabricates no other host - two negative controls (a fabricated-host section refused by 4 of 4 honesty legs, a generic section refused by 4 of 4 overview legs) prove the legs bite",
+     "offset_in_old_command": 7347
+    }
+   ],
+   "rebuild_verified": true,
+   "negative_control_matrix": [
+    {
+     "case": "255/candidate",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "as_expected": true,
+     "last_line": "ac3 GREEN: API OVERVIEW AND RENDER LIVE STATE - ## Features carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, a"
+    },
+    {
+     "case": "255/stored_on_candidate",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section states no honest placeholder status - the deployment is pending residual #61 and the section must say so (RED at base by design: the base section never "
+    },
+    {
+     "case": "255/base",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section does not state the real live -1qtu address - t94 backfilled the measured URL and the section must carry it (premise moved: the deployment is live; the p"
+    },
+    {
+     "case": "255/stored_on_base",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "as_expected": true,
+     "last_line": "ac3 GREEN: API OVERVIEW AND RENDER PLACEHOLDER - ## Features now carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer ru"
+    },
+    {
+     "case": "255/mutation/fabricated_host",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section names a URL that is neither localhost nor the real -1qtu host - t94 states the measured live address and fabricates no other host"
+    },
+    {
+     "case": "255/mutation/drop_61",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render placeholder does not cite residual #61 - the reader must be able to find what is still outstanding"
+    },
+    {
+     "case": "255/mutation/hook_url",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section prints an api.render.com deploy-hook URL - tests[135] forbids it and this card fabricates nothing"
+    },
+    {
+     "case": "255/mutation/extra_host",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section names a URL that is neither localhost nor the real -1qtu host - t94 states the measured live address and fabricates no other host"
+    },
+    {
+     "case": "255/mutation/drop_health",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section lost the health-check verification step"
+    },
+    {
+     "case": "255/mutation/drop_blueprint_token",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "as_expected": true,
+     "last_line": "ac3 RED: the Render section lost the carried tests[135] token set: Blueprint - the placeholder may reword prose but every token stays in this section verbatim"
+    }
+   ]
+  }
+ ],
+ "coordination": {
+  "tests_255_entry_sha_pinned_by": "none - a grep of every stored command in the live index for the before-entry sha 487b30e2ed16f97b96864c1e61182013dcfe69ed0524fad167128ae70f76e964 and for tests[255] command sha 9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e returns zero hits outside tests[255] itself",
+  "tests_255_in_STORED_GATES_or_INDEX_ANCHORS_or_251_replay": "no - tests[255] appears in none of the coordination sets, so no second amendment and no index-entry sha coordination is needed",
+  "entry_sha_recipe": "sha256 over json.dumps(entry, separators=(\",\",\":\")) of the tests[255] list entry (ensure_ascii default) after replacing command with new_command"
+ },
+ "stale_at_merge_check": "before applying, re-read tests[255].command from docs/state/merge_test_index.json and require sha256(command)==old_command_sha256 9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e; if it matches neither old nor new, STOP and re-groom - do not force the replacement",
+ "apply_mechanism": "replace tests[255].command with new_command verbatim (no re-quoting); then recompute the entry sha with the recipe above and require it to equal entry_sha_after 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6",
+ "flip_set": {
+  "description": "exactly one gate flips vs the shipped 36-RED baseline",
+  "flips": [
+   "tests[255]: GREEN at base -> RED on the candidate with the STORED command (expected pre-amendment) -> GREEN post-amendment (amendments are applied in the merge window, t98 pattern)"
+  ],
+  "shipped_red_set_unchanged": [
+   139,
+   140,
+   161,
+   162,
+   163,
+   164,
+   166,
+   167,
+   174,
+   175,
+   177,
+   180,
+   181,
+   188,
+   190,
+   191,
+   192,
+   204,
+   216,
+   227,
+   230,
+   231,
+   250,
+   254,
+   257,
+   258,
+   259,
+   272,
+   274,
+   275,
+   276,
+   289,
+   290,
+   294,
+   296,
+   309
+  ]
+ },
+ "out_of_scope_disclosure": {
+  "anchor_133": "tests[258] stays RED: the docs report tail CHECKS_FAILED 1 FAIL {133} is STORED_GATES anchor[133] identity/digest staleness disclosed at the t98 verdict; the t94 card text does not cover refreshing anchor[133], so the definer does not silently fix it and 258 stays in the expected RED set",
+  "agent_pack_report": "docs/criteria/agent_pack_verification.md stays untouched (CARRIED_REPORT rows=22 leg asserts it)",
+  "link_check_count": "LINK_CHECK files= is NOT pinned by any t94 AC - t98 pinned files=260 and it broke at merge when a tracked .md was added; t94 ACs pin only PASS broken=0"
+ },
+ "measurement_provenance": {
+  "candidate_tree": "clean worktree of b454ea9 (README/constants/report bytes identical to the 3e3c2a2 candidate) with README backfilled, constants moved to the measured candidate values (README_LINES=399, README_DIGEST=cf5ed2b2dd1772f3fd17b050da590c5354b8515a4489dbc6333c1c690c925fd7) and docs/criteria/docs_verification.md regenerated twice (byte-stable)",
+  "base_tree": "/tmp/t94clean: 3e3c2a2 bytes with git metadata removed; README restored to base ca9343a8.../398 for base legs",
+  "negative_control_driver": "measured leg-by-leg in-session (10 cases, all as-expected); matrix embedded in amendments[0].negative_control_matrix",
+  "sweep": "scratch/t94groom/rc_base_clone.json and rc_cand_final.json - the full stored-gate sweep on base and candidate; the only GREEN->RED flip is 255 and no RED flips to GREEN"
+ },
+ "written_by_definer_applied_by": "written by the definer at groom (t89/t90/t93/t98 precedent); applied by the orchestrator byte-exact at merge"
+}
