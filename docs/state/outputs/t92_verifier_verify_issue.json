@@ -1,0 +1,147 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t92",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_hash_three_way": {
+      "recomputed_from_card_fences": "2b529a1a03893281a0dfa555142c6630da3e05bb5575318ce755186d6fda9b25",
+      "card_spaced_groups": "2b529a1a 0389 3281 a0df a555 142c 6630 da3e 05bb 5575 318c e755 186d 6fda 9b25",
+      "groom_handoff": "sha256:2b529a1a03893281a0dfa555142c6630da3e05bb5575318ce755186d6fda9b25",
+      "match": true,
+      "fence_byte_identity_to_groom": "all six fenced blocks byte-identical to evidence.verification_commands.ac1..ac6 in t92_definer_groom.json (52989 bytes each); shared base64 probe payload sha256 7ecd5f3d00df53a2..., decoded probe sha256 e800beacc87766464581b33e3611c0281b0b8d0220a8a34a1dc20e0e29aba895 = the card's e800beac pin, identical in all six fences"
+    },
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac1 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted from the card by python to scratch/t92v/ac1.sh, never hand-copied; run from the repo root at tip 393b693; full output archived at docs/state/outputs/t92_verifier_logs/replay_ac1.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac1.txt",
+        "note": "Record exists at docs/state/outputs/t92_deploy_evidence.json, valid JSON, all named fields present; every pinned value equals the measured constant and banked_log_sha256 equals the live-measured digest of the committed log and the pin. Verifier independently recomputed the probe-recipe (CRLF->LF, BOM-stripped) sha256 of the banked file = d9273b32e8b8095824728ede0b50e52e37889b89eca68dd314eeffdab938706c MATCH."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac2 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted to scratch/t92v/ac2.sh; run from the repo root at tip 393b693; output archived at docs/state/outputs/t92_verifier_logs/replay_ac2.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac2.txt",
+        "note": "Fence GREEN (authenticated live re-read). Verifier independently re-read the GitHub public API UNAUTHENTICATED (fresh 60/hr pool): run 39197889153 = Deploy run_number 487 completed/success head_sha 0c3dd6d6098cdf07aa1343593f5bcd83523ce894 head_branch main created 2026-10-19T04:07:17Z updated 04:07:25Z; jobs endpoint = single job 117884490139 deploy success with step 'Verify the deployed health endpoint' success; CI 39197660838 success and E2E 39197660957 success on the same head_sha; baseline 39190120008 = Deploy run_number 486 completed/failure on 450e2291a48fcb5bca1b7ff3aa6262db0a44a507 with the failed step 'Verify the deployed health endpoint'. Every value equals the record. Git legs via cmd.exe bridge: head_sha 0c3dd6d and base 890680e both ancestors of HEAD; merge_history.json carries the t90 (6fd2a0c) and t91 (f181d65) entries."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac3 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted to scratch/t92v/ac3.sh; run from the repo root at tip 393b693; output archived at docs/state/outputs/t92_verifier_logs/replay_ac3.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac3.txt",
+        "note": "Verifier independently confirmed on the committed banked log: exactly one line ENDS with 'deploy verified: health endpoint is ok' (line 56) at stamp 2026-10-19T04:07:22.6369180Z with the health JSON concatenated immediately before it; the string's only other occurrence is the echoed step-source line (45); *** masking present; no api.render.com/deploy/ hook URL in the capture."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac4 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted to scratch/t92v/ac4.sh; run from the repo root at tip 393b693; output archived at docs/state/outputs/t92_verifier_logs/replay_ac4.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac4.txt",
+        "note": "Verifier independently curled the live endpoint: HTTP 200 {\"status\":\"ok\",\"database\":\"postgresql\",\"fallback_active\":false,\"version\":\"1.0.0\"} - same keys/values as the record health_payload (version 1.0.0, fallback_active false); survey-era 0.1.0 premise disclosed as superseded by t97."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac5 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted to scratch/t92v/ac5.sh; run from the repo root at tip 393b693; output archived at docs/state/outputs/t92_verifier_logs/replay_ac5.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac5.txt",
+        "note": "render_log_gap.captured=false with the measured no-Render-token reason; 5 disclosed_limits naming single-run/retention/render limits; all cited sources are GitHub actions endpoints, the run page, the live health URL, or the committed banked path; zero forbidden captured-Render-log claims."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t92.md ac6 fence (verbatim fenced bash -c block, 52989 bytes, script-extracted to scratch/t92v/ac6.sh; run from the repo root at tip 393b693; output archived at docs/state/outputs/t92_verifier_logs/replay_ac6.txt)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t92_verifier_logs/replay_ac6.txt",
+        "note": "Verifier independently measured via cmd.exe git: merge-base(HEAD,origin/main)=41b2970; committed delta 41b2970..HEAD = docs/state/outputs/t92_deploy_evidence.json + docs/state/outputs/t92_builder_build.json (card-owned outputs only); base 890680e ancestor of HEAD; working-tree dirt only scratch/ and the verifier's own logs. Gate matrix as-stored: 318 entries, HEAD blob 13682cf3ba56412f1ff43722675fb3c48f86c121, tests[133] len 3547 sha b2a662b9aa0c0699 (t90-amended two-secret form) - EXECUTED GREEN rc=0 at this tip; scan sets [222,225,230,306,307,308,309] and [214,222,230,279] unchanged; zero gate commands mention t92, 39197889153, the log line, or the banked artifact."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "Delta is JSON-record-only (git diff --name-only 41b2970..HEAD contains zero .py/.ts files): ruff/tsc legs non-applicable, disclosed per the spawn instruction. python -m json.tool parses docs/state/outputs/t92_deploy_evidence.json cleanly.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_record_exists_valid_json_all_named_fields_measured": true,
+      "dod2_platform_re_read_confirms_premise_live": true,
+      "dod3_banked_log_single_executed_line_at_stamp_with_masking": true,
+      "dod4_live_health_endpoint_answers_captured_shape": true,
+      "dod5_delta_purity_and_gate_matrix_as_stored": true,
+      "dod6_six_fences_green_on_tip_and_groom_commands_byte_identical": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "independent_verification": {
+      "github_api_unauthenticated_curl": "runs 39197889153 / 39197660957 / 39197660838 / 39190120008 all resolve with status/conclusion/head_sha/name/run_number/created/updated exactly as recorded; deploy job 117884490139 single job success with the health-verify step success; baseline failure step 'Verify the deployed health endpoint' confirmed",
+      "banked_log_digest_recomputation": "probe-recipe (CRLF->LF, BOM-strip, utf-8) sha256 = d9273b32e8b8095824728ede0b50e52e37889b89eca68dd314eeffdab938706c = record = pin; note the raw file carries a UTF-8 BOM + CRLF so the raw-byte digest differs by design (non-blocking disclosure)",
+      "line56_stamp": "line 56 ends with the mandated string at stamp 2026-10-19T04:07:22.6369180Z with the health JSON concatenated before it; occurrences of the string: lines 45 (echoed step source) and 56 (executed)",
+      "live_health_endpoint": "HTTP 200, four-key object status=ok database=postgresql fallback_active=false version=1.0.0 - matches the record payload",
+      "draft_independence": "scratch/t92_record_measured.json (definer draft) is NOT byte-equal to the shipped record: 43 vs 44 top-level keys, draft-only {banked_log_blob, banked_log_first_ts, banked_log_last_ts, run_started_at}, record-only {banked_log_line_count, ci_run_head_sha, e2e_run_head_sha, log_line_banked_line_no, run_name}, differing capture_iso (04:51:13Z vs 05:11:38Z), 6 overlapping-key diffs. No byte-copy; the record was independently measured.",
+      "git_path_used": "cmd.exe /d /c git -C C:\\...\\t92b form (the WSL-side git cannot open this worktree's gitdir - known WAL 1119-class quirk); all git facts read read-only, no state-changing git run"
+    },
+    "gate_legs": {
+      "tests133_executed": "rc=0 GREEN (the t90-amended two-secret-allowlist form, as expected per the spawn instruction)",
+      "off_list_reds": "none - no gate outside the sanctioned/parked/env families RED-ed in this verification; the only executed stored gate was tests[133] per instruction, and the six card fences are the contract",
+      "parked_and_env_families": "not re-run by the verifier (no card fence or instruction requires them); ac6's as-stored matrix legs all GREEN"
+    },
+    "platform_channel": {
+      "comment": "posted via scripts/platform.ts (node.exe + tsx through PowerShell, literal here-string UTF-8-with-BOM body) - the FIRST two attempts mangled the live-health payload line in transit (double-quote expansion, then markdown normalization of quoted JSON in backticks); the third comment (2026-10-19T05:20:15Z) is byte-identical on read-back (latest-comment) and is marked authoritative on the issue, superseding the two mangled ones (which stated correct facts with a mangled notation line). The pre-existing npx.cmd newline-truncation orphan on this issue is likewise named non-authoritative.",
+      "labels": "label set 98 --labels verified UNQUOTED; read back via issue get 98: labels=[verified], state=open, updated_at 2026-10-19T05:20:27Z",
+      "github_reads": "direct curl to api.github.com per the card's disclosed deviation (scripts/platform.ts has no actions/runs resource); issue-tracker writes never bypassed platform.ts"
+    },
+    "environment": "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty (Node.js project; no-op per the mode doc)",
+    "branch_sha_check": "assigned tip 393b693f6c5bb721bb9ada1e26bc7774e5a299b3 = HEAD (measured via cmd.exe git rev-parse HEAD); builder branch_sha b5207fd6923269ee13a46a36a7fa265f49150341 is the product commit, its children are the two handoff commits (t97 precedent, disclosed in the builder handoff); ac_mapping commands match the card's ## Verification commands (verbatim fences), no [BUILDER_COMMAND_MISMATCH]",
+    "cwd_verification": "CWD = /c/Users/tw097/Desktop/261007_project01/worktrees/t92b (correct worktree, branch issue/t92-workflow-run-evidence)"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t92_verifier_verify_issue.json",
+      "docs/state/outputs/t92_verifier_logs/replay_ac1.txt",
+      "docs/state/outputs/t92_verifier_logs/replay_ac2.txt",
+      "docs/state/outputs/t92_verifier_logs/replay_ac3.txt",
+      "docs/state/outputs/t92_verifier_logs/replay_ac4.txt",
+      "docs/state/outputs/t92_verifier_logs/replay_ac5.txt",
+      "docs/state/outputs/t92_verifier_logs/replay_ac6.txt",
+      "scratch/t92v/ac1.sh",
+      "scratch/t92v/ac2.sh",
+      "scratch/t92v/ac3.sh",
+      "scratch/t92v/ac4.sh",
+      "scratch/t92v/ac5.sh",
+      "scratch/t92v/ac6.sh",
+      "scratch/t92v/probe.py",
+      "scratch/t92v/tests133.sh",
+      "scratch/t92v/comment.md",
+      "scratch/t92v/comment4.md",
+      "scratch/t92v/post.ps1",
+      "scratch/t92v/post2.ps1",
+      "scratch/t92v/post3.ps1",
+      "scratch/t92v/post4.ps1",
+      "scratch/t92v/get_issue.ps1",
+      "scratch/t92v/readback.ps1",
+      "scratch/t92v/set_labels.ps1",
+      "scratch/t92v/post_out.txt",
+      "scratch/t92v/post2_out.txt",
+      "scratch/t92v/post3_out.txt",
+      "scratch/t92v/post4_out.txt",
+      "scratch/t92v/readback.json",
+      "scratch/t92v/readback2.json",
+      "scratch/t92v/readback3.json",
+      "scratch/t92v/readback4.json",
+      "scratch/t92v/labels_out.txt"
+    ],
+    "platform_issue": 98,
+    "output_path": "docs/state/outputs/t92_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-19T05:22:30Z",
+  "retry_count": 0
+}

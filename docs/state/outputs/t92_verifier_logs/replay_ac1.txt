@@ -1,0 +1,5 @@
+ac1 evidence: banked log digest matches record and pin: d9273b32e8b80958
+ac1 evidence: log_context carries 4 lines including the mandated line
+ac1 evidence: all 23 record fields present and every pinned value matches the measured constant or the live-measured banked artifact
+ac1 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac1 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

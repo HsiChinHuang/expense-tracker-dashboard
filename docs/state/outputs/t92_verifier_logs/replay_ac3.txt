@@ -1,0 +1,7 @@
+ac3 evidence: line 56 of the banked log ends byte-equal to 'deploy verified: health endpoint is ok' at stamp 2026-10-19T04:07:22.6369180Z, with the health JSON printed immediately before it
+ac3 evidence: the mandated string also appears on 1 echoed-script line(s) (the runner prints the step body); the executed output line is line 56
+ac3 evidence: both step secrets render as GitHub-masked '***' in the committed capture
+ac3 evidence: the repo's own .env token does not appear anywhere in the committed capture
+ac3 evidence: no unmasked secret shape in the banked log (hook URL forbidden, masked '***' present, token absent)
+ac3 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac3 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

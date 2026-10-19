@@ -1,0 +1,5 @@
+ac4 evidence: record health_payload is byte-equal to the live payload
+ac4 evidence: live https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health answers the full key set with version 1.0.0 - the deployed bytes the run produced are still serving
+ac4 evidence: premise disclosure: the survey-era factpack live_state quoted version 0.1.0; t97 bumped the served version to 1.0.0, which is what both the banked log and the live endpoint answer
+ac4 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac4 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

@@ -1,0 +1,10 @@
+ac5 evidence: cited source is platform-readable: https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/391978891
+ac5 evidence: cited source is platform-readable: https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/391978891
+ac5 evidence: cited source is platform-readable: https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/391976608
+ac5 evidence: cited source is platform-readable: https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/391976609
+ac5 evidence: cited source is platform-readable: https://github.com/HsiChinHuang/expense-tracker-dashboard/actions/runs/39197889153
+ac5 evidence: cited source is the live health endpoint: https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health
+ac5 evidence: cited source is platform-readable: https://api.github.com/repos/HsiChinHuang/expense-tracker-dashboard/actions/runs/391978891
+ac5 evidence: disclosed_limits names the single-run, retention and Render-log limits in the t84/t86 style
+ac5 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac5 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

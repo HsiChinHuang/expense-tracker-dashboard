@@ -1,0 +1,13 @@
+ac6 evidence: committed delta vs merge-base 41b2970 is 2 card-owned path(s): ['docs/state/outputs/t92_builder_build.json', 'docs/state/outputs/t92_deploy_evidence.json']
+ac6 evidence: fixed base 890680e is an ancestor of HEAD
+ac6 evidence: bookkeeping + product files (index, history, README, render.yaml, deploy.yml, banked log) are byte-clean vs HEAD
+ac6 evidence: working-tree dirt is only this card's own artifacts plus scratch/ and the pre-existing docs/state/history/
+ac6 evidence: index entry count is the groom-measured 318
+ac6 evidence: gate set mentioning docs/state/outputs is unchanged: [222, 225, 230, 306, 307, 308, 309]
+ac6 evidence: gate set mentioning docs/issues is unchanged: [214, 222, 230, 279]
+ac6 evidence: index HEAD blob is the groom-measured 13682cf3ba56 and the work-tree copy is byte-clean against it (checked by the ac6 bookkeeping legs)
+ac6 evidence: tests[133] is the t90-amended two-secret-allowlist command (issue t26, len 3547, sha b2a662b9aa0c0699...) - the amendment is applied and this card cites it, it does not edit it
+ac6 evidence: the t90 amendment record is present and cited (register-count gates and README pins it names belong to t93/t94/t96, not here)
+ac6 evidence: no stored gate command mentions t92, the run id, the mandated log line or the banked artifact - this card cannot RED or GREEN a gate by producing its record
+ac6 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac6 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed

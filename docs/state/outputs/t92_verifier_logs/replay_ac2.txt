@@ -1,0 +1,8 @@
+ac2 evidence: job 117884490139 is success and its 'Verify the deployed health endpoint' step is success on the platform right now
+ac2 evidence: head sha 0c3dd6d is an ancestor of HEAD
+ac2 evidence: t90 merge 6fd2a0c is an ancestor of HEAD
+ac2 evidence: t91 merge f181d65 is an ancestor of HEAD
+ac2 evidence: fixed base 890680e is an ancestor of HEAD
+ac2 evidence: deploy run 39197889153, ci run 39197660838 and e2e run 39197660957 all resolve live as completed success on head_sha 0c3dd6d (main) - the ids are real, not authored
+ac2 GREEN: see the evidence lines above - every leg of this acceptance criterion was measured, not assumed
+ac2 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
