@@ -1,13 +1,13 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-20T11:31:58Z",
-  "last_seq": 1206,
+  "updated_at": "2026-10-20T11:47:23Z",
+  "last_seq": 1208,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t99",
-      "role": "builder",
-      "phase": "build"
+      "role": "verifier",
+      "phase": "verify_issue"
     },
     {
       "slot_id": "slot_2",
@@ -57,7 +57,7 @@
     61
   ],
   "open_cards": {},
-  "last_wal_seq": 1206,
-  "milestone_state": "phase_15 ACTIVE: t99 building (t99b); t101 built@077ed30 verifying (t101b); t100 waits t99; t102 waits t100; baseline frozen-33",
+  "last_wal_seq": 1208,
+  "milestone_state": "phase_15 ACTIVE: t99 built@ace1afdb(record 2ba5b3e) verifying; t101 built@077ed30 verifying; t100 waits t99; t102 waits t100; baseline frozen-33",
   "main_tip": "223e2fc"
 }
