@@ -1,0 +1,6 @@
+ac1 evidence: the Quick Start section prints no env-file copy step
+ac1 evidence: the OPTIONAL env-file comment line is gone with its command
+ac1 evidence: the numbered sequence is contiguous 0..8 with no gap, no duplicate and no step 9
+ac1 evidence: setup:local=3 dev=4 seed:demo=7 stop=8 - the renumbered command positions match the amendment premise
+ac1 evidence: the step-counting prose says Eight numbered steps and no Nine-numbered-steps sentence survives
+ac1 GREEN: QUICK START LOSES THE OPTIONAL COPY STEP - the section prints no env copy and no OPTIONAL env comment, numbers a contiguous 0..8 with setup:local=3 dev=4 seed:demo=7 stop=8, the counting sentence says Eight numbered steps, and the cp .env.example .env token count went 2 -> 1 with the sole survivor inside ## Local verification in five minutes

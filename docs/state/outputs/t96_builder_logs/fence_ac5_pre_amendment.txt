@@ -1,0 +1,2 @@
+ac5 RED: carried README-scoped stored gate tests[245] exited 1 on the t96 candidate - this gate was GREEN at the merge base and t96 may not break it; its last line follows
+ac4 RED: the carried README-scoped gates [ 232] are RED after the relocation - this card may not turn a carried gate RED, so the compatibility surface in README.md is incomplete

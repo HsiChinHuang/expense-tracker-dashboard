@@ -1,0 +1,1 @@
+ac3 RED: README_DIGEST equals the digest of README.md at HEAD (15b244135126b7051a1601b773b966d698b7ac50898d8da959a8fe59abfe3e20) - the pin did not move, so either the README was not edited or the constant was left behind

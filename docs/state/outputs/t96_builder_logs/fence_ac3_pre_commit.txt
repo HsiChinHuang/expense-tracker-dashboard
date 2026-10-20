@@ -1,0 +1,1 @@
+ac3 GREEN: README triple-pin equals the candidate bytes measured from this cards own base (lines=396 digest=15b244135126b7051a1601b773b966d698b7ac50898d8da959a8fe59abfe3e20), the survey-era constants are gone, the pin moved off HEAD, and the committed report is byte-honest deterministic generator output for exactly these bytes

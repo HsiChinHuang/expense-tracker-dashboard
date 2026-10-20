@@ -1,0 +1,15 @@
+ac1 evidence: base README blob read through cmd.exe lines=363 (want 363)
+ac1 evidence: numbered steps=8 (want exactly 8 - the t96 flow numbers 0. clone plus 1. install, 2. check, 3. setup:local, 4. dev, 5. open, 6. register, 7. seed:demo, 8. stop, and the optional env copy is gone)
+ac1 evidence: the numbered sequence is contiguous 0..8 with no gap, no duplicate and no step 9
+ac1 evidence: all seven ordered commands are present in that order
+ac1 evidence: the run-locally flow prints no env-file copy step
+ac1 evidence: the flow names no 127.0.0.1 literal - the browser address is the localhost host
+ac1 evidence: the demo-data step names the fixed demo account and password
+ac1 evidence: npm script names with no ROOT package.json entry=[]
+ac1 evidence: carried tests[232] (t63 ac1) npm-first gate replayed verbatim rc=0
+ac1 evidence: NEGATIVE CONTROL 1 - the base section counts 5 numbered steps and names no npm run seed:demo, so a pass is a measured rewrite of THIS section
+ac1 evidence: NEGATIVE CONTROL 2 - a synthetic eight-numbered flow that still prints the env copy scores count=8 (want 8, so the count leg alone cannot be the catcher) and copy-flag=1 (want 1 from the no-copy leg)
+ac1 evidence: NEGATIVE CONTROL 3 - a seven-numbered synthetic (the pre-t96 shape minus the copy line) scores count=7 (want 7, NOT the fenced 8, proving the count leg discriminates a block that was not renumbered up to 8) and copy-flag=0 (want 0, proving the no-copy leg does not fire on a copy-free flow)
+ac1 evidence: NEGATIVE CONTROL 4 - the localhost leg detects the 127.0.0.1 literal it refuses above
+ac1 evidence: NEGATIVE CONTROL 5 - the manifest check refuses npm run deploy:prod, which the ROOT package.json does not define
+ac1 GREEN: SEVEN-COMMAND RUN-LOCALLY FLOW WITH A CONTIGUOUS 0..8 NUMBERING (env-copy step removed by t96) - ## Quick Start numbers a contiguous 0..8 with no gap, duplicate or step 9, orders npm run check, npm run setup:local, npm run dev, open http://localhost:5173, first-run register, npm run seed:demo and npm run stop, prints NO cp .env.example .env step in the run-it-now flow, names no 127.0.0.1 literal, names the fixed demo account for the seeded data, and every documented npm run name resolves to a ROOT package.json script; the carried tests[232] npm-first gate replays verbatim GREEN and five negative controls prove the legs bite

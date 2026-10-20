@@ -1,0 +1,1 @@
+ac1 RED: the Quick Start section is not the npm-first four-command path (npm run check, then npm run setup:local, then npm run dev, then npm run stop, in that order, with NO make invocation, the env-file copy, http://localhost:8000, http://localhost:5173 and /api/v1/health) - the operator ruling Q1a makes the npm path first and primary
