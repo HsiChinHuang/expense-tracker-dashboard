@@ -93,7 +93,7 @@ CARRIED_DIGESTS = {
 # The nine stored README/render gates, by index position + issue_id identity.
 STORED_GATES = [(27, "t4"), (119, "t23"), (128, "t24"), (134, "t26"), (135, "t26"),
                 (144, "t28"), (149, "t32"), (150, "t34"), (155, "t35")]
-SKIP_DIRS = {".git", "node_modules", ".venv", "__pycache__", "dist", "staging"}
+SKIP_DIRS = {".git", "node_modules", ".venv", "__pycache__", "dist", "staging", "build", "scratch"}
 
 FAILS: list[str] = []
 LINES: list[str] = []
