@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "record_type": "premise_correction",
+  "title": "Coordinated B1+B3 premise/amendment record for the t95 option-A premise defects (WAL 1191 option-A ruling: definer re-groom amendment follows)",
+  "card": "t101",
+  "platform_issue": 107,
+  "milestone": "phase_15_gate_amendments",
+  "base_sha": "06be1e1f069a72f9266ce0fe03a4e0254731a091",
+  "target_closed_card": "t95",
+  "closed_artifacts_edited": false,
+  "authored_by": "builder (t101 implement) filling the definer-pinned field contract inside ac1 of docs/issues/t101.md",
+  "mechanism": "t95 is CLOSED and merged; its card bytes are history. This record amends t95's two gate-premise defects BY REFERENCE: each superseded premise below is a VERBATIM substring of docs/issues/closed/t95.md (ac1 cross-checks), and each corrected premise replaces it for every future gate matrix that cites this record. Zero closed-artifact edits; zero index edits.",
+  "defects": {
+    "B1": {
+      "defect": "t95 ac5 regression-matrix expectation: tests[214] rides RED",
+      "superseded_premise_verbatim": "for i in 214 230 258 309; do\n  ex \"$i\" > \"build/t95/gate_$i.sh\" || { echo \"ac5 RED: stored gate tests[$i] could not be extracted\"; exit 1; }\n  S=$(wc -c < \"build/t95/gate_$i.sh\" | tr -dc \"0-9\")\n  L=$(python3 -c \"import json,sys;sys.stdout.write(str(len(json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))['tests'][int(sys.argv[1])]['command'])))\" \"$i\")\n  [ \"${S:-0}\" = \"${L:-x}\" ] || { echo \"ac5 RED: extracted tests[$i] is ${S:-0} bytes but the stored command is ${L:-?} chars - an empty or partial extraction would make the replay vacuous\"; exit 1; }\n  OUT=$(bash \"build/t95/gate_$i.sh\" 2>&1); RC=$?\n  [ \"$RC\" != 0 ] || { echo \"ac5 RED: tests[$i] measured RED at the groom base and is GREEN here - a gate that goes GREEN without this card touching its premise is a premise drift; report it, do not celebrate it\"; exit 1; }\n  echo \"ac5 evidence: tests[$i] RED as measured at groom (pre-existing, not this card)\"",
+      "corrected_premise": "tests[214] is GREEN on a clean checkout: replayed verbatim from the shipped index it exits rc=0 (measured at groom on the checkout and re-executed by fence ac2 stage 1 on a clean throwaway git-archive extraction of the pinned base 06be1e1f069a72f9266ce0fe03a4e0254731a091). The t95 ac5 matrix premised build-directory pollution as a product RED: leg 214's final section walks the whole repo for broken relative links, so any untracked build/ or scratch/ leftover can fire it, but a clean checkout cannot. The corrected premise for future gate matrices is: expect tests[214] GREEN on a clean checkout, and treat a 214 RED as product-real ONLY after ruling out the named pollution classes. This is a RE-PREMISE, not a relaxation: the three-stage negative control (clean GREEN, planted build/t101nc/sabotage.md broken link RED naming the planted file, removal restores GREEN) proves the leg still bites on real broken relative links.",
+      "evidence": {
+        "leg": 214,
+        "command_sha256": "68bad4af0359e3e9c22dafa1e5cb184d53f62990ccb3d1b6b0d1f412db22659c",
+        "entry_sha256": "f2cc770b15c769c1c1189fb6ba09ab86ca8cc4cfe1103eae2351a0ea22fc2680",
+        "command_len": 3213,
+        "observed_rc_clean_checkout": 0,
+        "negative_control": "three-stage EXECUTED in a throwaway git-archive tree of the pinned base (never the checkout): stage 1 rc=0 GREEN clean; stage 2 a synthesized untracked build/t101nc/sabotage.md with one broken relative link re-fires the leg to rc=1 naming the planted file; stage 3 removal restores rc=0 (fence ac2)",
+        "node_version_disclosure": "tests[214]'s stored node program uses only fs/path, so the class-C node-version caveat (WSL node v18.19.1 vs canonical-host node v24.16.0) does not apply to this leg"
+      },
+      "pollution_non_premises": [
+        "build/-directory leftovers: build/ is gitignored pollution in the main checkout and is what fired tests[214] at the t94/t96/t95 windows (WAL 1193 removed build/t69_orch + build/t70_orch; WAL 1198 confirmed 214 GREEN on clean checkout). A tests[214] RED whose only cause is build/ dirt is a pollution artifact, NOT a product RED.",
+        "card-location / scratch dirt: scratch/ is NOT gitignored and its ~2600 payload *.md files are visible to leg 214's whole-repo relative-link walk (~2863 *.md visible versus 261 tracked); a card at a non-canonical location or verifier scratch leftovers can fire the same walk. tests[217] RED when .env is present is the same pollution class (.env absent at groom; quarantined at scratch/env_quarantine_t94post). These are named non-premises, not product REDs."
+      ]
+    },
+    "B3": {
+      "defect": "t95 ac6 as-stored pin table carries the pre-t94 stale tests[255] triple",
+      "superseded_premise_verbatim": "| 255 (as stored) | 9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e | 487b30e2ed16f97b96864c1e61182013dcfe69ed0524fad167128ae70f76e964 | 7945 |\n| 255 (t94 recorded) | f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9 | 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6 | 7760 |",
+      "corrected_premise": "The authoritative tests[255] triple is the post-t94 f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9 / 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6 / 7760. t94's amendment landed first, so the shipped index is in t94's recorded post-amendment state and the 9aac9f0c literal appears 0 times in it; t95's ac6 'as stored' row pinned the pre-t94 9aac9f0c/487b30e2/7945, which is the stale side. ac6's stale-pin check therefore REDs on a card that moved nothing. Future cards pin the post-t94 triple; when a stored pin and the shipped index disagree, the shipped index (amended first in the strict merge window) is authoritative and the stale as-stored pin is the defect. The shipped leg recomputes to the authoritative triple under the binding recipes and replays rc=0 (fence ac3).",
+      "evidence": {
+        "leg": 255,
+        "command_sha256": "f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9",
+        "entry_sha256": "1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6",
+        "command_len": 7760,
+        "observed_rc": 0,
+        "superseded_9aac9f0c_occurrences_in_shipped_index": 0,
+        "entry_sha_recipe": "sha256(json.dumps(entry, separators=(',',':'))) over UTF-8 bytes; command sha over the command's UTF-8 bytes"
+      },
+      "superseded_pin": {
+        "command_sha256": "9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e",
+        "entry_sha256": "487b30e2ed16f97b96864c1e61182013dcfe69ed0524fad167128ae70f76e964",
+        "command_len": 7945
+      },
+      "superseded_by": "t94",
+      "index_amendment": {
+        "applied_by": "orchestrator_in_strict_merge_window",
+        "note": "docs/state/merge_test_index.json is orchestrator-owned (pretty, CRLF, in-place amend). t94's tests[255] amendment was applied by the orchestrator in the strict merge window, which is exactly why the shipped index is authoritative and t95's as-stored pin is the stale side. t101 ships NO index amendment: the index bytes on this branch are byte-identical to the base."
+      }
+    }
+  },
+  "excluded_defects": {
+    "B2": "the verifier SKIP_DIRS pollution-boundary change is t102's deliverable class (an in-repo verifier edit), not a t95 fence premise; it must not appear in this record's defects map"
+  },
+  "future_card_duty": "every future groom that copies a t95-lineage gate matrix must cite this record (docs/state/outputs/t101_definer_premise_correction.json) so the corrected premises are inherited instead of the defects",
+  "sweep_tooling_disclosure": "orchestrator-side discipline, delivered by no card: sweeps must classify build/ and scratch/ pollution before reporting a whole-repo-walk leg (214/217 class) as a product RED, and must use process exit codes as the RED signal (several frozen legs print no literal RED string)"
+}
