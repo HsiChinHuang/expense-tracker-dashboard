@@ -1,0 +1,126 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t101",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "vcs_source": {
+      "branch": "issue/t101-premise-record",
+      "tip_sha": "077ed30411feb04ef8a2a51766b72eea269a3a9d",
+      "product_commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+      "base_main_tip": "e9f1cf1b895b650b298d3c21f7bcd8e20812afc1",
+      "milestone_base": "06be1e1f069a72f9266ce0fe03a4e0254731a091",
+      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t101b",
+      "tracked_tree_clean_at_verification": true
+    },
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac1\" above (needs the committed docs/state/outputs/t101_definer_premise_correction.json)",
+        "exit_code": 0,
+        "note": "Verifier-executed. Record schema ok; both superseded premises VERBATIM substrings of docs/issues/closed/t95.md (the ac5 'for i in 214 230 258 309; do' expectation block and the ac6 '255 (as stored)' pin row); B1 carries the 214 triple 68bad4af/f2cc770b/3213 + observed_rc_clean_checkout=0 + both pollution classes named non-premises; B3 carries the authoritative 255 triple f5aafe07/1878e29d/7760 + observed_rc=0 + superseded pin 9aac9f0c/487b30e2/7945 superseded_by t94."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac2\" above (self-contained; builds and removes a throwaway git archive tree in a temp directory; ~2 min)",
+        "exit_code": 0,
+        "note": "Verifier-executed. Extracted tests[214] 3213 bytes sha 68bad4af... matches pin; three-stage control EXECUTED in throwaway git-archive tree of base 06be1e1: stage 1 rc=0 GREEN clean; stage 2 planted build/t101nc/sabotage.md re-fires rc=1 naming the planted file; stage 3 removal restores rc=0. No escape into the real checkout (build/t101nc absent)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac3\" above (read-only index checks plus one verbatim tests[255] replay)",
+        "exit_code": 0,
+        "note": "Verifier-executed. Shipped index file sha256 67b6e75365e806da24cadff646568ac8a06dac04efddd0c0ac3dd794e8a68a9a (the 67b6e753 family, byte-identical to base). tests[255] recomputes to f5aafe07/1878e29d/7760 under the binding recipes; 9aac9f0c literal appears 0 times in the index; verbatim replay rc=0 with its GREEN line."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac4\" above (replays all 33 frozen legs into a temp directory by exit code; ~5 min)",
+        "exit_code": 0,
+        "note": "Verifier-executed. Frozen-33 exit-code sweep RED=33 GREEN=0 on the candidate - delta ZERO vs the groom/base table. 214/255 verified OUT of the frozen set; 190/191/258/259/227/231 verified IN. t100 amendment record absent on this branch so the bounded 258/259 allowance was not needed and not exercised."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac5\" above (the probe's only write is a planted docs/PURITY_CONTROL_t101.md that its own cleanup leg removes)",
+        "exit_code": 0,
+        "note": "Verifier-executed. Classification: 3 allow-listed, 15 ANCESTOR_YES (family from 06be1e1), 0 RUNTIME_YES, 0 SIBLING_YES, 0 UNACCOUNTED. Never-touch set byte-clean (index, README, plan, requirements, backlog, openapi.yaml, WAL, whole closed t95 family). WAL append-only: 191253 base bytes strict prefix, 7364 appended since base. tests[214]/tests[255] recompute to the pinned triples. Budget 3 of 8. Executed purity control FIRED (planted docs/PURITY_CONTROL_t101.md classified UNACCOUNTED) and its cleanup removed the plant (verified absent after the run)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash block under \"### ac6\" above (read-only)",
+        "exit_code": 0,
+        "note": "Verifier-executed. ac_hash recomputed from the six shipped fences == sha256:442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9, matching the groom handoff and the dispatch-pinned digest. ac_count 6, sections_filled, verification_commands ac1..ac6, reached_state groomed, index_touched_by_definer false, closed_artifacts_edited false, no bare 64-hex digest in card prose."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 50,
+      "warnings": 0
+    },
+    "lint_note": "ruff check --output-format=json (ruff 0.16.7 via python -m ruff): 50 violations, ALL pre-existing repo-wide files (agent-hooks/, e2e/, incident-response/, mcp-server/, scripts/) that this card does not touch; ZERO violations in the t101 surface. The card's product is a JSON record - ruff has no t101 input. Non-blocking per mode doc.",
+    "test_quality_warnings": [
+      "DISCLOSURE (non-blocking, does not contradict any AC): leg 214's repo-wide relative-link walk also reads docs/issues/t101.md, whose Context prose (line 85) contains the literal '../nowhere-xyz-t101.md' inside backticks - not markdown-link syntax, but the leg's regex sees it. Measured: 214 GREEN rc=0 on a clean extraction of the pinned base 06be1e1 (card not in that tree, both node v18 WSL and v24 canonical host); RED rc=1 naming docs/issues/t101.md on clean extractions of the candidate tip AND of the live checkout, deterministically on both hosts. The prose is identical at the groom-ingested base e9f1cf1 and on main (git grep verified) - the builder touched only the two output files. Same pollution-vs-product boundary this record classifies; a live-tree-only condition; ac2's throwaway control unaffected; recommend orchestrator classification at the merge window (B2/t102 SKIP_DIRS territory)."
+    ],
+    "dod_verified": {
+      "record_exists_valid_json_exactly_B1_B3_both_premises_verbatim_in_closed_t95": true,
+      "tests214_executed_rc0_clean_three_stage_control_executed_pollution_classes_named": true,
+      "tests255_executed_rc0_authoritative_triple_recomputed_superseded_named_absent_from_index": true,
+      "zero_closed_artifact_edits_index_byte_clean_wal_append_only_delta_purity_control_fired": true,
+      "frozen33_measured_delta_zero": true,
+      "ac_hash_reproduced_by_ac6_groom_handoff_disclosures_correct": true,
+      "groom_handoff_reached_state_groomed_no_commits_by_card_authors_on_groom_surface": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_recompute": "sha256 over json.dumps(six fenced bash bodies in ac1..ac6 order, CR-stripped, trimmed, separators=(',',':')) == 442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9 - matches the dispatch-pinned digest and the groom handoff; fences extracted verbatim with this same recipe and executed as-is, no substitution.",
+    "product_contract_check": "43/43 independent field-contract checks pass against the contract pinned inside ac1's python: card=t101, platform_issue=107, base_sha=06be1e1f..., target_closed_card=t95, closed_artifacts_edited=false, defects exactly {B1,B3}; B1 superseded_premise_verbatim (>=20 chars, verbatim substring of closed t95.md, contains the ac5 loop line), corrected_premise, evidence leg=214 + triple 68bad4af/f2cc770b/3213 + observed_rc_clean_checkout=0, pollution_non_premises >=2 naming build and card-location/scratch; B3 superseded_premise_verbatim (contains '255 (as stored)' + 9aac9f0c), evidence leg=255 + triple f5aafe07/1878e29d/7760 + observed_rc=0, superseded_pin 9aac9f0c/487b30e2/7945, superseded_by=t94, index_amendment.applied_by=orchestrator_in_strict_merge_window.",
+    "immutability_check": "vs base e9f1cf1 (git blob/tree compares + working-tree LF-normalized compares, all byte-identical): docs/issues/closed/t95.md; all eight docs/state/outputs/t95_* entries incl. t95_builder_logs (tree c64b78ee...) and t95_verifier_logs (tree 1b54eca1...); docs/state/merge_test_index.json (file sha256 67b6e75365e806da24cadff646568ac8a06dac04efddd0c0ac3dd794e8a68a9a); README.md, docs/plan.md, docs/requirements.md, docs/backlog.md, openapi.yaml. WAL: branch WAL byte-identical to base (198617 bytes; append-only trivially holds on the branch) and is a strict prefix of main's WAL (200247 bytes) - every t95-era entry preserved. diff e9f1cf1..HEAD touches ONLY docs/state/outputs/t101_definer_premise_correction.json and docs/state/outputs/t101_builder_build.json.",
+    "canonical_host_remeasure": {
+      "host": "canonical Windows host via cmd.exe bridge, node D:/Program/nodejs/node.exe v24.16.0, bash D:/Program/Git/Git/bin/bash.exe; extraction to native NTFS (scratch dir OUTSIDE the repo checkout) so Windows node resolves the repo's symlinks (a /tmp extraction makes Windows node ENOENT through \\wsl.localhost - disclosed tooling artifact, not a product RED)",
+      "tests_214_base_06be1e1_clean_extraction": "rc=0 GREEN on canonical node v24 (and rc=0 GREEN on WSL node v18 in ac2 stage 1) - the B1 corrected premise re-measured by the verifier",
+      "tests_214_head_extraction": "rc=1 RED naming docs/issues/t101.md on BOTH node v24 (canonical) and v18 (WSL) - the card-prose link-literal condition, disclosed in test_quality_warnings; deterministic, not node-version-dependent (class-C caveat does not apply: the leg's node program is fs/path-only)",
+      "tests_255_head_extraction": "EXECUTED rc=0 on the canonical host; authoritative triple f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9 / 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6 / 7760 recomputed by the verifier; superseded pair 9aac9f0c/487b30e2/7945 named superseded-by-t94 in the record and proven absent (0 occurrences) from the shipped index",
+      "frozen_set_membership": "re-counted: 190/191/258/259/227/231 IN the frozen-33; 214/217/255 OUT; set is 33 distinct ids"
+    },
+    "index_record_check": "The record declares index_amendment.applied_by = orchestrator_in_strict_merge_window (index is orchestrator-owned); the record is NOT self-applied anywhere - the shipped index bytes are byte-identical to the base and contain no t101 amendment; t101 ships no index change.",
+    "ac_mapping_check": "Builder ac_mapping test strings match the card's ## Verification commands entries; no [BUILDER_COMMAND_MISMATCH]. Builder branch_sha c3abb81 (product commit) matches the dispatch; branch tip 077ed30 is the builder handoff commit on the same branch per the builder's branch_tip_note.",
+    "platform": {
+      "issue": 107,
+      "comment_posted": true,
+      "comment_rc": 0,
+      "labels_before": ["built"],
+      "labels_after": ["verified"],
+      "label_transition": "built removed, verified added per mode doc Step 9 PASS transition (the mode doc explicitly assigns this to the verifier); read back labels=[verified], state open",
+      "env_discipline": ".env copied from main-checkout scratch/env_quarantine_t94post for the platform calls only, REMOVED immediately after each batch; verified absent (ls fails post-run, tracked tree clean)"
+    },
+    "disclosures": [
+      "Shared venv: UV_PROJECT_ENVIRONMENT and PYTHONPATH were both empty -> [VENV_UNAVAILABLE] logged; per-mode fallback used (python3 3.12.3 system interpreter; ruff via python -m ruff). The card's fences call bare python3 and do not require uv; no fence was modified.",
+      "WSL git cannot follow this worktree's Windows-format .git pointer; all git reads used GIT_DIR/GIT_WORK_TREE overrides (read-only ops) or the sanctioned cmd.exe one-op-per-call bridge. No state-changing git command was run.",
+      "Canonical-host 214 check initially RED-errored (ENOENT) when the archive was extracted under /tmp: Windows node cannot resolve repo symlinks through \\\\wsl.localhost. Re-extracted to native NTFS - tooling artifact disclosed, never reported as a product RED (host-discipline rule).",
+      "The 214-on-live-tree card-prose condition (test_quality_warnings) is the single notable finding: it does not fail any AC of this card (ac2's control is the pinned-base clean extraction, which is GREEN; 214 is outside the frozen set; ac4/ac5/ac6 do not sweep it), it predates the builder commit (identical prose at e9f1cf1/main), and it is exactly the pollution-vs-product boundary class this card's record exists to classify. Verdict PASS with this disclosure; orchestrator should classify at the merge window.",
+      "ac4 background execution does not survive tool-call boundaries in this environment; the sweep was re-run synchronously (~4-5 min) and the rc table above is that verifier execution.",
+      "Verifier wrote ONLY docs/state/outputs/t101_verifier_verify_issue.json in the repo; all measurement scratch lived in /tmp and C:/Users/tw097/AppData/Local/Temp/t101_verify plus C:/Users/tw097/Desktop/261007_project01/scratch/t101_* (outside the repo checkout); no writes to build/ or scratch/ inside the checkout; node_modules junctions untouched."
+    ],
+    "residual_risks": [
+      "If t100 merges before this branch is integrated, ac4 must be re-run at the combined tip (the bounded 258/259 allowance re-adjudicates); this verification measured t100 absent.",
+      "The 214 card-prose link-literal will fire the leg on any live/merged tree until either the prose is amended by a future card or the t102 SKIP_DIRS/boundary change lands; the orchestrator owns that classification - it is not a t101 product defect and no AC of this card fails on it."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t101_verifier_verify_issue.json"
+    ],
+    "platform_issue": 107,
+    "output_path": "docs/state/outputs/t101_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T11:52:00Z",
+  "retry_count": 0
+}
