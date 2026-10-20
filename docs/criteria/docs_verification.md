@@ -23,11 +23,12 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=261 links=67 broken=0
+LINK_CHECK PASS files=265 links=67 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
 CARRIED_REPORT PASS file=docs/criteria/security_ops_verification.md rows=29
+INDEX_ANCHORS PASS floor=217 entries=318
 STORED_GATES PASS executed=9 failures=0 restored=1
 DEFERRAL_REGISTER 3 DEFERRED
 | LIVE_AGENT_SESSION | DEFERRED | reason=docs/ai-workflow.md records are transcript attestations of real sessions, not a machine-verifiable live capture; no live session endpoint exists to re-test | live_check=open docs/ai-workflow.md and walk one session record end to end |
@@ -51,4 +52,4 @@ CHAPTER243_MAP PASS rows=15
 | 13 | Deployment record present | REQ-OPS-060 | executed | DEPLOYMENT_RECORD |
 | 14 | Peer reviewer can reproduce in < 10 min | REQ-PROJ-009 | structural | FIVE_MIN_PATHS |
 | 15 | README 5-minute verification path | REQ-DOC-070 | structural | EVIDENCE_CHECKLIST |
-CHECKS_FAILED 1
+ALL_CHECKS_PASS
