@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T01:17:48Z",
+  "updated_at": "2026-10-20T05:35:25Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1363,6 +1363,16 @@
       "branch": "issue/t94-readme-live-url-backfill",
       "merge_sha": "1f6fb4eb454377f7e780cecaa5a90045753120a6",
       "merged_at": "2026-10-20T01:17:48Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t96",
+      "platform_issue": 103,
+      "branch": "issue/t96-run-locally-token",
+      "merge_sha": "7e39de74aa866c5bea4ed8e9d5f2eddc1c249e43",
+      "merged_at": "2026-10-20T05:35:25Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
