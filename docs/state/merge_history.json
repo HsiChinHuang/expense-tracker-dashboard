@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T07:49:46Z",
+  "updated_at": "2026-10-20T12:55:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1383,6 +1383,16 @@
       "branch": "issue/t95-close-61-evidence",
       "merge_sha": "d794d2815a8d0d9ab11e5bf36e8db4377396ec21",
       "merged_at": "2026-10-20T07:49:46Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t101",
+      "platform_issue": 107,
+      "branch": "issue/t101-premise-record",
+      "merge_sha": "19cae7146a66e489b1455d545a33bda2c5459751",
+      "merged_at": "2026-10-20T12:55:00Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
