@@ -1,13 +1,13 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-20T09:56:29Z",
-  "last_seq": 1203,
+  "updated_at": "2026-10-20T10:51:41Z",
+  "last_seq": 1204,
   "slots": [
     {
       "slot_id": "slot_1",
       "issue_id": "t99",
-      "role": "definer",
-      "phase": "groom"
+      "role": "builder",
+      "phase": "build"
     },
     {
       "slot_id": "slot_2",
@@ -57,6 +57,7 @@
     61
   ],
   "open_cards": {},
-  "last_wal_seq": 1203,
-  "milestone_state": "phase_15_gate_amendments ACTIVE: review_plan PASS_WITH_WARNINGS (W1-W6); ready chain t99->t100->t102 + t101; baseline frozen-33; pollution classes 217(.env)/214(build-dir)"
+  "last_wal_seq": 1204,
+  "milestone_state": "phase_15_gate_amendments ACTIVE: survey+review_plan passed (PASS_WITH_WARNINGS); t99 groomed->building (worktree t99b); t101 grooming; t100 waits t99, t102 waits t100; baseline frozen-33; pollution classes 217(.env)/214(build-dir)",
+  "main_tip": "223e2fc"
 }
