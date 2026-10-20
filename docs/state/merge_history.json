@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T05:35:25Z",
+  "updated_at": "2026-10-20T07:49:46Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1373,6 +1373,16 @@
       "branch": "issue/t96-run-locally-token",
       "merge_sha": "7e39de74aa866c5bea4ed8e9d5f2eddc1c249e43",
       "merged_at": "2026-10-20T05:35:25Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t95",
+      "platform_issue": 102,
+      "branch": "issue/t95-close-61-evidence",
+      "merge_sha": "d794d2815a8d0d9ab11e5bf36e8db4377396ec21",
+      "merged_at": "2026-10-20T07:49:46Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0

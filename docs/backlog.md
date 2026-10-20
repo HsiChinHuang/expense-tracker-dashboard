@@ -98,6 +98,6 @@
 | t93 | security_ops live-state move - RENDER_HEALTH_PATH to the -1qtu host, LIVE_DEPLOYMENT_STATE DEFERRED to verified, register 5 to 4 DEFERRED, criteria report regenerated, ops prose live, tests[187] re-premised | [t92] | #99 | closed |
 | t98 | docs and infra live-state move - docs_verification register drops LIVE_DEPLOYMENT_STATE (4 to 3 DEFERRED, derived count), :422 and infra_verification :602 URLs to -1qtu, both reports regenerated, tests[219]/[223]/[226] re-premised | [t92, t93] | #100 | closed |
 | t94 | README live-URL backfill - Online demo and Deployment on Render state the -1qtu address honestly with no hosted demo account claimed, and the README triple pin moves in the same card | [t98] | #101 | closed |
-| t95 | Close platform issue 61 with the bundled A3 plus B1a plus B1b plus B2 evidence - the deploy-hook secret residual is discharged, recorded once and traceably | [t92, t93, t98, t94] | #102 | defined |
+| t95 | Close platform issue 61 with the bundled A3 plus B1a plus B1b plus B2 evidence - the deploy-hook secret residual is discharged, recorded once and traceably | [t92, t93, t98, t94] | #102 | closed |
 | t96 | Remove the misleading Quick Start env-copy step from README and re-premise its coordinated gate set 232 250 251 plus the digest and line-count re-pin; the README 340 copy line stays | [] | #103 | closed |
 | t97 | Health version single source - backend/app/main.py builds FastAPI with version=settings.APP_VERSION so the live health payload reports 1.0.0 instead of the hardcoded 0.1.0 | [] | #104 | closed |
