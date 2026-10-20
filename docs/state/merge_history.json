@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-19T06:49:50Z",
+  "updated_at": "2026-10-20T01:17:48Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1353,6 +1353,16 @@
       "branch": "issue/t98-docs-infra-live-state",
       "merge_sha": "5ba977579b001774513de37d9f6892a587a9618b",
       "merged_at": "2026-10-19T15:36:09Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t94",
+      "platform_issue": 101,
+      "branch": "issue/t94-readme-live-url-backfill",
+      "merge_sha": "1f6fb4eb454377f7e780cecaa5a90045753120a6",
+      "merged_at": "2026-10-20T01:17:48Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
