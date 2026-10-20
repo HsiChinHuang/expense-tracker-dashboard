@@ -1,0 +1,6 @@
+ac1 evidence: the Quick Start section is npm-first - check, setup:local, dev, stop in that order, zero make invocations, NO env-file copy step and both URLs plus the health contract present
+ac1 evidence: NEGATIVE CONTROL 1 - a make-first Quick Start section is rejected by the same checker
+ac1 evidence: NEGATIVE CONTROL 2 - an out-of-order npm list is rejected by the same checker
+ac1 evidence: root manifest scripts [check=tsx scripts/dev/check.ts|setuplocal=tsx scripts/dev/setup.ts|dev=tsx scripts/dev/dev.ts|stop=tsx scripts/dev/stop.ts]
+ac1 evidence: the four documented npm scripts match the ROOT manifest t62 contract line for line
+ac1 GREEN: NPM-FIRST QUICK START (Q1a, env-copy step removed by t96) - the Quick Start section leads with npm run check, npm run setup:local, npm run dev and npm run stop in exactly that order with zero make invocations, carries NO cp .env.example .env step (check, setup:local and vite read no .env, so the copy is not part of the run-it-now flow; the mandated copy lives in ## Local verification in five minutes), carries both clickable URLs plus the health contract, and the four documented scripts match the ROOT package.json t62 contract; a make-first section, an out-of-order list and a Quick Start that still prints the env copy are rejected by the same checker

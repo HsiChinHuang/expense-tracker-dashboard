@@ -1,0 +1,3 @@
+ac1 evidence: base README blob read through cmd.exe lines=363 (want 363)
+ac1 evidence: numbered steps=8 (want exactly 8: check, env file, setup:local, dev, open localhost:5173, register, seed:demo, stop - clone stays the step-zero preamble)
+ac1 RED: the run-locally flow is missing a step: [^cp [.]env[.]example [.]env] - the eight are npm run check, cp .env.example .env, npm run setup:local, npm run dev, open http://localhost:5173, first-run register, npm run seed:demo, npm run stop

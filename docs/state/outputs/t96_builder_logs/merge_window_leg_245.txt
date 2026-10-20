@@ -1,0 +1,15 @@
+ac4 evidence: stored gate idx=27 GREEN (498 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=119 GREEN (1658 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=128 GREEN (1050 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=135 GREEN (1496 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=144 GREEN (1978 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=201 GREEN (6805 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=232 GREEN (4309 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=233 GREEN (4215 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=234 GREEN (4238 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=235 GREEN (4667 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=236 GREEN (2912 bytes extracted verbatim from the index)
+ac4 evidence: 11 of 11 carried README-scoped gates replayed VERBATIM from the index and all GREEN
+ac4 evidence: NEGATIVE CONTROL - the extracted tests[201] gate ran against a README copy with the Mode A heading deleted (17392 bytes) and exited rc=1
+ac4 evidence: the sabotaged run failed for the RIGHT reason - the replayed gate itself reported the deleted Mode A heading
+ac4 GREEN: CARRIED-GATE REPLAY - all eleven README-scoped stored gates (t4, t23, t24, t26, t28, t49-ac4, t63-ac1..ac5) were extracted byte-for-byte from docs/state/merge_test_index.json and passed against the relocated README, and a one-heading sabotage is REJECTED for the right reason by the same extracted gate

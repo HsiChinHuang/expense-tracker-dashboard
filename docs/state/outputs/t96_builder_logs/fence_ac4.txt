@@ -1,0 +1,1 @@
+ac4 GREEN: README.md envelope holds - 396 lines inside 340..400, all-CRLF, pure ASCII, 17 level-2 headings, the REQ identifier set hash unchanged
