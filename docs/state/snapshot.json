@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-20T10:51:41Z",
-  "last_seq": 1204,
+  "updated_at": "2026-10-20T11:31:58Z",
+  "last_seq": 1206,
   "slots": [
     {
       "slot_id": "slot_1",
@@ -12,8 +12,8 @@
     {
       "slot_id": "slot_2",
       "issue_id": "t101",
-      "role": "definer",
-      "phase": "groom"
+      "role": "verifier",
+      "phase": "verify_issue"
     }
   ],
   "merge_queue": [],
@@ -57,7 +57,7 @@
     61
   ],
   "open_cards": {},
-  "last_wal_seq": 1204,
-  "milestone_state": "phase_15_gate_amendments ACTIVE: survey+review_plan passed (PASS_WITH_WARNINGS); t99 groomed->building (worktree t99b); t101 grooming; t100 waits t99, t102 waits t100; baseline frozen-33; pollution classes 217(.env)/214(build-dir)",
+  "last_wal_seq": 1206,
+  "milestone_state": "phase_15 ACTIVE: t99 building (t99b); t101 built@077ed30 verifying (t101b); t100 waits t99; t102 waits t100; baseline frozen-33",
   "main_tip": "223e2fc"
 }
