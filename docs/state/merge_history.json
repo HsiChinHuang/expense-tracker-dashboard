@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T12:55:00Z",
+  "updated_at": "2026-10-20T14:55:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1393,6 +1393,16 @@
       "branch": "issue/t101-premise-record",
       "merge_sha": "19cae7146a66e489b1455d545a33bda2c5459751",
       "merged_at": "2026-10-20T12:55:00Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t99",
+      "platform_issue": 105,
+      "branch": "issue/t99-anchor133-refresh",
+      "merge_sha": "bbe315bbf39a069053606f092f422f1b7e0f04ec",
+      "merged_at": "2026-10-20T14:55:00Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0

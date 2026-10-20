@@ -1,0 +1,240 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t99",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - post-push confirmation gate (deviation WAL 1213: t99 bytes were pushed before this verdict; had it FAILED the orchestrator stops all pushes per WAL 1197; it PASSES). Amendment audit clean: index 318 legs, stale literal 6e9723e8 ZERO occurrences, target 09cb7d9a exactly 2 (tests[190]/[191]); command sha256+len+entry_sha match the record exactly for both; diff ace04e2..HEAD on the index == exactly 2 64-char spans, every other leg byte-identical; 0-byte LF-normalized delta. Full 318-leg verbatim sweep: 283 GREEN / 35 RED, RED set SET-EQUAL to frozen-33 UNION {214,217} - frozen-33 delta ZERO. 190/191 stay RED on their UPSTREAM premises (freeze-scope drift / README drifted), byte-pin line ABSENT - zero baseline effect confirmed. 214 sweep RED was verifier harness contamination (own scratch extraction), solo re-run GREEN rc=0. 217 pre-existing drift proven at ace04e2. MERGE VERDICT: PASS comment posted on issue #105, read back byte-equal (4737 bytes).",
+    "vcs_source": {
+      "merge_sha": "bbe315bbf39a069053606f092f422f1b7e0f04ec",
+      "head": "e45d3ce363e9abd350d2761406c77d0d8db65f92",
+      "pre_merge_main": "ace04e2957df7cfa3e4cffe94a0923eaf4bbcc28",
+      "base": "06be1e1f069a72f9266ce0fe03a4e0254731a091",
+      "index_amendment": "4dff135d8744ad25b9b22bfbb86cc581fa350cc2",
+      "record_commit": "2ba5b3e1c60aa730d33632d06e2d92da843de36d",
+      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t99pm (detached HEAD e45d3ce)"
+    },
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 283,
+      "failed": 35
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [
+      {
+        "test": "tests[139] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[140] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[161] (t36)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[162] (t36)",
+        "error_summary": "make: *** [Makefile:119: security-gitleaks] Error 1"
+      },
+      {
+        "test": "tests[163] (t37)",
+        "error_summary": "gitleaks findings: 21 - zero-leak BLOCKING invariant broken"
+      },
+      {
+        "test": "tests[164] (t37)",
+        "error_summary": "ac2 evidence: pip-audit parsed summary count=3 finding-table lines=3"
+      },
+      {
+        "test": "tests[166] (t37)",
+        "error_summary": "parsed 46 distinct finding ids from the two audit reports"
+      },
+      {
+        "test": "tests[167] (t37)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[174] (t38)",
+        "error_summary": "trivy provenance: introducing commit message records no 0.75.0 version"
+      },
+      {
+        "test": "tests[175] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[177] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[180] (t40)",
+        "error_summary": "ac3: accepted-limitation rows=13, REQ-SEC-110 requires EXACTLY 12"
+      },
+      {
+        "test": "tests[181] (t40)",
+        "error_summary": "ac4: gitleaks findings 21 - the zero-leak invariant is broken"
+      },
+      {
+        "test": "tests[188] (t47)",
+        "error_summary": "ac1: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[190] (t47)",
+        "error_summary": "ac3 RED: freeze-scope drift [backend/app/main.py,...] - UPSTREAM premise, NOT the pin loop: byte-pin line ABSENT; amended pin block alone rc=0 silent"
+      },
+      {
+        "test": "tests[191] (t47)",
+        "error_summary": "ac4 RED: README drifted - UPSTREAM premise, NOT the pin loop: byte-pin line ABSENT; amended pin block alone rc=0 silent"
+      },
+      {
+        "test": "tests[192] (t47)",
+        "error_summary": "ac5: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[204] (t54)",
+        "error_summary": "ac2 RED: stored tests[139] (t27) FAILED on this workflow - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[214] (t51)",
+        "error_summary": "sweep RED was HARNESS CONTAMINATION: broken link ../nowhere-xyz-t101.md in scratch/t99pm/ex_ace04e2/... (verifier's own extraction dir); after removal, solo re-run rc=0 GREEN (84 links, authoritative)"
+      },
+      {
+        "test": "tests[216] (t55)",
+        "error_summary": "ac2 RED: stored tests[139]/[140] (t27) FAILED - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[217] (t57)",
+        "error_summary": "ac1 RED: determinism contract broken (committed a14af7cd vs regenerated) - PRE-EXISTING drift, replayed rc=1 with the SAME digest on a clean extraction of pre-amendment ace04e2"
+      },
+      {
+        "test": "tests[227] (t59)",
+        "error_summary": "ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone"
+      },
+      {
+        "test": "tests[230] (t62)",
+        "error_summary": "ac6 RED: the branch delta against the merge-base is EMPTY - there is no work on this branch to certify as pure"
+      },
+      {
+        "test": "tests[231] (t63)",
+        "error_summary": "t63-pin3 RED: README digest moved off pin-3"
+      },
+      {
+        "test": "tests[258] (t71)",
+        "error_summary": "ac4 RED: the regenerated report does not end in ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[259] (t72)",
+        "error_summary": "ac7 RED: the regenerated report does not end ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[272] (t80)",
+        "error_summary": "ac1 RED: bash -n rejects the collector - a script with a syntax error cannot collect anything"
+      },
+      {
+        "test": "tests[274] (t80)",
+        "error_summary": "ac3 RED: --dry-run printed no dry-run line - the dry run proves the plan without touching anything"
+      },
+      {
+        "test": "tests[275] (t80)",
+        "error_summary": "ac4 RED: --print-manifest produced no document - the manifest is the self-describing half of the bundle"
+      },
+      {
+        "test": "tests[276] (t78)",
+        "error_summary": "ac1 RED: service.name is not the pinned SERVICE_NAME constant expense-tracker-api"
+      },
+      {
+        "test": "tests[289] (t82)",
+        "error_summary": "ac3 RED: bash -n rejects rollback.sh: line 29: syntax error near unexpected token (CRLF class)"
+      },
+      {
+        "test": "tests[290] (t82)",
+        "error_summary": "ac4 RED: served ok_true exited non-zero: verify-recovery.sh line 19 $'\\r' (CRLF class)"
+      },
+      {
+        "test": "tests[294] (t77)",
+        "error_summary": "ac4 RED: dashboard.json is not 2-space-indented canonical JSON"
+      },
+      {
+        "test": "tests[296] (t83)",
+        "error_summary": "ac2 RED: alert.json has CRLF bytes in the working copy"
+      },
+      {
+        "test": "tests[309] (t86)",
+        "error_summary": "ac4 RED: docs/criteria/security_ops_verification.md is NOT byte-clean against BASE 67c9db975d75 - report-only card"
+      }
+    ],
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section, so per the mode-doc fallback (t98/t101 precedent) the smoke set is the six t99 card AC fences, script-extracted verbatim, ac_hash reproduced. Classification: ac4 rc=0 GREEN at the LIVE tree (authoritative solo re-run); ac1/ac2/ac3/ac5 rc=0 at a clean extraction of the record commit 2ba5b3e and RED-BY-DESIGN at the live tree (their premises state the PRE-amendment index; the amendment landing is exactly the double-apply they guard against); ac6 index-vs-base leg RED-by-construction post-apply, all substantive legs (README/openapi base identity, delta purity, append-only WAL) verified true independently.",
+    "ac_hash_reproduction": "sha256:0a04f4c8dcf86cc7011bab0f698ac16ca0db9075f9c9d9ff4662cb39cd4c1b70 reproduced from the six shipped fences under the binding recipe; all six verbatim vs the groom handoff.",
+    "amendment_audit": {
+      "index": "318 legs, JSON valid, pretty-CRLF preserved, size 1305446 B working copy (sha 46e2a01b CRLF family); LF-normalized size delta vs pre-amendment = 0 bytes",
+      "stale_literal": "6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249 - ZERO occurrences in the shipped index",
+      "target_literal": "09cb7d9adbabd424c4d0517c0b899cad0fd650486ec2e08f1e99615c4c5850d6 - exactly 2 occurrences (tests[190], tests[191], both t47)",
+      "record_match": "tests[190]: command sha d0bddab5/len 3610/entry_sha_after 180ecdab all match record; tests[191]: e0b15d8a/4167/ab06ee8b all match. Old-command fields (sha/len/entry_sha_before/first_differing_offset) also match the pre-amendment index at ace04e2 (all True).",
+      "diff_purity": "git diff ace04e2..HEAD on the index == exactly 2 differing lines (768/772), each a single 64-char span stale->target; every other leg byte-identical; LF-normalized head bytes with target swapped back to stale == base bytes EXACTLY"
+    },
+    "fence_leg_classification": {
+      "ac1": "live rc=1 RED-BY-DESIGN (premise-consumed: verifies the record against the PRE-amendment index); rc=0 at clean extraction of 2ba5b3e",
+      "ac2": "live rc=1 RED-BY-DESIGN; rc=0 at 2ba5b3e extraction",
+      "ac3": "live rc=1 RED-BY-DESIGN; rc=0 at 2ba5b3e extraction with 14/14 controls executed",
+      "ac4": "live rc=0 GREEN (authoritative solo re-run 13:58:55Z-14:03Z): tests[190] full stored leg rc=1 first RED 'ac3 RED: freeze-scope drift', byte-pin line ABSENT, amended pin block alone rc=0 silent; tests[191] full leg rc=1 first RED 'ac4 RED: README drifted', pin block rc=0 silent; both pin blocks satisfied by the as-shipped index with execSync REAL; index sha 46e2a01b unchanged; ZERO baseline effect executed",
+      "ac5": "live rc=1 RED-BY-DESIGN; rc=0 at 2ba5b3e extraction",
+      "ac6": "live rc=1: ONLY the index-vs-base-06be1e1 leg fires (RED-by-construction post-apply - the amendment IS an index move); README.md/openapi.yaml byte-identical to base CONFIRMED via git diff; delta purity vs base = record+card+handoffs+index+t101 archival+WAL only; at 2ba5b3e extraction rc=1 is an extraction HEAD-mismatch artifact (git archive checkout vs fence's HEAD expectation)"
+    },
+    "red_classification": "35 RED legs, SET-EQUAL to frozen-33 UNION {214, 217}; frozen-33 delta ZERO (symmetric difference empty). 190/191 remain RED on their named UPSTREAM premises (orchestrator independently re-executed both verbatim on main @ 5441950: rc=1 on the same premises, corroborating zero_baseline_effect). {214}: harness contamination, see harness_contamination. {217}: pre-existing drift, see drift_217. Zero legs outside the expected set; zero expected-RED legs flipped GREEN; zero regressions attributable to the t99 window.",
+    "harness_contamination": "tests[214] (t51) sweep RED: its repo-wide relative-link walk does not skip scratch/, and the verifier's own clean-extraction dir scratch/t99pm/ex_ace04e2/docs/issues/t101.md contained the archived card's planted broken link ../nowhere-xyz-t101.md. The extraction dirs were removed and leg 214 re-run SOLO: rc=0 GREEN (84 links, all resolve). Authoritative measurement: GREEN. Not product-side.",
+    "drift_217": "tests[217] (t57) determinism leg: committed digest a14af7cd != regenerated. Replayed VERBATIM on a clean extraction of pre-amendment ace04e2: rc=1 with the SAME committed digest - PRE-EXISTING, not attributable to the t99 window (same disclosed class as t91/t95/t97/t101).",
+    "immutability": {
+      "index": "working-copy sha256 46e2a01bf8ffa885088ae93a087fbc04f94d56f35738a81a999233727546100a (CRLF family, matches WAL 1213); LF-normalized blobs: 06be1e1/2ba5b3e/ace04e2 all 8fe99cba (identical base family), e45d3ce 72a01d39 (the amendment). The ONLY index change in the window is the sanctioned 2-span amendment at 4dff135.",
+      "protected_paths": "README.md, openapi.yaml, backend/, scripts/, frontend/, e2e/, docs/criteria/, .github/ trees byte-identical ace04e2..HEAD.",
+      "wal": "append-only: ace04e2 WAL is a STRICT PREFIX of HEAD WAL (173 lines both sides checked, blob 729c6a26); WAL 1213 exists in the main checkout only (post-push bookkeeping).",
+      "merge_history": "docs/state/merge_history.json untouched in the window (git diff --quiet).",
+      "merge_delta": "git diff ace04e2..HEAD == exactly: A t99_definer_gate_amendment.json, A t99_builder_build.json, A t99_verifier_verify_issue.json, M merge_test_index.json (2 spans), R100 docs/issues/t101.md -> closed/. Lineage: bbe315b parents ace04e2+4959692; 2ba5b3e touches ONLY the record; ace1afdb/4959692 each ONLY their own handoff; 4dff135 ONLY the index; e45d3ce ONLY the t101 rename."
+    },
+    "product_state": "Record docs/state/outputs/t99_definer_gate_amendment.json present; applied_by orchestrator_in_strict_merge_window (NOT self-applied); zero_baseline_effect claim verified by execution: both amended legs still RED on their own premises, pin blocks GREEN against the shipped index, no pin-loop false-failure source remains.",
+    "pin_reconciliation": {
+      "leg_190": "shipped command sha256 d0bddab5, len 3610, entry_sha_after 180ecdab - all match the record; stale literal absent.",
+      "leg_191": "shipped command sha256 e0b15d8a, len 4167, entry_sha_after ab06ee8b - all match the record; stale literal absent.",
+      "pin_battery": "live-tree pin battery (execSync stubbed, digest surface only): shipped 190/191 GREEN+silent; perturb133/delete133 correctly RED naming 'byte-pin entry 133 changed'; per-entry 132/135 bite confirmed - 10/10 OK (scratch/t99pm/pin_test.cjs).",
+      "pinned_legs": "131/132/133/135 all GREEN in the verbatim sweep (rc=0)."
+    },
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH empty in spawn. Fallback per mode doc: per-worktree Linux venv via uv sync --frozen --offline at backend/.venv (Python 3.12.3); runners set UV_PROJECT_ENVIRONMENT=backend/.venv, PYTHONPATH=worktree root. No command string modified.",
+      "git_access": "Read-only throughout: WSL git cannot resolve the Windows-form gitdir pointer (WAL 1119-class quirk); PATH shim scratch/t99pm/bin/git forwards with GIT_DIR/GIT_WORK_TREE overrides plus a cmd.exe bridge. No checkout/merge/push/index edit/code modification by the verifier.",
+      "sweep_harness": "extract.py extracted all 318 stored commands byte-verified (mismatches=0) to scratch/t99pm/cmds/cum_NNN.sh; sweep.cjs executed each VERBATIM (cwd=root, 900s/leg, checkpointed TSV + per-leg logs). DONE rows=318 elapsed_s=2722 (after one orchestrator-directed pause for the ac4 solo re-run).",
+      "environment_gaps": "Docker daemon unavailable -> tests[188]/[192] fail loudly by design (baseline env class). core.autocrlf=true smudges LF blobs to CRLF in the working copy."
+    },
+    "methodology_disclosures": [
+      "RACE (methodology): the FIRST ac4_live run (13:54:15Z) failed due to contention with the concurrent sweep: leg 12 (frontend npm install via cmd.exe, in flight 13:54:02-13:55:42) transiently mutated frontend/node_modules (a junction to the main checkout) while ac4 Part A execSync'd tests[131]'s command which requires ./frontend/node_modules/js-yaml -> transient MODULE_NOT_FOUND -> status 1. The sweep was paused and ac4 re-run SOLO: rc=0 GREEN (authoritative measurement). Standalone pinA runs (rc=0 silent, both legs) corroborate. Orchestrator's independent cross-check on main @ 5441950 confirms the same premise-RED behavior.",
+      "NO CONCURRENT SWEEP during solo fence runs thereafter (orchestrator mandate; /mnt/c 9P filesystem contention).",
+      "214 harness contamination: verifier's own scratch extraction polluted the repo-wide link walk; cleaned and re-run solo GREEN - see harness_contamination.",
+      "DEVIATION (WAL 1213, pre-existing to this verdict): t99 bytes were pushed before this verdict; this is the post-push confirmation gate.",
+      "docs/criteria/{agent_pack_verification,req_coverage_verification}.md showed as modified at the end of the sweep - self-writes by verification legs 154-157/217-222 (they re-measure and rewrite their own criteria docs); restored to as-shipped state via git checkout; tree tracked-clean.",
+      "Platform comment posted via Windows-node spawner (t101 precedent): body read from file, passed as ONE argv element to scripts/platform.ts (no cmd.exe string transit which truncates). Read-back byte-equal 4737 bytes. .env temporarily copied from main checkout scratch/env_quarantine_t94post, removed immediately after, absence verified."
+    ],
+    "platform": "MERGE VERDICT: PASS comment posted on issue #105 at ~2026-10-20T14:53Z via scratch/t99pm/platform/spawner.mjs (Windows node v24.16.0 -> spawnSync -> node --experimental-strip-types scripts/platform.ts). Read back via issue latest-comment: byte-equal, 4737 bytes. Labels NOT modified (pre-merge phase). .env removed, absence verified.",
+    "candidate": {
+      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t99pm (detached at e45d3ce363e9abd350d2761406c77d0d8db65f92)",
+      "head": "e45d3ce363e9abd350d2761406c77d0d8db65f92",
+      "merge_parents": "bbe315b parent1 ace04e2 (pre-merge main), parent2 4959692 (t99 verify_issue handoff); record 2ba5b3e and builder handoff ace1afdb in lineage",
+      "working_tree_state": "tracked-clean (git status --porcelain shows no tracked modifications); nothing staged; untracked only: node_modules junctions and scratch/t99pm (verifier harness); extraction dirs removed; .env absent; index sha 46e2a01b unchanged"
+    },
+    "notes": "Handoff NOT committed on the detached HEAD per task order. No push performed. The 214 RED in the sweep log is harness-side; the sweep RED set at close should be frozen-33 UNION {217}."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t99_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 105,
+    "output_path": "docs/state/outputs/t99_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T14:56:37Z",
+  "retry_count": 0
+}
