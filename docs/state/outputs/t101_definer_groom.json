@@ -1,0 +1,127 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t101",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash block under '### ac1' in docs/issues/t101.md (record schema + verbatim cross-check vs docs/issues/closed/t95.md); run from the repo root",
+      "ac2": "bash block under '### ac2' in docs/issues/t101.md (three-stage B1 control in a throwaway git-archive tree of 06be1e1: 214 GREEN clean, planted build/ broken link RED, restore GREEN); run from the repo root",
+      "ac3": "bash block under '### ac3' in docs/issues/t101.md (255 triple recomputes f5aafe07/1878e29d/7760, 9aac9f0c absent from the index, verbatim replay rc=0); run from the repo root",
+      "ac4": "bash block under '### ac4' in docs/issues/t101.md (frozen-33 exit-code sweep, delta ZERO, bounded t100 258/259 allowance); run from the repo root",
+      "ac5": "bash block under '### ac5' in docs/issues/t101.md (base64-pinned t101_ac5_probe.py: delta purity vs fixed base 06be1e1, closed t95 family byte-clean, WAL append-only prefix, pinned legs recompute, executed purity control); run from the repo root",
+      "ac6": "bash block under '### ac6' in docs/issues/t101.md (ac_hash recomputed from the six shipped fences vs this handoff; prose digest scan); run from the repo root"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "base_coordination_ruling": "base_sha 06be1e1f069a72f9266ce0fe03a4e0254731a091 (milestone base, measured ancestor of groom-time HEAD 5c18b9582e7815bc6333dad83898c1fe8f1a0aa4); t101 is an independent DAG root, co-schedulable with t99/t100; delta-purity fences are pinned to the FIXED base, never to a moving tip.",
+    "index_touched_by_definer": false,
+    "closed_artifacts_edited": false,
+    "openapi_yaml_frozen": true,
+    "gate_amendments_shipped": [],
+    "as_stored_index_pins": {
+      "214": {
+        "command_sha256": "68bad4af0359e3e9c22dafa1e5cb184d53f62990ccb3d1b6b0d1f412db22659c",
+        "entry_sha": "f2cc770b15c769c1c1189fb6ba09ab86ca8cc4cfe1103eae2351a0ea22fc2680",
+        "command_len": 3213,
+        "measured_rc": 0,
+        "rc_semantics": "GREEN on a clean checkout AND on a clean throwaway git-archive extraction of the pinned base (three-stage negative control EXECUTED: GREEN, planted build/ broken-link RED naming the planted file, restore GREEN). The t95 ac5 matrix expectation that 214 rides RED is the B1 premise defect; build-dir and card-location/scratch pollution are named non-premises."
+      },
+      "255": {
+        "command_sha256": "f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9",
+        "entry_sha": "1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6",
+        "command_len": 7760,
+        "measured_rc": 0,
+        "rc_semantics": "Authoritative post-t94 triple recomputes under the binding recipes (command sha over UTF-8 bytes; entry_sha over json.dumps(entry,separators=(',',':'))); replay rc=0. The t95 as-stored triple 9aac9f0c/487b30e2/7945 is superseded-by-t94 and the 9aac9f0c literal appears 0 times in the shipped index (B3)."
+      }
+    },
+    "frozen_baseline_sweep": {
+      "set_size": 33,
+      "red": 33,
+      "green": 0,
+      "ids": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        227,
+        230,
+        231,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "signal": "process exit codes (6 legs emit empty output, 15 lack a literal RED string - output greps would lie)",
+      "runtime_seconds_approx": 261
+    },
+    "measured_base_state": {
+      "groom_head": "5c18b9582e7815bc6333dad83898c1fe8f1a0aa4",
+      "index_entries": 318,
+      "env_present": false,
+      "env_quarantine": "scratch/env_quarantine_t94post",
+      "build_dir_present_in_checkout": true,
+      "build_dir_note": "gitignored pollution; fences never write build/ or scratch/ in the main checkout; the B1 control runs in a throwaway git-archive tree in a temp dir (disclosed, not premised)",
+      "wal_base_prefix_bytes": 191253,
+      "wal_append_only_holds": true,
+      "t95_verbatim_anchors": {
+        "ac5_expectation_line": "for i in 214 230 258 309; do (t95.md ac5 fence, 1 occurrence)",
+        "ac6_pin_row": "| 255 (as stored) | 9aac9f0c... | 487b30e2... | 7945 | (t95.md pin table, 1 occurrence)"
+      },
+      "node_versions": {
+        "wsl": "v18.19.1",
+        "canonical_host_via_cmd_exe": "v24.16.0",
+        "class_c_applicability": "tests[214]'s stored node program uses only fs/path (version-independent); tests[255] runs no node - the class-C node-version caveat does not apply to this card's two legs"
+      }
+    },
+    "ac_hash_history": [
+      "442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9 (first groom pass; no platform sync, so no correction events)"
+    ],
+    "platform_sync_performed_by_this_groom": [],
+    "platform_sync": "none (dispatch directive; the local card file is authoritative; no comment, no label op, no body push)"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t101.md",
+      "docs/state/outputs/t101_definer_groom.json"
+    ],
+    "platform_issue": 107,
+    "output_path": "docs/state/outputs/t101_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T10:56:03Z",
+  "retry_count": 0
+}
