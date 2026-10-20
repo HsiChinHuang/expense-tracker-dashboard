@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T14:55:00Z",
+  "updated_at": "2026-10-20T19:10:00Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1403,6 +1403,16 @@
       "branch": "issue/t99-anchor133-refresh",
       "merge_sha": "bbe315bbf39a069053606f092f422f1b7e0f04ec",
       "merged_at": "2026-10-20T14:55:00Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t100",
+      "platform_issue": 106,
+      "branch": "issue/t100-anchor133-generator",
+      "merge_sha": "f0f6dee3c0d1f0a763ef30298aa799690178fa71",
+      "merged_at": "2026-10-20T19:10:00Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
