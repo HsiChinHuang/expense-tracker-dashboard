@@ -1,0 +1,224 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t101",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - full 318-leg verbatim sweep on merged tree 48add00 (tip of WAL-1209 bookkeeping over merge commit 19cae71, parents 1fc8f16 pre-merge main + 6d23804 t101 verify_issue handoff): 283 GREEN / 35 RED. RED set is SET-EQUAL to the frozen-33 UNION {214, 217}: frozen-33 delta ZERO (ac4 independently confirms all 33 still RED for their own unchanged reasons), 214 is the KNOWN DISCLOSED PLANT class per the WAL 1209 ruling (boundaries confirmed, not re-litigated), 217 is pre-existing main-side drift proven rc=1 at BOTH the merged tree and a clean extraction of the merge parent. All six t101 card fences executed VERBATIM: ac1/ac2/ac3/ac4/ac5/ac6 all rc=0. MERGE VERDICT: PASS comment posted on issue #107, read back byte-equal (2694 chars). This verdict GATES THE PUSH (WAL 1140).",
+    "vcs_source": {
+      "merge_sha": "19cae7146a66e489b1455d545a33bda2c5459751",
+      "merge_tree_sha": "37195c91 (git rev-parse 19cae71^{tree})",
+      "head_sha": "48add008c748ceee50038794b1cd17537ea42106",
+      "head_tree_sha": "17f4cb01e012577b41e097c344544e9831568344",
+      "pre_merge_main": "1fc8f1685b40ca0a7ab4a7809072bf7017739e57",
+      "base": "06be1e1f069a72f9266ce0fe03a4e0254731a091",
+      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t101pm (detached HEAD 48add00)"
+    },
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 283,
+      "failed": 35
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failed_tests": [
+      {
+        "test": "tests[139] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[140] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[161] (t36)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[162] (t36)",
+        "error_summary": "make: *** [Makefile:119: security-gitleaks] Error 1"
+      },
+      {
+        "test": "tests[163] (t37)",
+        "error_summary": "gitleaks findings: 21 - zero-leak BLOCKING invariant broken"
+      },
+      {
+        "test": "tests[164] (t37)",
+        "error_summary": "ac2 evidence: pip-audit parsed summary count=3 finding-table lines=3"
+      },
+      {
+        "test": "tests[166] (t37)",
+        "error_summary": "parsed 46 distinct finding ids from the two audit reports"
+      },
+      {
+        "test": "tests[167] (t37)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[174] (t38)",
+        "error_summary": "trivy provenance: introducing commit message records no 0.75.0 version"
+      },
+      {
+        "test": "tests[175] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[177] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[180] (t40)",
+        "error_summary": "ac3: accepted-limitation rows=13, REQ-SEC-110 requires EXACTLY 12 (counted over the limitation rows of this document only)"
+      },
+      {
+        "test": "tests[181] (t40)",
+        "error_summary": "ac4: gitleaks findings 21 - the zero-leak invariant is broken, a real leak may never be registered away"
+      },
+      {
+        "test": "tests[188] (t47)",
+        "error_summary": "ac1: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[190] (t47)",
+        "error_summary": "ac3 RED: freeze-scope drift is [backend/app/main.py,backend/app/models/budget.py,backend/app/scripts/seed_demo.py,backend/app/services/category_service.py,backend/app/services/expense_servic"
+      },
+      {
+        "test": "tests[191] (t47)",
+        "error_summary": "ac4 RED: README drifted"
+      },
+      {
+        "test": "tests[192] (t47)",
+        "error_summary": "ac5: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[204] (t54)",
+        "error_summary": "ac2 RED: stored tests[139] (t27) FAILED on this workflow - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[214] (t51)",
+        "error_summary": "ac5 RED: repo-wide broken relative link ../nowhere-xyz-t101.md in docs/issues/t101.md - KNOWN DISCLOSED PLANT class (WAL 1209), self-resolves at close"
+      },
+      {
+        "test": "tests[216] (t55)",
+        "error_summary": "ac2 RED: stored tests[139] (t27) FAILED - the byte-pinned t26/t27 contract is broken | ac2 RED: stored tests[140] (t27) FAILED - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[217] (t57)",
+        "error_summary": "ac1 RED: determinism contract broken (committed a14af7cd vs regenerated) - pre-existing main-side drift, proven rc=1 at merge parent 1fc8f16"
+      },
+      {
+        "test": "tests[227] (t59)",
+        "error_summary": "ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone"
+      },
+      {
+        "test": "tests[230] (t62)",
+        "error_summary": "ac6 RED: the branch delta touches files outside the ownership envelope (root package.json / package-lock.json, scripts/dev/**, docs/issues/**, docs/state/outputs/**): docs/log/orchestrator_w"
+      },
+      {
+        "test": "tests[231] (t63)",
+        "error_summary": "t63-pin3 RED: README digest moved off pin-3"
+      },
+      {
+        "test": "tests[258] (t71)",
+        "error_summary": "ac4 RED: the regenerated report does not end in ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[259] (t72)",
+        "error_summary": "ac7 RED: the regenerated report does not end ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[272] (t80)",
+        "error_summary": "ac1 RED: bash -n rejects the collector - a script with a syntax error cannot collect anything"
+      },
+      {
+        "test": "tests[274] (t80)",
+        "error_summary": "ac3 RED: --dry-run printed no dry-run line - the dry run is the leg that proves the plan without touching anything"
+      },
+      {
+        "test": "tests[275] (t80)",
+        "error_summary": "ac4 RED: --print-manifest produced no document - the manifest is the self-describing half of the bundle and t84s evidence.json is this files measured content, never a hand-written restatemen"
+      },
+      {
+        "test": "tests[276] (t78)",
+        "error_summary": "ac1 RED: service.name is not the pinned SERVICE_NAME constant expense-tracker-api - the three attribute VALUES are pinned by this card, not invented in code"
+      },
+      {
+        "test": "tests[289] (t82)",
+        "error_summary": "ac3 RED: bash -n rejects rollback.sh: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t101pm/incident-response/runbooks/rollback.sh: line 29: syntax error near unexpected token `$'{\\r'"
+      },
+      {
+        "test": "tests[290] (t82)",
+        "error_summary": "ac4 RED: served ok_true exited non-zero with no readable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t101pm/incident-response/runbooks/verify-recovery.sh: line 19: $'\\r': c"
+      },
+      {
+        "test": "tests[294] (t77)",
+        "error_summary": "ac4 RED: dashboard.json is not 2-space-indented canonical JSON - re-serialise with json.dumps(indent=2), the pinned validator, rather than hand-formatting it"
+      },
+      {
+        "test": "tests[296] (t83)",
+        "error_summary": "ac2 RED: alert.json has CRLF bytes in the working copy - commit LF (core.autocrlf=true smudges on checkout, but a CRLF BLOB here would not equal the t76 content either)"
+      },
+      {
+        "test": "tests[309] (t86)",
+        "error_summary": "ac4 RED: docs/criteria/security_ops_verification.md is NOT byte-clean against BASE 67c9db975d75 () - this card is report-only; regenerating the criterion doc or re-pinning the generator is t"
+      }
+    ],
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section, so per the mode-doc fallback the smoke set is the six t101 AC verification fences from docs/issues/t101.md ## Verification commands, script-extracted VERBATIM (extract_fences.py), executed from the merged worktree root: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 - 6/6.",
+    "ac_hash_reproduction": "sha256:442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9 reproduced from the six shipped fences under the binding recipe (sha256 over the JSON-compact array of the six fenced bash bodies, CR-stripped and trimmed) - matches the groom handoff and the card ac6 claim.",
+    "fence_leg_classification": {
+      "ac1": "rc=0 - premise record exists, schema ok, both superseded premises are verbatim substrings of the closed t95 card; B1 carries the 214 triple, B3 the authoritative 255 triple.",
+      "ac2": "rc=0 - tests[214] extracted verbatim (3213 bytes, sha 68bad4af0359e3e9... matches the pin); three-stage negative control GREEN(3213B)->RED(names planted build/t101nc/sabotage.md)->GREEN on a clean throwaway extraction of the pinned base.",
+      "ac3": "rc=0 - shipped index leg 255 recomputes to f5aafe07/1878e29d/7760, replays rc=0; superseded 9aac9f0c/487b30e2/7945 named in the record, 0 occurrences in the index.",
+      "ac4": "rc=0 - frozen-33 all still RED (process exit codes, RED=33 GREEN=0), delta zero; legs 214 and 255 are OUTSIDE the frozen set and NOT swept there; t100 record absent.",
+      "ac5": "rc=0 - delta purity vs base 06be1e1f: allow-listed paths only, never-touch set byte-clean (index, README, plan, requirements, backlog, openapi, WAL, closed t95 family), WAL append-only (191253 base bytes strict prefix), both pinned legs recompute, purity plant FIRED (docs/PURITY_CONTROL_t101.md classified UNACCOUNTED then cleaned up).",
+      "ac6": "rc=0 - groom reproducible: ac_hash, ac_count, sections_filled, verification_commands, index-touched=false, closed-edited=false all as specified."
+    },
+    "red_classification": "35 RED legs, SET-EQUAL to frozen-33 UNION {214, 217}. frozen-33 (139,140,161,162,163,164,166,167,174,175,177,180,181,188,190,191,192,204,216,227,230,231,258,259,272,274,275,276,289,290,294,296,309): pre-existing shipped baseline, all still RED for their own unchanged reasons (ac4 measured RED=33 GREEN=0 over exactly this set). {214}: disclosed plant class, see plant_214_boundaries. {217}: pre-existing main-side drift, see drift_217. Zero legs outside the expected set; zero expected-RED legs flipped GREEN; zero regressions attributable to the t101 merge (which carries zero product bytes anyway).",
+    "plant_214_boundaries": "WAL 1209 ruling confirmed at its boundaries, not re-litigated. (a) 214 is NOT in the frozen-33 swept set (ac4 asserts this structurally; the sweep treats it separately). (b) Repo-wide link-walk re-executed independently: links checked=85, offenders=1 - the ONLY offender is ../nowhere-xyz-t101.md in docs/issues/t101.md (the card's own ac2 plant literal inside a fenced block); docs/issues/t99.md carries NO relative-link literals and does NOT fire 214 - no t99-window finding. (c) Replay of the verbatim 214 command (3213 bytes, sha 68bad4af...) on a clean git-archive extraction of pre-merge main 1fc8f16: the t101 card is PRESENT there (arrived at groom ingest) with 2 plant literals and the leg exits rc=1 naming the same card - consistent with the ruling, NO contradiction (a GREEN pre-merge replay would have contradicted it). The RED self-resolves at close when the card moves to docs/issues/closed/ (skip() exempts issues/closed).",
+    "drift_217": "tests[217] (t57) determinism regenerate-then-compare leg: committed report digest a14af7cd != regenerated digest on this tree. Proven PRE-EXISTING at the merge parent: replayed VERBATIM on a clean zero-untracked git-archive extraction of 1fc8f16 it exits rc=1 with the SAME committed digest a14af7cd. Same disclosed class as the t91/t95/t97 disclosures. Not attributable to t101 (which brings zero product bytes).",
+    "immutability": {
+      "index": "working-copy sha256 67b6e75365e806da24cadff646568ac8a06dac04efddd0c0ac3dd794e8a68a9a (CRLF-smudged family under core.autocrlf=true); LF-normalized working bytes == base 06be1e1 blob == pre-merge-main 1fc8f16 blob (sha 8fe99cba444c9aec...); git blob 530b665e8e67fdd9dd7ccdf703a092a5beac2b31 IDENTICAL at 1fc8f16 and 48add00. Index bytes did not move.",
+      "protected_paths": "README.md (1e8af707), openapi.yaml (684cd411), backend/ (6456e578), e2e/ (771db1e7), frontend/ (40b5ae54), scripts/ (1d4c4c14) trees IDENTICAL 1fc8f16 vs 48add00. No top-level tests/ path exists in this repo (tests live under backend/tests and e2e/tests, covered by the identical backend/ and e2e/ trees).",
+      "wal": "append-only: 1fc8f16 WAL (203552 bytes) is a STRICT PREFIX of the 48add00 WAL (206065 bytes, +2513); 170 entries, last seqs 1204-1209.",
+      "merge_delta": "git diff --name-status 1fc8f16..19cae71 = exactly 3 added files: docs/state/outputs/t101_builder_build.json, t101_definer_premise_correction.json, t101_verifier_verify_issue.json - ZERO product bytes from the merge. 19cae71..48add00 = docs/log/orchestrator_wal.jsonl only (WAL-1209 bookkeeping)."
+    },
+    "product_state": "Premise record docs/state/outputs/t101_definer_premise_correction.json present: record_type premise_correction, base_sha 06be1e1f, closed_artifacts_edited false, authored_by definer; defects.B3.index_amendment.applied_by = orchestrator_in_strict_merge_window (NOT self-applied - the record claims zero index edits and that claim is TRUE by bytes: the index blob is unchanged from base). The record amends t95 gate premises BY REFERENCE with verbatim superseded substrings cross-checked by fence ac1.",
+    "pin_reconciliation": {
+      "leg_255": "shipped index tests[255] command recomputes to f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9 / entry sha (JSON.stringify) 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6 / 7760 bytes - matches the authoritative triple in the record; leg replays rc=0 in the sweep.",
+      "leg_214": "shipped index tests[214] command recomputes to 68bad4af0359e3e9c22dafa1e5cb184d53f62990ccb3d1b6b0d1f412db22659c / f2cc770b15c769c1c1189fb6ba09ab86ca8cc4cfe1103eae2351a0ea22fc2680 / 3213 bytes - matches the B1 evidence triple in the record.",
+      "superseded": "9aac9f0c and 487b30e2 literals appear 0 times in the shipped index (7945 appears only as the historical stored bytes field of the t94-era entry, as disclosed)."
+    },
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN logged: UV_PROJECT_ENVIRONMENT and PYTHONPATH both EMPTY in this spawn. Fallback per mode doc: per-worktree Linux venv via uv sync --frozen --offline at backend/.venv; sweep/fence runners set UV_PROJECT_ENVIRONMENT=backend/.venv and PYTHONPATH=worktree root. No command string modified.",
+      "git_access": "Read-only throughout: WSL git cannot resolve this worktree's Windows-form gitdir pointer (WAL 1119-class quirk), so a PATH shim (scratch/t101pm/bin/git) forwards with GIT_DIR/GIT_WORK_TREE overrides, and stored commands' own cmd.exe git legs are served by a cmd.exe bridge (scratch/t101pm/bin/cmd.exe). No checkout, no merge, no push, no index edit, no code/test/issue modification by the verifier.",
+      "sweep_harness": "extract.py extracted all 318 stored commands byte-verified (entries=318 mismatches=0) to scratch/t101pm/cmds/cum_NNN.sh; sweep.cjs (t93 exemplar, path-adapted) executed each VERBATIM (cwd=worktree root, 900s timeout, checkpointed TSV + per-entry logs). One runner completed 0..317 (DONE rows=318 elapsed_s=3924).",
+      "environment_gaps": "Docker daemon unavailable -> tests[188]/[192] fail loudly by design (baseline env class). core.autocrlf=true smudges LF blobs to CRLF in the working copy; the 67b6e753 working-copy index hash is the CRLF family, the LF-normalized bytes equal the base blob."
+    },
+    "platform": "MERGE VERDICT: PASS comment posted on issue #107 at ~2026-10-20T13:26Z via scratch/t101pm/platform/spawner.mjs (Windows node -> spawnSync -> node --experimental-strip-types scripts/platform.ts) with the body read from a UTF-8 file and passed as ONE argv element (quote-free payload, no shell transit). Read back via issue latest-comment: byte-equal, 2694 chars. DISCLOSURE: two earlier attempts through a cmd.exe /d /c string transit posted TRUNCATED bodies (first-newline truncation, 22 chars, body '## MERGE VERDICT: PASS' only) - those two stub comments remain on #107 and could not be deleted with the platform toolset; the AUTHORITATIVE verdict comment is the latest one (full 2694-char body, read-back verified). Labels NOT modified (pre-merge phase does not set labels). .env temporarily copied from the main checkout scratch/env_quarantine_t94post for the platform calls and removed immediately after; absence verified (ls .env -> not found).",
+    "candidate": {
+      "worktree": "C:/Users/tw097/Desktop/261007_project01/worktrees/t101pm (detached at 48add008c748ceee50038794b1cd17537ea42106)",
+      "head": "48add008c748ceee50038794b1cd17537ea42106",
+      "merge_parents": "parent1 1fc8f1685b40ca0a7ab4a7809072bf7017739e57 (pre-merge main), parent2 6d23804 (t101 verify_issue handoff) - merge --no-ff of issue/t101-premise-record; record c3abb81 and builder handoff 077ed30 in lineage",
+      "working_tree_state": "clean except untracked node_modules junctions and scratch/t101pm (verifier harness); no plant escape (docs/PURITY_CONTROL_t101.md and build/t101nc removed by their own fences); nothing staged"
+    },
+    "verification_commands_source": "docs/issues/t101.md ## Verification commands (six fenced bash bodies, extracted VERBATIM by extract_fences.py; ac6 re-derives the same ac_hash).",
+    "notes": "Handoff NOT committed on the detached HEAD per task order (orchestrator ingests at verdict consumption). No push performed. The 214 RED self-resolves at close when the card moves to docs/issues/closed/; the orchestrator close window should expect the sweep RED set to drop 214 at that point."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t101_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 107,
+    "output_path": "docs/state/outputs/t101_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T13:26:45Z",
+  "retry_count": 0
+}
