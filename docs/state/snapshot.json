@@ -1,20 +1,27 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-20T07:53:53Z",
-  "last_seq": 1199,
+  "updated_at": "2026-10-20T09:56:29Z",
+  "last_seq": 1203,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": null
+      "issue_id": "t99",
+      "role": "definer",
+      "phase": "groom"
     },
     {
       "slot_id": "slot_2",
-      "issue_id": null
+      "issue_id": "t101",
+      "role": "definer",
+      "phase": "groom"
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [],
+  "active_issues": [
+    "t99",
+    "t101"
+  ],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
   "freeze_reason": null,
@@ -50,6 +57,6 @@
     61
   ],
   "open_cards": {},
-  "last_wal_seq": 1199,
-  "milestone_state": "phase_14_render_live_closeout COMPLETE 9/9 (t90 #96, t91 #97, t92 #98, t93 #99, t98 #100, t94 #101, t95 #102+#61, t96 #103, t97 #104) - all merged+closed, origin/main f8f13ab, zero open issues. Baseline for future sweeps: frozen-33 = frozen36 MINUS {250,254,257} (t96 recorded change). Known sweep-pollution classes: leg 217 RED when .env present (remove .env after platform calls); leg 214 RED on build/-dir or card-location pollution (clean checkouts GREEN). OPEN FOLLOW-UPS: anchor[133] refresh amendment card; t95 premise-defect re-groom amendment card (214 matrix / node_modules allowlist / 255 stale as-stored pin)."
+  "last_wal_seq": 1203,
+  "milestone_state": "phase_15_gate_amendments ACTIVE: review_plan PASS_WITH_WARNINGS (W1-W6); ready chain t99->t100->t102 + t101; baseline frozen-33; pollution classes 217(.env)/214(build-dir)"
 }
