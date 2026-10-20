@@ -1,0 +1,135 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t95",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "timestamp": "2026-10-20T03:18:48Z",
+  "retry_count": 0,
+  "error": null,
+  "next_action": null,
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t95_close_comment.txt",
+      "docs/state/outputs/t95_issue_close_record.json",
+      "docs/state/outputs/t95_builder_build.json",
+      "docs/state/outputs/t95_builder_logs/results.tsv",
+      "docs/state/outputs/t95_builder_logs/sweep_log.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac1.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac2.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac3.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac4.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac5.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac6.txt",
+      "docs/state/outputs/t95_builder_logs/fence_ac1.sh",
+      "docs/state/outputs/t95_builder_logs/fence_ac2.sh",
+      "docs/state/outputs/t95_builder_logs/fence_ac3.sh",
+      "docs/state/outputs/t95_builder_logs/fence_ac4.sh",
+      "docs/state/outputs/t95_builder_logs/fence_ac5.sh",
+      "docs/state/outputs/t95_builder_logs/fence_ac6.sh",
+      "docs/state/outputs/t95_builder_logs/ac5_delta_purity_standalone.txt",
+      "docs/state/outputs/t95_builder_logs/comment_readback.txt",
+      "docs/state/outputs/t95_builder_logs/git",
+      "docs/state/outputs/t95_builder_logs/sweep.sh"
+    ],
+    "platform_issue": 102,
+    "output_path": "docs/state/outputs/t95_builder_build.json"
+  },
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t95-close-61-evidence",
+    "branch_sha": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+    "commit_sha": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+    "commit_parent": "67b7a11aa888c624ee4e1f9a0e13c3c3a6d8833f",
+    "base_sha": "67b7a11aa888c624ee4e1f9a0e13c3c3a6d8833f",
+    "pushed": false,
+    "push_note": "Per the build spawn contract: commit on this branch, do NOT push. The orchestrator pushes after verdict.",
+    "ac_hash": "sha256:4fff9c22c7e556b791cc2e5e0e9d54a071efe87a86963cef18b478757028c3c5",
+    "ac_hash_recompute": "Recomputed from the card ON DISK with the t58/t62..t98 recipe (sha256 over json.dumps(blocks, separators=(',',':')) of the six ```bash-fenced blocks in ac1..ac6 order, each CR-stripped and trimmed): 4fff9c22c7e556b791cc2e5e0e9d54a071efe87a86963cef18b478757028c3c5 - MATCHES the card literal, the groom handoff and the dispatch (spaced groups 4fff9c22 c7e556b7 91cc2e5e 0e9d54a0 71efe87a 86963cef 18b47875 7028c3c5). No fence was edited; the executed fence files scratch/t95b/fences/fence_ac{1..6}.sh (preserved under docs/state/outputs/t95_builder_logs/fence_ac*.sh) are byte-equal extractions from the shipped card.",
+    "changes": [
+      "docs/state/outputs/t95_close_comment.txt - the #61 evidence comment (1918 bytes on disk, ASCII, LF-only, quote-free, no cmd.exe metacharacters): names run 39197889153, deploy job 117884490139, head_sha 0c3dd6d6, both register migrations (security_ops 5->4 at security_ops_verification.md:83-84, docs 4->3 at docs_verification.md:32 + the CHECKS_FAILED 1 :54 sanctioned residual), both README sections (## Online demo, ## Deployment on Render), the -1qtu host and health payload, the banked-log pointer (58 lines, sha d9273b32...8706c, mandated line 56) and the ops/deployment-health.md pointer; asserts the Render-side log bodies are NOT claimed (t92's disclosed gap).",
+      "docs/state/outputs/t95_issue_close_record.json - the in-repo close record: card/platform_issue/target_issue, prior_state (open, [blocked-on-operator infra], updated_at_before_this_comment 2026-10-13T02:14:26Z, measured through scripts/platform.ts), close_recorded_at 2026-10-20T01:47:01Z, close_performed_by orchestrator + close_note (the close CALL is orchestrator-side merge-window maintenance; #61 stays OPEN at build time), comment_path/comment_sha256 0e931caf...bcc9 tying to the posted text, comment_posted_at, comment_readback (MATCH 1917/1917 through the sanctioned channel), workflow_run_id/deploy_job_id/head_sha, live_host/health_url (the canonical -1qtu host, WAL 1169), readme_sections, register_migrations, artifact_paths (8 pointers), artifact_digests_cr_stripped. Every literal MEASURED from shipped bytes or live scripts/platform.ts / live-host reads.",
+      "docs/state/outputs/t95_builder_logs/ - sweep results.tsv + sweep_log.txt + the six verbatim fence outputs + the ac5 delta-purity standalone re-measure + the runner (git PATH shim + sweep.sh) + the fence extractions, for the verifier.",
+      "ZERO gate amendments shipped; merge_test_index.json, openapi.yaml, README.md, backend/scripts/docs_verification.py, backend/, tests/, render.yaml, .github/ untouched in any commit; ops/ untouched (the card names ops/deployment-health.md only as a cited pointer - it already states the live -1qtu measurement, no edit is in the card's scope)."
+    ],
+    "measured_product_digests": {
+      "t95_close_comment.txt": "0e931caf9979956085fd4ac3c923353c82bd651a2f451a23041c423b03d7bcc9",
+      "t95_issue_close_record.json": "0261cbf38701d63f6afd5de56e7a0a6f61c778a089b753988f4161e30b257f1f"
+    },
+    "platform_readback": "#61 evidence comment posted through scripts/platform.ts (cmd.exe /d /c 'cd /d . && npx tsx scripts/platform.ts issue comment 61 ...' via the python subprocess driver, quote-free body) and read back byte-equal: MATCH, posted_len=1917 readback_len=1917 after the ac1 CR-strip + rstrip normalisation (comment_readback.txt). Platform state at build: #61 OPEN labels [blocked-on-operator infra] with the t95 comment newest; #102 OPEN labels [groomed] untouched; the issue close 61 call was NOT performed (merge-window territory, ac2/ac4 cross-checks hold).",
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 1,
+      "ac6": 1
+    },
+    "fence_rc_provenance": "All six fences run VERBATIM (byte-equal extractions verified) on the FINAL COMMITTED tree after the full sweep, the .env-seeded platform re-runs and the .env removal: ac1/ac2/ac3/ac4 rc=0 (fence_ac{1..4}.txt - ac1 THE EVIDENCE COMMENT STANDS ON #61 VERBATIM, ac2 THE CLOSE RECORD IS SOUND, ac3 THE BUNDLE IS CITED BY POINTER, ac4 SCOPE DISCIPLINE HOLDS). ac5 rc=1 and ac6 rc=1 are GROOM PREMISE DEFECTS, not product regressions, each root-caised below with the orchestrator ruling (option A: ship COMPLETE with the two REDs disclosed) recorded in premise_defects.",
+    "premise_defects": [
+      "ac5 defect 1 - tests[214] matrix premise. Card ac5 asserts tests[214] stays RED ('measured RED at the groom base'). 214 is a repo-wide md-link/orphan gate; its RED at groom came from an UNTRACKED build/t69_orch/*.md scratch file with a broken relative link in the MAIN checkout where the groom ran (the card's own matrix row says 'pre-existing dirty-room RED'; build/t69_orch/*.md still sits untracked in the main checkout, and the groom scratch scratch/t95g lives there too). In every CLEAN builder worktree 214 is GREEN: measured rc=0 in ../t94b/scratch/t94b/out/results.tsv, ../t94b/scratch/t94b/out_v/results.tsv, ../t96b/docs/state/outputs/t96_builder_logs/results.tsv and ../t94pm/scratch/t94pm/out_pm/results.tsv, and rc=0 as leg 214 of MY 318-leg sweep. 214 is NOT a member of the frozen 36, so the card's ac5 matrix contradicts its own frozen-36 expectation. The builder refused to fabricate the RED (planting md dirt would be the pollution class, not a build); the fence itself says 'report it, do not celebrate it'. Third sibling of the standing pollution premise class (t94 ac5 smudge, t96 232, t98 ac2). Remedy: definer re-groom moves 214 into the GREEN list; ac_hash changes and the groom ratification follows - orchestrator holds this.",
+      "ac5 defect 2 - delta-purity allowlist omission. After the product commit the only BAD path in ac5's case block is the root node_modules: a WSL SYMLINK junction seeded as an environment dep, and .gitignore:85 is 'node_modules/' (trailing slash) which does not match a symlink. t94's card carried the explicit allowance node_modules|*/node_modules|node_modules/*|*/node_modules/* in the same case block (docs/issues/closed/t94.md:267) and t94b disclosed the identical untracked-junction state; t95's card omitted it. Removing the junction instead would RED the six carried node gates 133/222/223/225/226/279 that ac5 itself requires GREEN, so ac5 cannot go GREEN either way on this host. Standalone re-measure of the leg preserved in docs/state/outputs/t95_builder_logs/ac5_delta_purity_standalone.txt. Junction kept, disclosed; never committed, never deleted. (frontend/node_modules became a REAL directory mid-sweep when a stored npm leg populated it and is gitignored normally.) Remedy: same re-groom class.",
+      "ac6 defect - STALE PIN on tests[255], the LOUD failure the card's own base_coordination_ruling predicts. The groom pins 255 at the as-stored command sha 9aac9f0c1f7a.../len 7945 measured at main tip 0350f7a. My base 67b7a11 is the ORCHESTRATOR-MANDATED post-t94 CLOSED main, which already carries t94's APPLIED amendment (merge-window commit 89625cf is an ancestor of 67b7a11; f5aafe07ca48.../len 7760 == t94_definer_gate_amendment.json new_command_sha256). ac6's pin loop has no as-stored-OR-recorded tolerance (unlike ac5's 255 leg, which PASSES GREEN on this tree - 'ac5 evidence: tests[255] is in t94's RECORDED post-amendment state' / GREEN), so ac6 is structurally RED on any post-t94-merge tree, which the card itself mandates as the base. 18 of 19 as-stored pins match the shipped index exactly; 255 is the only deviation. Nobody guessed bytes (the card's own remedy: 'a re-groom amendment follows'). Remedy: definer re-emits the 255 pin against the post-amendment bytes - pins live in the groom JSON, NOT in the fence bodies, so this particular re-groom does NOT move ac_hash and does not disturb the posted #61 comment."
+    ],
+    "ac_mapping": {
+      "ac1": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac1 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac2 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac3 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac4 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac5 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "FAIL"
+      },
+      "ac6": {
+        "commit": "a680c6cf7170ad2bebcbebe1a459f6e4dca501e2",
+        "test": "bash <ac6 fence block of docs/issues/t95.md verbatim>",
+        "verdict": "FAIL"
+      }
+    },
+    "ac_mapping_note": "ac5/ac6 FAIL entries are the two disclosed groom premise defects (premise_defects), NOT product regressions: every substantive leg they own that this card can affect is GREEN and evidenced - the 13 carried gates GREEN, tests[255] adjudicated to t94's RECORDED state and GREEN, tests[250] recorded-state and RED as the frozen baseline requires, index/openapi/README/docs_verification untouched, delta within the named paths (ac5_delta_purity_standalone.txt); ac6's ac_hash leg GREEN, 18/19 pins GREEN, zero amendments shipped. The orchestrator ruled (dispatch-in-thread, this session): ship COMPLETE with ac5 rc=1 / ac6 rc=1 disclosed as premise defects; the re-groom amendment is definer/orchestrator territory.",
+    "test_summary": {
+      "total": 318,
+      "passed": 282,
+      "failed": 36
+    },
+    "test_summary_note": "Full 318-leg regression sweep VERBATIM from docs/state/merge_test_index.json on the committed tree (product commit a680c6c), run WITHOUT .env (generator pollution class, t98/217 precedent; the platform legs had completed before the sweep and .env was re-seeded only for the final ac1/ac2/ac4 platform fence re-runs, then removed). RED set == the frozen 36 EXACTLY: {139,140,161,162,163,164,166,167,174,175,177,180,181,188,190,191,192,204,216,227,230,231,250,254,257,258,259,272,274,275,276,289,290,294,296,309} - zero extra REDs, zero unexpected GREENs, zero rc=128 environment legs (the scratch/t95b/bin/git PATH shim handled the WSL Windows-gitdir-pointer class, WAL 1119). tests[214] rc=0 and tests[255] rc=0 GREEN as expected for a clean post-t94 tree; tests[230]/[250]/[258]/[309] stay RED by design. t95 ships ZERO amendments so the shipped tree IS the post-merge expectation: 282 GREEN / 36 RED, zero regressions. results.tsv + sweep_log.txt committed under docs/state/outputs/t95_builder_logs/.",
+    "generator_dirt_disclosure": "The sweep's generator legs rewrote docs/criteria/agent_pack_verification.md (METHOD collection / BACKEND_COLLECTION 270 -> 303: the worktree's backend/.venv collection differs from the main checkout's) and touched docs/criteria/req_coverage_verification.md; both were RESTORED to HEAD bytes (git checkout) before the handoff commit, per the t94b/t96b precedent and the zero-dirt-at-handoff instruction. No criteria report ships in any commit. The root node_modules symlink junction was ABSENT of .env for the whole sweep, so the req-coverage report digest class (55c3b5a1 with .env vs a14af7cd without) never entered the shipped tree.",
+    "lint_status": "CLEAN",
+    "lint_note": "No .py touched by this card (ruff not applicable); the two shipped JSON/text artifacts parse/validate clean (ac2 schema legs GREEN, python json.load clean).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_purity": "Product commit a680c6c touches exactly docs/state/outputs/t95_close_comment.txt and docs/state/outputs/t95_issue_close_record.json. The handoff commit adds docs/state/outputs/t95_builder_build.json and docs/state/outputs/t95_builder_logs/ (the t96 precedent: builder logs under docs/state/outputs/<id>_builder_logs/, *.log renamed *.txt because .gitignore:184 excludes *.log). ac5's four-path case block does not name the builder outputs - t94/t96 hit the identical wall and shipped theirs the same way (their ac5 case blocks likewise name only the card + definer outputs); disclosed, sanctioned by the orchestrator's option-A ruling. merge_test_index.json, openapi.yaml, README.md, backend/scripts/docs_verification.py byte-identical to base in every commit. .env removed; tracked tree clean; no staged files at handoff.",
+    "never_touch_compliance": "README.md untouched (0 bytes - t96 W1/W2 exclusive); backend/scripts/docs_verification.py and docs/criteria/docs_verification.md content untouched; merge_test_index.json untouched in every commit (ZERO amendments); openapi.yaml FROZEN and untouched; backend/, tests/, render.yaml, .github/ untouched; ops/ untouched (deployment-health.md cited as a pointer only - it already states the live -1qtu measurement per the card's context); docs/issues/t95.md untouched; the definer groom JSON untouched; #61 NOT closed and NOT otherwise touched; #102 labels untouched ([groomed]); no other issue touched.",
+    "environment_disclosure": [
+      "WSL git cannot parse this worktree's Windows-form .git pointer (WAL 1119 class; raw rc=128). Runner: scratch/t95b/bin/git PATH shim (copied from the t94b precedent), preserved at docs/state/outputs/t95_builder_logs/git with sweep.sh; all 318 stored commands ran VERBATIM under it, zero rc=128 legs.",
+      "node_modules (root) is a WSL symlink junction to the main checkout's installed deps and frontend/node_modules was junction-seeded then replaced by a real install mid-sweep; neither is ever committed. See premise_defects[1] - the root symlink is not covered by the 'node_modules/' gitignore pattern and t95's ac5 case block omits the t94 allowance.",
+      ".env was copied from ../t96b/.env ONLY for the final ac1/ac2/ac4 platform fence re-runs and removed immediately after; the entire 318-leg sweep ran without it.",
+      "The platform driver scratch/t95b/platform/run.py invokes scripts/platform.ts through cmd.exe via python subprocess (the cmd.exe quoting class: bash-quoted args reach npx mangled); the comment body is quote-free so no metacharacter hazard exists, and ac1 asserts the posted bytes verbatim."
+    ],
+    "residual_risks": [
+      "ac5/ac6 stay RED on this branch tip until the definer re-groom (214 matrix row, node_modules allowance, 255 pin) lands; the re-pin of 255 does NOT move ac_hash, the other two DO (card fence edits) - orchestrator sequences that and any #61-comment premise check. Disclosed, not worked around.",
+      "The posted #61 comment is IMMUTABLE evidence: if the re-groom changes ac_hash, the comment itself needs no re-post (it quotes no fence bytes), but the verifier must re-run ac1's read-back against the final card.",
+      "tests[230]/[250]/[258]/[309] stay RED by design (frozen baseline); the docs report tail stays CHECKS_FAILED 1 via the sanctioned anchor[133] staleness - not this card's to fix.",
+      "The close CALL remains orchestrator-side: this handoff records the discharge; #61 must be closed in the merge window and its post-close state re-verified by the verifier (ac2's record says close_performed_by orchestrator).",
+      "agent_pack BACKEND_COLLECTION is environment-dependent (270 in the main checkout vs 303 in a worktree venv); the report was restored, so the shipped tree carries the base number - any future generator run in a worktree reproduces the drift (t94b/t96b identical)."
+    ],
+    "notes": "Definition-of-Done mapping: ac1-ac4 GREEN on the final committed tree (fence_rc + fence_rc_provenance); ac5/ac6 GREEN on every substantive leg this card can affect and RED only at the three root-caised groom premise defects, shipped under the orchestrator option-A ruling with full evidence pointers; the disclosed position is recorded: t95 changes NOTHING in the frozen 36-RED baseline (sweep RED == frozen 36 exactly, 282 GREEN, zero rc=128) and the close call is orchestrator-side; ac_hash 4fff9c22...7028c3c5 recomputed from the shipped fences and equal to the card literal and the groom handoff; #61 comment read-back MATCH; #61 OPEN at build with labels [blocked-on-operator infra]; no other issue touched; zero amendments; README/index/openapi untouched; not pushed."
+  }
+}

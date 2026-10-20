@@ -1,0 +1,3 @@
+ac3 evidence: 8 cited paths all present, 7 of them outside docs/issues and outside the record, the run id and both register migrations recorded
+ac3 evidence: the cited A3 artifact still says what the comment says it says (run 39197889153, job 117884490139, render_log_gap.captured=false)
+ac3 GREEN: THE BUNDLE IS CITED BY POINTER AND EVERY POINTER LANDS - five real artifacts, the run id, both register migrations re-verified against the generated reports, and the disclosed Render-log limit preserved

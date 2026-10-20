@@ -1,0 +1,1185 @@
+===== leg 0 issue=t0 rc=0 0s =====
+
+===== leg 1 issue=t0 rc=0 0s =====
+
+===== leg 2 issue=t0 rc=0 0s =====
+
+===== leg 3 issue=t0 rc=0 0s =====
+
+===== leg 4 issue=t0 rc=0 1s =====
+
+===== leg 5 issue=t0 rc=0 0s =====
+
+===== leg 6 issue=t1 rc=0 0s =====
+
+===== leg 7 issue=t1 rc=0 1s =====
+
+===== leg 8 issue=t1 rc=0 9s =====
+
+===== leg 9 issue=t1 rc=0 163s =====
+
+===== leg 10 issue=t1 rc=0 88s =====
+
+===== leg 11 issue=t2 rc=0 0s =====
+
+===== leg 12 issue=t2 rc=0 110s =====
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm warn deprecated recharts@2.15.4: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
+npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+===== leg 13 issue=t2 rc=0 0s =====
+
+===== leg 14 issue=t2 rc=0 23s =====
+    at LocationImpl._locationObjectSetterNavigate (C:\Users\tw097\Desktop\261007_project01\worktrees\t95b\frontend\node_modules\jsdom\lib\jsdom\living\window\Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (C:\Users\tw097\Desktop\261007_project01\worktrees\t95b\frontend\node_modules\jsdom\lib\jsdom\living\window\Location-impl.js:47:10)
+    at Location.set href [as href] (C:\Users\tw097\Desktop\261007_project01\worktrees\t95b\frontend\node_modules\jsdom\lib\jsdom\living\generated\Location.js:125:37)
+    at C:\Users\tw097\Desktop\261007_project01\worktrees\t95b\frontend\src\api\client.ts:112:23
+    at Axios.request (file:///C:/Users/tw097/Desktop/261007_project01/worktrees/t95b/frontend/node_modules/axios/lib/core/Axios.js:40:14)
+    at Module.login (C:\Users\tw097\Desktop\261007_project01\worktrees\t95b\frontend\src\api\auth.ts:39:20) [90mundefined[39m
+===== leg 15 issue=t2 rc=0 9s =====
+
+===== leg 16 issue=t2 rc=0 0s =====
+
+===== leg 17 issue=t3 rc=0 13s =====
+
+===== leg 18 issue=t3 rc=0 15s =====
+
+===== leg 19 issue=t3 rc=0 12s =====
+
+===== leg 20 issue=t3 rc=0 136s =====
+
+===== leg 21 issue=t3 rc=0 12s =====
+
+===== leg 22 issue=t4 rc=0 0s =====
+
+===== leg 23 issue=t4 rc=0 0s =====
+
+===== leg 24 issue=t4 rc=0 153s =====
+
+===== leg 25 issue=t4 rc=0 32s =====
+
+===== leg 26 issue=t4 rc=0 0s =====
+
+===== leg 27 issue=t4 rc=0 0s =====
+
+===== leg 28 issue=t5 rc=0 7s =====
+
+===== leg 29 issue=t5 rc=0 6s =====
+
+===== leg 30 issue=t5 rc=0 7s =====
+
+===== leg 31 issue=t5 rc=0 5s =====
+
+===== leg 32 issue=t5 rc=0 7s =====
+
+===== leg 33 issue=t5 rc=0 144s =====
+
+===== leg 34 issue=t6 rc=0 8s =====
+
+===== leg 35 issue=t6 rc=0 22s =====
+
+===== leg 36 issue=t6 rc=0 11s =====
+
+===== leg 37 issue=t6 rc=0 9s =====
+
+===== leg 38 issue=t6 rc=0 142s =====
+
+===== leg 39 issue=t7 rc=0 10s =====
+
+===== leg 40 issue=t7 rc=0 7s =====
+
+===== leg 41 issue=t7 rc=0 7s =====
+
+===== leg 42 issue=t7 rc=0 8s =====
+
+===== leg 43 issue=t7 rc=0 149s =====
+
+===== leg 44 issue=t8 rc=0 13s =====
+
+===== leg 45 issue=t8 rc=0 24s =====
+
+===== leg 46 issue=t8 rc=0 15s =====
+
+===== leg 47 issue=t8 rc=0 17s =====
+
+===== leg 48 issue=t8 rc=0 12s =====
+
+===== leg 49 issue=t8 rc=0 153s =====
+
+===== leg 50 issue=t9 rc=0 3s =====
+
+===== leg 51 issue=t9 rc=0 4s =====
+
+===== leg 52 issue=t9 rc=0 4s =====
+
+===== leg 53 issue=t9 rc=0 8s =====
+
+===== leg 54 issue=t9 rc=0 0s =====
+
+===== leg 55 issue=t9 rc=0 33s =====
+
+===== leg 56 issue=t10 rc=0 7s =====
+
+===== leg 57 issue=t10 rc=0 38s =====
+
+===== leg 58 issue=t10 rc=0 9s =====
+
+===== leg 59 issue=t11 rc=0 13s =====
+
+===== leg 60 issue=t11 rc=0 20s =====
+
+===== leg 61 issue=t11 rc=0 14s =====
+
+===== leg 62 issue=t11 rc=0 11s =====
+
+===== leg 63 issue=t12 rc=0 12s =====
+......                                                                   [100%]
+6 passed in 4.77s
+===== leg 64 issue=t12 rc=0 12s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+5 passed, 3 warnings in 6.34s
+===== leg 65 issue=t12 rc=0 16s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 3 warnings in 7.21s
+===== leg 66 issue=t12 rc=0 13s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 4 warnings in 7.26s
+===== leg 67 issue=t13 rc=0 10s =====
+.......                                                                  [100%]
+7 passed in 4.67s
+===== leg 68 issue=t13 rc=0 19s =====
+tests/integration/test_expense_api.py::TestExpenseCreate::test_create_missing_amount_missing_category_invalid_date_long_note_or_bad_currency_return_422_validation_error
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+6 passed, 17 warnings in 11.12s
+===== leg 69 issue=t13 rc=0 22s =====
+tests/integration/test_expense_api.py::TestExpenseList::test_invalid_pagination_and_year_month_query_params_return_422_validation_error
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+9 passed, 23 warnings in 16.45s
+===== leg 70 issue=t13 rc=0 20s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+7 passed, 18 warnings in 12.66s
+===== leg 71 issue=t13 rc=0 14s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+7 passed, 6 warnings in 8.48s
+===== leg 72 issue=t14 rc=0 12s =====
+.......                                                                  [100%]
+7 passed in 4.51s
+===== leg 73 issue=t14 rc=0 16s =====
+tests/integration/test_budget_api.py::TestBudgetPut::test_malformed_year_month_paths_return_422_never_404_never_zero_body
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+6 passed, 18 warnings in 10.82s
+===== leg 74 issue=t14 rc=0 16s =====
+tests/integration/test_budget_api.py::TestBudgetGet::test_get_malformed_year_month_returns_422_never_404_never_zero_body
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+5 passed, 15 warnings in 8.51s
+===== leg 75 issue=t14 rc=0 16s =====
+tests/integration/test_budget_api.py::TestBudgetDelete::test_delete_malformed_year_month_returns_422
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 13 warnings in 9.60s
+===== leg 76 issue=t14 rc=0 12s =====
+....                                                                     [100%]
+4 passed in 4.44s
+===== leg 77 issue=t15 rc=0 16s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 10 warnings in 10.50s
+===== leg 78 issue=t15 rc=0 18s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 10 warnings in 10.39s
+===== leg 79 issue=t15 rc=0 16s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 10 warnings in 9.58s
+===== leg 80 issue=t15 rc=0 13s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 8 warnings in 7.86s
+===== leg 81 issue=t15 rc=0 15s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 6 warnings in 6.95s
+===== leg 82 issue=t16 rc=0 0s =====
+
+===== leg 83 issue=t16 rc=0 3s =====
+
+===== leg 84 issue=t16 rc=0 15s =====
+
+===== leg 85 issue=t16 rc=0 11s =====
+
+===== leg 86 issue=t17 rc=0 17s =====
+
+===== leg 87 issue=t17 rc=0 6s =====
+
+===== leg 88 issue=t17 rc=0 8s =====
+
+===== leg 89 issue=t17 rc=0 5s =====
+
+===== leg 90 issue=t18 rc=0 8s =====
+
+===== leg 91 issue=t18 rc=0 5s =====
+
+===== leg 92 issue=t18 rc=0 5s =====
+
+===== leg 93 issue=t18 rc=0 5s =====
+
+===== leg 94 issue=t18 rc=0 5s =====
+
+===== leg 95 issue=t19 rc=0 17s =====
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+11 passed, 26 warnings in 11.04s
+===== leg 96 issue=t19 rc=0 18s =====
+tests/integration/test_dashboard_api.py::TestDashboardSummaryApi::test_summary_missing_year_month_and_malformed_forms_return_422
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+9 passed, 13 warnings in 10.38s
+===== leg 97 issue=t19 rc=0 14s =====
+tests/integration/test_dashboard_api.py::TestDashboardTrendApi::test_trend_months_out_of_range_or_non_integer_return_422
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+6 passed, 7 warnings in 8.42s
+===== leg 98 issue=t19 rc=0 20s =====
+tests/integration/test_dashboard_api.py::TestDashboardRecentApi::test_recent_limit_caps_items_and_out_of_range_limits_return_422
+  /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+13 passed, 14 warnings in 12.11s
+===== leg 99 issue=t19 rc=0 9s =====
+......                                                                   [100%]
+6 passed in 3.33s
+===== leg 100 issue=t20 rc=0 3s =====
+
+===== leg 101 issue=t20 rc=0 4s =====
+
+===== leg 102 issue=t20 rc=0 4s =====
+
+===== leg 103 issue=t20 rc=0 5s =====
+
+===== leg 104 issue=t20 rc=0 10s =====
+
+===== leg 105 issue=t21 rc=0 28s =====
+
+===== leg 106 issue=t21 rc=0 6s =====
+
+===== leg 107 issue=t21 rc=0 4s =====
+
+===== leg 108 issue=t21 rc=0 4s =====
+
+===== leg 109 issue=t21 rc=0 4s =====
+
+===== leg 110 issue=t22 rc=0 5s =====
+
+===== leg 111 issue=t22 rc=0 5s =====
+
+===== leg 112 issue=t22 rc=0 9s =====
+
+===== leg 113 issue=t22 rc=0 9s =====
+
+===== leg 114 issue=t22 rc=0 7s =====
+
+===== leg 115 issue=t23 rc=0 19s =====
+
+===== leg 116 issue=t23 rc=0 11s =====
+
+===== leg 117 issue=t23 rc=0 8s =====
+
+===== leg 118 issue=t23 rc=0 0s =====
+
+===== leg 119 issue=t23 rc=0 2s =====
+
+===== leg 120 issue=t25 rc=0 3s =====
+
+===== leg 121 issue=t25 rc=0 18s =====
+
+===== leg 122 issue=t25 rc=0 28s =====
+
+===== leg 123 issue=t25 rc=0 13s =====
+
+===== leg 124 issue=t25 rc=0 41s =====
+
+===== leg 125 issue=t24 rc=0 2s =====
+OK
+===== leg 126 issue=t24 rc=0 1s =====
+OK
+===== leg 127 issue=t24 rc=0 0s =====
+
+===== leg 128 issue=t24 rc=0 0s =====
+
+===== leg 129 issue=t24 rc=0 1s =====
+OK
+===== leg 130 issue=t24 rc=0 20s =====
+/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+OK
+===== leg 131 issue=t26 rc=0 1s =====
+
+===== leg 132 issue=t26 rc=0 0s =====
+
+===== leg 133 issue=t26 rc=0 1s =====
+
+===== leg 134 issue=t26 rc=0 0s =====
+
+===== leg 135 issue=t26 rc=0 0s =====
+
+===== leg 136 issue=t27 rc=0 0s =====
+
+===== leg 137 issue=t27 rc=0 0s =====
+
+===== leg 138 issue=t27 rc=0 0s =====
+
+===== leg 139 issue=t27 rc=1 0s =====
+
+===== leg 140 issue=t27 rc=1 2s =====
+
+===== leg 141 issue=t28 rc=0 25s =====
+
+===== leg 142 issue=t28 rc=0 0s =====
+
+===== leg 143 issue=t28 rc=0 0s =====
+
+===== leg 144 issue=t28 rc=0 0s =====
+
+===== leg 145 issue=t28 rc=0 0s =====
+
+===== leg 146 issue=t32 rc=0 0s =====
+
+===== leg 147 issue=t32 rc=0 0s =====
+
+===== leg 148 issue=t32 rc=0 14s =====
+
+===== leg 149 issue=t32 rc=0 0s =====
+
+===== leg 150 issue=t34 rc=0 0s =====
+
+===== leg 151 issue=t34 rc=0 0s =====
+
+===== leg 152 issue=t34 rc=0 0s =====
+
+===== leg 153 issue=t34 rc=0 0s =====
+
+===== leg 154 issue=t35 rc=0 61s =====
+
+===== leg 155 issue=t35 rc=0 24s =====
+
+===== leg 156 issue=t35 rc=0 0s =====
+
+===== leg 157 issue=t35 rc=0 0s =====
+
+===== leg 158 issue=t36 rc=0 0s =====
+ac1 PASS: security: umbrella real (all five sub-target commands expand), stub gone, .PHONY adjacency kept
+===== leg 159 issue=t36 rc=0 0s =====
+ac2 PASS: exactly five sub-targets, each make -n green naming its frozen report path
+===== leg 160 issue=t36 rc=0 8s =====
+ac3 evidence: gitleaks 8.30.1 on PATH; uvx pip-audit + uvx semgrep runnable; uv export requirement lines=60 (floor 50; measured 53 at groom)
+===== leg 161 issue=t36 rc=1 1s =====
+
+===== leg 162 issue=t36 rc=1 7s =====
+    ░    gitleaks
+
+[90m10:42AM[0m [32mINF[0m [1mscanned ~30056088 bytes (30.06 MB) in 2.99s[0m
+[90m10:42AM[0m [33mWRN[0m [1mleaks found: 90[0m
+gitleaks sweep rc=1 report=/tmp/t36-ac5-gitleaks-report.json
+make: *** [Makefile:119: security-gitleaks] Error 1
+===== leg 163 issue=t37 rc=1 0s =====
+gitleaks findings: 21 - zero-leak BLOCKING invariant broken
+===== leg 164 issue=t37 rc=1 0s =====
+ac2 evidence: pip-audit parsed summary count=3 finding-table lines=3
+===== leg 165 issue=t37 rc=0 4s =====
+ac3 evidence: npm audit parsed vulnerability count=23
+ac3 PASS: real npm-audit shape (count=23), dev-dependency class addressed, five manifests byte-untouched (read-only audit proof), make security-npm-audit regenerates the same count
+===== leg 166 issue=t37 rc=1 0s =====
+parsed 46 distinct finding ids from the two audit reports
+===== leg 167 issue=t37 rc=1 0s =====
+
+===== leg 168 issue=t39 rc=0 0s =====
+ac1 PASS: exactly seven numbered symptom sections, each naming its REQ-OPS-020 symptom with all four clause headings and non-empty content
+ac1 NOTE: Quick Reference region non-empty with the pinned symptom-1 numbered row; rows 2..7 re-grepped by the verifier
+===== leg 169 issue=t39 rc=0 0s =====
+ac2 PASS: escalation four legs + incident response (detection/response/JWT_SECRET/rollback) + monitoring trio + alerting + six not-monitored + future list + health-check cross-reference
+===== leg 170 issue=t39 rc=0 0s =====
+ac3 PASS: backup scope + four reasons + pg_dump/sqlite3 .dump export + psql/sqlite3 restore + rollback procedure/triggers/forward-only/limitations + platform constraints cross-grepped against render.yaml + design choices table
+===== leg 171 issue=t39 rc=0 1s =====
+ac4 PASS: health-check.md documents endpoint/no-auth/schema/4 state combinations/usage/not-checked list and every documented value cross-greps green against the merged health schema, router and 503 handler
+===== leg 172 issue=t39 rc=0 0s =====
+ac5 PASS: format+levels+EXACT-SET 17 events with level and fields+never-logged 7+destinations+filtering 4+retention+field reference 6+JSON/stdout design
+===== leg 173 issue=t38 rc=0 209s =====
+ac1 parse: results=33 errors=1 rulesKey=false
+ac1 evidence: make security-semgrep measured rc=0 (t36 recipe carries the --metrics off flag that semgrep 1.180.0 rejects for --config auto; measured rc=2 at groom; t44 repair card scheduled)
+semgrep tool version field=1.181.0
+ac1 parse: results=33 errors=5 rulesKey=false
+ac1 evidence: make-regenerated report schema-verified (binding branch)
+ac1 PASS: semgrep-report.json parses with the measured semgrep 1.180.0 schema (results/errors arrays; rules key optional by measurement), parsed finding count gates never hard-code it, expected-finding class subprocess/spawn named (report hits=1 register hits=3), regeneration executed through the measured-rc conditional
+===== leg 174 issue=t38 rc=1 0s =====
+trivy parse: SchemaVersion=2 targets=4 vulnerabilities=41 misconfigurations=1 distinctIds=41
+trivy provenance: introducing commit message records no 0.75.0 version
+===== leg 175 issue=t38 rc=1 0s =====
+
+===== leg 176 issue=t38 rc=0 0s =====
+ac4 evidence: parsed 52 distinct finding ids across the semgrep and trivy reports
+ac4 PASS: register exists - every parsed id has a row and the four REQ-SEC-074 column words are present
+===== leg 177 issue=t38 rc=1 0s =====
+
+===== leg 178 issue=t40 rc=0 1s =====
+ac1 evidence: PR Details cites 6 issue ids, every one present in merge_history (96 merged entries)
+ac1 PASS: pr-audit.md carries all five non-empty REQ-SEC-081 template regions, all six REQ-SEC-082 coverage axes, and only real merged issue ids in PR Details
+===== leg 179 issue=t40 rc=0 2s =====
+ac2 PASS: threat model regions non-empty (mitigation rows=7, asset rows=7, actors=4), audit vocabulary complete, NFR posture named
+===== leg 180 issue=t40 rc=1 0s =====
+ac3: accepted-limitation rows=13, REQ-SEC-110 requires EXACTLY 12 (counted over the limitation rows of this document only)
+===== leg 181 issue=t40 rc=1 0s =====
+ac4: gitleaks findings 21 - the zero-leak invariant is broken, a real leak may never be registered away
+===== leg 182 issue=t40 rc=0 0s =====
+ac5 PASS: six REQ-SEC-104 blocks non-empty, data-category rows=7, incident response points at ops/runbook.md, agent statements agree with the shipped extension pack
+===== leg 183 issue=t41 rc=0 5s =====
+ac1 GREEN: generator hermetic + ruff/mypy clean + byte-stable, ALL_CHECKS_PASS 28 (floor 18)
+===== leg 184 issue=t41 rc=0 0s =====
+ac2 GREEN: scan rows equal freshly parsed values (21,33,42,3,23), distinct register ids 98
+===== leg 185 issue=t41 rc=0 15s =====
+ac3 GREEN: ops rows measured, diagnosis mode=live, layout security=8 ops=5
+===== leg 186 issue=t41 rc=0 0s =====
+ac4 GREEN: diagnosis worked example (8 sections, measured output, merged fallback flow, runbook escalation) + deployment records (2 x 5 fields, smoke vocabulary, DEFERRED pointer)
+===== leg 187 issue=t41 rc=0 0s =====
+ac5 GREEN: deferral register 5 rows mutually exclusive + criteria mapping closed
+===== leg 188 issue=t47 rc=1 1s =====
+ac1: docker daemon unreachable - open the daemon window, do not skip
+===== leg 189 issue=t47 rc=0 140s =====
+ac2 evidence: backend collected=303 (floor 270)
+ac2 GREEN: GLOB dead at all five sites, portable defaults+CHECK pinned, 270-suite green on SQLite, ruff/mypy/head-005 floors hold
+===== leg 190 issue=t47 rc=1 65s =====
+ac3 evidence: entries 35/57/124 (t6/t10/t25 alembic+SQLite contracts) green
+ac3 RED: freeze-scope drift is [backend/app/main.py,backend/app/models/budget.py,backend/app/scripts/seed_demo.py,backend/app/services/category_service.py,backend/app/services/expense_service.py,backend/app/telemetry.py,] - must be exactly backend/app/models/budget.py
+===== leg 191 issue=t47 rc=1 141s =====
+ac4 evidence: backend collected=303 (floor 270)
+ac4 evidence: mypy files=97 (floor 87)
+ac4 evidence: frontend passed=208 (floor 187)
+ac4 evidence: react-refresh warnings=4 (exactly 4)
+ac4 RED: README drifted
+===== leg 192 issue=t47 rc=1 0s =====
+ac5: docker daemon unreachable - open the daemon window, do not skip
+===== leg 193 issue=t48 rc=0 0s =====
+ac1 GREEN: process.md 119 lines, four REQ-DOC-022 headings, five real roles, handoff-schema gate + real lifecycle stated
+===== leg 194 issue=t48 rc=0 0s =====
+ac2 evidence: H2 counts Goal=1 AC=1 OutOfScope=1 Constraints=1
+ac2 GREEN: four grooming sections exactly once + frontmatter convention (id / title / depends / platform_issue)
+===== leg 195 issue=t48 rc=0 0s =====
+ac3 evidence: docs/team set = pm.md,qa-engineer.md,software-engineer.md,
+ac3 GREEN: exact REQ-DOC-029 set, four role-definition sections in each file, definer/builder/verifier mapping stated
+===== leg 196 issue=t48 rc=0 0s =====
+ac4 GREEN: ownership table has one row per REQ-DOC-002 family with owning role and REQ-DOC-062 update trigger
+===== leg 197 issue=t48 rc=0 0s =====
+ac5 GREEN: six artifacts ASCII, heading depth <= ###, zero orphans (every new document linked from at least one other)
+===== leg 198 issue=t49 rc=0 0s =====
+ac1 evidence: AGENTS.md lines=19 (floor 60, REQ-DOC-012/080)
+ac1 GREEN: CLAUDE.md is exactly the single line @AGENTS.md and AGENTS.md is untouched at 19 lines <= 60
+===== leg 199 issue=t49 rc=0 0s =====
+ac2 evidence: product-spec.md lines=104 (floor 60)
+ac2 GREEN: eight REQ-DOC-011 sections present, anchored to real Chapter 1/2 ids, README named as entry point
+===== leg 200 issue=t49 rc=0 6s =====
+ac3 evidence: exported path count=16
+ac3 GREEN: openapi.yaml is a valid OpenAPI 3.1 document whose path set EQUALS the merged app app.openapi() paths (16 paths, measured set equality via the hermetic export - REQ-DOC-014/084)
+===== leg 201 issue=t49 rc=0 0s =====
+ac4 evidence: Chapter 24.3 criteria-mapping rows=15 (exactly 15 required)
+ac4 evidence: Chapter 24.5 evidence-checklist rows=14 (exactly 14 required)
+ac4 evidence: README lines=399 (ceiling 500)
+ac4 GREEN: 24.3 mapping table (15 rows) + 24.5 evidence checklist (14 rows) + both 5-minute paths + every machine-extracted W1 token survives + README <= 500
+===== leg 202 issue=t49 rc=0 15s =====
+ac5 evidence: runbook numbered sections=7 (exactly 7)
+ac5 evidence: runbook clause headings=28 (exactly 28)
+ac5 GREEN: runbook typo fixed with counts intact (7 sections / 28 clauses), render divergence recorded as an accepted deviation in ops/deployment-health.md, stored gates tests[134]/[168]/[169]/[170]/[185] re-executed green by index+issue_id identity
+===== leg 203 issue=t54 rc=0 0s =====
+ac1 evidence: install-step run command [cd e2e && npm install --no-save && npx playwright install --with-deps]
+ac1 GREEN: the Install Playwright browsers step runs cd e2e && npm install --no-save && npx playwright install --with-deps between the health wait and the suite run; make e2e and the ms-playwright cache step intact
+===== leg 204 issue=t54 rc=1 2s =====
+ac2 evidence: stored tests[131] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[132] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[133] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[135] (t26) executed VERBATIM rc=0
+ac2 RED: stored tests[139] (t27) FAILED on this workflow - the byte-pinned t26/t27 contract is broken
+===== leg 205 issue=t50 rc=0 0s =====
+ac1 evidence: body lines=473 (floor 120)
+ac1 evidence: H2 sections=14 (13 required + scan timing)
+ac1 GREEN: thirteen REQ-DOC-023 sections present plus scan timing, links to process/pack/permissions/data-policy, 473 lines
+===== leg 206 issue=t50 rc=0 0s =====
+ac2 evidence: session records=7 (floor 4)
+ac2 evidence: distinct REQ-AI-113 areas=7 (floor 4)
+ac2 evidence: 7 SESSION records all traceable to issue_map.json and merge_history.json shas
+ac2 GREEN: 7 dated REQ-AI-111 session records over 7 REQ-AI-113 areas, every citation machine-traceable to docs/state/issue_map.json and docs/state/merge_history.json
+===== leg 207 issue=t50 rc=0 0s =====
+ac3 evidence: correction entries=9 (floor 3)
+ac3 GREEN: 9 REQ-AI-120 correction entries with all six fields, Option A-ter + t44 semgrep recorded, all six REQ-AI-121 lesson classes present, each linked to the document it updated (REQ-AI-122/REQ-DOC-062)
+===== leg 208 issue=t50 rc=0 0s =====
+ac4 GREEN: ## Scan timing names all five tools + make security + the five REQ-SEC-072 timing milestones + not-in-CI (REQ-CICD-073) + committed results + both cross-links + SCAN_TIMING_DOC closure
+===== leg 209 issue=t50 rc=0 0s =====
+ac5 evidence: measured pack counts skills=3 hooks=2 mcp_tools=4 subagents=2
+ac5 GREEN: pack counts match the measured directories 3/2/4/2 (same counts tests[150]/tests[155] pin), links not duplicates, human-review rule stated, no credential-shaped strings
+===== leg 210 issue=t51 rc=0 0s =====
+ac1 evidence: architecture.md lines=287 (floor 80)
+ac1 GREEN: nine REQ-DOC-020 sections, fenced ASCII diagram, decisions cite ten real merged files, real decision tokens named
+===== leg 211 issue=t51 rc=0 5s =====
+ac2 evidence: api.md lines=183 (floor 60)
+ac2 evidence: Appendix B error codes documented=13/13 (floor 10)
+ac2 evidence: all 16 openapi paths present in docs/api.md AND the file set EQUALS the merged runtime path set
+ac2 GREEN: six REQ-DOC-021 sections + /api/v1 + bearer + envelope keys + >=10 error codes + full openapi path coverage with runtime set equality (REQ-DOC-084)
+===== leg 212 issue=t51 rc=0 0s =====
+ac3 evidence: design-system.md lines=185 (floor 60)
+ac3 evidence: code-side hexes=10 (exactly 10 measured on main)
+ac3 evidence: 10/10 code-side hexes documented
+ac3 GREEN: seven REQ-DOC-024 sections, all 10 code-side hexes documented, five real frontend sources cited
+===== leg 213 issue=t51 rc=0 0s =====
+ac4 evidence: testing-guidelines.md lines=149 (floor 60)
+ac4 GREEN: seven REQ-DOC-025 sections, Makefile targets + coding_standards naming + coverage policy + layer vocabulary all named
+===== leg 214 issue=t51 rc=0 10s =====
+ac5 evidence: four new docs format-clean; repo-wide relative links checked=84
+ac5 GREEN: English-only ASCII, headings <= ###, every fence carries a language, every relative link resolves repo-wide, zero orphans
+===== leg 215 issue=t55 rc=0 0s =====
+ac1 evidence: dev-server run command [cd frontend && npm ci && (nohup npm run dev -- --host 127.0.0.1 --port 5173 > /tmp/vite-dev.log 2>&1 &)]
+ac1 GREEN: vite.config.ts proxies /api to 127.0.0.1:8000 with port 5173 intact, and exactly one background dev-server step sits between the health wait and the browser install; make e2e and ms-playwright intact
+===== leg 216 issue=t55 rc=1 5s =====
+ac2 evidence: stored tests[131] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[132] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[133] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[135] (t26) executed VERBATIM rc=0
+ac2 evidence: stored tests[136] (t27) executed VERBATIM rc=0
+ac2 RED: stored tests[139] (t27) FAILED - the byte-pinned t26/t27 contract is broken | ac2 RED: stored tests[140] (t27) FAILED - the byte-pinned t26/t27 contract is broken
+===== leg 217 issue=t57 rc=0 12s =====
+ac1 evidence: rc1=0 rc2=0 digests=a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445 a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445 a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445
+ac1 evidence: matrix rows=749
+ac1 evidence: 749 unique ids recomputed from docs/requirements.md; matrix id-set digest ef6c4bba27791a79 matches
+ac1 GREEN: backend/scripts/req_coverage_verification.py regenerates docs/criteria/req_coverage_verification.md byte-identically (both runs agree, three digests equal), enumerates exactly the 749 unique ids with a per-family tally closing at 749/18, is hermetic, and carries REQ-AUTH-001 as the documented EXAMPLE_REFERENCE row
+===== leg 218 issue=t57 rc=0 18s =====
+ac2 evidence: generator-suite rc=0 [19 passed in 6.15s]
+ac2 evidence: non-GAP rows without a pointers= token = 0
+ac2 evidence: backend collected=303 (floor 270 - this card ADDS the generator tests, so the count must move UP from 270)
+ac2 GREEN: the generator suite is green and inside the backend suite (collected 303 > 270), the report declares the five-label closed vocabulary with a count row per label, no row escapes the vocabulary, and every non-GAP row carries an evidence pointer
+===== leg 219 issue=t57 rc=0 0s =====
+ac3 evidence: ids formerly backed by LIVE_DEPLOYMENT_STATE now IMPLEMENTED_TESTED = 5 (want 5)
+ac3 evidence: key=LIVE_AGENT_SESSION claims=2 rows=2
+ac3 evidence: key=LIVE_MCP_SUBPROCESS claims=2 rows=2
+ac3 evidence: key=LIVE_SUBAGENT_LAUNCH claims=2 rows=2
+ac3 evidence: DEFERRED_RULLED rows=10 without-a-register-key-or-61=0
+ac3 GREEN: the three carried LIVE_* register keys (t98 moved LIVE_DEPLOYMENT_STATE out) and the #61 deploy-hook blocker map their ids to DEFERRED_RULLED with reconciling counts, per-row reason snippets and a declared register provenance; SCAN_TIMING_DOC backs no row
+===== leg 220 issue=t57 rc=0 14s =====
+ac4 evidence: shared gate-fixture token = d5d75d0382bd0796
+ac4 evidence: rc1=0 rc2=0 gap_rows=0 unpointed_non_gap_rows=0 digest_match=1
+ac4 evidence: out-of-repo copy - unseeded rc=1 rows=749, seeded rc=1 rows=750 (exactly one injected GAP row), wrong-token rc=2; the copy ran outside the repo and was deleted, so no tracked file moved
+ac4 GREEN: the fail-closed fence is a tested IFF property - rc==0 iff zero GAP rows and zero unpointed non-GAP rows (measured: 0 GAP rows, 0 unpointed), the committed report is byte-identical to two fresh runs INDEPENDENTLY of the GAP count (W1: a first landing with GAP rows is green at this AC while exiting nonzero), and the seeded-gap negative control on an out-of-repo copy fails closed as required
+===== leg 221 issue=t58 rc=0 13s =====
+ac1 evidence: rc1=0 rc2=0 committed_digest=a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445 regenerated_digest=a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445
+ac1 evidence: matrix_rows=749 unpointed_non_gap_rows=0
+ac1 GREEN: PRIMARY FENCE - the t57 generator now exits 0 twice in a row (zero GAP rows, zero unpointed rows) and byte-identically to the committed report, with the expected post-t98 tally 116/622/10/0/1 over exactly 749 rows (t98: the 5 ids formerly backed by LIVE_DEPLOYMENT_STATE moved DEFERRED_RULLED -> IMPLEMENTED_TESTED via the t98 test-file citation, GAP stays 0, replace-not-vanish)
+===== leg 222 issue=t58 rc=0 1s =====
+ac2 evidence: 97 ids closed by authored-docs citations only (every pointer inside the docs allow-list, zero pointers into docs/issues), 2 ids closed by the #65 ruling, zero base non-GAP rows relabeled, zero unaccounted GAP rows, current GAP rows=0
+ac2 GREEN: every one of the 99 measured GAP ids closed through its groomed channel and NOTHING else moved - 97 by authored docs evidence, 2 by the platform #65 ruling, zero relabeling of the 650 rows that already carried evidence
+===== leg 223 issue=t58 rc=0 0s =====
+ac3 evidence: ruling key RULING_TECH_DATEFNS_OVERRULED rows=1 claimed=1
+ac3 evidence: ruling key RULING_FE_PERF_LIVE_PROFILING rows=1 claimed=1
+ac3 evidence: DEFERRED_RULLED rows=10 without-key-or-61=0 without-reason=0
+ac3 GREEN: the two platform-#65 rulings are the ONLY non-register deferral surface - exactly one row per static RULING_* key, 10 DEFERRED_RULLED rows in total, every row keyed and reason-bearing, the carried register at 3 DEFERRED after the t98 LIVE_DEPLOYMENT_STATE move (the 5 formerly-backed ids are IMPLEMENTED_TESTED and the VERIFIED_ROW replacement is present) with SCAN_TIMING_DOC still CLOSED, and docs/rulings/req-matrix.md exists, is ASCII, caps at H3, and cites both ids, both keys and issue 65
+===== leg 224 issue=t58 rc=0 65s =====
+ac4 evidence: the four carried t57 index entries are byte-identical to their 398c95b pins (the instrument itself is unchanged)
+ac4 evidence: carried tests[217] (t57) executed VERBATIM rc=0
+ac4 evidence: carried tests[218] (t57) executed VERBATIM rc=0
+ac4 evidence: carried tests[219] (t57) executed VERBATIM rc=0
+ac4 evidence: carried tests[220] (t57) executed VERBATIM rc=0
+ac4 GREEN: the instrument survived its own remediation - the generator suite is green with the ruling amendment, the generator stays hermetic, both generator files show the committed amendment, the four carried t57 index entries are byte-identical to their pins, and all four t57 gates (determinism, closed vocabulary + evidence rule, deferral provenance, fail-closed IFF with the out-of-repo seeded-gap control) pass VERBATIM against the 0-GAP tree
+===== leg 225 issue=t58 rc=0 0s =====
+ac5 evidence: docs/coding_standards.md lines=207 floor=182 assigned_ids=4 uncited=0 tokens=5/5
+ac5 evidence: docs/config_reference.md lines=366 floor=346 assigned_ids=3 uncited=0 tokens=4/4
+ac5 evidence: docs/commands.md lines=190 floor=173 assigned_ids=1 uncited=0 tokens=4/4
+ac5 evidence: product-spec.md lines=105 floor=94 assigned_ids=4 uncited=0 tokens=3/3
+ac5 GREEN: all 10 authored artifacts clear their absolute line floors, carry their family substance tokens, and name every assigned id inside the generator citable body (docs/plan.md measured BELOW its phase_9 truncation line), with no repeat-citation padding
+ac5 GREEN: the evidence artifacts are substantive - each clears its measured line floor, its substance-token set and its full assigned-id list; nothing was closed by citation stub
+===== leg 226 issue=t59 rc=0 6s =====
+ac2 evidence: seeded-GAP matrix synthesized at /tmp (generator rc=1, want nonzero)
+ac2 evidence: 749 rows, GAP=0, every non-GAP row pointed, tally 116/622/10/0/1, 10 DEFERRED_RULLED rows = 8 register/issue-61 backed (3 LIVE_* keys reconciling to REQ_DEFERRAL_KEY claims, register at 3 DEFERRED after the t98 LIVE_DEPLOYMENT_STATE move, the 5 formerly-backed ids IMPLEMENTED_TESTED, the VERIFIED_ROW replacement present) + 2 ruling rows (issue=65 + docs/rulings/req-matrix.md) + the 2-row issue=61 deploy-hook family pointing at ops/deployment-health.md, every row key-or-61 and reason-bearing, both provenance rows present
+ac2 evidence: NEGATIVE CONTROL - the identical checker rejects the seeded-GAP matrix (first rejection: matrix carries 750 rows, expected 749)
+ac2 GREEN: MATRIX CLOSURE AND DEFERRAL RE-ATTESTATION - the matrix closes at 749 rows with zero GAP and zero unpointed rows and the tally is exactly 116/622/10/0/1, and its entire deferral surface re-attests: the carried DEFERRAL_REGISTER carries exactly 3 DEFERRED LIVE_* keys after the t98 LIVE_DEPLOYMENT_STATE move each reconciling row-for-row against its REQ_DEFERRAL_KEY claim, the two static RULING_* keys carry issue=65 plus the docs/rulings/req-matrix.md pointer without masquerading as register rows, the 2-row issue=61 deploy-hook family points at ops/deployment-health.md with reason snippets, and no deferred row was re-adjudicated into code scope (re-adjudication is OUT OF SCOPE here); this fence is GREEN AT BASE by design - it attests carried state - and its seeded-GAP negative control fires, so the green is not vacuous
+===== leg 227 issue=t59 rc=1 0s =====
+ac4 evidence: README cr-stripped sha256=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 lines=399
+ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone
+===== leg 228 issue=t60 rc=0 0s =====
+ROUTE-NEST GREEN [frontend/src/app.tsx] shell=1 expenses=2 budgets=2 categories=2 catchall=0 protected=0 login=1
+ac1 evidence: the nesting checker selftest passes (3 broken route tables rejected, the intended nested shape accepted)
+ac1 evidence: nesting checker accepted frontend/src/app.tsx
+ac1 GREEN: ROUTE TABLE RESTRUCTURE - /expenses /budgets /categories are DIRECT CHILDREN of the AppShell route (checker-proven depth, not a line-order grep), the index DashboardPage and the login/register pair are unchanged, a catch-all * route sits as a sibling of the protected block, frontend/src/pages/not_found_page.tsx exists with the Not Found document title and a Back to Dashboard link to the root route, and app_shell.tsx renders exactly 4 NavLinks including /expenses; three synthetic tables (pre-card siblings, no catch-all, guarded catch-all) are rejected by the same checker, so no leg is vacuous (RED at base for exactly the reason the card exists)
+===== leg 229 issue=t60 rc=0 9s =====
+ac2 evidence: app_shell.test.tsx is byte-identical to HEAD (the frozen 3-assertion file)
+ac2 evidence: handlers.ts / setup.ts / server.ts byte-identical
+ac2 evidence: app_routing.test.tsx passed=4
+ac2 evidence: frozen shell test passed=3 (3 expected)
+ac2 GREEN: SHELL-ON-EVERY-PAGE PROVED - the new frontend/src/app_routing.test.tsx mounts the REAL merged App under MemoryRouter at /expenses /budgets /categories and /unknown-route, all green with at least 4 passing tests, asserting the AppShell header on the three protected pages and the Not Found title plus Back to Dashboard link on the unknown route; app_shell.test.tsx, handlers.ts, setup.ts and server.ts are byte-identical to HEAD and the frozen router-less shell test still reports exactly its 3 original assertions (RED at base: the proof file does not exist)
+===== leg 230 issue=t62 rc=1 1s =====
+ac6 evidence: branch=issue/t95-close-61-evidence
+ac6 evidence: delta files against merge-base 67b7a11 = 2
+docs/state/outputs/t95_close_comment.txt
+docs/state/outputs/t95_issue_close_record.json
+ac6 RED: the delta contains no scripts/dev helper - the branch carries the card but not the code the card describes
+===== leg 231 issue=t63 rc=1 0s =====
+t63-pin3 evidence: README cr-stripped digest=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146
+t63-pin3 RED: README digest moved off pin-3
+===== leg 232 issue=t63 rc=0 0s =====
+ac1 evidence: the Quick Start section is npm-first - check, setup:local, dev, stop in that order, zero make invocations, env-file copy and both URLs plus the health contract present
+ac1 evidence: NEGATIVE CONTROL 1 - a make-first Quick Start section is rejected by the same checker
+ac1 evidence: NEGATIVE CONTROL 2 - an out-of-order npm list is rejected by the same checker
+ac1 evidence: root manifest scripts [check=tsx scripts/dev/check.ts|setuplocal=tsx scripts/dev/setup.ts|dev=tsx scripts/dev/dev.ts|stop=tsx scripts/dev/stop.ts]
+ac1 evidence: the four documented npm scripts match the ROOT manifest t62 contract line for line
+ac1 GREEN: NPM-FIRST QUICK START (Q1a) - the Quick Start section leads with npm run check, npm run setup:local, npm run dev and npm run stop in exactly that order with zero make invocations, carries the env-file copy step and both clickable URLs plus the health contract, and the four documented scripts match the ROOT package.json t62 contract; a make-first section and an out-of-order list are rejected by the same checker (RED at base: the carried Quick Start is make-first and names no npm script)
+===== leg 233 issue=t63 rc=0 0s =====
+ac2 evidence: the Stopping section documents Ctrl+C, the SIGINT/SIGTERM path, npm run stop, the dev ports 8000/5173, the reported PID, the port scoping and the idempotent clean-tree case
+ac2 evidence: scripts/dev/stop.ts is scoped to DEV_PORTS, prints killed PIDs and prints a clean-tree message, so every Stopping-section claim is corroborated by the merged helper
+ac2 evidence: NEGATIVE CONTROL 1 - a stop section without the port scoping, the ports and the PID report is rejected by the same checker
+ac2 evidence: NEGATIVE CONTROL 2 - a stop section with no Ctrl+C / signal documentation is rejected by the same checker
+ac2 GREEN: STOPPING THE APP (Q1a) - README carries a ## Stopping the app section documenting the Ctrl+C console path, the SIGINT/SIGTERM registration, npm run stop as the reaper, the two dev ports 8000 and 5173, the PID reported per cleaned port, that the reaper is scoped to those ports only, and the idempotent clean-tree case; scripts/dev/stop.ts corroborates all three behavioural claims, and two synthetic stop sections are rejected by the same checker (RED at base: the carried README never tells the operator how to stop the app - it documents make dev-backend/make dev-frontend in two terminals and a make down target that only prints a hint)
+===== leg 234 issue=t63 rc=0 0s =====
+ac3 evidence: troubleshooting table rows - occupied-port=2 venv=1 uv=2 ipv6-loopback=1 (each needs at least 1)
+ac3 evidence: markdown table separator rows in the troubleshooting section=1
+ac3 evidence: NEGATIVE CONTROL - a synthetic generic troubleshooting table scores zero failure-mode rows under the same greps, so the four-row leg can actually bite
+ac3 GREEN: TROUBLESHOOTING TABLE (Q1a) - the README troubleshooting table carries one row per measured failure mode (occupied dev port with a PID: check reports and never kills, so run stop; missing backend venv: setup:local rebuilds it with uv sync --frozen; uv missing from PATH: check prints MISSING (not on PATH); the vite IPv6 loopback trap: open http://localhost:5173/ because vite binds ::1 and the 127.0.0.1 literal refuses), every remedy column names the command the merged scripts/dev helpers actually run or print, the rows sit in a real markdown table, and a synthetic generic table scores zero under the same row greps (RED at base: the carried README has no troubleshooting section at all)
+===== leg 235 issue=t63 rc=0 0s =====
+ac4 evidence: prerequisite BULLETS naming make with no not-needed caveat=0
+ac4 evidence: first make invocation in the document is at line 181 (Alternative section starts at line 172)
+ac4 evidence: zero make invocations above the Alternative heading - every make command sits in the demoted section
+ac4 evidence: NEGATIVE CONTROL synthetic make-first README - Quick Start=1 Alternative=7 first-make=4
+ac4 evidence: the synthetic make-first Quick Start IS rejected by the same ordering check (make at line 4 precedes the Alternative heading at line 7)
+ac4 GREEN: MAKE DEMOTED TO AN ALTERNATIVE SECTION (Q1a) - the Quick Start section (line 79) precedes the Alternative section (line 172), zero make invocations appear above that heading, the first make command sits at line 181 inside the demoted section, the carried make targets are still documented there (not deleted - the Linux/WSL path keeps its home), and the Prerequisites section names Node.js and uv while stating that GNU make and bash are NOT needed for the npm path; a synthetic make-first Quick Start is rejected by the same check (RED at base: the carried README makes make setup / make dev-backend / make dev-frontend the Quick Start itself and lists GNU make as a prerequisite bullet)
+===== leg 236 issue=t63 rc=0 0s =====
+ac5 evidence: README lines with CJK/CJK-punctuation/fullwidth byte patterns=0 (want 0)
+ac5 evidence: docs/coding_standards.md carries the English-documentation rule this gate enforces
+ac5 evidence: docs/coding_standards.md is itself CJK-free (measured, not assumed)
+ac5 evidence: NEGATIVE CONTROL 1 - the ASCII grep counts 2 non-ASCII lines in a synthetic 3-line file carrying one accented and one Chinese line (want exactly 2)
+ac5 evidence: NEGATIVE CONTROL 2 - the CJK grep counts 1 line(s) in the same synthetic file (want exactly 1)
+ac5 GREEN: ALL-ENGLISH OPERATOR SURFACE (Q1a) - README.md is pure ASCII (0 lines with non-ASCII bytes, 0 CJK/CJK-punctuation/fullwidth patterns), docs/coding_standards.md states the English-documentation rule and is itself CJK-free, and both greps are proven non-vacuous by a seeded synthetic file carrying one accented and one Chinese line that each grep flags with the exact expected count (RED at base: the carried README has 10 lines with non-ASCII bytes - em-dash residue from the earlier documentation passes)
+===== leg 237 issue=t65 rc=0 12s =====
+seed_demo: demo account ready (demo@example.com / demo-password-123) — 178 expenses, 4 budgets
+ac1 evidence: npm run seed:demo from the repository root exited rc=0 against the isolated probe database
+ac1 evidence: after ONE npm command the probe database holds users=1 demo-account=1 categories=10 expenses=178 budgets=4 audit_logs=0
+ac1 evidence: backend/dev.db digest unchanged after the run (none) - the override is honoured
+ac1 evidence: NEGATIVE CONTROL 3 - the same count reader returns 0 for audit_logs on a tree where the seed wrote nothing, so an empty-table count cannot masquerade as a seeded one
+ac1 GREEN: DEMO-SEED SURFACE - backend/app/scripts/seed_demo.py exists, the ROOT package.json seed:demo line is the pinned cd backend + uv run python -m app.scripts.seed_demo contract, and ONE npm run seed:demo call exited 0 against an isolated migrated probe database, producing exactly one fixed demo account, the ten system categories, expenses=178, budgets=4 and zero audit rows, with backend/dev.db byte-untouched (three negative controls: a non-conforming script line, a manifest with no seed:demo entry, and an empty-table count are each rejected by the same matcher)
+===== leg 238 issue=t65 rc=0 27s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 8 warnings in 7.44s
+ac2 evidence: both pinned contract-first API node IDs pass (2 passed)
+ac2 GREEN: DEMO ACCOUNT WORKS THROUGH THE API - demo@example.com with the pinned password authenticates against the seeded database and returns a bearer token, the anchor-month dashboard summary and by-category views are non-empty with 2-dp string money, a wrong password is 401, and the two pinned contract-first pytest node IDs pass verbatim
+===== leg 239 issue=t65 rc=0 25s =====
+    from crypt import crypt as _crypt
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 1 warning in 3.48s
+ac3 evidence: the pinned contract-first unit node ID passes (1 passed)
+ac3 GREEN: DATASET SHAPE - the demo dataset spans exactly 90 consecutive days ending at the anchor, uses all ten system categories, carries a positive 2-dp Decimal budget for every covered month, every amount is a positive 2-dp Decimal, a sabotaged copy is REJECTED by the same probe, and the pinned contract-first unit node ID passes verbatim
+===== leg 240 issue=t65 rc=0 39s =====
+    from crypt import crypt as _crypt
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 1 warning in 3.81s
+ac4 evidence: the pinned contract-first idempotency node ID passes (1 passed)
+ac4 GREEN: IDEMPOTENT WIPE AND REBUILD - three consecutive seed runs against the same database produced byte-identical snapshots (users=1, expenses=178, budgets=4, zero cross-account rows, zero duplicates), a one-row sabotage is caught by the same reader, and the pinned contract-first node ID passes verbatim
+===== leg 241 issue=t65 rc=0 33s =====
+    from crypt import crypt as _crypt
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 1 warning in 3.22s
+ac5 evidence: the pinned contract-first isolation node ID passes (1 passed)
+ac5 GREEN: NON-DEMO ISOLATION - a seeded non-demo user with a custom category, expense and budget is byte-identical across a reseed while 178 demo rows land and all ten shared categories survive, a deleted other-user row is caught by the same reader, and the pinned node ID passes verbatim
+===== leg 242 issue=t66 rc=0 0s =====
+ac1 evidence: docs/verification.md lines=62 (floor 25)
+ac1 evidence: docs/development.md lines=111 (floor 25)
+ac1 evidence: docs/screenshots.md lines=36 (floor 25)
+ac1 evidence: NEGATIVE CONTROL 1 - all seven relocation markers are proven present in the base README blob, so ac3 absence in the new README is a real move and not a vacuous grep
+ac1 evidence: NEGATIVE CONTROL 2 - a placeholder document with a heading scores zero under the same marker grep, so the doc legs bite
+ac1 GREEN: RELOCATION DELIVERABLE - docs/verification.md, docs/development.md and docs/screenshots.md all exist as real documents, the development prose, the endpoint table, the make surface, the screenshot inventory and the verification home are all present in their new files, and two negative controls (base-README marker presence and a placeholder document) prove the move is measured rather than assumed
+===== leg 243 issue=t66 rc=0 0s =====
+ac2 evidence: Chapter 24.3 criteria-mapping rows=15 (exactly 15 required)
+ac2 evidence: Chapter 24.5 evidence-checklist rows=14 (exactly 14 required)
+ac2 evidence: NEGATIVE CONTROL - the table-row counter scores 0 on a synthetic compatibility-only document, so the 15-row and 14-row legs cannot be satisfied by accident
+ac2 GREEN: README COMPATIBILITY SURVIVAL - the four carried mode headings, the five line-anchored command lines, the make/uvicorn/Vite/token set, the three requirement anchors, the 15-row criteria mapping, the 14-row evidence checklist, both five-minute paths with every step and the honest DEFERRED statement, the six dashboard path tokens and the untouched Features/Render headings all still sit in README.md, so the relocation cannot turn a carried README-scoped gate RED
+===== leg 244 issue=t66 rc=0 0s =====
+ac3 evidence: one-line links inside the Documentation map=3 (exactly 3 required)
+ac3 evidence: NEGATIVE CONTROL 1 - a prose-only map scores zero under the same link counter, so the 3-link leg bites
+ac3 evidence: NEGATIVE CONTROL 2 - all ten relocated markers are proven present in the base README blob and absent from the new README, so the move is measured on both sides
+ac3 evidence: Quick Start=79 Alternative=172 make-invocations-above=0 first-make=181
+ac3 evidence: NEGATIVE CONTROL 3 - the synthetic make-first README is rejected by the same ordering check (make at line 4 precedes Alternative at line 7)
+ac3 GREEN: ONE-LINE LINKS AND CLEAN MOVE - README carries a ## Documentation map with exactly three one-line links to the three new documents, all ten relocated markers are proven present in the base blob and absent from the new README, and the Quick Start / Alternative ordering with zero make invocations above the Alternative heading still holds
+===== leg 245 issue=t66 rc=0 3s =====
+ac4 evidence: stored gate idx=235 GREEN (4667 bytes extracted verbatim from the index)
+ac4 evidence: stored gate idx=236 GREEN (2912 bytes extracted verbatim from the index)
+ac4 evidence: 11 of 11 carried README-scoped gates replayed VERBATIM from the index and all GREEN
+ac4 evidence: NEGATIVE CONTROL - the extracted tests[201] gate ran against a README copy with the Mode A heading deleted (17511 bytes) and exited rc=1
+ac4 evidence: the sabotaged run failed for the RIGHT reason - the replayed gate itself reported the deleted Mode A heading
+ac4 GREEN: CARRIED-GATE REPLAY - all eleven README-scoped stored gates (t4, t23, t24, t26, t28, t49-ac4, t63-ac1..ac5) were extracted byte-for-byte from docs/state/merge_test_index.json and passed against the relocated README, and a one-heading sabotage is REJECTED for the right reason by the same extracted gate
+===== leg 246 issue=t67 rc=0 0s =====
+ac1 evidence: first screen = lines 1..10 (title plus pitch before the first ## heading), non-blank lines=7 (want 3-12)
+ac1 evidence: level-1 headings before the first section=1 (exactly 1 required)
+ac1 evidence: NEGATIVE CONTROL 1 - all nine base markers are proven present in the base blob and absent from the new README, so the pitch is a measured rewrite and not a vacuous grep
+ac1 evidence: NEGATIVE CONTROL 2 - the jargon grep flags 8 internal-pipeline words in a synthetic pipeline-facing pitch (want at least 3)
+ac1 evidence: the same grep rejects a synthetic pipeline-vocabulary pitch, so the zero-jargon leg bites
+ac1 GREEN: PITCH AND TITLE - README.md opens with exactly one title heading and a 7-line first screen that names the product (expense, budget, dashboard) and the stack in reviewer-facing English, carries none of the twelve internal-pipeline words, and the nine phase-1 boilerplate markers are proven gone from a base blob that provably carried them
+===== leg 247 issue=t67 rc=0 1s =====
+ac2 evidence: NEGATIVE CONTROL 1 - a synthetic features table with no screenshot link scores 0 under the same counter, so the link leg bites
+ac2 evidence: distinct requirement ids cited by README: base=60 now=60 missing=[none]
+ac2 evidence: NEGATIVE CONTROL 2 - the same set-difference reports 58 missing ids against a synthetic two-id document (want the full base count minus at most 2)
+ac2 evidence: the preservation leg detects a document that dropped 58 of the 60 carried ids, so the zero-missing assertion above is not vacuous
+ac2 evidence: Documentation map one-line links=3 (exactly 3 - this card adds no map entry)
+ac2 GREEN: FEATURES, SCREENSHOTS LINK AND CITATION PRESERVATION - ## Features survives with its carried subject rows and a bounded row count, carries exactly one one-line link to docs/screenshots.md, README still cites every one of the 60 requirement ids it cited at base, and the Documentation map still holds exactly the three links tests[244] counts
+===== leg 248 issue=t68 rc=0 0s =====
+ac1 evidence: requirement bullets=6 (want 3-6)
+ac1 evidence: NEGATIVE CONTROL 1 - both base sentences are proven present in the base blob and required absent here, so a pass is a measured rewrite of THIS section
+ac1 evidence: carried tests[235] (t63 ac4) prerequisite gate replayed verbatim rc=0
+ac1 evidence: NEGATIVE CONTROL 2 - the same legs refuse 4 of 4 statements on a synthetic install-Python/make/Docker section (want exactly 4)
+ac1 evidence: NEGATIVE CONTROL 3 - the bullet counter scores exactly 3 on the synthetic v1-style section, so the count leg measures shape
+ac1 GREEN: PREREQUISITES REWRITTEN IN PLAIN ENGLISH - ## Prerequisites still sits between Online demo and Quick Start, names the whole real host list (Node.js 20+ with npm, uv, Git), states that NO Python knowledge is needed (uv manages the interpreter), that Docker is NOT needed or used locally, that NO make or bash knowledge is needed, and that npm is the only daily command surface; both base sentences are proven replaced, the carried tests[235] prerequisite gate replays verbatim GREEN, and three negative controls prove the legs bite
+===== leg 249 issue=t68 rc=0 0s =====
+ac3 evidence: host tools missing from a bullet=0 (want 0 - the whole host list is Node.js 20+ with npm, uv, Git)
+ac3 evidence: the section carries a completeness statement (the host list is whole, nothing else to install)
+ac3 evidence: NEGATIVE CONTROL 1 - the bullet-clean leg flags 4 of 4 forbidden tools on a synthetic install-everything list (want at least 3)
+ac3 evidence: NEGATIVE CONTROL 2 - the why-no-Python leg and the completeness leg both refuse a bare bullet list that names uv without stating that uv manages the interpreter and without saying the list is whole
+ac3 evidence: NEGATIVE CONTROL 3 - the jargon grep flags 6 internal-pipeline words in a synthetic pipeline-facing section (want at least 3)
+ac3 GREEN: WHAT NOT TO INSTALL IS STATED - no Prerequisites bullet presents Python, Docker, make or bash as something to install, the section explains that uv manages the interpreter inside backend/.venv, keeps the pointer to the Alternative paths section for Linux/WSL make users, names Git for cloning, lists all three host tools as bullets, states the list is complete with nothing else to install, and carries none of the nine internal-pipeline words; three negative controls (an install-everything bullet list, an unexplained bare uv bullet list, a pipeline-vocabulary section) prove the legs bite
+===== leg 250 issue=t69 rc=1 1s =====
+ac1 evidence: base README blob read through cmd.exe lines=363 (want 363)
+ac1 evidence: numbered steps=9 (want exactly 8: check, env file, setup:local, dev, open localhost:5173, register, seed:demo, stop - clone stays the step-zero preamble)
+ac1 RED: Quick Start carries 9 numbered steps, not the eight the card fences (RED at base by design: the base flow numbers five steps and names no open, register or demo-data step)
+===== leg 251 issue=t69 rc=0 8s =====
+ac2 evidence: 19 of 19 carried README-scoped gates replayed VERBATIM from the index and all GREEN (t4, t23, t24, t26, t28, t49-ac4, the t63 ac1-ac5 family, the t66 ac1-ac4 family, the t67 ac1-ac2 family, the t68 ac1/ac3 family)
+ac2 evidence: tests[231] (t63 / pin3, 596 bytes) carries the pin-3 digest literal and is DELIBERATELY excluded from the replay - this card changes README.md content, so its RED is the named, sanctioned pin-leg exemption and never a regression (t71 owns the pin-4 switchover); tests[227] (t59 ac4, pin-2) and tests[191] (stale pre-t63 README digest pin) are RED at the base commit for the same pre-existing reason and are outside this replay set by name, not by silence
+ac2 evidence: NEGATIVE CONTROL - the env-file copy command line appears 2 times in the working README and 0 times in the sabotaged copy (17500 bytes, one line deleted)
+ac2 evidence: the extracted tests[27] (t4) gate is GREEN on the working README and ran against the sabotaged copy with rc=1
+ac2 evidence: the sabotage failed for the RIGHT reason by differential - the same extracted bytes pass while the env-file copy line exists and fail once only that line is deleted, so the victim is named as the tests[27] cp .env.example .env grep (that token has no other line-anchored source in README.md)
+ac2 GREEN: CARRIED-GATE REPLAY - all nineteen README-scoped stored gates (27, 119, 128, 135, 144, 201, 232-236, 242-249) were extracted byte-for-byte from the index and passed against the rewritten README, the sanctioned pin-leg tests[231] is extracted and named rather than silently skipped (with tests[227] and tests[191] named as pre-existing REDs outside the set), and an env-file-copy sabotage is REJECTED by the same extracted tests[27] gate
+===== leg 252 issue=t69 rc=0 1s =====
+ac3 evidence: zero internal-pipeline words in owned sections
+ac3 evidence: NEGATIVE CONTROL 1 - the claim legs refuse 4 of 4 on a flow lacking register, demo and stop-pointer (want 4)
+ac3 evidence: NEGATIVE CONTROL 2 - the no-fabrication leg flags 1 non-localhost address in a synthetic URL (want 1)
+ac3 evidence: NEGATIVE CONTROL 3 - the jargon grep flags 6 pipeline words in a synthetic paragraph (want >=3)
+ac3 evidence: NEGATIVE CONTROL 4 - the bullet-clean leg flags 1 install bullet (want 1)
+ac3 GREEN: THE FLOW TELLS THE TRUTH - the flow states the first-run register step, states npm run seed:demo is safe to re-run, demo-rows-scoped and deterministic, points at ## Stopping the app, keeps the interleaved-log warning and .env caveats, and each claim is corroborated by the merged dev.ts and seed_demo.py; the owned sections name no non-localhost address, demand no install bullet and carry no internal vocabulary; four negative controls prove the legs bite
+===== leg 253 issue=t70 rc=0 0s =====
+ac1 evidence: row class ipv6-loopback=1 (want >= 1)
+ac1 evidence: every remedy is corroborated by the merged scripts/dev helpers
+ac1 evidence: zero internal-pipeline words in the troubleshooting section
+ac1 evidence: NEGATIVE CONTROL 1 - a generic two-column table misses 4 of 4 carried row classes (want 4)
+ac1 evidence: NEGATIVE CONTROL 2 - the jargon grep flags 6 pipeline words in a synthetic paragraph (want >= 3)
+ac1 GREEN: TROUBLESHOOTING SURVIVAL - the ## Troubleshooting section keeps a real markdown table with all four carried failure-mode rows (occupied dev port with npm run stop as the remedy, missing backend venv rebuilt by setup:local with uv sync --frozen, uv missing from PATH, the vite IPv6 loopback trap), every remedy is corroborated against the merged scripts/dev helpers, the section carries zero internal-pipeline vocabulary, and two negative controls prove the legs bite
+===== leg 254 issue=t70 rc=1 19s =====
+ac1 evidence: base README blob read through cmd.exe lines=363 (want 363)
+ac1 evidence: numbered steps=9 (want exactly 8: check, env file, setup:local, dev, open localhost:5173, register, seed:demo, stop - clone stays the step-zero preamble)
+ac1 RED: Quick Start carries 9 numbered steps, not the eight the card fences (RED at base by design: the base flow numbers five steps and names no open, register or demo-data step)
+ac2 evidence: stored gate idx=251 GREEN (6167 bytes extracted verbatim)
+ac2 evidence: stored gate idx=252 GREEN (8174 bytes extracted verbatim)
+ac2 RED: the carried README-scoped gates [ 250] are RED after the sections 7-9 rewrite - this card may not turn a carried gate RED, so the carried token surface in README.md is incomplete (tests[135] is the load-bearing Render heading/token-set gate of this card)
+===== leg 255 issue=t70 rc=0 0s =====
+ac3 evidence: Render placeholder honesty - status stated, residual #61 cited, no hook URL, no fabricated address
+ac3 evidence: API overview links docs/api.md and openapi.yaml and keeps the endpoint path set
+ac3 evidence: zero internal-pipeline words in the owned prose
+ac3 evidence: NEGATIVE CONTROL 1 - a Render section naming a fabricated host instead of the real -1qtu address is refused by 4 of 4 honesty legs (want 4)
+ac3 evidence: NEGATIVE CONTROL 2 - a generic sub-section misses 4 of 4 API-overview legs (want 4)
+ac3 GREEN: API OVERVIEW AND RENDER LIVE STATE - ## Features carries ### API overview linking docs/api.md and openapi.yaml with the six carried endpoint paths and the bearer rule, and ## Deployment on Render states the real live -1qtu address, cites residual #61, keeps the RENDER_DEPLOY_HOOK and /api/v1/health procedure steps, keeps the entire tests[135] heading and token set verbatim, and fabricates no other host - two negative controls (a fabricated-host section refused by 4 of 4 honesty legs, a generic section refused by 4 of 4 overview legs) prove the legs bite
+===== leg 256 issue=t71 rc=0 1s =====
+ac1 evidence: README lines=399 level2_headings=17 cr_bytes=399 lf_bytes=399 cr_sha256=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146
+ac1 evidence: invariants hold (17 level-2 headings, CRLF on every line, ASCII-only, 399 lines within the 400 ceiling)
+ac1 evidence: criteria rows=15 (exactly 15 required)
+ac1 evidence: distinct full-form REQ id set sha256=01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794
+ac1 GREEN: sections 10-12 rewritten in place (Repository layout describes the real tree, criteria and evidence tables carry current evidence with no stale lands-with markers, License names MIT plus the docs/ai-workflow.md and AGENTS.md pointers), exactly 15 criteria rows, the citation id-set unchanged, 17 headings, CRLF, ASCII, within the 400-line ceiling
+===== leg 257 issue=t71 rc=1 7s =====
+ac2 evidence: the two named retired-pin exclusions are tests[227] (t59 ac4, asserts the pin-2 README digest and the pin-2-era report digest) and tests[231] (t63, asserts pin-3 equality) - both are extracted for settlement proof and EXCLUDED from the replay by construction, recorded by the orchestrator per the Q1a ruling pattern, never by an index edit
+ac2 evidence: tests[191] (t47) pins the pre-t63 README digest 8d141fb2 and is a pre-existing RED excluded from this replay with that reason - not executed, not silently skipped
+ac2 RED: carried stored gate tests[250] went RED - inspect /tmp/t712_o.txt
+ac1 evidence: base README blob read through cmd.exe lines=363 (want 363)
+ac1 evidence: numbered steps=9 (want exactly 8: check, env file, setup:local, dev, open localhost:5173, register, seed:demo, stop - clone stays the step-zero preamble)
+ac1 RED: Quick Start carries 9 numbered steps, not the eight the card fences (RED at base by design: the base flow numbers five steps and names no open, register or demo-data step)
+===== leg 258 issue=t71 rc=1 0s =====
+ac4 evidence: docs_verification.py constants README_DIGEST=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 README_LINES=399 INDEX_FLOOR=217
+ac4 measured: README cr_sha256=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 lines=399 tail=0d0a
+ac4 evidence: report row: README_MEASURE PASS lines=399 digest=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146
+ac4 RED: the regenerated report does not end in ALL_CHECKS_PASS - the documentation verifier is RED on this tree
+===== leg 259 issue=t72 rc=1 0s =====
+ac7 evidence: constants README_DIGEST=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 README_LINES=399 INDEX_FLOOR=217
+ac7 measured: README cr_sha256=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146 lines=399
+ac7 evidence: report row: README_MEASURE PASS lines=399 digest=16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146
+ac7 RED: the regenerated report does not end ALL_CHECKS_PASS - the documentation verifier is RED on this tree
+===== leg 260 issue=t73 rc=0 4s =====
+ac1 GREEN: SELECT OF NAMES - a labelled select fed by the categories query, three ac1 nodes GREEN, no Category id text remains
+===== leg 261 issue=t73 rc=0 4s =====
+ac2 GREEN: EDIT PREFILL AND PRESERVATION - the select prefills the edited expense category, the preserved-values pin is GREEN on its rewritten body, and the frozen edit-prefill title still passes
+===== leg 262 issue=t73 rc=0 4s =====
+ac3 GREEN: VALIDATION HINT AND STATES - the required error still blocks an unset category, the hint names the Categories page on the merged /categories route, and the loading/error states follow the t17 inline conventions
+===== leg 263 issue=t73 rc=0 0s =====
+ac4 evidence: helper rewritten; the three specs that consume addExpense are happy-path.spec.ts, isolation.spec.ts, month-switch.spec.ts - all three run in the CI e2e gate (make e2e), which is the measured run for this AC
+ac4 GREEN: E2E HELPER SELECTS BY NAME - resolveCategoryId retired, addExpense selects by visible name, and the three consuming specs are named for the CI run
+===== leg 264 issue=t74 rc=0 4s =====
+ac1 GREEN: COLOR CONTROL TRIO - native Color picker input, #RRGGBB example placeholder, live swatch, the three frozen page nodes GREEN, and the page test untouched
+===== leg 265 issue=t74 rc=0 4s =====
+ac2 GREEN: PREFILLED NEUTRAL DEFAULT - #94A3B8 pinned in the form, the reset leg restored it, and the Option A reasoning (tests[212] exact-10 hex gate) holds
+===== leg 266 issue=t74 rc=0 5s =====
+ac3 GREEN: VALIDATION QUOTED FROM THE SCHEMA - pattern identity proven by extraction, the human-readable hint renders, and the backend schema plus ck_categories_color_format stay the final gate
+===== leg 267 issue=t74 rc=0 3s =====
+ac4 GREEN: ICON HINT - the (optional, e.g. utensils) example renders beside an unchanged Icon (optional) label, and the Q7 empty-icon key-omission contract is GREEN at both the form and page levels
+===== leg 268 issue=t75 rc=0 0s =====
+ac1 evidence: README lines=91
+ac1 evidence: live services=alertmanager grafana prometheus
+ac1 evidence: YAML validator GREEN via python3+PyYAML, and the two-service negative control was rejected
+ac1 evidence: docker compose config leg ran and passed (docker present on this host)
+ac1 GREEN: COMPOSE SKELETON VALID - observability/ exists with exactly the two card files, the live service set is exactly prometheus + alertmanager + grafana with tag-pinned images and published ports, and the two-service negative control was rejected
+===== leg 269 issue=t75 rc=0 0s =====
+ac2 evidence: parsed host ports=3000 9090 9093 (protected set 18137 5173 8000 8001 8137 must be disjoint)
+ac2 evidence: mapping 9090:9090 count=1
+ac2 evidence: mapping 9093:9093 count=1
+ac2 evidence: mapping 3000:3000 count=1
+ac2 GREEN: PORT BAND PROVABLY COLLISION-FREE - parsed host ports are exactly 3000/9090/9093, disjoint from 8000/5173/8001/8137/18137, each mapping appears once, and the README prints the table and every protected port with its reason
+===== leg 270 issue=t75 rc=0 0s =====
+ac3 GREEN: OPTIONAL BLOCK PRESENT, COMMENTED AND INERT - otel-collector, loki and tempo exist as pinned comment keys with reason lines naming traces and logs, no uncommented form of any of the three exists, and the README states the not-enabled-for-this-milestone limitation verbatim
+===== leg 271 issue=t75 rc=0 1s =====
+ac4 GREEN: README OPERATOR-USABLE - all three components named, the LOCAL ONLY boundary and the exact start command printed, and no secret-shaped value or external endpoint in either file
+===== leg 272 issue=t80 rc=1 0s =====
+incident-response/collect-evidence.sh: line 39: syntax error near unexpected token `$'{\r''
+incident-response/collect-evidence.sh: line 39: `usage() {'
+ac1 RED: bash -n rejects the collector - a script with a syntax error cannot collect anything
+===== leg 273 issue=t80 rc=0 0s =====
+ac2 evidence: README lines=98
+ac2 evidence: NEGATIVE CONTROL - removing the only log_tail.txt line from the script makes the same grep fail, so the five-artifact naming leg bites
+ac2 GREEN: FOUR LEGS NAMED AND PINNED - the collector names the four legs health/metrics/log_tail/version, the five pinned artifact files, the four pinned manifest keys and the four CLI options, pins the 127.0.0.1:8137/api/v1 default, invents no other port, and the README documents the endpoint, the mode and the dead port
+===== leg 274 issue=t80 rc=1 0s =====
+ac3 evidence: the dead DSN binds 127.0.0.1:55432 with the merged change-me-locally placeholder style
+ac3 evidence: non-loopback DSN hosts in the script=[]
+ac3 evidence: trap-on-EXIT target function=cleanup
+ac3 evidence: dead loopback port 127.0.0.1:55432 probed un-listening (measured at fence time, so the simulate DSN is dead right now)
+ac3 evidence: dry-run rc=2
+ac3 RED: --dry-run printed no dry-run line - the dry run is the leg that proves the plan without touching anything
+===== leg 275 issue=t80 rc=1 1s =====
+ac4 RED: --print-manifest produced no document - the manifest is the self-describing half of the bundle and t84s evidence.json is this files measured content, never a hand-written restatement
+===== leg 276 issue=t78 rc=1 0s =====
+ac1 evidence: NEGATIVE CONTROL - the identical key grep finds service.name in 0 places in config.py, so the three-key leg bites
+ac1 RED: service.name is not the pinned SERVICE_NAME constant expense-tracker-api - the three attribute VALUES are pinned by this card, not invented in code
+===== leg 277 issue=t78 rc=0 17s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 6 warnings in 5.78s
+ac2 evidence: the pinned TestClient node passes with client=(127.0.0.1,5053) asserting 200 plus target_info bearing service_name expense-tracker-api, deployment_environment development, service_version 1.0.0
+ac2 GREEN: THE NUMBERS ARRIVE - loopback GET /metrics returns 200 with live sample lines and target_info bearing the three pinned resource-attribute values, and the pinned TestClient node passes
+===== leg 278 issue=t78 rc=0 20s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 12 warnings in 5.77s
+ac3 evidence: the pinned TestClient nodes pass - the non-loopback refusal uses the default TestClient peer testclient (NOT a loopback address) and the environment-matrix node builds a development app and a production app in one process via get_settings.cache_clear()
+ac3 GREEN: LOCAL-ONLY IS AN OBSERVABLE BEHAVIOUR - loopback-only admission with a forged X-Forwarded-For refused, an unauthenticated endpoint 404 that leaves every other endpoint answering, absence from the OpenAPI schema, and a production-configured app that answers 404 where the development app answers 200
+===== leg 279 issue=t78 rc=0 16s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 6 warnings in 5.07s
+ac4 evidence: the pinned TestClient node passes, asserting /metrics is absent from app.openapi() while the 16 documented paths remain
+ac4 GREEN: THE CONTRACT IS UNTOUCHED - openapi.yaml is byte-identical to the BASE blob with zero /metrics references, the exemption is recorded in the card, the in-process schema adds no undocumented path, and the pinned schema-absence node passes
+===== leg 280 issue=t76 rc=0 0s =====
+ac1 evidence: PyYAML 6.0.1 parsed both files; jobs=backend prometheus; rule_files=/etc/prometheus/alerts.yaml; groups=expense-tracker-alerts
+ac1 evidence: positive control ran - the no-rule_files / non-loopback / no-self-scrape document was rejected on all three legs
+ac1 GREEN: FILES PARSE AND SHAPE - prometheus.yml carries global scrape_interval, the /etc/prometheus/alerts.yaml rule-file reference, the backend job on 127.0.0.1:8137 with metrics_path /metrics and the prometheus self-scrape on 127.0.0.1:9090, all targets loopback-only; alerts.yaml parses with a named rule group holding alert rules
+ac1 GREEN: FILES PARSE AND SHAPE - both observability files exist and parse under python3+PyYAML, prometheus.yml carries global scrape_interval, the /etc/prometheus/alerts.yaml rule-file reference, the backend job on 127.0.0.1:8137 with metrics_path /metrics and the prometheus self-scrape on 127.0.0.1:9090 with every target loopback-only, and alerts.yaml parses with a named rule group holding alert rules (the no-rule_files / non-loopback / no-self-scrape negative control was rejected on all three legs)
+===== leg 281 issue=t76 rc=0 0s =====
+ac2 evidence: HighExpenseCreationFailures expr=sum(rate(expense_create_failures_total[5m])) / sum(rate(expense_created_total[5m])) > 0.1 for=10m severity=warning annotations=dashboard,environment,owner,service,summary,version
+ac2 evidence: DBFallbackActive expr=db_fallback_active == 1 for=5m severity=critical annotations=dashboard,environment,owner,service,summary,version
+ac2 evidence: parse-level evaluability proof ran - DBFallbackActive fires on a synthesised db_fallback_active=1 series (value 1) and does NOT fire on the 0 series (value 0); HighExpenseCreationFailures fires at synthesised ratio 0.3 and does not fire at 0.0067 (no promtool on this host and no network download is permitted, so this is a parse-level proof; end-to-end firing is demonstrated in the t84 drill via --simulate-fallback)
+ac2 evidence: positive control ran - the no-for: / liveness-expr / missing-annotation document was rejected on all three legs
+ac2 GREEN: ALERT SHAPES PINNED - both required alerts present with the pinned for: durations, severities, PromQL form and the full annotation set
+ac2 GREEN: ALERT SHAPES PINNED - HighExpenseCreationFailures (for 10m, severity warning, error-rate expr over the two declared counters) and DBFallbackActive (for 5m, severity critical, expr db_fallback_active == 1) are both defined with the full annotation set service/environment/version/owner/dashboard/summary and a loopback dashboard URL (the no-for / liveness-expr / missing-annotation negative control was rejected on all three legs)
+===== leg 282 issue=t76 rc=0 0s =====
+ac4 evidence: canonical form={"alert":"DBFallbackActive","annotations":{"dashboard":"http://127.0.0.1:3000/d/expense-tracker/expense-tracker","environment":"development","owner":"tw097","service":"expense-tracker-api","summary":"the database fallback latch is engaged and the API is serving from the fallback store","version":"1.0.0"},"expr":"db_fallback_active == 1","for":"5m","labels":{"severity":"critical"}}
+ac4 evidence: digest=sha256:631fff291c752ec026e7f585ccd3ad57f71dd868eb0ca94745a428aa49daeca0 (pinned value matches; two mutation controls - owner change and for: removal - both changed the digest, so the pin bites)
+ac4 GREEN: BYTE-STABILITY PINNED - the DBFallbackActive entry serialises to the pinned canonical digest and the card quotes the same value, so t83 can byte-copy alert.json against a fixed reference
+ac4 GREEN: BYTE-STABILITY PINNED - the DBFallbackActive rule serialises to the canonical digest pinned in this card, the card text quotes the same value twice, and both mutation controls (owner change, for-key removal) changed the digest, so t83 can byte-copy alert.json against a reference that actually bites
+===== leg 283 issue=t81 rc=0 1s =====
+ac1 evidence: schema lines=118
+SCHEMA_SHAPE_OK draft_pinned required=9 additionalProperties=false recovery_verified_pinned_false
+ACCEPT schema incident-response/response.schema.json passes the pinned keyword subset
+ac1 evidence: NEGATIVE CONTROL - the same validator REJECTED a synthetic required-free schema, so the --check-schema leg bites
+ac1 evidence: NEGATIVE CONTROL - the validator REFUSED a schema carrying the out-of-subset keyword not, so schema/validator drift cannot go unnoticed
+ac1 GREEN: THE SCHEMA EXISTS AND IS A REAL JSON SCHEMA - response.schema.json parses, declares the pinned draft 2020-12, carries the nine required answer fields with additionalProperties false and recovery_verified pinned to false, and the pinned validator accepts it while REJECTING a required-free schema and an out-of-subset keyword
+===== leg 284 issue=t81 rc=0 0s =====
+    ac2 OK  recovery_claimed       rc=1 want=nonzero out=REJECT answer $.recovery_verified: value not in the pinned enum
+    ac2 OK  extra_top_level_key    rc=1 want=nonzero out=REJECT answer $: unknown key planned_fix is rejected
+    ac2 OK  action_extra_key       rc=1 want=nonzero out=REJECT answer $.actions_taken[0]: unknown key command is rejected
+    ac2 OK  summary_too_short      rc=1 want=nonzero out=REJECT answer $.summary: string shorter than minLength 40
+    ac2 VALIDATOR_CONTRACT_OK valid answer accepted and 12 mutants rejected
+ac2 GREEN: THE SCHEMA DEMANDS WHAT AN INCIDENT ANSWER MUST CARRY - the pinned probe drove the validator over one valid answer (accepted) and twelve mutants (all rejected), so the schema rejects the wrong shape rather than accepting everything
+===== leg 285 issue=t81 rc=0 1s =====
+ac3 evidence: validator top-level imports=[json re sys ]
+ac3 evidence: pinned validator on the valid fixture rc=0 ACCEPT answer /tmp/tmp.Nyv5E9t454/good.json satisfies incident-response/response.schema.json
+ac3 evidence: NEGATIVE CONTROL - the same command on the out-of-policy fixture exits non-zero: REJECT answer $.actions_taken[0].action: value not in the pinned enum
+ac3 evidence: missing-answer run rc=2
+ac3 evidence: unknown-argument run rc=2
+ac3 GREEN: THE VALIDATOR COMMAND IS PINNED, SELF-CONTAINED AND REPRODUCIBLE - #!/usr/bin/env python3, stdlib trio json/re/sys only, the pinned --schema/--answer/--check-schema CLI, no install step and no network call, the valid fixture exits 0, the out-of-policy fixture exits non-zero, and a missing file or a bad argument fails loudly with a readable reason
+===== leg 286 issue=t81 rc=0 0s =====
+ac4 evidence: prompt lines=118
+ac4 evidence: secret-path lines without a prohibition word=0
+ac4 evidence: NEGATIVE CONTROL - the same check on a Never-to-MAY rewrite finds 3 unprohibited secret-path line(s), so the prohibition leg bites
+ac4 evidence: all six read-only actions are named in BOTH responder-task.md and response.schema.json
+ac4 evidence: mutating-command lines without a prohibition word=0
+ac4 GREEN: THE PROMPT STATES THE BOUNDARY AND DOES NOT OVERSTATE IT - responder-task.md lists the five t80 bundle files it may read, states READ-ONLY, defers to incident-response/autonomy-policy.yaml as the authority, forbids .env/~/.ssh/printenv, names the same six read-only actions as the schema, and forbids any claim of recovery
+===== leg 287 issue=t82 rc=0 0s =====
+ac1 evidence: PyYAML 6.0.1 parsed the policy; default_decision=deny, unknown_action_decision=deny, 3 explicit denies, 4 allows, no id in both lists
+ac1 evidence: denied action classes named individually = database_mutation, merge, restart_production
+ac1 evidence: db_fallback_active appears only as a citation to observability/alerts.yaml (2 line(s)), never as a redefinition
+ac1 evidence: NEGATIVE CONTROLS ran - an allow-only policy, a default-allow policy and a deny/allow overlap were each REJECTED, so the explicit-deny legs above are not vacuous
+ac1 probe: THE POLICY EXISTS AND DENIES BY NAME - autonomy-policy.yaml parses under PyYAML, defaults to deny for named and unknown actions, and carries explicit reasoned denies with command shapes for restart of production, database mutation of any kind and merge, while citing t76s observability/alerts.yaml for every alert and metric name
+ac1 GREEN: THE AUTONOMY POLICY DENIES BY NAME - see the probe lines above: the file parses under python3+PyYAML, defaults to deny for named and unknown actions, and carries explicit reasoned denies with command shapes for restart of production, database mutation of any kind and merge, while citing t76s observability/alerts.yaml for every alert and metric name
+===== leg 288 issue=t82 rc=0 0s =====
+ac2 evidence: 4 allow entries across classes [read_only_reads, report_writing]; 3 read-only reads, 1 report-writing allow(s); every endpoint loopback, every entry scoped
+ac2 evidence: NEGATIVE CONTROLS ran - an unscoped allow, a non-loopback read endpoint and a missing report-writing class were each REJECTED
+ac2 probe: THE TWO PERMITTED CLASSES ARE SCOPED - allowed_actions covers read-only reads (health, metrics, logs, version, evidence bundle: loopback endpoints and named paths only) and report writing (incident report paths relative to the repo root, with .env and ~/.ssh explicitly forbidden), and no other action class is admitted
+ac2 GREEN: THE TWO PERMITTED CLASSES ARE SCOPED - allowed_actions carries read-only reads (health, metrics, logs, version, evidence bundle: loopback endpoints and named paths only) and report writing (incident report paths relative to the repo root, with .env and ~/.ssh explicitly forbidden), every entry scoped, no third action class admitted, and the three synthetic broken policies were each rejected
+===== leg 289 issue=t82 rc=1 1s =====
+/mnt/c/Users/tw097/Desktop/261007_projec
+ac3 RED: the fully-gated rollback run exited 2 - with an explicit target, an explicit image and the human flag it must print the plan and exit 0: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/incident-response/runbooks/rollback.sh: line 21: $'\r': command not found
+/mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/incident
+ac3 RED: the gated rollback run printed no rollback plan
+ac3 RED: the printed plan never names the autonomy policy as the authority it defers to
+ac3 RED: the probe exited non-zero - its own ac3 RED lines above name the failing leg
+===== leg 290 issue=t82 rc=1 2s =====
+/mnt/c/Users/tw097/D
+ac4 RED: the non-loopback refusal printed no loopback reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/incident-response/runbooks/verify-recovery.sh: line 19: $'\r': command not found
+/mnt/c/Users/tw097/D
+ac4 RED: the POSITIVE CONTROL (status ok, fallback_active false) exited 2 - the script rejects the one payload shape that IS recovery: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/t95b/incident-response/runbooks/verify-recovery.sh: line 19: $'\r': command not found
+/mnt/c/Users/tw097/D
+ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg
+===== leg 291 issue=t77 rc=0 0s =====
+ac1 evidence: python3 json parsed dashboard.json; title='Expense Tracker' panels=3 datasource={'type': 'prometheus', 'uid': 'prometheus-local'}
+ac1 evidence: panel titles = Expense creation rate; Creation failure rate; Database fallback state
+ac1 evidence: NEGATIVE CONTROLS ran - a four-panel dashboard, a no-title dashboard, a no-datasource dashboard and a dashboard missing the fallback panel were each REJECTED
+ac1 probe: THE DASHBOARD EXISTS PARSES AND CARRIES EXACTLY THE THREE REQUIRED PANELS - dashboard.json parses under python3 json, carries a title and a datasource reference, and holds exactly the expense creation rate, creation failure rate and database fallback state panels, each with a non-empty expr target
+ac1 GREEN: THE DASHBOARD EXISTS, PARSES AND CARRIES EXACTLY THE THREE REQUIRED PANELS - observability/dashboard.json parses under python3 json with a title, a datasource reference and exactly the expense creation rate, creation failure rate and database fallback state panels, each with a non-empty expr target, and the four synthetic broken dashboards (four-panel, no-title, no-datasource, no-fallback-panel) were each REJECTED
+===== leg 292 issue=t77 rc=0 0s =====
+ac2 evidence: extracted inventory from observability/alerts.yaml = category_created_total=counter, db_fallback_active=gauge, expense_create_failures_total=counter, expense_created_total=counter
+ac2 evidence: metric names referenced by panel exprs = category_created_total, db_fallback_active, expense_create_failures_total, expense_created_total
+ac2 evidence: NEGATIVE CONTROLS ran - an invented metric name, a panel set that never visualises the fallback gauge and a dashboard whose only series is invented were each REJECTED
+ac2 probe: EVERY PANEL QUERIES A t76 NAME AND NOTHING ELSE - the expr metric tokens are exactly the extracted t76 inventory, with no invented name and no declared name left unvisualised
+ac2 GREEN: EVERY PANEL QUERIES A t76 NAME AND NOTHING ELSE - the metric tokens in the panel exprs are exactly the inventory extracted from the merged observability/alerts.yaml (no invented name, no declared name left unvisualised), and the invented-name, uncovered-gauge and invented-only synthetic dashboards were each REJECTED
+===== leg 293 issue=t77 rc=0 0s =====
+ac3 evidence: PyYAML 6.0.1 parsed collector.yaml; top-level keys = exporters, extensions, processors, receivers, service
+ac3 evidence: the header states NOT ENABLED, names compose.yaml and names otel-collector; compose.yaml still carries that block COMMENTED (this card enabled nothing)
+ac3 evidence: NEGATIVE CONTROLS ran - a file without the NOT ENABLED sentence, a file that never names compose.yaml and a YAML with no collector vocabulary were each REJECTED
+ac3 probe: THE COLLECTOR OPTION IS DOCUMENTED AND INERT - collector.yaml parses, states that it corresponds to the COMMENTED otel-collector block of observability/compose.yaml and that it is NOT ENABLED, and compose.yaml still carries that block commented
+ac3 GREEN: THE COLLECTOR OPTION IS DOCUMENTED AND INERT - observability/collector.yaml parses under python3+PyYAML, states that it corresponds to the COMMENTED otel-collector block of observability/compose.yaml and that it is NOT ENABLED, compose.yaml still carries that block commented, and the three synthetic broken collector files were each REJECTED
+===== leg 294 issue=t77 rc=1 1s =====
+ac4 RED: dashboard.json is not 2-space-indented canonical JSON - re-serialise with json.dumps(indent=2), the pinned validator, rather than hand-formatting it
+ac4 RED: observability/dashboard.json has CRLF line endings in the working copy - commit LF (core.autocrlf is true and .gitattributes is absent, so these NEW files are read from the working copy)
+ac4 RED: observability/collector.yaml has CRLF line endings in the working copy - commit LF (core.autocrlf is true and .gitattributes is absent, so these NEW files are read from the working copy)
+ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg (RED at base by design: at BASE 09bca7c observability/ holds only the four merged t75 and t76 files README.md compose.yaml prometheus.yml alerts.yaml and this card adds dashboard.json and collector.yaml)
+===== leg 295 issue=t83 rc=0 0s =====
+ac1 evidence: the owned ID 2026-10-17-db-fallback-01 matches the declared grammar (positive control)
+ac1 evidence: incidents/ on disk: dirs=['2026-10-17-db-fallback-01'] files=['README.md']
+ac1 evidence: negative control: all 6 non-conforming names (short date field, uppercase slug, missing date, underscore, one-digit NN, three-digit NN) were REJECTED by the grammar
+ac1 evidence: the grammar marker, the grammar regex and the owned ID are all present in the incidents README, the directory on disk is exactly the one owned incident, and its name matches the declared grammar
+ac1 GREEN: THE SCAFFOLD EXISTS AND THE ID OBEYS THE DECLARED GRAMMAR - incident-response/incidents/README.md declares the YYYY-MM-DD-<slug>-<NN> grammar and the exact regex, the single incident directory 2026-10-17-db-fallback-01 exists with its own README.md, its real on-disk name matches that regex, and six non-conforming names were rejected so the match is not vacuous
+ac1 GREEN: THE SCAFFOLD EXISTS AND THE ID OBEYS THE DECLARED GRAMMAR - see the ac1 evidence lines above: the incidents README declares the YYYY-MM-DD-<slug>-<NN> grammar and its exact regex, the single incident directory 2026-10-17-db-fallback-01 exists with its own README.md, its real on-disk name matches that regex, and six non-conforming names were rejected so the match is not vacuous
+===== leg 296 issue=t83 rc=1 0s =====
+ac2 RED: alert.json has CRLF bytes in the working copy - commit LF (core.autocrlf=true smudges on checkout, but a CRLF BLOB here would not equal the t76 content either)
+ac2 RED: the probe exited non-zero - its own ac2 RED lines above name the failing leg
+===== leg 297 issue=t83 rc=0 0s =====
+ac3 evidence: owner row response.json -> t84: | response.json | t84 | measured trio, never authored before the drill |
+ac3 evidence: owner row resolution.md -> t84: | resolution.md | t84 | measured trio, never authored before the drill |
+ac3 evidence: t84 boundary lines: 5
+ac3 evidence: negative controls: dropping the resolution.md rows and renaming the artifact set were each rejected by the same scan (1 and 5 named failures)
+ac3 GREEN: THE DIRECTORY CONTRACT NAMES EVERY ARTIFACT AND ITS OWNER - the incidents README carries an owner row for alert.json (t83), evidence/ (t80), evidence.json, response.json and resolution.md (t84), names observability/alerts.yaml as the copy source with a re-check sentence, states the t84 write boundary, and the incident README declares the trio deliberately incomplete with t84 as the completer; two synthetic broken contracts were rejected by the same scan
+ac3 GREEN: THE DIRECTORY CONTRACT NAMES EVERY ARTIFACT AND ITS OWNER - see the ac3 evidence lines above: owner rows for alert.json (t83), evidence/ (t80) and evidence.json, response.json, resolution.md (t84), the copy source and re-check sentence, the t84 write boundary, and two synthetic broken contracts rejected by the same scan
+===== leg 298 issue=t79 rc=0 0s =====
+ac1 evidence: every extracted inventory name appears as a quoted literal in backend/app/telemetry.py
+ac1 evidence: NEGATIVE CONTROL - the identical name grep finds 0 matches in backend/app/config.py, so the telemetry.py presence leg bites
+ac1 evidence: no stray instrument literal in telemetry.py outside the inventory set (the t78 substrate instrument is exempted by name)
+ac1 evidence: backend/app/database.py carries 0 inventory names - the emitter lives in telemetry.py exactly as the t76 ruling pinned it, and the fallback file itself is untouched
+ac1 evidence: neither service restates an inventory string - both import the telemetry constants, keeping one name authority in code behind the one in alerts.yaml
+ac1 GREEN: NAME AUTHORITY IS ONE-WAY AND OBSERVABLE - 4 inventory names extracted from observability/alerts.yaml are all declared as literals in backend/app/telemetry.py with no stray instrument literal, the gauge callback reads the merged is_fallback latch as 1 if is_fallback() else 0 inside an observable gauge, counters are declared on the substrate, backend/app/database.py stays instrument-free exactly as the t76 ruling pinned, and the two services import the constants instead of restating a name (negative control: the same name grep finds 0 hits in backend/app/config.py)
+===== leg 299 issue=t79 rc=0 27s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 7 warnings in 8.17s
+ac2 evidence: the two pinned pytest nodes pass, each asserting a delta of exactly 1 on its own counter with the other two counters unchanged
+ac2 GREEN: THE SUCCESS LEGS COUNT WHAT A SCRAPE SEES - expense_created_total advanced by 2 across two creates and category_created_total by 1 across one create, all read from app.telemetry.exposition_body() (the exact bytes /metrics serves), the failure counter stayed still on the success path, db_fallback_active answers a scrape, and the two pinned pytest nodes report 2 passed
+===== leg 300 issue=t79 rc=0 31s =====
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 5 warnings in 7.78s
+ac3 evidence: the pinned pytest node passes, asserting the counter delta AND status_code/code/field of the re-raised AppError
+ac3 GREEN: THE FAILURE LEG COUNTS WITHOUT LYING - the except AppError: branch advances expense_create_failures_total by exactly 1 for both the 422 INVALID_AMOUNT and the 404 CATEGORY_NOT_FOUND leg, the exception propagates with its pinned 422/INVALID_AMOUNT/amount identity, no expense row is written by a counted failure, no wide except exists in the service, no prometheus_client import appears there, and the pinned failure-leg pytest node reports 1 passed
+===== leg 301 issue=t79 rc=0 164s =====
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+303 passed, 296 warnings in 106.52s (0:01:46)
+ac4 evidence: 303 tests passed (measured BASE floor 298 passed / 0 failed / 0 skipped, and this card adds 4 test nodes, so the builder floor is 302)
+ac4 evidence: ruff clean and mypy strict-clean over 97 source files (measured BASE floor 96)
+ac4 GREEN: NOTHING ELSE MOVED AND THE SERIES IS ALIVE - openapi.yaml is byte-identical to the BASE 1c1ae1624ead21d5d027bc127cf82a59f0e59aac blob with zero /metrics references and in-process schema parity over 16 paths, 0 float( on the money path (negative control: 2 hits in dashboard_service.py), db_fallback_active answers the live exposition beside an intact target_info with the pinned live-latch node passing, the suite is at or above the 302 floor with 0 failed and 0 skipped, and ruff plus mypy strict are clean at or above the 96-file base surface
+===== leg 302 issue=t84 rc=0 1s =====
+ac1 evidence: the log tail carries the merged fallback-engagement warning line
+ac1 evidence: version token 86fbe454adfb132dfb31221bba5f54d1d364b62a resolves as a real commit object (token differs from current HEAD: the drill ran on its base commit and the tree moved since - disclosed)
+ac1 evidence: tree_hash equals sha256 of the version token exactly - the harness derives it FROM the tree identity
+ac1 evidence: script_sha256 matches the merged harness script (working=1e8bb7200d99 lf=7fee18e7e307; both accepted because core.autocrlf=true smudges this worktree and .gitattributes is absent)
+ac1 GREEN: EVIDENCE.JSON IS MEASURED, NOT AUTHORED - the manifest keys are exactly the merged t80 pins, every legs.bytes equals the measured embedded capture, script_sha256 matches the merged harness script, tree_hash is the harness derivation of a version token that resolves as a real commit, the health leg is the real degraded fallback shape, the metrics leg is the collectors honest zero-byte disclosed gap, proven by the measured 404/200 probe pair embedded in resolution.md, and the t79 series and t78 attributes are measured in the direct exposition capture that resolution.md embeds, and the log tail names the fallback engagement
+ac1 GREEN: EVIDENCE.JSON IS MEASURED NOT AUTHORED - see the ac1 evidence lines above: the manifest keys are exactly the merged t80 pins, every legs.bytes equals the measured embedded capture, script_sha256 matches the merged harness script, tree_hash is the harness derivation of a version token that resolves as a real commit, the health leg is the real degraded fallback shape, the metrics leg is either a real exposition or the collectors zero-byte gap proven by the embedded 404/200 probe pair, and the log tail names the fallback engagement
+===== leg 303 issue=t84 rc=0 0s =====
+ac2 evidence: all 6 recorded actions map inside the extracted policy allow list (read_health, read_logs, read_metrics verbatim, write_report -> write_incident_report)
+ac2 evidence: recovery_verified is the literal false - the answer defers recovery to the measured verification step
+ac2 evidence: every evidence_ref names a file this bundle actually carries
+ac2 evidence: negative controls: a stripped copy, an evidence_ref escape and an out-of-enum action were each REJECTED by the same validator (3/3 non-zero)
+ac2 GREEN: RESPONSE.JSON VALIDATES UNDER THE PINNED VALIDATOR - the merged t81 command exits 0 on the committed answer, three negative controls (stripped, escaping ref, out-of-enum action) were rejected by the same command, every recorded action sits inside the allow ids extracted from the merged t82 policy, recovery_verified is the literal false, and every evidence_ref names a file this bundle actually carries
+ac2 GREEN: RESPONSE.JSON VALIDATES UNDER THE PINNED t81 VALIDATOR AND OBEYS THE t82 POLICY - see the ac2 evidence lines above: the merged validator exits 0 on the committed response, its own negative controls exit non-zero, every recorded action maps inside the extracted policy allow list, and no denied class is named
+===== leg 304 issue=t84 rc=0 0s =====
+ac3 evidence: the RECOVERY_VERIFIED line carries the runbooks payload tail (the recovered engine and version the runbook read from the live payload)
+ac3 evidence: resolution.md embeds both the degraded capture (fallback_active true) and a recovered capture (fallback_active false) - a measured before/after
+ac3 evidence: timeline of 10 UTC stamps is monotonic non-decreasing (max span 2026-10-16T18:19:18Z -> 2026-10-16T18:23:25Z)
+ac3 evidence: the collection stamp 2026-10-16T18:19:18Z appears in the timeline with 10 event(s) at or after it (response, recovery)
+ac3 GREEN: RESOLUTION.MD CARRIES THE RECOVERY VERIFICATION AND A TIMELINE - the embedded verify-recovery output shows the RECOVERY_VERIFIED marker with the recovered engine, the degraded and recovered payloads give the measured before/after, and the 10-stamp timeline is monotonic and anchored on the evidence collected_at
+ac3 GREEN: RESOLUTION.MD CARRIES THE MEASURED RECOVERY OUTPUT AND A REAL TIMELINE - see the ac3 evidence lines above: the merged runbooks RECOVERY_VERIFIED marker is present verbatim, the negative-control rejection is carried too, and the timeline is monotonic and anchored on the evidence collected_at
+===== leg 305 issue=t84 rc=0 0s =====
+ac4 evidence: the measured captures name exactly the extracted inventory set (4 series: category_created_total, db_fallback_active, expense_create_failures_total, expense_created_total) - no invented name, none missing
+ac4 evidence: the collectors metrics leg is its disclosed zero-byte gap, so the name closure rests on the direct exposition capture - which is why that capture is mandatory, not optional
+ac4 evidence: all 5 evidence_refs point into incidents/2026-10-17-db-fallback-01/evidence/
+ac4 evidence: the health leg (fallback_active true) and the metrics leg (db_fallback_active 1) agree - the alert rule and the captured state close on the same fact
+ac4 GREEN: THE CHAIN CLOSES END TO END - one incident ID 2026-10-17-db-fallback-01 through evidence/response/resolution/alert/directory, the alert name extracted from the merged t76 source matches alert.json, the metrics capture names exactly the extracted inventory set, every evidence_ref points into this bundle, and the health and metrics legs agree on the fallback fact
+ac4 GREEN: THE CHAIN CLOSES END TO END - see the ac4 evidence lines above: one incident ID across all four artifacts, the alert name extracted from the merged alerts.yaml matches the t83 copy and the declared rule, and the measured captures name exactly the extracted t76 inventory set
+===== leg 306 issue=t86 rc=0 0s =====
+ac1 evidence: semgrep paths.scanned (904 paths; the base report had 580) includes backend/app/telemetry.py - semgrep re-saw code that did not exist when the base report was cut
+ac1 evidence: gitleaks report parses as a JSON array of 21 findings
+ac1 evidence: reference anchor present: base=67c9db975d75 run_at=2026-10-17T06:51:01+08:00 rc={'gitleaks': 1, 'npm_audit': 1, 'pip_audit': 1, 'semgrep': 0, 'trivy': 0}
+ac1 evidence: both .txt summary lines parse: pip=3 npm=23 - these are the values the ac3 delta prints against the pre-refresh 3/22
+ac1 GREEN: THE FIVE REPORTS ARE FRESH BY MEASURED PER-TOOL EVIDENCE - trivy CreatedAt is strictly later than the BASE commit time, semgrep re-scanned the t78 telemetry module the base report never saw, the gitleaks array parses under the frozen mechanism, both .txt summaries parse and feed the ac3 delta, and the pinned reference anchor binds the timestamp-free tools to one run against the pinned BASE
+ac1 GREEN: THE FIVE REPORTS ARE FRESH BY MEASURED PER-TOOL EVIDENCE - the trivy CreatedAt is strictly later than the pinned BASE commit time, semgrep re-scanned the t78 telemetry module the base report never saw, both .txt summaries parse, and the reference anchor binds the timestamp-free tools (see the ac1 evidence lines above)
+===== leg 307 issue=t86 rc=0 3s =====
+ac2 evidence: all 12 BASE fingerprints reproduce with zero missing (suffix match on the tools own Fingerprint, temp prefix normalised)
+ac2 evidence: all 4 card/mirror self-reference hits present with file and line (docs/issues/t86.md and docs/issues/groom/t86.md, the prose line and the ac2 fence line in each)
+ac2 evidence: every one of the 21 hits classifies: 14 on files the BASE tree carries (git cat-file -e per file), 7 on the named self-reference / handoff paths (card, mirror, closed copy, groom handoff, builder BLOCKER handoff, orchestrator WAL - named by ownership class, and the WAL absorbs unbounded append-only growth without a line pin)
+ac2 evidence: every finding is the documented false-positive shape: eleven forty-hex file digests quoted in documentation prose plus the documented t80 openapi-FROZEN line, in documentation, handoff and orchestrator-log prose - the same shape the t36 allowlist already covers, newly surfaced by files merged after that allowlist was cut
+ac2 GREEN: MECHANISM INVARIANT AND THE OUTPUT COMMITTED VERBATIM - the Makefile is byte-clean against the BASE blob, the pinned v8.30.1 + t36 allowlist construction is intact, the committed report and the committed same-run anchor agree (count, exit code and fingerprint set - integrity, not a magic number), the 12 BASE fingerprints reproduce with zero missing, the 4 card/mirror self-reference hits are present with file and line, every other hit is BASE-existing or a named self-reference / handoff path, and every finding is the documented false-positive shape
+ac2 GREEN: MECHANISM INVARIANT AND THE OUTPUT COMMITTED VERBATIM - the Makefile is byte-clean against the BASE blob, the pinned v8.30.1 + t36 allowlist construction is intact, the committed report and the committed same-run anchor agree (count, exit code and fingerprint set - integrity, not a magic number), the 12 BASE fingerprints reproduce with zero missing, the 4 card/mirror self-reference hits are present with file and line, every other hit is BASE-existing or a named self-reference / handoff path, and every finding is the documented false-positive shape (see the ac2 evidence lines above)
+===== leg 308 issue=t86 rc=0 2s =====
+ac3 evidence: NEW_IDS/GONE_IDS are exactly the measured set difference (new=2 gone=0)
+ac3 evidence: MOVED agrees with the measured semgrep line drift (1 moved)
+ac3 evidence: RELABEL confirmed against both blobs: the upstream advisory id moved for the SAME vulnerable package, it is disclosed as a relabel, and the honest shape (id loop +1, finding count +0) is exactly what DELTAS and LOOP_IDS report
+ac3 evidence: the reference anchor records the same counts the committed reports parse to (exact for the four code/dependency tools; for gitleaks an anchor-equals-report integrity check plus the 12-hit BASE floor, so the anchor is a same-run record of whatever tree is verified, never a pinned literal)
+ac3 GREEN: THE DELTA IS MEASURED AND REPORTED, NEVER SUPPRESSED - both halves of DELTAS equal the parse (BASE blobs left; committed reports right, with the gitleaks right half a BASE-floor plus anchor-integrity pair because its hit set is tree-relative), LOOP_IDS/NEW_IDS/GONE_IDS equal the measured id-set difference, and MOVED and RELABEL name the two honest edge shapes (see the ac3 evidence lines above)
+ac3 GREEN: THE DELTA IS MEASURED AND REPORTED, NEVER SUPPRESSED - both halves of DELTAS equal the parse (BASE blobs left; committed reports right, with the gitleaks right half a BASE-floor plus anchor-integrity pair because its hit set is tree-relative), LOOP_IDS/NEW_IDS/GONE_IDS equal the measured id-set difference, and MOVED and RELABEL name the two honest edge shapes (see the ac3 evidence lines above)
+===== leg 309 issue=t86 rc=1 0s =====
+ac4 RED: docs/criteria/security_ops_verification.md is NOT byte-clean against BASE 67c9db975d75 () - this card is report-only; regenerating the criterion doc or re-pinning the generator is the follow-up cards work, and editing them here to force a carried gate green is the forbidden path
+ac4 RED: backend/scripts/security_ops_verification.py is NOT byte-clean against BASE 67c9db975d75 () - this card is report-only; regenerating the criterion doc or re-pinning the generator is the follow-up cards work, and editing them here to force a carried gate green is the forbidden path
+ac4 RED: the DISCLOSED OPEN LOOP this card states does not exist yet: the committed reports measure exactly what the generator pins (parse 21,33,42,3,23 == EXPECTED_REPORT_ROWS), so either the refresh has not run (RED at base BY DESIGN - the committed reports still describe the tree they were cut on) or the cards disclosure prose is stale. The card may not describe a mismatch it did not measure
+ac4 RED: the card does not carry the generators own pinned values (REPORT_ROWS '21,33,42,3,23' / LOOP_IDS 98 as read from its source) next to the refreshed rows - the mismatch is only disclosed if the reader can see both sides
+ac4 RED: docs/criteria/security_ops_verification.md IS in the working-tree diff against BASE - the criterion doc must not be regenerated by this card (see legs (i)/(ii)): a diff that shows it changed while the byte check says clean means the check was skipped, not passed
+ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg
+===== leg 310 issue=t87 rc=0 1s =====
+ac1 evidence: anchor integrity: per-tool findings and the finding_id_loop block all equal the values re-parsed live (refreshed=98, base=96)
+ac1 evidence: every one of the 98 refreshed loop ids appears in the register body
+ac1 evidence: all five register count rows equal the fresh counts gitleaks=21 semgrep=33 trivy=42 pip=3 npm=23
+ac1 evidence: all 21 gitleaks fingerprint suffixes appear in the register body and match the anchor suffix set
+ac1 GREEN: THE LOOP IS CLOSED AGAINST THE REFRESHED REPORTS - the anchor and the committed reports agree on every count and the gitleaks suffix set, the loop set re-derived live is fully bound in the register, no register row references an absent finding, all five count rows equal the freshly measured counts, every gitleaks fingerprint is dispositioned, and no stale zero-prose survives (see the ac1 evidence lines above)
+ac1 GREEN: THE LOOP IS CLOSED AGAINST THE REFRESHED REPORTS - the anchor and the committed reports agree on every count and the gitleaks suffix set, the loop set re-derived live is fully bound in the register, no register row references an absent finding, all five count rows equal the freshly measured counts, every gitleaks fingerprint is dispositioned, and no stale zero-prose survives (see the ac1 evidence lines above)
+===== leg 311 issue=t87 rc=0 0s =====
+ac2 evidence: the new-finding set agrees across both sources: PYSEC-2026-4298, python.lang.security.audit.subprocess-shell-true.subprocess-shell-true (2 ids; the set is re-derived, never a literal in this card)
+ac2 evidence: PYSEC-2026-4298 -> accepted (measured 1 row(s)) (tool pip-audit)
+ac2 evidence: python.lang.security.audit.subprocess-shell-true.subprocess-shell-true -> accepted (measured 1 row(s)) (tool semgrep)
+ac2 GREEN: EVERY newly surfaced finding is dispositioned with evidence - the new set agrees across the anchor and the live set difference, each id has exactly one register row, the tool cell matches the producing report, Reason/Mitigation/Plan are real text, and the Disposition is in the closed vocabulary with its required justification (see the ac2 evidence lines above)
+ac2 GREEN: EVERY newly surfaced finding is dispositioned with evidence - the new set agrees across the anchor and the live set difference, each id has exactly one register row, the tool cell matches the producing report, Reason/Mitigation/Plan are real text, and the Disposition is in the closed vocabulary with its required justification (see the ac2 evidence lines above)
+===== leg 312 issue=t87 rc=0 1s =====
+ac3 evidence: limitations table grew 12 -> 13 rows and the tracing row(s) 13 state the measurement gap
+ac3 evidence: policy record: BASE lines are an untouched prefix and the appended tracing sentence carries the documentation-only boundary language
+ac3 evidence: observability/compose.yaml keeps its OTel exporter block commented out and observability/ is byte-clean against BASE - the recorded gap is still the gap
+ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - the limitations table grew past its BASE row count with a tracing row that states the measurement gap, the policy record gained the matching documentation-only sentence as a pure append, and the gap itself is unchanged and still honestly described
+ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - the limitations table grew past its BASE row count with a tracing row that states the measurement gap, the policy record gained the matching documentation-only sentence as a pure append, and the gap itself is unchanged and still honestly described
+===== leg 313 issue=t85 rc=0 0s =====
+ac2 evidence: both ops documents name the extracted alert verbatim
+ac2 evidence: the Scenario region names DBFallbackActive AND a firing verb - the document opens from the alert, not from suspicion
+ac2 evidence: ops/diagnosis.md points at observability/alerts.yaml as the rule location
+ac2 evidence: no invented alert names: every multi-hump identifier on an alert-mentioning line is either declared in the t76 file or already present in that file's BASE blob
+ac2 GREEN: THE NARRATIVE IS ALERT-DRIVEN - DBFallbackActive (extracted, never restated) is named verbatim in both ops docs, the Scenario section opens from the firing alert, the doc points at the rule file, and no invented alert name survives the grandfathered whitelist
+ac2 GREEN: THE NARRATIVE IS ALERT-DRIVEN WITH THE NAME EXTRACTED - see the ac2 evidence lines above: the firing alert is extracted from observability/alerts.yaml through the gauge-to-expr chain, named verbatim in both ops docs, named inside ## Scenario with a firing verb, the doc points at the rule file, and no invented rule name survives the grandfathered whitelist
+===== leg 314 issue=t85 rc=0 1s =====
+ac3 evidence: all 20 distinct repo paths cited by the two docs resolve on the tree
+ac3 evidence: the ## Diagnosis Steps bash block is byte-identical to BASE and still carries the health probe plus the 6 documented smoke steps - the healthy baseline is present and unchanged
+ac3 evidence: the marker heading sits inside ## Scenario: the alert-driven half is labelled as the extension of the healthy baseline
+ac3 evidence: ops/runbook.md cites observability/alerts.yaml as the rule authority
+ac3 GREEN: EVERY CITED PATH RESOLVES AND THE BASELINE SURVIVES - the incident record incident-response/incidents/2026-10-17-db-fallback-01 and its measured trio are cited, the whole measured surface is cited, all 20 cited paths exist, the healthy-baseline smoke block is byte-identical to BASE 67c9db975d75, and the new half is labelled as its extension
+ac3 GREEN: EVERY CITED PATH RESOLVES AND THE HEALTHY BASELINE SURVIVES - see the ac3 evidence lines above: the extracted incident record and its measured trio, the t76 rule file, the scrape config, the dashboard and the collector are all cited and all exist, every cited path resolves, the smoke block is byte-identical to BASE, and the new half is labelled as its extension
+===== leg 315 issue=t88 rc=0 0s =====
+ac1 evidence: docs/operations-and-security-report.md exists (150 lines)
+ac1 evidence: all 8 required `## ` titles present exactly once with non-empty regions and no extra `## ` title
+ac1 evidence: no bare number in prose - every quantity rides a MEASURED line, an inline code span, a link target or an identifier-shaped token
+ac1 GREEN: THE POINTER DOCUMENT IS STRUCTURED AND CLEAN - the eight required sections are present exactly once with non-empty regions and nothing else claims a section, the file is ASCII, placeholder-free and carries no fenced copy of another files content, and no hand-typed number survives in its prose
+ac1 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
+===== leg 316 issue=t88 rc=0 0s =====
+ac2 evidence: all 14 required owning artifact(s)/director(y/ies) are cited (the set is fixed by the card, not counted)
+ac2 evidence: the seven stage markers appear in order: id -> alert -> evidence -> response -> resolution -> finding -> disposition
+ac2 evidence: incident ID(s) 2026-10-17-db-fallback-01 match the extracted grammar and resolve to a real incident directory
+ac2 evidence: the alert rule(s) named in the reconstruction DBFallbackActive are exactly declarations extracted from observability/alerts.yaml (every rule-shaped word in that section is declared or grandfathered by an owner at BASE)
+ac2 GREEN: THE CHAIN RESOLVES - every cited path exists, the whole required owning-artifact set is cited, the incident section walks the seven stages in order, the incident ID obeys the grammar the scaffold README declares, and the alert name it quotes is a declaration parsed out of observability/alerts.yaml
+ac2 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
+===== leg 317 issue=t88 rc=0 0s =====
+ac3 evidence: all 12 MEASURED value(s) equal the live extraction from their owning artifact (keys: alert_rules, diagnosis_sections, extension_tools, incident_artifacts, incident_records, limitations_rows, metric_names, policy_sections, pr_audit_sections, register_rows, scan_finding_ids, scan_findings_total)
+ac3 evidence: extraction is internally consistent: the five per-tool counts sum to the stated total (122)
+ac3 evidence: the register covers all 98 distinct finding id(s), so the summary the report points at is a closed loop
+ac3 GREEN: EVERY NUMBER IS AN EXTRACTION - the report states its quantities only as MEASURED lines with an owning source the card fixes, each value equals what the owner yields right now, the extraction is internally consistent (per-tool sum, register coverage, a declared rule and metric, a real incident record), and the card's own section and key counts are anchor-intact
+ac3 GREEN: see the probe evidence lines above - every leg of this acceptance criterion was measured, not assumed
+DONE
