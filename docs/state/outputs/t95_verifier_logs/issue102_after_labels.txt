@@ -1,0 +1,11 @@
+rc=0
+{
+  "number": 102,
+  "title": "t95 - Close platform issue 61 with the bundled A3 plus B1a plus B1b plus B2 evidence: the deploy-hook secret residual is discharged, recorded once and traceably",
+  "state": "open",
+  "labels": [
+    "verified"
+  ],
+  "updated_at": "2026-10-20T04:59:42Z"
+}
+

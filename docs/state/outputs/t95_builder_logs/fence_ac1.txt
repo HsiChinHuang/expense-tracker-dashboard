@@ -1,0 +1,3 @@
+ac1 evidence: the committed comment is ASCII, LF-only, quote-free, free of cmd.exe metacharacters, 1918 bytes
+ac1 evidence: read-back MATCH (1917 bytes byte-equal after CR-strip and rstrip) and the comment names the run id, the job id, both register migrations, both README sections, the live host and the two artifact pointers
+ac1 GREEN: THE EVIDENCE COMMENT STANDS ON #61 VERBATIM - read-back byte-equal through scripts/platform.ts, every bundle pointer named, the disclosed Render-log limit carried, and no Render log body asserted

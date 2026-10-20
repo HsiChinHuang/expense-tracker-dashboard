@@ -1,0 +1,12 @@
+rc=0
+{
+  "number": 61,
+  "title": "Deploy workflow fails: RENDER_DEPLOY_HOOK repository secret not configured",
+  "state": "open",
+  "labels": [
+    "infra",
+    "blocked-on-operator"
+  ],
+  "updated_at": "2026-10-20T01:45:33Z"
+}
+

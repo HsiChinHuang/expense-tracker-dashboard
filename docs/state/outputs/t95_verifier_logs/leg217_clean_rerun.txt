@@ -1,0 +1,4 @@
+ac1 evidence: rc1=0 rc2=0 digests=a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445 a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445 a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445
+ac1 evidence: matrix rows=749
+ac1 evidence: 749 unique ids recomputed from docs/requirements.md; matrix id-set digest ef6c4bba27791a79 matches
+ac1 GREEN: backend/scripts/req_coverage_verification.py regenerates docs/criteria/req_coverage_verification.md byte-identically (both runs agree, three digests equal), enumerates exactly the 749 unique ids with a per-family tally closing at 749/18, is hermetic, and carries REQ-AUTH-001 as the documented EXAMPLE_REFERENCE row

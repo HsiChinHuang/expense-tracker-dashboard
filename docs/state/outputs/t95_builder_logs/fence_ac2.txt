@@ -1,0 +1,3 @@
+ac2 evidence: record schema, prior state, timestamp, close ownership and digest shape all as specified
+ac2 evidence: comment_sha256 equals the digest of docs/state/outputs/t95_close_comment.txt
+ac2 GREEN: THE CLOSE RECORD IS SOUND AND ITS PRE-CLOSE CROSS-CHECK MATCHES THE LIVE ISSUE - #61 is open with labels [blocked-on-operator infra], the record names the run id and both register migrations by pointer, and the comment digest ties the record to the posted text

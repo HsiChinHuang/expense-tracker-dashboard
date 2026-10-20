@@ -1,0 +1,89 @@
+{
+  "card": "t95",
+  "platform_issue": 102,
+  "target_issue": 61,
+  "target_issue_title": "Deploy workflow fails: RENDER_DEPLOY_HOOK repository secret not configured",
+  "prior_state": {
+    "state": "open",
+    "labels": [
+      "blocked-on-operator",
+      "infra"
+    ],
+    "updated_at_before_this_comment": "2026-10-13T02:14:26Z",
+    "measured_through": "cmd.exe /d /c 'cd /d . && npx tsx scripts/platform.ts issue get 61'"
+  },
+  "close_recorded_at": "2026-10-20T01:47:01Z",
+  "close_performed_by": "orchestrator",
+  "close_note": "This record performs the RECORDING half of the close only. The issue close 61 call is orchestrator-side platform maintenance in the merge window (the card's Scope of the close); the comment read-back that would confirm a builder-executed close is not obtainable through the sanctioned channel, so no builder run closes the issue.",
+  "comment_path": "docs/state/outputs/t95_close_comment.txt",
+  "comment_sha256": "0e931caf9979956085fd4ac3c923353c82bd651a2f451a23041c423b03d7bcc9",
+  "comment_posted_at": "2026-10-20T01:45:33Z",
+  "comment_readback": {
+    "channel": "cmd.exe /d /c 'cd /d . && npx tsx scripts/platform.ts issue latest-comment 61'",
+    "result": "MATCH",
+    "posted_len": 1917,
+    "readback_len": 1917,
+    "normalisation": "CR-stripped and right-stripped before comparison (the ac1 recipe)"
+  },
+  "workflow_run_id": 39197889153,
+  "deploy_job_id": 117884490139,
+  "head_sha": "0c3dd6d6098cdf07aa1343593f5bcd83523ce894",
+  "live_host": "https://expense-tracker-dashboard-1qtu.onrender.com",
+  "health_url": "https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health",
+  "readme_sections": [
+    "Online demo",
+    "Deployment on Render"
+  ],
+  "register_migrations": {
+    "security_ops": {
+      "from": 5,
+      "to": 4
+    },
+    "docs": {
+      "from": 4,
+      "to": 3
+    }
+  },
+  "artifact_paths": [
+    "docs/state/outputs/t92_deploy_evidence.json",
+    "docs/state/outputs/t92_evidence/deploy_run_39197889153_job_117884490139.txt",
+    "docs/criteria/security_ops_verification.md",
+    "docs/criteria/docs_verification.md",
+    "README.md",
+    "ops/deployment-health.md",
+    "docs/criteria/req_coverage_verification.md",
+    "docs/issues/t95.md"
+  ],
+  "artifact_digests_cr_stripped": {
+    "docs/state/outputs/t92_deploy_evidence.json": "66cb117ec680fb4158d4e61a8ee89bf18ef515af6ef5dc4d5dc84f43046c5e19",
+    "docs/state/outputs/t92_evidence/deploy_run_39197889153_job_117884490139.txt": "71cc9c54711c94c3abd79f6b47cee452cb29442ec0d72d318e0bb950b5192b6e",
+    "docs/criteria/security_ops_verification.md": "4d69122bc9eca30eed5dd1f10333c272ffbb01d4b0ccae5340dbcbbd4175b967",
+    "docs/criteria/docs_verification.md": "a879f01f1da02c81391bc12ee3cec4d3da46a672f04cab5414e575021ed306ff",
+    "README.md": "16426cc0b80f06625bfe4fbdfc50029a87935d47211f71853e14ab02c5578146",
+    "ops/deployment-health.md": "f42e1fc90f040989036e68be5c33f40b70436f75e22cfe13b62ffeea13d743d9",
+    "docs/criteria/req_coverage_verification.md": "a14af7cd988d18be4de63a48828ae4aadba012ee77256823c66c8f4332974445",
+    "docs/issues/t95.md": "22a12a7562fc18695b3bad161f7037a56975ec826c380ff22327f13315ef25f3"
+  },
+  "pointer_row": "REQ_DEFERRAL_POINTER PASS issue=61 family=OPS artifact=ops/deployment-health.md (docs/criteria/req_coverage_verification.md)",
+  "render_log_gap": {
+    "captured": false,
+    "why": "no Render API token exists in this environment, so no Render-side build, migration or service log body is asserted anywhere in this bundle; the GitHub run/job metadata, the banked GitHub job log and the live health endpoint stand in for those bodies (the t92 disclosure, repeated not hidden)"
+  },
+  "bundle": {
+    "A3": "t92 real deploy run consumed the secret",
+    "B1a": "t93 security_ops register migration 5 -> 4 plus the VERIFIED_ROW",
+    "B1b": "t98 docs register migration 4 -> 3",
+    "B2": "t94 README publishes the live address"
+  },
+  "measurement_note": "Every value above was measured at build time from the shipped tree bytes and from live reads through scripts/platform.ts; no value was copied from the card prose. The ac_hash of the card recomputes to sha256:4fff9c22c7e556b791cc2e5e0e9d54a071efe87a86963cef18b478757028c3c5 from the six shipped fences.",
+  "register_migration_surfaces": {
+    "security_ops": {
+      "surface": "docs/criteria/security_ops_verification.md DEFERRAL_REGISTER (generated report, never edited by this card)",
+      "replaced_row": "VERIFIED_ROW LIVE_DEPLOYMENT_STATE record=docs/state/outputs/t92_deploy_evidence.json"
+    },
+    "docs": {
+      "surface": "docs/criteria/docs_verification.md DEFERRAL_REGISTER (generated report, never edited by this card)",
+      "disclosed_residual": "docs/criteria/docs_verification.md CHECKS_FAILED 1 - the sanctioned anchor[133]-staleness residual, orchestrator-side, not this issue"
+    }
+  }
+}

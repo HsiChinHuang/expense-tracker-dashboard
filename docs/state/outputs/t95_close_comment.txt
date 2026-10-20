@@ -1,0 +1,15 @@
+t95 - the deploy-hook secret residual this issue records is DISCHARGED. This is the bundled evidence comment for the close; the close itself is orchestrator-side platform maintenance in the merge window, so this issue stays OPEN until that window runs.
+
+What changed since this issue was opened, cited by path (the repo, not this comment, is the authority for every count):
+
+A3 - a real deploy run consumed the secret. workflow_run 39197889153 (deploy job 117884490139, head_sha 0c3dd6d6098cdf07aa1343593f5bcd83523ce894) completed with conclusion success. Record: docs/state/outputs/t92_deploy_evidence.json. Banked GitHub job log: docs/state/outputs/t92_evidence/deploy_run_39197889153_job_117884490139.txt.
+
+B1a - the security register stopped recording a 404. docs/criteria/security_ops_verification.md now carries DEFERRAL_REGISTER 4 DEFERRED (was 5) and a VERIFIED_ROW LIVE_DEPLOYMENT_STATE row naming record=docs/state/outputs/t92_deploy_evidence.json.
+
+B1b - the docs register moved too. docs/criteria/docs_verification.md now carries DEFERRAL_REGISTER 3 DEFERRED (was 4). Its CHECKS_FAILED 1 line is the separate sanctioned anchor[133]-staleness residual, not this issue.
+
+B2 - the address is published. README.md section Online demo and section Deployment on Render both state the live host https://expense-tracker-dashboard-1qtu.onrender.com.
+
+The pointer file this issue already owned, ops/deployment-health.md (named by the REQ_DEFERRAL_POINTER issue=61 row of docs/criteria/req_coverage_verification.md), carries the same live measurement.
+
+Disclosed limit, repeated from the t92 record rather than hidden: render_log_gap captured=false. No Render API token exists in this environment, so no Render-side build, migration or service log body is asserted or claimed anywhere in this bundle. The GitHub run and job metadata, the banked GitHub job log, and the live health endpoint stand in for those bodies.

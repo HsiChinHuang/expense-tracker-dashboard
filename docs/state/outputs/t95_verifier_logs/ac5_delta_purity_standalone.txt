@@ -1,0 +1,19 @@
+# standalone replay of ac5's delta-purity leg (ac5 exits early at the 214 premise
+# defect so the leg is never reached inside the fence). Verbatim case block from
+# the shipped ac5 fence, executed on the verifier's clean tree at tip 8373eb9.
+set -u
+git diff --name-only HEAD | grep -qx "docs/state/merge_test_index.json" && { echo "ac5 RED: index edited"; exit 1; }
+git diff --name-only HEAD | grep -qx "openapi.yaml" && { echo "ac5 RED: openapi changed"; exit 1; }
+git diff --name-only HEAD | grep -qx "README.md" && { echo "ac5 RED: README touched"; exit 1; }
+git diff --name-only HEAD | grep -qx "backend/scripts/docs_verification.py" && { echo "ac5 RED: docs_verification touched"; exit 1; }
+CHANGED=$( { git diff --name-only HEAD; git ls-files --others --exclude-standard; } 2>/dev/null | sort -u )
+BAD=""
+for f in $CHANGED; do
+  case "$f" in
+    docs/issues/t95.md|docs/state/outputs/t95_issue_close_record.json|docs/state/outputs/t95_close_comment.txt|docs/state/outputs/t95_definer_groom.json) : ;;
+    scratch|scratch/*|docs/state/history|docs/state/history/*|build|build/*) : ;;
+    *) BAD="$BAD $f" ;;
+  esac
+done
+[ -z "${BAD// /}" ] || { echo "ac5 RED: delta purity broken - paths changed beyond this card's four named paths:$BAD"; exit 1; }
+echo "ac5 evidence: the delta is the named surface only"

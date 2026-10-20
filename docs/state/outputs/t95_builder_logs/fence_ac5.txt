@@ -1,0 +1,14 @@
+ac5 evidence: tests[3] GREEN as measured at groom
+ac5 evidence: tests[4] GREEN as measured at groom
+ac5 evidence: tests[133] GREEN as measured at groom
+ac5 evidence: tests[187] GREEN as measured at groom
+ac5 evidence: tests[219] GREEN as measured at groom
+ac5 evidence: tests[222] GREEN as measured at groom
+ac5 evidence: tests[223] GREEN as measured at groom
+ac5 evidence: tests[225] GREEN as measured at groom
+ac5 evidence: tests[226] GREEN as measured at groom
+ac5 evidence: tests[279] GREEN as measured at groom
+ac5 evidence: tests[306] GREEN as measured at groom
+ac5 evidence: tests[307] GREEN as measured at groom
+ac5 evidence: tests[308] GREEN as measured at groom
+ac5 RED: tests[214] measured RED at the groom base and is GREEN here - a gate that goes GREEN without this card touching its premise is a premise drift; report it, do not celebrate it
