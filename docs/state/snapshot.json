@@ -1,69 +1,55 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-19T10:03:00Z",
-  "last_seq": 1145,
+  "updated_at": "2026-10-20T07:53:53Z",
+  "last_seq": 1199,
   "slots": [
     {
       "slot_id": "slot_1",
-      "issue_id": "t93",
-      "role": "verifier",
-      "phase": "verify_issue",
-      "run_id": "bd6d23b6-3330-4f64-83b7-350f84c7e744",
-      "spawn_at": "2026-10-19T10:03:00Z",
-      "last_activity_at": "2026-10-19T10:03:00Z",
-      "worktree_path": "C:\\Users\\tw097\\Desktop\\261007_project01\\worktrees\\t93b"
+      "issue_id": null
     },
     {
       "slot_id": "slot_2",
-      "issue_id": null,
-      "role": null,
-      "phase": null,
-      "run_id": null,
-      "spawn_at": "2026-10-19T06:51:18Z",
-      "last_activity_at": "2026-10-19T06:51:18Z",
-      "worktree_path": null
+      "issue_id": null
     }
   ],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [
-    "t92"
-  ],
+  "active_issues": [],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
   "freeze_reason": null,
-  "environment_note": "phase_14 review_plan PASS_WITH_WARNINGS (9 cards #96-#104 eligible). SCHEDULING CONSTRAINTS from review findings: W1 README single-writer - t94(#101) and t96(#103) must never occupy concurrent slots (README.md shared; t96 additionally waits for t94's tests[255] amendment end-state per W2); approved order A1->A2->push/wait->A3->B1a->B1b->B2->B3->D->C stands. Ready set now {t90,t91,t96,t97}; priority grooms t90(#96)+t91(#97) in slots 1-2.",
-  "merges_closed": 58,
-  "index_count": 306,
+  "environment_note": "Main checkout clean at f8f13ab; worktrees removed (t94b,t94pm,t95b,t96b), 146 merged local branches pruned, build/t69_orch+t70_orch pollution deleted. .env quarantine at scratch/env_quarantine_t94post (copy in/out around platform calls). Platform CLI: cmd.exe /d /c npx tsx scripts/platform.ts (WSL node cannot run .ts directly).",
+  "merges_closed": 98,
+  "index_count": 318,
   "milestones": [],
   "closed": [
-    "t57",
-    "t58",
-    "t59"
+    "t90",
+    "t91",
+    "t92",
+    "t93",
+    "t94",
+    "t95",
+    "t96",
+    "t97",
+    "t98"
   ],
   "merged_issues": 4,
   "milestone": "phase_14_render_live_closeout",
-  "main_tip_sha": "ae0e46a",
-  "merge_history_entries": 84,
+  "main_tip_sha": "f8f13ab",
+  "merge_history_entries": 98,
   "closed_issues": [
-    75,
-    76,
-    77,
-    78,
-    79,
-    80,
-    81,
-    82,
-    83,
-    84
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    61
   ],
-  "open_cards": {
-    "t85": "VERIFIED (ff4d6cf0) - merge queue AFTER t86->t87",
-    "t86": "building (builder 2234f049); MERGE FIRST",
-    "t87": "todo (groom after t86 merge; binding input = t86 refreshed findings)",
-    "t88": "todo (W1)",
-    "t89": "todo (W2, README<=500)"
-  },
-  "last_wal_seq": 1095,
-  "milestone_state": "phase_13_ops_security_hardening COMPLETE 15/15; operator-pending follow-ups t80-harness-url, t86-ac2-wording, t84-ac3-prose, semgrep-makefile-pin, builder-task-wording (approval required, NOT started)"
+  "open_cards": {},
+  "last_wal_seq": 1199,
+  "milestone_state": "phase_14_render_live_closeout COMPLETE 9/9 (t90 #96, t91 #97, t92 #98, t93 #99, t98 #100, t94 #101, t95 #102+#61, t96 #103, t97 #104) - all merged+closed, origin/main f8f13ab, zero open issues. Baseline for future sweeps: frozen-33 = frozen36 MINUS {250,254,257} (t96 recorded change). Known sweep-pollution classes: leg 217 RED when .env present (remove .env after platform calls); leg 214 RED on build/-dir or card-location pollution (clean checkouts GREEN). OPEN FOLLOW-UPS: anchor[133] refresh amendment card; t95 premise-defect re-groom amendment card (214 matrix / node_modules allowlist / 255 stale as-stored pin)."
 }
