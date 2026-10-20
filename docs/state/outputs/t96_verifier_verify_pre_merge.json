@@ -1,0 +1,422 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t96",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - full 318-leg verbatim sweep on merged main (merge commit 7e39de7, parents d8a9866 amendment-application + 89adc92 builder tip; HEAD e40ea5b advances main only by the WAL bookkeeping commit, product paths byte-identical 7e39de7->HEAD): raw 284 GREEN / 34 RED / rc128=0; reconciled 285 GREEN / 33 RED. The reconciled RED set is SET-EQUAL to the frozen 36 MINUS {250, 254, 257}: the disclosed first-ever baseline size change 36 -> 33, an improvement (GREEN is never a regression), recorded explicitly below with per-leg causal evidence. Leg 214 raw RED is an environment-pollution artifact (pre-existing gitignored build/t69_orch + build/t70_orch leftovers dated 2026-10-16 in the MAIN checkout, plus a scratch README this verifier created mid-sweep); re-run on a clean git archive of HEAD it is GREEN rc=0 (links checked=67). Zero new failures, zero regressions, zero rc128, zero NO_CMD. Card fences on merged HEAD: ac1/ac2/ac4/ac5 rc=0; ac3 and ac6 rc=1 ONLY on their state-transition legs (disclosed, each proven rc=0 on the equivalent state). ac_hash 5608a09b...0dd892a5 recomputed MATCH. MERGE VERDICT: PASS comment posted on issue #103, read back byte-equal (4041 bytes). This verdict GATES THE PUSH; pushes remain held per orchestrator instruction.",
+    "cumulative_tests": {
+      "total": 318,
+      "passed": 285,
+      "failed": 33
+    },
+    "smoke_tests": {
+      "total": 6,
+      "passed": 4,
+      "failed": 2
+    },
+    "failed_tests": [
+      {
+        "test": "tests[139] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[140] (t27)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[161] (t36)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[162] (t36)",
+        "error_summary": "make: *** [Makefile:119: security-gitleaks] Error 1"
+      },
+      {
+        "test": "tests[163] (t37)",
+        "error_summary": "gitleaks findings: 21 - zero-leak BLOCKING invariant broken"
+      },
+      {
+        "test": "tests[164] (t37)",
+        "error_summary": "ac2 evidence: pip-audit parsed summary count=3 finding-table lines=3"
+      },
+      {
+        "test": "tests[166] (t37)",
+        "error_summary": "parsed 46 distinct finding ids from the two audit reports"
+      },
+      {
+        "test": "tests[167] (t37)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[174] (t38)",
+        "error_summary": "trivy provenance: introducing commit message records no 0.75.0 version"
+      },
+      {
+        "test": "tests[175] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[177] (t38)",
+        "error_summary": "rc!=0, no captured output"
+      },
+      {
+        "test": "tests[180] (t40)",
+        "error_summary": "ac3: accepted-limitation rows=13, REQ-SEC-110 requires EXACTLY 12 (counted over the limitation rows of this document only)"
+      },
+      {
+        "test": "tests[181] (t40)",
+        "error_summary": "ac4: gitleaks findings 21 - the zero-leak invariant is broken, a real leak may never be registered away"
+      },
+      {
+        "test": "tests[188] (t47)",
+        "error_summary": "ac1: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[190] (t47)",
+        "error_summary": "ac3 RED: freeze-scope drift is [backend/app/main.py,backend/app/models/budget.py,backend/app/scripts/seed_demo.py,backend/app/services/category_service.py,backend/app/services/expense_servic"
+      },
+      {
+        "test": "tests[191] (t47)",
+        "error_summary": "ac4 RED: README drifted"
+      },
+      {
+        "test": "tests[192] (t47)",
+        "error_summary": "ac5: docker daemon unreachable - open the daemon window, do not skip"
+      },
+      {
+        "test": "tests[204] (t54)",
+        "error_summary": "ac2 RED: stored tests[139] (t27) FAILED on this workflow - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[216] (t55)",
+        "error_summary": "ac2 RED: stored tests[139] (t27) FAILED - the byte-pinned t26/t27 contract is broken | ac2 RED: stored tests[140] (t27) FAILED - the byte-pinned t26/t27 contract is broken"
+      },
+      {
+        "test": "tests[227] (t59)",
+        "error_summary": "ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone"
+      },
+      {
+        "test": "tests[230] (t62)",
+        "error_summary": "ac6 RED: the branch delta touches files outside the ownership envelope (root package.json / package-lock.json, scripts/dev/**, docs/issues/**, docs/state/outputs/**): README.md backend/scrip"
+      },
+      {
+        "test": "tests[231] (t63)",
+        "error_summary": "t63-pin3 RED: README digest moved off pin-3"
+      },
+      {
+        "test": "tests[258] (t71)",
+        "error_summary": "ac4 RED: the regenerated report does not end in ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[259] (t72)",
+        "error_summary": "ac7 RED: the regenerated report does not end ALL_CHECKS_PASS - the documentation verifier is RED on this tree"
+      },
+      {
+        "test": "tests[272] (t80)",
+        "error_summary": "ac1 RED: bash -n rejects the collector - a script with a syntax error cannot collect anything"
+      },
+      {
+        "test": "tests[274] (t80)",
+        "error_summary": "ac3 RED: --dry-run printed no dry-run line - the dry run is the leg that proves the plan without touching anything"
+      },
+      {
+        "test": "tests[275] (t80)",
+        "error_summary": "ac4 RED: --print-manifest produced no document - the manifest is the self-describing half of the bundle and t84s evidence.json is this files measured content, never a hand-written restatemen"
+      },
+      {
+        "test": "tests[276] (t78)",
+        "error_summary": "ac1 RED: service.name is not the pinned SERVICE_NAME constant expense-tracker-api - the three attribute VALUES are pinned by this card, not invented in code"
+      },
+      {
+        "test": "tests[289] (t82)",
+        "error_summary": "ac3 RED: the probe exited non-zero - its own ac3 RED lines above name the failing leg"
+      },
+      {
+        "test": "tests[290] (t82)",
+        "error_summary": "ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg"
+      },
+      {
+        "test": "tests[294] (t77)",
+        "error_summary": "ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg (RED at base by design: at BASE 09bca7c observability/ holds only the four merged t75 and t76 files READ"
+      },
+      {
+        "test": "tests[296] (t83)",
+        "error_summary": "ac2 RED: the probe exited non-zero - its own ac2 RED lines above name the failing leg"
+      },
+      {
+        "test": "tests[309] (t86)",
+        "error_summary": "ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg"
+      }
+    ],
+    "sweep_raw": {
+      "total": 318,
+      "green": 284,
+      "red": 34,
+      "rc128": 0,
+      "no_cmd": 0,
+      "raw_red_set": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        214,
+        216,
+        227,
+        230,
+        231,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "reconciled_red_set": [
+        139,
+        140,
+        161,
+        162,
+        163,
+        164,
+        166,
+        167,
+        174,
+        175,
+        177,
+        180,
+        181,
+        188,
+        190,
+        191,
+        192,
+        204,
+        216,
+        227,
+        230,
+        231,
+        258,
+        259,
+        272,
+        274,
+        275,
+        276,
+        289,
+        290,
+        294,
+        296,
+        309
+      ],
+      "tsv": "scratch/t96pm/out/results.tsv",
+      "log": "scratch/t96pm/out/sweep.log",
+      "harness": "scratch/t96pm/sweep.sh - commands VERBATIM from docs/state/merge_test_index.json, native git (no shim class in this checkout), NO .env during the entire sweep"
+    },
+    "baseline_size_change": {
+      "first_ever_baseline_size_change": true,
+      "from": 36,
+      "to": 33,
+      "legs_leaving_frozen_set": [
+        250,
+        254,
+        257
+      ],
+      "per_leg_evidence": {
+        "250": "amended leg; sweep rc=0, last line 'ac1 GREEN: SEVEN-COMMAND RUN-LOCALLY FLOW WITH A CONTIGUOUS 0..8 NUMBERING (env-copy step removed by t96)' - the disclosed intended consequence of the re-premise",
+        "254": "sweep rc=0, last line 'ac2 GREEN: CARRIED-GATE REPLAY - all twenty-two README-scoped stored gates ... 242-252 ... passed'; CAUSAL PROOF: on a clean archive of merged HEAD with the PRE-amendment index (bytes at 89adc92) swapped in, leg 254 measures rc=1 naming the RED carried set [232 242 244 245 246 247 248 250 251] - recovery is caused by the {232,250} amendment, exactly the card's flip-set disclosure",
+        "257": "sweep rc=0, last line 'ac2 GREEN: 25 of 25 carried README-touching stored gates rc=0 VERBATIM'; CAUSAL PROOF: same pre-amendment-index archive run measures rc=1 naming the old npm-first premise - recovery caused by the amendment"
+      },
+      "tension_resolution": "The verify_issue post_merge_expectation said '35 RED / 283 GREEN' AND simultaneously said 254/257 recover; those two statements are arithmetically inconsistent. The sweep measured 254/257 GREEN, so the truth is 36 - {250,254,257} = 33 RED / 285 GREEN. The builder merge-window replay logs (merge_window_leg_254.txt / _257.txt GREEN) AGREE with this sweep; they were not a different-state artifact. The 35/283 figure was the expectation's arithmetic slip (it subtracted only 250 while asserting 254/257 recovery), not a measurement conflict.",
+      "new_baseline_recorded": "33-RED set = frozen36 MINUS {250,254,257}: 139,140,161,162,163,164,166,167,174,175,177,180,181,188,190,191,192,204,216,227,230,231,258,259,272,274,275,276,289,290,294,296,309"
+    },
+    "leg_214_pollution_class": {
+      "classification": "ENVIRONMENT POLLUTION, NOT A PRODUCT REGRESSION",
+      "detail": "Leg 214 (t51 repo-wide relative-link gate) walks every .md under the checkout root. Its raw RED named TWO pollution sources: (a) build/t69_orch/*.md and build/t70_orch/*.md - pre-existing gitignored orchestrator leftovers dated 2026-10-16, present in the MAIN checkout only (the builder and verify_issue sweeps ran in worktrees/t96b which has no build/*_orch dirs - that is why both prior sweeps recorded 214 GREEN); (b) scratch/t96pm/ac3tree/README.md - a scratch tree THIS verifier created mid-sweep for the ac3 equivalent-state proof. Reproduction: re-run in the main checkout AFTER removing my scratch tree still measures rc=1 from the build/ leftovers alone; re-run on a clean git archive of HEAD measures rc=0 GREEN.",
+      "evidence": {
+        "clean_archive_rerun_rc": 0,
+        "clean_archive_log": "scratch/t96pm/out/leg214_clean_archive_rerun.log",
+        "main_checkout_after_scratch_removal_rc": 1,
+        "main_checkout_log": "scratch/t96pm/out/leg214_main_checkout_after_scratch_removal.log",
+        "builder_sweep_214": "rc=0 (worktrees/t96b)",
+        "verify_issue_sweep_214": "rc=0 (worktrees/t96b)"
+      },
+      "remediation": [
+        "scratch/t96pm/ac3tree and ac6tree moved out of the repo to /tmp",
+        "no tracked file was ever touched by the scratch trees (both lived under gitignored scratch/)",
+        "the build/t69_orch and build/t70_orch leftovers are NOT this verifier's output and were NOT deleted (read-only role); flagged for orchestrator-side cleanup - every future full sweep in the MAIN checkout will false-RED leg 214 until they are removed"
+      ]
+    },
+    "merge_state_readback": {
+      "merge_commit": "7e39de74aa866c5bea4ed8e9d5f2eddc1c249e43",
+      "merge_parents": [
+        "d8a98662877ab33c0d8a3a27cf86e543924389a6 (amendment commit, parent edc3dcf)",
+        "89adc925c377e605c9e4c455d4de9056c5d043eb (builder tip: product c296484 + builder handoff bebc069 + verifier handoff 89adc92)"
+      ],
+      "head": "e40ea5be0a53a3e9a290221fde50e17cc9b9b412 (main; WAL 1191-1192 bookkeeping commit on top of the merge; product paths byte-identical 7e39de7->HEAD)",
+      "origin_main": "edc3dcf190716f81ea6306938d6dc1ba63b6eca5 (pushes HELD, untouched)",
+      "branch_ref_disclosure": "refs/heads/issue/t96-run-locally-token still exists at 89adc92 because worktrees/t96b remains registered (prunable). The dispatch said the branch is consumed; the ref is merged into HEAD (merge-base --is-ancestor confirms) and harmless, but it was NOT deleted - disclosed, not touched.",
+      "index_entries": 318,
+      "index_blob_head": "530b665e8e67fdd9dd7ccdf703a092a5beac2b31",
+      "tests_232": "command sha b8ee6d5bec7f1ed48e365578978813731622c855119b3a2bfe6eccdb448ae61a MATCH record new_command_sha256; entry_sha 42f3d8a4a78c14c42ee021283815eea08748aaf83064a819ef1f308de8e6a4a6 MATCH record entry_sha_after (esha recipe json.dumps(separators=(',',':')))",
+      "tests_250": "command sha b2a9000297369b6f15a34dcaf1b82b96878763785ff51dab50362c457b5b0821 MATCH record new_command_sha256; entry_sha f4024ccd2206238e5e776dfb914fc256ed0acc5b5b6bcf472a14753fc1d7d914 MATCH record entry_sha_after",
+      "tests_251": "untouched: command sha b5c2c6587aadde122426bd3e39e40276ee26da61844535cd0a81f529448d0543, entry_sha_before==after==shipped bd6ce38b958b...",
+      "tests_255": "carries t94's f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9, entry_sha 1878e29d83e0...",
+      "tests_243_252": "measured-unchanged record shas and entry shas MATCH shipped bytes",
+      "merge_window_delta": "entries differing pre(89adc92)->post(HEAD): EXACTLY [232, 250]; independent reconstruction re-derives both shipped entries byte-for-byte forward AND reverse from the record's replaced_regions with from-text uniqueness, and the reconstructed full entries (all fields) equal the shipped entries (PROOF A, scratch/t96pm run log)"
+    },
+    "pin_remeasures": {
+      "readme_lines": 396,
+      "readme_digest_lf_sha256": "15b244135126b7051a1601b773b966d698b7ac50898d8da959a8fe59abfe3e20",
+      "measured_from": "git blob at HEAD AND the worktree file (both 396 / 15b24413...); git blob 1e8af707b1042f84dc061ea470e1c8a3994f9554",
+      "cp_token_count": "exactly 1, survivor at README.md:338 inside ## Local verification in five minutes",
+      "docs_verification_py_pins": "README_LINES = 396 / README_DIGEST = 15b24413... MATCH",
+      "report": "docs/criteria/docs_verification.md records 'README_MEASURE PASS lines=396 digest=15b24413...' for exactly these bytes; worktree==HEAD blob (7c27158b... LF-normalized)"
+    },
+    "fence_leg_classification": {
+      "ac1": "rc=0 GREEN on merged HEAD",
+      "ac2": "rc=0 GREEN on merged HEAD",
+      "ac3": "rc=1 on merged HEAD ONLY on the anti-half-edit HEAD leg ('README_DIGEST equals the digest of README.md at HEAD') - unsatisfiable at merged HEAD BY CONSTRUCTION because HEAD:README.md IS the candidate after the merge. The RED line is byte-identical (LF-normalized, sha 8129b027...) to the builder's committed post-commit log fence_ac3_post_commit_head_leg.txt, and the fence measures rc=0 GREEN on the equivalent candidate state (synthetic tree: HEAD=base 1f6fb4eb, worktree=merged candidate bytes; prints 'pin moved off ... HEAD README is 399/16426cc0..., the candidate is 396/15b24413...'). The verify_issue handoff pre-disclosed exactly this ('at the product tip the same fence exits 1 ... by design').",
+      "ac4": "rc=0 GREEN on merged HEAD",
+      "ac5": "rc=0 GREEN on merged HEAD - the now-permanent amended-index state: 16 carried README-scoped gates + the 2 amended gates (232/250) all replay GREEN, delta purity clean",
+      "ac6": "rc=1 on merged HEAD ONLY on the stale-check leg ('STALE AMENDMENT - tests[232] ships command sha b8ee6d5bec7f ... but the record expects d85b19d67553') - the fence's validity condition is the PRE-application index; post-application the index legitimately carries the recorded NEW bytes, i.e. the RED message is the fingerprint of the apply SUCCEEDING. The fence measures rc=0 GREEN against the pre-merge index bytes (89adc92 copy in a scratch tree: 'ac6 GREEN: GATE-AMENDMENT RECORD SOUND ... 22 negative-control legs'), and PROOF A independently re-derives the shipped 232/250 entries byte-for-byte both directions with entry_sha_after matching. Same state-transition class as the ac3 HEAD-leg disclosure the dispatch itself anticipated; the dispatch's 'expect 6/6 rc=0' was unattainable for ac6 by the card's own design, disclosed rather than masked.",
+      "fence_rcs": {
+        "ac1": 0,
+        "ac2": 0,
+        "ac3": 1,
+        "ac4": 0,
+        "ac5": 0,
+        "ac6": 1
+      },
+      "fence_logs": [
+        "scratch/t96pm/out/fence_ac1_pm.txt",
+        "scratch/t96pm/out/fence_ac2_pm.txt",
+        "scratch/t96pm/out/fence_ac3_pm.txt",
+        "scratch/t96pm/out/fence_ac4_pm.txt",
+        "scratch/t96pm/out/fence_ac5_pm.txt",
+        "scratch/t96pm/out/fence_ac6_pm.txt",
+        "scratch/t96pm/out/fence_ac3_merged_candidate_precommit_equiv.txt",
+        "scratch/t96pm/out/fence_ac6_premerge_index_equiv.txt"
+      ]
+    },
+    "ac_hash_reproduction": {
+      "recomputed": "5608a09b8d997f16eefea65805e688a8f5478762c804ebf7bc855c6f0dd892a5",
+      "match": true,
+      "method": "six ```bash blocks of docs/issues/t96.md in ac1..ac6 order, each CR-stripped and trimmed, hashed as sha256(json.dumps(blocks, separators=(',',':'))) - the t58/t62..t94 recipe recorded in the definer groom handoff; block lengths 3776/2395/4740/1594/4534/7541 equal the verify_issue record"
+    },
+    "red_classification": {
+      "count": 33,
+      "new_vs_frozen_baseline": [],
+      "regressions": [],
+      "families": {
+        "security_audit (frozen)": "139,140,161,162,163,164,166,167,174,175,177,180,181 (gitleaks 21 findings, pip-audit, trivy provenance)",
+        "docker_daemon_env (frozen)": "188,192",
+        "stored_contract_cascade (frozen)": "204,216",
+        "freeze_scope_and_pinned_digests_U5 (frozen)": "190,191,227,231 - this card moved the README pins and must not, and does not, claim them fixed",
+        "ownership_envelope (frozen)": "230",
+        "anchor133_orchestrator_maintenance (frozen)": "258,259 - regenerated report ends CHECKS_FAILED 1 with the sanctioned anchor[133] drift as the only failing check (258 evidence line shows README_MEASURE PASS for the new 396/15b24413 pins)",
+        "observability_probe_family (frozen)": "272,274,275,276,289,290,294,296,309"
+      }
+    },
+    "run_context": {
+      "venv": "[VENV_UNAVAILABLE] WARN: UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty in this spawn. Fallback per mode doc: PATH includes $HOME/.local/bin (Linux uv 0.12.13); backend/.venv present. No command string modified.",
+      "git_access": "NATIVE git 2.43.0 in the main checkout (real .git dir; no shim class, rc128=0 across all 318 legs). Read-only throughout: no checkout of other revisions in the main checkout, no merge, no push, no index edit, no code/test/issue modification. The only git writes were the final commit of this handoff JSON.",
+      "env_quarantine": "NO .env during the entire 318-leg sweep and all fence runs. The platform bridge needed .env twice (comment post, read-back), both AFTER the sweep; each window copied worktrees/t98b/.env (gitignored), removed it immediately after, and restored docs/criteria/ to committed bytes (tracked-dirt=0; agent_pack 9a19cfcc..., docs_verification 1fd28055..., req_coverage 9ebfc949... all equal the pre-sweep snapshot). Leg 217 measured GREEN rc=0 IN-SWEEP with three digests equal a14af7cd... - the 5th-occurrence .env pollution class did NOT fire.",
+      "cwd": "C:/Users/tw097/Desktop/261007_project01/expense-tracker-dashboard (main checkout), branch main"
+    },
+    "platform": {
+      "verdict_comment": {
+        "posted": true,
+        "quote_free": true,
+        "bytes": 4041,
+        "sha256": "70db1f993d51d0c44801d169ce44d1790863ec358a18992ef061e38f646b03b4",
+        "read_back_byte_equal": true,
+        "draft": "scratch/t96pm/out/verdict_comment.md",
+        "readback": "scratch/t96pm/out/comment_readback.json"
+      },
+      "labels": "unchanged: [verified] stays; no label action in this phase",
+      "issue_state": "#103 left OPEN per orchestrator instruction (do NOT close)",
+      "bridge": "Windows node (D:/Program/nodejs/node.exe) driving node_modules/tsx/dist/cli.mjs from WSL with the body as a real argv element (verify_issue precedent)"
+    },
+    "protected_bytes": "No product byte, test, issue body, openapi.yaml, gate index entry or amendment record was modified. docs/criteria reports at committed bytes. merge_history.json untouched. origin/main untouched (edc3dcf). Zero staged files.",
+    "tree_state_at_handoff": {
+      "tracked_dirt": [],
+      "staged": [],
+      "env_present": false,
+      "criteria_reports_at_committed_bytes": {
+        "agent_pack_verification.md": "9a19cfcc76bd0eaf99f70ba0913f7271064f95ef251fe37269e8d1e9c46a9f9a",
+        "docs_verification.md": "1fd280554bf47008a297112ac32426b05714681c1716621636b0ef7a7d904386",
+        "req_coverage_verification.md": "9ebfc949940f940608b45ae426c21ad72e5fc7b037b69d10917a8cdb6ebae0a1"
+      },
+      "head": "e40ea5b + this handoff commit",
+      "residue_flag": "build/t69_orch/ and build/t70_orch/ (gitignored, dated 2026-10-16, NOT verifier output) remain in the main checkout and will false-RED leg 214 in every future main-checkout sweep until orchestrator-side cleanup."
+    },
+    "verification_commands_source": "docs/issues/t96.md#verification-commands",
+    "candidate": "7e39de74aa866c5bea4ed8e9d5f2eddc1c249e43 (merge) / HEAD e40ea5b product-identical",
+    "milestone": "phase_14_render_live_closeout",
+    "notes": [
+      "Smoke set: docs/plan.md has no '## Smoke tests' section, so per the mode-doc fallback the smoke set is the six t96 AC fences executed from the merged checkout root (t94pm precedent): 4 rc=0; ac3/ac6 rc=1 on the disclosed state-transition legs only, each proven rc=0 on the equivalent state.",
+      "The dispatch's 'expect 6/6 rc=0' for the fences is unattainable post-application for ac3 (HEAD-leg) and ac6 (stale-check) by the card's own design; both were run honestly, logged, and backed by equivalent-state rc=0 proofs rather than masked.",
+      "Scratch trees ac3tree/ac6tree were moved to /tmp after their evidence runs to stop them polluting repo-walking gates."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t96_verifier_verify_pre_merge.json",
+      "scratch/t96pm/sweep.sh",
+      "scratch/t96pm/reconcile.py",
+      "scratch/t96pm/fence_ac1.sh",
+      "scratch/t96pm/fence_ac2.sh",
+      "scratch/t96pm/fence_ac3.sh",
+      "scratch/t96pm/fence_ac4.sh",
+      "scratch/t96pm/fence_ac5.sh",
+      "scratch/t96pm/fence_ac6.sh",
+      "scratch/t96pm/out/results.tsv",
+      "scratch/t96pm/out/sweep.log",
+      "scratch/t96pm/out/fence_ac1_pm.txt",
+      "scratch/t96pm/out/fence_ac2_pm.txt",
+      "scratch/t96pm/out/fence_ac3_pm.txt",
+      "scratch/t96pm/out/fence_ac4_pm.txt",
+      "scratch/t96pm/out/fence_ac5_pm.txt",
+      "scratch/t96pm/out/fence_ac6_pm.txt",
+      "scratch/t96pm/out/fence_ac3_merged_candidate_precommit_equiv.txt",
+      "scratch/t96pm/out/fence_ac6_premerge_index_equiv.txt",
+      "scratch/t96pm/out/leg214_clean_archive_rerun.log",
+      "scratch/t96pm/out/leg214_main_checkout_after_scratch_removal.log",
+      "scratch/t96pm/out/red_summaries.json",
+      "scratch/t96pm/out/ac_hash_pm.txt",
+      "scratch/t96pm/out/verdict_comment.md",
+      "scratch/t96pm/out/comment_post_raw.json",
+      "scratch/t96pm/out/comment_readback.json",
+      "scratch/t96pm/out/presweep_head.txt",
+      "scratch/t96pm/out/presweep_status.txt",
+      "scratch/t96pm/out/presweep_criteria_sha.txt"
+    ],
+    "platform_issue": 103,
+    "output_path": "docs/state/outputs/t96_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T05:28:09Z",
+  "retry_count": 0
+}
