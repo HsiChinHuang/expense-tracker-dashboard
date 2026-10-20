@@ -1,0 +1,156 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t101",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t101-premise-record",
+    "branch_sha": "c3abb817a75eef35ae07970301a81190f0bde27c",
+    "commit_sha": "c3abb817a75eef35ae07970301a81190f0bde27c",
+    "commit_parent": "e9f1cf1b895b650b298d3c21f7bcd8e20812afc1",
+    "pushed": false,
+    "push_note": "Per the build spawn contract: commit on this branch, do NOT push. The orchestrator integrates the branch tip.",
+    "ac_hash": "sha256:442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9",
+    "ac_hash_recompute": "Recomputed from the card ON DISK with the binding recipe (sha256 over json.dumps of the six fenced ```bash bodies in ac1..ac6 order, each CR-stripped and trimmed, compact separators): 442e6c059abd5557b07393df765212673f5c4b270c288782f001ee319db8dee9 - MATCHES the groom handoff; fence ac6 re-executes the same check and GREENs. No fence was edited.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac1' in docs/issues/t101.md (record schema + verbatim cross-check vs docs/issues/closed/t95.md); run from the repo root",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac2' in docs/issues/t101.md (three-stage B1 control in a throwaway git-archive tree of 06be1e1: 214 GREEN clean, planted build/ broken link RED, restore GREEN); run from the repo root",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac3' in docs/issues/t101.md (255 triple recomputes f5aafe07/1878e29d/7760, 9aac9f0c absent from the index, verbatim replay rc=0); run from the repo root",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac4' in docs/issues/t101.md (frozen-33 exit-code sweep, delta ZERO, bounded t100 258/259 allowance); run from the repo root",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac5' in docs/issues/t101.md (base64-pinned t101_ac5_probe.py: delta purity vs fixed base 06be1e1, closed t95 family byte-clean, WAL append-only prefix, pinned legs recompute, executed purity control); run from the repo root",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "c3abb817a75eef35ae07970301a81190f0bde27c",
+        "test": "bash block under '### ac6' in docs/issues/t101.md (ac_hash recomputed from the six shipped fences vs this handoff; prose digest scan); run from the repo root",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "lint_note": "No Python/TS source was written by this card - the only product file is a JSON record. It parses under json.load (ac1/ac3 execute that parse); ruff has no input to lint on this diff.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The six fences were extracted VERBATIM from the card (the same extraction that reproduces ac_hash 442e6c05) and run as-is from the repository root; no command was substituted, edited, or reordered.",
+    "fence_rc_table": {
+      "columns": [
+        "fence",
+        "base_e9f1cf1_rc",
+        "candidate_rc",
+        "note"
+      ],
+      "rows": [
+        [
+          "ac1",
+          1,
+          0,
+          "RED on base BY DESIGN: 'REC missing or empty - the premise-correction record is this card's whole product'. GREEN with the record."
+        ],
+        [
+          "ac2",
+          0,
+          0,
+          "self-contained three-stage control; GREEN on base and candidate (throwaway tree only)"
+        ],
+        [
+          "ac3",
+          1,
+          0,
+          "RED on base BY DESIGN: ac3 re-checks the B3 record entry against the shipped index. GREEN with the record."
+        ],
+        [
+          "ac4",
+          0,
+          0,
+          "frozen-33 exit-code sweep RED=33 GREEN=0 on BOTH base and candidate - measured delta ZERO; the 258/259 bounded allowance was NOT needed (t100 record absent on this branch)"
+        ],
+        [
+          "ac5",
+          1,
+          0,
+          "RED on base from exactly one leg: 'the premise-correction record ... does not exist'. All other legs (classification, never-touch, WAL prefix, pinned legs, purity control FIRED) already GREEN. GREEN with the record."
+        ],
+        [
+          "ac6",
+          0,
+          0,
+          "read-only groom reproducibility; GREEN on base and candidate"
+        ]
+      ]
+    },
+    "baseline_before_after": {
+      "frozen_33_base": "RED=33 GREEN=0 (rc!=0 by process exit code for all 33 legs; measured BEFORE the record landed)",
+      "frozen_33_candidate": "RED=33 GREEN=0 (measured AFTER the record landed)",
+      "delta": "ZERO - no frozen leg moved; 214/217/255 are OUT of the frozen set and were never swept by ac4",
+      "premise_truth": "tests[214] premise is the CLEAN-CHECKOUT truth (ac2 stage 1 rc=0 on a clean throwaway extraction of 06be1e1), never a pollution RED; the record names build-dir and card-location/scratch pollution as non-premises"
+    },
+    "changes": [
+      "docs/state/outputs/t101_definer_premise_correction.json - NEW (the card's whole product): valid JSON, defects exactly {B1,B3}; base_sha 06be1e1f069a72f9266ce0fe03a4e0254731a091; target_closed_card t95; closed_artifacts_edited false; platform_issue 107. B1: superseded_premise_verbatim = the closed t95 ac5 RED-expectation loop block (contains 'for i in 214 230 258 309; do'), corrected_premise = 214 GREEN-on-clean-checkout (observed_rc_clean_checkout 0, triple 68bad4af/f2cc770b/3213, three-stage negative control, node fs/path version-independence disclosure), pollution_non_premises names BOTH classes (build-directory leftovers; card-location/scratch dirt incl. the 217/.env class). B3: superseded_premise_verbatim = the t95 ac6 pin-table rows '255 (as stored)' (9aac9f0c...) + '255 (t94 recorded)', corrected_premise = the post-t94 triple f5aafe07/1878e29d/7760 is authoritative (observed_rc 0), superseded_pin 9aac9f0c/487b30e2/7945, superseded_by t94, index_amendment.applied_by orchestrator_in_strict_merge_window. Both superseded premises were EXTRACTED programmatically from docs/issues/closed/t95.md (read-only) so they are byte-verbatim; ac1 cross-checks substring membership.",
+      "docs/state/outputs/t101_builder_build.json - this handoff (second commit on the branch)."
+    ],
+    "files_written": [
+      "docs/state/outputs/t101_definer_premise_correction.json",
+      "docs/state/outputs/t101_builder_build.json"
+    ],
+    "immutability_evidence": {
+      "closed_artifacts_edited": false,
+      "index_touched_by_builder": false,
+      "index_byte_identical_to_base": "ac5 never-touch leg: docs/state/merge_test_index.json matches the base bytes; tests[214]/tests[255] recompute to the pinned 68bad4af/f2cc770b/3213 and f5aafe07/1878e29d/7760 triples under the binding recipes",
+      "t95_family": "docs/issues/closed/t95.md and the whole docs/state/outputs/t95_* family byte-clean against the base (ac5 never-touch leg GREEN on the candidate)",
+      "readme_openapi_backend_tests": "README.md, plan, requirements, backlog, openapi.yaml, backend/, frontend/, scripts/, tests/, .github/ untouched - ac5 classification: 3 allow-listed paths (card, groom handoff, record), 14 ANCESTOR_YES (survey/review_plan/ingest family from 06be1e1), 0 UNACCOUNTED, purity control FIRED on the planted docs/PURITY_CONTROL_t101.md and its cleanup leg removed the plant",
+      "wal": "docs/log/orchestrator_wal.jsonl append-only against the base: 191253 base bytes are a strict prefix, 7364 bytes appended since the base (pre-existing sibling ingests; this builder commit appends nothing)"
+    },
+    "disclosures": [
+      "premise tension recorded, never fabricated: the record states the CLEAN-CHECKOUT truth for 214 (ac2 EXECUTED rc=0 clean, planted-dirt RED, restore GREEN) and the shipped-index-authoritative truth for 255; it does not pretend t95's fences were right, and it does not dismiss the leg - the executed negative control proves 214 still bites on real broken links.",
+      "ac4's bounded 258/259 allowance (t100-first-merge tolerance) was NOT exercised on this branch: the sweep measured RED=33 GREEN=0 with T100=absent on both base and candidate. If t100 merges first, ac4's GREEN-branch re-adjudicates 258/259 against t100's record; nothing in this card's surface touches those legs.",
+      "platform label transition SKIPPED on purpose: the standard implement step-10 (remove groomed / add built) collides with this card's hard Constraint and Out-of-scope text ('Do not close, comment on, or relabel any pre-existing platform issue'; 'Platform writes'). The dispatch sanctioned only the build comment on #107. Issue #107 still carries labels=['groomed'], state open - the orchestrator owns the transition.",
+      "platform comment posted via scripts/platform.ts through Windows node (D:/Program/nodejs/node.exe v24.16.0) driving node_modules/tsx/dist/cli.mjs: the WSL npx tsx path fails on this worktree with the esbuild win32-x64 vs linux-x64 platform-binary error (the junction points at the Windows real tree), and raw 'npx' would truncate a multi-line body at the first newline (the t92 precedent). rc=0, read-back body starts with the full header.",
+      ".env was copied from the main checkout's scratch/env_quarantine_t94post for the single platform comment call and REMOVED immediately after; verified absent (git status clean, no .env in the worktree) before finishing. The checkout carries no .env at the tip commit.",
+      "git discipline: cmd.exe one-op-per-call throughout (this worktree's .git pointer is a Windows-format path that WSL git cannot follow); commits made with -F message files; HEAD and status read back after each op; no push, no merge, no force.",
+      "build/ and scratch/ pollution: the pre-existing gitignored build/ and scratch/ directories in this checkout were NOT written by this card or by any fence (ac2 writes only to a temp-dir throwaway tree; ac5's only write is the planted docs/PURITY_CONTROL_t101.md which its own cleanup removes). node_modules directories are junctions pre-installed by the environment and are gitignored (verified via git check-ignore .gitignore:85)."
+    ],
+    "residual_risks": [
+      "The record's prose fields are builder-authored within the definer-pinned contract that ac1 enforces field-by-field; if the definer wants different corrected-premise wording (not merely the pinned fields), that is a post-build editorial matter - the contract itself is satisfied and cross-checked.",
+      "ac2/ac4 timings: ac2 ~2 min (two full 214 replays through the cmd.exe archive bridge), ac4 ~5 min (33 legs). A verifier on a polluted tree (build/ or scratch/ dirt) may see ac2 stage 1 or leg-214-class checks fire for pollution reasons - the card names that class as a non-premise and the verifier should sweep clean first (B2/t102 territory).",
+      "If t100 merges before this branch is integrated, ac4 must be re-run at the combined tip; the card's bounded allowance handles it, but the rc table above was measured with t100 absent."
+    ],
+    "notes": "Definition of Done mapping: record exists/valid/exactly {B1,B3} with both premises verbatim in closed t95.md (ac1 GREEN); 214 EXECUTED rc=0 clean + three-stage control EXECUTED + both pollution classes named non-premises (ac2 GREEN); 255 EXECUTED rc=0, authoritative triple recomputed, superseded triple named and proven absent (ac3 GREEN); zero closed-artifact edits, index byte-clean, WAL append-only, delta purity with executed control FIRED (ac5 GREEN); frozen-33 measured delta ZERO before/after table in fence_rc_table/baseline_before_after (ac4 GREEN); ac6 reproduces the groom digest. Handoff committed on-branch; no push; no index edit; no closed-artifact edit; no label op.",
+    "branch_tip_note": "branch_sha records the product commit (the t98 sibling convention); this handoff JSON is committed as its own follow-up commit on the same branch - read the branch tip for the exact handoff commit sha."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t101_definer_premise_correction.json",
+      "docs/state/outputs/t101_builder_build.json"
+    ],
+    "platform_issue": 107,
+    "output_path": "docs/state/outputs/t101_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T11:25:46Z",
+  "retry_count": 0
+}
