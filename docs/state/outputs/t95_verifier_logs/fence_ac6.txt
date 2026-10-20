@@ -1,0 +1,2 @@
+ac6 RED: STALE PIN - the handoff pins tests[255] command sha 9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e but the shipped index says f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9. The orchestrator merge-window stale-check must fail here; a re-groom amendment follows, nobody guesses bytes
+ac6 rc=1

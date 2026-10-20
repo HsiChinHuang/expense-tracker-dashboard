@@ -1,0 +1,6 @@
+ac4 evidence: the open set is [61, 102, 103] - #61 open (close is orchestrator-side), #102 open and labelled groomed
+ac4 evidence: zero closed issues carry blocked-on-operator, so #61 is the only residual of its kind and the only one this card can be discharging
+ac4 evidence: #61's newest comment is t95's
+ac4 evidence: #102's newest comment is the t95 groom ratification
+ac4 GREEN: SCOPE DISCIPLINE HOLDS - #61 open and last-written by t95 only, #102 labelled groomed with its own single ratification comment, no other issue touched, and #61 is the only blocked-on-operator residual in the tracker
+ac4 rc=0
