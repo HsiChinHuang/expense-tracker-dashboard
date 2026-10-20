@@ -2281,3 +2281,130 @@ Measured base state, AC draft, Dependencies, Constraints, DoD template) with the
 rulings and hard constraints embedded; Context, Out of scope, the fenced ACs and
 the `ac_hash` are authored at groom. No survey AC draft is fenced and no survey
 card claims a digest.
+
+
+## phase_15_gate_amendments - Gate-premise amendments: the anchor[133] refresh debt and the t95 option-A premise defects (operator authorization, WAL 1201)
+
+**Origin and scope statement (read this first).** Phase_14 closed with all nine
+cards (t90-t98) merged and closed, and with two classes of work deliberately
+DEFERRED rather than silently absorbed. Both are now operator-authorized
+follow-ups, and both are gate-premise work, not feature work. (1) The
+**anchor[133] refresh debt**: the t90 amendment rewrote the stored command of
+`docs/state/merge_test_index.json` tests[133] (the e2e/deploy workflow-structure
+gate), which changed that entry's canonical JSON and therefore its `entry_sha`.
+The old digest `6e9723e8…` survived in two other stored legs (tests[190],
+tests[191], both t47) and in the in-repo verifier
+(`backend/scripts/docs_verification.py:46`), so the tree has carried a gate that
+asserts a value the index no longer contains ever since t90 - disclosed on every
+merge since, and surfaced as the leg-258 GREEN->RED neighbourhood flip at t98.
+(2) The **t95 option-A premise defects**: t95 shipped COMPLETE under the
+operator-sanctioned option-A ruling with three independently-measured premise
+defects that made its own fences ac5/ac6 RED at merge (WAL 1191, re-measured at
+WAL 1195, confirmed at the merge verdict WAL 1198) - B1 the leg-214 gate matrix
+that premised build-directory pollution as a product RED although 214 is GREEN on
+a clean checkout, B2 the sweep runner's `node_modules` allowlist omission that
+lets copy/junction-class dirt reach verification legs, and B3 the leg-255
+as-stored pin that pinned t94's PRE-amendment triple `9aac9f0c/487b30e2/7945`
+while the shipped index says `f5aafe07…/1878e29d…/7760`.
+
+This milestone adds NO feature, NO endpoint, NO dependency and NO new REQ-ID. It
+touches no closed card, no WAL entry, no pre-existing platform issue, and it does
+not edit `docs/state/merge_test_index.json` - that file is orchestrator-owned
+(pretty, CRLF, in-place amend only) and builder cards deliver **amendment
+RECORDS** the orchestrator applies in the strict merge window (t89/t90/t94/t96
+precedent).
+
+**NEW BASELINE, binding on every card in this milestone.** Since the t96 verdict
+(WAL 1193) the frozen RED set is **33 legs**, not 36: frozen36 MINUS {250, 254,
+257} = {139,140,161,162,163,164,166,167,174,175,177,180,181,188,190,191,192,204,
+216,227,230,231,258,259,272,274,275,276,289,290,294,296,309}. All re-premise
+arithmetic in this milestone uses 33. Two pollution classes are known and must
+never be premised as product REDs: tests[217] is RED when `.env` is present in
+the checkout (`.env` is quarantined at `scratch/env_quarantine_t94post` and
+removed immediately after every platform call), and tests[214] is RED under
+`build/`-directory or card-location pollution while GREEN on a clean checkout.
+
+**Four cards, and why four (the granularity call is the Definer's, per the
+operator's explicit instruction to evaluate whether to split finer).** The
+operator authorized the two workstreams and delegated the split. The survey
+decision is **N = 4**, split by *deliverable and file ownership*, not by defect
+label:
+
+- **t99 (#105)** - the INDEX side of the anchor debt: one coordinated amendment
+  RECORD for tests[190] and tests[191], the two legs that embed the stale
+  `6e9723e8…` byte-pin of tests[133]. Delivered as
+  `docs/state/outputs/t99_definer_gate_amendment.json` for the orchestrator to
+  apply in the merge window. Predicted baseline effect ZERO - neither leg goes
+  GREEN, each is RED for its own unrelated pre-existing reason.
+- **t100 (#106)** - the GENERATOR side: `docs_verification.py`'s own
+  `INDEX_ANCHORS[133]` constant, plus regeneration of the committed report. This
+  is a product-code edit in a different file with a different verification
+  surface, and it is the only card in the milestone with a predicted baseline
+  change (33 -> 32: leg 258 recovers, leg 259 named retired). Depends t99, so the
+  index stops asserting the old digest before the generator stops asserting it.
+- **t101 (#107)** - the t95 fence-premise family (B1 + B3) as one
+  premise-correction RECORD. B1 and B3 are the same defect family: two wrong
+  expectations inside ONE t95 fence artifact (ac5's expectation list, ac6's
+  as-stored pin table). Splitting them into two cards would force two separate
+  re-grooms/ac_hash passes over the same one closed artifact for no added
+  observability; per-defect rigor is preserved by separate ACs and a per-defect
+  record entry, not by separate cards.
+- **t102 (#108)** - B2 as its own card, because its deliverable is a DIFFERENT
+  class: not a t95 fence premise but a pollution-boundary change to the
+  in-repo verifier (`SKIP_DIRS` += `build`, `scratch`) plus a recorded discipline
+  for the orchestrator-side sweep tooling, which is not a repo artifact and is
+  therefore not patchable by any card in this repo.
+
+Splitting further was considered and rejected on measurement: the anchor debt is
+NOT one family (index literal vs generator constant - different files, different
+delivery mechanisms, different baseline effects, so they are two cards, not one),
+and it is NOT finer than two (both halves are single-literal substitutions with a
+single measurable each). B1+B3 are one fence artifact's two premises. B2 is a
+third deliverable class. Four is where the deliverables actually change.
+
+**Single-writer rule.** t100 and t102 both edit
+`backend/scripts/docs_verification.py` and both regenerate
+`docs/criteria/docs_verification.md`. They must never be co-scheduled; t102
+depends on t100. The DAG is therefore t99 -> t100 -> t102 with t101 an
+independent root, and t99 -> nothing else: no other card depends on the index
+record's landing to be verifiable.
+
+**Measured hazards this survey recorded for groom (all re-measured at groom, not
+inherited).** (a) Running `docs_verification.py` on a checkout that contains
+`build/`/`scratch/` payloads produced `LINK_CHECK FAIL broken=14` with EVERY
+break inside a copied tree (`build/t76/repo/…`, `scratch/t95pm/*/…`), lost the
+`OPENAPI_PARITY` line, and flipped the footer `CHECKS_FAILED 1` -> `3`; the
+committed report on a clean tree says `LINK_CHECK PASS files=261 links=67
+broken=0` and `git ls-files '*.md'` = 261, while the walk sees 2116 `*.md` with
+the current `SKIP_DIRS` and 265 once `build`/`scratch` are excluded. That is B2
+reproduced, and it is why t102 exists. (b) `scratch/` is NOT gitignored while
+`build/` is (`.gitignore:185`), so scratch dirt is invisible to ignore-based
+reasoning but fully visible to any tree walk; making `scratch/` gitignored is a
+separate operator decision and deliberately OUT of t102's scope. (c) The
+generator's `STORED-GATES` legs (134/155) need `jsdom`; under WSL's system node
+v18.19.1 they FAIL and the footer reads `CHECKS_FAILED 3`, while on the canonical
+host (native node v24.16.0 via cmd.exe) they PASS 4/4. That is a THIRD
+environment class, newly disclosed here: every rc claim in this milestone is made
+on the canonical host and a WSL-node artifact is disclosed, never reported as a
+product RED. (d) No stored leg pins the `files=`/`links=` counters, the
+`docs_verification.py` digest, or the `entry_sha` of legs {133,190,191,204,216}
+at any prefix length - the survey scanned all 318 commands - so the re-premise
+surface is exactly what these four cards name.
+
+**Verification-command discipline (unchanged, binding on groom).** Every pinned
+fence is self-contained; a delta-purity leg is expressed against a FIXED
+immutable ref (the milestone base `06be1e1`), never "main tip at run time"; no
+fence pins a moving count upward as its only signal; every negative control must
+be EXECUTED, because a re-premise that cannot fail is a relaxation and this
+milestone's whole purpose is re-premise-not-relax; `ac_hash` is authored at GROOM
+by the established recipe (sha256 over the JSON-compact array of the card's
+fenced bash bodies in ac1..acN order, CR-stripped and trimmed) and the survey
+card records the fence count and the recipe, never a digest constant; every
+git/npm/npx call goes through `cmd.exe /d /c "cd /d . && <one command>"`, one
+logical operation per call, and every write is verified by a separate read-back.
+
+**Pipeline convention.** Survey wrote DEFINED-stage stubs (Metadata, Goal,
+Measured base state, AC draft, Dependencies, Constraints, DoD template) with the
+rulings and hard constraints embedded; Context, Out of scope, the fenced ACs and
+the `ac_hash` are authored at groom. No survey AC draft is fenced and no survey
+card claims a digest.

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-18T10:05:00Z",
-  "milestone": "phase_14_render_live_closeout",
+  "generated_at": "2026-10-20T09:20:53Z",
+  "milestone": "phase_15_gate_amendments",
   "nodes": [
     "t0",
     "t1",
@@ -293,7 +293,27 @@
     "t94",
     "t95",
     "t96",
-    "t97"
+    "t97",
+    {
+      "id": "t99",
+      "status": "defined",
+      "milestone": "phase_15_gate_amendments"
+    },
+    {
+      "id": "t100",
+      "status": "defined",
+      "milestone": "phase_15_gate_amendments"
+    },
+    {
+      "id": "t101",
+      "status": "defined",
+      "milestone": "phase_15_gate_amendments"
+    },
+    {
+      "id": "t102",
+      "status": "defined",
+      "milestone": "phase_15_gate_amendments"
+    }
   ],
   "edges": [
     {
@@ -863,6 +883,14 @@
     {
       "from": "t95",
       "to": "t94"
+    },
+    {
+      "from": "t100",
+      "to": "t99"
+    },
+    {
+      "from": "t102",
+      "to": "t100"
     }
   ],
   "cycles": [],
@@ -961,18 +989,19 @@
     "t91",
     "t92",
     "t93",
+    "t96",
+    "t97",
     "t98",
     "t94",
     "t95",
-    "t96",
-    "t97"
+    "t99",
+    "t100",
+    "t101",
+    "t102"
   ],
   "critical_path": [
-    "t90",
-    "t92",
-    "t93",
-    "t98",
-    "t94",
-    "t95"
+    "t102",
+    "t100",
+    "t99"
   ]
 }

@@ -1,0 +1,116 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t99",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_15_gate_amendments",
+    "issues_generated": [
+      "t99",
+      "t100",
+      "t101",
+      "t102"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "NO NEW REQ-ID ANYWHERE (checked in all four cards): every card's requirement-anchors line cites the anchors the gates it touches already carry (the t26/t47 anchor family, the t58/t63/t71 verification-report family, the t95 ac6 groom-reproducibility rule) plus the standing RE-PREMISE-not-relax hard rule and the WAL 1191 option-A ruling. The milestone invents no id and deletes none.",
+        "SCOPE IS GATE PREMISES, NOT FEATURES: the whole scope is the anchor[133] disclosed debt (index legs 190/191 plus the generator constant) and the three t95 option-A premise defects (B1 leg-214 matrix dirt, B2 sweep/verifier pollution boundary, B3 leg-255 stale as-stored pin). No card adds an endpoint, dependency, table or UI surface.",
+        "THE SWEEP RUNNER ITSELF IS NOT PATCHABLE BY ANY CARD (deliberate non-coverage, named in t102): the t95 sweep runner is orchestrator scratch tooling (scratch/t93pm/sweep.cjs class), not a repo artifact. t102 hardens the IN-REPO verifier walk and records the orchestrator-side allowlist obligation (node_modules, build, scratch, .git) as a WAL housekeeping TODO. Patching the runner is orchestrator work, not a card deliverable.",
+        "LEG 214's STORED COMMAND IS NOT AMENDED BY THIS MILESTONE (deliberate non-coverage, named in t101/t102): merge_test_index.json is orchestrator-owned, and both cards touching the 214 class deliver a RECORDED BOUNDARY plus the t101 premise correction, never an in-card index edit. If groom finds an index edit genuinely required, that is a BLOCKER handoff, not a quiet change.",
+        "LEG 259 IS NAMED RETIRED, NOT FIXED (deliberate non-coverage, named in t100): leg 259 (t72) first requires the committed report to end ALL_CHECKS_PASS and only then asserts two premises that are already unsatisfiable on this tree - the merge-test index BYTES equal a77f98a0117d1d0b07695f2d1a1a34a3b1bbb2dcccf8687cc0f0d5a21cb578f4 (the 259-entry-era digest; the shipped 318-entry index measures 8fe99cba444c9aec576c06ae7760289f0c0be3cdd94afe95e491b9c5d9906b2e at survey) and [ \"${ENT:-0}\" -eq 259 ]. Both are restorable by no card (pin custody moves only by orchestrator append at merge), so 259 stays RED after t100 and joins the 227/231 retired-pin class. CORRECTED PREMISE, disclosed: leg 259 does NOT pin the report's own bytes - the 81f05126 digest appears nowhere in it - and leg 258/259 belong to t71/t72, not t70. No card claims to fix 259.",
+        "SCRATCH/ IS NOT ADDED TO .gitignore (deliberate non-coverage, named in t102): scratch/ is currently NOT gitignored while build/ is (.gitignore:185), which is why scratch dirt is invisible to ignore-based reasoning yet fully visible to any tree walk. Making scratch/ gitignored is an operator/orchestrator repo-hygiene decision, deliberately outside a gate-amendment card.",
+        "FROZEN SURFACES STAY FROZEN: openapi.yaml untouched; README.md triple-pinned 396 lines / 15b244135126b7051a1601b773b966d698b7ac50898d8da959a8fe59abfe3e20 untouched by all four cards (any README touch needs triple-pin re-verification legs none of these cards own); docs/criteria/docs_verification.md is generator output only, never hand-edited.",
+        "POLLUTION CLASSES ARE NEVER PREMISED AS PRODUCT REDS: tests[217] RED-when-.env-present and tests[214] RED-under-build-dir/card-location pollution are stated as NON-premises in every card's Constraints, and each card is forbidden from CREATING the pollution itself (controls run in throwaway copies outside the repo).",
+        "ASSUMPTIONS HANDED TO GROOM (each named as ASSUMED or predicted in its card, none asserted as measured): t99 - that the two amended legs keep their unrelated REDs (freeze-scope drift, README drifted) at groom time; t100 - the predicted baseline 33 to 32, and that no stored leg pins the generator digest or the report line count (survey scanned all 318 commands and found none; groom re-scans); t101 - that the clean-checkout tests[214] rc=0 holds on the branch and that no new build/ payload exists at run time; t102 - that excluding build/scratch moves no pin in legs 219/223/226/227/256/257/258/259 (survey read those legs' report premises and none pins files= or links=; groom re-measures leg 227's retired digest explicitly).",
+        "HOST CAVEAT DISCLOSED, NOT SILENTLY ABSORBED: the generator's STORED-GATES legs (134/155) need jsdom; under WSL system node v18.19.1 they FAIL (CHECKS_FAILED 3) while on the canonical host (native node v24.16.0 via cmd.exe) they PASS 4/4. Every rc claim in this milestone must be made on the canonical host; a WSL-node artifact is disclosed, never reported as a product RED."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 3,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "GRANULARITY JUSTIFICATION (operator-delegated survey call, WAL 1201; the schema-conformant evidence.granularity_check object carries only its three required fields, so the reasoning lives here exactly as in the phase_14 precedent): OPERATOR-DELEGATED CALL (WAL 1201: 'EVALUATE whether to split issues finer/more to ensure rigorous completion'). N=4, split by DELIVERABLE AND FILE OWNERSHIP, not by defect label. batch_size = min(5, max(1, ceil(4/3))) = 2, so the cards were generated in 2 batches of 2 ([t99,t100] then [t101,t102]), each card written in its own write call, all writes of a batch completed before the next started. WHY THE ANCHOR DEBT IS TWO CARDS AND NOT ONE: it is measurably two premise families - the index-side stale byte-pin literal inside stored legs 190/191 (an orchestrator-applied amendment RECORD on the t96 coordinated-set precedent, predicted baseline effect ZERO) versus the generator-side stale constant at docs_verification.py:46 (a product-code edit with a committed-report regeneration and the milestone's only predicted baseline change 33 to 32). Different files, different delivery mechanisms, different verification surfaces, different baseline arithmetic; merging them would put an orchestrator-owned delivery and a product edit inside one merge-window verdict. WHY IT IS NOT FINER THAN TWO: each half is a single-literal substitution with exactly one measurable each; splitting the index side per leg (190, 191) would produce two cards whose entire content is one line of the same coordinated record, which the t96 {232,250} precedent explicitly handles as ONE coordinated set. WHY B1 PLUS B3 ARE ONE CARD (t101): they are two wrong expectations inside ONE closed artifact - t95's ac5 expectation list and ac6's as-stored pin table - i.e. one fence family; splitting them would force two re-groom/ac_hash passes over the same one closed t95 fence for zero added observability, and the t96 lesson is that entangled premises travel together. Per-defect rigor is preserved by separate ACs and a per-defect record entry, which is where observability actually lives. WHY B2 IS ITS OWN CARD (t102): a different deliverable CLASS - a pollution-boundary change to the in-repo verifier (SKIP_DIRS += build, scratch, plus report regeneration) and a recorded discipline for orchestrator-side sweep tooling that no card in this repo can patch - not a t95 fence premise. WHY t102 IS NOT MERGED INTO t100 despite the shared file: the single-writer rule forces them SEQUENTIAL (t102 depends t100) rather than merged, because they change different concerns of docs_verification.py (anchor constant versus walk boundary) and each needs its own regeneration/invariance measurement; merging would double one card's diff and blur which measurement belongs to which premise. REJECTED ALTERNATIVES: N=2 (one anchor card plus one t95 card) would mix an orchestrator-owned amendment record with a product-code edit and hide the 33-to-32 baseline change inside a mixed verdict; N=6 (per-leg and per-defect cards) would create two cards whose entire content is one line of one coordinated record and force redundant ac_hash churn on a closed artifact. FILE COUNTS PER CARD: t99 = 1 (the amendment record), t100 = 2 (generator plus regenerated report), t101 = 1 (the premise-correction record), t102 = 3 (generator line, regenerated report, policy record) so max_files_per_issue = 3, under the configured max_files 4. AC DRAFTS ARE CAPPED AT 6 PER CARD (the configured max_acs 6): t101 and t102 were drafted at 7 and their redundant purity/baseline legs merged, so no card exceeds the limit. Card PROSE bodies are long by design (measured base state plus constraints), but the PRODUCT diffs are small and bounded: t99 about 40 JSON lines, t100 a 1-line constant plus a regenerated report, t101 about 60 JSON lines, t102 a 1-line constant plus report plus about 80 lines of record - all under the 300-diff-line limit, so within_limits is TRUE (warn_only:true regardless; unlike phase_13/phase_14 no card here is an evidence-capture body).\n\nphase_15_gate_amendments survey, attempt 0, single continuous run. Two operator-authorized workstreams (WAL 1201): the anchor[133] refresh debt disclosed since t90 and the three t95 option-A premise defects (WAL 1191/1195/1198). FOUR cards: t99 #105 (index-side coordinated amendment RECORD for legs 190/191 - the orchestrator applies it in the merge window per the t89/t90/t94/t96 precedent, and the builder NEVER edits merge_test_index.json), t100 #106 (generator-side INDEX_ANCHORS[133] constant plus report regeneration, depends t99, the only predicted baseline change 33 -> 32), t101 #107 (premise-correction RECORD for B1 leg-214 GREEN-on-clean and B3 leg-255's authoritative pin f5aafe07/1878e29d/7760; root card; NON-REWRITE - t95 is CLOSED and its bytes are never touched), t102 #108 (SKIP_DIRS += build/scratch plus the four-class pollution policy record; depends t100 under the single-writer rule). DAG: 103 nodes / 144 edges, cycles 0, orphans 0, milestone critical path t99 -> t100 -> t102 with t101 an independent root. Every card carries the frozen-33 set verbatim, the two known pollution classes as NON-premises, the openapi/README freezes, the orchestrator-owned-index rule with its explicit delivery mechanism, and the RE-PREMISE-not-relax requirement that each negative control be EXECUTED. All four stubs are DEFINED-stage only: no fenced ACs and no ac_hash claims - groom authors those per the established recipe. Granularity is the operator-delegated survey call and is justified in the GRANULARITY JUSTIFICATION block at the top of this notes field -- the schema-conformant evidence.granularity_check object permits only its three required fields (N=4 by deliverable/file ownership; N=2 and N=6 both considered and rejected on measurement).",
+    "supplement": {
+      "granularity_limits_source": "docs/state/config_snapshot.json limits.issue_granularity {max_acs:6, max_files:4, max_diff_lines:300, warn_only:true}",
+      "batching": {
+        "N": 4,
+        "batch_size": 2,
+        "batches": [
+          [
+            "t99",
+            "t100"
+          ],
+          [
+            "t101",
+            "t102"
+          ]
+        ],
+        "one_file_per_write_call": true
+      },
+      "measured_base_state_summary": {
+        "milestone_base_sha": "06be1e1 (== origin/main at survey)",
+        "index": "docs/state/merge_test_index.json 318 entries, orchestrator-owned, pretty CRLF, in-place amend only",
+        "new_baseline": "frozen-33 per WAL 1193 (frozen36 MINUS {250,254,257}); every card states 33, never 36",
+        "anchor_133_debt": {
+          "tests_133": "rc=0 GREEN, command sha b2a662b9aa0c0699e3ba521b06240fbcbb24a02a1ab3d4afb50ea2a5efb70edb, entry_sha 09cb7d9adbabd424c4d0517c0b899cad0fd650486ec2e08f1e99615c4c5850d6",
+          "stale_literal": "6e9723e84f91259b200af63490abfb431636d61a07e201f14052c7353807a249 (the PRE-t90 entry_sha of 133) survives in exactly two stored commands, tests[190] and tests[191] (both t47), and nowhere else in the index",
+          "amendment_proven_non_vacuous": "the amended 190/191 commands were EXECUTED against a scratch copy of the index: both run past the byte-pin legs and stay RED on their own unrelated premises (ac3 freeze-scope drift / ac4 README drifted). Predicted baseline effect ZERO.",
+          "digests_the_record_must_carry": "190 cmd 8eb83ed606920f7003f133d0912c3f33aed3a45d8338bcdc35118d347901b251 -> d0bddab523d78827d631a9c214a472bd3b21dd43a84fc553c228a0dc911113f2, entry_sha ceeed6d79f62e353e229e0311638f195a912307a3ca40fd2fc0d4a0362c691cd -> 180ecdabdded8f221c80f64ce193492c7ee63a7f90dacb2f66d3b5589c218123; 191 cmd 8beae891dfe1e122995dd1ee324dddc12cea4ad2007417bfdc8814aebb5d21bb -> e0b15d8a39850c7e1b88f59aecf0d8eb039ef17aa550af81749743548e86a01b, entry_sha 4975cfe8644db9b6338ebc056c25cafa8502b00718eba27f1e58a61308f5c901 -> ab06ee8bfa0aa52353b3b4cecb1fdb49d45f6f752dca96296db7110d1e42893a (recipe sha256(json.dumps(entry, separators=(',',':'))); python3 and node agree on 133)",
+          "generator_side": "docs_verification.py:46 carries the same stale literal; the committed report ends CHECKS_FAILED 1 with the single FAIL 'anchor 133: digest mismatch'; after the fix leg 258 recovers GREEN and leg 259 is named retired, so predicted 33 -> 32, groom re-measures",
+          "neighbouring_legs_executed": "tests[258] (t71) rc=1 at survey on 'the regenerated report does not end in ALL_CHECKS_PASS' (its ENT>=256 and 13-hex-literals premises are satisfied at 318/13, so it recovers when the anchor is fixed); tests[259] (t72) rc=1 on the same ALL_CHECKS_PASS premise and additionally carries the unsatisfiable a77f98a0 index-byte pin and ENT -eq 259, so it stays RED. Both issue_ids are t71/t72; the earlier t70 attribution and the 81f05126 report-bytes attribution were survey errors and are corrected in t100.md."
+        },
+        "t95_premise_defects": {
+          "B1_leg214": "stored cmd sha 68bad4af0359e3e9c22dafa1e5cb184d53f62990ccb3d1b6b0d1f412db22659c, entry_sha f2cc770b15c769c1c1189fb6ba09ab86ca8cc4cfe1103eae2351a0ea22fc2680, 3213 chars; EXECUTED rc=0 GREEN on the clean checkout (ac5 GREEN, repo-wide links checked=578). Its walk skips only node_modules/.git and sees 2863 *.md versus 261 tracked. t95's ac5 premised it RED - that premise is build-dir/card-location pollution, not product.",
+          "B3_leg255": "the index is in t94's POST-amendment state: cmd f5aafe07ca48bcaebbc9a2ddf4c282aae55502b1b582f11ca2f61f21376e93b9 / entry_sha 1878e29d83e042be31a162521e41aa5790ad4ca31fbcd6ebdfcf56745b5fd1f6 / 7760 chars. t95's ac6 pinned 9aac9f0c1f7a2339e2539fb6aa3b0d53f0caea2744eed86929fd699176e2a99e / 487b30e2ed16f97b96864c1e61182013dcfe69ed0524fad167128ae70f76e964 / 7945, which exists nowhere in the index - ac6's own stale-pin check fired correctly on a card that moved nothing.",
+          "B2_pollution_boundary": "docs_verification.py:96 SKIP_DIRS omits build and scratch. REPRODUCED AT SURVEY: running the generator with those payloads present produced LINK_CHECK FAIL broken=14 with EVERY break inside a copied tree (build/t76/repo/..., scratch/t95pm/*/...), lost OPENAPI_PARITY, and flipped CHECKS_FAILED 1 -> 3. The walk sees 2116 *.md with the current SKIP_DIRS and 265 with build+scratch excluded; the committed report says files=261 and git ls-files '*.md' = 261. build/ IS gitignored (.gitignore:185); scratch/ is NOT."
+        }
+      },
+      "survey_write_disclosures": [
+        "The generator was run once during measurement, which temporarily modified the tracked docs/criteria/docs_verification.md (the B2 reproduction above). It was restored immediately with git checkout -- ; at handoff time the tracked tree shows exactly the five intended survey modifications (plan.md, backlog.md, dag.json, dag.mmd, issue_map.json) and zero other tracked changes. No card premise relies on that accidental run except as a disclosed reproduction, and groom re-measures deliberately.",
+        "Platform calls followed WAL 1190 hygiene: .env copied from scratch/env_quarantine_t94post, used, REMOVED immediately; absence re-confirmed after the final read-back. The dispatcher scripts live OUTSIDE the repo tree (261007_project01/p15_survey_tmp) precisely so this survey did not add walk pollution - the class this milestone exists to fix.",
+        "The platform CLI could not be reached via npx tsx under WSL node (node_modules is empty in this checkout); the CLI was invoked as 'node scripts/platform.ts ...' under canonical cmd.exe node v24.16.0, which strips the TS types natively. All four creates and two body refreshes returned JSON and were read back.",
+        "Bodies for #107 and #108 were refreshed after their AC drafts were merged down to the configured 6-AC cap, so the platform bodies match the shipped cards in their Definer-owned sections.",
+        "docs/state/dag.json was extended in place preserving the existing mixed node representation (bare ids for legacy nodes, {id,status,milestone} objects for tracked ones); the four new nodes are objects with status 'defined'. critical_path is scoped to THIS milestone's chain (t102 -> t100 -> t99) matching the prior file's convention of naming the current milestone's chain, and topological_order was recomputed over all 103 nodes with 0 cycles."
+      ],
+      "first_platform_issue": 105,
+      "platform_issues": {
+        "t99": 105,
+        "t100": 106,
+        "t101": 107,
+        "t102": 108
+      }
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/issues/t99.md",
+      "docs/issues/t100.md",
+      "docs/issues/t101.md",
+      "docs/issues/t102.md",
+      "docs/backlog.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_15_gate_amendments.json",
+      "docs/state/outputs/phase_15_gate_amendments_definer_survey.json"
+    ],
+    "platform_issue": 105,
+    "output_path": "docs/state/outputs/phase_15_gate_amendments_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-20T09:40:00Z",
+  "retry_count": 0
+}

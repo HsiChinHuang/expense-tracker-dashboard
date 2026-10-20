@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_15_gate_amendments",
+  "survey_completed_at": "2026-10-20T09:25:00Z",
+  "review_plan_status": "in_progress",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": [
+    "t99",
+    "t100",
+    "t101",
+    "t102"
+  ],
+  "survey_attempts": 0
+}
