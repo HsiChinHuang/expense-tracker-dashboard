@@ -2408,3 +2408,58 @@ Measured base state, AC draft, Dependencies, Constraints, DoD template) with the
 rulings and hard constraints embedded; Context, Out of scope, the fenced ACs and
 the `ac_hash` are authored at groom. No survey AC draft is fenced and no survey
 card claims a digest.
+
+## phase_16_hygiene_staleness - Criteria-docs staleness and repo hygiene (operator directive, WAL 1230/1231)
+
+**Scope ruling (operator, WAL 1230/1231).** TWO SEPARATE CARDS, deliberately NOT
+merged: t103 regenerates the two stale generator-owned criteria documents
+(`docs/criteria/agent_pack_verification.md`, `docs/criteria/req_coverage_verification.md`,
+stale since the t35 era per WAL 1228); t104 executes the operator-approved hygiene
+batch (`.gitignore` gains `scratch/`, the WSL/cmd.exe environment rules move into
+`docs/commands.md`, and the all-leg literal `docs/issues/tXX.md` path-pin audit ships
+as a checker plus a written finding). They share no path and each freezes the
+other's surface.
+
+> - t103 - Requirement: existing report-family anchors only (REQ-PLAN-061,
+>   REQ-EXT-070/071/072, the t57/t58 matrix family); no new REQ-ID.
+>   Title: regenerate the two stale criteria documents from their own generators,
+>   with the stored-leg hazard derived and replayed rather than quoted.
+>   Acceptance: committed bytes reproduce from the generators; the collection count
+>   in the agent-pack doc equals a live-derived count; the matrix is self-consistent
+>   and fail-closed GREEN; the derived anchored-pattern hazard replay over the
+>   index legs that name these two documents passes; frozen neighbours untouched;
+>   delta pure against a run-time-derived base and groom-reproducible.
+>   Files: `docs/criteria/agent_pack_verification.md`,
+>   `docs/criteria/req_coverage_verification.md`. Depends: [].
+> - t104 - Requirement: existing repo-hygiene/commands-doc anchors only; no new
+>   REQ-ID. Title: gitignore `scratch/`, codify the cmd.exe-vs-WSL environment
+>   rules in `docs/commands.md`, and ship the leg path-pin audit as a checker plus
+>   findings (index never patched).
+>   Acceptance: `scratch/` ignored with the one tracked file's disposition executed;
+>   the three env rules present additively with the stored line floor derived from
+>   the index; the checker runs GREEN and demonstrably REDs on a planted break; the
+>   findings record documents legs 230/279 and the t78 exemption; the index and all
+>   frozen neighbours are byte-identical; delta pure against a run-time-derived
+>   base and groom-reproducible.
+>   Files: `.gitignore`, `docs/commands.md`, `docs/tools/` (checker),
+>   `docs/state/outputs/` (findings). Depends: [].
+
+**Hard rules inherited by both cards (phase_15 closeout findings, WAL 1221/1222).**
+Delta-purity fences DERIVE their base from the branch parent at run time (`HEAD^`,
+with the disclosed `merge-base`-with-main fallback, printing which base was used);
+pinning BASE to a main-tip-at-groom literal is an ANTI-PATTERN that cost a full
+amendment cycle on t102. The ALLOWED set names the card's own required handoff
+artifacts explicitly (`docs/state/outputs/t103_builder_build.json`,
+`docs/state/outputs/t104_builder_build.json`, ...) and `docs/log/orchestrator_wal.jsonl`
+is deliberately EXCLUDED. `ac_hash` is authored at groom by the t58 recipe (sha256
+over the JSON-compact array of the six fenced bash bodies in ac1..ac6 order,
+CR-stripped and trimmed), the handoff's `verification_commands` are BYTE-IDENTICAL
+to the card's fences, and every card must BITE: each fence REDs on a plausible
+violation, verified in a throwaway clone BEFORE landing.
+
+**Deliberate non-coverage.** `docs/state/merge_test_index.json` is
+orchestrator-owned: neither card amends a stored leg, and both deliver recorded
+findings on the t96/t99 coordinated-amendment route instead. Leg 217's
+matrix-drift RED may recover as a side effect of t103, but that recovery is
+measured by the orchestrator's sweep, never claimed by a card fence. `scratch/`'s
+untracked mass is the subject of t104(a), not a product RED.
