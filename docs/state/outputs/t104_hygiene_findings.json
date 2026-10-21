@@ -1,0 +1,47 @@
+{
+  "record": "t104 leg path-pin audit findings",
+  "issue_id": "t104",
+  "platform_issue": 110,
+  "generated_by": "docs/tools/leg_path_pin_audit.py run over docs/state/merge_test_index.json, cross-checked by the ac4 independent re-derivation",
+  "index_audited": "docs/state/merge_test_index.json",
+  "total_legs": 318,
+  "pinned_legs": 2,
+  "index_patched_by_this_card": false,
+  "custody_note": "The merge-test index is ORCHESTRATOR-OWNED. This card DOCUMENTS and CHECKS; re-premising any leg is orchestrator custody (t96/t99 coordinated-amendment precedent).",
+  "path_pin_findings": [
+    {
+      "leg_index": 230,
+      "issue_id": "t62",
+      "ac": "ac6",
+      "literal_paths": [
+        "docs/issues/groom/t62.md",
+        "docs/issues/t62.md"
+      ],
+      "status_on_audit_tree": "docs/issues/t62.md is ABSENT from the live dir (the card is archived at docs/issues/closed/t62.md and mirrored at docs/issues/groom/t62.md), so the leg's test -e guard on the live path fails: leg 230 is RED right now with 'ac6 RED: ... card is absent'. The docs/issues/groom/t62.md pin inside the same leg still resolves.",
+      "classification": "moved",
+      "disposition": "OPEN ARCHIVAL BREAK - record and name it; do not repair here. The orchestrator should re-premise leg 230 to the archived location (closed/ or groom/) or adopt the checker's classification, exactly as leg 279 was handled at WAL 1229/1230. This is the archival-break class this card exists to make visible.",
+      "index_patched": false
+    },
+    {
+      "leg_index": 279,
+      "issue_id": "t78",
+      "ac": "ac4",
+      "literal_paths": [
+        "docs/issues/t78.md"
+      ],
+      "status_on_audit_tree": "docs/issues/t78.md EXISTS in the live dir and the leg's grep counts 1, so leg 279 is GREEN ONLY because of the named exemption: docs/issues/t78.md is deliberately exempted from archival and kept in the live docs/issues/ dir so this leg's literal grep keeps resolving (WAL 1229/1230, hygiene batch archival of t72-t89 with t78 exempt). Remove the exemption and the leg REDs.",
+      "classification": "present",
+      "disposition": "DOCUMENTED EXEMPTION, NOT UNDONE - the t78 live-dir exemption (WAL 1229/1230) stays; this card documents it with provenance so the next reader does not 'clean up' the exemption and turn stored leg 279 RED. The exemption itself remains orchestrator custody.",
+      "index_patched": false
+    }
+  ],
+  "index_defects": [
+    {
+      "leg_index": 279,
+      "defect": "pinned BASE literal",
+      "detail": "Leg 279's command opens with BASE=ff669473280a1c946b6fdc75b4dc74c129667878, a main-tip-at-groom literal - the exact anti-pattern that cost t102 an amendment cycle (WAL 1221/1222). Measured: the commit exists and is an ancestor of HEAD, so the leg is not broken by it today, but it is the same class of rot. The orchestrator should re-premise the leg to a base derived at run time from the branch shape.",
+      "index_patched": false
+    }
+  ],
+  "no_other_pins": "No other leg names a literal docs/issues/t<digits>.md path; the remaining docs/issues/ mentions in stored commands are directory prefixes or globs. The count is DERIVED (pinned_legs=2 of 318 legs), not quoted."
+}
