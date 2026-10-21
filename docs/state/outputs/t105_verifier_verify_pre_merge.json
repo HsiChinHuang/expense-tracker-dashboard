@@ -1,0 +1,97 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t105",
+ "role": "verifier",
+ "phase": "verify_pre_merge",
+ "status": "COMPLETE",
+ "reached_state": "verified",
+ "evidence": {
+  "evidence_type": "merge_verification",
+  "merge_verdict": "PASS - pre-merge verification on branch issue/t105-index-repremise at tip 5df8bfd (product c6dc6f3). Delta vs the run-time-derived base ab1ab5d (merge-base(main,HEAD); HEAD^ c6dc6f3 rejected as carrying the product; merge-base(origin/main,HEAD) also ab1ab5d; every candidate + rejection reason printed by the fences - no main-tip literal) is EXACTLY the card's allowed surface: docs/state/merge_test_index.json + docs/state/outputs/t105_repremise_decisions.json + docs/state/outputs/t105_builder_build.json. FROZEN surfaces byte-zero-diff vs base blobs: docs/log/orchestrator_wal.jsonl, README.md, openapi.yaml, docs/requirements.md, docs/criteria/* (all six), schemas/ (whole dir), docs/plan.md, docs/backlog.md, bookkeeping (dag.json/dag.mmd/issue_map.json/merge_history.json), docs/issues/t78.md, AND the OTHER card's surface per t105 ac5 cross-freeze: docs/tools/leg_path_pin_audit.py, docs/state/outputs/t104_hygiene_findings.json, docs/issues/t106.md. Amendment surface re-derived from the index blobs: exactly 11 legs changed [282,306,307,308,309,310,311,312,315,316,317], only command fields, one base64 chunk each, back-substitution recovers base payloads, other 307 legs byte-identical, key order preserved, schema_version/updated_at unchanged, legs 230/279 untouched. The 11 amended legs executed verbatim before (BASE blob) and after (working tree): 282 1->0, 308 1->0, 309 1->1 (card-missing RED gone; disclosed pinned-BASE residue only), 306/307/310/311/312/315/316/317 0->0. ZERO regressions attributable to this card: the other 307 legs are byte-identical to base, so their sweep state cannot move. MERGE VERDICT: PASS comment posted on #111, read-back BYTE-EQUAL (1587/1587 chars).",
+  "vcs_source": {
+   "branch": "issue/t105-index-repremise",
+   "branch_tip": "5df8bfd35a7880f916ec2b5f1bbe9db4bbd80ad1",
+   "product_commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+   "purity_base": "ab1ab5d60a3f820d87a661b9ac746311007ceeec",
+   "base_derivation": "git merge-base main HEAD -> ab1ab5d (printed by ac1/ac2/ac6); HEAD^ c6dc6f3 rejected (index blob equals working tree = carries the product); origin/main merge-base also ab1ab5d. Run-time derived, never a hardcoded main tip.",
+   "worktree": "worktrees/t105b (branch checkout, not detached; candidate branch confirmed via git branch --show-current)"
+  },
+  "cumulative_tests": {
+   "total": 11,
+   "passed": 10,
+   "failed": 1
+  },
+  "cumulative_tests_note": "The card-scoped cumulative surface is the 11 amended legs (the other 307 are byte-identical to the base blob - proven - and cannot move; the full 318-leg sweep at the merged tree is orchestrator custody per the card's DoD item 5 and the t103/t104 precedent). Each of the 11 stored commands was executed VERBATIM under WSL bash at the working tree: 10 rc=0; leg 309 rc=1, which is its DISCLOSED EXPECTED state (rc_after=1 in the card's expectation table and the decision record; the card-missing RED is gone, the remaining REDs are the pinned-BASE 67c9db975d75 rot class + report-only open-loop legs, orchestrator index-defect custody per WAL 1240). Not a regression: BASE execution of the same leg was also rc=1.",
+  "smoke_tests": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0
+  },
+  "smoke_set": "docs/plan.md has no '## Smoke tests' section, so per the mode-doc fallback the smoke set is the six t105 AC verification fences from docs/issues/t105.md ## Verification commands, script-extracted VERBATIM (ac_hash recomputes to sha256:8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b, three-way match with groom+builder handoffs), executed from the worktree root: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0.",
+  "failed_tests": [
+   {
+    "test": "tests[309] (t86 ac4, 0-based)",
+    "error_summary": "rc=1 BY DISCLOSED DESIGN (expected rc_after=1). Card-missing RED fixed; remaining REDs = pinned-BASE 67c9db975d75 rot + report open-loop legs (WAL 1240 custody). Not a regression."
+   }
+  ],
+  "regressions_detected": [],
+  "delta_purity": {
+   "base": "ab1ab5d60a3f820d87a661b9ac746311007ceeec (run-time derived; printed candidates: HEAD^ c6dc6f3 REJECTED carries-product, merge-base(main,HEAD) ab1ab5d ACCEPTED)",
+   "tracked_delta": [
+    "docs/state/merge_test_index.json",
+    "docs/state/outputs/t105_builder_build.json",
+    "docs/state/outputs/t105_repremise_decisions.json"
+   ],
+   "allowed": [
+    "docs/state/merge_test_index.json",
+    "docs/state/outputs/t105_repremise_decisions.json",
+    "docs/issues/t105.md",
+    "docs/state/outputs/t105_definer_groom.json",
+    "docs/state/outputs/t105_builder_build.json"
+   ],
+   "extra_paths": [],
+   "wal_zero_diff": true,
+   "untracked_screen": "only node_modules + frontend/node_modules pollution roots; .env copied for platform ops and removed (verified absent); verifier scratch under scratch/t105v/ (screened root)."
+  },
+  "frozen_surfaces": [
+   "docs/log/orchestrator_wal.jsonl",
+   "README.md",
+   "openapi.yaml",
+   "docs/requirements.md",
+   "docs/criteria/agent_pack_verification.md",
+   "docs/criteria/req_coverage_verification.md",
+   "docs/criteria/docs_verification.md",
+   "docs/criteria/dashboard_verification.md",
+   "docs/criteria/infra_verification.md",
+   "docs/criteria/security_ops_verification.md",
+   "schemas/ (whole directory)",
+   "docs/plan.md",
+   "docs/backlog.md",
+   "docs/state/dag.json",
+   "docs/state/dag.mmd",
+   "docs/state/issue_map.json",
+   "docs/state/merge_history.json",
+   "docs/issues/t78.md",
+   "docs/tools/leg_path_pin_audit.py (t106 surface, ac5 cross-freeze)",
+   "docs/state/outputs/t104_hygiene_findings.json (t106-frozen)",
+   "docs/issues/t106.md (t106 card)"
+  ],
+  "gate": {
+   "gate_check": "no_gate_required for verifier:verify_pre_merge (runGate has no gate for this phase)",
+   "schema_validation": "validate_handoff.ts verifier verify_pre_merge -> [OK] (see verify_issue handoff for the builder-side gate2 PASS re-run)"
+  },
+  "platform_actions": "MERGE VERDICT: PASS summary included in the verdict comment on #111 (posted via scripts/platform.ts through cmd.exe/powershell/node-tsx driver; read-back via issue latest-comment BYTE-EQUAL 1587/1587 chars, created_at 2026-10-21T11:39:31Z). First attempt via the npx .cmd shim arrived truncated to 47 chars (multi-line argv breakage) - superseded, disclosed; the truncated comment remains on the issue (comments are not editable via this tool). NO label ops (orchestrator custody per t103/t104 run precedent).",
+  "notes": "Pre-merge evidence is independent of builder logs: base derived at run time from the branch shape, delta/frozenness measured with git diff against base blobs, amendment surface re-derived from index blobs, the 11 legs executed verbatim before and after. No discrepancy with WAL 1244 orchestrator claims. The full-318 sweep remains orchestrator custody at merge time; this card's delta cannot move the other 307 legs (byte-identical proof)."
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/state/outputs/t105_verifier_verify_pre_merge.json"
+  ],
+  "platform_issue": 111,
+  "output_path": "docs/state/outputs/t105_verifier_verify_pre_merge.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-21T11:42:32Z",
+ "retry_count": 0
+}
