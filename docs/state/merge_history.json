@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-21T11:44:55Z",
+  "updated_at": "2026-10-21T11:45:12Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1453,6 +1453,15 @@
       "branch": "issue/t105-index-repremise",
       "merge_sha": "d918927cdafeb75ca8a5a2e115ecc8808a0f393a",
       "merged_at": "2026-10-21T11:44:55Z",
+      "retries": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t106",
+      "platform_issue": 112,
+      "branch": "issue/t106-checker-b64",
+      "merge_sha": "b716ad55d0eecaca0a0eb6570ea28afed2fa1448",
+      "merged_at": "2026-10-21T11:45:12Z",
       "retries": 0,
       "regressions": 0
     }
