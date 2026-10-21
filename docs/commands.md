@@ -187,3 +187,29 @@ The register, login, create-expense and list-expenses legs are the
 four the requirement names; a non-200 anywhere in the sequence is a
 deployment defect, not a test flake, and the runbook in
 `ops/runbook.md` is the next document to open.
+
+## Environment rules: WSL vs cmd.exe (t104)
+
+These three rules were rediscovered across many cards (WAL 1229) and were
+folklore, not documentation. They are written down here so the next
+rediscovery ends. All three are properties of the WSL toolchain on this
+Windows host; the remedy in each case is to run the operation through the
+Windows-side binary via `cmd.exe`.
+
+| rule | symptom | remedy |
+|---|---|---|
+| WSL `git push` (and any remote git op) hangs | WSL git prompts for credentials interactively and the call never returns | use `cmd.exe` git for remote operations: `cmd.exe /d /c "git push -u origin <branch>"` |
+| WSL `npx` is broken | `npx`/`tsx` under WSL fail or hang before running the command | run npx through `cmd.exe`: `cmd.exe /d /c "npx tsx scripts/platform.ts ..."` |
+| WSL `rm -rf` silent-fails | directories locked by Windows processes are reported deleted but remain on disk | delete with `cmd rmdir /s /q <dir>` through `cmd.exe`, then verify the path is gone |
+
+Remote-operation discipline that goes with these rules: every git call does
+**one op** (one fetch, one commit, one push - never a chained command) and
+then performs a **read-back** (`git rev-parse`, `git ls-remote`, `git
+status`) to confirm the operation actually landed, because a hung `cmd.exe`
+git call can return without having done the work.
+
+Environment hygiene for any long-lived subprocess: unset
+`GIT_DIR`/`GIT_WORK_TREE`/`GIT_INDEX_FILE`/`GIT_OBJECT_DIRECTORY`/
+`GIT_COMMON_DIR`/`GIT_PREFIX` before invoking git, and remember that
+worktree `.git` pointer files must carry a path the calling platform can
+resolve (the t99-class gitdir form breakage).

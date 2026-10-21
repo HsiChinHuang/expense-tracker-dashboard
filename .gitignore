@@ -194,3 +194,12 @@ e2e/node_modules/
 e2e/test-results/
 e2e/playwright-report/
 e2e/package-lock.json
+
+# ============================================================
+# Scratch workspace (t104 - operator decision 2026-10-21, WAL 1230/1231)
+# ============================================================
+# Operator-approved: everything under scratch/ is untracked helper
+# debris (scratch/*.py, *.sh, commitmsg_*). The one deliberate
+# exception is named by negation below so it stays versioned.
+scratch/
+!scratch/t92_record_measured.json
