@@ -17,7 +17,7 @@ pytest.main re-runs the 14 hook and 12 MCP nodes in the same process;
 the backend collection count and the .agents symlink inventory arrive
 through files and are PARSED, never hand-typed. Nothing is spawned and
 no network client is constructed.
-METHOD collection 270 nodes (floor 244); the 26
+METHOD collection 303 nodes (floor 244); the 26
 phase_6 node ids are re-run inside this run, not re-authored.
 
 ## Executed rows (real measured values)
@@ -31,7 +31,7 @@ SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS
 COUNT_ROWS skills=3 hooks=2 tools=4 subagents=2 PASS
 AGENT_DIRS agent-capabilities,agent-hooks,mcp-server,custom-agent,.agents 5 PASS
 PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6 PASS
-BACKEND_COLLECTION 270 floor=244 PASS
+BACKEND_COLLECTION 303 floor=244 PASS
 ```
 
 `HOOK_TEST_ROWS` / `MCP_TEST_ROWS` carry the counts parsed from the
@@ -64,7 +64,7 @@ REQ-PLAN-061_ROWS skills=executed hooks=executed hook_tests=executed mcp_start=d
 
 The pack doc's verification checklist carries 7 copyable
 component lines (REQ-EXT-070/071) - this card is the card that
-executes them. README.md measures 202 lines, inside the
+executes them. README.md measures 396 lines, inside the
 <= 500 gate re-attested from this vantage (phase_6 touched none of
 the five named manifests and added no workflow).
 

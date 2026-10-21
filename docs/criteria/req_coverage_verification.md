@@ -727,7 +727,7 @@ REQ_ROW PASS id=REQ-DOC-063 family=DOC status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-DOC-063 title="document ownership" statement="Ownership table exists for each document."
 REQ_ROW PASS id=REQ-DOC-070 family=DOC status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-DOC-070 title="5-minute live verification" statement="Steps: open live URL, register, add expense, set budget, verify five charts, switch month, log out."
-REQ_ROW PASS id=REQ-DOC-071 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t49.md
+REQ_ROW PASS id=REQ-DOC-071 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t49.md,docs/issues/closed/t96.md
 REQ_TITLE PASS id=REQ-DOC-071 title="5-minute local verification" statement="Clone, cp .env.example, docker compose up --build, open localhost:8000, repeat live steps."
 REQ_ROW PASS id=REQ-DOC-072 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t49.md,product-spec.md
 REQ_TITLE PASS id=REQ-DOC-072 title="evidence checklist" statement="Table maps each of the 14 criteria to a specific file to open."
@@ -857,7 +857,7 @@ REQ_ROW PASS id=REQ-FE-032 family=FE status=IMPLEMENTED_TESTED method=citation p
 REQ_TITLE PASS id=REQ-FE-032 title="MonthContext" statement="MonthContext provides `yearMonth`, `setYearMonth`, `prevMonth`, `nextMonth`, defaulting to the current month."
 REQ_ROW PASS id=REQ-FE-033 family=FE status=IMPLEMENTED_TESTED method=citation pointers=frontend/src/context/toast_context.test.tsx
 REQ_TITLE PASS id=REQ-FE-033 title="ToastContext" statement="ToastContext provides `showToast(message, variant)`; toasts auto-dismiss after 3 seconds."
-REQ_ROW PASS id=REQ-FE-034 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t16.md,docs/plan.md,frontend/src/hooks/use_budget.ts
+REQ_ROW PASS id=REQ-FE-034 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t16.md,docs/issues/closed/t73.md,docs/plan.md
 REQ_TITLE PASS id=REQ-FE-034 title="data hooks" statement="Each resource has a dedicated hook wrapping React Query; mutations invalidate the relevant query keys."
 REQ_ROW PASS id=REQ-FE-035 family=FE status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/architecture.md
 REQ_TITLE PASS id=REQ-FE-035 title="hook list" statement="Auth, categories, expenses (list/get/create/update/ delete), budgets (get/set/delete), dashboard (six queries), toast."

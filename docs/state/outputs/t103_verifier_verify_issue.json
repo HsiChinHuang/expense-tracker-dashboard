@@ -1,0 +1,127 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t103",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_hash": "sha256:7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1",
+    "ac_hash_recompute": "Independently recomputed from the shipped card fences with the t58 recipe (sha256 over the JSON array of the six fenced bash bodies, COMPACT separators, each CR-stripped and trimmed). Recomputed digest 7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1 equals the card literal (spaced groups compacted), the groom handoff ac_hash, and the builder handoff ac_hash. All four agree.",
+    "ac_hash_cross_check": {
+      "recomputed_from_card_fences": "7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1",
+      "card_literal_spaced_compacted": "7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1",
+      "groom_handoff_ac_hash": "7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1",
+      "builder_handoff_ac_hash": "7d2afc65d290679200431b8e20a200943533aa0542dbb5cf7ded13c5cff30ae1",
+      "all_four_equal": true,
+      "verification_commands_byte_identical_to_fences": {
+        "groom": "NONE (byte-identical to the six shipped fences)",
+        "builder": "NONE (byte-identical to the six shipped fences)"
+      }
+    },
+    "branch_sha": "f739f6db115f70eb0cdfdd72be44a45e9faf4fa8",
+    "product_commit": "fe314d6ff93ce91604ddd2274738a6c041e5e2cb",
+    "purity_base": "5eb86f8a64e36c4ac36e8814591fbacde639ba65",
+    "base_derivation": "Run-time branch-shape derivation, NOT a main-tip-at-groom literal. ac5/ac6 printed: candidate HEAD^ (fe314d6) REJECTED (already carries the product), candidate merge-base(main, HEAD) -> 5eb86f8 ACCEPTED (strict pre-product ancestor). The groom-time main tip a1d5193 is an ancestor of the base (sits BELOW it) and appears in NO fence output. This is the phase_15 closeout (WAL 1221/1222) requirement.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac1` above",
+        "exit_code": 0,
+        "note": "Ran VERBATIM at the product-commit tree (working tree owned docs byte-identical to fe314d6). Both owned docs reproduce byte-identically from their own generators AND equal their HEAD blobs (CR-normalised): agent_pack sha 2484e65c9d88, matrix sha 311d7d36e839. Both generators byte-identical to HEAD blobs (frozen instruments). Write fence restored the tree on exit (git status clean after run)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac2` above",
+        "exit_code": 0,
+        "note": "Collection count DERIVED live in-fence = 303; document says BACKEND_COLLECTION 303 floor=244; METHOD prose count 303 == derived; footer ALL_CHECKS_PASS 19 PASS. The t35-era 270 cannot survive."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac3` above",
+        "exit_code": 0,
+        "note": "Generator exits 0 twice on byte-identical bytes (sha 311d7d36e839). Summary rows/unique 749/749 equals counts derived from the document's own REQ_ROW lines; status tally DERIVED equals printed (DEFERRED_RULLED=10, EXAMPLE_REFERENCE=1, GAP=0, IMPLEMENTED_STRUCTURAL=622, IMPLEMENTED_TESTED=116); family table closes at 749 rows across 18 families; fail-closed declaration present. Write fence restored tree on exit."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac4` above",
+        "exit_code": 0,
+        "note": "Index carries 318 stored legs (derived). agent_pack doc named by 4 legs, 16 anchored literal patterns all replay GREEN; matrix named by 8 legs, 4 anchored patterns all replay GREEN. 20 anchored patterns total, zero broken. Pattern count derived at run time, never quoted. Read-only."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac5` above",
+        "exit_code": 0,
+        "note": "Base derived at run time (HEAD^ rejected -> merge-base(main,HEAD)=5eb86f8 accepted). 14 frozen neighbours byte-identical to their 5eb86f8 blobs (index, four carried reports, three generators, docs/commands.md, .gitignore, README, openapi, requirements, t78 exemption). Both owned docs differ from base in the working tree AND appear in the committed delta; zero code/test/generator paths in the delta."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block under `### ac6` above",
+        "exit_code": 0,
+        "note": "Base derived at run time (HEAD^ rejected -> merge-base(main,HEAD)=5eb86f8 accepted; origin/main not tested once resolved). Delta against 5eb86f8 is exactly the two owned docs + this card's builder handoff. Untracked screen: 2 pollution-root paths (node_modules), 0 strays. 11 frozen neighbours byte-identical to base blobs. Six shipped fences recompute to the groom handoff ac_hash (7d2afc65d290); handoff verification_commands byte-identical to the fences. PRINTED base-derivation evidence is run-time HEAD^/merge-base, never the a1d5193 main-tip-at-groom literal."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 50,
+      "warnings": 0
+    },
+    "lint_note": "Non-blocking. `ruff check --output-format=json` reports 50 repo-wide findings, ALL in pre-existing untouched source files (agent-hooks/, e2e/, incident-response/, mcp-server/, scripts/). ZERO findings in the docs-only delta (agent_pack_verification.md, req_coverage_verification.md, t103_builder_build.json). The build wrote no source file; both generators are frozen and byte-identical to HEAD. Lint does not gate this card.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_green_machine_output_frozen_instruments": true,
+      "ac2_green_collection_current": true,
+      "ac3_green_self_consistent_fail_closed": true,
+      "ac4_green_hazard_derived_and_clear": true,
+      "ac5_green_frozen_and_code_free": true,
+      "ac6_green_delta_pure_and_reproducible": true,
+      "ac_hash_reproduces_from_shipped_fences": true,
+      "platform_issue_109_body_sync_and_labels": false,
+      "disclosed_env_classes_not_product_failures": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "product_contract": {
+      "delta_paths_vs_5eb86f8": [
+        "docs/criteria/agent_pack_verification.md",
+        "docs/criteria/req_coverage_verification.md",
+        "docs/state/outputs/t103_builder_build.json"
+      ],
+      "exactly_two_owned_docs_plus_builder_handoff": true,
+      "agent_pack_diff_lines": "3 lines: METHOD collection 270->303, BACKEND_COLLECTION 270->303 (floor 244 unchanged), README measures 202->396 lines.",
+      "matrix_diff_rows": "2 REQ_ROW lines: REQ-DOC-071 gains docs/issues/closed/t96.md; REQ-FE-034 gains docs/issues/closed/t73.md and drops the archived frontend/src/hooks/use_budget.ts pointer.",
+      "generator_sole_writer_confirmed": "Ran each generator independently to scratch: agent_pack stdout BACKEND_COLLECTION 303 floor=244 PASS + ALL_CHECKS_PASS 19 PASS + WROTE; matrix stdout rows=749 gap=0 unpointed=0. Fresh bytes byte-equal (CR-normalised) to committed for both (ap sha 2484e65c9d88, mx sha 311d7d36e839)."
+    },
+    "immutability": {
+      "merge_test_index_json_zero_bytes": "base 5eb86f8 blob == HEAD blob, 1303989 bytes, ZERO diff.",
+      "README_openapi_byte_identical": "git diff 5eb86f8 HEAD -- README.md openapi.yaml is empty.",
+      "wal_untouched_by_branch": "git log --name-only 5eb86f8..HEAD names only the two owned docs and the builder handoff; docs/log/orchestrator_wal.jsonl never appears."
+    },
+    "disclosed_deviations_rechecked": {
+      "matrix_drift_count_4_predicted_2_measured": "CONFIRMED: groom Context predicted 4 drift rows (REQ-DOC-071, REQ-FE-034, REQ-FE-120, REQ-TECH-002); measured drift at the product commit is 2 (REQ-FE-120 and REQ-TECH-002 do NOT move). No fence asserts the drift-row count (ac3 checks self-consistency only; the 'four' in ac5/ac6 refers to the four CARRIED criteria reports, not matrix drift). Generator is the sole writer (ac1 pre==fresh==HEAD). Disclosed, not re-litigated.",
+      "leg_279_git_dir_pointer_repair": "CONFIRMED checkout-shape, untracked, not in any delta: worktree .git pointer is relative form 'gitdir: ../../expense-tracker-dashboard/.git/worktrees/t103b'; git ls-files does not track .git; git status does not report it; not in 5eb86f8..HEAD delta. Fences scrub GIT_* on every git call as designed.",
+      "crlf_smudge_class": "All fence comparisons are CR-normalised by construction; no raw blob-vs-work cmp used. Disclosed, not fixed."
+    },
+    "envelope_check": {
+      "builder_handoff_12_fields": "All 12 required envelope fields present (schema_version, issue_id, role, phase, status, reached_state, evidence, artifacts, error, next_action, timestamp, retry_count); status COMPLETE, reached_state built, error null, next_action null, artifacts has files_written/platform_issue/output_path.",
+      "verification_commands_source_const": "Builder handoff carries the literal schema const 'docs/issues/<id>.md#verification-commands'."
+    },
+    "no_push_no_product_edit_no_label_ops": "Per task instruction: no push, no product edits, no label operations, no platform comment performed by Verifier. Platform #109 body sync and label transition (built -> verified) remain orchestrator custody for this run (same disclosed deviation as the builder handoff)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t103_verifier_verify_issue.json"
+    ],
+    "platform_issue": 109,
+    "output_path": "docs/state/outputs/t103_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-21T05:28:42Z",
+  "retry_count": 0
+}
