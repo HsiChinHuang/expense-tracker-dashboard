@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t106",
+  "role": "verifier",
+  "phase": "verify_pre_merge",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "merge_verification",
+    "merge_verdict": "PASS - t106 branch issue/t106-checker-b64 (tip 239a39c, product cc62377) verified independently. All six card fences run VERBATIM rc=0; delta vs run-time-derived base ab1ab5d is exactly the three ALLOWED paths; every frozen surface (index, t104 record, t105 surface, README/openapi/criteria/requirements/schemas/WAL) is byte-identical to its base blob; ZERO index bytes confirmed (index blob 03f01d49 unchanged, HEAD blob == base blob). No regressions, no blockers.",
+    "candidate_branch": "issue/t106-checker-b64",
+    "branch_tip": "239a39cbeda6ab18db3e9ef454e9fa5b62d50c49",
+    "product_commit": "cc62377208670e4d59b48884ea78472c5b1fa337",
+    "purity_base": {
+      "value": "ab1ab5d60a3f820d87a661b9ac746311007ceeec",
+      "source": "merge-base(main, HEAD) (== merge-base(origin/main, HEAD)); HEAD^=cc62377 REJECTED as the product carrier; never a hardcoded main tip",
+      "run_time_derived": true
+    },
+    "cumulative_tests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "cumulative_note": "This is a docs/tools upgrade card with no pytest surface; the cumulative test set is the six AC verification fences from docs/issues/t106.md ## Verification commands, extracted VERBATIM and run from the repository root at the branch tip: ac1..ac6 all rc=0.",
+    "smoke_tests": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "smoke_set": "docs/plan.md has no '## Smoke tests' section, so per the mode-doc fallback the smoke set is the three independent product checks: (1) direct checker run on the tracked index (rc=0, legs_scanned=318 pinned_legs=13 broken_pins=0 dirty_b64_legs=0, via=decoded_base64 present, legs 230/279 via=plaintext); (2) findings-record cross-check (parses, 0-based convention, 13 legs, newline-free, t104 230/279 preserved); (3) independent BITE re-test in a throwaway clone (payload-only broken pin on leg 306 -> missing_everywhere via=decoded_base64 broken_pins 0->1 rc=0; clean tree broken_pins=0). All three PASS.",
+    "delta_purity": {
+      "base": "ab1ab5d",
+      "tracked_delta": [
+        "docs/state/outputs/t106_builder_build.json",
+        "docs/state/outputs/t106_checker_b64_findings.json",
+        "docs/tools/leg_path_pin_audit.py"
+      ],
+      "allowed_only": true,
+      "extra_paths": []
+    },
+    "frozen_surfaces_byte_zero": {
+      "docs/state/merge_test_index.json": "BLOB-EQUAL base==HEAD (03f01d49; ZERO index bytes - absolute for this card)",
+      "docs/state/outputs/t104_hygiene_findings.json": "BLOB-EQUAL (dc65ca60; t104 custody, not rewritten)",
+      "docs/state/outputs/t105_repremise_decisions.json": "ABSENT at base AND tree (legitimate pre-t105 state, disclosed not failure)",
+      "docs/issues/t105.md": "BYTE-IDENTICAL (t105 card frozen for this card)",
+      "README.md": "BYTE-IDENTICAL",
+      "openapi.yaml": "BYTE-IDENTICAL",
+      "docs/requirements.md": "BYTE-IDENTICAL",
+      "docs/criteria/*": "all six BYTE-IDENTICAL",
+      "docs/log/orchestrator_wal.jsonl": "BYTE-IDENTICAL (below base; touched by ZERO branch commits)",
+      "schemas/": "no schema path in delta"
+    },
+    "cross_freeze": "t106 freezes t105's whole surface (index, decision record, card) and t104's findings record; measured byte-identical / legitimately-absent. This is the mutual-freeze that makes t105/t106 parallel-safe.",
+    "ac_hash_reproduction": "sha256 over the JSON array of the six fenced bash bodies (t58 recipe, compact separators, CR-stripped, trimmed) recomputes to 8da34a9da56dc72c0e01c9715e3131517a7286284844b1c3df5e6a2a830b03f4, matching the definer groom handoff and the builder handoff.",
+    "builder_handoff": "schema-valid (validate_handoff.ts builder implement rc=0); gate2 re-derived via cmd.exe gate_check.ts rc=0 passed=true errors=[].",
+    "failed_tests": [],
+    "run_context": {
+      "git_access": "Read-only. WSL git resolves this worktree; GIT_DIR/GIT_WORK_TREE unset in subprocesses. Byte comparisons via git show blobs / git hash-object (autocrlf=true working copies are CRLF-smudged; blob-vs-blob is the authoritative comparison).",
+      "platform": "Comment on issue #112 via scripts/platform.ts under cmd.exe (WSL tsx broken: win32 esbuild). .env copied from scratch/env_quarantine_t94post, removed after use (verified absent).",
+      "no_mutations": "No checkout/merge/push, no index edit, no code/test/issue modification. Throwaway bite clone under scratch/ removed after use; tracked index sha unchanged."
+    },
+    "notes": "No push performed. Verdict comment posted and read back on issue #112. Label 'verified' added (spawn label was 'groomed', not 'built'; disclosed in verify_issue handoff). No product fix attempted; all checks re-derived independently of builder logs."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t106_verifier_verify_pre_merge.json"
+    ],
+    "platform_issue": 112,
+    "output_path": "docs/state/outputs/t106_verifier_verify_pre_merge.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-21T11:36:13Z",
+  "retry_count": 0
+}
