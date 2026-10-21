@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t105",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t105-index-repremise",
+    "branch_sha": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac1' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac2' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac3' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac4' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac5' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "c6dc6f3fce808f8573c1a0724e6d828b4d59176e",
+        "test": "bash <the fenced bash block under '### ac6' in docs/issues/t105.md, executed verbatim from the repository root under WSL bash; the fence body is byte-identical to the groom handoff's evidence.verification_commands and recomputes to ac_hash 8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b>",
+        "verdict": "PASS"
+      }
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "test_summary_note": "The six executable fences ARE this card's tests (index-surgery card: no product code, no pytest surface). Each fence was run verbatim under WSL bash from the repository root at the product commit; 6/6 rc=0. In addition every one of the 11 amended legs was EXECUTED verbatim before the patch (baseline: 282 rc=1, 306/307 rc=0, 308 rc=1, 309 rc=1, 310/311/312/315/316/317 rc=0 - identical to the groom baseline) and after it (282 rc=0, 306/307/308/310/311/312/315/316/317 rc=0, 309 rc=1 with only the pinned-BASE residue REDs and the card-missing RED gone) - the expected rc movement of Definition-of-Done item 5, measured on this tree, not quoted.",
+    "lint_status": "CLEAN",
+    "lint_note": "ruff is not part of this card's surface: no backend/ or product python was touched. The only artifacts are docs/state/merge_test_index.json (orchestrator-owned, edited under the written amendment) and a JSON decision record; both parse (ac3/ac4 validate them), and the card's fences are the lint-equivalent gates.",
+    "ac_hash": "sha256:8eb9bb52335435889e33842b964a5f08522630f9b9109a387776b8313b16a90b",
+    "method": "Per leg: locate the ONE base64 chunk of the leg command whose decoded payload carries the named anchor; decode; apply the named string substitution (leg 282: BOTH occurrences of docs/issues/t76.md move - the CARD constant and the problem-message string; legs 306/307/308/309: the CARD_REL = \"...\" constant only, so leg 307's four historical t86 fingerprint/self-reference forms and its t76 fingerprint form are NOT touched; legs 310/311/312: the CARD = \"...\" constant; legs 315/316/317: the ALLOW tuple entry with its 4-space newline form); re-encode canonically; splice the chunk back into the command by match position (shared chunks across legs 310/311/312 and 315/316/317 are each edited exactly once, in each leg). The file is then rewritten as json.dumps(indent=2) + CRLF + no trailing newline with per-leg key order (issue_id, ac, command) preserved - the groom-measured serialization, proven lossless BEFORE writing and byte-exact after (ac3).",
+    "delta_purity": "Purity base DERIVED at run time from the branch shape (HEAD^ first; every candidate, rejection reason and the acceptance printed by each fence). No main-tip literal pinned anywhere (t102 lesson, WAL 1221/1222). Delta against the derived base is exactly the two deliverables (docs/state/merge_test_index.json, docs/state/outputs/t105_repremise_decisions.json) plus this handoff; the card and the groom handoff ride the groom-ingest commit below the base and show no diff.",
+    "byte_boundary_evidence": "ac2 (all rc=0): exactly the 11 authorized legs differ from the base blob; the other 307 legs are byte-identical dicts including key order; each edited leg changed ONLY its command value, ONLY inside ONE base64 chunk; each payload's back-substitution recovers the BASE payload byte-for-byte (leg 307's exact CARD_REL back-substitution verified independently: payload line-diff is exactly the one CARD_REL line); plaintext skeletons unchanged; canonical serialization round-trips losslessly on both sides. ac3: 318 legs, schema_version and updated_at UNCHANGED from the base (updated_at deliberately left unchanged, disclosed), every leg serializes byte-exactly in place, every base64 chunk re-encodes byte-identically, the live-card-path class is CLOSED to the three disclosed residues (230 frozen-RED plaintext, 279 exemption, 307 historical data).",
+    "decision_record": "docs/state/outputs/t105_repremise_decisions.json: 11 decisions, each with disposition (read_closed for the three read_by_probe legs 282/308/309; guard_correct_semantics for the eight dead_constant legs), anchor symbol, MEASURED symbol uses (definition excluded: 282=1, 308=2, 309=2, all others 0), rc_before/rc_after, weakened=false, leg 309's pinned-BASE residue named, leg 307's disclosed historical residues listed, the 0-based convention stated in the WAL 1240 W2 words, updated_at_handling=deliberately unchanged, total_legs=318.",
+    "expected_rc_semantics": "0-based convention per the card (WAL 1240 W2). After the repair: 282 GREEN, 308 GREEN, 306/307/310/311/312/315/316/317 GREEN with dead anchors removed (labelled dead_constant in the record so their GREEN is never mistaken for a verified card check), 309 STAYS RED - its card-missing RED is fixed, the remaining REDs are the pinned-BASE=67c9db975d75 rot class (orchestrator index-defect custody, WAL 1240) plus its report-only open-loop legs; this card does NOT repair that. 230 STAYS RED untouched (frozen plaintext analogue). The orchestrator sweep (DoD item 5) is orchestrator custody; this handoff reports only the per-leg executions above.",
+    "environment_disclosures": [
+      "WSL git in this worktree initially failed with the t99-class gitdir pointer breakage (Windows-form .git pointer 'C:/...' resolved against the WSL cwd). Remediated per the documented class exactly as at t104: .git rewritten to the relative form (gitdir: ../../expense-tracker-dashboard/.git/worktrees/t105b). The .git pointer is not a tracked path.",
+      "All git ops through cmd.exe /d /c git -C <windows path>, one op per call, read back; commit message via git commit -F <file>; every npx/tsx call carries </dev/null (cmd.exe npx consumes bash stdin).",
+      "core.autocrlf=true: the index carries CRLF in the working tree and LF in the blob; every fence CR-normalises; the writer preserved the working-tree CRLF form and produced the identical LF blob on commit.",
+      "scratch/t105/ holds the session's extracted payloads, the patch/generator scripts and the raw rc captures; scratch/ is screened by ac6's POLLUTION_ROOTS."
+    ],
+    "push_note": "NO push performed (the card's Definition of Done names no builder push; the orchestrator consumes merges; WSL git push hangs per the codified rule).",
+    "platform_note": "NO platform calls, NO label ops (orchestrator custody per task order).",
+    "notes": "Root card. The written ownership amendment (WAL 1241) was exercised for exactly the 11 named command strings; zero index bytes outside them. Honest-FAIL discipline: leg 309's rc_after=1 is recorded as RED, not PASS-substituted, and its residual RED lines are quoted in the decision record.",
+    "branch_tip_note": "branch_sha is the PRODUCT commit; the single docs-only handoff commit ('docs(t105): builder handoff') follows it as the branch tip (t102/t104 precedent: branch_sha = product commit).",
+    "fence_rc_provenance": "Fences extracted from docs/issues/t105.md via the ac6 regex recipe; each extraction byte-identical to the groom handoff evidence.verification_commands (asserted) and recomputing to ac_hash 8eb9bb52.... Run under WSL bash from the repository root at the product commit: ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (ac6 run after this handoff was written, per its own BUILDER presence check). No pass-substitution: the commands run are the card's fences themselves."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/merge_test_index.json",
+      "docs/state/outputs/t105_repremise_decisions.json",
+      "docs/state/outputs/t105_builder_build.json"
+    ],
+    "platform_issue": 111,
+    "output_path": "docs/state/outputs/t105_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-21T11:21:48Z",
+  "retry_count": 0
+}
