@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-20T19:10:00Z",
+  "updated_at": "2026-10-21T02:07:22Z",
   "entries": [
     {
       "issue_id": "t0",
@@ -1413,6 +1413,16 @@
       "branch": "issue/t100-anchor133-generator",
       "merge_sha": "f0f6dee3c0d1f0a763ef30298aa799690178fa71",
       "merged_at": "2026-10-20T19:10:00Z",
+      "retries": 0,
+      "tests_appended": 0,
+      "regressions": 0
+    },
+    {
+      "issue_id": "t102",
+      "platform_issue": 108,
+      "branch": "issue/t102-skipdirs-pollution",
+      "merge_sha": "d7eef73727ded6ffd7176366ed8ddac1a9787f58",
+      "merged_at": "2026-10-21T02:07:22Z",
       "retries": 0,
       "tests_appended": 0,
       "regressions": 0
