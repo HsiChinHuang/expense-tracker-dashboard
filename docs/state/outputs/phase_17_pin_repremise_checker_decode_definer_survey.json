@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t105",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_17_pin_repremise_checker_decode",
+    "issues_generated": [
+      "t105",
+      "t106"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "NO NEW REQ-ID ANYWHERE (checked in both cards): each card cites only the anchor families the surfaces it touches already carry - the verification-evidence family the re-premised legs (t76/t86/t87/t88) shipped under for t105, and t104's checker/hygiene anchors for t106. Neither card invents a REQ-ID, deletes one, or edits docs/requirements.md (frozen by both cards' ac5).",
+        "Leg 309 (t86-ac4) KEEPS rc=1 after t105: its command also pins BASE=67c9db975d75, a groom-time tip literal unrelated to the card-path class. Repairing it is NOT covered by phase_17 and is recorded in t105's decision record so the orchestrator owns it (the same custody route as the t96/t99/t100 coordinated amendments).",
+        "Legs 230 (t62) and 279 (t78) are NOT covered as repairs: 230 is the pre-existing frozen-RED analogue and 279 is t104's documented live exemption. Both cards ASSERT both legs untouched (t105 ac5, t106 ac2), so not-covered here means deliberately untouched and verified so.",
+        "The four OTHER criteria documents (docs_verification.md, dashboard_verification.md, infra_verification.md, security_ops_verification.md) remain out of scope, exactly as phase_16 scoped them; phase_17 adds no documentation surface.",
+        "REQ coverage is otherwise UNCHANGED: both cards are evidence/tooling surfaces. No requirement's verification target moves, so no REQ_ROW is added or removed.",
+        "The 307 index legs that are NOT in the 11-leg hidden-pin class are not covered and are byte-frozen by t105 ac2 - recorded so review_plan can see the audit scanned all 318 legs and named 11, rather than sampling."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 3,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": "phase_17_pin_repremise_checker_decode survey: TWO SEPARATE CARDS, never merged (operator directive 2026-10-21, WAL 1241). t105 re-premises the 11 index legs whose base64-encoded probe payloads still name archived cards at docs/issues/tXX.md (leg 282 t76-ac4; 306/307/308/309 t86-ac1..4; 310/311/312 t87-ac1..3; 315/316/317 t88-ac1..3 - ALL 0-based array indices, always written with issue_id and ac per WAL 1240 W2), and it does so under a WRITTEN amendment of index ownership: the operator authorization at WAL 1241 names THIS CARD ONLY, so t105 is the first non-orchestrator write to docs/state/merge_test_index.json and t106 carries ZERO index bytes. t106 upgrades docs/tools/leg_path_pin_audit.py so the WAL 1236 decoded class is visible next time while the plaintext view stays byte-stable against the t104 record. The two cards share NO path and each freezes the other's surface, which is what makes the split operationally meaningful rather than cosmetic.",
+    "supplement": {
+      "operator_directives_honoured": [
+        "TWO SEPARATE CARDS, not merged: distinct cards, distinct platform issues (#111, #112), distinct handoffs, disjoint owned surfaces, and each card's frozen-neighbour list names the other card's surface.",
+        "INDEX OWNERSHIP AMENDED IN WRITING ON t105 ALONE: the card's OWNERSHIP AMENDMENT section is the instrument, t105 ac1 checks the amendment sentences as card TEXT, and t106 ac5/ac6 prove zero index bytes on the checker card. The authorization is scoped to this card only and both cards say so.",
+        "LEG NUMBERING CONVENTION STATED EXPLICITLY IN BOTH CARDS: 0-based array indices with issue_id and ac attached (e.g. tests[308] t86-ac3), never bare numbers, because the orchestrator sweep runner prints 1-based ordinals (WAL 1240 W2).",
+        "DELTA-PURITY BASE DERIVED AT RUN TIME in every fence of both cards: HEAD^ first, then merge-base(main, HEAD), then merge-base(origin/main, HEAD), printing each candidate, its rejection reason and the acceptance. NO fence pins a main-tip-at-groom literal (the t102 lesson, WAL 1221/1222).",
+        "docs/log/orchestrator_wal.jsonl is DELIBERATELY EXCLUDED from both ALLOWED sets; README, openapi, docs/criteria and every other criteria document are FROZEN zero-diff on both cards.",
+        "A LEG THAT SILENTLY SKIPPED MUST NOT STAY SILENTLY SKIPPED: t105 records a per-leg disposition (read_closed for the three live readers, byte_hygiene_move for the eight dead constants) and REJECTS guard_correct_semantics for all eleven, with anchor liveness RE-MEASURED inside the fence rather than quoted from the survey.",
+        "CARDS BITE AND WERE PROVED TO BITE in throwaway clones before landing (t102/t103 precedent): t105 6/6 GREEN on a correct product with named REDs for an extra edited leg, a plaintext-only edit and a metadata change; t106 6/6 GREEN with named REDs across eight mutation modes (no-decode, print-but-not-count, broken --expect-pins gate, silenced non-canonical note, lost plaintext view, wrong record counts, an index byte in the delta, a fence edited after grooming).",
+        "ac_hash authored by the t58 recipe and the handoffs' verification_commands are BYTE-IDENTICAL to the card fences (re-verified after the final t106 card restructure: t105 sha256:8eb9bb52..., t106 sha256:8da34a9d...)."
+      ],
+      "measured_survey_state_corrected_at_groom": [
+        "The 8 GREEN-but-silently-degraded legs are degraded because their card-path constants are DEAD - measured 0 uses beyond the definition in the decoded payload - whereas 282/308/309 are LIVE readers that hard-fail. The survey framing was right about the mechanism, but the disposition had to be decided per leg, so t105's fence RE-MEASURES liveness instead of trusting this claim.",
+        "Baseline rc measured at groom: RED = {282, 308, 309}; the other eight GREEN. Post-t105 expectation is 0 for all EXCEPT 309, which stays 1 for its stale BASE literal - disclosed, not hidden.",
+        "The index is 318 legs; blob 1,303,989 B (LF) vs worktree 1,305,446 B (CRLF under core.autocrlf=true). Every byte comparison in both cards is line-ending agnostic for that reason.",
+        "43 quoted base64 chunks across 34 legs, ALL canonical; decoding yields exactly the 11 legs named (13 pinned legs in total with the two plaintext legs 230/279). Leg 282 carries 2 occurrences of docs/issues/t76.md; leg 307 carries 6 (t76 x1 historical + t86 x5).",
+        "No stored leg runs docs/tools/leg_path_pin_audit.py (measured: 0 of 318 commands mention it), so t106's upgrade changes no stored leg's rc.",
+        "t106 ships a NEW findings record (docs/state/outputs/t106_checker_b64_findings.json, the 13-leg superset) rather than regenerating t104's: t104_hygiene_findings.json is byte-frozen under t104 custody and is the reference t106's own byte-stability fence measures against. The choice and its reason are stated in the card and in the groom handoff."
+      ],
+      "gate_state_left_for_the_orchestrator": [
+        "Legs 282/308/309 are RED on this checkout for the archived-card reason t105 repairs; leg 309 stays RED afterwards for its BASE literal.",
+        "Leg 230 (t62) stays RED - the disclosed frozen analogue, not repairable by this phase.",
+        "broken_pins stays 0 on both the pre- and post-t105 trees for the upgraded auditor, because its broken class is missing_everywhere and the archived cards resolve under docs/issues/closed/ (classified moved). The bite for the three RED legs is their own live-path guard; the missing_everywhere class is proven by t106 ac3's planted fixture pin, which exists in no location.",
+        "t106's --expect-pins stays the only opt-in nonzero path; exit 0 whenever the index parses, 2 only when unreadable."
+      ],
+      "bookkeeping_written_at_survey": [
+        "docs/plan.md (phase_17 section)",
+        "docs/backlog.md (t105 -> #111, t106 -> #112)",
+        "docs/state/dag.json (107 nodes, 144 edges, cycles=[], both new nodes as dependency-free roots; the 51 legacy bare-string nodes left untouched)",
+        "docs/state/dag.mmd",
+        "docs/state/issue_map.json (t105 -> 111, t106 -> 112)",
+        "docs/state/milestones/phase_17_pin_repremise_checker_decode.json"
+      ],
+      "milestone_slug_correction": "MILESTONE-SLUG CORRECTION AT GROOM INGEST (orchestrator ruling, this turn): the milestone was OPENED at WAL 1241 as phase_17_pin_repremise_checker_b64, a slug the definer survey schema REJECTS (evidence.milestone must match ^phase_[0-9]+_[a-z_]+$; 'b64' carries a digit). The orchestrator ruled the SCHEMA CORRECT and the WAL NAME the defect, and renamed the milestone to phase_17_pin_repremise_checker_decode. The rename was applied at groom ingest to every reference on this card's uncommitted surface (milestone json filename + field, survey/groom handoffs, both cards' frontmatter/metadata, plan.md, dag.json, dag.mmd); schemas/ was NOT touched and the WAL was NOT rewritten (append-only history; the correction entry is the orchestrator's to write). Blast radius checked repo-wide: ZERO remaining references to the bad slug outside WAL history. Cards keep ids t105/t106 and their prose still says base64/b64 where the class is meant - only the slug was constrained. The fences never embedded the slug, so every ac_hash is UNCHANGED by the rename (re-verified byte-identical card-fence to handoff after the rename)."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/backlog.md",
+      "docs/issues/t105.md",
+      "docs/issues/t106.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_17_pin_repremise_checker_decode.json",
+      "docs/state/outputs/phase_17_pin_repremise_checker_decode_definer_survey.json",
+      "docs/state/outputs/t105_definer_groom.json",
+      "docs/state/outputs/t106_definer_groom.json"
+    ],
+    "platform_issue": 111,
+    "output_path": "docs/state/outputs/phase_17_pin_repremise_checker_decode_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-21T10:47:38Z",
+  "retry_count": 0
+}

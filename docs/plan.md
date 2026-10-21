@@ -2463,3 +2463,90 @@ findings on the t96/t99 coordinated-amendment route instead. Leg 217's
 matrix-drift RED may recover as a side effect of t103, but that recovery is
 measured by the orchestrator's sweep, never claimed by a card fence. `scratch/`'s
 untracked mass is the subject of t104(a), not a product RED.
+
+## phase_17_pin_repremise_checker_decode - Index re-premise for the base64-hidden card-path pins, and the checker upgrade that sees them (operator authorization, WAL 1240/1241)
+
+**Scope ruling (operator, WAL 1241).** TWO SEPARATE CARDS, deliberately NOT merged
+("分開開卡", 2026-10-21). The phase exists because the phase_16 hygiene batch moved the
+archived cards to `docs/issues/closed/` and eleven legs of
+`docs/state/merge_test_index.json` still name the OLD live paths from INSIDE
+base64-encoded probe payloads - a class the shipped plaintext-only auditor cannot see
+(WAL 1236). t105 re-premises those eleven legs (the first non-orchestrator write to the
+index, authorized IN WRITING for THIS CARD ONLY); t106 upgrades the auditor so the same
+class is visible next time. They share NO path and each freezes the other's surface, so
+either merge order works.
+
+**Measured base state this plan relies on (commands actually run at survey/groom).**
+- The index carries 318 legs (blob 1,303,989 bytes LF; worktree 1,305,446 bytes CRLF
+  under `core.autocrlf=true`, so every byte comparison in both cards is line-ending
+  agnostic), `schema_version` `1.0`, `updated_at` `2026-10-19T03:00:00Z`, indent 2.
+- 43 quoted base64 chunks across 34 legs, all canonical. Decoding them yields EXACTLY 11
+  legs with live card paths: 282 (t76 ac4), 306/307/308/309 (t86 ac1/ac2/ac3/ac4),
+  310/311/312 (t87 ac1/ac2/ac3), 315/316/317 (t88 ac1/ac2/ac3). Together with the two
+  plaintext pins (230 t62 ac6, 279 t78 ac4) the pinned class is 13 legs.
+- Baseline rc measured at groom: RED = {282, 308, 309} (their probes hard-fail on the
+  missing card); the other eight are GREEN-but-silently-degraded, because their `test -f`
+  guards skip the probe. Liveness was MEASURED, not assumed: 282/308/309 read the card
+  with live commands, while the other eight define card-path constants that the decoded
+  payload never uses again (0 uses beyond the definition).
+- No stored leg runs `docs/tools/leg_path_pin_audit.py`, so t106's upgrade changes no
+  stored leg's rc.
+
+**Numbering convention (WAL 1240 W2, binding on both cards and on every artifact of this
+phase).** All leg numbers in this phase are 0-BASED ARRAY INDICES into
+`merge_test_index.json`'s `legs` array, and are written WITH their `issue_id` and `ac`
+attached (e.g. `tests[308] t86-ac3`), never as bare numbers - the orchestrator's sweep
+runner prints 1-BASED ordinals, so a bare number is ambiguous by construction.
+
+> - t105 - Requirement: existing verification-report/anchor family only (the t58/t63/t71
+>   family that the index-leg anchors already carry, plus the t96/t99/t100 coordinated
+>   amendment precedent); no new REQ-ID.
+>   Title: index re-premise for the 11 base64-hidden card-path pins, delivered as a
+>   WRITTEN amendment of index ownership.
+>   Acceptance: the amendment is written in the card text and the derived leg set matches
+>   it exactly; ONLY the 11 named legs' `command` strings change and every other leg is
+>   byte-identical under canonical serialization with the key order disclosed; each edited
+>   payload is re-encoded byte-disciplined (decoded diff shown, re-encoded payload decodes
+>   back byte-equal); the amended index self-loads with 318 legs and unchanged
+>   `schema_version`/`updated_at`; a per-leg decision record states disposition
+>   (`read_closed` vs `byte_hygiene_move`), measured anchor liveness, and rc before/after
+>   (309 KEEPS rc=1 for its stale BASE literal and says so); frozen neighbours - led by
+>   t106's checker and findings record - byte-identical; delta pure against a
+>   run-time-derived base and groom-reproducible.
+>   Files: `docs/state/merge_test_index.json`,
+>   `docs/state/outputs/t105_repremise_decisions.json`. Depends: [].
+> - t106 - Requirement: existing checker/hygiene anchors from t104 only; no new REQ-ID.
+>   Title: give `docs/tools/leg_path_pin_audit.py` a decoded-base64 view while the
+>   plaintext view stays byte-stable, and ship the superset findings record.
+>   Acceptance: against a run-time-derived pre-t105 index the upgrade reports all 11
+>   hidden legs with `via=decoded_base64` and keeps both plaintext legs, with exit 0 on a
+>   parseable index; every (leg, path, status) triple the shipped t104 auditor derived is
+>   still derived, and `t104_hygiene_findings.json` is byte-frozen; a planted pin that
+>   exists in NO location is named, classified `missing_everywhere` and counted (+1
+>   `broken_pins`) with rc still 0, and `--expect-pins` stays the only opt-in nonzero
+>   path; the new findings record is reproducible from a fresh run; the auditor is proven
+>   read-only and index-neutral dynamically (hashes before/after three runs) and
+>   statically (stdlib-only imports, no write-mode open/unlink/replace/subprocess); delta
+>   pure - ZERO index bytes - and groom-reproducible.
+>   Files: `docs/tools/leg_path_pin_audit.py`,
+>   `docs/state/outputs/t106_checker_b64_findings.json`. Depends: [].
+
+**Hard rules inherited by both cards.** Delta-purity fences DERIVE their base at run time
+(`HEAD^` first, then `merge-base(main, HEAD)`, then `merge-base(origin/main, HEAD)`,
+printing each candidate, its rejection reason and the acceptance); pinning BASE to a
+main-tip-at-groom literal remains the t102 anti-pattern. `docs/log/orchestrator_wal.jsonl`
+is EXCLUDED from both ALLOWED sets. `ac_hash` is authored at groom by the t58 recipe
+(sha256 over the JSON-compact array of the six fenced bash bodies in ac1..ac6 order,
+CR-stripped and trimmed); the groom handoffs' `verification_commands` are BYTE-IDENTICAL
+to the card fences; and both cards were proved to BITE - each fence GREEN on a correct
+product and RED on a plausible violation, measured in throwaway clones before landing
+(t102/t103 precedent).
+
+**Deliberate non-coverage.** Leg 230 (t62) and leg 279 (t78) are DISCLOSED non-repairs on
+t105: 230 is the pre-existing frozen-RED analogue and 279's card is the documented live
+exemption from t104 - both are asserted untouched. Leg 309's stale BASE literal
+(`67c9db975d75`) is NOT repaired by this phase; it is recorded in the decision record so
+the orchestrator owns it. `docs/state/outputs/t104_hygiene_findings.json` is NOT
+regenerated - it is byte-frozen under t104 custody and is the reference t106's
+byte-stability fence is measured against; t106 ships a NEW superset record instead and the
+choice is stated in the card.

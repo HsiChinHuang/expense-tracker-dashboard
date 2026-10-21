@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-21T03:55:56Z",
-  "milestone": "phase_16_hygiene_staleness",
+  "generated_at": "2026-10-21T10:37:59Z",
+  "milestone": "phase_17_pin_repremise_checker_decode",
   "nodes": [
     "t0",
     "t1",
@@ -323,6 +323,16 @@
       "id": "t104",
       "status": "defined",
       "milestone": "phase_16_hygiene_staleness"
+    },
+    {
+      "id": "t105",
+      "status": "defined",
+      "milestone": "phase_17_pin_repremise_checker_decode"
+    },
+    {
+      "id": "t106",
+      "status": "defined",
+      "milestone": "phase_17_pin_repremise_checker_decode"
     }
   ],
   "edges": [
@@ -1009,10 +1019,12 @@
     "t53",
     "t57",
     "t58",
-    "t59"
+    "t59",
+    "t105",
+    "t106"
   ],
   "critical_path": [
-    "t103",
-    "t104"
+    "t105",
+    "t106"
   ]
 }
