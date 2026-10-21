@@ -1,34 +1,30 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-10-20T11:47:23Z",
-  "last_seq": 1208,
-  "slots": [
-    {
-      "slot_id": "slot_1",
-      "issue_id": "t99",
-      "role": "verifier",
-      "phase": "verify_issue"
-    },
-    {
-      "slot_id": "slot_2",
-      "issue_id": "t101",
-      "role": "verifier",
-      "phase": "verify_issue"
-    }
-  ],
+  "updated_at": "2026-10-21T02:08:59Z",
+  "last_seq": 1227,
+  "slots": [],
   "merge_queue": [],
   "max_slots": 2,
-  "active_issues": [
-    "t99",
-    "t101"
-  ],
+  "active_issues": [],
   "slot_cap_source": ".env MAX_SLOTS=2 (top precedence over docs/config.yaml slots.max=3)",
   "dispatch_frozen": false,
   "freeze_reason": null,
   "environment_note": "Main checkout clean at f8f13ab; worktrees removed (t94b,t94pm,t95b,t96b), 146 merged local branches pruned, build/t69_orch+t70_orch pollution deleted. .env quarantine at scratch/env_quarantine_t94post (copy in/out around platform calls). Platform CLI: cmd.exe /d /c npx tsx scripts/platform.ts (WSL node cannot run .ts directly).",
-  "merges_closed": 98,
+  "merges_closed": 102,
   "index_count": 318,
-  "milestones": [],
+  "milestones": [
+    {
+      "milestone": "phase_15_gate_amendments",
+      "status": "complete",
+      "cards": [
+        "t99",
+        "t100",
+        "t101",
+        "t102"
+      ],
+      "closed_at": "2026-10-21T02:10:00Z"
+    }
+  ],
   "closed": [
     "t90",
     "t91",
@@ -38,7 +34,11 @@
     "t95",
     "t96",
     "t97",
-    "t98"
+    "t98",
+    "t99",
+    "t100",
+    "t101",
+    "t102"
   ],
   "merged_issues": 4,
   "milestone": "phase_14_render_live_closeout",
