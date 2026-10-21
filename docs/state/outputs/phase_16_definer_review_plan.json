@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t103",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_16_hygiene_staleness",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t103", "t104"],
+    "findings": [
+      {
+        "issue_id": "t104",
+        "category": "other",
+        "severity": "warning",
+        "description": "W1 THE AUDIT'S DECLARED 'ALL-LEG' COVERAGE WAS PLAINTEXT-ONLY, AND THAT BLIND SPOT IS THE ONE CLASS THAT ACTUALLY BROKE LEGS - DISCLOSED AT WAL 1236, REPAIR IS A FOLLOW-UP CARD, NOT A RETROACTIVE AC. The shipped checker (docs/tools/leg_path_pin_audit.py) and the card's ac3/ac4 scan each stored command STRING for a literal docs/issues/t<digits>.md path; no file in the shipped surface contains the strings base64/b64/decode (measured: grep over the checker and the card returns zero encoding hits), so a leg whose probe is carried inside a base64 payload is invisible to it. Review RE-DERIVED this independently from docs/state/merge_test_index.json (318 legs): plaintext pins are exactly the two the record names (array index 230 = t62, index 279 = t78), and a b64-decode sweep over every leg command finds ELEVEN further legs naming now-archived cards - 282 (t76), 306/307/308/309 (t86), 310/311/312 (t87), 315/316/317 (t88) - matching WAL 1236's classification exactly. So the card's Context sentence 'No other leg names a literal card path' is true only for plaintext, and the findings record's pinned_legs=2 / broken_pins=0 is a true statement about a narrower scan than the card's title advertises. Consequence, measured by the orchestrator's sweeps: legs 282 (t76 ac4) and 308 (t86 ac3) went RED from the hygiene batch's own archival, and 306/307/310/311/312/315/316/317 stayed GREEN only because test -f guards make them SILENTLY DEGRADED (leg 230's frozen-33 membership predates this). This is a WARNING and not an error because (a) the deviation was disclosed in the channel before this review and is recorded in WAL 1236, (b) no AC of either card asserts an encoding-decoding capability the checker does not claim, (c) custody is correct - the index is orchestrator-owned, t104 asserts index_patched=false per leg and at top level, and (d) the repair route is already ruled (orchestrator index re-premise as its own WAL-documented surgical op, plus a follow-up card to upgrade the checker to decode b64 payloads and regenerate the findings record). REMEDY for the next survey: the upgrade card must fence the DECODE path with its own negative control (a planted b64 pin must be classified moved/missing_everywhere), and its findings record must distinguish plaintext pins from decoded ones so the two classes are never again merged into one count."
+      },
+      {
+        "issue_id": "t104",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 LEG-INDEX CONVENTION IS OFF BY ONE BETWEEN THE SWEEP RUNNER AND THE CHECKER, AND WAL 1236 ASSERTS THE WRONG THING ABOUT IT - CROSS-REFERENCES BETWEEN SWEEP OUTPUT AND AUDIT OUTPUT MUST CONVERT. WAL 1236 states 'my runner prints 1-based while the t104 checker/frozen-set convention is 1-based too (checker: leg 230=t62, leg 279=t78)'. Review measured the shipped index directly: docs/state/merge_test_index.json['tests'] carries t62's ac6 leg at ARRAY INDEX 230 (the 231st leg) and t78's ac4 leg at ARRAY INDEX 279 (the 280th). The checker and the findings record therefore print 0-BASED array indices, while the sweep's RED list is 1-based - which is why WAL 1236's own RED list names 283/308/309 for the same legs its classification paragraph calls 282/308. The SUBSTANCE of WAL 1236's classification is correct and independently reproduced here (t76@282, t86@306-309, t87@310-312, t88@315-317 in checker/0-based terms; all eight of the guarded ones GREEN-by-guard, 282/308/309 RED), so no verdict or classification was wrong; the documentation claim is. Recorded as a warning because an unrecorded off-by-one between two live numbering conventions is exactly the class of rot this milestone exists to write down, and the index re-premise op and the checker-upgrade card will both cite leg numbers."
+      },
+      {
+        "issue_id": "t103",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 t103's GROOM CONTEXT PREDICTED FOUR DRIFTING MATRIX ROWS AND THE LANDED PRODUCT MOVED TWO - THE DISCLOSURE IS CLEAN BECAUSE NO FENCE ASSERTED THE NUMBER. The archived card's Context names four drifting REQ_ROW rows (REQ-DOC-071, REQ-FE-034, REQ-FE-120, REQ-TECH-002); the builder and verifier measured the actual drift at TWO rows (REQ-DOC-071 gains closed/t96.md, REQ-FE-034 gains closed/t73.md) with REQ-FE-120/REQ-TECH-002 static on the build tree, disclosed at WAL 1233 and carried in the verifier's independent generator re-run (matrix sha 311d7d36e839 byte-equal, rows=749 gap=0 unpointed=0). This did not false-RED anything precisely because the card refused to fence a moving count: ac3 derives the row/tally/family counts from the document's own rows and the generator is the sole writer, so the prediction was narrative, not contract. The residual risk is documentary: docs/issues/closed/t103.md still carries the four-row narrative, so a future reader must treat the WAL 1233/1234 measurement as authoritative over the archived card text. Recorded as a warning, not an error, because the card's own discipline statement ('where survey's numbers were wrong or have moved, the measured value replaces it and the change is named') was honoured in the disclosure and no AC was affected."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "W4 COVERAGE: BOTH OPERATOR-DIRECTED WORKSTREAMS ARE COVERED, AND THE FOUR NON-COVERAGES ARE DELIBERATE, NAMED AND OWNED. Step 1 run against docs/requirements.md and docs/plan.md's phase_16 section: neither card introduces or deletes a REQ-ID, both cite the anchors their touched surfaces already carry (t103: REQ-PLAN-061 / REQ-EXT-070/071/072 and the t57/t58/t59 matrix family; t104: the REQ-STRUCT/OPS/DOC citation family from t25/t36/t37/t38/t58/t79), and docs/requirements.md is frozen by both cards' ac5 - so no requirement's verification target moved and no REQ_ROW was added or removed by either card. The non-coverages are recorded, not absorbed: (1) the OTHER FOUR criteria documents (docs_verification, dashboard_verification, infra_verification, security_ops_verification) also diff against regeneration and are explicitly Out of scope in t103, because the operator scoped phase_16 to the two documents named in WAL 1228; (2) repairing legs 230/279 or any stored leg is orchestrator custody, never card work; (3) the b64 decode upgrade of the checker (W1) is a follow-up card, not this one; (4) the 316 legs whose docs/issues mentions are directory prefixes or globs are correctly ruled non-findings, and the audit records that all 318 were scanned rather than sampled. NO coverage_gap ERROR: the milestone satisfies its directive as written in WAL 1230/1231."
+      },
+      {
+        "issue_id": null,
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "W5 GRANULARITY: BOTH CARDS SIT EXACTLY AT the configured ceiling and t104's branch delta exceeds the nominal file ceiling once its own required handoffs are counted - ACCEPTED because limits.issue_granularity.warn_only is true and the shape is the phase_15 precedent, but the survey's own granularity numbers do not match the config. docs/config.yaml limits.issue_granularity is max_acs=6, max_files=4, max_diff_lines=300, warn_only=true. Both cards carry exactly 6 ACs (at the ceiling, not over). t103's PRODUCT surface is 2 files; t104's is 4 (the .gitignore rule, docs/commands.md, docs/tools/leg_path_pin_audit.py, docs/state/outputs/t104_hygiene_findings.json) - at the ceiling - but its committed branch delta measured 5 paths (WAL 1233) and 6 at merge (WAL 1238) because the card and the groom/builder handoffs ride the same branch, and the survey handoff's granularity_check reported max_files_per_issue=5 / within_limits=true where the config says 4. The two cards were NOT split further because the operator directed exactly two cards (WAL 1230/1231) and t104's four deliverables are one indivisible hygiene batch (one ignore rule, one doc section, one checker, one record). Note the fence bodies themselves are far longer than 300 lines across the two cards (~876 and ~984 card lines), which is the established t102/t103/t104 evidence-fence shape, not new scope."
+      },
+      {
+        "issue_id": null,
+        "category": "duplicate_ac",
+        "severity": "warning",
+        "description": "W6 ONE AC TITLE IS SHARED VERBATIM BETWEEN THE TWO CARDS AND THAT IS BY DESIGN, NOT A DUPLICATION DEFECT - THE BODIES ARE DISJOINT. t103 ac6 and t104 ac6 carry the identical heading ('delta purity against the branch base derived at run time and groom reproducibility...') because both cards implement the same phase_15 closeout rule (run-time-derived purity base, ALLOWED names the card's own handoffs, WAL excluded, ac_hash recomputed not quoted - WAL 1221/1222). Review compared the fenced bodies: they differ in CARD/GROOM/BUILDER path literals, in the OWNED and DELIVERABLES sets (t103: two criteria docs; t104: four hygiene deliverables), and in the frozen-neighbour lists, so no two ACs assert the same thing. Step 4 also found no contradictory AC: the two cards share NO owned path (t103 owns the two criteria docs; t104 owns .gitignore, docs/commands.md, docs/tools/leg_path_pin_audit.py and its findings record - intersection measured empty) and each card's ac5 FREEZES the other's surface by bytes, which is what makes the operator's two-card split operationally meaningful rather than cosmetic and lets the two run in either order or together."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 DEPENDENCY AND CYCLE CHECK CLEAN, AND THE SPLIT'S ORDERING CLAIM VERIFIES. Step 3 against docs/state/dag.json (milestone phase_16_hygiene_staleness, generated 2026-10-21T03:55:56Z): 105 nodes, 144 edges, cycles=[], zero edges reference a non-existent node, and t103/t104 appear in the topological order as ROOT cards with depends=[] - matching both cards' declared depends: [] and matching the plan's 'Depends: []' lines. No orphan: both new nodes are declared in the milestone's issues_generated and both were built, verified and merged as independent roots (merges b60e17e and 400e4c5, both --no-ff, both with the WAL push-sha pairing), so the cards' claim that either may run first is not merely asserted but was the actual execution shape (parallel builders in worktrees t103b/t104b from the same base 5eb86f8). No dependency_error, cycle or orphan finding."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 MILESTONE BOOKKEEPING: THIS REVIEW APPLIED Step 6 ITSELF (the phase_15 W6 precedent, disclosed rather than silently varied). docs/state/milestones/phase_16_hygiene_staleness.json now carries review_plan_status=passed, review_plan_completed_at=2026-10-21T08:33:00Z, review_plan_verdict=PASS_WITH_WARNINGS and review_plan_attempts incremented 0 -> 1. Per this task's order the orchestrator pushes; the definer committed these two files locally and performed NO push, NO platform call and NO product edit. The two cards are already closed [verified] (#109/#110, WAL 1239) and archived at docs/issues/closed/, so this review is a post-milestone plan-split review, and the milestone's own closeout evidence (post-merge 318-leg sweep GREEN 280 / RED 38 with NEW REDs NONE and legs 190/218 recovered, legs 217/220 GREEN) is the corroborating proof that the split shipped what it claimed."
+      }
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/phase_16_definer_review_plan.json",
+      "docs/state/milestones/phase_16_hygiene_staleness.json"
+    ],
+    "platform_issue": 109,
+    "output_path": "docs/state/outputs/phase_16_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-21T08:33:00Z",
+  "retry_count": 0
+}
