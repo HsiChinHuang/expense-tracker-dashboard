@@ -1464,6 +1464,15 @@
       "merged_at": "2026-10-21T11:45:12Z",
       "retries": 0,
       "regressions": 0
+    },
+    {
+      "issue_id": "t107",
+      "platform_issue": 113,
+      "branch": "issue/t107-record-stamp",
+      "merge_sha": "6f64fc0f51c7e2dd9882ce6fe783ebfd7c059fc6",
+      "merged_at": "2026-10-22T03:45:55Z",
+      "retries": 0,
+      "regressions": 0
     }
   ]
 }
