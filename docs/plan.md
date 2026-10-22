@@ -2485,8 +2485,8 @@ either merge order works.
   310/311/312 (t87 ac1/ac2/ac3), 315/316/317 (t88 ac1/ac2/ac3). Together with the two
   plaintext pins (230 t62 ac6, 279 t78 ac4) the pinned class is 13 legs.
 - Baseline rc measured at groom: RED = {282, 308, 309} (their probes hard-fail on the
-  missing card); the other eight are GREEN-but-silently-degraded, because their `test -f`
-  guards skip the probe. Liveness was MEASURED, not assumed: 282/308/309 read the card
+  missing card); the other eight are GREEN only because their probes never read the
+  card at all. Liveness was MEASURED, not assumed: 282/308/309 read the card
   with live commands, while the other eight define card-path constants that the decoded
   payload never uses again (0 uses beyond the definition).
 - No stored leg runs `docs/tools/leg_path_pin_audit.py`, so t106's upgrade changes no
@@ -2509,7 +2509,7 @@ runner prints 1-BASED ordinals, so a bare number is ambiguous by construction.
 >   payload is re-encoded byte-disciplined (decoded diff shown, re-encoded payload decodes
 >   back byte-equal); the amended index self-loads with 318 legs and unchanged
 >   `schema_version`/`updated_at`; a per-leg decision record states disposition
->   (`read_closed` vs `byte_hygiene_move`), measured anchor liveness, and rc before/after
+>   disposition pair read_closed for the 3 live readers (legs 282, 308, 309) vs guard_correct_semantics for the 8 dead-constant legs (legs 306, 307, 310, 311, 312, 315, 316, 317), measured anchor liveness, and rc before/after; the hygiene-move disposition this plan had originally named was REFUSED on every one of the eleven legs, so it appears in no card, fence or record - t108 corrects this line to the shipped pair
 >   (309 KEEPS rc=1 for its stale BASE literal and says so); frozen neighbours - led by
 >   t106's checker and findings record - byte-identical; delta pure against a
 >   run-time-derived base and groom-reproducible.
