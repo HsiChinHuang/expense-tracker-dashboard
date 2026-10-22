@@ -1,0 +1,101 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t109",
+  "role": "definer",
+  "phase": "review_plan",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_19_hosted_spa_static_fix",
+    "review_verdict": "PASS_WITH_WARNINGS",
+    "issues_reviewed": ["t109", "t110"],
+    "findings": [
+      {
+        "issue_id": "t109",
+        "category": "other",
+        "severity": "warning",
+        "description": "W1 CHAIN-vs-PLAN: THE EXECUTED CHAIN MATCHED THE PLAN ON BOTH CARDS, MEASURED FROM THE WAL AND THE SHIPPED TREE, NOT FROM THE WAL'S OWN ADJECTIVES. Planned shape was groom -> builder -> verifier -> merge on each card, the two cards BUILD-parallel on a disjoint carve but MERGE-serialized by t110 depends_on t109, with zero index bytes and a byte-frozen contract. Executed: groom gate1 x2 PASS on both cards (WAL 1256), t109 builder 7da0761 -> verifier bd5b6324 PASS -> MERGE 009db2a PUSHED (WAL 1257-1259), t110 builder dispatched ONLY after t109 merged (WAL 1260, the depends_on rule honored - the t110 worktree was even removed pre-merge per the deps-not-closed rule), t110 builder 2b6aa13 -> verifier ec10ee60 PASS -> MERGE 0509310 PUSHED (WAL 1261-1263), closure steps 1-8 then platform close LAST (WAL 1264-1265). The dependency edge t110 --> t109 is present in docs/state/dag.json (this review read the edges array: exactly one edge touching either new node, no cycle, neither node an orphan). The disjoint carve shipped exactly as carved: t109's merged delta is EXACTLY {backend/app/main.py register_spa_static + SPA_ASSET_SUBDIR, test_static_serving.py} (WAL 1259 merge delta), t110's is EXACTLY the five card-owned files with the main.py delta confined to the GET / handler region (WAL 1261 line-by-line read). The mission itself is verified on the live host (WAL 1265): GET / 200 text/html, /assets/index-DpxkfWRY.js 200 text/javascript (was 404), /login 200 fallback, /api/v1/health 200 - both production defects dead. Recorded as a warning rather than silence for the two honest deviations that rode the chain, both accepted in-window and neither a plan defect: the t109 builder handoff needed schema retry 1 on one metadata const field (product bytes untouched, WAL 1257), and the t110 merge had to be concluded from the staged dry-run tree after the autocrlf flip blocked the abort-reset, with parents 1e6efbd+2b6aa13 verified (merge_history t110 note; see W10 for the root-cause rule)."
+      },
+      {
+        "issue_id": "t109",
+        "category": "other",
+        "severity": "warning",
+        "description": "W2 RULING (a) HONORED: THE OPTIONAL-INDEX-QUESTION WAS RULED NO ON BOTH CARDS AND THE ZERO-IS-BYTES CLAIM IS TRUE BY THIS REVIEW'S OWN MEASUREMENT, NOT BY THE CARDS' ASSERTION. This review parsed docs/state/merge_test_index.json at HEAD: 318 legs, and the set of legs carrying issue_id t109 or t110 is EMPTY - no new leg, no amended leg, no re-premise. The closure sequence confirms the policy was correctly NOT invoked: WAL 1264 records 'merge_test_index UNTOUCHED (both cards ZERO index bytes in writing - W2 policy not invoked)'. The ruling's substance also held: the defect CLASS was closed by re-shaped fixtures rather than a hosted-fetch leg - t109's _build_static now stages index.html at the static root with the bundle below assets/ mirroring frontend/dist, the three frozen t24 node IDs pass BY NAME under the already-frozen tests[130] (t24) in every sweep, and the verifier independently proved BOTH directions on merged bytes (the referenced-URL 200 with JS/CSS content-type AND the old double-assets URL now 404, WAL 1258-1259). The three recorded reasons for declining the index write all survived contact: leg 130 carries the guard for free forever; a hosted asset-fetch leg would have been RED-BY-CONSTRUCTION at merge (deployment lag, residual #61); and the parse-index.html-at-run-time constraint travels with the backlog entry so a future leg cannot be built in the rot-prone pinned-hash costume. The openapi freeze held too: openapi.yaml at HEAD is blob 684cd411cb460659474bf5c6342d617564550f1b, measured by this review via git rev-parse HEAD:openapi.yaml and equal to the verifier's P3 measurement (WAL 1263) - zero bytes of contract drift across two merges that both touched the same FastAPI factory."
+      },
+      {
+        "issue_id": "t110",
+        "category": "other",
+        "severity": "warning",
+        "description": "W3 RULING (b) HONORED: THE ROUTE-FREE COMMITTED TREE KEEPS {\"status\":\"ok\"} AND tests[130]'s FROZEN ASSERTIONS SURVIVED WITH NO WRITTEN AMENDMENT - CHECKED IN CARD TEXT, SHIPPED CODE, AND SWEET SPOT EXECUTION. The card text states the ruling and its reasoning (test_smoke/leg 8 load-bearing, no built frontend to serve on the committed tree, scoping to the static-present case is what makes paths.count(\"/\")==1 and unknown-path-404 survive without amendment - 'a deliberate design constraint on the fix, not an accident', docs/issues/closed/t110.md Context). The shipped code honors it literally: backend/app/main.py:103-111 keeps the frozen @application.get(\"/\") decorator and the -> dict[str, str] annotation, adds if index_file.is_file(): return FileResponse(index_file) with exactly one sanctioned # type: ignore[return-value], and the JSON payload remains the else-branch - the fix changed what the ONE existing root route RETURNS, never how many routes exist. Execution corroborates: merged-tree leg 130 verbatim rc=0 on both merges (WAL 1259, 1263), the route-free premise probe (exactly one / route, no Mount, GET / -> {\"status\":\"ok\"}, unknown path 404) passed in the verifier's P2 composite (WAL 1263), and the live host now serves the SPA at / while the route-free tree still answers JSON - the two halves of the ruling are simultaneously true. The openapi consequence was measured, not hoped: widening the annotation would have regenerated the root response model and RED-leg 227's green openapi half, and the shipped blob 684cd411cb proves that never happened."
+      },
+      {
+        "issue_id": "t110",
+        "category": "other",
+        "severity": "warning",
+        "description": "W4 THE README TRIPLE PIN WAS RE-MEASURED TO SHIPPED BYTES AND THIS REVIEW RE-MEASURED THE TRIANGLE INDEPENDENTLY AT HEAD: 396 LINES / f7c85e88... ON ALL THREE SIDES. Measured directly by this review on the working tree at c9177f5: cr-stripped README.md is 396 lines with sha256 f7c85e88..., backend/scripts/docs_verification.py carries README_LINES = 396 and README_DIGEST = f7c85e88..., and the regenerated docs/criteria/docs_verification.md attests the README_MEASURE PASS row lines=396 digest=f7c85e88... - the triangle agrees, matching the verifier's P6 (WAL 1263). The bounded edit shipped inside the frozen shape: 6 line-neutral README lines, 17 level-2 headings preserved, 13 64-hex literals held, the live-URL guidance now names /api/v1/health as the operational probe (the guidance class that misled the operator), and the pre-existing agent_pack CARRIED_DIGESTS drift was re-premised per the t100 precedent so leg 258's ALL_CHECKS_PASS gate could ship green - a disclosed pre-existing repair, correctly attributed in the card to t103's regeneration, not caused or silently absorbed."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W5 HELD ITEM 1 REMAINS CORRECTLY HELD: THE HOSTED FRONTEND-ASSET LEG SHOULD STILL NOT BE A CARD. Reading docs/backlog.md's HELD section against what shipped: the reason the deferral was made has now PARTLY ELAPSED - the RED-BY-CONSTRUCTION argument (the deployed bytes were the broken ones until t109 shipped) is spent, because WAL 1265 verified the live host now serves the document and the hashed bundle correctly. A leg that parses the deployed index.html at run time and fetches what IT references would therefore be GREEN today, not red. But the other two reasons stand unchanged: it is still an INDEX AMENDMENT carrying the full WAL 1248 W2 eight-property cost, and the defect class is already guarded in every sweep by the re-shaped fixture under frozen tests[130]. JUDGMENT: correctly HELD, but the HELD entry's own framing should be refreshed at the next survey - it currently leads with the now-elapsed red-by-construction reason, and if a future phase ever OWNS an index write this leg is a first-rank candidate. The parse-at-run-time / never-pin-a-hash constraint must survive any such refresh verbatim. No card recommended this review (recommendation only, per scope)."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W6 HELD ITEM 2 IS STILL TRUE AND IS NOW THE STRONGEST CANDIDATE TO BECOME A CARD AT THE NEXT SURVEY: tests[227] (t59 ac4, 0-based) CARRIES A STALE README PIN AND IS RED AT BASE AND HEAD. This review measured the leg's command in the index directly: it pins README.md at 308 lines and cr-digest a64efaa2... (both literals present in the stored command, alongside the 6f2a0a3d... openapi pin whose half IS green and stayed green), while the shipped README is 396 lines / f7c85e88... - so the leg is RED at base and at head, confirmed independently by the t110 verifier's P3 and by both merge_history notes ('RED at base AND head, parked stale-pin class'). Both cards honored the no-false-claim rule: neither claimed to fix it, and the constraint text in t110 explicitly forbids the builder from claiming it. The staleness is now DOUBLED: t110 legitimately moved the README digest again (15b24413... -> f7c85e88...), so leg 227's pin drifted further from its already-stale premise while remaining in the same RED class. RECOMMENDATION ONLY (no card created here): the next survey should weigh a small index-amendment card re-premising leg 227's README half to the then-shipped pair under the W2 eight-property policy - re-premise, not relax - since every future README move deepens the same drift and the leg has been RED across at least three phases of sweeps."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W7 THE WINDOWS-PYTHON CRLF FIXTURE FRAGILITY IS REAL, PRE-EXISTING, TWICE CONTAMINATED REAL SWEEPS THIS PHASE, AND IS A RECOMMENDED SMALL HYGIENE CARD (NOT CREATED HERE). The record: (1) at the t109 merge the full pytest under Windows-python showed 3 failures that all reproduce on the PRE-MERGE control a76d127 and all pass under WSL uv - one is the static-serving fixture reading its fixture-written asset in text mode so \\n becomes \\r\\n in the served body (WAL 1259, correctly classified as pre-existing, NOT a t109 regression, and explicitly recorded as a standing backlog candidate rather than silently folded in); (2) the post-t109 sweep showed 8 extra REDs (1-based 111,123,125,166,230,280,308,313) plus the known 190 flake, ALL traced to Windows-python rewriting criteria reports + package-lock during the builder/verifier window combined with the autocrlf flip, all 9 rc=0 after restoring autocrlf=true and checking the tree clean (WAL 1263); (3) the final post-phase sweep repeated the class with legs 142/184 RED only on the dirtied tree (WAL 1265). The hygiene fix is small and bounded: the affected fixture/generator reads should read BYTES or newline-normalize, and report-generating legs should be made to write to scratch or be content-comparison-tolerant. This is a product-hygiene card, distinct from the sweep-precondition doc rule in W10; both are worth doing and neither is a defect of t109/t110, whose own fences were explicitly CR-tolerant (t110 ac4 measures the pin CR-stripped precisely so autocrlf shape cannot flip it)."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W8 THE 193/318 MISSING-ac-KEY GAP IS CONFIRMED BY DIRECT MEASUREMENT AND REMAINS A BACKLOG ITEM, NOT A phase_19 DEFECT. This review enumerated the tests array: exactly 193 legs (0-based indices 0..192) carry no 'ac' key, while every leg from 0-based 193 onward does - matching the 193/318 figure in the dispatch record. The gap predates phase_19 (it is the historical index's early-era shape), neither t109 nor t110 was obliged to touch it, and both cards obeyed the WAL 1240 W2 numbering discipline in their own text (every leg number stated 0-based with issue_id and ac attached). It stays correctly in standing backlog per the phase_18 disposition (WAL 1249 explained it to the operator and left it there); recorded here only so the next coverage check reads '193 legs without ac metadata' as a known deferral rather than a phase_19 finding. A future remediation is an index-wide metadata write and should be scoped as its own amendment-class phase, not smuggled into a product card."
+      },
+      {
+        "issue_id": "t110",
+        "category": "other",
+        "severity": "warning",
+        "description": "W9 PLAN-LEVEL DEFECT WORTH RECORDING FOR THE NEXT SURVEY: THE CLOSURE-ORDER LATENT HAZARD SHIPPED GREEN AND BENIGN BUT WAS NEVER A PLAN-LEVEL PATTERN RULE. The shipped read_root (backend/app/main.py:103-111) closes over index_file, a local bound LATER inside create_app (line 130); it works only because no request can be served before create_app returns. The orchestrator foresaw this and dispatched it as named probe P1; the verifier measured it BENIGN/LATENT-UNREACHABLE (binding unconditional, no pre-return invocation, double-create_app safe, WAL 1263). This review agrees with that judgment on the shipped bytes - but notes the plan-level gap: the card's own ACs never required the pre-binding shape (e.g. resolving index_file before the handler definition), so the correctness rode on a verifier probe rather than on a fence, and the next card that edits inside create_app could ship the same shape into a context where the unreachability argument no longer holds (e.g. if a startup event or middleware ever touches the handler). RECOMMENDATION for the next survey: when a card's fix pattern is 'handler closes over a later-bound local', either make pre-binding an explicit AC constraint or record the accept-the-hazard ruling in the plan vocabulary so it stops being re-litigated per-card. Not a defect of t110 as scoped - the card disclosed the shape and the process caught it end-to-end."
+      },
+      {
+        "issue_id": null,
+        "category": "other",
+        "severity": "warning",
+        "description": "W10 PLAN/DOC GAP CONFIRMED: THE 'SWEEPS MUST ASSERT autocrlf=true AND A CLEAN STATUS BEFORE LEG RUNS' RULE IS A WAL LESSON WITH NO HOME IN A FENCED DOCUMENT, AND IT COST THIS PHASE TWO MIS-READ SWEEPS AND ONE BROKEN TRANSACTIONAL MERGE. WAL 1263 states the lesson verbatim as a closeout instruction, and the phase paid for its absence three times: the 8-RED contamination sweep, the final sweep's 142/184 dirt REDs (WAL 1265), and the failed merge abort that left MERGE_HEAD staged and forced the merge to be concluded from the staged dry-run tree (merge_history t110 note). This review grepped: docs/commands.md and docs/config.yaml carry NO such rule (only the config's git.autocrlf_uniform reference pointer and the historical merge_history disclosures). Two placements are recommended for the next survey, recommendation only: (a) the sweep-runner precondition (assert core.autocrlf=true and porcelain-clean status before dispatching legs, and treat any Windows-python regeneration of committed reports during a sweep window as contamination, per WAL 1263's own words) belongs in docs/commands.md - noting that the already-defined t104 card (#110) literally covers 'codify the cmd.exe-vs-WSL environment rules in docs/commands.md', so t104's scope should be CHECKED and if needed EXTENDED to carry this rule rather than opening a duplicate card; (b) the builder/verifier worktree discipline (never flip repo-local core.autocrlf in the MAIN checkout as an environment adaptation - the t110 builder's disclosed LF-normalization adaptation is what flipped it, via the worktree config, with repo-wide consequences) is a preflight/merge.md rule candidate. The class already has a carve-out precedent (t37's autocrlf branch), so the fix is documentation + a precondition assertion, not new semantics."
+      },
+      {
+        "issue_id": "t110",
+        "category": "granularity_too_large",
+        "severity": "warning",
+        "description": "GRANULARITY (warn_only by config limits.issue_granularity): BOTH CARDS SIT EXACTLY AT THE max_acs CEILING (6 ACs each, config max 6) AND t110 EXCEEDS max_files: it owns 5 product files (backend/app/main.py GET / region, the new backend/tests/unit/test_root_path_serving.py, README.md, backend/scripts/docs_verification.py, docs/criteria/docs_verification.md) against config max_files 4. The exceedance was disclosed at survey with the standing justification - the README triple-pin triangle (README bytes == verifier constants == regenerated report) physically cannot move one leg at a time, per the t94/t96/t100 precedent - and the executed phase vindicated the grouping: splitting the pin move from the report regeneration would have shipped a RED leg 258 window. t109 stays inside limits (2 product files). Recorded as a warning because the config marks the thresholds warn_only, not because the split was wrong. Dependency check separately clean: t110's depends: exists, the dag measured 111 nodes with a full topological cover at survey, no cycle, no orphan, and the serialized merge executed the edge faithfully."
+      },
+      {
+        "issue_id": null,
+        "category": "coverage_gap",
+        "severity": "warning",
+        "description": "COVERAGE: BOTH OPERATOR-AUTHORIZED DEFECTS (WAL 1255, operator authorization 'repair both, open separate cards') ARE COVERED AND VERIFIED ON THE LIVE HOST, AND EVERY UNCOVERED ITEM IS AN EXPLICIT DEFERRAL, NOT AN OMITTED REQUIREMENT. t109 closes D1 (the one-level-too-high mount) with the mount fix plus the fixture re-shape and the real-artifact fences; t110 closes D2 (JSON at the bare root) with the composite-proven FileResponse plus the README guidance move. Neither card invents, deletes, or edits a REQ-ID; docs/requirements.md is byte-frozen by both cards' fences. The survey's three declared uncovered items all still stand as disclosures rather than gaps: (1) no hosted leg fetches a frontend asset - HELD with its binding constraint (see W5); (2) leg 227's stale README pin - pre-existing, HELD, strongest next-survey candidate (see W6); (3) the docker/container-dependent legs (0-based 128/144/201/210/227/243/248/286/289) honestly reported UNMEASURED rather than asserted green, and the already-RED set (191/227/231/259/290/294) stayed RED as predicted - the final sweep's 281G/37R vs the 282/36 baseline fully classifies its delta as flake (190), contamination (142/184 on dirty trees, rc=0 clean), and the 300/301/302 recovery, with ZERO product-attributable new RED (WAL 1265). No coverage_gap error exists against the milestone's authorized scope."
+      }
+    ],
+    "notes": "review_plan of phase_19_hosted_spa_static_fix as EXECUTED (both cards merged and closed: t109 merge 009db2a / platform #115, t110 merge 0509310 / platform #116; WAL through 1264, dispatch record 1265). Verdict PASS_WITH_WARNINGS: 11 findings, all warnings, zero errors. Independent re-measurements performed by this review at HEAD c9177f5: index parse (318 legs, zero t109/t110 legs), openapi blob 684cd411cb460659474bf5c6342d617564550f1b, README triangle 396/f7c85e88 == pin == report, main.py shipped handler shape, dag edge t110-->t109, and the 193-leg missing-ac-key census. No product code touched, no relabels, no index bytes, no WAL writes by this review."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/phase_19_hosted_spa_static_fix_definer_review_plan.json",
+      "docs/state/milestones/phase_19_hosted_spa_static_fix.json"
+    ],
+    "platform_issue": null,
+    "output_path": "docs/state/outputs/phase_19_hosted_spa_static_fix_definer_review_plan.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-22T11:55:00Z",
+  "retry_count": 0
+}
