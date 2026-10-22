@@ -1474,6 +1474,15 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge_sha recorded in follow-up commit (amend-regress avoided; pre-amend sha 6f64fc0 disclosed)"
+    },
+    {
+      "issue_id": "t108",
+      "platform_issue": 114,
+      "branch": "issue/t108-plan-drift",
+      "merge_sha": "b6f03b860665debcf65cb374405ce18288a47c81",
+      "merged_at": "2026-10-22T03:46:28Z",
+      "retries": 0,
+      "regressions": 0
     }
   ]
 }
