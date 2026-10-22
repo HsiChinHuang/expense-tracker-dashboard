@@ -1469,10 +1469,11 @@
       "issue_id": "t107",
       "platform_issue": 113,
       "branch": "issue/t107-record-stamp",
-      "merge_sha": "6f64fc0f51c7e2dd9882ce6fe783ebfd7c059fc6",
+      "merge_sha": "fae71578ae1b6635337572e602522866d38bab70",
       "merged_at": "2026-10-22T03:45:55Z",
       "retries": 0,
-      "regressions": 0
+      "regressions": 0,
+      "note": "merge_sha recorded in follow-up commit (amend-regress avoided; pre-amend sha 6f64fc0 disclosed)"
     }
   ]
 }
