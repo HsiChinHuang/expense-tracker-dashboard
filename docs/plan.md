@@ -2651,3 +2651,169 @@ properties. `docs/state/outputs/t104_hygiene_findings.json` and
 `t106_checker_b64_findings.json` stay byte-frozen (t104/t106 custody); t107 ships a
 NEW stamped companion record instead. The phase_17 survey and review_plan handoffs
 are historical records and are NOT rewritten - t108 fixes plan.md only.
+## phase_19_hosted_spa_static_fix - The hosted single-container SPA serves nothing: assets 404 and the root answers JSON (operator authorization 2026-10-22)
+
+**Scope ruling (operator, 2026-10-22).** BOTH measured hosted defects are fixed, as
+TWO SEPARATE CARDS, through the standard process (operator wording, translated: "both
+are to be fixed, as separate cards, following the standard process"), 比照前例 with
+phase_16/17/18. The two defects share a file (`backend/app/main.py`) but not a surface;
+the overlap resolution is recorded below and in both cards.
+
+**The two measured hosted defects (measured on the live host at survey, deployed from
+main tip `cd0bf50`; the product bytes under `backend/`, `frontend/` and `Dockerfile`
+have been identical since `6addba0`).**
+
+- **D1 - the SPA document ships, every asset it names 404s, the page renders BLANK.**
+  `GET /login` and `GET /index.html` return 200 with the correct HTML shell, and
+  `GET /assets/index-DpxkfWRY.js` returns 404 `application/json`
+  `{"detail":"Not Found"}` - while `GET /assets/assets/index-DpxkfWRY.js` returns 200
+  `text/javascript` 772,815 bytes. The doubled `assets/` is the whole diagnosis:
+  `Dockerfile:46` copies Vite's `dist/` INTO `backend/static`, so the image carries
+  `backend/static/index.html` PLUS `backend/static/assets/<hashed>.*`;
+  `register_spa_static` then mounts `StaticFiles(directory=static_dir, html=True)` at
+  the frozen `SPA_MOUNT_PATH = "/assets"` where `static_dir` is that WHOLE copied dist.
+  **The mount POINT is correct; the mounted DIRECTORY is one level too high.**
+- **D2 - the root path shadows the SPA.** `create_app` registers a `GET /` handler
+  returning `{"status": "ok"}` BEFORE the SPA catch-all, so the bare deployed URL shows
+  JSON. The operator opened it, saw JSON, and reasonably concluded the site was broken.
+  `/api/v1/health` is unaffected and answers correctly.
+
+**Why the green pipeline missed this (a design gap, stated honestly - the pipeline is
+not broken).** Four facts each held independently, and together they made the
+deployment path unobserved: (1)
+`backend/tests/unit/test_static_serving.py`'s `_build_static` fixture wrote its asset at
+`static_dir/app.js`, the directory ROOT, so the too-high mount and the fixture AGREED
+and `GET /assets/app.js` -> 200 passed HONESTLY against a FALSE PREMISE - the test did
+its job, the fixture invented a layout the shipped image never produces; (2) the E2E
+suite runs the Vite DEV server on :5173 and never traverses the single-container static
+path; (3) all six hosted legs in the merge index (t26, t41, t57, t58, t59, t70) probe
+`/api/v1/health` and README text and NONE fetches a frontend asset; (4) the frozen
+static-serving leg (0-based index 130, t24) greps the literal
+`SPA_MOUNT_PATH == "/assets"`, which stays TRUE after the fix - the frozen literal is
+not the bug and leg 130 is not the thing to change.
+
+**Numbering convention (WAL 1240 W2, binding on both cards).** All leg numbers are
+0-BASED ARRAY INDICES into `merge_test_index.json`'s `tests` array, always written
+WITH their `issue_id` and `ac`, never bare - the orchestrator sweep runner prints
+1-based ordinals.
+
+**SURFACE OVERLAP RESOLVED (the operator required an explicit ruling).** Chosen: **(A)
+a disjoint BUILD carve, PLUS (B)'s serialized merge.** Reasoning, recorded because the
+two halves are not the same decision:
+
+- The BUILD surfaces are genuinely disjoint and the fences PROVE it, so the two cards
+  can be built in parallel: t109 owns `register_spa_static` + the static-dir resolution
+  + `backend/tests/unit/test_static_serving.py`; t110 owns ONLY the `GET /` handler, its
+  own new test file, `README.md`, the verifier constants it must re-premise, and the
+  generated report. Each card's ownership fence models `backend/app/main.py` as THREE
+  REGIONS and byte-compares everything outside the region its own card owns, so
+  non-interference is MEASURED on bytes rather than asserted in prose (t109 ac6, t110 ac1).
+- The MERGE is nevertheless serialized (`t110 depends_on t109`) because t110's claim is
+  COMPOSITE: "the root serves the SPA" is only true if the assets that document names
+  actually resolve. Measuring t110 against a still-broken asset mount would green a card
+  whose user-visible promise is unmet, and the composite clone measurement showed exactly
+  this - damaging t109's mount turns t110's ac2 RED, which is only obtainable if t109
+  lands first.
+- The disclosures are monotone-safe by construction: a sibling's dirty surface is
+  DISCLOSED, not frozen (a byte-freeze on a surface the sibling legitimately edits REDs
+  whichever card merges second), and the disclosure still checks that the SIBLING'S CLAIM
+  survives on those bytes, so "disclosed" is not "ignored".
+
+**THE OPTIONAL-INDEX-QUESTION, RULED AND RECORDED (the operator required a ruling).**
+Should this milestone ALSO add a hosted leg that fetches a real frontend asset, closing
+blind-spot (3)? **RULING: NO index write on either card.** Reasoning:
+
+1. A new hosted leg is an INDEX AMENDMENT, which invokes the full WAL 1248 W2
+   eight-property policy (WAL-names-card-first, written-in-card text, derived surface,
+   per-leg byte proof, metadata freeze, decision record, EXPIRY, sibling zero-bytes).
+   Neither card can satisfy that policy honestly here, because the leg would be
+   RED-BY-CONSTRUCTION AT MERGE: the deployed bytes at the moment t109 merges are still
+   the broken ones, so a hosted asset-fetch leg cannot be GREEN when the index gains it.
+   Adding a leg that is red when it lands would re-create the very blind spot in the
+   opposite direction (a permanently-red leg teaches the sweep to ignore red legs).
+2. The defect CLASS is nonetheless closed WITHOUT the index: t109 re-shapes the fixture
+   to the real Vite layout, and that fixture runs under the ALREADY-FROZEN leg 130
+   (0-based, t24) whose three pytest node IDs are pinned. The false premise is removed
+   from the surface the sweep already executes every merge, so the class cannot recur
+   silently again on the built tree.
+3. The recommendation is not dropped, only deferred: it is recorded in `docs/backlog.md`
+   as a future hosted-probe card. If it is ever built, the leg MUST parse the deployed
+   `index.html` at run time and fetch what THAT document references - it must NEVER pin
+   a hashed filename, which would rot on the next frontend rebuild and re-create the
+   blind spot in a new costume.
+
+**The zero-index-bytes consequence.** `docs/state/merge_test_index.json` carries ZERO
+bytes on BOTH cards, so the eight-property policy is NOT invoked and no written
+amendment is made. t110's ac1 proves it as a zero-DIFF against a run-time-derived base
+AND against the working tree, so an uncommitted append cannot slip past.
+
+> - t109 - Requirement: none - a defect fix on an already-required surface; NO NEW REQ-ID.
+>   Title: hosted SPA asset resolution - `register_spa_static` mounts the built bundle
+>   directory instead of the copied dist root, and the static-serving fixture is
+>   re-shaped to the real Vite layout so the false premise can never carry the frozen
+>   node IDs green again.
+>   Acceptance: the frozen leg-130 anchors (mount name/path, fallback and index literals,
+>   both function definitions, the gate, the frozen call site, the dashboard-router
+>   ordering, `app = create_app()`, the three pytest node IDs) stay GREEN - the mount
+>   POINT does not move; the mount's `directory=` argument resolves `static_dir /
+>   SPA_ASSET_SUBDIR` (a new module-level `"assets"` constant, deliberately NOT added to
+>   the frozen set) and never `static_dir` itself; `_build_static` stages `index.html` at
+>   the static root with its asset BELOW `assets/`, so those same frozen node IDs can now
+>   only pass against a mount that resolves the inner directory; REAL ARTIFACT proof - on
+>   a hermetic Vite-shaped static tree wired through the module's own `resolve_static_dir`
+>   seam, every asset URL the staged `index.html` actually references answers 200 with a
+>   script or stylesheet content type; nothing is swallowed (route order metrics < mount
+>   < catch-all, `/metrics`, `/api/v1/health`, `/openapi.json` still 200, an SPA client
+>   route still receives the document, a missing asset is an honest 404), `openapi.yaml`
+>   stays byte-frozen, and every line of `main.py` outside the `GET /` region t110 owns is
+>   byte-identical to a run-time-derived base.
+>   Files: `backend/app/main.py`, `backend/tests/unit/test_static_serving.py`. Depends: [].
+> - t110 - Requirement: none - a defect fix plus documentation truth; NO NEW REQ-ID.
+>   Title: root path serves the built SPA - `GET /` returns the built index document when
+>   a frontend is present while the JSON status payload stays reachable on the route-free
+>   tree, and the README's live-URL guidance points the reviewer at the health probe
+>   instead of the bare root (triple pin re-measured).
+>   Acceptance: with a staged Vite-shaped tree, `GET /` returns the built `index.html` as
+>   `text/html` AND the bundle that document names resolves; on the ROUTE-FREE committed
+>   tree `GET /` keeps returning `{"status": "ok"}` (the RULING, recorded in the card -
+>   `test_smoke.py` and leg 8 are load-bearing on that payload), so the frozen
+>   `paths.count("/") == 1` and unknown-path-404 assertions survive WITHOUT any written
+>   amendment, because the fix changes what the ONE existing root route RETURNS, never how
+>   many routes exist; the shipped shape keeps the decorator, the `-> dict[str, str]`
+>   annotation and the docstring byte-identical (that docstring is `openapi.yaml`'s
+>   `description`, so the prose is contract) with ONE sanctioned
+>   `# type: ignore[return-value]`, ruff- and mypy-strict-clean; the README edit is
+>   LINE-NEUTRAL inside the triple pin (396 lines, 17 level-2 headings, 13 hex literals,
+>   ASCII) with `README_DIGEST` and the regenerated report re-measured to shipped bytes per
+>   the t96/t100 precedent; and the card RE-PREMISES the one pre-existing verifier
+>   `CARRIED_DIGESTS` drift it must repair to land leg 258 green - re-premise, not relax.
+>   Files: `backend/app/main.py` (the `GET /` handler only),
+>   `backend/tests/unit/test_root_path_serving.py`, `README.md`,
+>   `backend/scripts/docs_verification.py`, `docs/criteria/docs_verification.md`.
+>   Depends: [t109].
+
+**Hard rules inherited by both cards.** Delta-purity fences DERIVE their base at run
+time (`HEAD^` first, then `merge-base(main, HEAD)`, then `merge-base(origin/main, HEAD)`,
+printing each candidate and its rejection reason); pinning BASE to a main-tip-at-groom
+literal remains the t102 anti-pattern. `docs/log/orchestrator_wal.jsonl` is EXCLUDED from
+both ALLOWED sets. `ac_hash` is authored at groom by the t58 recipe (sha256 over the
+JSON-compact array of the six fenced bash bodies in ac1..ac6 order, CR-stripped and
+trimmed); the groom handoffs' `verification_commands` are BYTE-IDENTICAL to the card
+fences; and both cards BITE - each fence GREEN on a correct product and RED on a
+plausible violation, measured in throwaway clones before landing (t102/t103 precedent).
+At least one fence per card proves the defect class closed ON REAL ARTIFACTS (a
+Vite-shaped static tree with `index.html` plus `assets/<hashed>.*`, served through a
+`TestClient` wired as production wires it), because a fixture that invents its own
+layout is precisely the bug this milestone exists to fix.
+
+**Custody.** `docs/state/merge_test_index.json` carries ZERO bytes on both cards (the
+eight-property WAL 1248 W2 policy is therefore NOT invoked - see the ruling above).
+`openapi.yaml` stays byte-frozen on both cards: the catch-all and the mount stay out of
+the schema, and `read_root`'s annotation and docstring are unchanged so the generated
+schema does not move. No build output is ever committed - the route-free premise (no
+`backend/static/index.html` in the tree, `create_app` registers NO Mount, exactly one
+`/` route) is what the committed tree must still satisfy. `README.md` is TRIPLE-PINNED
+and managed, and its only edit in this phase is the bounded live-URL-guidance change
+inside t110's written ACs. The hosted-asset-probe leg is DEFERRED to the backlog with
+its run-time-parse constraint recorded, so a future card cannot repeat the hashed-filename
+pinning mistake.

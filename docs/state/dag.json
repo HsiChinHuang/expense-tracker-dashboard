@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-22T03:15:02Z",
-  "milestone": "phase_18_record_stamp_plan_drift",
+  "generated_at": "2026-10-22T08:09:27Z",
+  "milestone": "phase_19_hosted_spa_static_fix",
   "nodes": [
     "t0",
     "t1",
@@ -343,6 +343,16 @@
       "id": "t108",
       "status": "defined",
       "milestone": "phase_18_record_stamp_plan_drift"
+    },
+    {
+      "id": "t109",
+      "status": "defined",
+      "milestone": "phase_19_hosted_spa_static_fix"
+    },
+    {
+      "id": "t110",
+      "status": "defined",
+      "milestone": "phase_19_hosted_spa_static_fix"
     }
   ],
   "edges": [
@@ -921,6 +931,10 @@
     {
       "from": "t102",
       "to": "t100"
+    },
+    {
+      "from": "t110",
+      "to": "t109"
     }
   ],
   "cycles": [],
@@ -1033,10 +1047,12 @@
     "t105",
     "t106",
     "t107",
-    "t108"
+    "t108",
+    "t109",
+    "t110"
   ],
   "critical_path": [
-    "t107",
-    "t108"
+    "t109",
+    "t110"
   ]
 }

@@ -1,0 +1,60 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t109",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_19_hosted_spa_static_fix",
+    "issues_generated": [
+      "t109",
+      "t110"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "DEFERRED BY RULING, NOT BY OMISSION: no hosted leg fetches a frontend asset, so the class of defect that escaped (a deployed document whose every bundle 404s) is closed on real artifacts in-process but not probed on the live host. Recorded in docs/backlog.md with its binding constraint: such a leg MUST parse the deployed index.html at run time and fetch what it references, never pin a hashed filename, because hashed names change on every frontend rebuild and a pinned name would rot and re-create the same blind spot. Adding the leg in THIS phase was ruled out because it would be RED-BY-CONSTRUCTION at the merge moment (the deployed bytes are still the broken ones until t109 ships).",
+        "DEFERRED, PRE-EXISTING: leg 227 (t59 ac4, 0-based) pins README.md at 308 lines / digest a64efaa2... while the shipped README is 396 lines / 15b24413..., so it is already RED at base from post-t94 README growth. Repairing it is an index amendment under the WAL 1248 W2 eight-property policy and is recorded in docs/backlog.md rather than folded into this phase.",
+        "NOT CLAIMED: legs 128/144/201/210/227/243/248/286/289 (0-based) depend on docker or a running container and could not be measured in the groom environment; their status is reported unmeasured, not asserted green. Legs 191/227/231/259/290/294 (0-based) are RED at base and stay RED after this phase."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 5,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "dependency_measurement": "Measured from docs/state/dag.json at generation time: 111 nodes, 145 edges, topological sort covers 111/111 nodes, so cycles_detected is empty by construction rather than by claim. t110 depends_on t109 is the single new edge; neither new card is an orphan (each carries at least one edge). docs/state/dag.mmd was regenerated and its node/edge sets were verified equal to dag.json by set comparison.",
+    "granularity_measurement": "max_acs_per_issue {\"t109\": 6, \"t110\": 6} is measured by counting the fenced AC headings in the shipped cards (config.yaml max_acs is 6, so both cards sit AT the ceiling and neither exceeds it). max_files_per_issue is 5 on t110, over config.yaml max_files 4, which config.yaml marks warn_only; the justification is the docs triple-pin precedent (t94/t96/t100 each moved README.md + docs_verification.py + the generated report in a single card because the pin triangle cannot move one leg at a time). t109 touches 2 product files.",
+    "milestone_slug_check": "phase_19_hosted_spa_static_fix validated against ^phase_[0-9]+_[a-z_]+$ BEFORE writing: the name component carries no digits, and no existing file under docs/state/milestones/ collides. slug_ok=True, milestone JSON internal id matches its filename: True.",
+    "notes": "phase_19_hosted_spa_static_fix: EXACTLY TWO CARDS on operator authorization 2026-10-22 (\"repair both, open separate cards, follow the standard process\"). Both defects were reproduced against the LIVE host at survey before any scoping, and both are hosted static-asset defects invisible to every existing gate.\n\nD1 -> t109 (issue 115): GET /assets/index-DpxkfWRY.js answers 404 application/json while GET /assets/assets/index-DpxkfWRY.js answers 200 text/javascript 772815 bytes; /login and /index.html return 200 with the correct shell and the page renders BLANK. The doubled assets/ segment is the diagnosis: register_spa_static mounts the WHOLE copied Vite dist at SPA_MOUNT_PATH=\"/assets\", so URL /assets/<hashed>.js resolves to backend/static/<hashed>.js and the inner assets/ hop is missing. THE MOUNT POINT IS CORRECT; THE MOUNTED DIRECTORY IS ONE LEVEL TOO HIGH.\nD2 -> t110 (issue 116): create_app registers GET / returning {\"status\": \"ok\"} BEFORE the SPA catch-all, so the bare deployed URL shows JSON - which is what the operator saw and reasonably read as a broken site. /api/v1/health is unaffected.\n\nWHY THE GREEN PIPELINE MISSED IT (the pipeline is not broken and is not blamed): (a) the _build_static fixture wrote its asset at the static ROOT and asserted GET /assets/app.js == 200, so the fixture shape DISAGREED with real Vite output while the test passed honestly against a false premise; (b) the E2E suite runs the Vite DEV server on :5173 and never traverses the single-container static path; (c) all six hosted legs (t26/t41/t57/t58/t59/t70) probe /api/v1/health and README text and none fetches a frontend asset; (d) leg 130 (t24 ac6, 0-based) greps the frozen literal SPA_MOUNT_PATH == \"/assets\", which remains TRUE after the fix - the frozen literal is not the bug. t109 therefore repairs the PREMISE (re-shape the fixture to the real dist layout) rather than relaxing any frozen assertion.\n\nSURFACE OVERLAP RESOLVED EXPLICITLY (both cards touch backend/app/main.py): the chosen option is a DISJOINT BUILD CARVE plus a SERIALIZED MERGE. t109 owns the static-directory resolution inside register_spa_static and backend/tests/unit/test_static_serving.py; t110 owns ONLY the GET / handler region (delimited at run time by two frozen lines, located by exact match with a loud failure if either moves), its own new test file, README.md and the verifier constants it re-premises. Option (A) alone was rejected because t110's claim is COMPOSITE - a root document whose every bundle 404s is the same blank page one URL earlier, so it cannot be measured on broken-asset bytes; hence t110 depends_on t109 for the merge window while build may run in parallel. Non-interference is PROVEN, not assumed: each card's ownership fence byte-compares the sibling's surface to a run-time-derived base, and where a sibling surface is legitimately dirty the fence verifies that the SIBLING'S CLAIM still survives rather than byte-freezing a moving target (a freeze would RED whichever card merges second, which is not monotone-safe for fences that run forever).\n\nOPTIONAL-INDEX-QUESTION RULED: NO index write on either card, so the WAL 1248 W2 eight-property index-amendment policy is NOT invoked and the OTHER card touches ZERO index bytes (proven as a zero-diff against a run-time-derived base AND against the working tree, so an uncommitted append is still caught). Closure for D1 rides on leg 130 executing the re-shaped fixture plus a fence that stages a REAL Vite-shaped static tree (index.html at the root plus assets/<hashed>.js) and asserts that every URL the staged index.html references answers 200 with a script or stylesheet content type through a TestClient wired exactly as production wires it. A fixture that mirrors Vite truth is acceptable; a fixture that invents its own layout is precisely the bug being fixed.\n\nNUMBERING CONVENTION (WAL 1240 W2): every leg number in this run is a 0-BASED index into the tests array of docs/state/merge_test_index.json and always travels with its issue_id and ac; the orchestrator sweep runner prints 1-based ordinals.\n\nHARD CONSTRAINTS CARRIED INTO BOTH CARDS AS WRITTEN ACs: leg 130's frozen greps and its three pytest node IDs stay GREEN (the mount point stays /assets); openapi.yaml stays byte-frozen at zero bytes of diff, so the mount and the catch-all stay out of the schema; the route-free premise holds on the committed tree (no build output committed, create_app registers NO Mount, exactly one / route, /openapi.json and /api/v1/health answer 200, an unknown path 404s) - which is why t110 was scoped to change what the ONE existing root route RETURNS rather than how many routes exist, needing no written amendment to any frozen assertion; and t78's metrics surface plus /metrics and /api/v1/* must not be swallowed by mount ordering. README.md is TRIPLE-PINNED and managed, so its live-URL guidance edit (point readers at /api/v1/health as the operational probe rather than the bare root, which is what misled the operator) is bounded by written ACs: LINE-NEUTRAL, 396 lines preserved, 17 level-2 headings preserved, ASCII-clean, the 64-hex literal count in docs_verification.py held at exactly 13, and README_DIGEST plus the regenerated docs/criteria/docs_verification.md re-measured to SHIPPED bytes per the t96/t100 precedent.\n\nONE PRE-EXISTING DRIFT IS REPAIRED IN-CARD AND DISCLOSED: docs_verification.py --check is RED on main tip because CARRIED_DIGESTS['docs/criteria/agent_pack_verification.md'] still carries the t35-era digest while fe314d6 (t103) regenerated that evidence document. Leg 258 (t71 ac4, 0-based) requires the regenerated report to end ALL_CHECKS_PASS, so no README pin move can ship green until that digest is re-premised; the verifier RE-ATTESTS carried reports and must never rewrite them, so the generator side moves - the exact t100 re-premise-not-relax precedent.\n\nVERIFICATION DISCIPLINE: every fence derives its BASE at run time (HEAD^, then merge-base(main, HEAD), then merge-base(origin/main, HEAD), each candidate printed with its rejection reason) and no main-tip-at-groom literal appears in any fence - the groom-ingest commit always sits between the groom-time tip and any base a builder may legally hold, which is the t102 lesson (WAL 1221/1222). All twelve fences were run GREEN on the correct product AND each mutation was run RED in a throwaway clone carrying a real Vite dist; the bite found roughly ten real fence bugs before landing, including a gate that ran before the checks it was meant to gate, a file-set check that compared commits only and so missed uncommitted bytes, and a sibling disclosure that accepted any sibling edit instead of verifying the sibling's claim. The definer wrote NO product code in this repository; reference implementations lived only in the throwaway clone.\n\nCUSTODY: docs/plan.md phase_19 section appended byte-preserving the 188132-byte prefix (now 201101 bytes, 20 level-2 headings, zero LF-only lines introduced); docs/backlog.md updated with both cards plus the HELD deferrals (24554 bytes); docs/state/issue_map.json holds t109->115 and t110->116 with the pre-existing extra top-level keys untouched; docs/log/orchestrator_wal.jsonl was NEVER touched."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/plan.md",
+      "docs/backlog.md",
+      "docs/issues/t109.md",
+      "docs/issues/t110.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_19_hosted_spa_static_fix.json",
+      "docs/state/outputs/phase_19_hosted_spa_static_fix_definer_survey.json",
+      "docs/state/outputs/t109_definer_groom.json",
+      "docs/state/outputs/t110_definer_groom.json"
+    ],
+    "platform_issue": 115,
+    "output_path": "docs/state/outputs/phase_19_hosted_spa_static_fix_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-22T08:09:27Z",
+  "retry_count": 0
+}
