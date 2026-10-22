@@ -1479,10 +1479,11 @@
       "issue_id": "t108",
       "platform_issue": 114,
       "branch": "issue/t108-plan-drift",
-      "merge_sha": "b6f03b860665debcf65cb374405ce18288a47c81",
+      "merge_sha": "048039c4575085e7a245078243db2c565737c33a",
       "merged_at": "2026-10-22T03:46:28Z",
       "retries": 0,
-      "regressions": 0
+      "regressions": 0,
+      "note": "merge_sha recorded in follow-up commit (amend-regress avoided)"
     }
   ]
 }
