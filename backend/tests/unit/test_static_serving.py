@@ -33,16 +33,24 @@ ASSET_MARKUP = "console.log('built asset');\n"
 def _build_static(tmp_path: Path) -> Path:
     """Create a fake built-frontend directory and return its path.
 
+    The layout mirrors ``frontend/dist`` as the image ships it (the
+    Dockerfile copies the dist root into ``backend/static``): the index
+    document sits at the static root and every built bundle lives below
+    the ``assets/`` subdirectory. The earlier shape — asset at the
+    static root — agreed with the too-high mount and let these node IDs
+    pass against a layout the shipped image never produces.
+
     Args:
         tmp_path: pytest-provided directory for this test's files.
 
     Returns:
-        Path: Directory carrying an index.html and one hashed asset.
+        Path: Directory carrying an index.html at the root and one
+            hashed asset below ``assets/``.
     """
     static_dir = tmp_path / "static"
     (static_dir / "assets").mkdir(parents=True)
     (static_dir / SPA_INDEX_FILE).write_text(INDEX_MARKUP, encoding="utf-8")
-    (static_dir / "app.js").write_text(ASSET_MARKUP, encoding="utf-8")
+    (static_dir / "assets" / "app.js").write_text(ASSET_MARKUP, encoding="utf-8")
     return static_dir
 
 

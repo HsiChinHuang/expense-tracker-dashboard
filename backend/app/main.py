@@ -31,6 +31,7 @@ SPA_MOUNT_NAME: str = "spa"
 SPA_MOUNT_PATH: str = "/assets"
 SPA_FALLBACK_PATH: str = "/{requested_path:path}"
 SPA_INDEX_FILE: str = "index.html"
+SPA_ASSET_SUBDIR: str = "assets"
 
 
 def resolve_static_dir() -> Path:
@@ -47,13 +48,23 @@ def resolve_static_dir() -> Path:
 def register_spa_static(application: FastAPI, static_dir: Path, index_file: Path) -> None:
     """Mount the built assets and the SPA fallback route on the application.
 
+    ``static_dir`` is the whole copied dist (``index.html`` at its root
+    plus every hashed bundle below ``assets/``), so the mount resolves
+    the inner bundle directory: mounting the dist root at ``/assets``
+    would make ``/assets/<hashed>.js`` look for the file one level too
+    high and 404 every hosted bundle. There is deliberately no
+    flat-layout fallback: a dist without ``assets/`` fails at startup
+    rather than silently serving a blank page.
+
     Args:
         application: The application to extend.
         static_dir: Directory containing the built frontend.
         index_file: The ``index.html`` served for client-side routes.
     """
     application.mount(
-        SPA_MOUNT_PATH, StaticFiles(directory=static_dir, html=True), name=SPA_MOUNT_NAME
+        SPA_MOUNT_PATH,
+        StaticFiles(directory=static_dir / SPA_ASSET_SUBDIR, html=True),
+        name=SPA_MOUNT_NAME,
     )
 
     @application.get(SPA_FALLBACK_PATH, include_in_schema=False)
