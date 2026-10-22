@@ -1494,6 +1494,16 @@
       "retries": 1,
       "regressions": 0,
       "note": "schema retry 1 (handoff const field only, product untouched); merge_sha recorded in follow-up commit per corrected convention; targeted merged-tree checks: leg 130 verbatim rc=0, full pytest 300/3 with 3 failures proven pre-existing under Windows-python via a76d127 control (CRLF fixture fragility + 2 sqlite timing), all green under WSL uv - zero t109-attributable regressions"
+    },
+    {
+      "issue_id": "t110",
+      "platform_issue": 116,
+      "branch": "issue/t110-root-path-spa",
+      "merge_sha": "0509310",
+      "merged_at": "2026-10-22T10:32:57Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge_sha recorded in follow-up commit per convention; merge concluded from staged dry-run tree after autocrlf flip blocked abort-reset (parents 1e6efbd+2b6aa13 verified); merged-tree: leg 130 (0-based) rc=0, leg 227 (0-based) RED at base AND head (parked stale-pin class, not t110), full pytest 307 passed WSL uv"
     }
   ]
 }
