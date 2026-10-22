@@ -53,7 +53,7 @@ Then run the Quick Start commands below and sign in with the fixed account
 demo@example.com / demo-password-123. The seed script touches only its own
 demo rows and is safe to re-run.
 
-The hosted app is live at https://expense-tracker-dashboard-1qtu.onrender.com.
+The hosted app is live at https://expense-tracker-dashboard-1qtu.onrender.com. The operational probe is https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health: it is the endpoint that answers correctly today, while the bare root serves the built SPA document only once this milestone's static-serving fix is deployed.
 It has NO seeded demo account: register your own account there before you try
 to sign in. The fixed demo account above exists only in your own local
 database, created by the seed command, and is never available on the hosted
@@ -320,7 +320,7 @@ so this README documents the procedure without claiming the deployment
 was verified live in CI. Open the deployed URL early: the free tier pays
 a cold start after each idle gap (see Free tier above).
 
-1. Open the live URL (the Render service named in `render.yaml`).
+1. Open the live URL (the Render service named in `render.yaml`). The honest liveness check is the operational probe https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health; the bare root serves the built SPA document only once this milestone's static-serving fix is deployed.
 2. Register an account (or log in).
 3. Add an expense.
 4. Set a budget for the month.
@@ -355,7 +355,7 @@ in `docs/ai-workflow.md`; the agent contribution rules live in `AGENTS.md`.
 
 ## Deployment on Render
 
-The service is live at https://expense-tracker-dashboard-1qtu.onrender.com.
+The service is live at https://expense-tracker-dashboard-1qtu.onrender.com, and the operational probe is https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health (the bare root serves the built SPA document only once this milestone's static-serving fix is deployed).
 The deploy-hook automation tracked as residual issue #61 stays open: the
 `RENDER_DEPLOY_HOOK` secret still needs the operator's configuration, so
 release triggers do not fire automatically yet. The procedure below is the

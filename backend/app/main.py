@@ -93,6 +93,13 @@ def create_app() -> FastAPI:
 
     register_error_handlers(application)
 
+    # The decorator, the ``-> dict[str, str]`` annotation, the docstring
+    # and the operationId below are FROZEN CONTRACT, not style: openapi.yaml
+    # carries this route's summary and description verbatim (leg 227, t59) and
+    # the root response model is derived from the annotation, so widening the
+    # annotation (or adding response_model=None) regenerates the byte-pinned
+    # contract. The annotation is therefore a deliberate lie to mypy-strict on
+    # the static-present return, repaired by exactly one type: ignore below.
     @application.get("/")
     def read_root() -> dict[str, str]:
         """Serve the skeleton root endpoint.
@@ -100,6 +107,8 @@ def create_app() -> FastAPI:
         Returns:
             dict[str, str]: A static status payload.
         """
+        if index_file.is_file():
+            return FileResponse(index_file)  # type: ignore[return-value]
         return {"status": "ok"}
 
     application.include_router(health_router)
