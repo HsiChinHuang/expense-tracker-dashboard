@@ -1484,6 +1484,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge_sha recorded in follow-up commit (amend-regress avoided)"
+    },
+    {
+      "issue_id": "t109",
+      "platform_issue": 115,
+      "branch": "issue/t109-spa-asset-resolution",
+      "merge_sha": "009db2a",
+      "merged_at": "2026-10-22T08:55:31Z",
+      "retries": 1,
+      "regressions": 0,
+      "note": "schema retry 1 (handoff const field only, product untouched); merge_sha recorded in follow-up commit per corrected convention; targeted merged-tree checks: leg 130 verbatim rc=0, full pytest 300/3 with 3 failures proven pre-existing under Windows-python via a76d127 control (CRLF fixture fragility + 2 sqlite timing), all green under WSL uv - zero t109-attributable regressions"
     }
   ]
 }
