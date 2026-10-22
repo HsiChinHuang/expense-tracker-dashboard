@@ -31,7 +31,7 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "15b244135126b7051a1601b773b966d698b7ac50898d8da959a8fe59abfe3e20"
+README_DIGEST = "f7c85e88c5e20296fd9de1c540495a3ab17e17d14bea8e9fb4854436424e8664"
 README_LINES = 396
 INDEX_FLOOR = 217
 
@@ -82,7 +82,7 @@ CARRIED: dict[str, int] = {
 }
 CARRIED_DIGESTS = {
     "docs/criteria/agent_pack_verification.md":
-        "69df80d608ee02f42acea9d4c44dc78fd6f30dd0d67ced688947c532c81ad1d8",
+        "2484e65c9d88b48a22a8db7423f09491d24a3da64a92f165f1701ea6194d2a71",
     "docs/criteria/dashboard_verification.md":
         "6fd4e18d55422c268b3d5848b0dfa59ce22474382d4c789a052aba20789751b6",
     "docs/criteria/infra_verification.md":
