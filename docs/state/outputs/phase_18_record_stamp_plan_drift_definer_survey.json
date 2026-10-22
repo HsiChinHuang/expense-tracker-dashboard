@@ -1,0 +1,82 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t107",
+  "role": "definer",
+  "phase": "survey",
+  "status": "COMPLETE",
+  "reached_state": "defined",
+  "evidence": {
+    "evidence_type": "planning",
+    "milestone": "phase_18_record_stamp_plan_drift",
+    "issues_generated": [
+      "t107",
+      "t108"
+    ],
+    "plan_path": "docs/plan.md",
+    "coverage_check": {
+      "requirements_covered": true,
+      "uncovered_requirements": [
+        "NO NEW REQ-ID ANYWHERE (checked in both cards): neither card invents an id, deletes one, or edits docs/requirements.md (frozen by both cards' ac5). t107 cites only t104/t106's existing checker/hygiene anchors; t108 is a documentation-vocabulary cleanup and cites none.",
+        "The t106 findings record is NOT regenerated and NOT edited: option (a) from the operator's three-way choice is REJECTED on t107 and recorded there. The record's blob is the artifact t106v verified and phase_17 review_plan W1/W9 credited its honesty precisely because nobody rewrote it. Coverage here means the replay becomes honest by DISCLOSURE (a measured stamp) plus an INSTRUMENT (--against-record), not by rewriting history.",
+        "The 10 path-membership mismatches and 10 classification drifts are NOT repaired: they are EXPECTED cross-blob differences and this phase's job is to make them classifiable. t107 ac3 re-derives them and DISCOVERS the historical index blob that reproduces the record exactly, asserting it differs from HEAD's blob - so the mismatch becomes evidence rather than an alarm.",
+        "docs/state/merge_test_index.json carries ZERO bytes on both cards. The WAL 1248 W2 eight-property index-amendment policy is therefore NOT invoked and no written amendment is made on either card: t107's stamp is MEASURED from the index, never stored in it. Recorded so review_plan can see the eight-property checklist was evaluated and found inapplicable, not overlooked.",
+        "The two frozen phase_17 handoffs (survey + review_plan) keep the old vocabulary BY DESIGN and are NOT in t108's scope: handoffs under docs/state/outputs/ are records of what the definer stated at that time, and rewriting them would falsify the record and destroy the property phase_17 review_plan W9 credited. The operator's ask to judge survey-json scope is answered NO with that reason recorded in t108's card.",
+        "A measured correction to WAL 1248 W3 is recorded in t108: the phrase 'REJECTS guard_correct_semantics for all eleven' occurs ZERO times in docs/plan.md (whole-file count 0) and lives only in the two frozen phase_17 handoffs. What plan.md carries is the disposition pair at line 2512. t108's ac1 therefore checks both needles globally AND proves the detector sees each by planting it, so the clean result for the absent needle is a measured absence rather than a vacuous pass.",
+        "The WAL 1248 item-3 missing-ac sweep (193 of 318 legs) is EXPLAINED and HELD, not dispatched: WAL 1249 records the operator's hold. Neither card touches it and both say so in Out of scope.",
+        "Leg 309's stale BASE literal (t86-ac4, KEEPS rc=1) remains orchestrator-owned as recorded by t105's decision record; neither card repairs it.",
+        "plan.md's phase_17 numbering-convention paragraph calls the index array 'legs' while the index's actual key is 'tests' (measured: the index carries schema_version and tests only; the same sentence's example correctly writes tests[308]). Same family of drift, NOT part of the W3 vocabulary finding, so it is left untouched and recorded as a residual risk rather than silently widened into t108's diff.",
+        "REQ coverage is otherwise UNCHANGED: t107 is an evidence/tooling surface and t108 is documentation prose. No requirement's verification target moves, so no REQ_ROW is added or removed."
+      ]
+    },
+    "granularity_check": {
+      "max_acs_per_issue": 6,
+      "max_files_per_issue": 2,
+      "within_limits": true
+    },
+    "dependency_check": {
+      "cycles_detected": [],
+      "orphans_detected": []
+    },
+    "dag_path": "docs/state/dag.mmd",
+    "notes": [
+      "TWO SEPARATE CARDS as the operator directed (WAL 1249, following the phase_16/17 precedent): distinct cards docs/issues/t107.md and docs/issues/t108.md, distinct platform issues #113/#114, distinct groom handoffs, disjoint owned surfaces, and each card's frozen-neighbour list names the other card's surface.",
+      "NO depends EDGE between them, deliberately: they share no path and are parallel-safe by MUTUAL FREEZE (t107's ac6 freezes docs/plan.md; t108's ac4 freezes docs/tools/leg_path_pin_audit.py and t107's stamped record). A depends edge would have to encode an ORDER that the operator's split does not imply and that the byte evidence shows is unnecessary - either merge order greens both cards. Both are dependency-free roots, so topological_order appends both and critical_path lists both as parallel first-class roots (the same treatment t105/t106 received).",
+      "GRANULARITY: t107 = one flag on the shipped auditor + one new stamped record (2 product files, 6 ACs). t108 = one document (docs/plan.md), two corrected paragraphs, 6 ACs, ZERO product bytes. Both within the 6-AC and file-count limits.",
+      "SAME-FILE TOUCH IS AUTHORIZED AND FENCED: docs/tools/leg_path_pin_audit.py is the same file t106 shipped. The operator allowed it for THIS card, and the fences carry the condition: ac1/ac3/ac5 prove the plaintext+decoded detection behaviour stays byte-stable (broken_pins=0 and the 13-leg pin set unchanged on the merged index) while hashlib is the SOLE import admission so the auditor stays stdlib-only/offline/read-only with no git subprocess.",
+      "EVERY LEG NUMBER IN BOTH CARDS IS A 0-BASED ARRAY INDEX into the index's tests array and travels with its issue_id and ac, never bare (WAL 1240 W2); the t107 record states the convention in its own leg_index_convention key.",
+      "RUN-TIME BASE DERIVATION IN EVERY PURITY/STABILITY FENCE on both cards (HEAD^ first, then merge-base(main,HEAD), then merge-base(origin/main,HEAD)), printing each candidate and its rejection reason. NO main-tip literal anywhere - the t102 lesson (WAL 1221/1222). The WAL is deliberately NOT in either card's ac6 ALLOWED set because the groom-ingest commit sits below any legal builder base.",
+      "NO COMMIT ID AND NO DIGEST IS EMBEDDED IN ANY FENCE on either card. t107's provenance facts (HEAD's index blob, the historical blob that reproduces the t106 record) are stated in the card as groom-time provenance but ac3 DISCOVERS the reproducing blob by walking git log -- docs/state/merge_test_index.json and only asserts that it differs from HEAD's blob, so the fence reads correctly on any base and after any future index change.",
+      "GATE 1 WAS RUN BY THE DEFINER ON BOTH CARDS BEFORE COMPLETING THIS PHASE (the check missed for t106 in phase_17): gate_check.ts definer groom for both handoffs returned {\"passed\": true, \"gate\": \"gate1_groom_complete\", \"errors\": []} with exit 0, and validate_handoff.ts returned [OK] for both. Raw outputs are pasted into each issue's groom-ratification comment.",
+      "PLATFORM BODIES ARE POINTERS, NOT MIRRORES, and this is disclosed rather than silent: the cards are 59,103 and 50,529 bytes, which exceed the Windows command-line ceiling measured at groom for the platform channel (a single argv payload: 32,687 bytes accepted, 32,725 rejected) through which scripts/platform.ts receives --body. The phase_14 t90/t91 precedent applies (t97's 244,623-byte card carried a pointer body on #104). The local card files remain authoritative, each body states why it is a pointer, and each issue's ratification comment carries the gate1 output, the ac_hash, the decision, the measured premise and the full bite-test battery.",
+      "MILESTONE SLUG VERIFIED BEFORE WRITING: phase_18_record_stamp_plan_drift matches the definer survey schema pattern ^phase_[0-9]+_[a-z_]+$ AND the repo's own factpack pattern ^(t[0-9]+|phase_[0-9]+_[a-z_]+)$ - no digit in the name part, which is what the phase_17 slug correction (WAL 1241 / the t106 supplement) was about."
+    ],
+    "supplement": {
+      "definer_decision_t107": "SHIPS (b) + (c) TOGETHER and explicitly REJECTS (a). (b) a NEW stamped companion record docs/state/outputs/t107_record_stamp_findings.json generated by RUNNING the tool against the merged index; (c) --against-record PATH on the auditor classifying every replay observation EXPECTED or DRIFT against the record's declared index blob. Rationale is recorded in the card: the t106 blob is itself verified evidence, a stamp without the flag would leave the replay honest only to a human reader, and the minimal surface that makes the ac4 replay honest is one flag plus one new record with ZERO index bytes.",
+      "definer_decision_t108": "DOCS-ONLY, plan.md ONLY, with the survey-json scope question answered NO and the reason recorded (handoffs are historical records). Includes the measured correction that the 'REJECTS ... for all eleven' phrase is not in plan.md at all, which is why ac1 plants each needle to prove its own detector.",
+      "measured_premise_t107": "Running the shipped t106 ac4 fence verbatim on merged main is RED (rc=1); a full diff of a fresh auditor run against the shipped record measures EXACTLY 10 path-membership mismatches and EXACTLY 10 classification drifts (record moved vs fresh present) at legs 282, 306, 308, 309, 310, 311, 312, 315, 316, 317 while the leg set and headline counts still agree (13 legs, pinned_legs=13, broken_pins=0, exit 0). The stamp mechanism is proven workable before being specified: a historical index blob reproduces the t106 record observation-for-observation under today's auditor and is NOT HEAD's blob.",
+      "measured_premise_t108": "docs/plan.md line 2512 names the hygiene-move disposition word in the t105 acceptance blockquote; lines 2488-2489 assert the skipped-probe-guard mechanism that t105 measured and rejected (no leg of the eleven is skipped by a card-missing guard; the card-path constant is never read: 0 uses beyond the definition). The shipped pair in t105_repremise_decisions.json is read_closed for legs 282/308/309 and guard_correct_semantics for legs 306/307/310/311/312/315/316/317.",
+      "bite_testing": "Every fence on both cards was bitten in a throwaway clone BEFORE landing. t107: correct product 6/6 GREEN, 12 mutation modes each RED-ing the owning fence. t108: correct product 6/6 GREEN, 13 mutation modes each RED-ing the owning fence. Captures per fence and per mode are recorded in the groom handoffs and pasted into the issue ratification comments. The definer wrote NO product code: reference implementations lived only under git-ignored scratch/."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t107.md",
+      "docs/issues/t108.md",
+      "docs/plan.md",
+      "docs/backlog.md",
+      "docs/state/dag.json",
+      "docs/state/dag.mmd",
+      "docs/state/issue_map.json",
+      "docs/state/milestones/phase_18_record_stamp_plan_drift.json",
+      "docs/state/outputs/t107_definer_groom.json",
+      "docs/state/outputs/t108_definer_groom.json",
+      "docs/state/outputs/phase_18_record_stamp_plan_drift_definer_survey.json"
+    ],
+    "platform_issue": 113,
+    "output_path": "docs/state/outputs/phase_18_record_stamp_plan_drift_definer_survey.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-22T03:15:02Z",
+  "retry_count": 0
+}

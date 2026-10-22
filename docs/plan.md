@@ -2550,3 +2550,104 @@ the orchestrator owns it. `docs/state/outputs/t104_hygiene_findings.json` is NOT
 regenerated - it is byte-frozen under t104 custody and is the reference t106's
 byte-stability fence is measured against; t106 ships a NEW superset record instead and the
 choice is stated in the card.
+## phase_18_record_stamp_plan_drift - Findings-record index stamping, and the plan.md vocabulary cleanup (operator authorization, WAL 1248/1249)
+
+**Scope ruling (operator, WAL 1249).** TWO SEPARATE CARDS, 比照前例 with phase_16/17
+(operator wording 2026-10-22): the two follow-ups of phase_17's review (WAL 1248 items W1
+and W3) are authorized as separate cards with DISJOINT surfaces, parallel-safe in
+either merge order. Item 3 of WAL 1248 (the 193-of-318 legs missing the `ac` key) is
+EXPLAINED and HELD in the standing backlog - NOT dispatched, not covered here.
+
+**Measured base state this plan relies on (commands actually run at survey, HEAD
+1128b97).**
+- t106's shipped record `docs/state/outputs/t106_checker_b64_findings.json` is a frozen
+  PRE-T105 snapshot. Replaying its own ac4 cross-check on merged main measures EXACTLY
+  10 path-membership mismatches (legs 282, 306, 308, 309, 310, 311, 312, 315, 316, 317 -
+  0-based array indices into the tests array, always with issue_id and ac per WAL
+  1240 W2) and EXACTLY 10 classification drifts (record `moved` vs fresh `present`);
+  the leg SET and the headline counts still agree (13 legs, pinned_legs=13,
+  broken_pins=0, exit 0). Leg 230's two paths and leg 307's five paths already agree
+  with today's tree, so they are not in the drift set.
+- Index provenance measured: HEAD's index blob is
+  `a4e6509856cf2029e0951facf07ac98eeb8d0265` (blob id of the CR-normalized bytes;
+  sha256 of those bytes
+  `5790c1f91f311d8c82c524e042fb6e6a1027994d68387ee2ed4afb6399dc8162`), introduced by
+  commit `c6dc6f3f` (t105's re-premise). The index blob at `4dff135d` (blob id
+  `03f01d4979141ae555ea47f5a1ec933595bf06fe`, sha256
+  `72a01d395b1bc15415979f0dc274ab626c9322de026e5605c689095a38d43c02`) REPRODUCES the
+  t106 record's per-leg observations exactly when the shipped checker is replayed
+  against it in today's tree - measured at survey by walking the index's commit
+  history. These values are provenance ONLY; every fence derives blobs at run time and
+  embeds no literal commit or digest.
+- t105's shipped decision record uses `guard_correct_semantics` for legs 306/307/310/
+  311/312/315/316/317 and `read_closed` for legs 282/308/309 (0-based, with issue_id
+  and ac per WAL 1240 W2). The phase_17 section above still carries a hygiene-move
+  disposition word that never reached any card, fence or record, a rejection claim
+  about the guard-semantics disposition for all eleven legs, and the skipped-probe
+  guard mechanism sentence that t105 measured and REJECTED; t108 corrects all three.
+  (Deliberate style rule for this whole section: the rejected strings are DESCRIBED,
+  never quoted - a rejected string quoted anywhere in plan.md is exactly what the
+  t108 global-absence fences RED on.)
+
+**Numbering convention (WAL 1240 W2, binding on both cards).** All leg numbers are
+0-BASED ARRAY INDICES into `merge_test_index.json`'s `tests` array, always written
+WITH their `issue_id` and `ac`, never bare - the orchestrator sweep runner prints
+1-based ordinals.
+
+> - t107 - Requirement: existing checker/hygiene anchors from t104/t106 only; no new
+>   REQ-ID.
+>   Title: make findings-record replay index-state EXPLICIT - stamp the generating
+>   index blob into the record format going forward, ship a stamped companion record
+>   generated against the merged index, and give `docs/tools/leg_path_pin_audit.py` an
+>   `--against-record` cross-check that reports EXPECTED vs DRIFT instead of raw
+>   mismatch.
+>   Acceptance: the new record carries an `index_stamp` whose values are MEASURED
+>   against the worktree index at run time (git blob id, sha256 of the CR-normalized
+>   bytes, byte length), never quoted; the historical records
+>   (`t104_hygiene_findings.json`, `t106_checker_b64_findings.json`) are byte-identical
+>   to their base blobs and the t106 record gained no stamp key; a run-time-derived
+>   historical index blob (walked from `git log -- <index>`, no literal commit or
+>   digest) REPRODUCES the t106 record's observations and differs from HEAD's index
+>   blob - the drift is named, not hidden; `--against-record` classifies every replay
+>   observation EXPECTED or DRIFT, exits 0 on a stamped no-drift replay, exits 1 (with
+>   a printed gate line) on stamped same-blob drift, and reports UNSTAMPED with exit 0
+>   for a pre-stamp record; the checker's detection stays byte-stable (same 13-leg pin
+>   set, broken_pins=0, dirty_b64_legs=0) and read-only (hashlib the sole import
+>   admission); delta pure against a run-time-derived base, ZERO index bytes, and the
+>   sibling's `docs/plan.md` surface frozen.
+>   Files: `docs/tools/leg_path_pin_audit.py`,
+>   `docs/state/outputs/t107_record_stamp_findings.json`. Depends: [].
+> - t108 - Requirement: none - documentation truth only; no new REQ-ID.
+>   Title: plan.md phase_17 vocabulary cleanup - align the disposition vocabulary and
+>   the mechanism prose with the shipped t105 records.
+>   Acceptance: the hygiene-move disposition word and the all-eleven rejection claim
+>   appear NOWHERE in `docs/plan.md` (global absence, so they cannot be reintroduced
+>   by this section either); the corrected disposition line (the shipped 3-live/8-dead
+>   split, leg lists derived from the shipped decision record) appears inside the
+>   phase_17 section; the rejected skipped-probe mechanism sentence is gone (measured
+>   on whitespace-normalized text) and the measured-liveness sentence remains; every
+>   change lies inside the phase_17 section - the rest of plan.md is byte-identical to
+>   its base blob; every historical handoff, findings record, the index, the checker
+>   and the bookkeeping are byte-identical to their base blobs; delta pure against a
+>   run-time-derived base and groom-reproducible.
+>   Files: `docs/plan.md`. Depends: [].
+
+**Hard rules inherited by both cards.** Delta-purity fences DERIVE their base at run
+time (`HEAD^` first, then `merge-base(main, HEAD)`, then `merge-base(origin/main,
+HEAD)`, printing each candidate, its rejection reason and the acceptance); pinning
+BASE to a main-tip-at-groom literal remains the t102 anti-pattern.
+`docs/log/orchestrator_wal.jsonl` is EXCLUDED from both ALLOWED sets. `ac_hash` is
+authored at groom by the t58 recipe (sha256 over the JSON-compact array of the six
+fenced bash bodies in ac1..ac6 order, CR-stripped and trimmed); the groom handoffs'
+`verification_commands` are BYTE-IDENTICAL to the card fences; and both cards must
+BITE - each fence GREEN on a correct product and RED on a plausible violation,
+measured in throwaway clones before landing (t102/t103 precedent).
+
+**Custody.** `docs/state/merge_test_index.json` carries ZERO bytes on both cards - no
+index write is needed (the stamp is measured, not stored in the index), so the WAL
+1248 W2 8-property index-amendment policy is NOT invoked; if any future card wants an
+index or frozen-record write, that card must amend in writing and satisfy all eight
+properties. `docs/state/outputs/t104_hygiene_findings.json` and
+`t106_checker_b64_findings.json` stay byte-frozen (t104/t106 custody); t107 ships a
+NEW stamped companion record instead. The phase_17 survey and review_plan handoffs
+are historical records and are NOT rewritten - t108 fixes plan.md only.
