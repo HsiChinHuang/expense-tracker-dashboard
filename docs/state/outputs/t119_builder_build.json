@@ -1,0 +1,132 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t119",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t119-promote-workflow",
+    "branch_sha": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+    "branch_note": "Branch issue/t119-promote-workflow created from base c035eff976ad00df13df3fe05967b7c319dc8d65 (verified main HEAD + git branch --show-current == main, and git pull origin main via cmd.exe returned Already up to date, before any write). Commit made with explicit pathspecs on BOTH add and commit (git add -- <5 paths>; git commit -m ... -- <5 paths>; git show --stat confirms exactly 5 paths, 50 insertions, 8 deletions). Pushed via cmd.exe git (WSL push-hang rule; stdin=DEVNULL). ls-remote read-back: 462a237df3940d415b945e1e805ba8aa2c4cc6b4\trefs/heads/issue/t119-promote-workflow - exact match to the local commit. main was NOT committed or pushed. Checkout returned to main at c035eff, clean apart from the pre-existing dirty docs/log/orchestrator_wal.jsonl and untracked ?? docs/state/history/, both foreign files left untouched per the spawn contract.",
+    "schema_note": "Task names phase implement with evidence_type build (t90..t115 precedent filename t119_builder_build.json). Validation invoked as builder implement per the standing fix (registry has no builder:build).",
+    "ac_hash": "sha256:b89273048b3c03c864e53662d82f1f144bf1ef048b07fa10063597d7f85177f4",
+    "ac_hash_recompute": "Recomputed FROM THE SHIPPED CARD at builder run time: sha256 over json.dumps of the array of the six fenced bash blocks (ac1..ac6 order, compact separators ','':'), each block CR-stripped and trimmed = b89273048b3c03c864e53662d82f1f144bf1ef048b07fa10063597d7f85177f4, EXACT match to the card's spaced-groups line and to the groom handoff (docs/state/outputs/t119_definer_groom.json evidence.ac_hash). The six extracted blocks were additionally asserted byte-identical to evidence.verification_commands.ac1..ac6 of the groom handoff (all six: True).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The six fenced blocks of docs/issues/t119.md, extracted byte-exactly (recomputing to the card ac_hash) and run VERBATIM via bash from the repository root; no substitution.",
+    "ac3_ruling": "ORCHESTRATOR RULING 515694e6 (t102 W1 precedent): the VERBATIM ac3 fence can never exit 0 for ANY file content. Card line 341 is: grep -qE \"\\\"\\$$s\\\"\" - bash expands the pattern to the ERE \"$RENDER_HOOK\", whose mid-pattern $ is an end-of-line anchor in GNU grep 3.11 ERE, so the pattern requires a literal double-quote at end-of-line followed by RENDER_HOOK on the same line: impossible. PROOF (measured at this commit and independently reproduced by the supervisor at main c035eff): the pattern REJECTS deploy.yml's own correct line 'curl -fsS -X POST \"$RENDER_HOOK\"' AND the card's own shipped spec line - no artifact can satisfy it. This is a card-premise defect, NOT a product defect. INTENT LEGS ALL PASS: the artifact dereferences \"$RENDER_HOOK\" twice (guard + POST) and \"$APP_HEALTH_URL\" once (health curl), verified by the corrected pattern \"[$]$s\" which matches the positive line and correctly rejects a dollar-free negative (both measured). The ruled definer fix is grep -qE \"\\\"[$]$s\\\"\" (bracket-quoted dollar); the definer gate-amendment (ac3 pattern fix + ac_hash recompute + old->new amendment record) is dispatched by the orchestrator BEFORE the verifier; the builder did NOT edit the card or recompute ac_hash. The verifier's contract for ac3 is the amended fence; verbatim rc=1 is disclosed, not re-litigated.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac1 -' of docs/issues/t119.md, extracted byte-identically from the shipped card (asserted identical to evidence.verification_commands.ac1 of docs/state/outputs/t119_definer_groom.json and recomputing to ac_hash b89273048b3c03c864e53662d82f1f144bf1ef048b07fa10063597d7f85177f4) and run VERBATIM via bash from the repository root on branch issue/t119-promote-workflow at commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4 (clean LF clone /tmp/t119verify); rc=0 GREEN: 'PROMOTE WORKFLOW PARSES - name set, workflow_dispatch-only trigger, permissions exactly contents:read, environment production, ubuntu-latest, 2 steps'",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac2 -' of docs/issues/t119.md, extracted byte-identically from the shipped card and run VERBATIM via bash from the repository root on the branch at commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4; rc=0 GREEN: 'GATE CONTRACT SOUND - workflow_dispatch is the only trigger (and the detector bites), environment: production is the human gate, permissions are least-privilege, and the file's own comments tell the truth about the single live service and the Settings-side gate'",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac3 -' of docs/issues/t119.md run VERBATIM exits rc=1 ONLY on the unsatisfiable dereference leg (card line 341, pattern \"$RENDER_HOOK\" with a mid-pattern EOL anchor - proven to reject deploy.yml itself and the card's own shipped spec line); every other ac3 leg passes on this artifact, and the dereference intent is verified by the ruled corrected pattern \"[$]$s\" (matches the positive line, rejects a dollar-free negative). PASS BY ORCHESTRATOR RULING 515694e6 (t102 W1 precedent); the amended fence is the verifier's contract for this AC. See evidence.ac3_ruling for the full proof.",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac4 -' of docs/issues/t119.md run VERBATIM via bash from the repository root on the branch at commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4; rc=0 GREEN: ci.yml/deploy.yml/e2e.yml byte-identical to HEAD (cr-stripped shas 9d64451ae236.../7262fe869db6.../daa2ffc81034... matching the card's survey recon freeze base), 0 files changed under .github besides promote.yml, and the stored secret-scan pattern (tests[135]) finds nothing in .github/workflows including the new file",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac5 -' of docs/issues/t119.md run VERBATIM via bash from the repository root on the branch at commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4; rc=0 GREEN: 'R2 AMENDMENT RECORD SOUND - docs/state/outputs/t119_definer_gate_amendment.json prices legs 131,143,155,162,167,177,191 (each verified against the shipped index in the pre-settlement state, every region lossless in both directions), excludes tests[227], records the EXPECTED_WORKFLOWS before/after literals with leg 141 as the gated leg, prices the INDEX_ANCHORS[131] rotation, and carries 6 as-expected negative controls'. t119 wrote ZERO index bytes; the record is the definer's, applied by the orchestrator.",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "462a237df3940d415b945e1e805ba8aa2c4cc6b4",
+        "test": "the fenced bash block under '### ac6 -' of docs/issues/t119.md run VERBATIM via bash from the repository root on the branch at commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4 (clean LF clone /tmp/t119verify of the pushed branch, the merge-candidate shape); rc=0 GREEN: 'DELTA PURITY AND R1 SURFACE - promote.yml plus exactly two pinned tuple lines plus the two regenerated reports; the three shipped workflows, README, the index, docs_verification.py, docs_verification.md and the whole product tree carry zero bytes; and the four-workflow detector demonstrably refuses the pre-promote line'. Both committed reports carry the exact line WORKFLOWS ci,e2e,deploy,promote 4 PASS (blob bytes are LF; the fence's $-anchored grep passes on the clean checkout) and the infra report declares ALL_CHECKS_PASS 23 PASS >= the floor 20 leg 141 enforces.",
+        "verdict": "PASS"
+      }
+    },
+    "ac_mapping_note": "The schema requires a 7-40 hex commit per AC and a verdict from PASS/FAIL/MANUAL; every AC fence was executed on the pushed branch at this commit (clean LF clone of 462a237df3940d415b945e1e805ba8aa2c4cc6b4), so the field carries the real builder commit. ac3's verdict field is PASS per orchestrator ruling 515694e6 with the full unsatisfiability disclosure in evidence.ac3_ruling and in its test field; the schema enum admits no PASS-BY-RULING literal.",
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 1,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "fence_rc_provenance": "Executed twice: (1) in the main checkout working tree with the change staged/committed on the branch, and (2) in a clean LF git clone of the PUSHED branch (/tmp/t119verify at 462a237df3940d415b945e1e805ba8aa2c4cc6b4, the merge-candidate shape where core.autocrlf smudge is absent and the dirty-WAL noise is zero): ac1/ac2/ac4/ac5/ac6 rc=0 GREEN in both runs; ac3 rc=1 in both, on the unsatisfiable dereference leg ONLY (see evidence.ac3_ruling; orchestrator ruling 515694e6). In run (1) ac6 additionally surfaced the pre-existing dirty docs/log/orchestrator_wal.jsonl (orchestrator-owned, dirty at spawn, never staged or committed by the builder) - in the clean clone ac6 is rc=0, which is the shape the verifier re-measures.",
+    "test_summary": {
+      "total": 313,
+      "passed": 313,
+      "failed": 0
+    },
+    "test_summary_note": "Six AC verification fences (6; five rc=0 verbatim, ac3 PASS by ruling with rc=1 proven unsatisfiable-by-construction) plus the full backend suite at the product commit: uv run pytest -q -> 307 passed, 0 failed. No new test files: the card ships its own fences and ac6's owned-surface whitelist forbids test paths in the delta.",
+    "lint_status": "CLEAN",
+    "lint_note": "backend: uv run ruff check scripts/infra_verification.py scripts/agent_pack_verification.py -> All checks passed (rc=0); uv run mypy on both -> Success: no issues found (rc=0) - leg 141 executes exactly these two checks before regenerating. promote.yml is ASCII-only, byte-identical to the card's shipped spec block (verified by extracting the ```yaml fence from docs/issues/t119.md CR-stripped and comparing: True), 1398 bytes (>= ac1's 400 floor), CRLF-normalised like its three sibling workflows.",
+    "changes": [
+      ".github/workflows/promote.yml (created; 42 lines, 1398 bytes; byte-identical to the card's shipped spec; committed alone as the only new file)",
+      "backend/scripts/infra_verification.py (line 81: EXPECTED_WORKFLOWS = (\"ci\", \"e2e\", \"deploy\") -> EXPECTED_WORKFLOWS = (\"ci\", \"e2e\", \"deploy\", \"promote\"); delta exactly 2 +/- lines, added line byte-matches ac6's pinned grep ^+EXPECTED_WORKFLOWS = \\(\"ci\", \"e2e\", \"deploy\", \"promote\"\\)$; no reformatting, CRLF preserved byte-precisely via a byte-level replace)",
+      "backend/scripts/agent_pack_verification.py (line 117: identical one-line amendment, same byte-precise discipline)",
+      "docs/criteria/infra_verification.md (REGENERATED by running the generator per the card recipe: cd backend && PYTHONPATH=. uv run python scripts/infra_verification.py; rc=0; delta vs committed = exactly 3 lines, matching the amendment record's dry_run_evidence verbatim: WORKFLOWS line, WORKFLOW_TRIGGERS line, and the per-run FALLBACK_WITHIN_5S elapsed line)",
+      "docs/criteria/agent_pack_verification.md (REGENERATED per the leg-155 recipe: uv run pytest --collect-only -q capture (307 node ids) + cmd.exe git ls-files -s .agents capture, then cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file <cap> --ls-files-file <cap>; rc=0, ALL_CHECKS_PASS 19 PASS; delta vs committed = exactly 3 lines: the WORKFLOWS line plus the two disclosed BACKEND_COLLECTION 303->307 drift lines)"
+    ],
+    "generator_diff_lines_verbatim": {
+      "infra_verification.md": [
+        "-WORKFLOWS ci,e2e,deploy 3 PASS",
+        "-WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run PASS",
+        "-FALLBACK_WITHIN_5S elapsed=1.354 bound=5 PASS",
+        "+WORKFLOWS ci,e2e,deploy,promote 4 PASS",
+        "+WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run promote=workflow_dispatch PASS",
+        "+FALLBACK_WITHIN_5S elapsed=1.035 bound=5 PASS"
+      ],
+      "agent_pack_verification.md": [
+        "-WORKFLOWS ci,e2e,deploy 3 PASS",
+        "-METHOD collection 303 nodes (floor 244); the 26",
+        "-BACKEND_COLLECTION 303 floor=244 PASS",
+        "+WORKFLOWS ci,e2e,deploy,promote 4 PASS",
+        "+METHOD collection 307 nodes (floor 244); the 26",
+        "+BACKEND_COLLECTION 307 floor=244 PASS"
+      ]
+    },
+    "report_drift_handling": "The card's Context disclosed the agent_pack base drift verbatim: 'the committed agent_pack_verification.md is stale at base (BACKEND_COLLECTION 303 vs 307 collected), so its regeneration moves collection lines too'. The card's own ac6 REQUIRES the regenerated report to carry the WORKFLOWS four-set line, which is only producible by running the generator, and the generator takes its count from a live capture it never hand-types - so the collection lines move with it, exactly as the card was drafted with measured. The infra report's third moved line is the per-run elapsed timing, which the amendment record's reference_digest_caveat names as the permitted inter-run delta and which stored leg 141 normalises (sed elapsed=[0-9]+\\.[0-9]+) in both of its determinism comparisons. Capture-and-restore discipline: the committed reports were copied to /tmp before regeneration; the regenerated bytes were diffed line-by-line against the committed blobs and only the three predicted lines differ in each; nothing was hand-edited (both generators are the sole writers).",
+    "delta_purity": "Commit 462a237df3940d415b945e1e805ba8aa2c4cc6b4 touches exactly 5 paths (git show --stat), all inside the R1 owned surface named by ac6. Changed files vs owned surface: promote.yml (owned: created), the two generators (owned: the one tuple line each; diff -U0 shows 2 +/- lines per file with the added line byte-matching ac6's pinned literal), the two reports (owned: regenerated). ZERO bytes touched: docs/state/merge_test_index.json (ac6 clean-clone check: 0 tracked + 0 untracked), README.md, docs_verification.py, docs/criteria/docs_verification.md, the other three criteria reports, ci.yml/deploy.yml/e2e.yml (byte-identical to HEAD, ac4), render.yaml/openapi.yaml/Dockerfile/docker-compose.yml, the whole app tree, docs/log/orchestrator_wal.jsonl (dirty at spawn, foreign, never staged), docs/state/history/ (untracked at spawn, foreign, untouched), docs/state/WAL.jsonl. The handoff file itself is untracked and not in the commit.",
+    "environment_disclosures": [
+      "uv is not on the default WSL PATH in this checkout; the leg-155 stored command itself exports PATH=\"$HOME/.local/bin:$PATH\" before requiring uv, so the same PATH export was used for the generator invocations (uv 0.12.13 x86_64-unknown-linux-gnu, backend/.venv Linux layout intact).",
+      "cmd.exe used for all git network ops (pull, push, ls-remote) per the t104 environment rule; one op per call with read-back; WSL git used only for local ops with GIT_* scrubbed.",
+      "core.autocrlf=true smudges the two criteria reports to CRLF in the working tree, where ac6's $-anchored WORKFLOWS grep cannot match the CR; the committed blobs are LF (git show HEAD:path | grep passes) and the clean-clone run (the merge-candidate shape) is rc=0. t102 crlf_smudge_class: all comparisons CR-normalised by construction; disclosed, not fixed.",
+      "The card's shipped spec block was written to promote.yml with CRLF to match the three sibling workflows (all three are CRLF in this repo); ac1/ac2/ac3 CR-strip the file before every check and the fence greps are CR-tolerant by construction; the YAML content is byte-identical to the card spec after CR-strip."
+    ],
+    "deviations_disclosed": [
+      "No new test files written: the card ships its own six fences as the tests and ac6's owned-surface whitelist admits no test paths.",
+      "No platform comment posted and no label transition performed: the task instruction (and the card's Constraints: 'Do not close, comment on or relabel any platform issue') is explicit; Steps 7/8/10 of the skill beyond push are orchestrator-owned for this run, same disclosed deviation as t102/t103/t115.",
+      "ac3 verdict recorded PASS by orchestrator ruling 515694e6 with verbatim rc=1 disclosed in full (see evidence.ac3_ruling); the builder did not edit the card, the fence, or the ac_hash.",
+      "The handoff is named t119_builder_build.json per the task instruction and the t90..t115 precedent (phase implement, evidence_type build)."
+    ],
+    "residual_risks": [
+      "ac3's verbatim fence stays RED for every artifact until the ruled definer amendment (bracket-quoted [$] dollar pattern, supervisor-measured to match the positive and reject the negative) lands with a recomputed ac_hash; until then any rerun of the verbatim fence reports rc=1 on line 341 only.",
+      "The merge window must apply the R2 amendment (legs 131/143/155/162/167/177/191 + INDEX_ANCHORS[131] rotation) BEFORE or WITH this branch's merge, or stored legs go RED on the merge commit; the record is pre-settlement-verified and lossless (ac5 GREEN).",
+      "The GitHub Environment 'production' required-reviewer gate lives in repository Settings and is unverifiable from git; the rehearsal (manual workflow_dispatch + operator Approve) is orchestrator-side evidence AFTER merge, as the card states.",
+      "t111's docs_verification.py CARRIED_DIGESTS re-pin runs after t119 and must re-pin both regenerated reports (infra elapsed line + agent_pack collection/WORKFLOWS lines moved)."
+    ],
+    "notes": "All measurements agree with the card's groom re-measurement and the WAL 1272 banked rehearsal: infra ALL_CHECKS_PASS 23 PASS with the two expected report lines byte-matching the amendment record's expected_report_workflows_line / expected_report_triggers_line; agent_pack ALL_CHECKS_PASS 19 PASS at collect=307. promote.yml references only the two pre-existing secret names (RENDER_DEPLOY_HOOK, RENDER_APP_URL), declares no secrets: block, carries workflow_dispatch as its only trigger, environment: production, permissions contents: read, and the 30x10s deploy.yml-isomorphic health loop."
+  },
+  "artifacts": {
+    "files_written": [
+      ".github/workflows/promote.yml",
+      "backend/scripts/infra_verification.py",
+      "backend/scripts/agent_pack_verification.py",
+      "docs/criteria/infra_verification.md",
+      "docs/criteria/agent_pack_verification.md",
+      "docs/state/outputs/t119_builder_build.json"
+    ],
+    "platform_issue": 122,
+    "output_path": "docs/state/outputs/t119_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T08:35:00Z",
+  "retry_count": 0
+}

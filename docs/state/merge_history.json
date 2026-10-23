@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T07:15:36.938579+00:00",
+  "updated_at": "2026-10-23T09:08:53.363510+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1544,6 +1544,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge of remote ref d7b0d31 (parents 73b00f6+d7b0d31); merged-tree fences x4 rc=0; verifier 1b3ac578 PASS isolated worktree (ac_hash four-way 53774c1b, fence byte-identity, changed-file-set 1 path; INDEPENDENT honesty re-measures: register_metrics development-only mount telemetry.py:299 + render.yaml production, own /metrics curl = SPA html 0 exposition lines, prometheus/grafana/collector grep 0 matches across render/compose/workflows, trace-ID 0-match cap reproduced, alerts rules=2, drill artifacts=5); claims capped honestly Obs 1/2 Alert 1/1 OnCall 1/2"
+    },
+    {
+      "issue_id": "t119",
+      "platform_issue": 122,
+      "branch": "issue/t119-promote-workflow",
+      "merge_sha": "cb3a038",
+      "merged_at": "2026-10-23T09:08:53Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge of remote ref 462a237 (parents 69f1206+462a237) + SAME-window R2 index amendments 1ecb995 (legs 131/143/155/162/167/177/191 byte-exact forward+reverse proofs vs t119_definer_gate_amendment.json; INDEX_ANCHORS[131] 3aaf53e3->f9f9b4e9 replace-only, 13 hex64 preserved). Card fence amendment 69f1206 (ac3 dereference leg unsatisfiable, ruling 515694e6 t102 W1 class; new ac_hash bc309931). Verifier 6ceb84df PASS isolated LF worktree at 462a237: fences x6 rc=0 incl amended ac3, promote.yml byte-identical to shipped spec (d56f1622, 1356B, ASCII, no NUL), both tuple lines byte-exact, both reports attest WORKFLOWS 4 PASS (infra 23/agent_pack 19), ci/e2e/deploy blobs identical c035eff->HEAD, R2 spot-check shas f9f9b4e9/86caffc3 confirmed on live index, honesty: only 2 pre-existing secret names, workflow_dispatch-only, environment production, contents:read"
     }
   ]
 }

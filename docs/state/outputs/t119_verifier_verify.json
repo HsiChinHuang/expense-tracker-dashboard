@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t119",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build. No verify_build schema or detail exists (skills/verifier/details/ and schemas/verifier/ carry only verify_issue/verify_pre_merge/verify_post_merge; the common envelope's phase enum has no verify_build), so following the t112/t113/t114/t115 precedent this handoff uses the registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t119_verifier_verify.json verifier verify_issue'.",
+    "contract": "CURRENT ac_hash sha256:bc3099316a47a8d01a82a128b2f3901c52646347a0671bd897c6cc17ad385af2 (6 fences) from the AMENDED card (fence amendment at 69f1206, ruling 515694e6, record docs/state/outputs/t119_definer_fence_amendment.json). The builder handoff carries the pre-amendment hash b8927304... with the ac3 PASS-BY-RULING note; ac3's old leg was NOT re-litigated - the amended fence is the contract and was run VERBATIM.",
+    "verification_environment": "Isolated git worktree C:/Users/tw097/Desktop/261007_project01/wt_t119v created via cmd.exe 'git -c core.autocrlf=false worktree add ... 462a237df3940d415b945e1e805ba8aa2c4cc6b4' (detached HEAD at the builder commit; commit parent verified = c035eff976ad00df13df3fe05967b7c319dc8d65, the assigned base). The autocrlf=false checkout gives LF working-copy semantics (verified: report blobs and the checkout are CR-free), which is the merge-candidate shape the ac6 $-anchored WORKFLOWS greps need - the CRLF main-checkout working copy is the known spurious-RED class (t102 crlf_smudge_class); the committed blobs are LF and were verified byte-wise. The worktree was CLEAN (git status --porcelain 0 lines with GIT_DIR/GIT_WORK_TREE overrides at /mnt/c paths). All git ops via cmd.exe; fences run via bash from the worktree root with GIT_DIR/GIT_WORK_TREE overrides. Worktree removed after verification via cmd.exe 'git worktree remove --force' (confirmed: git worktree list shows only the main checkout at 1ecb995; directory gone). The main checkout was NOT merged/committed/pushed/checked-out by this verifier; staged files: 0.",
+    "ac_hash_recomputed": "Recomputed FROM THE MERGED-TREE COMMITTED CARD BLOB (git show cb3a038:docs/issues/t119.md; blob e69cfdb, identical at 69f1206 and HEAD 1ecb995 - the merge and the R2 commit did not touch the card) with the t58/t62..t110 recipe (sha256 over the JSON array of the six fenced bash blocks, ac1..ac6 order, compact separators, each CR-stripped and trimmed) = bc3099316a47a8d01a82a128b2f3901c52646347a0671bd897c6cc17ad385af2.",
+    "ac_hash_four_way_equality": "card spaced-groups line (sha256:`bc309931 6a47a8d0 1a82a128 b2f3901c 52646347 a0671bd8 97c6cc17 ad385af2`) == recomputed-from-merged-card-blob == task-stated contract hash == t119_definer_fence_amendment.json evidence.ac_hash. The pre-amendment chain also closes: recomputing over the groom handoff's six blocks = b89273048b3c03c864e53662d82f1f144bf1ef048b07fa10063597d7f85177f4 == builder handoff evidence.ac_hash (the amendment record's own old hash).",
+    "fence_byte_identity": "All six fences were extracted verbatim from the merged-tree card blob (git show cb3a038:docs/issues/t119.md) and asserted byte-identical (after the recipe's CR-strip+trim) to evidence.verification_commands.ac1..ac6 of docs/state/outputs/t119_definer_fence_amendment.json - all six True. ac1/ac2/ac4/ac5/ac6 additionally byte-identical to the groom handoff (docs/state/outputs/t119_definer_groom.json); ac3 differs from groom ONLY by the ruled leg line, and the reverse reconstruction (amended ac3 with amended_regions[0].new replaced once by .old) reproduces the groom ac3 block byte-for-byte (True) - the fence amendment record's region pair verified against the shipped card.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above",
+        "exit_code": 0,
+        "note": "Ran VERBATIM from the isolated LF worktree at 462a237. Output: 'ac1 GREEN: PROMOTE WORKFLOW PARSES - name set, workflow_dispatch-only trigger, permissions exactly contents:read, environment production, ubuntu-latest, 2 steps'."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac2 GREEN: GATE CONTRACT SOUND - workflow_dispatch is the only trigger (and the detector bites), environment: production is the human gate, permissions are least-privilege, and the file's own comments tell the truth about the single live service and the Settings-side gate'."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above",
+        "exit_code": 0,
+        "note": "AMENDED fence (grep -qE \"\\\"[$]$s\\\"\" dereference leg, ruling 515694e6) run VERBATIM from the merged-tree card: rc=0 GREEN - 'ac3 GREEN: DEPLOY CONTRACT ISOMORPHIC - hook from RENDER_DEPLOY_HOOK only, empty-secret guard present, health URL from the existing secret, the bounded 30x10s retry and the fail-closed exit reproduced from deploy.yml, and zero new secret names'. The old unsatisfiable leg was not re-litigated per the spawn contract; the amendment's own record carries the unsatisfiability proof and the discriminating-power measurements (leg rejects a dollar-free negative)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above",
+        "exit_code": 0,
+        "note": "Output: ci.yml/deploy.yml/e2e.yml byte-identical to HEAD (cr-stripped shas 9d64451ae236.../7262fe869db6.../daa2ffc81034... - the card's survey freeze base), 0 files changed under .github besides promote.yml, stored secret-scan pattern (tests[135]) finds nothing. Git legs ran ACTIVE in the clean worktree with GIT_DIR/GIT_WORK_TREE overrides."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac5` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac5 GREEN: R2 AMENDMENT RECORD SOUND - docs/state/outputs/t119_definer_gate_amendment.json prices legs 131,143,155,162,167,177,191 (each verified against the shipped index in the pre-settlement state, every region lossless in both directions), excludes tests[227], records the EXPECTED_WORKFLOWS before/after literals with leg 141 as the gated leg, prices the INDEX_ANCHORS[131] rotation, and carries 6 as-expected negative controls'. The fence ran at 462a237 (pre-settlement index, as designed). SEPARATELY, this verifier re-validated the record against the SETTLED index at HEAD 1ecb995: all seven legs now match new_command_sha256 with entry_sha_after exact, reverse application reproduces old_command_sha256 for every leg, and the changed-entry diff c035eff->HEAD is EXACTLY [131,143,155,162,167,177,191] (318 entries both sides, no other entry moved)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac6` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac6 GREEN: DELTA PURITY AND R1 SURFACE - promote.yml plus exactly two pinned tuple lines plus the two regenerated reports; ... and the four-workflow detector demonstrably refuses the pre-promote line'; infra check count 23 >= floor 20. The $-anchored WORKFLOWS greps pass on the LF checkout because the committed report blobs are LF (verified: 0 CR bytes in both blobs; the spurious RED at the main checkout is the disclosed CRLF-smudge environment class, not a product byte)."
+      }
+    },
+    "test_summary": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "test_summary_note": "Six AC fences (6/6 rc=0 VERBATIM, ac3 on the amended card) plus four stored-leg corroborations run by the verifier: leg 143 rc=0 (report-line pins incl. the four-workflow WORKFLOWS/WORKFLOW_TRIGGERS lines), leg 131 rc=0 (run in the main checkout at HEAD - its node leg requires frontend/node_modules which is absent from a fresh worktree; read-only leg), leg 141 rc=0 (executes the infra generator twice + elapsed-normalised determinism + floor 20; GREEN in the worktree under the CRLF working-copy shape the leg's cmp expects - in a pure-LF checkout the generator's CRLF output vs LF working copy is the disclosed environment class, not a product defect), leg 155 rc=0 (agent_pack generator end-to-end + the eight report-line greps incl. WORKFLOWS ci,e2e,deploy,promote 4 PASS).",
+    "failure_type": null,
+    "lint_report": null,
+    "lint_note": "Ruff/mypy are executed INSIDE stored leg 141 against both touched generators as part of the GREEN run (ruff 'All checks passed', mypy 'Success: no issues found' independently reproduced in the worktree). promote.yml: ASCII-only (0 bytes >127, no NUL, 1356 bytes), no lint tool applies to YAML here beyond ac1's PyYAML parse (GREEN).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_ac1_green_promote_parses": true,
+      "dod2_ac2_green_gate_contract": true,
+      "dod3_ac3_green_isomorphic_amended_fence": true,
+      "dod4_ac4_green_byte_freeze": true,
+      "dod5_ac5_green_r2_record": true,
+      "dod6_ac6_green_delta_purity": true,
+      "dod7_ruling_wal1268_cited_rehearsal_post_merge": true,
+      "dod8_ac_hash_recomputed_card_handoff_agree": true
+    },
+    "dod_notes": "dod7: the card cites RULING WAL 1268 (R1/R2) at lines 387/463/485/638; the rehearsal (manual workflow_dispatch + operator Approve on the production Environment) is explicitly post-merge orchestrator-side evidence and NOT an AC - correctly not required for this verdict. dod8: ac_hash recomputed from the committed merged-tree card blob equals the card line, the fence-amendment record and the task contract; the six executed fences are byte-identical to the amendment record's verification_commands.",
+    "extra_checks": {
+      "1_promote_spec_byte_identity": "git show 462a237:.github/workflows/promote.yml (1356 bytes, LF, no CR, no NUL) is BYTE-IDENTICAL to the card's '## The specification this card ships' yaml fence, CR-stripped (both sha256 d56f1622cddbfa7ed900b4e4c8640e6886f0984f5b8fb25225d78f6169ade548). The merged tree (cb3a038) and HEAD (1ecb995) carry the SAME blob as the builder for all five product paths (git rev-parse equality) - the merge introduced zero drift.",
+      "2_tuple_lines": "infra_verification.py line 81 and agent_pack_verification.py line 117 are byte-exactly 'EXPECTED_WORKFLOWS = (\"ci\", \"e2e\", \"deploy\", \"promote\")' at 462a237 AND at cb3a038 (both files, both commits: MATCH).",
+      "3_reports_workflows_line": "Both committed report blobs at 462a237, cb3a038 and HEAD contain exactly one line matching ^WORKFLOWS ci,e2e,deploy,promote 4 PASS$ on the CR-stripped blob (blob CR count: 0 - blobs are LF). infra ALL_CHECKS_PASS 23 PASS (>= floor 20), agent_pack ALL_CHECKS_PASS 19 PASS.",
+      "4_r2_spot_check": "Recomputed from LIVE docs/state/merge_test_index.json at HEAD: sha256(json-compact tests[131]) = f9f9b4e9daf4f96c1fd3f6f4845bc982b616be235f7e1a92a354c44353b14e7e (== record entry_sha_after == anchor-pin new_entry_sha) and sha256(json-compact tests[155]) = 86caffc3d3530fff15c079d2234db16d83a3ca95f76cd16b63e45a7273e375ad (== record entry_sha_after). docs_verification.py INDEX_ANCHORS[131] = f9f9b4e9... exact; the file carries exactly 13 hex64 literals (count preserved from cb3a038); the cb3a038->HEAD diff for the file is replace-only (1 insertion/1 deletion, the 131 line); old literal 3aaf53e3 absent from the file.",
+      "5_shipped_workflows_frozen": "ci.yml (a9c153e), e2e.yml (9c391d0), deploy.yml (17c1161) git-blob shas identical across c035eff, cb3a038 and HEAD.",
+      "6_promote_honesty": "secrets. usage = exactly secrets.RENDER_DEPLOY_HOOK (1x) and secrets.RENDER_APP_URL (1x) - both pre-existing in deploy.yml at c035eff (the only two names there); no secrets: block (grep rc=1); sole trigger workflow_dispatch: (line 10); environment: production (line 17); permissions: contents: read (lines 12-13); no literal onrender.com URL anywhere in the file (grep rc=1).",
+      "7_ascii_only": "promote.yml blob: 1356 bytes, 0 bytes >127, no NUL, no CR (LC_ALL=C grep -nP '[^\\x00-\\x7F]' rc=1; python byte scan 0)."
+    },
+    "builder_handoff_validation": "docs/state/outputs/t119_builder_build.json branch_sha 462a237df3940d415b945e1e805ba8aa2c4cc6b4 == the assigned commit (match); its ac_hash b8927304... is the pre-amendment hash as expected per the spawn contract, with the ac3 PASS-BY-RULING disclosure intact. Commit 462a237 touches exactly the 5 owned paths (50 insertions, 8 deletions), parent c035eff. Merge cb3a038 parents verified: 69f1206 + 462a237.",
+    "merged_tree_note": "Orchestrator merged 462a237 as cb3a038 (parents 69f1206+462a237, verified) and applied the R2 index amendments + INDEX_ANCHORS[131] rotation at 1ecb995 in the same window. This verifier confirms: card blob unchanged across 69f1206/cb3a038/HEAD; all five product blobs identical builder->merged->HEAD; the settled index matches the R2 record exactly (all seven legs post-state, entry_sha_after exact, reverse-lossless); only the seven priced entries moved in the index; docs_verification.py is a replace-only single-line rotation with the 13-literal count preserved.",
+    "label_transition": "None performed. The spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t112/t113/t114/t115 precedent followed.",
+    "environment_notes": "UV_PROJECT_ENVIRONMENT/PYTHONPATH not set ([VENV_UNAVAILABLE] WARN, no-op: fences use system bash/python3; uv 0.12.13 found at ~/.local/bin for the stored-leg runs, matching the legs' own PATH export). GIT_DIR/GIT_WORK_TREE overrides required /mnt/c paths (Windows-style paths rejected by WSL git). cmd.exe invoked inside stored legs 155/162/167/177/191 can kill the invoking shell's stdout in this WSL build - leg 155 was run with </dev/null redirection and output to file (rc=0 recorded). Worktree removed via cmd.exe git worktree remove --force (confirmed gone; worktree list shows only the main checkout).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries ('ac1..ac6 are the six fenced blocks above, run with bash -c from the repository root'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed merged-tree card blob git show cb3a038:docs/issues/t119.md (amended card, ac_hash bc309931...)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t119_verifier_verify.json"
+    ],
+    "platform_issue": 122,
+    "output_path": "docs/state/outputs/t119_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T09:10:00Z",
+  "retry_count": 0
+}
