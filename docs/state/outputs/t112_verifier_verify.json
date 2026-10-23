@@ -1,0 +1,111 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t112",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build with schema schemas/verifier/verify_build.json and verdict enum PASS/FAIL_PERMANENT/BLOCKED. Neither the schema file, nor the details/verify_build.md detail, nor a 'verify_build' phase exists: schemas/verifier/ carries only verify_issue/verify_pre_merge/verify_post_merge, and extensions/schema_validator.ts HANDOFF_SCHEMA_MAP registers no verifier:verify_build. The common envelope's phase enum likewise has no verify_build, so any handoff claiming that phase fails validation by construction. Following the t112 builder's own schema_note precedent (and the t90..t108 lineage), this handoff uses the closest registered phase verifier:verify_issue, validated via 'npx tsx scripts/validate_handoff.ts docs/state/outputs/t112_verifier_verify.json verifier verify_issue'. The verdict vocabulary used is PASS (FAIL_PERMANENT/BLOCKED not expressible in the registered schema; a BLOCKER would have been filed via status=BLOCKER if hit).",
+    "verification_environment": "Isolated git worktree ..\\worktrees\\t112v checked out at branch issue/t112-scoring-map-process (HEAD e7c41982d2364fcadffe21602c86acaf38eee3d1, parent 6e36d4f22b10fb5be345b4b43eb9bbdaf0f9ca8e, pushed==local: origin/issue/t112-scoring-map-process == e7c4198). The worktree was CLEAN (git status --porcelain empty), so ac4's git purity screens ran against the EXACT commit bytes rather than a working tree. WSL git could not resolve the Windows-style .git pointer, so fences ran with GIT_DIR/GIT_WORK_TREE pointed at the worktree's admin dir; ac4's git queries executed correctly under those overrides (both screens ran and passed). Worktree removed after verification (git worktree remove).",
+    "ac_hash_recomputed": "Recomputed FROM THE COMMITTED CARD BLOB (git show e7c4198:docs/issues/t112.md) with the t58/t62..t110 recipe (sha256 over the JSON array of the four fenced blocks, ac1..ac4 order, compact separators, each block CR-stripped and trimmed) = 3cca8012ae99b99c9c541e5cb5d354b2a591bebc6ff8b8998a9bf09018d61f2e.",
+    "ac_hash_four_way_equality": "card spaced-groups line == recomputed-from-committed-blob == t112_definer_groom.json evidence.ac_hash == t112_builder_build.json evidence.ac_hash, all sha256:3cca8012ae99b99c9c541e5cb5d354b2a591bebc6ff8b8998a9bf09018d61f2e. The committed card blob is byte-identical (LF-normalized) to the main-checkout working card at 9f23b6f.",
+    "fence_byte_identity": "Each fence executed was extracted verbatim from the committed card blob and asserted 3-way byte-identical (after the recipe's own CR-strip+trim) to (a) the card's own ### acN fenced block, (b) evidence.verification_commands.acN of the groom handoff, and (c) the same field of the builder handoff. The only raw diff card-vs-handoff is one trailing newline the handoff JSON omits - inside the recipe's trim, so not a mismatch.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above",
+        "exit_code": 0,
+        "note": "Ran verbatim (bash /tmp/t112f/ac1.sh) from the isolated worktree root at e7c4198. Output: 'ac1 GREEN: PROBLEM DESCRIPTION recorded - claim 2/2 ... one existing first entry point (README.md), every evidence path resolves, README named ... Features and Online demo ... by name'."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac2 GREEN ... 110 closed cards, 110 merge-history entries, 229 WAL lines, highest WAL seq 1269'; date-stamped floor 110 <= measured 110."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac3 GREEN ... 4 role skill files present'; docs/process.md carries '## Agent context loading', AGENTS.md carries '## Pointers', docs/team holds 3 role descriptions, docs/requirements holds 17 chapters."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac4 GREEN: ZERO-BYTE PURITY'; README lines=396 h2=17 digest=f7c85e88c5e2... (matches builder's measurement); both git screens ran in the clean worktree at the commit itself: zero changed tracked files, zero untracked outside the owned surface; no placeholder token."
+      }
+    },
+    "test_summary": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "test_summary_note": "The four 'tests' are the card's four verification fences run VERBATIM from the committed card blob, per ## Verification commands (documentation deliverable: the fences ARE its tests).",
+    "failure_type": null,
+    "lint_report": null,
+    "lint_note": "No linter applies to a markdown record (ruff is for Python; none of the card's commands invoke one). Non-blocking content screens run instead: record is ASCII-only (0 non-ASCII bytes after CR-strip), 0 credential-/secret-shaped strings, 0 placeholder tokens (ac4's own TODO|TBD|placeholder|not yet|lands with screen also GREEN).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_file_four_sections_record_format": true,
+      "dod2_ac1_green": true,
+      "dod3_ac2_green": true,
+      "dod4_ac3_green": true,
+      "dod5_ac4_green": true,
+      "dod6_ascii_no_secret_remeasurable_counts": true,
+      "dod7_only_owned_t112_jsons": true,
+      "dod8_ac_hash_reproduces_handoff_fences_identical": true
+    },
+    "dod_notes": "dod1: record carries exactly the four '## <dimension>' sections, 4 '- Claim: N/2' lines, exactly one '- First entry point:' per section, all Evidence/Deep-dive paths resolve (independent scan: 19 backticked paths, 0 missing). dod7: at verification start only t112_definer_groom.json + t112_builder_build.json existed under docs/state/outputs; this verifier handoff is the third and is explicitly authorised by the card's Owned files table (t112_verifier_*.json).",
+    "changed_file_set_proof": "git show --stat e7c4198: exactly one path, docs/criteria/scoring_map/process.md, 44 insertions. git diff --name-only 6e36d4f e7c4198 = the same single path. Commit parent = 6e36d4f (the assigned base). Committed blob ff9b8387 has sha256 532e88e41426eb356b0703dd14527b06b7cc0db8041fe8621d94e29aef0949bb - byte-identical to the builder handoff's claimed digest; the worktree checkout differs only by autocrlf CRLF materialisation (CR-stripped checkout hashes to the same 532e88e4).",
+    "independent_remeasurements": {
+      "closed_cards_ls_wc": 110,
+      "merge_history_entries_python_json_len": 110,
+      "readme_h2_grep": 17,
+      "readme_lines_tr_wc": 396,
+      "wal_lines_wc": 229,
+      "wal_highest_seq": 1269,
+      "requirements_chapters": 17,
+      "skills_role_skill_md": [
+        "builder",
+        "definer",
+        "orchestrator",
+        "verifier"
+      ],
+      "docs_team_md": [
+        "pm.md",
+        "qa-engineer.md",
+        "software-engineer.md"
+      ],
+      "all_match_builder_and_groom_measurements": true
+    },
+    "honesty_spot_checks": "Every claim line has a locatable artifact, re-checked independently of the fences: README '## Features' at line 11 and '## Online demo' at line 41; AGENTS.md '## Pointers' at line 12; docs/process.md '## Agent context loading' at line 95; docs/ownership.md, docs/criteria/req_coverage_verification.md, Chapter1/Chapter2/Chapter16 all exist; all four First entry points (README.md, product-spec.md, AGENTS.md x2) exist; 19/19 backticked paths in the record resolve; counts in the record are date-stamped floors (measured 2026-10-23) at or below today's measurement.",
+    "builder_handoff_validation": "cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t112_builder_build.json builder implement -> [OK] valid for builder:implement (gate2 re-run by verifier).",
+    "main_vs_base_note": "Main HEAD 9f23b6f vs base 6e36d4f: git diff --stat shows the ONLY delta is docs/log/orchestrator_wal.jsonl (+1 line, the orchestrator's own seq-1270 WAL record) - zero product bytes, so the merged tree for this card's surface equals the branch bytes; verification at the branch commit is therefore equivalent to (and stronger than) verification on a merged tree.",
+    "pre_existing_churn_disclosure": "The MAIN checkout carries a pre-existing modification to docs/criteria/agent_pack_verification.md (303->307 backend-collection counts, regenerated by some earlier generator run; file mtime 13:28:56 is after the builder's 13:26:35 commit and predates this verifier run). It is NOT from t112 (ac4's own screen lists that file as a zero-byte surface and the isolated worktree at the commit is clean). Verifier did not restore it: git checkout -- is a state-changing git command forbidden to this role; flagged for orchestrator custody.",
+    "label_transition": "None performed. The task's spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109 precedent followed.",
+    "environment_notes": "UV_PROJECT_ENVIRONMENT/PYTHONPATH not set ([VENV_UNAVAILABLE] WARN, no-op: this is a Node/markdown project and the fences use system bash/python3). Fences run via bash with GIT_DIR/GIT_WORK_TREE overrides in the isolated worktree; worktree removed after verification.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries verbatim ('the fenced bash block in the ### acN section above'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed card blob.",
+    "verification_fence_literals_sha256": {
+      "ac1": "17a70bf9a3add814d8b98f3402f0cd1502c9fc0954c26a1b0a757a02978051e3",
+      "ac2": "e0ef4fa76c96654349646f180a1665b4df45545d0e252fac7f4239335756db61",
+      "ac3": "d199bf7d002d78dcc7b171c4b616424f5086a30f960c6a537206aded4ad7c1ab",
+      "ac4": "798d6a698c518d2e6cc0e19c52bd169be13bd0f3ee65958ae16db7ce6fbf9e63"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t112_verifier_verify.json"
+    ],
+    "platform_issue": 118,
+    "output_path": "docs/state/outputs/t112_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T05:33:11Z",
+  "retry_count": 0
+}
