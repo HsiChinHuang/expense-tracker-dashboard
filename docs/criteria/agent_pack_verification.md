@@ -17,7 +17,7 @@ pytest.main re-runs the 14 hook and 12 MCP nodes in the same process;
 the backend collection count and the .agents symlink inventory arrive
 through files and are PARSED, never hand-typed. Nothing is spawned and
 no network client is constructed.
-METHOD collection 303 nodes (floor 244); the 26
+METHOD collection 307 nodes (floor 244); the 26
 phase_6 node ids are re-run inside this run, not re-authored.
 
 ## Executed rows (real measured values)
@@ -31,7 +31,7 @@ SYMLINK_ROWS skills=3 agents=2 mode120000=5 cateq=5 PASS
 COUNT_ROWS skills=3 hooks=2 tools=4 subagents=2 PASS
 AGENT_DIRS agent-capabilities,agent-hooks,mcp-server,custom-agent,.agents 5 PASS
 PERMISSIONS_ROWS sections=8 layers=6 paths_exist=6 PASS
-BACKEND_COLLECTION 303 floor=244 PASS
+BACKEND_COLLECTION 307 floor=244 PASS
 ```
 
 `HOOK_TEST_ROWS` / `MCP_TEST_ROWS` carry the counts parsed from the
@@ -54,7 +54,7 @@ REQ-AI-100/101).
 SKILL_ROWS 3 frontmatter=3 whentouse=3 steps=3 PASS
 SUBAGENT_ROWS 2 frontmatter=2 readonly=1 nofix=1 PASS
 MANIFEST_DEPS httpx,python-jose 2 PASS
-WORKFLOWS ci,e2e,deploy 3 PASS
+WORKFLOWS ci,e2e,deploy,promote 4 PASS
 ATTEST_PACK_DOC sections=13 required=Skills,Hooks,MCP Server,Subagents,Permissions PRESENT PASS
 ATTEST_MCP_README sections=6 PRESENT PASS
 ATTEST_HOOKS_README sections=5 PRESENT PASS

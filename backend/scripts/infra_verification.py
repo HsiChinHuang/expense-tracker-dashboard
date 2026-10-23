@@ -78,7 +78,7 @@ PRIMARY_URL = "postgresql+psycopg://t25:t25@127.0.0.1:1/t25_probe"
 EXPECTED_TABLES = ("users", "categories", "expenses", "budgets", "audit_logs")
 EXPECTED_HEALTH_FIELDS = ("status", "database", "fallback_active", "version")
 EXPECTED_SEEDED_CATEGORIES = 10
-EXPECTED_WORKFLOWS = ("ci", "e2e", "deploy")
+EXPECTED_WORKFLOWS = ("ci", "e2e", "deploy", "promote")
 MIN_CHECKS = 20
 """Floor for the ALL_CHECKS_PASS total (t23 precedent scale, ac1 gate)."""
 
