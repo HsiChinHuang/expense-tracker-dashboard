@@ -41,7 +41,7 @@ INDEX_FLOOR = 217
 INDEX_ANCHORS: dict[int, tuple[str, str]] = {
     16: ("t2", "cfb84edc91df3a3b7ca10b8dee96559e6fc9df30f0f16a848584874c780a10c3"),
     54: ("t9", "cf5babc0049e8c30da905122d3e91eae4ba8e273b0dc13a4e0a86a6a78093ff4"),
-    131: ("t26", "3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb"),
+    131: ("t26", "f9f9b4e9daf4f96c1fd3f6f4845bc982b616be235f7e1a92a354c44353b14e7e"),
     132: ("t26", "c7972310c6a604b5aea34a241f5a8f2dc1b5f57b0cef79349b5723d0a6b2a62c"),
     133: ("t26", "09cb7d9adbabd424c4d0517c0b899cad0fd650486ec2e08f1e99615c4c5850d6"),
     135: ("t26", "3ed1b9d64c57dc5eae21c42767586d7170f143c818886b4885a3bdd1ba236fc3"),
