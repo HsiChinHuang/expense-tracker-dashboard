@@ -26,7 +26,7 @@
  "proposed_ceiling": 460,
  "heading_count_after": 18,
  "new_heading": "Reviewer / agent scoring map",
- "measured_readme_lines": 422,
+ "measured_readme_lines": 421,
  "measurement_protocol": "measured_readme_lines is the groom-measured expectation (base 396 + the 26-line drafted section). The ceiling 460 is byte-frozen in replaced_regions and NEVER changes. If the builder's assembled README measures a different count, the builder substitutes its own wc -l measurement into THIS field only (never into the regions), and t116 ac6 asserts this field equals the shipped line count - shipping a band proposed against a draft is how the orchestrator amends the index to the wrong number.",
  "floor_unchanged": "340 - the floor premise in both legs is untouched; the irreducible floor with Part 2 is 412 (396 + the 16 minimum lines of the section skeleton) and every amendment region leaves 340 verbatim.",
  "fallback_requiring_operator_ruling": "relocating Part 2 to docs/reviewer-guide.md",
