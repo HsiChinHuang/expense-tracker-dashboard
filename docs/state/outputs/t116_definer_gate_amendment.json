@@ -1,0 +1,138 @@
+{
+ "schema_version": "2.0",
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t116",
+ "milestone": "phase_20_readme_scoring_map",
+ "platform_issue": 123,
+ "status": "proposed",
+ "authority": "recorded orchestrator ruling WAL 1268 R3 (README Part 2 assembly may extend the stored line ceiling by written amendment; REQ-DOC-010 under 500 stays the hard gate); t71 written-amendment precedent",
+ "policy": "W2 eight-property index-amendment policy (WAL 1248), invoked IN WRITING",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "re_premise_not_relax": true,
+ "base": {
+  "main_tip_at_groom": "1ecb995",
+  "index_entries": 318,
+  "readme_lines_at_groom_base": 396,
+  "readme_h2_at_groom_base": 17,
+  "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip 1ecb995 (t119 chain merged; legs 256/258 carry their t71 commands unchanged)"
+ },
+ "why_this_file_exists": "t116 adds the 18th level-2 section '## Reviewer / agent scoring map' to README.md and the assembled README measures past the 400-line ceiling that legs 256 and 258 store as premises (measured at groom: base 396 lines / 17 H2; candidate 422 lines / 18 H2 with the section inserted immediately before ## Criteria mapping). Without this record the two stored gates go RED on the merge commit.",
+ "requirement_authority": "REQ-DOC-010 (README under 500 lines)",
+ "proposed_ceiling": 460,
+ "heading_count_after": 18,
+ "new_heading": "Reviewer / agent scoring map",
+ "measured_readme_lines": 422,
+ "measurement_protocol": "measured_readme_lines is the groom-measured expectation (base 396 + the 26-line drafted section). The ceiling 460 is byte-frozen in replaced_regions and NEVER changes. If the builder's assembled README measures a different count, the builder substitutes its own wc -l measurement into THIS field only (never into the regions), and t116 ac6 asserts this field equals the shipped line count - shipping a band proposed against a draft is how the orchestrator amends the index to the wrong number.",
+ "floor_unchanged": "340 - the floor premise in both legs is untouched; the irreducible floor with Part 2 is 412 (396 + the 16 minimum lines of the section skeleton) and every amendment region leaves 340 verbatim.",
+ "fallback_requiring_operator_ruling": "relocating Part 2 to docs/reviewer-guide.md",
+ "apply_mechanism": "orchestrator applies each amendment by loading the LIVE index, asserting entry_sha_before, applying replaced_regions forward (never pasting a snapshot), asserting the resulting command sha equals new_command_sha256 and the entry sha equals entry_sha_after, for BOTH legs 256 and 258 in the same merge window; no INDEX_ANCHORS rotation is needed because neither leg's digest is a generator anchor and docs_verification.py's 64-hex literal count is unchanged by this amendment (the two README pin constants are re-pinned by t116's own builder ac, not by this record).",
+ "merge_window_obligation_227": "separate from this record: tests[227] pins the cr-stripped digest of docs/criteria/docs_verification.md (29d22aff...), which t111's placeholder protocol already settles as an already-RED premise; t116 regenerates that report, moving the digest again. The orchestrator must apply the t111 settlement's report-digest placeholder with the value t116's regeneration MEASURES in t116's merge window (same placeholder protocol, docs/state/outputs/t111_definer_gate_amendment.json). This record does not touch leg 227.",
+ "amendments": [
+  {
+   "index": 256,
+   "issue_id": "t71",
+   "card_ac": "ac4",
+   "defective_premise": "README carries exactly 17 level-2 headings and stays within the 340..400 line band - falsified by t116 adding the Part-2 scoring map (18th H2, 422 measured lines) under the WAL 1268 R3 ceiling amendment",
+   "re_premised_to": "the same assertions re-premised to 18 headings and the 340..460 band, every other assertion of the leg preserved verbatim",
+   "re_premise_not_relax": true,
+   "old_command_len": 4986,
+   "old_command_sha256": "58c3b8d03ba73e8a9be3753d882f277707b1abec2dd63b465c3c074e2df2215f",
+   "new_command_len": 5189,
+   "new_command_sha256": "f9938c653f96dba033abcc4754c84ee62ab0e828dc3670f0f40e83faea96b130",
+   "entry_sha_before": "b326254d371c765c9ab1f52a92724bfbcafc63fbdda52b935fd2cd815aa64dc3",
+   "entry_sha_after": "77eab6248913cf8d1f9fbfa654ca2fe86d124f0b4da318b12537f12ae36ac6a8",
+   "replaced_regions": [
+    {
+     "from": "[ \"${H:-0}\" = \"17\" ] || { echo \"ac1 RED: README carries ${H:-0} level-2 headings, not the 17 the base carries - sections are rewritten IN PLACE, never added or removed\"; exit 1; };",
+     "to": "[ \"${H:-0}\" = \"18\" ] || { echo \"ac1 RED: README carries ${H:-0} level-2 headings, not the 18 that t116 Part 2 produces (the 17 inherited sections plus exactly one ## Reviewer / agent scoring map) - sections are rewritten IN PLACE and exactly one section is ADDED by written amendment, never removed\"; exit 1; };",
+     "offset_in_old_command": 1172,
+     "offset_in_new_command": 1172
+    },
+    {
+     "from": "[ \"${N:-0}\" -ge 340 ] && [ \"${N:-0}\" -le 400 ] || { echo \"ac1 RED: README is ${N:-0} lines, outside the 340..400 band this card budgets (base 385, hard ceiling 400)\"; exit 1; };",
+     "to": "[ \"${N:-0}\" -ge 340 ] && [ \"${N:-0}\" -le 460 ] || { echo \"ac1 RED: README is ${N:-0} lines, outside the 340..460 band (t116 amended the 400 ceiling by written record for the Part 2 scoring map; REQ-DOC-010 under 500 stays the hard gate)\"; exit 1; };",
+     "offset_in_old_command": 1353,
+     "offset_in_new_command": 1484
+    },
+    {
+     "from": "echo \"ac1 evidence: invariants hold (17 level-2 headings, CRLF on every line, ASCII-only, ${N:-0} lines within the 400 ceiling)\"",
+     "to": "echo \"ac1 evidence: invariants hold (18 level-2 headings, CRLF on every line, ASCII-only, ${N:-0} lines within the 460 ceiling)\"",
+     "offset_in_old_command": 1686,
+     "offset_in_new_command": 1889
+    },
+    {
+     "from": "17 headings, CRLF, ASCII, within the 400-line ceiling",
+     "to": "18 headings, CRLF, ASCII, within the 460-line ceiling",
+     "offset_in_old_command": 4931,
+     "offset_in_new_command": 5134
+    }
+   ]
+  },
+  {
+   "index": 258,
+   "issue_id": "t71",
+   "card_ac": "ac4",
+   "defective_premise": "the README line ceiling is 400 - falsified by the same 422-line assembly",
+   "re_premised_to": "the same assertion re-premised to the 460 ceiling, the 340 floor and every other assertion of the leg preserved verbatim",
+   "re_premise_not_relax": true,
+   "old_command_len": 7206,
+   "old_command_sha256": "4b44ee8338b3c54531e6776d32d7f147549a3c7658ec6cc7d9753d0cfb49d532",
+   "new_command_len": 7310,
+   "new_command_sha256": "450753dc7bbb1e54ba4723c6007c5690a6740caeb734b5b175634fe0eabb1c43",
+   "entry_sha_before": "d0c8c9e579c9d698ff282c7c457b4c5e5cb3dc56199c46f321d63ab32c358d71",
+   "entry_sha_after": "6fcff3a8290bed78b1bfad4bb6efe6b325144d272f53c8a5ee3d80d7057b0d58",
+   "replaced_regions": [
+    {
+     "from": "[ \"${N:-0}\" -le 400 ] || { echo \"ac4 RED: the pin-4 line ceiling would be $N - over the 400 hard ceiling this card budgets\"; exit 1; };",
+     "to": "[ \"${N:-0}\" -le 460 ] || { echo \"ac4 RED: the README line ceiling would be $N - over the 460 ceiling t116 amended by written record (the 400 this card budgeted predates README Part 2; REQ-DOC-010 under 500 stays the hard gate)\"; exit 1; };",
+     "offset_in_old_command": 5324,
+     "offset_in_new_command": 5324
+    }
+   ]
+  }
+ ],
+ "negative_control_matrix": [
+  {
+   "case": "amended leg 256 vs the groom candidate README (422 lines, 18 H2)",
+   "victim": "none - positive control: the amended leg accepts the truth",
+   "measured_rc": 0,
+   "expected_rc": 0
+  },
+  {
+   "case": "amended leg 256 vs the groom-BASE README (396 lines, 17 H2)",
+   "victim": "the 18-heading premise is not vacuous",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "shipped OLD leg 256 vs the candidate README",
+   "victim": "none - proves the amendment is required (the old leg genuinely REDs on the candidate)",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended leg 256 with the heading fix applied but the ceiling deliberately left at 400, vs the candidate",
+   "victim": "the 460 ceiling leg is not vacuous (422 > 400)",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended leg 258 vs the groom-base README",
+   "victim": "the re-pin chain (digest/line/report) is not vacuous",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended leg 258 vs the pre-re-pin candidate (README moved, constants not yet moved)",
+   "victim": "the cross-consistency premise genuinely requires the builder's measured re-pin",
+   "measured_rc": 1,
+   "expected_rc": 1
+  }
+ ],
+ "written_by_definer_applied_by": "definer-groom at main 1ecb995; every old_command_sha256/entry_sha_before/new_command_sha256/entry_sha_after was recomputed from the live index bytes in the grooming process and re-verified forward AND reverse in the rehearsal clone; the orchestrator applies, the definer and the t116 builder write ZERO index bytes"
+}
