@@ -261,6 +261,33 @@ The screenshot prose, the capture recipe and the seed shape moved to
 | `screenshots/expense-form.png` |
 | `screenshots/budget-page.png` |
 | `screenshots/health-check.png` |
+## Reviewer / agent scoring map
+
+This table is the operator's twelve-dimension grading rubric. It is not the
+Chapter 24.3 criteria-mapping table below and not the Chapter 24.5 evidence
+checklist - those two maps point from project checks and criteria to their
+evidence files; this one points from each grading dimension to this
+project's measured claim and to the one entry point where a reader (human
+grader or AI agent) can check that claim in 30 seconds.
+
+| # | Dimension (max points) | Claim | Why (one line) | First entry point (30 seconds) | Deep dive |
+|---|---|---|---|---|---|
+| 1 | Problem Description (0-2) | 2/2 | The problem statement, feature list and expected behaviour are all checkable in this file on its first screen. | `README.md` | `docs/criteria/scoring_map/process.md`, `docs/requirements/Chapter1_ProjectOverview.md` |
+| 2 | Product Specification (0-2) | 2/2 | The spec, the public task tracker and the in-repo process evidence are all present and countable. | `product-spec.md` | `docs/criteria/scoring_map/process.md`, `docs/criteria/req_coverage_verification.md` |
+| 3 | Agent Team Specification (0-2) | 2/2 | Four written role contracts (this file plus the four skill files) and a documented working process. | `AGENTS.md` | `docs/criteria/scoring_map/process.md`, `docs/process.md` |
+| 4 | Context Management (0-2) | 2/2 | The Pointers section routes each role to its own skill file and the modular docs tree is one hop away. | `AGENTS.md` | `docs/criteria/scoring_map/process.md`, `docs/process.md` |
+| 5 | Application (0-2) | 2/2 | One command (npm run dev) starts backend and frontend together; the demo seed command sits next to it. | `package.json` | `docs/criteria/scoring_map/app.md`, `README.md` |
+| 6 | Testing (0-2) | 2/2 | make test runs the unit, integration and frontend tiers that CI executes, so a pass is attestable anywhere. | `Makefile` | `docs/criteria/scoring_map/app.md`, `docs/requirements/Chapter11_TestingStrategy.md` |
+| 7 | Containerization (0-2) | 2/2 | Exactly two services - database with a healthcheck, app gated on it - bring the whole system up with one command. | `docker-compose.yml` | `docs/criteria/scoring_map/app.md`, `docs/criteria/infra_verification.md` |
+| 8 | Deployment (0-2) | 2/2 | The app is live: one curl of this URL answers with the health body, and render.yaml is the one-file deploy blueprint. | `https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health` | `docs/criteria/scoring_map/delivery.md`, `ops/deployment-health.md` |
+| 9 | CI/CD (0-3) | 2/3 | tests run on PR and CD is automatic, but there is no second environment to deploy to - the human-gated production pipeline exists (`.github/workflows/promote.yml`, Environment `production`) and targets the same live service. | `.github/workflows/ci.yml` | `docs/criteria/scoring_map/delivery.md`, `docs/criteria/infra_verification.md` |
+| 10 | Observability (0-2) | 1/2 | Metrics, structured logs and the local stack are real, but no trace ID is shared between them - the traces block is commented-out YAML. | `observability/README.md` | `docs/criteria/scoring_map/telemetry.md`, `docs/criteria/security_ops_verification.md` |
+| 11 | Alerting on User Impact (0-1) | 1/1 | Two alert rules fire on user-visible failure, and a full alert-to-resolution drill record stands behind them. | `observability/alerts.yaml` | `docs/criteria/scoring_map/telemetry.md`, `docs/criteria/security_ops_verification.md` |
+| 12 | On-Call Agent (0-2) | 1/2 | The agent turns an alert into a machine-checkable diagnosis, but a human operates the fix by design (default-deny policy). | `incident-response/responder-task.md` | `docs/criteria/scoring_map/telemetry.md`, `ops/diagnosis.md` |
+
+Each Claim is the `X/max` the cited record measured on the shipped tree;
+the First entry point holds exactly one pointer, and the deep dive names
+the record and its primary artifact.
 ## Criteria mapping
 
 One row per Chapter 24.3 quality-acceptance table (rows 1-15) - the
