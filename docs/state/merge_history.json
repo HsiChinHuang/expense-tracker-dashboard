@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-21T11:45:12Z",
+  "updated_at": "2026-10-23T05:35:30.379793+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1504,6 +1504,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge_sha recorded in follow-up commit per convention; merge concluded from staged dry-run tree after autocrlf flip blocked abort-reset (parents 1e6efbd+2b6aa13 verified); merged-tree: leg 130 (0-based) rc=0, leg 227 (0-based) RED at base AND head (parked stale-pin class, not t110), full pytest 307 passed WSL uv"
+    },
+    {
+      "issue_id": "t112",
+      "platform_issue": 118,
+      "branch": "issue/t112-scoring-map-process",
+      "merge_sha": "d961491",
+      "merged_at": "2026-10-23T05:35:30Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge_sha in follow-up commit per convention; --no-ff merge of e7c4198 (parent 6e36d4f) onto 9f23b6f; merged-tree: all 4 card fences rc=0 orchestrator-run; verifier PASS in isolated worktree (fences verbatim, ac_hash four-way 3cca8012, changed-file-set = 1 path, 19/19 path resolve); disclosed race: orchestrator WAL commit 4s after builder checkout -b swept staged process.md into misplaced e185654 on the builder branch - rebuilt via reset --mixed + pathspec commit e7c4198, main never moved, zero pushes of bad bytes; STANDING RULE added: orchestrator commits with explicit pathspec + branch assertion while builders active"
     }
   ]
 }
