@@ -1,0 +1,242 @@
+{
+  "schema_version": "2.0",
+  "role": "definer",
+  "phase": "groom",
+  "artifact": "gate_amendment",
+  "card": "t119",
+  "milestone": "phase_20_readme_scoring_map",
+  "platform_issue": 122,
+  "status": "proposed",
+  "base": {
+    "main_tip_at_groom": "4ca0962",
+    "index_entries": 318,
+    "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip 4ca0962 (WAL 1273 closure commit)"
+  },
+  "why_this_file_exists": "t119 adds .github/workflows/promote.yml under the operator-approved ruling WAL 1268. Eight stored surfaces (seven stored gates plus one generator anchor pin) encode the topology claim 'exactly three pipelines exist'; without this record they go RED on the merge commit.",
+  "supervisor_authority": "operator-approved orchestrator ruling WAL 1268 (R2): the workflow-listing legs 131/162/167/177 extend their expected set to include promote.yml, applied by the ORCHESTRATOR in t119's merge window; 143/155 are added by groom measurement because they pin the regenerated report lines verbatim (measured GREEN at groom base, RED on any regeneration for the fourth workflow); 191 joins for its own stale-README reason; tests[227] is deliberately NOT in this record - it is settled by t111_definer_gate_amendment.json (t71 precedent) and its listing region rides on that record.",
+  "applied_by": "orchestrator at t119 merge time; the DEFINER and the t119 BUILDER never edit docs/state/merge_test_index.json",
+  "card_writes_index_bytes": false,
+  "no_leg_deleted": true,
+  "verifier_thresholds_touched": false,
+  "amendments": [
+    {
+      "index": 131,
+      "issue_id": "t26",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 1932,
+      "old_command_sha256": "a77b320f8a003a6250245ff70c9f34e1111eee93d077edbeaa70d41a092f97fc",
+      "new_command_len": 1940,
+      "new_command_sha256": "184ecbd6dc346794546b4772a3c74640f5a60a1365a0f3ccac70a81b902839f5",
+      "entry_sha_before": "3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb",
+      "entry_sha_after": "f9f9b4e9daf4f96c1fd3f6f4845bc982b616be235f7e1a92a354c44353b14e7e",
+      "replaced_regions": [
+        {
+          "from": "grep -vE \"^(ci|e2e|deploy)\\.yml$|^\\.gitkeep$",
+          "to": "grep -vE \"^(ci|e2e|deploy|promote)\\.yml$|^\\.gitkeep$",
+          "offset_in_old_command": 176,
+          "offset_in_new_command": 176
+        }
+      ]
+    },
+    {
+      "index": 143,
+      "issue_id": "t28",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 1483,
+      "old_command_sha256": "e533e57596c625f0202920851f8a8c4960e748422ef947b4f69e11150e80d324",
+      "new_command_len": 1517,
+      "new_command_sha256": "6d5948e499744c8da7320d3574a80013bb388d46a0a0f3db092da26ad1538148",
+      "entry_sha_before": "80fe7c12575a769c030854a8acd026bca73a75c614d3b0dc116842cea83753e2",
+      "entry_sha_after": "114fe9251707fe12ead12bec8bc7732f0a888e76b495918cdbaaa6711d31e7a3",
+      "replaced_regions": [
+        {
+          "from": "^WORKFLOWS ci,e2e,deploy 3 PASS",
+          "to": "^WORKFLOWS ci,e2e,deploy,promote 4 PASS",
+          "offset_in_old_command": 499,
+          "offset_in_new_command": 499
+        },
+        {
+          "from": "^WORKFLOW_TRIGGERS ci=pull_request\\+push e2e=push deploy=workflow_run PASS",
+          "to": "^WORKFLOW_TRIGGERS ci=pull_request\\+push e2e=push deploy=workflow_run promote=workflow_dispatch PASS",
+          "offset_in_old_command": 571,
+          "offset_in_new_command": 579
+        }
+      ]
+    },
+    {
+      "index": 155,
+      "issue_id": "t35",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 1766,
+      "old_command_sha256": "393ec9117d390e0a815e287be9f20288d6d32b9eb4dcdde2d1261916c7aa5cf5",
+      "new_command_len": 1774,
+      "new_command_sha256": "cb46ef881238b4a798a719a91be9dcb2e72d7f09e45d259adb9696bdab3d9430",
+      "entry_sha_before": "f1ba9a2f0e29cec515dfed562cc002c937eefcfb105c39931f2abcc92c13215f",
+      "entry_sha_after": "86caffc3d3530fff15c079d2234db16d83a3ca95f76cd16b63e45a7273e375ad",
+      "replaced_regions": [
+        {
+          "from": "^WORKFLOWS ci,e2e,deploy 3 PASS",
+          "to": "^WORKFLOWS ci,e2e,deploy,promote 4 PASS",
+          "offset_in_old_command": 1147,
+          "offset_in_new_command": 1147
+        }
+      ]
+    },
+    {
+      "index": 162,
+      "issue_id": "t36",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 1725,
+      "old_command_sha256": "1e3218940bd584805e2c9b55d6fd4d8d535d10d8be7463c65a0759dc90c1f5bf",
+      "new_command_len": 1737,
+      "new_command_sha256": "16d0e86e77cb8f430d71e2cf92fb8bd3ed246b8394e5d3c76e724da425b58391",
+      "entry_sha_before": "0e65b641742a5119b918a8c7cf6743e05c761299f5090aedc2e8a820bda595fb",
+      "entry_sha_after": "6f1c4dc5206079ebafd459b12f7e8b6695eb1b4b94d0772ab839b250e10eccba",
+      "replaced_regions": [
+        {
+          "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
+          "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\"",
+          "offset_in_old_command": 1594,
+          "offset_in_new_command": 1594
+        }
+      ]
+    },
+    {
+      "index": 167,
+      "issue_id": "t37",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 1243,
+      "old_command_sha256": "f3c2497a4a9a847921b407e2324b00baa49fa6ba4b37889114e9cec75592e30a",
+      "new_command_len": 1255,
+      "new_command_sha256": "a63c8b335020405045a24aa8be90435c1f940a35f17c76f42ce86b9b9eb5f237",
+      "entry_sha_before": "593916af51279f03ae71fe671339929a991ab68d512d2821a7b049c16d2b73b3",
+      "entry_sha_after": "d984dba2b80e75d360cb7cc45bc44fec4119d8da781f64c0e38d90514071926e",
+      "replaced_regions": [
+        {
+          "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
+          "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\"",
+          "offset_in_old_command": 782,
+          "offset_in_new_command": 782
+        }
+      ]
+    },
+    {
+      "index": 177,
+      "issue_id": "t38",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 2104,
+      "old_command_sha256": "226c3ac563e655d9b02d7bd59c2f3d5e118d68d67a7742782e2770d0c48b44ca",
+      "new_command_len": 2116,
+      "new_command_sha256": "012d37c4063830c24a9fd892cb1fff8ae70948afb01f042041a61f2246130606",
+      "entry_sha_before": "6516f0666f1628304bd4bafff4cd01e0d8d666f5660f1496963fb950c38ad08f",
+      "entry_sha_after": "238c99f31a360481b362e0d8be5e2c99b3d95f6a7306b04d6725e6c926855338",
+      "replaced_regions": [
+        {
+          "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
+          "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\"",
+          "offset_in_old_command": 873,
+          "offset_in_new_command": 873
+        }
+      ]
+    },
+    {
+      "index": 191,
+      "issue_id": "t47",
+      "defective_premise": "the .github/workflows surface is exactly ci/e2e/deploy(+.gitkeep) - falsified by t119 adding promote.yml under the operator ruling WAL 1268",
+      "re_premised_to": "the same assertion extended to the four-workflow set including promote.yml (or the two report lines regenerated for WORKFLOWS=ci,e2e,deploy,promote), with every other assertion of the leg preserved verbatim",
+      "old_command_len": 4167,
+      "old_command_sha256": "e0b15d8a39850c7e1b88f59aecf0d8eb039ef17aa550af81749743548e86a01b",
+      "new_command_len": 4179,
+      "new_command_sha256": "bb0c9ad7bb74f4e53d9d6ac8f8326b98de56a47da575be12cde767e6e1a3f57b",
+      "entry_sha_before": "ab06ee8bfa0aa52353b3b4cecb1fdb49d45f6f752dca96296db7110d1e42893a",
+      "entry_sha_after": "17099e7ff326698e4759a916ec096716c364adf19234e960715926904dbae13b",
+      "replaced_regions": [
+        {
+          "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
+          "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\"",
+          "offset_in_old_command": 2255,
+          "offset_in_new_command": 2255
+        }
+      ]
+    }
+  ],
+  "generator_anchor_pin": {
+    "surface": "backend/scripts/docs_verification.py INDEX_ANCHORS[131]",
+    "old_entry_sha": "3aaf53e32521a6469ce69b755ac2fbba870fe37f7c5643ca9e38886990a211fb",
+    "new_entry_sha": "f9f9b4e9daf4f96c1fd3f6f4845bc982b616be235f7e1a92a354c44353b14e7e",
+    "note": "INDEX_ANCHORS re-attests the entry sha of tests[131]; amending 131 WITHOUT rotating this constant turns docs_verification.py itself RED (STORED_GATES FAIL tests[131]). The rotation is a REPLACE of one existing 64-hex literal: the 13-hex-literal count (stored legs 258/259) is unchanged. The same digest is asserted verbatim inside stored legs 190/191, which are ALREADY RED at base for their own reasons (measured at groom: 190 freeze-scope drift, 191 README drift) and are in the known RED set."
+  },
+  "generator_constant": {
+    "path": "backend/scripts/infra_verification.py",
+    "constant": "EXPECTED_WORKFLOWS",
+    "before_literal": "EXPECTED_WORKFLOWS = (\"ci\", \"e2e\", \"deploy\")",
+    "after_literal": "EXPECTED_WORKFLOWS = (\"ci\", \"e2e\", \"deploy\", \"promote\")",
+    "blocking_legs": [
+      141
+    ],
+    "collateral_report_line_legs": [
+      143,
+      155
+    ],
+    "resolution": "RESOLVED BY RULING WAL 1268 (R1): the constant is t119 OWNED surface - the t119 builder replaces exactly this one tuple line and regenerates docs/criteria/infra_verification.md in the same commit. The survey's three-option BLOCKER framing is DISCHARGED; the options below are recorded as the decision history, not an open question.",
+    "options_decision_history": [
+      "OPTION A (RULED, WAL 1268): amend EXPECTED_WORKFLOWS in t119's owned surface and regenerate the report",
+      "OPTION B (rejected): separate generator-maintenance card",
+      "OPTION C (rejected): do not merge promote.yml"
+    ],
+    "t119_writes_generator": true,
+    "t119_writes_generator_scope": "exactly the one EXPECTED_WORKFLOWS tuple line (ac6 diff-line-count gate: 2 +/- lines) plus the regenerated report",
+    "dry_run_evidence": "WAL 1272 banked evidence, reproduced independently by groom in a temp copy at main 4ca0962: generator rc=0, 'WORKFLOWS ci,e2e,deploy,promote 4 PASS', 'WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run promote=workflow_dispatch PASS', 'ALL_CHECKS_PASS 23 PASS'; the regenerated report differs from the committed one on exactly the WORKFLOWS line, the WORKFLOW_TRIGGERS line and the per-run FALLBACK_WITHIN_5S elapsed line.",
+    "expected_report_workflows_line": "WORKFLOWS ci,e2e,deploy,promote 4 PASS",
+    "expected_report_triggers_line": "WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run promote=workflow_dispatch PASS",
+    "reference_regenerated_digest_cr_stripped": "fe8648ef159294fb90b98dbc5466a6503aacad3d7dbac36011bf054e97eb058a",
+    "reference_digest_caveat": "the elapsed timing line differs per run, so the committed digest will NOT equal the reference; the citable invariants are the two lines above and ALL_CHECKS_PASS 23 PASS (n>=20)."
+  },
+  "measured_unchanged_no_record_needed": "legs 0,132,133,135,139,141,142,144,145,203,204,215,227(except via t111's record),243,252 and every other .github-mentioning leg measured: none asserts the four-vs-three workflow set beyond the seven entries above; leg 135's secret scan gains coverage of promote.yml, which is the desired outcome.",
+  "negative_control_matrix": [
+    {
+      "case": "amended listing expectation vs groom-base dir (no promote.yml) must MISMATCH",
+      "victim": "tests[162/167/177/191] amended expectation is not vacuous",
+      "measured_rc": 1,
+      "expected_rc": 1
+    },
+    {
+      "case": "amended expectation matches simulated post-merge listing (positive control)",
+      "victim": "none - proves the amended expectation accepts the truth",
+      "measured_rc": 0,
+      "expected_rc": 0
+    },
+    {
+      "case": "unamended base expectation vs post-merge listing must MISMATCH (the priced RED this record prevents)",
+      "victim": "tests[162/167/177] at t119 merge without amendment",
+      "measured_rc": 1,
+      "expected_rc": 1
+    },
+    {
+      "case": "amended 131 filter still counts a synthetic intruder.yml as 1 (discriminating power preserved)",
+      "victim": "tests[131] amended filter",
+      "measured_rc": 0,
+      "expected_rc": 0
+    },
+    {
+      "case": "every region FROM literal appears exactly once in the shipped command and zero times after the edit (one-shot, no silent multi-replace)",
+      "victim": "all seven regions",
+      "measured_rc": 0,
+      "expected_rc": 0
+    },
+    {
+      "case": "reverse application of every region reproduces the shipped command byte-for-byte (lossless)",
+      "victim": "all seven entries",
+      "measured_rc": 0,
+      "expected_rc": 0
+    }
+  ],
+  "apply_mechanism": "orchestrator applies each amendment by loading the LIVE index, asserting entry_sha_before, replacing the entry command via replaced_regions forward application (never by pasting a snapshot), asserting the resulting command sha equals new_command_sha256 and the entry sha equals entry_sha_after, then rotating INDEX_ANCHORS[131] in docs_verification.py and regenerating docs/criteria/docs_verification.md in the same merge window.",
+  "written_by_definer_applied_by": "definer-groom at main 4ca0962 on 2026-10-23; every old_command_sha256/entry_sha_before was recomputed from the live index bytes in this same process."
+}
