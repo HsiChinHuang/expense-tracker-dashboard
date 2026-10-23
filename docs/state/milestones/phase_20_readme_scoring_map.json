@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "milestone": "phase_20_readme_scoring_map",
+  "survey_completed_at": "2026-10-23T04:14:49Z",
+  "review_plan_status": "pending",
+  "review_plan_completed_at": null,
+  "review_plan_verdict": null,
+  "review_plan_attempts": 0,
+  "issues_generated": [
+    "t111",
+    "t112",
+    "t113",
+    "t114",
+    "t115",
+    "t119",
+    "t116"
+  ],
+  "survey_attempts": 0
+}
