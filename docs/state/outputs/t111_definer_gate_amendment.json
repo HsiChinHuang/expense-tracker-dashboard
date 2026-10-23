@@ -38,6 +38,7 @@
       "issue_id": "t59",
       "card_ac": "ac4 (settlement) / ac2 (pin values)",
       "title": "tests[227] re-premised to the then-shipped bytes: four stale premises replaced, every green half preserved verbatim",
+      "re_premise_not_relax": true,
       "stale_premises": [
         "README.md",
         "render.yaml",
@@ -80,58 +81,58 @@
           "from": "\"29d22affc0216c289dc69468ec3d643e0faa494e0adec800c6272a3c217272e9\"",
           "to": "\"<DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\""
         }
+      ],
+      "negative_control_matrix": [
+        {
+          "case": "README digest placeholder: leg 227 stays RED until the builder/orchestrator substitutes the ac2-measured candidate digest",
+          "victim": "the settlement cannot pass vacuously on the stale a64efaa2 pin",
+          "measured_rc": 1,
+          "expected_rc": 1,
+          "how_measured": "the shipped command with the stale pin exits 1 at groom base (leg 227 is in the recorded RED set)"
+        },
+        {
+          "case": "listing region FROM literal appears exactly once in the shipped command and zero times after the edit",
+          "victim": "tests[227] listing region one-shot uniqueness",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "str.count() == 1 before, == 0 after (executed at groom)"
+        },
+        {
+          "case": "reverse application of all five regions reproduces the shipped command byte-for-byte (lossless)",
+          "victim": "all five regions",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "assert back == cmd executed at groom"
+        },
+        {
+          "case": "the settled command keeps the GREEN openapi.yaml pin 6f2a0a3d... verbatim (re-premise, not relax)",
+          "victim": "tests[227] openapi half",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "literal search in the forward-built command"
+        },
+        {
+          "case": "the settled command keeps the GREEN AGENTS.md pin 8340781c... verbatim",
+          "victim": "tests[227] AGENTS half",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "literal search in the forward-built command"
+        },
+        {
+          "case": "a single-character mutation of the candidate README digest placeholder is rejected by the pinned comparison (discriminating power preserved)",
+          "victim": "the README pin half",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "the leg's own built-in MUT negative-control line is preserved verbatim by every region"
+        },
+        {
+          "case": "the 20-file HEAD-blob freeze loop is untouched by any region (no relaxation smuggled in)",
+          "victim": "tests[227] freeze half",
+          "measured_rc": 0,
+          "expected_rc": 0,
+          "how_measured": "no replaced_region overlaps the 'for p in README.md AGENTS.md ...' loop"
+        }
       ]
-    }
-  ],
-  "negative_control_matrix": [
-    {
-      "case": "README digest placeholder: leg 227 stays RED until the builder/orchestrator substitutes the ac2-measured candidate digest",
-      "victim": "the settlement cannot pass vacuously on the stale a64efaa2 pin",
-      "measured_rc": 1,
-      "expected_rc": 1,
-      "how_measured": "the shipped command with the stale pin exits 1 at groom base (leg 227 is in the recorded RED set)"
-    },
-    {
-      "case": "listing region FROM literal appears exactly once in the shipped command and zero times after the edit",
-      "victim": "tests[227] listing region one-shot uniqueness",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "str.count() == 1 before, == 0 after (executed at groom)"
-    },
-    {
-      "case": "reverse application of all five regions reproduces the shipped command byte-for-byte (lossless)",
-      "victim": "all five regions",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "assert back == cmd executed at groom"
-    },
-    {
-      "case": "the settled command keeps the GREEN openapi.yaml pin 6f2a0a3d... verbatim (re-premise, not relax)",
-      "victim": "tests[227] openapi half",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "literal search in the forward-built command"
-    },
-    {
-      "case": "the settled command keeps the GREEN AGENTS.md pin 8340781c... verbatim",
-      "victim": "tests[227] AGENTS half",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "literal search in the forward-built command"
-    },
-    {
-      "case": "a single-character mutation of the candidate README digest placeholder is rejected by the pinned comparison (discriminating power preserved)",
-      "victim": "the README pin half",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "the leg's own built-in MUT negative-control line is preserved verbatim by every region"
-    },
-    {
-      "case": "the 20-file HEAD-blob freeze loop is untouched by any region (no relaxation smuggled in)",
-      "victim": "tests[227] freeze half",
-      "measured_rc": 0,
-      "expected_rc": 0,
-      "how_measured": "no replaced_region overlaps the 'for p in README.md AGENTS.md ...' loop"
     }
   ],
   "coordination_with_t119": "the listing region here duplicates the literal amended in t119_definer_gate_amendment.json's scope note; the ORCHESTRATOR amends 227's listing ONLY through this record (t119's record deliberately excludes 227 so one leg has exactly one owning record - two records editing one entry is how byte-proofs rot)",
@@ -141,7 +142,7 @@
     "3_derived_not_copied": "every sha recomputed from the LIVE index in the writing process; verification re-derives from the shipped entry",
     "4_regions_lossless": "replaced_regions reconstruct forward and reverse (executed at groom, asserted again by t111 ac4)",
     "5_entry_shas_pinned": "entry_sha_before/after over json.dumps(entry, separators=(',',':'))",
-    "6_negative_controls": "7 legs, each with measured_rc == expected_rc and the victim named",
+    "6_negative_controls": "7 legs in amendments[0].negative_control_matrix (ac4 reads the amendment-scoped matrix), each with measured_rc == expected_rc and the victim named",
     "7_no_leg_deleted_no_threshold_move": "no_leg_deleted=true, verifier_thresholds_touched=false",
     "8_both_states_reconstructible": "ac4 accepts the pre-settlement state (placeholders + old shas) and the post-settlement state (entry sha == entry_sha_after)"
   },
