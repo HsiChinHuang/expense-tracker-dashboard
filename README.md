@@ -40,24 +40,22 @@ documented in [docs/api.md](docs/api.md) and machine-readable in
 
 ## Online demo
 
-Try the app before building it. The seeded local demo path works today: one
-command loads a fixed demo account and a deterministic recent expense
-dataset into your own local database, and the dashboard renders from it
-immediately.
+Try the hosted app first: it needs no build and nothing to install before
+you look at it:
 
-```bash
-npm run seed:demo
-```
+https://expense-tracker-dashboard-1qtu.onrender.com
 
-Then run the Quick Start commands below and sign in with the fixed account
-demo@example.com / demo-password-123. The seed script touches only its own
-demo rows and is safe to re-run.
+The free tier sleeps when idle, so the first visit can take tens of
+seconds (cold start). The hosted app has NO seeded demo account: register
+your own account there before you try to sign in.
 
-The hosted app is live at https://expense-tracker-dashboard-1qtu.onrender.com. The operational probe is https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health: it is the endpoint that answers correctly today, while the bare root serves the built SPA document only once this milestone's static-serving fix is deployed.
-It has NO seeded demo account: register your own account there before you try
-to sign in. The fixed demo account above exists only in your own local
-database, created by the seed command, and is never available on the hosted
-app. The seeded local demo stays the documented demo path.
+For a seeded dataset, run `npm run seed:demo` AFTER ## Prerequisites and
+Quick Start steps 1-3 - it needs the toolchain those steps install, and
+uv comes from them (uv is used by the Quick Start setup, not installed by
+this repository). The seed loads the fixed account demo@example.com /
+demo-password-123 into your own local database only; it is never available
+on the hosted app. The seed script touches only its own demo rows and is
+safe to re-run.
 
 ## Prerequisites
 
@@ -320,7 +318,7 @@ so this README documents the procedure without claiming the deployment
 was verified live in CI. Open the deployed URL early: the free tier pays
 a cold start after each idle gap (see Free tier above).
 
-1. Open the live URL (the Render service named in `render.yaml`). The honest liveness check is the operational probe https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health; the bare root serves the built SPA document only once this milestone's static-serving fix is deployed.
+1. Open the live URL (the Render service named in `render.yaml`). The honest liveness check is the operational probe https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health; the bare root serves the built SPA document.
 2. Register an account (or log in).
 3. Add an expense.
 4. Set a budget for the month.
@@ -355,7 +353,7 @@ in `docs/ai-workflow.md`; the agent contribution rules live in `AGENTS.md`.
 
 ## Deployment on Render
 
-The service is live at https://expense-tracker-dashboard-1qtu.onrender.com, and the operational probe is https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health (the bare root serves the built SPA document only once this milestone's static-serving fix is deployed).
+The service is live at https://expense-tracker-dashboard-1qtu.onrender.com, and the operational probe is https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health (the bare root serves the built SPA document).
 The deploy-hook automation tracked as residual issue #61 stays open: the
 `RENDER_DEPLOY_HOOK` secret still needs the operator's configuration, so
 release triggers do not fire automatically yet. The procedure below is the
