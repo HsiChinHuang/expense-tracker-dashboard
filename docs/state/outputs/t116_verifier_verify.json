@@ -1,0 +1,134 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t116",
+ "role": "verifier",
+ "phase": "verify_issue",
+ "status": "COMPLETE",
+ "reached_state": "verified",
+ "evidence": {
+  "evidence_type": "verification",
+  "verdict": "PASS",
+  "mode_disclosure": "Task requested mode verify_build. No verify_build schema or detail exists (skills/verifier/details/ and schemas/verifier/ carry only verify_issue/verify_pre_merge/verify_post_merge; the common envelope's phase enum has no verify_build), so following the t111..t115/t119 precedent this handoff uses the registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t116_verifier_verify.json verifier verify_issue'.",
+  "contract": "UNAMENDED card at main HEAD 0e54bcc (docs/issues/t116.md; git diff 59a71ab..0e54bcc -- docs/issues/t116.md is EMPTY, so the card is identical at base and main HEAD - no fence amendment this cycle) with ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 (6 fences). BUILD branch issue/t116-scoring-map @ 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08 (parent 59a71ab908b1bfc811085c90506c44612e01cf1a, verified). Orchestrator merged as 51a9906 (parents 59a71ab+8986afb) and applied the card's THREE merge-window obligations in 0e54bcc: (1) leg 256 heading/band + leg 258 ceiling amendments (400->460, 17->18 H2) per docs/state/outputs/t116_definer_gate_amendment.json; (2) leg 227 settlement from docs/state/outputs/t111_definer_gate_amendment.json applied with the t116-measured report digest 7ace2eb5...; (3) ORCHESTRATOR OVERLAY (beyond the priced obligations): t116's own 421-line assembly moved leg 227's README digest/line premises 05cda049/394 -> efded7fb.../421, recorded in the t111 record's t116_merge_window_overlay with pricing_gap_note; leg 227 entry_sha_after now bad07ccc4a14... (recomputed and matched).",
+  "verification_environment": "Isolation per contract; NO merge/commit/push/checkout on the main checkout. (a) wt_t116v created via cmd.exe 'git -c core.autocrlf=false worktree add C:/Users/tw097/Desktop/261007_project01/wt_t116v 8986afb...' (detached HEAD at the builder commit; clean: git status 0 lines; used as a cross-check for the HEAD-independent fences ac1..ac4). (b) wt_t116f created the same way at the BASE 59a71ab and overlaid with the candidate blobs (README.md and docs_verification.py as all-CRLF = the canonical smudged builder shape; docs/criteria/docs_verification.md as the LF-stored blob; the amendment record as CRLF) - the FENCE-RUN STATE the card's fences are designed for (HEAD=base 59a71ab, candidate in the working tree, index PRE-amendment; the builder handoff ran the fences in exactly this state). The worktree .git pointer was rewritten to the relative form 'gitdir: ../expense-tracker-dashboard/.git/worktrees/wt_t116f' so BOTH WSL git and cmd.exe git (inside stored legs 134/155) resolve HEAD in the same tree. Environment provisioning (all gitignored surfaces, t110/t111 precedent): the 19 environment-dirt .md files copied from the main checkout to reproduce the committed report's LINK_CHECK files=299 row, and frontend/node_modules/{js-yaml,argparse} copied for stored gate 134; uv 0.12.13 at ~/.local/bin with UV_PROJECT_ENVIRONMENT pointed at the builder's backend/.venv (dependency specs identical - pyproject.toml unchanged by the diff). (c) A separate read-only clone clone_t116v (core.autocrlf=false, LF) and a canonical smudge clone clone_t116v_smudge (autocrlf=true, CRLF working copy) at 0e54bcc were used to run the THREE amended legs against the merged README; the amended legs 256/258 assert CRLF-on-every-line and ends-in-CRLF, so they are GREEN only in the canonical CRLF checkout shape (the main checkout's own shape) - measured rc=0 there. All git ops via cmd.exe; LF blob semantics enforced; the main checkout was NOT merged/committed/pushed/checked-out (its three spawn-dirty entries - M docs/criteria/docs_verification.md, ?? docs/state/history/, ?? docs/state/outputs/t116_builder_build.json - are untouched).",
+  "ac_hash_recomputed": "Recomputed FROM THE COMMITTED CARD BLOB (git show HEAD:docs/issues/t116.md at main 0e54bcc) with the t58/t62..t115 recipe (sha256 over json.dumps(blocks, separators=(',',':')) of the six fenced bash blocks in ac1..ac6 order, each CR-stripped and trimmed) = 2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 - EXACT match to the card's frozen ac_hash and the task contract.",
+  "fence_byte_identity": "All six fences extracted verbatim from the committed card blob at 0e54bcc and asserted byte-identical (after the recipe's CR-strip+trim) to evidence.verification_commands.ac1..ac6 of docs/state/outputs/t116_definer_groom.json - ALL SIX True; the groom handoff's ac_hash field is the same 2d92fb9e... The builder handoff (docs/state/outputs/t116_builder_build.json) does not re-quote the fence bodies but carries the identical ac_hash 2d92fb9e... and fence_rc all-zero, so the byte-identity chain card->groom->builder closes on the shared ac_hash. Card is UNAMENDED: git diff 59a71ab..0e54bcc -- docs/issues/t116.md is empty.",
+  "ac_results": {
+   "ac1": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac1` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in wt_t116f (fence-run state) AND rc=0 in wt_t116v (clean worktree @8986afb). Evidence: section at line 264 between ## Screenshots (252) and ## Criteria mapping (291), clear of the leg-255 tail at 381; 18 level-2 headings; generator rehearsal counters CRITERIA243_ROWS 15 / EVIDENCE_CHECKLIST 14 / FIVE_MIN_PATHS 2; NEGATIVE CONTROL 2/2 (the same table in the survey window counts 27 rows and lands after ## Criteria mapping)."
+   },
+   "ac2": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac2` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in both wt_t116f and wt_t116v. Twelve numbered rows + one header; rubric dimension names and maxima 2,2,2,2,2,2,2,2,3,2,1,2; every claim X/max with X<=max; negative controls (4/3 over-claim, 2/2 wrong-denominator) refused."
+   },
+   "ac3": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac3` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in both wt_t116f and wt_t116v. All twelve claims EQUAL their record's '- Claim:' line and all twelve entry points EQUAL their record's '- First entry point:' line by string comparison; deep-dive paths all appear in their record; CI/CD row 2/3 with promote.yml + production pointers and the delivery record's Gap line intact; negative controls (inflated Observability 2/2, Testing->package.json swap) refused."
+   },
+   "ac4": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac4` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in both wt_t116f and wt_t116v. Both legs 256/258 reconstruct forward AND reverse losslessly in the PRE-AMENDMENT state (entry shas match entry_sha_before); record carries measured 421, ceiling 460 strictly inside 500, heading_count_after 18, 6-leg negative-control matrix, W2 policy invoked in writing, card_writes_index_bytes false. ac4 reads the shipped (pre-amendment) index by design; the 460 ceiling lives in the record's regions, not in any fence."
+   },
+   "ac5": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac5` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in wt_t116f (the canonical fence environment: shared venv via UV_PROJECT_ENVIRONMENT, frontend/node_modules js-yaml present, environment-dirt surface copied). Pre-flight wc -l = 421 (< 500, REQ-DOC-010 headroom 78); re-pin number two README_LINES 394->421 and README_DIGEST 05cda049->efded7fb by measurement; regenerated report records README_MEASURE PASS lines=421 digest=efded7fb, REQ-DOC-010 row executed, LINK_CHECK broken=0, agent_pack carried row intact; regeneration is a byte-exact no-op with the generator exiting 0 (the CARRIED_DIGESTS rotation had already landed at base 59a71ab); CRLF/ASCII/REQ-id-set(01f36118)/13-literal/INDEX_FLOOR envelope intact."
+   },
+   "ac6": {
+    "verdict": "PASS",
+    "command": "the fenced `bash` block in the `### ac6` section of docs/issues/t116.md, run verbatim via bash from the repository root of the fence-run state",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "rc=0 GREEN in wt_t116f. docs_verification.py moved on exactly the two README pin constants (4 +/- lines, the 8-line rotation case not needed - rotation already at base); zero bytes in scoring_map/index/.github/product/frozen-yaml surfaces; 24.3 table, 24.5 checklist range and leg-255 tail carry their carried rows; amendment record's measured_readme_lines equals the shipped 421; no reviewer-guide exists."
+   }
+  },
+  "amended_leg_results": {
+   "leg_256": {
+    "verdict": "PASS",
+    "command": "the LIVE docs/state/merge_test_index.json tests[256] command at 0e54bcc, run from the repo root of the canonical CRLF checkout (smudge clone at 0e54bcc)",
+    "exit_code": 0,
+    "note": "rc=0 GREEN: 'invariants hold (18 level-2 headings, CRLF on every line, ASCII-only, 421 lines within the 460 ceiling)'; 15 criteria rows; REQ id-set 01f36118 unchanged. NEGATIVE CONTROL: the OLD (pre-amendment) leg 256 from base 59a71ab vs the merged README rc=1 ('README carries 18 level-2 headings, not the 17 the base carries') - the amendment is load-bearing."
+   },
+   "leg_258": {
+    "verdict": "PASS",
+    "command": "the LIVE docs/state/merge_test_index.json tests[258] command at 0e54bcc, run from the repo root of the canonical CRLF checkout (smudge clone at 0e54bcc)",
+    "exit_code": 0,
+    "note": "rc=0 GREEN: cross-consistency chain - README cr_sha256 efded7fb == README_DIGEST constant, measured 421 == README_LINES constant, report attests README_MEASURE PASS lines=421 digest=efded7fb and ends ALL_CHECKS_PASS, report cr_sha256 7ace2eb5 moved off stale 29d22aff, INDEX_FLOOR 217<=318, 13 hex literals, tail 0d0a (CRLF). NEGATIVE CONTROL: OLD leg 258 vs merged README rc=1 ('the pin-4 line ceiling would be 421 - over the 400 hard ceiling') - load-bearing."
+   },
+   "leg_227": {
+    "verdict": "PASS",
+    "command": "the LIVE docs/state/merge_test_index.json tests[227] command at 0e54bcc, run from the repo root of the canonical CRLF checkout (smudge clone at 0e54bcc)",
+    "exit_code": 0,
+    "note": "rc=0 GREEN: README cr-stripped sha256 efded7fb and 421 lines match the overlaid pins; docs_verification.md cr-stripped sha256 == 7ace2eb5 (the t116-measured report digest the overlay settled) and its working bytes == HEAD blob; workflows dir exactly .gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml; 20 byte-frozen files match HEAD blobs; both negative controls pass. NEGATIVE CONTROL: OLD leg 227 vs merged README rc=1 ('README is not the pin-2 FINAL digest') - load-bearing."
+   }
+  },
+  "forward_reverse_proofs": {
+   "leg_256": "PASS - base(59a71ab) cmd sha == old_command_sha256; live(0e54bcc) cmd sha == new_command_sha256 (f9938c65...); base entry sha == entry_sha_before (b326254d...); live entry sha == entry_sha_after (77eab624...); forward(base regions) reproduces new_command_sha256; reverse(live regions) == base command byte-exact; all region needles unique (lossless both directions).",
+   "leg_258": "PASS - base cmd sha == old_command_sha256 (4b44ee83...); live cmd sha == new_command_sha256 (450753dc...); base entry sha == entry_sha_before (d0c8c9e5...); live entry sha == entry_sha_after (6fcff3a8...); forward reproduces new_command_sha256; reverse == base command byte-exact; single region, unique both directions.",
+   "leg_227": "PASS - base cmd sha == old_command_sha256 (8cbb4722...); the 5 replaced_regions apply forward losslessly to the settled form; the t116_merge_window_overlay (report digest 4f0f4196->7ace2eb5 + README digest 05cda049->efded7fb + README lines '= 394'->' = 421') applies forward losslessly and overlay-forward(settled) == live command byte-exact; overlay reverse(live) == settled byte-exact; 5-region reverse(live) == base command byte-exact; base entry sha == entry_sha_before (7c47f46f...); live entry sha == entry_sha_after == bad07ccc4a14dae554cb215058345e1cc20c90889c68a0b2a78cfdcfb213fe38 (recomputed, exact match). All 5 regions + the 3 overlay regions are region-lossless in BOTH directions."
+  },
+  "readme_measurements_at_merged_head": "421 lines (CR-stripped wc -l), cr-stripped sha256 efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4, 18 level-2 headings, section '## Reviewer / agent scoring map' at line 264 between ## Screenshots (252) and ## Criteria mapping (291). Twelve rows in rubric order with maxima matching the operator rubric: Problem Description 2/2, Product Specification 2/2, Agent Team Specification 2/2, Context Management 2/2, Application 2/2, Testing 2/2, Containerization 2/2, Deployment 2/2, CI/CD 2/3 (shown as 2/3 with the priced Gap sentence naming promote.yml + Environment production), Observability 1/2, Alerting on User Impact 1/1, On-Call Agent 1/2. docs_verification.py pins README_LINES=421 / README_DIGEST=efded7fb with exactly 13 hex64 literals and INDEX_FLOOR=217. docs/criteria/docs_verification.md committed blob CR-stripped digest == 7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a (the value leg 227 now pins).",
+  "twelve_path_existence_check": "PASS - all twelve First entry points exist at merged HEAD 0e54bcc via git cat-file -e: README.md, product-spec.md, AGENTS.md (x2), package.json, Makefile, docker-compose.yml, https://...onrender.com/api/v1/health (Deployment row 8 - a URL, not a path; the record's own First entry point), .github/workflows/ci.yml, observability/README.md, observability/alerts.yaml, incident-response/responder-task.md. All deep-dive paths also exist: docs/criteria/scoring_map/{process,app,delivery,telemetry}.md, docs/requirements/Chapter1_ProjectOverview.md, docs/criteria/req_coverage_verification.md, docs/process.md, docs/requirements/Chapter11_TestingStrategy.md, docs/criteria/infra_verification.md, ops/deployment-health.md, docs/criteria/security_ops_verification.md, ops/diagnosis.md, .github/workflows/promote.yml - all OK.",
+  "cicd_row_rehearsal_run": "The card does NOT require the CI/CD row to cite the rehearsal run 39933068472 (grep of the committed card blob for '39933068472' returns 0). The CI/CD row cites .github/workflows/promote.yml and the production Environment with the priced Gap sentence; the delivery record's Gap line is intact. The condition 'if the card requires it' is therefore not triggered - no defect.",
+  "delta_purity": "git diff 59a71ab..8986afb touches EXACTLY 4 paths: README.md, backend/scripts/docs_verification.py, docs/criteria/docs_verification.md, docs/state/outputs/t116_definer_gate_amendment.json. git diff 59a71ab..0e54bcc adds exactly the two merge-window artifacts (docs/state/merge_test_index.json + docs/state/outputs/t111_definer_gate_amendment.json) on top of those 4. git diff 51a9906..0e54bcc (the merge-window commit alone) touches ONLY docs/state/merge_test_index.json and docs/state/outputs/t111_definer_gate_amendment.json. The builder's diff to the t116 record is a single line (measured_readme_lines 422->421); proposed_ceiling 460 and every replaced_regions byte are untouched.",
+  "test_summary": {
+   "total": 9,
+   "passed": 9,
+   "failed": 0
+  },
+  "test_summary_note": "The nine executed units are the card's six verification fences (ac1..ac6, the tests README Part 2 ships) plus the three amended stored legs (256/258/227) run from the LIVE index at 0e54bcc against the merged README. All nine rc=0. The generator's own suite (docs_verification.py rc=0, ALL_CHECKS_PASS, STORED_GATES executed=9 failures=0) ran as ac5's determinism leg.",
+  "failure_type": null,
+  "lint_report": {
+   "errors": 0,
+   "warnings": 0
+  },
+  "lint_note": "ruff check scripts/docs_verification.py in the smudge clone under the pinned uv environment: 'All checks passed!'. README additions are ASCII-only, all-CRLF, end in CRLF (ac5 legs GREEN); no internal-pipeline vocabulary; REQ-id set unchanged (01f36118...).",
+  "test_quality_warnings": [],
+  "dod_verified": {
+   "dod1_preflight_wc_under_500": true,
+   "dod2_ac1_one_section_18_headings_safe_position_both_distinctions_30s_nc_refused": true,
+   "dod3_ac2_twelve_rows_rubric_maxima_X_over_max_4_3_refused": true,
+   "dod4_ac3_twelve_rows_trace_to_record_row9_2_of_3_promote_yml_gap": true,
+   "dod5_ac4_band_record_measured_shipped_ceiling_inside_500_heading18_fallback_labelled": true,
+   "dod6_ac5_req_doc_010_measured_repin_by_measurement_regen_noop_generator_0_envelope": true,
+   "dod7_ac6_delta_purity_carried_sections_leg255_tail_no_reviewer_guide": true,
+   "dod8_orchestrator_ruling_recorded_before_merge": true,
+   "dod9_ac_hash_recomputed_committed_card_blob": true
+  },
+  "dod_notes": "dod8: the WAL 1285 entry (21b05a7) records the builder commit, merge 51a9906 and the merge-window 0e54bcc with the 256/258/227 amendments; the t116 record's authority field cites the recorded orchestrator ruling WAL 1268 R3. dod9: ac_hash recomputed from the committed card blob at 0e54bcc == 2d92fb9e... (card identical at base and main HEAD).",
+  "builder_handoff_validation": "docs/state/outputs/t116_builder_build.json branch_sha 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08 == the assigned commit (match); commit_parent 59a71ab908b1bfc811085c90506c44612e01cf1a == the assigned base (match); ac_hash 2d92fb9e... == the card's frozen hash (match, UNAMENDED); fence_rc all-zero; measured README 421/efded7fb, report digest 7ace2eb5 and 13 hex literals all reproduced independently.",
+  "environment_notes": "[VENV_UNAVAILABLE] WARN at spawn: UV_PROJECT_ENVIRONMENT/PYTHONPATH not injected by the orchestrator; per the documented fallback the verifier pointed uv at the builder's backend/.venv (dependency specs identical - pyproject.toml unchanged by the diff; uv 0.12.13). The fence-run tree needed the environment dirt surface (19 gitignored .md files) and frontend/node_modules/{js-yaml,argparse} to reproduce the committed report's environment-dependent LINK_CHECK files=299 row and stored gate 134 - the t102/t110 environment-surface precedent governs (files=299 is an environment-surface row; broken=0 is the load-bearing leg). The relative .git pointer rewrite in the worktrees is verifier-local scaffolding, removed with the worktrees. cmd.exe git inside stored legs and WSL git both worked against the same tree.",
+  "residual_risks": [
+   "Leg 227's t111 record field new_command_len (4773) records the PRE-overlay settled command length, while new_command_sha256 was updated by the t116 overlay to the POST-overlay live form (94c1974f..., which matches the live command exactly). The load-bearing proofs (live cmd sha == new_command_sha256, live entry sha == entry_sha_after == bad07ccc4a14..., forward+reverse region-lossless both directions) all PASS; the 4773-vs-4774 length-field mismatch is a cosmetic staleness in a non-asserted descriptive field, not a proof failure. Disclosed, not a defect.",
+   "The amended legs 256/258 assert CRLF-on-every-line and ends-in-CRLF, so they are GREEN only in a CRLF-materialized checkout (the canonical main-checkout shape, autocrlf=true). In an LF-materialized clone (core.autocrlf=false) they RED on the CRLF legs. This is the standing repo-wide CRLF-checkout contract (t71..t115), not a t116 regression; the canonical CI/merge environment uses the CRLF shape."
+  ],
+  "cleanup": "Both worktrees removed via cmd.exe 'git worktree remove --force' (wt_t116v and wt_t116f); both clones (clone_t116v, clone_t116v_smudge) removed via rm -rf. Confirmed: git worktree list shows only the main checkout; all four directories gone. The main checkout was not merged/committed/pushed/checked-out; staged files: 0; its three spawn-dirty untracked/modified entries untouched.",
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "verification_commands_note": "All six commands come verbatim from docs/issues/t116.md ### ac1..ac6 fenced blocks; extracted programmatically from the committed card blob, ac_hash-recomputed against it, and executed without substitution. The three amended-leg commands come from the LIVE docs/state/merge_test_index.json at 0e54bcc (extracted from the committed blob), run from the repo root of the canonical CRLF checkout.",
+  "label_transition": "None performed. The spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t111..t115/t119 precedent followed. Issue 123 label state is untouched for the orchestrator."
+ },
+ "artifacts": {
+  "files_written": ["docs/state/outputs/t116_verifier_verify.json"],
+  "platform_issue": 123,
+  "output_path": "docs/state/outputs/t116_verifier_verify.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-23T19:30:00Z",
+ "retry_count": 0
+}

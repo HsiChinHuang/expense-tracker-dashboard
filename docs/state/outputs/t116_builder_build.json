@@ -1,0 +1,116 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t116",
+ "role": "builder",
+ "phase": "implement",
+ "status": "COMPLETE",
+ "reached_state": "built",
+ "artifacts": {
+  "files_written": [
+   "README.md",
+   "backend/scripts/docs_verification.py",
+   "docs/criteria/docs_verification.md",
+   "docs/state/outputs/t116_definer_gate_amendment.json",
+   "docs/state/outputs/t116_builder_build.json"
+  ],
+  "platform_issue": 123,
+  "output_path": "docs/state/outputs/t116_builder_build.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-23T18:30:00Z",
+ "retry_count": 0,
+ "evidence": {
+  "evidence_type": "build",
+  "branch": "issue/t116-scoring-map",
+  "branch_sha": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+  "branch_note": "Created from main HEAD 59a71ab908b1bfc811085c90506c44612e01cf1a after asserting branch==main; single commit 8986afb; pushed via cmd.exe (python3 subprocess, stdin=DEVNULL, timeout=180) per the WSL-push-hangs rule; ls-remote read-back: '8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08\\trefs/heads/issue/t116-scoring-map'; checkout returned to main 59a71ab clean (only the pre-existing ?? docs/state/history/).",
+  "schema_note": "Task names phase implement with evidence_type build (t111..t115 precedent filename t116_builder_build.json). Validation invoked as builder implement per the standing fix (registry has no builder:build).",
+  "ac_hash": "sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1",
+  "ac_hash_recompute": "Recomputed FROM THE COMMITTED CARD BLOB at builder run time: sha256 over json.dumps(compact separators) of the six fenced bash blocks in ac1..ac6 order, each CR-stripped and trimmed = 2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1, EXACT match to the card's frozen ac_hash.",
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "verification_commands": "ac1..ac6 are the six fenced bash blocks of docs/issues/t116.md, run with bash from the repository root; no absolute paths, no wall-clock, no network.",
+  "ac_mapping": {
+   "ac1": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac1 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac1 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: section at line 264 between ## Screenshots (252) and ## Criteria mapping (291), clear of the leg-255 tail at 381; 18 level-2 headings; generator rehearsal counters 15/14/2; negative control 2/2 (survey window counts 27 rows and lands after ## Criteria mapping).",
+    "verdict": "PASS"
+   },
+   "ac2": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac2 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac2 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: twelve numbered rows, one header row, rubric dimension names and maxima, every claim X/max with X <= max; synthetic 4/3 over-claim and 2/2 wrong-denominator both refused.",
+    "verdict": "PASS"
+   },
+   "ac3": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac3 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac3 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: all twelve claims EQUAL their record's - Claim: line and all twelve entry points EQUAL their record's - First entry point: line by string comparison; deep-dive paths all appear in their record; CI/CD row 2/3 with promote.yml + production pointers and the delivery record's Gap line intact; negative controls (inflated Observability 2/2, Testing->package.json swap) refused.",
+    "verdict": "PASS"
+   },
+   "ac4": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac4 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac4 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: both legs 256/258 reconstruct forward AND reverse losslessly in the PRE-AMENDMENT state (index entry shas match entry_sha_before); record carries measured 421, ceiling 460 strictly inside 500, heading_count_after 18, 6-leg negative-control matrix, W2 policy invoked in writing, card_writes_index_bytes false. NOTE: no PASS-PENDING-AMENDMENT leg was needed - ac4 reads the shipped (pre-amendment) index and the 460 ceiling lives in the record's regions, not in any fence the builder runs; the 256/258 amendment itself is the orchestrator's merge-window obligation, untouched by this card.",
+    "verdict": "PASS"
+   },
+   "ac5": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac5 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac5 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: pre-flight wc -l = 421 (< 500, REQ-DOC-010 headroom 78); re-pin number two README_LINES 394->421 and README_DIGEST 05cda049->efded7fb by measurement; regenerated report records README_MEASURE PASS lines=421 digest=efded7fb, REQ-DOC-010 row executed, LINK_CHECK broken=0, agent_pack carried row intact; regeneration is a byte-exact no-op with the generator exiting 0 (CARRIED_DIGESTS rotation for the t119 reports had ALREADY landed at base 59a71ab, so the determinism leg needed no builder edit); CRLF/ASCII/REQ-id-set/13-literal/INDEX_FLOOR envelope intact. The scratch-worktree confirmation run hits only the documented fresh-worktree artifact (no frontend/node_modules -> stored gates 134/155 fail inside the generator's STORED_GATES re-execution, and a fresh checkout materializes the LF-stored report as CRLF so the determinism cmp sees a change): the t110/t111 precedent names the shared checkout with node_modules present as the canonical fence environment, and the canonical run is rc=0 GREEN.",
+    "verdict": "PASS"
+   },
+   "ac6": {
+    "commit": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+    "test": "the fenced bash block under '### ac6 -' of docs/issues/t116.md, extracted byte-identically from the shipped card (the six blocks recompute the card ac_hash sha256:2d92fb9e812f2c310c575128248767e76dade42cb1129d0ac5bd8cdccf7434a1 exactly) and run VERBATIM via bash from the repository root on branch issue/t116-scoring-map with the candidate in the working tree at commit 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08: rc=0 GREEN. Confirmation run in a scratch worktree at base 59a71ab with the pushed commit's diff applied: ac6 rc=0 as well (ac5 there hits only the documented fresh-worktree environment artifact - see notes). GREEN evidence: docs_verification.py moved on exactly the two README pin constants (4 +/- lines, the 8-line rotation case not needed - rotation already at base); zero bytes in scoring_map/index/.github/product/frozen-yaml surfaces; 24.3 table, 24.5 checklist range and leg-255 tail carry their carried rows; amendment record's measured_readme_lines equals the shipped 421; no reviewer-guide exists or was created.",
+    "verdict": "PASS"
+   }
+  },
+  "ac_mapping_note": "The schema requires a 7-40 hex commit per AC; every AC fence was executed against the exact bytes of commit 8986afb (candidate in the working tree == the committed tree, and the pushed diff re-applied to base in a scratch worktree reproduced the same state), so the field carries the real builder commit.",
+  "fence_rc": {
+   "ac1": 0,
+   "ac2": 0,
+   "ac3": 0,
+   "ac4": 0,
+   "ac5": 0,
+   "ac6": 0
+  },
+  "fence_rc_provenance": "Executed twice: (1) on branch issue/t116-scoring-map with HEAD=base 59a71ab and the candidate in the working tree (the state the fences are designed for: git screens measure the real transaction state), all six rc=0 GREEN with PATH including $HOME/.local/bin for the uv determinism leg; (2) confirmation in a scratch git worktree at base with the pushed commit's diff applied via git apply: ac1/ac2/ac3/ac4/ac6 rc=0, ac5 rc=1 solely from the fresh-worktree environment artifact (missing frontend/node_modules for stored gates 134/155 + CRLF materialization of the LF-stored report breaking the cmp leg) - measured, named, and covered by the t110/t111 canonical-environment precedent; the worktree was removed with git worktree remove --force.",
+  "test_summary": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0
+  },
+  "test_summary_note": "The six tests are the card's six verification fences (README Part 2 is documentation; the fences ARE its tests, per the card ## Verification commands). The generator's own suite (docs_verification.py, rc=0, ALL_CHECKS_PASS, STORED_GATES executed=9 failures=0) ran as ac5's determinism leg.",
+  "lint_status": "CLEAN",
+  "lint_note": "README additions ASCII-only (ac5's byte-level ASCII leg GREEN), all-CRLF (every newline a CRLF pair), ends in CRLF, no internal-pipeline vocabulary (the section sits clear of leg 255's scope and carries no ORCHESTRATOR/GROOM/HANDOFF/SUBAGENT/WAL/PIN/DEFERRAL/MERGE_TEST/PHASE words), no REQ-id markers added (REQ-id set sha unchanged at 01f36118...).",
+  "changes": [
+   "README.md: +27 lines - the new '## Reviewer / agent scoring map' section (18th level-2 heading, line 264) inserted after ## Screenshots and immediately before ## Criteria mapping per the groom position ruling; header sentence distinguishes it from the Chapter 24.3 map and the Chapter 24.5 checklist and states the 30-second contract; twelve rows in rubric order with maxima 2,2,2,2,2,2,2,2,3,2,1,2; CI/CD row 2/3 carrying the priced-gap sentence verbatim in the card's required shape with promote.yml and Environment production named; zero other README bytes touched (394 -> 421 lines, 17 -> 18 H2, cr-stripped sha256 efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4)",
+   "backend/scripts/docs_verification.py: exactly 4 +/- lines - README_DIGEST 05cda049...->efded7fb... and README_LINES 394->421, both by measurement; INDEX_FLOOR and the 13 hex literals unchanged",
+   "docs/criteria/docs_verification.md: regenerated by the pinned invocation cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py - the committed report IS the deterministic output (double-run byte-identical, generator rc=0, ALL_CHECKS_PASS)",
+   "docs/state/outputs/t116_definer_gate_amendment.json: 1 line - measured_readme_lines 422->421, the builder's own wc -l measurement substituted into THIS field only, exactly as the record's measurement_protocol instructs; proposed_ceiling 460 and every replaced_regions byte untouched; no index bytes"
+  ],
+  "delta_purity": "Commit 8986afb touches exactly the four paths above (git show --stat: 4 files, 31 insertions, 4 deletions). Zero scoring-map bytes, zero merge_test_index.json bytes, zero .github bytes, zero product/ops/observability/incident-response bytes, zero WAL/history bytes, no docs/criteria/* report other than the regenerated docs_verification.md. On main after the transaction: zero builder bytes in the main working tree - only the pre-existing ?? docs/state/history/ plus this handoff.",
+  "measurements_reexecuted": {
+   "base_head": "59a71ab908b1bfc811085c90506c44612e01cf1a (verified main HEAD, branch==main asserted before any write)",
+   "readme_before": "394 lines / 17 H2 / digest 05cda049... (t111's shipped bytes, pins matched the constants at base)",
+   "readme_after": "421 lines / 18 H2 / digest efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4 / all-CRLF / ASCII / ends in CRLF",
+   "insert_size": "27 lines (groom drafted 26, measured 422 expected; the assembly is 1 line tighter -> 421; inside the 412 irreducible floor and the 460 proposed ceiling with 39 lines of headroom, REQ-DOC-010 headroom 78)",
+   "req_doc_010": "measured BEFORE finalizing: 421 < 500, no BLOCKER warranted",
+   "generator": "rc=0, README_MEASURE PASS lines=421 digest=efded7fb, CRITERIA243_ROWS 15, EVIDENCE_CHECKLIST 14, FIVE_MIN_PATHS 2, LINK_CHECK PASS files=299 links=94 broken=0, STORED_GATES PASS executed=9 failures=0 restored=1, ALL_CHECKS_PASS; regeneration byte-exact no-op"
+  },
+  "push_note": "Push and ls-remote read-back via cmd.exe only (python3 subprocess, stdin=DEVNULL, timeout=180): ls-remote returns 8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08 refs/heads/issue/t116-scoring-map, equal to the local sha. main was never pushed to; no force push.",
+  "worktree_state_note": "Checkout returned to main at 59a71ab; git status shows exactly the pre-existing ?? docs/state/history/ (left as found). The scratch worktree used for the confirmation run was created and removed inside scratch/; the scratch/ fence-extraction scripts are gitignored and uncommitted.",
+  "notes": "PASS-PENDING-AMENDMENT status: NOT NEEDED for any fence leg - none of the six card fences reads the stale 400 ceiling or the stored 17 (those premises live in index legs 256/258, which ac4 deliberately reads as shipped bytes and reconstructs against, in the pre-amendment state). The orchestrator's merge-window obligations stand exactly as priced by the card and the record: (1) apply the 256/258 amendments (460 ceiling / 18 headings) from this card's record in ONE window - until then legs 256/258 are RED on the merge commit ONLY because of the stale 400-vs-460 ceiling and 17-vs-18 heading premises, measured 421 <= 460 and 18 = heading_count_after; (2) apply the t111 tests[227] report-digest placeholder with the digest this card's regeneration measured - the NEW cr-stripped digest of docs/criteria/docs_verification.md after this build; (3) the CARRIED_DIGESTS rotation did NOT need to be applied in this window - it had already landed at base 59a71ab, which is why ac5's determinism leg ran GREEN with a 4-line pin diff. No platform issue was closed, commented on or relabeled (per card Constraints); no WAL or history writes; docs/criteria/scoring_map/* were read, never written.",
+  "commit_sha": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08",
+  "commit_parent": "59a71ab908b1bfc811085c90506c44612e01cf1a",
+  "pushed": true,
+  "ls_remote_readback": "8986afb23a8a95d3f552d881bb5a7d1eeb9f3c08\trefs/heads/issue/t116-scoring-map",
+  "readme_final": {
+   "lines": 421,
+   "cr_stripped_sha256": "efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4",
+   "h2": 18,
+   "all_crlf": true,
+   "ascii": true,
+   "req_id_set_sha256": "01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794",
+   "budget": "394 -> 421 (+27, groom band 412..426, ceiling 460 proposed, REQ-DOC-010 500 with 78 headroom)"
+  },
+  "verification_commands_note": "All six commands come verbatim from docs/issues/t116.md ### ac1..ac6 fenced blocks; extracted programmatically, ac_hash-recomputed against the card, and executed without substitution."
+ }
+}

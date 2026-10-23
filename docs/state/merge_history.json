@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T10:32:07.799414+00:00",
+  "updated_at": "2026-10-23T11:17:59.530832+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1564,6 +1564,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge of remote ref b343cfc1 (parents e559cfd+b343cfc): README Online-demo Part-1 rewrite (396->394 lines, digest 05cda049, 3 stale static-serving sentences removed), pins re-pinned by measurement (394/05cda049/CARRIED agent_pack 0123737e/infra 04098540 committed-blob authority), tests[227] settlement via recorded ruling (ZERO index bytes). Card fence amendment 474fffd (ac1 NEGATIVE CONTROL unsatisfiable, ruling 2f7a91c4 t102-W1/t119-ac3 class; SYN gains stale premise -> NC=2 semantics restored; ac_hash 3c3062c1->6da2679a). Verifier d134efd2 PASS on amended contract: 6/6 fences rc=0 (NC=2 amended semantics reproduced), README measurements, re-pins byte-exact, 4-path diff, regen no-op, detector bite. ac1 re-run verbatim on merged tree rc=0 by orchestrator."
+    },
+    {
+      "issue_id": "t116",
+      "platform_issue": 123,
+      "branch": "issue/t116-scoring-map",
+      "merge_sha": "51a9906",
+      "merged_at": "2026-10-23T11:17:59Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge of remote ref 8986afb (parents 59a71ab+8986afb) + SAME-window merge obligations 0e54bcc: legs 256/258 ceiling amendment (17->18 H2, 340..460 band, forward+reverse sha-proven, entry 77eab624/6fcff3a8) + leg 227 settlement with t116-measured report digest 7ace2eb5 + priced-gap README-pin overlay (05cda049/394 -> efded7fb/421, recorded with pricing_gap_note, entry bad07ccc4a14). Leg 227 GREEN for the first time since t59. Verifier adbbff7d PASS: 6 fences rc=0 fence-run state, amended legs 256/258/227 rc=0 on merged tree, 3 negative controls rc=1 (amendments load-bearing), README 421/efded7fb/18H2 section at 264, twelve rows rubric order maxima 2,2,2,2,2,2,2,2,3(2/3+Gap),2,1,2, twelve entry points exist, pins 421/efded7fb 13 hex64."
     }
   ]
 }
