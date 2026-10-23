@@ -1,166 +1,187 @@
 {
-  "schema_version": "2.0",
-  "role": "definer",
-  "phase": "groom",
-  "artifact": "gate_amendment",
-  "card": "t111",
-  "milestone": "phase_20_readme_scoring_map",
-  "platform_issue": 117,
-  "status": "proposed",
-  "authority": "recorded orchestrator ruling (t71 retired-pin settlement precedent; operator directive 'all of them must be fixed', WAL 1267)",
-  "policy": "W2 eight-property index-amendment policy (WAL 1248), invoked IN WRITING",
-  "applied_by": "orchestrator",
-  "card_writes_index_bytes": false,
-  "no_leg_deleted": true,
-  "verifier_thresholds_touched": false,
-  "base": {
-    "main_tip_at_groom": "b01a545",
-    "index_entries": 318,
-    "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip b01a545"
-  },
-  "why_this_file_exists": "tests[227] (t59 ac4) is RED at base and head with FOUR stale premises (README 308/a64efaa2, render.yaml 60110dd0, docs_verification.md 29d22aff, and the three-workflow listing that t119's promote.yml invalidates). The operator directive 'all of them must be fixed' (WAL 1267) settles the class here instead of parking it a fourth time.",
-  "re_premise_not_relax": true,
-  "apply_after": "t119's merge window (the orchestrator applies t119_definer_gate_amendment.json FIRST; the listing region in THIS record then matches the four-workflow reality on the day it lands - the anti-pattern the policy exists to prevent is a leg that goes RED the day it is fixed)",
-  "placeholder_protocol": {
-    "placeholders": [
-      "<README_CANDIDATE_DIGEST_64HEX>",
-      "<README_CANDIDATE_LINES>",
-      "<RENDER_YAML_CR_STRIPPED_DIGEST_64HEX>",
-      "<DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>"
-    ],
-    "meaning": "the settlement cannot be byte-frozen at groom because the README candidate does not exist until t111's builder writes it; the pins are the VALUES t111 ac2 MEASURES, not numbers copied from a card (the exact defect class this milestone exists to remove)",
-    "builder_instruction": "at build time replace each placeholder in replaced_regions[].to with the measured value (candidate cr-stripped README digest; candidate line count; tr -d CR < render.yaml | sha256sum; tr -d CR < docs/criteria/docs_verification.md | sha256sum AFTER the ac2 regeneration), then recompute new_command_sha256 and entry_sha_after in THIS record and assert forward/reverse reconstruction still holds; t111 ac4 runs against THIS record and refuses a record whose digests do not reconstruct",
-    "orchestrator_instruction": "apply by loading the LIVE index, asserting entry_sha_before, applying replaced_regions forward (never paste a snapshot), asserting the resulting command sha equals the record's new_command_sha256 and the entry sha equals entry_sha_after"
-  },
-  "amendments": [
-    {
-      "index": 227,
-      "issue_id": "t59",
-      "card_ac": "ac4 (settlement) / ac2 (pin values)",
-      "title": "tests[227] re-premised to the then-shipped bytes: four stale premises replaced, every green half preserved verbatim",
-      "re_premise_not_relax": true,
-      "stale_premises": [
-        "README.md",
-        "render.yaml",
-        "docs/criteria/docs_verification.md",
-        ".github/workflows directory listing"
-      ],
-      "stale_premise_measurements": {
-        "README.md": "pinned a64efaa2.../308 lines vs shipped f7c85e88.../396 at survey; the settlement pins the t111 ac2 CANDIDATE pair, measured not copied",
-        "render.yaml": "pinned 60110dd0fa573411... vs shipped 92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b (measured at groom)",
-        "docs/criteria/docs_verification.md": "pinned 29d22aff... vs the regenerated report; the settlement pins the report t111's ac2 regeneration emits",
-        ".github/workflows directory listing": "pinned .gitkeep,ci.yml,deploy.yml,e2e.yml,; t119 adds promote.yml under ruling WAL 1268, so the settled listing gains promote.yml"
-      },
-      "defective_premise": "four of the leg's byte pins describe bytes that shipped several phases ago - the leg is RED on true product state",
-      "re_premised_to": "the SAME leg with its four stale pins replaced by the then-shipped values (the ac2 candidate README pair, the shipped render.yaml digest, the regenerated report digest, the four-workflow listing); the AGENTS.md pin, the openapi.yaml pin, the 20-file HEAD-blob freeze loop, the seeded-probe control and the single-character-mutation control are preserved verbatim - the settled leg still fails if ANY of the five surfaces drifts",
-      "old_command_len": 4761,
-      "old_command_sha256": "8cbb4722971452504d959085362d0b430aaa16cfee43cbe9c10266cd255dd06d",
-      "new_command_len": 4773,
-      "new_command_sha256": "a8d105672b3084c60d94a78dcb20c407f78006f5285a9fe7881ffe0d335b2335",
-      "new_command_sha256_note": "recomputed by t111's builder over the SUBSTITUTED form per placeholder_protocol: the four placeholders were replaced with ac2-MEASURED values (candidate README cr-stripped digest 05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3, candidate line count 394, shipped render.yaml cr-stripped digest 92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b, regenerated docs_verification.md cr-stripped digest 4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa); forward and reverse reconstruction re-asserted byte-for-byte against the LIVE index at build time",
-      "entry_sha_before": "7c47f46f6a0c38cf515d47f5d001fbb2a51981838ca6315df62c8e72c2a68c26",
-      "entry_sha_after": "e993ea0a4ef3996b9f9b2035b804214a79f3b5e1fde14f64ebb99d041b881133",
-      "replaced_regions": [
-        {
-          "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
-          "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\""
-        },
-        {
-          "from": "\"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\"",
-          "to": "\"05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3\""
-        },
-        {
-          "from": "= 308 ]",
-          "to": "= 394 ]"
-        },
-        {
-          "from": "\"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\"",
-          "to": "\"92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b\""
-        },
-        {
-          "from": "\"29d22affc0216c289dc69468ec3d643e0faa494e0adec800c6272a3c217272e9\"",
-          "to": "\"4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa\""
-        }
-      ],
-      "negative_control_matrix": [
-        {
-          "case": "README digest placeholder: leg 227 stays RED until the builder/orchestrator substitutes the ac2-measured candidate digest",
-          "victim": "the settlement cannot pass vacuously on the stale a64efaa2 pin",
-          "measured_rc": 1,
-          "expected_rc": 1,
-          "how_measured": "the shipped command with the stale pin exits 1 at groom base (leg 227 is in the recorded RED set)"
-        },
-        {
-          "case": "listing region FROM literal appears exactly once in the shipped command and zero times after the edit",
-          "victim": "tests[227] listing region one-shot uniqueness",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "str.count() == 1 before, == 0 after (executed at groom)"
-        },
-        {
-          "case": "reverse application of all five regions reproduces the shipped command byte-for-byte (lossless)",
-          "victim": "all five regions",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "assert back == cmd executed at groom"
-        },
-        {
-          "case": "the settled command keeps the GREEN openapi.yaml pin 6f2a0a3d... verbatim (re-premise, not relax)",
-          "victim": "tests[227] openapi half",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "literal search in the forward-built command"
-        },
-        {
-          "case": "the settled command keeps the GREEN AGENTS.md pin 8340781c... verbatim",
-          "victim": "tests[227] AGENTS half",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "literal search in the forward-built command"
-        },
-        {
-          "case": "a single-character mutation of the candidate README digest placeholder is rejected by the pinned comparison (discriminating power preserved)",
-          "victim": "the README pin half",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "the leg's own built-in MUT negative-control line is preserved verbatim by every region"
-        },
-        {
-          "case": "the 20-file HEAD-blob freeze loop is untouched by any region (no relaxation smuggled in)",
-          "victim": "tests[227] freeze half",
-          "measured_rc": 0,
-          "expected_rc": 0,
-          "how_measured": "no replaced_region overlaps the 'for p in README.md AGENTS.md ...' loop"
-        }
-      ]
-    }
+ "schema_version": "2.0",
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t111",
+ "milestone": "phase_20_readme_scoring_map",
+ "platform_issue": 117,
+ "status": "proposed",
+ "authority": "recorded orchestrator ruling (t71 retired-pin settlement precedent; operator directive 'all of them must be fixed', WAL 1267)",
+ "policy": "W2 eight-property index-amendment policy (WAL 1248), invoked IN WRITING",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "base": {
+  "main_tip_at_groom": "b01a545",
+  "index_entries": 318,
+  "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip b01a545"
+ },
+ "why_this_file_exists": "tests[227] (t59 ac4) is RED at base and head with FOUR stale premises (README 308/a64efaa2, render.yaml 60110dd0, docs_verification.md 29d22aff, and the three-workflow listing that t119's promote.yml invalidates). The operator directive 'all of them must be fixed' (WAL 1267) settles the class here instead of parking it a fourth time.",
+ "re_premise_not_relax": true,
+ "apply_after": "t119's merge window (the orchestrator applies t119_definer_gate_amendment.json FIRST; the listing region in THIS record then matches the four-workflow reality on the day it lands - the anti-pattern the policy exists to prevent is a leg that goes RED the day it is fixed)",
+ "placeholder_protocol": {
+  "placeholders": [
+   "<README_CANDIDATE_DIGEST_64HEX>",
+   "<README_CANDIDATE_LINES>",
+   "<RENDER_YAML_CR_STRIPPED_DIGEST_64HEX>",
+   "<DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>"
   ],
-  "coordination_with_t119": "the listing region here duplicates the literal amended in t119_definer_gate_amendment.json's scope note; the ORCHESTRATOR amends 227's listing ONLY through this record (t119's record deliberately excludes 227 so one leg has exactly one owning record - two records editing one entry is how byte-proofs rot)",
-  "w2_eight_property_evidence": {
-    "1_wal_names_card_first": "WAL 1267 directive + WAL 1268 rulings name t111 as the settlement card",
-    "2_text_written_not_implied": "this record plus the card's Recorded orchestrator ruling section",
-    "3_derived_not_copied": "every sha recomputed from the LIVE index in the writing process; verification re-derives from the shipped entry",
-    "4_regions_lossless": "replaced_regions reconstruct forward and reverse (executed at groom, asserted again by t111 ac4)",
-    "5_entry_shas_pinned": "entry_sha_before/after over json.dumps(entry, separators=(',',':'))",
-    "6_negative_controls": "7 legs in amendments[0].negative_control_matrix (ac4 reads the amendment-scoped matrix), each with measured_rc == expected_rc and the victim named",
-    "7_no_leg_deleted_no_threshold_move": "no_leg_deleted=true, verifier_thresholds_touched=false",
-    "8_both_states_reconstructible": "ac4 accepts the pre-settlement state (placeholders + old shas) and the post-settlement state (entry sha == entry_sha_after)"
-  },
-  "written_by_definer_applied_by": "definer-groom at main b01a545 on 2026-10-23; applied by the orchestrator in/after t119's merge window",
-  "builder_substitution": {
-    "substituted_by": "t111 builder at build time per placeholder_protocol",
-    "base_main_tip": "e9f8e1cf552b6e12ed7d9e7b31c8f71af3caac9f",
-    "measured_values": {
-      "README_CANDIDATE_DIGEST_64HEX": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
-      "README_CANDIDATE_LINES": "394",
-      "RENDER_YAML_CR_STRIPPED_DIGEST_64HEX": "92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b",
-      "DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX": "4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa"
+  "meaning": "the settlement cannot be byte-frozen at groom because the README candidate does not exist until t111's builder writes it; the pins are the VALUES t111 ac2 MEASURES, not numbers copied from a card (the exact defect class this milestone exists to remove)",
+  "builder_instruction": "at build time replace each placeholder in replaced_regions[].to with the measured value (candidate cr-stripped README digest; candidate line count; tr -d CR < render.yaml | sha256sum; tr -d CR < docs/criteria/docs_verification.md | sha256sum AFTER the ac2 regeneration), then recompute new_command_sha256 and entry_sha_after in THIS record and assert forward/reverse reconstruction still holds; t111 ac4 runs against THIS record and refuses a record whose digests do not reconstruct",
+  "orchestrator_instruction": "apply by loading the LIVE index, asserting entry_sha_before, applying replaced_regions forward (never paste a snapshot), asserting the resulting command sha equals the record's new_command_sha256 and the entry sha equals entry_sha_after"
+ },
+ "amendments": [
+  {
+   "index": 227,
+   "issue_id": "t59",
+   "card_ac": "ac4 (settlement) / ac2 (pin values)",
+   "title": "tests[227] re-premised to the then-shipped bytes: four stale premises replaced, every green half preserved verbatim",
+   "re_premise_not_relax": true,
+   "stale_premises": [
+    "README.md",
+    "render.yaml",
+    "docs/criteria/docs_verification.md",
+    ".github/workflows directory listing"
+   ],
+   "stale_premise_measurements": {
+    "README.md": "pinned a64efaa2.../308 lines vs shipped f7c85e88.../396 at survey; the settlement pins the t111 ac2 CANDIDATE pair, measured not copied",
+    "render.yaml": "pinned 60110dd0fa573411... vs shipped 92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b (measured at groom)",
+    "docs/criteria/docs_verification.md": "pinned 29d22aff... vs the regenerated report; the settlement pins the report t111's ac2 regeneration emits",
+    ".github/workflows directory listing": "pinned .gitkeep,ci.yml,deploy.yml,e2e.yml,; t119 adds promote.yml under ruling WAL 1268, so the settled listing gains promote.yml"
+   },
+   "defective_premise": "four of the leg's byte pins describe bytes that shipped several phases ago - the leg is RED on true product state",
+   "re_premised_to": "the SAME leg with its four stale pins replaced by the then-shipped values (the ac2 candidate README pair, the shipped render.yaml digest, the regenerated report digest, the four-workflow listing); the AGENTS.md pin, the openapi.yaml pin, the 20-file HEAD-blob freeze loop, the seeded-probe control and the single-character-mutation control are preserved verbatim - the settled leg still fails if ANY of the five surfaces drifts",
+   "old_command_len": 4761,
+   "old_command_sha256": "8cbb4722971452504d959085362d0b430aaa16cfee43cbe9c10266cd255dd06d",
+   "new_command_len": 4773,
+   "new_command_sha256": "94c1974f47149b0260d0163e0d00a95e8077eda8d4481bed7561e5992e675907",
+   "new_command_sha256_note": "recomputed by t111's builder over the SUBSTITUTED form per placeholder_protocol: the four placeholders were replaced with ac2-MEASURED values (candidate README cr-stripped digest 05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3, candidate line count 394, shipped render.yaml cr-stripped digest 92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b, regenerated docs_verification.md cr-stripped digest 4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa); forward and reverse reconstruction re-asserted byte-for-byte against the LIVE index at build time",
+   "entry_sha_before": "7c47f46f6a0c38cf515d47f5d001fbb2a51981838ca6315df62c8e72c2a68c26",
+   "entry_sha_after": "bad07ccc4a14dae554cb215058345e1cc20c90889c68a0b2a78cfdcfb213fe38",
+   "replaced_regions": [
+    {
+     "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
+     "to": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,\""
     },
-    "measurement_recipes": [
-      "tr -d CR < README.md | sha256sum (candidate bytes)",
-      "tr -d CR < README.md | wc -l (candidate bytes)",
-      "tr -d CR < render.yaml | sha256sum (committed blob)",
-      "tr -d CR < docs/criteria/docs_verification.md | sha256sum (after the ac2 regeneration)"
-    ]
+    {
+     "from": "\"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\"",
+     "to": "\"05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3\""
+    },
+    {
+     "from": "= 308 ]",
+     "to": "= 394 ]"
+    },
+    {
+     "from": "\"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\"",
+     "to": "\"92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b\""
+    },
+    {
+     "from": "\"29d22affc0216c289dc69468ec3d643e0faa494e0adec800c6272a3c217272e9\"",
+     "to": "\"4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa\""
+    }
+   ],
+   "negative_control_matrix": [
+    {
+     "case": "README digest placeholder: leg 227 stays RED until the builder/orchestrator substitutes the ac2-measured candidate digest",
+     "victim": "the settlement cannot pass vacuously on the stale a64efaa2 pin",
+     "measured_rc": 1,
+     "expected_rc": 1,
+     "how_measured": "the shipped command with the stale pin exits 1 at groom base (leg 227 is in the recorded RED set)"
+    },
+    {
+     "case": "listing region FROM literal appears exactly once in the shipped command and zero times after the edit",
+     "victim": "tests[227] listing region one-shot uniqueness",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "str.count() == 1 before, == 0 after (executed at groom)"
+    },
+    {
+     "case": "reverse application of all five regions reproduces the shipped command byte-for-byte (lossless)",
+     "victim": "all five regions",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "assert back == cmd executed at groom"
+    },
+    {
+     "case": "the settled command keeps the GREEN openapi.yaml pin 6f2a0a3d... verbatim (re-premise, not relax)",
+     "victim": "tests[227] openapi half",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "literal search in the forward-built command"
+    },
+    {
+     "case": "the settled command keeps the GREEN AGENTS.md pin 8340781c... verbatim",
+     "victim": "tests[227] AGENTS half",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "literal search in the forward-built command"
+    },
+    {
+     "case": "a single-character mutation of the candidate README digest placeholder is rejected by the pinned comparison (discriminating power preserved)",
+     "victim": "the README pin half",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "the leg's own built-in MUT negative-control line is preserved verbatim by every region"
+    },
+    {
+     "case": "the 20-file HEAD-blob freeze loop is untouched by any region (no relaxation smuggled in)",
+     "victim": "tests[227] freeze half",
+     "measured_rc": 0,
+     "expected_rc": 0,
+     "how_measured": "no replaced_region overlaps the 'for p in README.md AGENTS.md ...' loop"
+    }
+   ],
+   "t116_merge_window_overlay": {
+    "reason": "t116 regenerated docs/criteria/docs_verification.md; merge_window_obligation_227 requires the settlement to carry the digest t116 MEASURES",
+    "from": "4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa",
+    "to": "7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a",
+    "measured_from": "committed blob at merge 51a9906, CR-stripped sha256",
+    "readme_pins": [
+     {
+      "from": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
+      "to": "efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4",
+      "label": "README cr-stripped digest",
+      "measured_from": "committed blob at merge 51a9906, CR-stripped sha256 / wc -l"
+     },
+     {
+      "from": "= 394",
+      "to": " = 421",
+      "label": "README line count",
+      "measured_from": "committed blob at merge 51a9906, CR-stripped sha256 / wc -l"
+     }
+    ],
+    "pricing_gap_note": "t116 priced only the report-digest placeholder for leg 227; t116 own 421-line assembly necessarily moves the README digest/line premises that t111 settlement just pinned. Applied by the orchestrator in t116 merge window under the same obligation mechanism, re-premise not relax, values measured from the committed blobs."
+   }
   }
+ ],
+ "coordination_with_t119": "the listing region here duplicates the literal amended in t119_definer_gate_amendment.json's scope note; the ORCHESTRATOR amends 227's listing ONLY through this record (t119's record deliberately excludes 227 so one leg has exactly one owning record - two records editing one entry is how byte-proofs rot)",
+ "w2_eight_property_evidence": {
+  "1_wal_names_card_first": "WAL 1267 directive + WAL 1268 rulings name t111 as the settlement card",
+  "2_text_written_not_implied": "this record plus the card's Recorded orchestrator ruling section",
+  "3_derived_not_copied": "every sha recomputed from the LIVE index in the writing process; verification re-derives from the shipped entry",
+  "4_regions_lossless": "replaced_regions reconstruct forward and reverse (executed at groom, asserted again by t111 ac4)",
+  "5_entry_shas_pinned": "entry_sha_before/after over json.dumps(entry, separators=(',',':'))",
+  "6_negative_controls": "7 legs in amendments[0].negative_control_matrix (ac4 reads the amendment-scoped matrix), each with measured_rc == expected_rc and the victim named",
+  "7_no_leg_deleted_no_threshold_move": "no_leg_deleted=true, verifier_thresholds_touched=false",
+  "8_both_states_reconstructible": "ac4 accepts the pre-settlement state (placeholders + old shas) and the post-settlement state (entry sha == entry_sha_after)"
+ },
+ "written_by_definer_applied_by": "definer-groom at main b01a545 on 2026-10-23; applied by the orchestrator in/after t119's merge window",
+ "builder_substitution": {
+  "substituted_by": "t111 builder at build time per placeholder_protocol",
+  "base_main_tip": "e9f8e1cf552b6e12ed7d9e7b31c8f71af3caac9f",
+  "measured_values": {
+   "README_CANDIDATE_DIGEST_64HEX": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
+   "README_CANDIDATE_LINES": "394",
+   "RENDER_YAML_CR_STRIPPED_DIGEST_64HEX": "92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b",
+   "DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX": "4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa"
+  },
+  "measurement_recipes": [
+   "tr -d CR < README.md | sha256sum (candidate bytes)",
+   "tr -d CR < README.md | wc -l (candidate bytes)",
+   "tr -d CR < render.yaml | sha256sum (committed blob)",
+   "tr -d CR < docs/criteria/docs_verification.md | sha256sum (after the ac2 regeneration)"
+  ]
+ }
 }
