@@ -55,11 +55,11 @@
       "re_premised_to": "the SAME leg with its four stale pins replaced by the then-shipped values (the ac2 candidate README pair, the shipped render.yaml digest, the regenerated report digest, the four-workflow listing); the AGENTS.md pin, the openapi.yaml pin, the 20-file HEAD-blob freeze loop, the seeded-probe control and the single-character-mutation control are preserved verbatim - the settled leg still fails if ANY of the five surfaces drifts",
       "old_command_len": 4761,
       "old_command_sha256": "8cbb4722971452504d959085362d0b430aaa16cfee43cbe9c10266cd255dd06d",
-      "new_command_len": 4722,
-      "new_command_sha256": "207bd4a1b6667e6cec7a3db93ab0f68af27c6b17092a47464099bce1587b3bd2",
-      "new_command_sha256_note": "computed over the PLACEHOLDER form; the builder recomputes it after substituting measured values per placeholder_protocol",
+      "new_command_len": 4773,
+      "new_command_sha256": "a8d105672b3084c60d94a78dcb20c407f78006f5285a9fe7881ffe0d335b2335",
+      "new_command_sha256_note": "recomputed by t111's builder over the SUBSTITUTED form per placeholder_protocol: the four placeholders were replaced with ac2-MEASURED values (candidate README cr-stripped digest 05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3, candidate line count 394, shipped render.yaml cr-stripped digest 92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b, regenerated docs_verification.md cr-stripped digest 4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa); forward and reverse reconstruction re-asserted byte-for-byte against the LIVE index at build time",
       "entry_sha_before": "7c47f46f6a0c38cf515d47f5d001fbb2a51981838ca6315df62c8e72c2a68c26",
-      "entry_sha_after": "c274c675073ec8824237c4198cf26d583745120712962e126e535c92c94995f7",
+      "entry_sha_after": "e993ea0a4ef3996b9f9b2035b804214a79f3b5e1fde14f64ebb99d041b881133",
       "replaced_regions": [
         {
           "from": "\".gitkeep,ci.yml,deploy.yml,e2e.yml,\"",
@@ -67,19 +67,19 @@
         },
         {
           "from": "\"a64efaa2406a22fcab1e18c1564035caf6ff8d24c85b1d8f92817202e6c0d73c\"",
-          "to": "\"<README_CANDIDATE_DIGEST_64HEX>\""
+          "to": "\"05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3\""
         },
         {
           "from": "= 308 ]",
-          "to": "= <README_CANDIDATE_LINES> ]"
+          "to": "= 394 ]"
         },
         {
           "from": "\"60110dd0fa573411004ca4bcb60fbcebf443371516247f03ff6b782103a76d09\"",
-          "to": "\"<RENDER_YAML_CR_STRIPPED_DIGEST_64HEX>\""
+          "to": "\"92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b\""
         },
         {
           "from": "\"29d22affc0216c289dc69468ec3d643e0faa494e0adec800c6272a3c217272e9\"",
-          "to": "\"<DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\""
+          "to": "\"4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa\""
         }
       ],
       "negative_control_matrix": [
@@ -146,5 +146,21 @@
     "7_no_leg_deleted_no_threshold_move": "no_leg_deleted=true, verifier_thresholds_touched=false",
     "8_both_states_reconstructible": "ac4 accepts the pre-settlement state (placeholders + old shas) and the post-settlement state (entry sha == entry_sha_after)"
   },
-  "written_by_definer_applied_by": "definer-groom at main b01a545 on 2026-10-23; applied by the orchestrator in/after t119's merge window"
+  "written_by_definer_applied_by": "definer-groom at main b01a545 on 2026-10-23; applied by the orchestrator in/after t119's merge window",
+  "builder_substitution": {
+    "substituted_by": "t111 builder at build time per placeholder_protocol",
+    "base_main_tip": "e9f8e1cf552b6e12ed7d9e7b31c8f71af3caac9f",
+    "measured_values": {
+      "README_CANDIDATE_DIGEST_64HEX": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
+      "README_CANDIDATE_LINES": "394",
+      "RENDER_YAML_CR_STRIPPED_DIGEST_64HEX": "92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b",
+      "DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX": "4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa"
+    },
+    "measurement_recipes": [
+      "tr -d CR < README.md | sha256sum (candidate bytes)",
+      "tr -d CR < README.md | wc -l (candidate bytes)",
+      "tr -d CR < render.yaml | sha256sum (committed blob)",
+      "tr -d CR < docs/criteria/docs_verification.md | sha256sum (after the ac2 regeneration)"
+    ]
+  }
 }

@@ -31,8 +31,8 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "f7c85e88c5e20296fd9de1c540495a3ab17e17d14bea8e9fb4854436424e8664"
-README_LINES = 396
+README_DIGEST = "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3"
+README_LINES = 394
 INDEX_FLOOR = 217
 
 # The eight byte-pinned index anchors (issue_id + sha256 of the canonical
@@ -82,11 +82,11 @@ CARRIED: dict[str, int] = {
 }
 CARRIED_DIGESTS = {
     "docs/criteria/agent_pack_verification.md":
-        "2484e65c9d88b48a22a8db7423f09491d24a3da64a92f165f1701ea6194d2a71",
+        "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
     "docs/criteria/dashboard_verification.md":
         "6fd4e18d55422c268b3d5848b0dfa59ce22474382d4c789a052aba20789751b6",
     "docs/criteria/infra_verification.md":
-        "0616af6157ee856988aea5612ba5dda95c3d0c5e7c8180f76677fc180d09da87",
+        "04098540e56f34018b9cddffeb9806137eccacbfb2e8f29ca9b5031be10efe50",
     "docs/criteria/security_ops_verification.md":
         "4d69122bc9eca30eed5dd1f10333c272ffbb01d4b0ccae5340dbcbbd4175b967",
 }
