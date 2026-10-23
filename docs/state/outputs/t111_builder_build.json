@@ -1,0 +1,126 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t111",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t111-online-demo-readme",
+    "branch_sha": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+    "base": "main e9f8e1cf552b6e12ed7d9e7b31c8f71af3caac9f (verified git rev-parse HEAD + git branch --show-current == main before any write; base contains t119's merged bytes: promote.yml, both generator constants amended, both reports regenerated, R2 index amendments, INDEX_ANCHORS[131] rotated)",
+    "ac_hash": "sha256:3c3062c136b8d3cf347e3a90b746f55c6a0cc0fbd1e4307492c6f1de080837e8",
+    "ac_hash_verification": "recomputed from the six fenced blocks of the committed card blob (CR-stripped, trimmed, sha256 over json.dumps(blocks,separators=(',',':'))) - byte-exact MATCH against the card's frozen ac_hash; the six fence files executed verbatim were extracted from docs/issues/t111.md at this base.",
+    "ac1_negative_control_ruling": "ORCHESTRATOR RULING 2f7a91c4 (t102-W1/t119-ac3 class): ac1's NEGATIVE CONTROL leg is a fence-level arithmetic defect - UNSATISFIABLE on any conforming candidate. Proof: NC = legA + legB + legC; legB/legC fire on the FIXED synthetic literal SYN (SYN always contains 'Register your own account'/'NO seeded demo account' and 'Cold start' - verified by execution), so legB=legC=1 always; NC -eq 2 therefore requires legA NOT to fire, i.e. SYNALL must CONTAIN a stale sentence; SYN never contains one and SYNALL is (README minus the ## Online demo..## Quick Start range) + SYN, so a stale sentence must survive OUTSIDE ## Online demo - which product leg (1) forbids file-wide with exit-before-NC. Every conforming candidate scores NC=3 (measured). The orchestrator confirmed independently on commit 763019f in a clean LF clone: (a) leg(1) FIRES on a stale-injected README (the product leg's discriminating power is real), (b) NC computes 3 on any conforming candidate. The groom's NC=2 rehearsal held only against the BASE README (stale sentences at 323/358 live outside the replaced range). RULING: ac1 is recorded PASS with the NC leg PASS-BY-RULING; the definer ships a fence amendment (SYN carries the stale sentence so legA fires on the non-conforming synthetic; NC=0+1+1=2; ac_hash recomputed) BEFORE verification. The builder edited ZERO card bytes.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac1 of docs/issues/t111.md run verbatim via bash from the repository root on the fence-run state (HEAD=base e9f8e1c, candidate in the working tree) and re-run at the pushed commit in a clean clone: product legs 1-6 verbatim GREEN (all three stale static-serving sentences gone file-wide; -1qtu URL on its own line at section line 5 preceding npm run seed:demo at line 11; register-your-own-account + cold start stated; Prerequisites + Quick Start steps 1-3 + uv provenance stated; carried tokens demo@example.com / npm run seed:demo / NO seeded demo account intact); NEGATIVE CONTROL leg PASS-BY-RULING 2f7a91c4 (fence-level arithmetic defect, definer amendment pending, orchestrator-verified by injection test + NC=3 measurement)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac2 of docs/issues/t111.md run verbatim via bash from the repository root on the fence-run state: rc=0 GREEN - lines=394 digest=05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3 agree between the candidate, README_LINES/README_DIGEST and the regenerated report; regeneration is a byte-exact no-op with generator rc=0; both CARRIED_DIGESTS re-pins equal the committed agent_pack (0123737e...) and infra (04098540...) reports; REQ-DOC-010 row executed; LINK_CHECK broken=0; envelope holds (394 <= 400, 17 H2, all-CRLF, ASCII, REQ-id set sha 01f36118... unchanged, 13 hex literals)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac3 of docs/issues/t111.md run verbatim via bash from the repository root: rc=0 GREEN - 18 carried README-scoped gates (27 119 128 135 144 149 201 210 243 245 249 251 252 253 255 256 plus the t96 coordinated 232 250) replayed VERBATIM from the index and all GREEN; docs/state/merge_test_index.json and openapi.yaml carry zero bytes from this card",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac4 of docs/issues/t111.md run verbatim via bash from the repository root: rc=0 GREEN - the tests[227] settlement record at docs/state/outputs/t111_definer_gate_amendment.json reconstructs forward and reverse byte-for-byte in the pre-settlement state against the LIVE index, all four stale premises priced by name, the openapi half preserved verbatim, the four measured pins substituted (no unresolved placeholders), all 7 negative-control legs as-expected",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac5 of docs/issues/t111.md run verbatim via bash from the repository root: rc=0 GREEN - the Recorded orchestrator ruling section is present in the committed card and complete (names tests[227], discloses the index-byte consequence, invokes the W2 eight-property policy in writing, re-premise not relax, t71 precedent cited, proposes-only)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd",
+        "test": "fenced bash block ac6 of docs/issues/t111.md run verbatim via bash from the repository root of a clean clone checked out at the pushed commit b343cfc (the merge-candidate shape where the fence bites): rc=0 GREEN - delta purity holds (README.md + the four pin constants + the regenerated report + t111's own record only), docs_verification.py moved on exactly 8 +/- lines (four replace-only pin constants), zero bytes under the product tree / workflows / scoring_map / plan / backlog / frozen yaml surfaces, and the stale-sentence detector's bite demonstrated. In the shared main checkout ac6 additionally surfaces the pre-existing dirty orchestrator-owned docs/log/orchestrator_wal.jsonl (dirty at spawn, never staged or committed by the builder) - t119 precedent: the clean-clone run is the shape the verifier re-measures.",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "readme_final": {
+      "lines": 394,
+      "cr_stripped_sha256": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
+      "h2": 17,
+      "all_crlf": true,
+      "ascii": true,
+      "req_id_set_sha256": "01f3611817b98bd95baa2b709ba8c5e9f32be274d337a5fca8541deeb5413794",
+      "budget": "396 -> 394 (net -2, inside the +4 hard budget; ceiling 400, floor 340)",
+      "stale_sentences_removed": 3,
+      "stale_sentence_sites": "## Online demo (base line 56), ## Live verification in five minutes step 1 (base 323), ## Deployment on Render (base 358); the 323/358 rewrites keep the honest probe sentence and merely drop the false 'only once ... deployed' clause"
+    },
+    "re_pins": {
+      "README_DIGEST": "f7c85e88c5e20296fd9de1c540495a3ab17e17d14bea8e9fb4854436424e8664 -> 05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3 (measured from the candidate bytes, cr-stripped)",
+      "README_LINES": "396 -> 394 (measured from the candidate bytes, cr-stripped)",
+      "CARRIED_DIGESTS.agent_pack_verification.md": "2484e65c9d88b48a22a8db7423f09491d24a3da64a92f165f1701ea6194d2a71 -> 0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c (measured against the t119-regenerated committed report blob, cr-stripped per the card's recipe)",
+      "CARRIED_DIGESTS.infra_verification.md": "0616af6157ee856988aea5612ba5dda95c3d0c5e7c8180f76677fc180d09da87 -> 04098540e56f34018b9cddffeb9806137eccacbfb2e8f29ca9b5031be10efe50 (MEASURED, not assumed: t119's regeneration moved it to 04098540..., NOT the groom rehearsal's 00daa9c1...; the committed blob at e9f8e1c is the authority and ac2 greps the measured value)",
+      "hex_literal_count": "13 before and after (replace-only, ac2 leg)"
+    },
+    "settlement_record": {
+      "path": "docs/state/outputs/t111_definer_gate_amendment.json",
+      "role": "proposal only - the card writes ZERO bytes into docs/state/merge_test_index.json (ac3 proves the zero-index-byte leg)",
+      "placeholders_substituted": {
+        "README_CANDIDATE_DIGEST_64HEX": "05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3",
+        "README_CANDIDATE_LINES": "394",
+        "RENDER_YAML_CR_STRIPPED_DIGEST_64HEX": "92c75305141f55c008a13a1146db168c3dfac36f6c671649bdfe24ef666d298b",
+        "DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX": "4f0f41964ebbf9b4eed96052c3d78a1152c210751504052eecaff9054c7436aa"
+      },
+      "recomputed": {
+        "new_command_sha256": "a8d105672b3084c60d94a78dcb20c407f78006f5285a9fe7881ffe0d335b2335",
+        "new_command_len": 4773,
+        "entry_sha_after": "e993ea0a4ef3996b9f9b2035b804214a79f3b5e1fde14f64ebb99d041b881133",
+        "entry_sha_before_unchanged": "7c47f46f6a0c38cf515d47f5d001fbb2a51981838ca6315df62c8e72c2a68c26",
+        "reconstruction": "forward applied to the LIVE shipped tests[227] command reproduces new_command_sha256; reverse reproduces the shipped command byte-for-byte; the openapi 6f2a0a3d... and AGENTS 8340781c... pins are preserved verbatim in the settled command (asserted at substitution time and re-verified by ac4)"
+      },
+      "apply_after": "t119's merge window - unchanged in the record; the orchestrator applies t119_definer_gate_amendment.json FIRST"
+    },
+    "generator_run": {
+      "invocation": "cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py (uv 0.12.x via PATH=$HOME/.local/bin, WSL)",
+      "rc": 0,
+      "summary": "docs_verification: GREEN; report rows README_MEASURE PASS lines=394 digest=05cda049..., LINK_CHECK PASS files=299 links=94 broken=0, CARRIED_REPORT PASS rows 22/25/24/29, STORED_GATES PASS executed=9 failures=0 restored=1, ALL_CHECKS_PASS",
+      "determinism": "double-run in-place: the second run left the committed report byte-identical (ac2's no-op leg)",
+      "environment_note": "regenerated in the shared main checkout working tree (canonical environment per the t110 precedent: CRLF working files + frontend/node_modules present, which stored gates 128/134/155 require). The LINK_CHECK files count moves 270 -> 299 because gitignored *.md under backend/.pi-agent/venvs (14 files, agent-venv dirt outside SKIP_DIRS) plus 15 tracked-by-nothing docs/log + build dirt md files joined the os.walk since t110's run; the count is an environment-surface row of the generator, broken=0 is the load-bearing leg, and t102's pollution-class record governs this class. The committed report is the deterministic output of the pinned invocation on THIS tree."
+    },
+    "disclosed_base_drift": [
+      "INDEX_ANCHORS[133] pins tests[26] entry sha 09cb7d9a... while the live index at e9f8e1c carries 5246a358... - the generator's check_index_and_stored_gates tolerates this because the anchor identity check passed at this base (measured: INDEX_ANCHORS PASS row emitted; the t100 card owns that anchor's history); NOT t111's surface, disclosed only.",
+      "The ac1 NEGATIVE CONTROL fence defect - see ac1_negative_control_ruling; definer fence amendment pending under ruling 2f7a91c4; the card and its frozen ac_hash were NOT edited by the builder.",
+      "The shared main checkout carries foreign concurrent-agent artifacts (a t116 groom commit landed on main mid-flight at 71beb29 and a dirty orchestrator-owned docs/log/orchestrator_wal.jsonl). The builder's first commit accidentally landed on local main when another agent switched HEAD mid-operation; it was moved to this branch by cherry-pick onto e9f8e1c and local main was reset to origin/main WITHOUT any push of the stray commit. Final branch history: e9f8e1c -> b343cfc (single commit, four owned paths)."
+    ],
+    "residual_risks": [
+      "ac1's NC leg stays RED if the definer's pending fence amendment (ruling 2f7a91c4) does not land before verification - the verifier runs the committed card's ac_hash, so the amendment must be merged first; this handoff carries the pre-amendment ac_hash as-is with this disclosure.",
+      "The tests[227] settlement is NOT applied by this card - the class stays RED until the orchestrator applies t119's record then this record in the merge window; no AC of t111 depends on tests[227] being GREEN.",
+      "LINK_CHECK files=299 embeds the agent-venv dirt count; a later .pi-agent/venvs cleanup or SKIP_DIRS change moves that row and forces a report regeneration by whichever card owns that surface."
+    ],
+    "platform_comment_note": "The card's Constraints say 'Do not close, comment on or relabel any platform issue', which overrides the generic implement-step comment/label transitions; no platform operations were performed. Issue 117 label state is untouched for the orchestrator.",
+    "files_written_note": "Only the card's owned surface: README.md, backend/scripts/docs_verification.py (four pin constants, 8 +/- lines), docs/criteria/docs_verification.md (generator output only), docs/state/outputs/t111_definer_gate_amendment.json (placeholder substitution per the record's own placeholder_protocol - the builder executes the substitution the definer's record instructs), and this handoff."
+  },
+  "artifacts": {
+    "files_written": [
+      "README.md",
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md",
+      "docs/state/outputs/t111_definer_gate_amendment.json",
+      "docs/state/outputs/t111_builder_build.json"
+    ],
+    "platform_issue": 117,
+    "output_path": "docs/state/outputs/t111_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T09:48:42Z",
+  "retry_count": 0
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t111",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build. No verify_build schema or detail exists (skills/verifier/details/ and schemas/verifier/ carry only verify_issue/verify_pre_merge/verify_post_merge; the common envelope's phase enum has no verify_build), so following the t112..t116/t119 precedent this handoff uses the registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t111_verifier_verify.json verifier verify_issue'.",
+    "contract": "AMENDED card at main HEAD 474fffd (docs/issues/t111.md, blob 0dbf9f28; identical at main e559cfd) with ac_hash sha256:6da2679ad2f139222f7b8852dc05e2a30c0b0eac08f8bccd50c7191e9d184dfc (6 fences). The amendment (ruling 2f7a91c4, t102-W1/t119-ac3 class, record docs/state/outputs/t111_definer_fence_amendment.json) puts the stale premise INTO ac1's negative-control SYN literal; the old NC leg was NOT re-litigated per the spawn contract. The builder handoff (docs/state/outputs/t111_builder_build.json) carries the PRE-amendment hash 3c3062c1... with the ac1 PASS-BY-RULING note - expected and disclosed, matching the t119 pattern exactly.",
+    "verification_environment": "Isolation per contract: (a) wt_t111v created via cmd.exe 'git -c core.autocrlf=false worktree add C:/Users/tw097/Desktop/261007_project01/wt_t111v b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd' (detached HEAD at the builder commit; parent verified = e9f8e1cf552b6e12ed7d9e7b31c8f71af3caac9f the assigned base; single commit in e9f8e1c..b343cfc; clean: git status 0 lines with GIT_DIR/GIT_WORK_TREE /mnt/c overrides; LF working copy verified: README 394 LF lines, 0 CR). (b) wt_t111f created the same way at the BASE e9f8e1c and overlaid with the candidate blobs (README.md converted to all-CRLF = the canonical smudged builder shape; docs_verification.py, docs/criteria/docs_verification.md, the settlement record and the AMENDED card at 474fffd as LF blobs) - the FENCE-RUN STATE the card's fences are designed for (the builder handoff ran the fences 'from the repository root on the fence-run state (HEAD=base e9f8e1c, candidate in the working tree)'; ac2's own git-show-HEAD leg REDs spuriously at HEAD==candidate). The worktree .git pointer was rewritten to the relative form 'gitdir: ../expense-tracker-dashboard/.git/worktrees/wt_t111f' so BOTH WSL git and the cmd.exe git inside stored legs 155/242/244/246/247/248/250 work in the same tree (measured: both resolve HEAD). Environment provisioning for the fence-run tree (disclosed, all gitignored surfaces): the 19 environment dirt .md files (14 under backend/.pi-agent/venvs, backend/.pytest_cache/README.md, 3 docs/log files, docs/state/pending_blockers/blocker_1.md) copied from the main checkout to reproduce the committed report's LINK_CHECK files=299/links=94 row, and frontend/node_modules/{js-yaml,argparse} copied for stored gate 134; uv 0.12.13 at ~/.local/bin with UV_PROJECT_ENVIRONMENT pointed at the builder's backend/.venv (dependency specs identical: bucket hash 2876b1d8c5e8a14c == the shared bucket; uv run resolves in 2.6s). All git ops via cmd.exe; LF semantics enforced; the main checkout was NOT merged/committed/pushed/checked-out by this verifier (its two untracked entries - docs/state/history/ and docs/state/outputs/t111_builder_build.json - were dirty at spawn and are untouched).",
+    "ac_hash_recomputed": "Recomputed from the COMMITTED AMENDED card blob (cmd.exe git show 474fffd:docs/issues/t111.md) with the t58/t62..t110 recipe (sha256 over the JSON array of the six fenced bash blocks, ac1..ac6 order, compact separators, each CR-stripped and trimmed) = 6da2679ad2f139222f7b8852dc05e2a30c0b0eac08f8bccd50c7191e9d184dfc - EXACT match to the card's spaced-groups line, the task contract and the fence-amendment record's evidence.ac_hash.",
+    "ac_hash_four_way_equality": "card spaced-groups line (6da2679a d2f13922 2f7b8852 dc05e2a3 0c0b0eac 08f8bccd 50c7191e 9d184dfc) == recomputed-from-amended-card-blob-at-474fffd == task-stated contract hash == t111_definer_fence_amendment.json evidence.ac_hash. The pre-amendment chain also closes: recomputing over the groom handoff's six blocks = 3c3062c136b8d3cf347e3a90b746f55c6a0cc0fbd1e4307492c6f1de080837e8 == builder handoff evidence.ac_hash == the amendment record's own old hash.",
+    "fence_byte_identity": "All six fences extracted verbatim from the amended card blob at 474fffd and asserted byte-identical (after the recipe's CR-strip+trim) to evidence.verification_commands.ac1..ac6 of docs/state/outputs/t111_definer_fence_amendment.json - ALL SIX True. Fences 2-6 additionally byte-identical to the pre-amendment groom handoff (t111_definer_groom.json); ac1 differs from groom by exactly the ruled SYN line: the amendment record's region pair was verified against the shipped card - old occurs exactly once in groom ac1 (offset 4670 matches the record), forward(old->new) reproduces the amended ac1 byte-for-byte, reverse(new->old) reproduces the groom ac1 byte-for-byte, and [groom_ac1]+[amended ac2..ac6] hashes back to the old 3c3062c1.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above (AMENDED fence, ac_hash 6da2679a), run verbatim via bash from the repository root of the fence-run state",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN in wt_t111f (fence-run state): all three stale static-serving sentences gone file-wide; the -1qtu URL on its own line at section line 5 preceding npm run seed:demo at line 11; register-your-own-account + cold start stated; Prerequisites + Quick Start steps 1-3 + uv provenance stated; carried tokens demo@example.com / npm run seed:demo / NO seeded demo account intact. NEGATIVE CONTROL on the AMENDED fence measured GREEN: instrumented readout prints NC=2 (legA=0 because SYN now carries the stale premise, legB=legC=1) - the amendment's semantics reproduced independently. The old unsatisfiable NC leg was NOT re-litigated (ruling 2f7a91c4); the amended fence is the contract and was run VERBATIM. Also rc=0 in the wt_t111v clean-clone shape."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above, run verbatim via bash from the repository root of the fence-run state",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN in wt_t111f: lines=394 digest=05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3 agree between the candidate, README_LINES/README_DIGEST and the regenerated report; the pin moved off the card's own base (HEAD f7c85e88 -> 05cda049); regeneration inside the fence is a byte-exact no-op with generator rc=0; both CARRIED re-pins equal the committed agent_pack (0123737e...) and infra (04098540...) reports; REQ-DOC-010 row executed; LINK_CHECK broken=0; envelope holds (394 <= 400, >= 340, 17 H2, all-CRLF, ASCII, REQ-id set sha 01f36118... unchanged, 13 hex literals). NOTE: at HEAD==candidate (the wt_t111v shape) ac2 REDs spuriously on its own 'digest equals README.md at HEAD' leg - the fence-run state (HEAD=base, candidate in the working tree) is the state the fence is written for and the state the builder measured in; this is the card's own design, not a product defect."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above, run verbatim via bash from the repository root of the fence-run state",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN in wt_t111f: all 18 carried README-scoped gates (27 119 128 135 144 149 201 210 243 245 249 251 252 253 255 256 plus the t96 coordinated 232 250) replayed VERBATIM from the index and GREEN; the index and openapi.yaml carry zero bytes from this card (git legs ran ACTIVE via the relative .git pointer). The t96 legs were additionally run INDIVIDUALLY: tests[232] rc=0 (npm-first Quick Start) and tests[250] rc=0 (contiguous 0..8 run-locally flow, five negative controls). ENVIRONMENT NOTE: in the pure-LF wt_t111v shape ac3 REDs on tests[128] - the five line-anchored command lines (^docker compose up --build etc.) need the CRLF working copy; this is the disclosed CRLF-smudge class (t110 precedent: 'LF harness: only STORED_GATES FAIL tests[128]'), not a product byte - the committed README blob is LF by design and the merge-candidate working copy is CRLF-smudged."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above, run verbatim via bash from the repository root of the fence-run state",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN: the tests[227] settlement record at docs/state/outputs/t111_definer_gate_amendment.json reconstructs forward and reverse byte-for-byte in the PRE-SETTLEMENT state against the LIVE index (shipped command sha == old_command_sha256, entry sha == entry_sha_before, forward reproduces new_command_sha256, reverse lossless), all four stale premises priced by name, the openapi half (6f2a0a3d...) preserved verbatim, the four measured pins substituted with NO unresolved placeholders (measured independently: README 05cda049/394, render.yaml cr-stripped 92c75305... == the worktree measurement, report cr-stripped 4f0f4196... == the worktree measurement), all 7 negative-control legs as-expected. The settlement is a PROPOSAL: the index carries zero bytes from this card (ac3's leg + the measured zero diff)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac5` section above, run verbatim via bash from the repository root of the fence-run state",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN: the Recorded orchestrator ruling section is present in the committed (amended) card and complete - names tests[227], discloses the index-byte consequence, invokes the W2 eight-property policy in writing, re-premise not relax, t71 precedent cited, proposes-only. Also rc=0 in the wt_t111v clean-clone shape (the card there is the pre-amendment blob; the ruling section is identical)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac6` section above, run verbatim via bash from the repository root of the fence-run state (the merge-candidate shape where the fence bites)",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/",
+        "note": "rc=0 GREEN in BOTH shapes: wt_t111f (fence-run state, git legs active: changed set = README.md + the four pin constants + the regenerated report + the settlement record + the card itself, nothing else; docs_verification.py on exactly 8 +/- lines; zero bytes under the product tree/workflows/scoring_map/plan/backlog/frozen yaml; stale-sentence detector's bite demonstrated) and wt_t111v (clean clone at the pushed commit b343cfc, clean status: delta-purity and zero-byte legs GREEN). The dirt .md files and copied node_modules are gitignored and invisible to git ls-files --others --exclude-standard, which is why ac6 stays GREEN over the provisioned environment."
+      }
+    },
+    "test_summary": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "test_summary_note": "Six AC fences (6/6 rc=0 VERBATIM from the amended card, ac1 on the amended fence per ruling 2f7a91c4) plus four corroborating runs by the verifier: the pinned generator invocation (rc=0 GREEN, regen byte-exact no-op), tests[232] rc=0 and tests[250] rc=0 individually (the t96 replay legs ac3 covers), and ruff+mypy on the touched generator (All checks passed / no issues found).",
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "ruff check scripts/docs_verification.py: 'All checks passed!'; mypy (project config): 'Success: no issues found in 1 source file' - both run in the fence-run worktree under the pinned uv environment.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_ac1_green_online_demo_rewritten_nc_refused": true,
+      "dod2_ac2_green_triple_pin_measured_regen_noop_carried_repins_envelope": true,
+      "dod3_ac3_green_18_carried_gates_zero_index_bytes": true,
+      "dod4_ac4_green_settlement_record_sound_no_placeholders": true,
+      "dod5_ac5_green_recorded_ruling_present": true,
+      "dod6_ac6_green_delta_purity_8_lines_bite": true,
+      "dod7_ruling_wal1268_cited_in_card": true,
+      "dod8_ac_hash_recomputed_card_and_amendment_record_agree": true,
+      "dod9_post_merge_frozen_red_set_note": true
+    },
+    "dod_notes": "dod7: the card cites RULING WAL 1268 (R1/R2) five times; the apply_after ordering (t119's R2 record FIRST, then this 227 settlement, in the orchestrator's merge window) is recorded in the settlement record and unchanged. dod8: ac_hash recomputed from the committed amended blob == card line == amendment record == task contract; the six executed fences are byte-identical to the amendment record's verification_commands. dod9: the post-merge note is orchestrator-side evidence, correctly not required for this verdict; tests[227] stays RED until the orchestrator applies the records, and no AC of t111 depends on it.",
+    "extra_checks": {
+      "1_readme_measurements": "Committed README blob at b343cfc: 17708 bytes, 0 CR (LF blob), 394 lines, cr-stripped sha256 05cda049563ba37a7bc79ed4e5aa7fab0f139c2808f452c177ef3aa28a99aea3 (== contract). In the fence-run working copy (all-CRLF, 394 CRLF pairs): 394 lines, digest 05cda049..., 17 H2, ZERO 'only once this milestone|static-serving fix is deployed' matches file-wide, carried tokens demo@example.com / npm run seed:demo / NO seeded demo account all present, hosted -1qtu URL on its OWN line (section line 5) FIRST (precedes npm run seed:demo at line 11), 0 non-ASCII bytes.",
+      "2_docs_verification_py_repins": "Byte-exact at b343cfc: README_LINES = 394, README_DIGEST = 05cda049..., CARRIED agent_pack = 0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c (== measured cr-stripped digest of the committed agent_pack report), CARRIED infra = 04098540e56f34018b9cddffeb9806137eccacbfb2e8f29ca9b5031be10efe50 (== measured cr-stripped digest of the committed infra report), 13 hex64 literals preserved (replace-only).",
+      "3_diff_purity": "e9f8e1c..b343cfc is a SINGLE commit touching EXACTLY the 4 owned paths: README.md (32 +/-), backend/scripts/docs_verification.py (8 +/-, four replace-only pin constants), docs/criteria/docs_verification.md (4 +/-, generator output), docs/state/outputs/t111_definer_gate_amendment.json (36 +/-, placeholder substitution per the record's own protocol). ZERO bytes across the range in: docs/state/merge_test_index.json, docs/criteria/{agent_pack,infra,dashboard,security_ops,req_coverage}_verification.md, docs/criteria/scoring_map, docs/plan.md, docs/backlog.md, AGENTS.md, render.yaml, openapi.yaml, .github/**, backend/app, backend/tests, frontend/src, e2e, ops, observability, incident-response, docs/requirements - and docs/issues/t111.md (the card is untouched by the builder; the amendment landed separately at 474fffd on main, as the ruling dispatched).",
+      "4_tests227_settlement": "The card's recorded-ruling mechanism honored: the handoff/record carries the MEASURED values (all four placeholders substituted; the record reconstructs forward AND reverse against the LIVE pre-settlement index; entry_sha_before matches; the shipped command still carries the stale a64efaa2 pin - the settlement's own premise leg), and docs/state/merge_test_index.json is byte-identical across e9f8e1c/b343cfc/474fffd/main (blob 0c298d5e) - zero index bytes.",
+      "5_generator_regen_noop": "Pinned invocation 'cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py' in the provisioned fence-run worktree: rc=0, stdout 'docs_verification: GREEN', and the regenerated docs/criteria/docs_verification.md is BYTE-IDENTICAL to the committed report (cmp clean; 3680 bytes, LF) - regen no-op proves pin consistency. Report rows: README_MEASURE PASS lines=394 digest=05cda049..., LINK_CHECK PASS files=299 links=94 broken=0, CARRIED_REPORT PASS 22/25/24/29, INDEX_ANCHORS PASS floor=217 entries=318 (all eight anchors measured True against the live index - the builder's disclosed INDEX_ANCHORS[133] drift is MOOT: live tests[133] entry sha == the 09cb7d9a pin), STORED_GATES PASS executed=9 failures=0 restored=1, ALL_CHECKS_PASS.",
+      "6_t96_replay_legs": "tests[232] rc=0 and tests[250] rc=0 run INDIVIDUALLY verbatim from the index in the fence-run state (and GREEN inside ac3's replay): the Quick Start section is untouched by this card's delta (the diff shows zero Quick Start bytes), so the t96 coordinated set needs no second amendment - as the card's ac3 evidence line states.",
+      "7_amendment_semantics": "Instrumented NC readout of the AMENDED ac1 on the candidate: NC=2 (legA=0/legB=1/legC=1) - exactly the [ NC -eq 2 ] the ruling priced; the amended SYN line is what satisfies the control (the amendment record's mutation measurements independently reproduce the NC=3 RED without it)."
+    },
+    "builder_handoff_validation": "docs/state/outputs/t111_builder_build.json branch_sha b343cfc1e83a3e9c8906a8bc98e500ce8bd577fd == the assigned commit (match); parent == e9f8e1c (match); its ac_hash 3c3062c1... is the PRE-amendment hash exactly as the spawn contract disclosed, with the ac1 PASS-BY-RULING note intact - not re-litigated. The handoff's measured values (README 394/05cda049, re-pins, settlement substitutions, files=299/links=94 environment class) all reproduced independently.",
+    "environment_notes": "[VENV_UNAVAILABLE] WARN at spawn: UV_PROJECT_ENVIRONMENT/PYTHONPATH not injected by the orchestrator; per the documented fallback the verifier pointed uv at the builder's backend/.venv (dependency specs identical - bucket hash 2876b1d8c5e8a14c == the shared bucket; uv 0.12.13). The fence-run tree needed the environment dirt surface (19 gitignored .md files) and frontend/node_modules/js-yaml to reproduce the committed report's environment-dependent LINK_CHECK row and stored gate 134 - the t102 pollution-class / t110 environment-surface precedent governs: files=299 is an environment-surface row, broken=0 is the load-bearing leg. The relative .git pointer rewrite in the worktrees is verifier-local scaffolding, removed with the worktrees. cmd.exe git inside stored legs and WSL git both worked against the same tree.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries ('ac1..ac6 are the six fenced blocks above, run with bash -c from the repository root'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed AMENDED card blob git show 474fffd:docs/issues/t111.md (ac_hash 6da2679a...).",
+    "label_transition": "None performed. The spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t112..t116/t119 precedent followed. Issue 117 label state is untouched for the orchestrator.",
+    "cleanup": "Both worktrees removed via cmd.exe 'git worktree remove --force' (wt_t111v and wt_t111f; confirmed: git worktree list shows only the main checkout; both directories gone). The main checkout was not merged/committed/pushed/checked-out; staged files: 0; its two spawn-dirty untracked entries untouched."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t111_verifier_verify.json"
+    ],
+    "platform_issue": 117,
+    "output_path": "docs/state/outputs/t111_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T10:32:00Z",
+  "retry_count": 0
+}

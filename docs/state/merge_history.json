@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T09:08:53.363510+00:00",
+  "updated_at": "2026-10-23T10:32:07.799414+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1554,6 +1554,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge of remote ref 462a237 (parents 69f1206+462a237) + SAME-window R2 index amendments 1ecb995 (legs 131/143/155/162/167/177/191 byte-exact forward+reverse proofs vs t119_definer_gate_amendment.json; INDEX_ANCHORS[131] 3aaf53e3->f9f9b4e9 replace-only, 13 hex64 preserved). Card fence amendment 69f1206 (ac3 dereference leg unsatisfiable, ruling 515694e6 t102 W1 class; new ac_hash bc309931). Verifier 6ceb84df PASS isolated LF worktree at 462a237: fences x6 rc=0 incl amended ac3, promote.yml byte-identical to shipped spec (d56f1622, 1356B, ASCII, no NUL), both tuple lines byte-exact, both reports attest WORKFLOWS 4 PASS (infra 23/agent_pack 19), ci/e2e/deploy blobs identical c035eff->HEAD, R2 spot-check shas f9f9b4e9/86caffc3 confirmed on live index, honesty: only 2 pre-existing secret names, workflow_dispatch-only, environment production, contents:read"
+    },
+    {
+      "issue_id": "t111",
+      "platform_issue": 117,
+      "branch": "issue/t111-online-demo-readme",
+      "merge_sha": "036ad9ad",
+      "merged_at": "2026-10-23T10:32:07Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge of remote ref b343cfc1 (parents e559cfd+b343cfc): README Online-demo Part-1 rewrite (396->394 lines, digest 05cda049, 3 stale static-serving sentences removed), pins re-pinned by measurement (394/05cda049/CARRIED agent_pack 0123737e/infra 04098540 committed-blob authority), tests[227] settlement via recorded ruling (ZERO index bytes). Card fence amendment 474fffd (ac1 NEGATIVE CONTROL unsatisfiable, ruling 2f7a91c4 t102-W1/t119-ac3 class; SYN gains stale premise -> NC=2 semantics restored; ac_hash 3c3062c1->6da2679a). Verifier d134efd2 PASS on amended contract: 6/6 fences rc=0 (NC=2 amended semantics reproduced), README measurements, re-pins byte-exact, 4-path diff, regen no-op, detector bite. ac1 re-run verbatim on merged tree rc=0 by orchestrator."
     }
   ]
 }
