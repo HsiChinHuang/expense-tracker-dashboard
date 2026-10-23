@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T06:51:52.435708+00:00",
+  "updated_at": "2026-10-23T07:03:00.844608+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1524,6 +1524,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge BEFORE verdict this card (disclosed deviation): merge used the REMOTE clean ref 3133552 (parents c7b2df1+3133552), keeping the misplaced local WAL commit b2546b9 out of main history; merged-tree fences ac1-3 green at merge, ac4 red-by-contamination (untracked t112 handoff JSONs, not t113 bytes) green after archiving them; verifier 1c8eef9b PASS in isolated cmd.exe worktree (fences verbatim x4, ac_hash four-way 86ce60f2, changed-file-set 1 path, 13/13 paths resolve, worktree removed)"
+    },
+    {
+      "issue_id": "t114",
+      "platform_issue": 120,
+      "branch": "issue/t114-scoring-map-delivery",
+      "merge_sha": "db2c2b8",
+      "merged_at": "2026-10-23T07:03:00Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge of remote ref d9f550d (parents 4ca0962+d9f550d); merged-tree fences x4 rc=0; verifier 0653c027 PASS isolated worktree (ac_hash four-way cdcd8e54, fence 3-way byte-identity, live re-probe 2026-10-23 confirms all four cited facts item-for-item incl postgresql health body, promote.yml 0 path-style refs = prose-only honesty holds, CI/CD 2/3 + 58-word Gap line); builder 'failure' was acceptance-gate false-positive on orchestrator-owned staged t113 deletion, work fully landed and verified"
     }
   ]
 }

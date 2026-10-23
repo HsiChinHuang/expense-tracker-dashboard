@@ -1,0 +1,109 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t114",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build with verdict enum PASS/FAIL_PERMANENT/BLOCKED. No verify_build schema or detail exists: skills/verifier/details/ carries only verify_issue/verify_pre_merge/verify_post_merge, schemas/verifier/ likewise, and the common envelope's phase enum has no verify_build, so a handoff claiming that phase fails validation by construction. Following the t112/t113 verifier mode_disclosure precedent (and the t90..t113 lineage), this handoff uses the closest registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t114_verifier_verify.json verifier verify_issue'. The verdict vocabulary used is PASS (FAIL_PERMANENT/BLOCKED not expressible in the registered schema; a BLOCKER would have been filed via status=BLOCKER if hit).",
+    "verification_environment": "Isolated git worktree C:/Users/tw097/Desktop/261007_project01/wt_t114v created via cmd.exe 'git worktree add ... d9f550d581e763087f171f4387e766315ab4610b' (detached HEAD at the builder commit, parent 3bfa1f21fc768e6bd61c166b59fa0794ab90ddee = the assigned base). The worktree was CLEAN (cmd.exe git status --porcelain: 0 lines), so ac4's git purity screens ran against the EXACT commit bytes rather than a contaminated working tree. The four fences ran via bash -c from the worktree root (/mnt/c/... path) with GIT_DIR/GIT_WORK_TREE pointed at the worktree admin dir (.git/worktrees/wt_t114v) for the git legs - the t112/t113 verifier's exact method. Worktree removed after verification via cmd.exe 'git worktree remove --force'.",
+    "ac_hash_recomputed": "Recomputed FROM THE COMMITTED CARD BLOB (git show d9f550d:docs/issues/t114.md) with the t58/t62..t110 recipe (sha256 over the JSON array of the four fenced blocks, ac1..ac4 order, compact separators, each block CR-stripped and trimmed) = cdcd8e544897dff0be6c4a81288a1dd6f3e65e9663b7341d67fa3e9e7605e38a.",
+    "ac_hash_four_way_equality": "card spaced-groups line (cdcd8e54 4897dff0 be6c4a81 288a1dd6 f3e65e96 63b7341d 67fa3e9e 7605e38a) == recomputed-from-committed-blob == t114_builder_build.json evidence.ac_hash == the task's stated ac_hash, all sha256:cdcd8e544897dff0be6c4a81288a1dd6f3e65e9663b7341d67fa3e9e7605e38a.",
+    "fence_byte_identity": "Each fence executed was extracted verbatim from the committed card blob (git show d9f550d:docs/issues/t114.md) and asserted byte-identical (after the recipe's own CR-strip+trim) to evidence.verification_commands.ac1..ac4 of BOTH the builder handoff AND the groom handoff (t114_definer_groom.json) - exact length equality (3088/3399/3264/3791 chars for ac1..ac4 on both sides, no trailing-newline delta this time). The executed literals sha256 to verification_fence_literals_sha256 below.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above",
+        "exit_code": 0,
+        "note": "Ran verbatim (bash -c, extracted from the committed card blob) from the isolated worktree root at d9f550d. Output: 'ac1 GREEN: DEPLOYMENT recorded - claim 2/2, one existing first entry point (https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health), the real hosted address, render.yaml and the health evidence named, and the liveness claim date-stamped'. The mandated 2026-10-22 (WAL 1265) stamp is present verbatim in the record."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac2 GREEN: CI/CD recorded at the measured position - claim 2/3, all three shipped pipelines and their real triggers named (PR tests, workflow_run auto-CD, main-only E2E), post-deploy health verification and least-privilege tokens stated, every evidence path resolves, and no 3/3 padding anywhere'. Independent re-measures confirm every stated trigger: ci.yml pull_request at line 9, deploy.yml workflow_run line 9 + conclusion gate line 21 + bounded retry (seq 1 30 line 38, curl -fsS line 39, sleep 10 line 43), permissions contents: read at ci.yml:13/e2e.yml:13/deploy.yml:15, e2e.yml push-only."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac3 GREEN: HONESTY PAIR RECORDED - the human gate (production Environment, workflow_dispatch, promote.yml) is claimed, the absence of environment separation is stated, its non-git provenance is disclosed, and the 2/3 price is one bounded sentence (58 words)'. Independent scan: zero backticked tokens contain promote.yml, zero path-style '.github/workflows/promote' references anywhere in the record (grep rc=1) - prose-only confirmed; t119 context token present; Gap line 58 words within [8,60]."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac4 evidence: README as found lines=396 h2=17 ... zero changed tracked files and zero untracked files outside the owned surface ... ac4 GREEN: ZERO-BYTE PURITY'. Both git screens ran in the CLEAN worktree at the commit itself (GIT_DIR/GIT_WORK_TREE overrides), so the untracked screen is clean by construction at d9f550d - corroborating that t114's deliverable carries zero bytes outside docs/criteria/scoring_map/delivery.md. Orchestrator's merged-tree fence run (ac1-ac4 rc=0 at merge db2c2b8) is consistent."
+      }
+    },
+    "test_summary": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "test_summary_note": "The four 'tests' are the card's four verification fences run VERBATIM from the committed card blob, per ## Verification commands (documentation deliverable: the fences ARE its tests). 4/4 rc=0 GREEN in the isolated worktree at d9f550d.",
+    "failure_type": null,
+    "lint_report": null,
+    "lint_note": "No linter applies to a markdown record (ruff is for Python; none of the card's commands invoke one). Non-blocking content screens run instead: record is ASCII-only (0 non-ASCII bytes, LC_ALL=C grep -cP '[^\\x00-\\x7F]' = 0), 0 placeholder tokens, 0 secret-shaped strings (independent greps rc=1, matching ac4's own screens).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_file_two_sections_record_format": true,
+      "dod2_ac1_green": true,
+      "dod3_ac2_green": true,
+      "dod4_ac3_green": true,
+      "dod5_ac4_green": true,
+      "dod6_ascii_true_after_t119_phrasing": true,
+      "dod7_ac_hash_reproduces_handoff_fences_identical": true
+    },
+    "dod_notes": "dod1: record carries exactly the two '## <dimension>' sections (Deployment line 15, CI/CD line 23), claims 2/2 and 2/3, exactly one '- First entry point:' per section (2 total), all Evidence/Deep-dive paths resolve. dod6: ASCII-only; promote.yml phrasing ('the milestone's t119 pipeline promote.yml') stays true on both sides of the t119 merge per the groom's exercised option (b). dod7: ac_hash reproduces from the committed blob and the builder AND groom handoff verification_commands are byte-identical to the fences.",
+    "changed_file_set_proof": "git show --stat d9f550d: exactly one path, docs/criteria/scoring_map/delivery.md, 30 insertions. git diff --name-only 3bfa1f2 d9f550d = the same single path. Commit parent = 3bfa1f2 (the assigned base). Committed blob sha256 47a762b33d2261d1caf8025c64885089136a0e25dcc0577291ed90950cebf919 - byte-identical to the builder's stated digest and to the CR-stripped worktree checkout.",
+    "independent_remeasurements": {
+      "ci_yml_pull_request_line": 9,
+      "deploy_yml_workflow_run_line": 9,
+      "deploy_yml_conclusion_gate_line": 21,
+      "deploy_yml_health_retry_literals": "for i in $(seq 1 30) at line 38, curl -fsS \"$APP_HEALTH_URL\" at line 39, sleep 10 at line 43",
+      "permissions_contents_read_lines": ["ci.yml:13", "e2e.yml:13", "deploy.yml:15"],
+      "workflows_on_tree": "exactly 3: ci.yml, deploy.yml, e2e.yml; promote.yml absent (t119 not yet merged - record's prose phrasing verified true on this side of the merge)",
+      "readme_h2_grep": 17,
+      "readme_lines_tr_wc": 396,
+      "gap_line_words": 58,
+      "backticked_paths_missing": 0,
+      "all_match_builder_and_groom_measurements": true
+    },
+    "live_reprobe_verifier": {
+      "date": "2026-10-23 (verifier run, independent of the builder's same-day re-probe)",
+      "GET_root": "200 text/html; charset=utf-8",
+      "GET_assets_index-DpxkfWRY.js": "200 text/javascript; charset=utf-8 (and the root document really references assets/index-DpxkfWRY.js)",
+      "GET_login": "200 text/html (SPA fallback)",
+      "GET_api_v1_health": "200 application/json body {\"status\":\"ok\",\"database\":\"postgresql\",\"fallback_active\":false,\"version\":\"1.0.0\"}",
+      "claim_wording_confirmation": "The record's four cited facts (root serves the SPA document 200, hashed JS asset answers 200, /login falls back to the SPA document 200, /api/v1/health answers 200 with the postgresql health body) match what the verifier observed live, item for item. The record correctly keeps the 2026-10-22 WAL 1265 date stamp for the cited verification (ac1 requires that stamp; the out-of-scope section forbids re-dating), and this re-probe independently CONFIRMS the cited facts without contradicting them."
+    },
+    "honesty_spot_checks": "Every backticked path in delivery.md resolves on the tree (independent scan: 8 distinct backticked paths + 1 URL, 0 missing). promote.yml appears in PROSE ONLY: zero backticked tokens contain it, zero Evidence/Deep-dive lines contain it (ac3's own screen), and no path-style '.github/workflows/promote.yml' reference exists anywhere in the record (independent grep rc=1). The 2/3 claim line and the single '- Gap:' line (58 words, names the missing second environment) are both present. The record states both halves of the honesty pair (human gate exists via the t119 promote.yml + repo-Settings production Environment; environment separation does not exist) and discloses the Settings provenance. No secret-shaped string, no placeholder token, ASCII-only.",
+    "builder_handoff_validation": "cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t114_builder_build.json builder implement -> [OK] valid for builder:implement (gate2 re-run by verifier).",
+    "merged_tree_note": "Orchestrator merged d9f550d as db2c2b8 (parents 4ca0962 + d9f550d) onto main with merged-tree fences ac1-ac4 rc=0 (orchestrator-run). This verifier independently confirms all four fences rc=0 in a pristine worktree at the builder commit d9f550d itself, where the ac4 untracked screen is clean by construction - corroborating zero bytes outside docs/criteria/scoring_map/delivery.md.",
+    "label_transition": "None performed. The task's spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t112/t113 precedent followed.",
+    "environment_notes": "UV_PROJECT_ENVIRONMENT/PYTHONPATH not set ([VENV_UNAVAILABLE] WARN, no-op: this is a Node/markdown project and the fences use system bash). Fences run via bash with GIT_DIR/GIT_WORK_TREE overrides in the isolated worktree; worktree removed after verification via cmd.exe git worktree remove --force.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries verbatim ('the fenced bash block in the ### acN section above'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed card blob.",
+    "verification_fence_literals_sha256": {
+      "ac1": "6ae666859b31d8438aac6eebd2eb72ddab3a581a485e1c4254f4f4d8aecf54f5",
+      "ac2": "179f84777a5927b8235da6dbed5c4ed4888fc10009f17f3b8b9c0e8ff3a324fc",
+      "ac3": "323cedf645309a07370829fb4faf94dbf8f446c24e524c070c9000de2c4d4948",
+      "ac4": "de9dd8905c2fcc74b6144b59f1f978d5f64a14cd2eacca6f92b31b6f87350042"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t114_verifier_verify.json"
+    ],
+    "platform_issue": 120,
+    "output_path": "docs/state/outputs/t114_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T07:05:00Z",
+  "retry_count": 0
+}
