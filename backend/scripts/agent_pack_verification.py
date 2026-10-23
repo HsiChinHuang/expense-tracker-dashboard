@@ -114,7 +114,7 @@ MCP_README_SECTIONS = (
 )
 HOOKS_README_SECTIONS = ("Trigger", "Failure behavior")
 MANIFEST_DEPS = ("httpx", "python-jose")
-EXPECTED_WORKFLOWS = ("ci", "e2e", "deploy")
+EXPECTED_WORKFLOWS = ("ci", "e2e", "deploy", "promote")
 MCP_TOOL_NAMES = ("add_expense", "get_budget_status", "monthly_summary", "list_expenses")
 FRONTMATTER = re.compile(r"(?s)\A---\n(.*?)\n---\n")
 PLAN_ROW_TOKENS = {

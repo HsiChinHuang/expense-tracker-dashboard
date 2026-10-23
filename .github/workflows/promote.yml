@@ -1,0 +1,42 @@
+# .github/workflows/promote.yml - manual, human-gated production deploy.
+# One service exists: this deploys the SAME live Render service that deploy.yml's
+# automatic CD already targets. The human gate is the GitHub Environment
+# 'production' (required reviewers, configured in repository Settings, not in git);
+# environment separation does NOT exist. Hook URL from the RENDER_DEPLOY_HOOK
+# secret only (REQ-CICD-070); least-privilege token (REQ-CICD-071).
+name: Promote
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Render deploy hook
+        env:
+          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK secret is not configured"
+            exit 1
+          fi
+          curl -fsS -X POST "$RENDER_HOOK"
+
+      - name: Verify the deployed health endpoint
+        env:
+          APP_HEALTH_URL: ${{ secrets.RENDER_APP_URL }}
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS "$APP_HEALTH_URL"; then
+              echo "deploy verified: health endpoint is ok"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "health endpoint never turned ok after the deploy"
+          exit 1

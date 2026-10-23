@@ -36,7 +36,7 @@ HEALTH_FIELDS status,database,fallback_active,version PASS
 FALLBACK_TABLES users,categories,expenses,budgets,audit_logs PASS
 FALLBACK_SEEDED_CATEGORIES 10 PASS
 FALLBACK_NO_ALEMBIC_IMPORT alembic=absent PASS
-FALLBACK_WITHIN_5S elapsed=1.354 bound=5 PASS
+FALLBACK_WITHIN_5S elapsed=1.035 bound=5 PASS
 ```
 
 The fallback schema arrives via create_all plus the merged seed
@@ -60,8 +60,8 @@ COMPOSE_SERVICES db,app 2 PASS
 COMPOSE_HEALTHCHECKS 2 PASS
 COMPOSE_VOLUME db_data PASS
 COMPOSE_PORT_MAPPING 8000:8000 PASS
-WORKFLOWS ci,e2e,deploy 3 PASS
-WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run PASS
+WORKFLOWS ci,e2e,deploy,promote 4 PASS
+WORKFLOW_TRIGGERS ci=pull_request+push e2e=push deploy=workflow_run promote=workflow_dispatch PASS
 WORKFLOW_FLAGS concurrency=2 caching=enabled security_scans=0 PASS
 RENDER_SERVICE web,db PASS
 RENDER_HEALTH_CHECK_PATH /api/v1/health PASS
