@@ -1,0 +1,101 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t113",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build with schema schemas/verifier/verify_build.json, detail skills/verifier/details/verify_build.md, and verdict enum PASS/FAIL_PERMANENT/BLOCKED. None of those exist: skills/verifier/details/ carries only verify_issue/verify_pre_merge/verify_post_merge, schemas/verifier/ likewise, and the common envelope's phase enum has no verify_build, so a handoff claiming that phase fails validation by construction. Following the t112 verifier's own mode_disclosure precedent (and the t90..t112 lineage), this handoff uses the closest registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t113_verifier_verify.json verifier verify_issue'. The verdict vocabulary used is PASS (FAIL_PERMANENT/BLOCKED not expressible in the registered schema; a BLOCKER would have been filed via status=BLOCKER if hit).",
+    "verification_environment": "Isolated git worktree C:/Users/tw097/Desktop/261007_project01/wt_t113v created via cmd.exe 'git worktree add ... 3133552ddda1e763e1b7c2fbf03d4d221392ed83' (detached HEAD at the builder commit, parent 6faa700a822653d3f61b9103c02e38c56f5098cc = the assigned base). The worktree was CLEAN (GIT_DIR/GIT_WORK_TREE-overridden git status --porcelain: 0 lines), so ac4's git purity screens ran against the EXACT commit bytes rather than a contaminated working tree. WSL git cannot resolve the Windows-style .git pointer, so all git commands ran with GIT_DIR/GIT_WORK_TREE pointed at the worktree's admin dir (.git/worktrees/wt_t113v) and the four fences ran via bash from the worktree root (/mnt/c/... path) - the t112 verifier's exact method. Worktree removed after verification via cmd.exe 'git worktree remove --force'.",
+    "ac_hash_recomputed": "Recomputed FROM THE COMMITTED CARD BLOB (git show 3133552:docs/issues/t113.md) with the t58/t62..t110 recipe (sha256 over the JSON array of the four fenced blocks, ac1..ac4 order, compact separators, each block CR-stripped and trimmed) = 86ce60f2f952b0569c192ef0c3d8acbcc23d281274ad35e5472aa88365ae3c73.",
+    "ac_hash_four_way_equality": "card spaced-groups line (86ce60f2 f952b056 9c192ef0 c3d8acbc c23d2812 74ad35e5 472aa883 65ae3c73) == recomputed-from-committed-blob == t113_builder_build.json evidence.ac_hash == the task's stated ac_hash, all sha256:86ce60f2f952b0569c192ef0c3d8acbcc23d281274ad35e5472aa88365ae3c73.",
+    "fence_byte_identity": "Each fence executed was extracted verbatim from the committed card blob (git show 3133552:docs/issues/t113.md) and asserted byte-identical (after the recipe's own CR-strip+trim) to evidence.verification_commands.ac1..ac4 of the builder handoff. The only raw diff card-vs-handoff is one trailing newline per fence that the handoff JSON omits (card_len = handoff_len + 1 for all four) - inside the recipe's trim, so not a mismatch. This is the same relationship the t112 verifier recorded.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above",
+        "exit_code": 0,
+        "note": "Ran verbatim (bash /tmp/t113f/ac1.sh) from the isolated worktree root at 3133552. Output: 'ac1 GREEN: APPLICATION recorded - claim 2/2, one existing first entry point (package.json), the single-command surface (npm run dev + package.json + Quick Start) named, every evidence path resolves'."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac2 evidence: re-measurable tier sizes unit_files=24 integration_files=17 ... the stated floor (at least 41 backend test files, date-stamped) is at or below the measured 41 ... ac2 GREEN'. Independent re-measure agrees: unit=24, integration=17, total=41 >= the record's floor 41."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac3 evidence: compose database verdict / services listed = DB-OK|db,app,db_data ... ac3 GREEN'. Independent compose parse (separate from the fence) confirms services=[db,app,db_data], db_named=True, db_image=True (postgres:16-alpine at docker-compose.yml line 11) => DB-OK."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac4 evidence: README as found lines=396 h2=17 ... zero changed tracked files and zero untracked files outside the owned surface ... ac4 GREEN: ZERO-BYTE PURITY'. Both git screens ran in the clean worktree at the commit itself (GIT_DIR/GIT_WORK_TREE overrides), so the untracked-files check is clean by construction here - the merged-tree contamination the orchestrator saw came from THIS session's t112 handoff JSONs in the main checkout, not from t113 bytes, and is not present at 3133552."
+      }
+    },
+    "test_summary": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "test_summary_note": "The four 'tests' are the card's four verification fences run VERBATIM from the committed card blob, per ## Verification commands (documentation deliverable: the fences ARE its tests). 4/4 rc=0 GREEN in the isolated worktree.",
+    "failure_type": null,
+    "lint_report": null,
+    "lint_note": "No linter applies to a markdown record (ruff is for Python; none of the card's commands invoke one). Non-blocking content screens run instead: record is ASCII-only (0 non-ASCII bytes after CR-strip), 0 placeholder tokens (ac4's own TODO|TBD|placeholder|not yet|lands with screen also GREEN, independent grep rc=1).",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_file_three_sections_record_format": true,
+      "dod2_ac1_green": true,
+      "dod3_ac2_green": true,
+      "dod4_ac3_green": true,
+      "dod5_ac4_green": true,
+      "dod6_ascii_no_unremeasurable_count": true,
+      "dod7_ac_hash_reproduces_handoff_fences_identical": true
+    },
+    "dod_notes": "dod1: record carries exactly the three '## <dimension>' sections (Application line 18, Testing line 26, Containerization line 34), 3 '- Claim: N/2' lines, exactly one '- First entry point:' per section (3 total), all Evidence/Deep-dive paths resolve. dod6: ASCII-only (0 non-ASCII bytes); the only count is the date-stamped floor 'at least 41 backend test files' (measured 2026-10-23), which ac2 re-measures against the tree (41 >= 41). dod7: ac_hash reproduces from the committed blob and the handoff verification_commands are byte-identical to the fences (trailing-newline-only delta inside the recipe trim).",
+    "changed_file_set_proof": "git show --stat 3133552: exactly one path, docs/criteria/scoring_map/app.md, 40 insertions. git diff --name-only 6faa700 3133552 = the same single path. Commit parent = 6faa700 (the assigned base). Committed blob sha256 81386da1520b1938f9696f10140d184db708425fffb561368eca6ce560b4423f - byte-identical to the task's stated digest and to the CR-stripped worktree checkout.",
+    "independent_remeasurements": {
+      "backend_unit_test_files_ls_wc": 24,
+      "backend_integration_test_files_ls_wc": 17,
+      "backend_test_files_total_floor_check": "41 >= record floor 41",
+      "readme_h2_grep": 17,
+      "readme_lines_tr_wc": 396,
+      "compose_services_grep": ["db", "app", "db_data"],
+      "compose_postgres_image_line": "docker-compose.yml:11 image: postgres:16-alpine",
+      "readme_quick_start_heading_line": 79,
+      "readme_local_verification_heading_line": 332,
+      "readme_docker_compose_up_build_lines": [207, 339],
+      "all_match_builder_and_groom_measurements": true
+    },
+    "honesty_spot_checks": "Every backticked path in app.md resolves on the merged tree (independent scan: 13 distinct backticked paths, 0 missing): .github/workflows/ci.yml, Dockerfile, Makefile, README.md, backend/app/scripts/seed_demo.py, backend/tests/integration, backend/tests/unit, docker-compose.yml, docs/criteria/infra_verification.md, docs/requirements/Chapter11_TestingStrategy.md, docs/requirements/Chapter3_TechStack.md, frontend/package.json, package.json, scripts/dev/dev.ts. The record's date-stamped floor (41) equals today's measurement (41); the compose database clause is measured (DB-OK) not asserted; where the environment cannot run a dev server or docker daemon the record points at the file defining the single command and names ci.yml's compose-build as the machine-attested leg, per the card's environment-honesty clause. No invented score: all three claims are 2/2 (the rubric maximum) and each is backed by a fence that re-measures it.",
+    "builder_handoff_validation": "cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t113_builder_build.json builder implement -> [OK] valid for builder:implement (gate2 re-run by verifier).",
+    "merged_tree_note": "Orchestrator merged 3133552 as 8373176 (parents c7b2df1 + 3133552) onto main. The merged-tree ac4 RED-BY-CONTAMINATION reported in the task came from untracked t112 handoff JSONs from THIS session in the main checkout, not from t113 bytes; those were archived (commit 't112 handoff artifacts archived') and ac4 then ran rc=0 on the merged tree. This verifier independently confirms ac4 rc=0 in a pristine worktree at the builder commit 3133552 itself, where the untracked screen is clean by construction - corroborating that t113's deliverable carries zero bytes outside docs/criteria/scoring_map/app.md.",
+    "label_transition": "None performed. The task's spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t112 precedent followed.",
+    "environment_notes": "UV_PROJECT_ENVIRONMENT/PYTHONPATH not set ([VENV_UNAVAILABLE] WARN, no-op: this is a Node/markdown project and the fences use system bash/python3). Fences run via bash with GIT_DIR/GIT_WORK_TREE overrides in the isolated worktree; worktree removed after verification.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries verbatim ('the fenced bash block in the ### acN section above'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed card blob.",
+    "verification_fence_literals_sha256": {
+      "ac1": "63d0394585211c82dae1385c4625148cdbeb87627b1e5002e23166257be1bbac",
+      "ac2": "e9d40117d8ecfae039a7f779bbe6eac5ef0830c207c3db35fd7d9ac4f0c3b8cb",
+      "ac3": "237b3312d01eabd90f7f5cd028f7e79021ae18c959ac61a132af80ff844afeb0",
+      "ac4": "e1b09bcb242f8809478498f4618da1de837b991f39fef2979baa667fb498576d"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t113_verifier_verify.json"
+    ],
+    "platform_issue": 119,
+    "output_path": "docs/state/outputs/t113_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T07:30:00Z",
+  "retry_count": 0
+}

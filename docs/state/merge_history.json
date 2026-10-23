@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T05:35:30.379793+00:00",
+  "updated_at": "2026-10-23T06:51:52.435708+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1514,6 +1514,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge_sha in follow-up commit per convention; --no-ff merge of e7c4198 (parent 6e36d4f) onto 9f23b6f; merged-tree: all 4 card fences rc=0 orchestrator-run; verifier PASS in isolated worktree (fences verbatim, ac_hash four-way 3cca8012, changed-file-set = 1 path, 19/19 path resolve); disclosed race: orchestrator WAL commit 4s after builder checkout -b swept staged process.md into misplaced e185654 on the builder branch - rebuilt via reset --mixed + pathspec commit e7c4198, main never moved, zero pushes of bad bytes; STANDING RULE added: orchestrator commits with explicit pathspec + branch assertion while builders active"
+    },
+    {
+      "issue_id": "t113",
+      "platform_issue": 119,
+      "branch": "issue/t113-scoring-map-app",
+      "merge_sha": "8373176",
+      "merged_at": "2026-10-23T06:51:52Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge BEFORE verdict this card (disclosed deviation): merge used the REMOTE clean ref 3133552 (parents c7b2df1+3133552), keeping the misplaced local WAL commit b2546b9 out of main history; merged-tree fences ac1-3 green at merge, ac4 red-by-contamination (untracked t112 handoff JSONs, not t113 bytes) green after archiving them; verifier 1c8eef9b PASS in isolated cmd.exe worktree (fences verbatim x4, ac_hash four-way 86ce60f2, changed-file-set 1 path, 13/13 paths resolve, worktree removed)"
     }
   ]
 }
