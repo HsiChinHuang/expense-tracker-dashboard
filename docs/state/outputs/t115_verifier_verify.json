@@ -1,0 +1,91 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t115",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verdict": "PASS",
+    "mode_disclosure": "Task requested mode verify_build. No verify_build schema or detail exists: skills/verifier/details/ carries only verify_issue/verify_pre_merge/verify_post_merge, schemas/verifier/ likewise, and the common envelope's phase enum has no verify_build, so a handoff claiming that phase fails validation by construction. Following the t112/t113/t114 verifier precedent (and the t90..t114 lineage), this handoff uses the closest registered phase verifier:verify_issue, validated via 'cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t115_verifier_verify.json verifier verify_issue'.",
+    "verification_environment": "Isolated git worktree C:/Users/tw097/Desktop/261007_project01/wt_t115v created via cmd.exe 'git worktree add ... d7b0d31dc9c69f1dfd9f45bc71106d66740c9569' (detached HEAD at the builder commit; commit parent verified = 73b00f68f58b60c32a2ba9a5a23780265ffa4a35, the assigned base). The worktree was CLEAN (git status --porcelain: 0 lines with GIT_DIR/GIT_WORK_TREE overrides), so ac4's git purity screens ran against the EXACT commit bytes. The four fences ran via bash -c from the worktree root (/mnt/c/... path) with GIT_DIR/GIT_WORK_TREE pointed at the worktree admin dir (.git/worktrees/wt_t115v) for the git legs - the t112/t113/t114 verifier's exact method. Worktree removed after verification via cmd.exe 'git worktree remove --force' (worktree list shows only the main checkout; directory gone).",
+    "ac_hash_recomputed": "Recomputed FROM THE COMMITTED CARD BLOB (git show d7b0d31:docs/issues/t115.md) with the t58/t62..t110 recipe (sha256 over the JSON array of the four fenced blocks, ac1..ac4 order, compact separators, each block CR-stripped and trimmed) = 53774c1b8927d279454720ec174d7b96e24399e6573275670b253f77e08e2cbd.",
+    "ac_hash_four_way_equality": "card spaced-groups line (sha256:`53774c1b 8927d279 454720ec 174d7b96 e24399e6 57327567 0b253f77 e08e2cbd) == recomputed-from-committed-blob == t115_builder_build.json evidence.ac_hash == the task's stated ac_hash prefix 53774c1b8927d279..., all sha256:53774c1b8927d279454720ec174d7b96e24399e6573275670b253f77e08e2cbd. The card blob is unchanged by the builder commit (git show 73b00f6:docs/issues/t115.md == git show d7b0d31:docs/issues/t115.md).",
+    "fence_byte_identity": "Each fence executed was extracted verbatim from the committed card blob and asserted byte-identical (after the recipe's own CR-strip+trim) to evidence.verification_commands.ac1..ac4 of the builder handoff t115_builder_build.json - all four comparisons true. Executed fence literals sha256: ac1=c908ae16fb0e040b577c53759f9ce6ae213778594f3b0218af1ffd2b523ad12f, ac2=872460bb18f8049a8cee93e891c7c30dfd3cdfa22a24399e0e8f2481c945d4c9, ac3=d4c86a0f2eb87b3d306d7e4fb29dd1ab7aeea1fedf02842e7d69fd8f88b234e3, ac4=17c7d235d92f82ad0e32f310cf4486c8853a3ec3b9dfc86d1db46d5086bd53fd; concatenation(ac1..ac4)=51ef720ac7e6c7f4810b664013f47af01b5ed5f38384c6c6619b5a65381ab49c.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac1` section above",
+        "exit_code": 0,
+        "note": "Ran verbatim (bash -c, extracted from the committed card blob) from the isolated worktree root at d7b0d31. Output: 'ac1 evidence: measured legs metrics_documented=1 structured_logs_documented=1 shared_trace_id_present=0 ... ac1 GREEN: OBSERVABILITY recorded honestly - claim 1/2 capped by the measured tree, one existing first entry point (observability/README.md), metrics + structured logs + the collection/storage/UI stack named, the no-PII clause addressed, every evidence path resolves, and the trace-ID gap priced in one line'."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac2` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac2 evidence: alert rules declared on the tree=2 ... drill artifacts present=5 ... ac2 GREEN: ALERTING recorded - claim 1/1 at the rubric maximum, backed by 2 real alert rules, a named rule, the user-impact connection stated, and the measured drill record (5 artifacts) that proves the path fires'."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac3` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac3 evidence: measured remediation authority responder_readonly=1 destructive_actions_denied=1 ... ac3 GREEN: ON-CALL AGENT recorded honestly - claim 1/2 capped by the measured autonomy policy, the wake-on-alert and machine-validated diagnosis claimed, the human-operates fix priced in one line, every evidence path resolves'."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced `bash` block in the `### ac4` section above",
+        "exit_code": 0,
+        "note": "Output: 'ac4 evidence: README as found lines=396 h2=17 ... ac4 evidence: zero changed tracked files and zero untracked files outside the owned surface ... ac4 GREEN: ZERO-BYTE PURITY'. Both git screens ran ACTIVE in the CLEAN worktree at the commit itself (GIT_DIR/GIT_WORK_TREE overrides - the first run without overrides silently skipped the git legs due to WSL pathmangling of the worktree's .git pointer; the re-run with overrides is the recorded rc=0). Corroborates zero bytes outside docs/criteria/scoring_map/telemetry.md."
+      }
+    },
+    "test_summary": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "test_summary_note": "The four 'tests' are the card's four verification fences run VERBATIM from the committed card blob, per ## Verification commands (documentation deliverable: the fences ARE its tests). 4/4 rc=0 GREEN in the isolated worktree at d7b0d31.",
+    "failure_type": null,
+    "lint_report": null,
+    "lint_note": "No linter applies to a markdown record (ruff is for Python; none of the card's commands invoke one). Non-blocking content screens run instead: record is ASCII-only (LC_ALL=C grep -nP '[^\\x00-\\x7F]' rc=1, 0 non-ASCII bytes), 0 placeholder tokens and 0 credential values (ac4's own screens GREEN), record blob sha256 d1d85b6bd4c1821e84f8961c7de13c34116146691163fba2bfe0951b82345ae6 (matches the builder handoff claim exactly; CR-stripped digest identical - the blob is LF-clean), 45 lines.",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_file_three_sections_record_format": true,
+      "dod2_ac1_green_observability_1_of_2_capped": true,
+      "dod3_ac2_green_alerting_1_of_1_dated_drill": true,
+      "dod4_ac3_green_on_call_1_of_2_capped": true,
+      "dod5_ac4_green_zero_byte_purity": true,
+      "dod6_ascii_only_30s_checkability": true,
+      "dod7_ac_hash_reproduces_handoff_fences_identical": true
+    },
+    "dod_notes": "dod1: record carries exactly the three '## ' sections (Observability L21, Alerting on User Impact L30, On-Call Agent L38), 3 '- Claim:' lines, exactly one backticked First entry point per section (fence-enforced), 2 '- Gap:' lines (the two capped dimensions). dod6: every backticked path-style token in the record resolves on the tree at d7b0d31 (17/17 checked OK, including render.yaml); the honesty-rule preamble's 4th 'First entry point' grep hit is prose in the header, not a section line.",
+    "changed_file_set_proof": "git show --stat d7b0d31: exactly 1 path, docs/criteria/scoring_map/telemetry.md, 45 insertions, 0 deletions; commit parent = 73b00f68f58b60c32a2ba9a5a23780265ffa4a35 (the assigned base). Merged tree aab1ce0 carries the SAME blob 654eb43f943ed31f346084fb879ca4acbf818811 as d7b0d31 for the record (git ls-tree equality) - the merge introduced no drift.",
+    "independent_remeasurements": {
+      "1_register_metrics_environment_gate": "CONFIRMED at d7b0d31: backend/app/telemetry.py register_metrics (line 289) returns early on 'if get_settings().ENVIRONMENT != \"development\"' (line 299) BEFORE mounting the route, and the handler answers only is_loopback_peer(request) (line 313); render.yaml sets ENVIRONMENT=production (line 30-31). The record's 'mounted only when ENVIRONMENT is development and only to a loopback peer' is code-true.",
+      "2_verifier_own_hosted_probe": "cmd.exe curl.exe GET https://expense-tracker-dashboard-1qtu.onrender.com/metrics at verifier run time (2026-10-23): HTTP 200, Content-Type: text/html; charset=utf-8, x-render-origin-server: uvicorn; body begins '<!doctype html>...<title>Expense Tracker Dashboard</title>...<div id=\"root\"></div>' - the SPA index document. Prometheus exposition lines (# HELP/# TYPE/the four declared metric names) in the body: 0. The route is NOT live hosted; the 200 is the SPA catch-all. This matches the record's wording ('a 2026-10-23 probe of the hosted /metrics returned the SPA fallback document, not an exposition, because render.yaml sets ENVIRONMENT to production') exactly.",
+      "3_staged_config_grep": "grep -niE 'prometheus|grafana|alertmanager|collector|otel|tempo|loki' over render.yaml, docker-compose.yml and .github/workflows/*.yml: 0 matches (rc=1 both legs). No observability service is deployed anywhere - the record's staged-config-only classification is corroborated.",
+      "4_trace_id_grep": "grep -rqiE 'trace_id|traceparent|trace id' over ops, observability, backend/app at d7b0d31: 0 matches (rc=1) - the ac1 cap (1/2) is measured-true, matching the record and the builder claim.",
+      "5_alert_rules_and_drill": "observability/alerts.yaml rule count = 2 (line 31 HighExpenseCreationFailures, line 47 DBFallbackActive); METRIC-INVENTORY line 25 declares exactly the four instruments the record names; incident-response/incidents/2026-10-17-db-fallback-01 holds exactly 5 artifacts (README.md, alert.json, evidence.json, resolution.md, response.json); docs/criteria/security_ops_verification.md line 112 PHASE13_ALERT_RULES rules=2 PASS and line 113 PHASE13_INCIDENT_ROWS artifacts=5 PASS reproduce.",
+      "6_autonomy_policy_and_readonly": "incident-response/autonomy-policy.yaml default_decision: deny (line 47); denied ids restart_production (55), database_mutation (70), merge (84). responder-task.md carries the read-only boundary wording (5 matches for READ-ONLY|must not attempt to fix|a human operates). The ac3 cap (1/2) is measured-true.",
+      "7_supporting_record_claims": "ops/logging.md: 'exactly seventeen events' table counted = 17 rows; '## Never Logged' section names JWT_SECRET and API keys (line 71). observability/dashboard.json uid expense-tracker visualises all four declared metric names (1 occurrence each, none invented). observability/collector.yaml header: 'This file is NOT ENABLED ... Nothing in this repo starts a collector, mounts this file, or sends data to it'. observability/compose.yaml lines 41-46: 'Optional traces and logs block - COMMENTED OUT ON PURPOSE'. observability/prometheus.yml header lines 12-17: compose 'mounts ONLY this file, not observability/alerts.yaml ... Prometheus starts and evaluates zero rules' - the record's 'no Prometheus process on this project evaluates these rules continuously' is text-supported."
+    },
+    "honesty_spot_checks": "The record claims NO running UI/dashboard anywhere: every hosted/staged statement is classified deployed-running vs staged-config-only and the classification is grep-true (see independent_remeasurements 2/3). It states the traces leg is 'NOT met and is not claimed', prices both shortfalls in '- Gap:' lines, and never restates a credential value (ac4 screen GREEN). One immaterial wording nuance: the quoted phrase 'nothing here starts automatically' is attributed to observability/compose.yaml, but the phrase actually sits in observability/README.md line 5-7 (split across lines 'nothing here starts / automatically'); compose.yaml itself does not contain the phrase. The quoted FACT is true of the compose stack (README is that stack's own documentation, and the record's Evidence line names both files), no claim or number moves, and no fence leg reads the attribution - recorded as a cosmetic note, not a finding against any AC.",
+    "builder_handoff_validation": "cmd.exe npx tsx scripts/validate_handoff.ts docs/state/outputs/t115_builder_build.json builder implement -> [OK] docs/state/outputs/t115_builder_build.json is valid for builder:implement (gate2 re-run by verifier). branch_sha in the handoff = d7b0d31dc9c69f1dfd9f45bc71106d66740c9569 = the assigned commit (match).",
+    "merged_tree_note": "Orchestrator merged d7b0d31 as aab1ce0 (parents 73b00f6 + d7b0d31, both verified via git rev-parse aab1ce0^1/^2) onto main with merged-tree fences ac1-ac4 rc=0 (orchestrator-run). This verifier independently confirms all four fences rc=0 in a pristine worktree at the builder commit d7b0d31 itself, where the ac4 untracked screen is clean by construction - corroborating zero bytes outside docs/criteria/scoring_map/telemetry.md. The main checkout was NOT touched: no merge/commit/push/checkout performed by this verifier.",
+    "label_transition": "None performed. The task's spawn contract forbids merge/commit/push and platform operations for this verify_build spawn (orchestrator-only for this phase), overriding generic SKILL.md Steps 7/9; t109/t112/t113/t114 precedent followed.",
+    "environment_notes": "UV_PROJECT_ENVIRONMENT/PYTHONPATH not set ([VENV_UNAVAILABLE] WARN, no-op: this is a Node/markdown project and the fences use system bash). Fences run via bash with GIT_DIR/GIT_WORK_TREE overrides in the isolated worktree; worktree removed after verification via cmd.exe git worktree remove --force (confirmed: worktree list shows only the main checkout at aab1ce0, directory absent).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema's ac_results.command carries the card's own '## Verification commands' entries verbatim ('the fenced bash block in the ### acN section above'); the executed literals are the corresponding fenced blocks extracted byte-identically from the committed card blob git show d7b0d31:docs/issues/t115.md. The ACTUAL authoritative source for this card is docs/issues/t115.md ## Verification commands."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t115_verifier_verify.json"
+    ],
+    "platform_issue": 121,
+    "output_path": "docs/state/outputs/t115_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-23T07:35:00Z",
+  "retry_count": 0
+}

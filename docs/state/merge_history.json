@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-23T07:03:00.844608+00:00",
+  "updated_at": "2026-10-23T07:15:36.938579+00:00",
   "entries": [
     {
       "issue_id": "t0",
@@ -1534,6 +1534,16 @@
       "retries": 0,
       "regressions": 0,
       "note": "merge of remote ref d9f550d (parents 4ca0962+d9f550d); merged-tree fences x4 rc=0; verifier 0653c027 PASS isolated worktree (ac_hash four-way cdcd8e54, fence 3-way byte-identity, live re-probe 2026-10-23 confirms all four cited facts item-for-item incl postgresql health body, promote.yml 0 path-style refs = prose-only honesty holds, CI/CD 2/3 + 58-word Gap line); builder 'failure' was acceptance-gate false-positive on orchestrator-owned staged t113 deletion, work fully landed and verified"
+    },
+    {
+      "issue_id": "t115",
+      "platform_issue": 121,
+      "branch": "issue/t115-scoring-map-telemetry",
+      "merge_sha": "aab1ce0",
+      "merged_at": "2026-10-23T07:15:36Z",
+      "retries": 0,
+      "regressions": 0,
+      "note": "merge of remote ref d7b0d31 (parents 73b00f6+d7b0d31); merged-tree fences x4 rc=0; verifier 1b3ac578 PASS isolated worktree (ac_hash four-way 53774c1b, fence byte-identity, changed-file-set 1 path; INDEPENDENT honesty re-measures: register_metrics development-only mount telemetry.py:299 + render.yaml production, own /metrics curl = SPA html 0 exposition lines, prometheus/grafana/collector grep 0 matches across render/compose/workflows, trace-ID 0-match cap reproduced, alerts rules=2, drill artifacts=5); claims capped honestly Obs 1/2 Alert 1/1 OnCall 1/2"
     }
   ]
 }
