@@ -1,0 +1,59 @@
+ac4 DUAL-MEASUREMENT (WAL 1308 / WAL 1322 precedent; t122 ac2/ac4 precedent shape)
+===================================================================================
+
+VERBATIM rc: 1  (stable across 2 independent runs in this window)
+Failing leg (isolated by instrumented replica of the fence's python block):
+    FAILS: ['SWEEP: stale=[]']
+Every other ac4 leg is GREEN on the live tree: status=='proposed' OK; W2 eight-property
+envelope OK; amendment set == [288] OK; leg-288 pins verify against the live index on the
+AMENDED branch (csha(cmd)==new_command_sha256 AND esha(tests[288])==entry_sha_after ==
+c9909ed2c91879c2...); t121 base stale vs live OK; 'e98f96bd' disclosure present OK.
+
+DIAGNOSIS - FROZEN-PREMISE CARD DEFECT (not a product defect):
+The sweep leg asserts `stale != [288]` UNCONDITIONALLY, i.e. it hard-codes the PRE-APPLY
+state of the index (leg 288 still carrying the two-class absence premise). The orchestrator
+has ALREADY applied the W2 amendment in the merge window (window fact: live tests[288]
+entry_sha == c9909ed2c918 == the record's entry_sha_after; re-premised to THREE scoped
+classes). Post-apply, ZERO legs carry the two-class premise - stale == [] - which is the
+CORRECT, intended outcome of a successful amendment. The fence therefore REDs on the very
+fact it exists to certify. The card's own ac2 and ac6 carry explicit post-apply branches
+("elif ... entry_sha_after: base = post-apply ..."); ac4's sweep leg alone lacks the
+equivalent branch. This is the same frozen-premise class as t81/t122-ac6/t124.
+
+MINIMAL INTENT-PRESERVING CORRECTION (one line, same sweep, same victim, same message):
+    - if stale != [288]:
+    + expected_stale = [288] if live_is_old else []
+    + if stale != expected_stale:
+(the fence already computes live_is_old/live_is_new for its pin leg; the correction only
+routes the already-computed expectation. Pattern, message, exit path and victim unchanged.)
+
+CORRECTED rc: 0  (docs/state/outputs/t123_verifier_logs/ac4_corrected.out)
+    ac4 evidence: live index 3f9664b0; leg 288 pins verify (amended pins); the sweep over all
+    319 legs (base64 payloads decoded) names EXACTLY leg 288 as carrying the two-class premise;
+    ... ac4 GREEN
+
+NEGATIVE-CONTROL BITE (the corrected sweep must still REFUSE an uncovered stale premise):
+    Inject the two-class premise literal + the absence tail into leg 300 of a COPY of the
+    live index (/tmp/t123_negctl1, no product byte touched). Post-apply expectation is [].
+    Result: stale=[300] expected=[] -> fence RED (BITES). The correction did not vacuate the
+    sweep: an amendment set that MISSES a stale premise is still named and still fails.
+
+TREE-INDEPENDENCE PROOF (correction is intent-preserving, not a pass-maker):
+    pre-apply index  (git show dcae095:docs/state/merge_test_index.json):
+        live_is_old=True  stale=[288]  verbatim=GREEN  corrected=GREEN  AGREE
+    post-apply index (live main):
+        live_is_old=False stale=[]     verbatim=RED    corrected=GREEN  (divergence is exactly
+                                                                       the frozen premise)
+    The corrected form reproduces the verbatim verdict on every tree where the verbatim form
+    is satisfiable, and differs ONLY on the post-apply tree where the verbatim expectation is
+    stale. The builder's own rc table shows ac4 GREEN pre-apply (live index 74d2cf7c, old
+    pins) - consistent with the pre-apply row above, i.e. the builder did NOT edit the card.
+
+SUBSTANCE INDEPENDENTLY VERIFIED (independent of any fence form):
+    - delta purity: git diff --name-only a75c777..dcae095 == [incident-response/autonomy-policy.yaml]
+      (exactly one file, +28/-0) - zero index bytes, zero .sh bytes.
+    - policy substance: yaml parses; restart_local_compose_app carries class
+      safe_local_remediation + environment local-compose-only + docker-compose-grammar
+      commands; default_decision=deny; unknown_action_decision=deny; denied set is exactly
+      {restart_production, database_mutation, merge}; no id in both lists.
+    - amended leg 288 rc=0 (window); carrier legs 283/284/285/286/287/302/303/304/305/306 rc=0.

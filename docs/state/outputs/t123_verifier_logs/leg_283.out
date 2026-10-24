@@ -1,0 +1,6 @@
+ac1 evidence: schema lines=118
+SCHEMA_SHAPE_OK draft_pinned required=9 additionalProperties=false recovery_verified_pinned_false
+ACCEPT schema incident-response/response.schema.json passes the pinned keyword subset
+ac1 evidence: NEGATIVE CONTROL - the same validator REJECTED a synthetic required-free schema, so the --check-schema leg bites
+ac1 evidence: NEGATIVE CONTROL - the validator REFUSED a schema carrying the out-of-subset keyword not, so schema/validator drift cannot go unnoticed
+ac1 GREEN: THE SCHEMA EXISTS AND IS A REAL JSON SCHEMA - response.schema.json parses, declares the pinned draft 2020-12, carries the nine required answer fields with additionalProperties false and recovery_verified pinned to false, and the pinned validator accepts it while REJECTING a required-free schema and an out-of-subset keyword

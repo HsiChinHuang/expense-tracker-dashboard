@@ -1,0 +1,6 @@
+ac1 evidence: PyYAML 6.0.1 parsed the policy; default_decision=deny, unknown_action_decision=deny, 3 explicit denies, 5 allows, no id in both lists
+ac1 evidence: denied action classes named individually = database_mutation, merge, restart_production
+ac1 evidence: db_fallback_active appears only as a citation to observability/alerts.yaml (2 line(s)), never as a redefinition
+ac1 evidence: NEGATIVE CONTROLS ran - an allow-only policy, a default-allow policy and a deny/allow overlap were each REJECTED, so the explicit-deny legs above are not vacuous
+ac1 probe: THE POLICY EXISTS AND DENIES BY NAME - autonomy-policy.yaml parses under PyYAML, defaults to deny for named and unknown actions, and carries explicit reasoned denies with command shapes for restart of production, database mutation of any kind and merge, while citing t76s observability/alerts.yaml for every alert and metric name
+ac1 GREEN: THE AUTONOMY POLICY DENIES BY NAME - see the probe lines above: the file parses under python3+PyYAML, defaults to deny for named and unknown actions, and carries explicit reasoned denies with command shapes for restart of production, database mutation of any kind and merge, while citing t76s observability/alerts.yaml for every alert and metric name

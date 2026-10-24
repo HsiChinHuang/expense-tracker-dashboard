@@ -1,0 +1,6 @@
+ac4 evidence: prompt lines=118
+ac4 evidence: secret-path lines without a prohibition word=0
+ac4 evidence: NEGATIVE CONTROL - the same check on a Never-to-MAY rewrite finds 3 unprohibited secret-path line(s), so the prohibition leg bites
+ac4 evidence: all six read-only actions are named in BOTH responder-task.md and response.schema.json
+ac4 evidence: mutating-command lines without a prohibition word=0
+ac4 GREEN: THE PROMPT STATES THE BOUNDARY AND DOES NOT OVERSTATE IT - responder-task.md lists the five t80 bundle files it may read, states READ-ONLY, defers to incident-response/autonomy-policy.yaml as the authority, forbids .env/~/.ssh/printenv, names the same six read-only actions as the schema, and forbids any claim of recovery

@@ -1,0 +1,8 @@
+ac1 evidence: all five reports parse; refreshed counts gitleaks=21 semgrep=33 trivy=42 pip=3 npm=14 (the pre-refresh committed set was 0/32/42/3/22)
+ac1 evidence: trivy CreatedAt 2026-10-17T06:47:05.509103937+08:00 (epoch 1792190825) is strictly later than the BASE commit time 1792176563 - a real internal timestamp moved forward
+ac1 evidence: semgrep paths.scanned (904 paths; the base report had 580) includes backend/app/telemetry.py - semgrep re-saw code that did not exist when the base report was cut
+ac1 evidence: gitleaks report parses as a JSON array of 21 findings
+ac1 evidence: reference anchor present: base=67c9db975d75 run_at=2026-10-17T06:51:01+08:00 rc={'gitleaks': 1, 'npm_audit': 1, 'pip_audit': 1, 'semgrep': 0, 'trivy': 0}
+ac1 evidence: both .txt summary lines parse: pip=3 npm=14 - these are the values the ac3 delta prints against the pre-refresh 3/22
+ac1 GREEN: THE FIVE REPORTS ARE FRESH BY MEASURED PER-TOOL EVIDENCE - trivy CreatedAt is strictly later than the BASE commit time, semgrep re-scanned the t78 telemetry module the base report never saw, the gitleaks array parses under the frozen mechanism, both .txt summaries parse and feed the ac3 delta, and the pinned reference anchor binds the timestamp-free tools to one run against the pinned BASE
+ac1 GREEN: THE FIVE REPORTS ARE FRESH BY MEASURED PER-TOOL EVIDENCE - the trivy CreatedAt is strictly later than the pinned BASE commit time, semgrep re-scanned the t78 telemetry module the base report never saw, both .txt summaries parse, and the reference anchor binds the timestamp-free tools (see the ac1 evidence lines above)
