@@ -12,13 +12,15 @@ green tests assert.
 Every log line is a single JSON object written to stdout:
 
 ```json
-{"timestamp": "2026-02-14T09:12:33.482+00:00", "level": "INFO", "logger": "app.services.auth_service", "event": "auth.login", "extra_fields": {"user_id": "3fa8a0f2-6f3a-4d3e-9d1c-2b7f0f5c9a11"}}
+{"timestamp": "2026-02-14T09:12:33.482+00:00", "level": "INFO", "logger": "app.services.auth_service", "event": "auth.login", "extra_fields": {"user_id": "3fa8a0f2-6f3a-4d3e-9d1c-2b7f0f5c9a11"}, "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736"}
 ```
 
 Fields: `timestamp` (ISO-8601 UTC), `level`, `logger` (the Python logger
 name), `event` (the dotted event name from the table below), `extra_fields`
-(the structured payload), and `exception` (only on ERROR lines that carry a
-stack summary).
+(the structured payload), `trace_id` (the 32-hex OpenTelemetry trace id of
+the request that emitted the line, or `null` when no span is active - see
+the Structured Field Reference), and `exception` (only on ERROR lines that
+carry a stack summary).
 
 ## Levels
 
@@ -57,6 +59,14 @@ The frozen Chapter 13 §13.6 vocabulary — exactly seventeen events:
 `auth.login_failed` and `db.error` may be emitted at ERROR when the failure
 is not merely a rejected credential or a transient reconnect; the table
 records the level of the routine occurrence.
+
+The table above is the frozen vocabulary and stays at exactly seventeen
+events: the trace work added a field, not an event. Every line in this
+vocabulary additionally carries the `trace_id` field (it is a field on every
+correlated line, never an event row of its own), so a reader who knows the
+trace id of one request can pull every event line that request emitted -
+see `docs/criteria/trace_correlation_verification.md` for the measured
+two-request journey.
 
 ## Never Logged
 
@@ -114,6 +124,7 @@ rolls off. This is a Free tier limitation, not a configured policy.
 | logger | string | Python logger name, e.g. `app.services.auth_service`. |
 | event | string | Dotted event name from the Events table. |
 | extra_fields | object | Structured payload; identifiers only, never secrets. |
+| trace_id | string | 32-hex trace id of the correlated request; null when no span is active (backend/app/trace.py). |
 | exception | string | Stack summary; present only when a fault is logged. |
 
 The design properties are JSON-structured lines (machine-filterable without
