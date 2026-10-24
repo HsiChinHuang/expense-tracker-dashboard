@@ -1,4 +1,5 @@
 # npm audit report
+# snapshot_date 2026-10-24: the npm advisory DB drifts, so the count below is advisory-DB-dependent; this report is a dated snapshot and the fence measures report-vs-fresh-regen freshness, not a fixed number.
 
 @remix-run/router  <=1.23.2
 Severity: high
