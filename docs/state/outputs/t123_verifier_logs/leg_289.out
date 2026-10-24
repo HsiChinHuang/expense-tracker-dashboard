@@ -1,0 +1,6 @@
+ac3 RED: bash -n rejects rollback.sh: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks/rollback.sh: line 29: syntax error near
+ac3 RED: bash -n rejects verify-recovery.sh: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks/verify-recovery.sh: line 34: syntax err
+ac3 RED: the fully-gated rollback run exited 2 - with an explicit target, an explicit image and the human flag it must print the plan and exit 0: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks/rollback.sh: line 21: $'\r': command no
+ac3 RED: the gated rollback run printed no rollback plan
+ac3 RED: the printed plan never names the autonomy policy as the authority it defers to
+ac3 RED: the probe exited non-zero - its own ac3 RED lines above name the failing leg

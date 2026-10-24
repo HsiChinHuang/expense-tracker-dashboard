@@ -1,0 +1,2 @@
+ac1 evidence: 1 safe_local_remediation entries, every one guarded by environment: local-compose-only, every command inside the docker compose grammar, default_decision=deny intact, denied trio ['database_mutation', 'merge', 'restart_production'] intact, no id in both lists; the same legs REJECT the two-class state (negative control armed)
+ac1 GREEN: the third action class exists, is local-compose-only scoped, and did not move the deny floor or the denied trio

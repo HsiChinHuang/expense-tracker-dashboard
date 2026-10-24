@@ -1,0 +1,8 @@
+ac2 evidence: the merged t81 validator ACCEPTS the committed response.json (exit 0, the same command t81 pins)
+ac2 evidence: extracted policy allow ids: read_health, read_logs, read_metrics, restart_local_compose_app, write_incident_report
+ac2 evidence: all 6 recorded actions map inside the extracted policy allow list (read_health, read_logs, read_metrics verbatim, write_report -> write_incident_report)
+ac2 evidence: recovery_verified is the literal false - the answer defers recovery to the measured verification step
+ac2 evidence: every evidence_ref names a file this bundle actually carries
+ac2 evidence: negative controls: a stripped copy, an evidence_ref escape and an out-of-enum action were each REJECTED by the same validator (3/3 non-zero)
+ac2 GREEN: RESPONSE.JSON VALIDATES UNDER THE PINNED VALIDATOR - the merged t81 command exits 0 on the committed answer, three negative controls (stripped, escaping ref, out-of-enum action) were rejected by the same command, every recorded action sits inside the allow ids extracted from the merged t82 policy, recovery_verified is the literal false, and every evidence_ref names a file this bundle actually carries
+ac2 GREEN: RESPONSE.JSON VALIDATES UNDER THE PINNED t81 VALIDATOR AND OBEYS THE t82 POLICY - see the ac2 evidence lines above: the merged validator exits 0 on the committed response, its own negative controls exit non-zero, every recorded action maps inside the extracted policy allow list, and no denied class is named

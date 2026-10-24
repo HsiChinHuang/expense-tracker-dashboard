@@ -1,0 +1,9 @@
+ac4 evidence: dead loopback endpoint 127.0.0.1:55901 probed un-listening (measured, so the unreachable leg below cannot be a false PASS)
+ac4 RED: served ok_true exited non-zero with no readable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: served degraded_false exited non-zero with no readable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: served degraded_true exited non-zero with no readable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: served not_json exited non-zero with no readable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: the unreachable run printed no unreachable reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: the non-loopback refusal printed no loopback reason: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: the POSITIVE CONTROL (status ok, fallback_active false) exited 2 - the script rejects the one payload shape that IS recovery: /mnt/c/Users/tw097/Desktop/261007_project01/worktrees/expense-tracker-dashboard/pi-worktree-e29186b7-b7e2-4fc6-a84d-d88941ef372a-s0-0/incident-response/runbooks
+ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg

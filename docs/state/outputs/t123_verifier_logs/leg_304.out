@@ -1,0 +1,6 @@
+ac3 evidence: the RECOVERY_VERIFIED line carries the runbooks payload tail (the recovered engine and version the runbook read from the live payload)
+ac3 evidence: resolution.md embeds both the degraded capture (fallback_active true) and a recovered capture (fallback_active false) - a measured before/after
+ac3 evidence: timeline of 10 UTC stamps is monotonic non-decreasing (max span 2026-10-16T18:19:18Z -> 2026-10-16T18:23:25Z)
+ac3 evidence: the collection stamp 2026-10-16T18:19:18Z appears in the timeline with 10 event(s) at or after it (response, recovery)
+ac3 GREEN: RESOLUTION.MD CARRIES THE RECOVERY VERIFICATION AND A TIMELINE - the embedded verify-recovery output shows the RECOVERY_VERIFIED marker with the recovered engine, the degraded and recovered payloads give the measured before/after, and the 10-stamp timeline is monotonic and anchored on the evidence collected_at
+ac3 GREEN: RESOLUTION.MD CARRIES THE MEASURED RECOVERY OUTPUT AND A REAL TIMELINE - see the ac3 evidence lines above: the merged runbooks RECOVERY_VERIFIED marker is present verbatim, the negative-control rejection is carried too, and the timeline is monotonic and anchored on the evidence collected_at

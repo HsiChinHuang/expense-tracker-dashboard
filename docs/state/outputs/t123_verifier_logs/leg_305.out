@@ -1,0 +1,8 @@
+ac4 evidence: evidence.json and response.json both name incident 2026-10-17-db-fallback-01, the same constant the directory is named after
+ac4 evidence: alert.json carries the alert name DBFallbackActive extracted live from observability/alerts.yaml - the name t85 will quote
+ac4 evidence: the measured captures name exactly the extracted inventory set (4 series: category_created_total, db_fallback_active, expense_create_failures_total, expense_created_total) - no invented name, none missing
+ac4 evidence: the collectors metrics leg is its disclosed zero-byte gap, so the name closure rests on the direct exposition capture - which is why that capture is mandatory, not optional
+ac4 evidence: all 5 evidence_refs point into incidents/2026-10-17-db-fallback-01/evidence/
+ac4 evidence: the health leg (fallback_active true) and the metrics leg (db_fallback_active 1) agree - the alert rule and the captured state close on the same fact
+ac4 GREEN: THE CHAIN CLOSES END TO END - one incident ID 2026-10-17-db-fallback-01 through evidence/response/resolution/alert/directory, the alert name extracted from the merged t76 source matches alert.json, the metrics capture names exactly the extracted inventory set, every evidence_ref points into this bundle, and the health and metrics legs agree on the fallback fact
+ac4 GREEN: THE CHAIN CLOSES END TO END - see the ac4 evidence lines above: one incident ID across all four artifacts, the alert name extracted from the merged alerts.yaml matches the t83 copy and the declared rule, and the measured captures name exactly the extracted t76 inventory set

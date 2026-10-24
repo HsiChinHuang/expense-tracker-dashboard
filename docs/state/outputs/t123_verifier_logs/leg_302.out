@@ -1,0 +1,15 @@
+ac1 evidence: endpoint is the t41-pinned http://127.0.0.1:8137/api/v1
+ac1 evidence: leg health status ok, bytes=82 equals the measured content length
+ac1 evidence: leg log_tail status ok, bytes=628 equals the measured content length
+ac1 evidence: leg metrics status unavailable, bytes=0 equals the measured content length
+ac1 evidence: leg version status ok, bytes=41 equals the measured content length
+ac1 evidence: the health leg shows status degraded, fallback_active true, database sqlite - the real degraded shape the merged startup probe produces
+ac1 evidence: metrics leg shape (ii): the leg is the collectors honest zero-byte gap and resolution.md embeds the measured 404/200 probe pair (/api/v1/metrics 404 versus /metrics 200, mirrored by the health pair) naming the harness metrics-URL defect and its follow-up-card deferral
+ac1 evidence: a measured exposition capture in this incident record carries all 3 extracted t79 counter names (category_created_total, expense_create_failures_total, expense_created_total)
+ac1 evidence: the embedded exposition capture carries the fallback gauge reading 1 and target_info with the three t78 resource attributes, so t78 and t79 are both measured rather than attested by reference
+ac1 evidence: the log tail carries the merged fallback-engagement warning line
+ac1 evidence: version token 86fbe454adfb132dfb31221bba5f54d1d364b62a resolves as a real commit object (token differs from current HEAD: the drill ran on its base commit and the tree moved since - disclosed)
+ac1 evidence: tree_hash equals sha256 of the version token exactly - the harness derives it FROM the tree identity
+ac1 evidence: script_sha256 matches the merged harness script (working=1e8bb7200d99 lf=7fee18e7e307; both accepted because core.autocrlf=true smudges this worktree and .gitattributes is absent)
+ac1 GREEN: EVIDENCE.JSON IS MEASURED, NOT AUTHORED - the manifest keys are exactly the merged t80 pins, every legs.bytes equals the measured embedded capture, script_sha256 matches the merged harness script, tree_hash is the harness derivation of a version token that resolves as a real commit, the health leg is the real degraded fallback shape, the metrics leg is the collectors honest zero-byte disclosed gap, proven by the measured 404/200 probe pair embedded in resolution.md, and the t79 series and t78 attributes are measured in the direct exposition capture that resolution.md embeds, and the log tail names the fallback engagement
+ac1 GREEN: EVIDENCE.JSON IS MEASURED NOT AUTHORED - see the ac1 evidence lines above: the manifest keys are exactly the merged t80 pins, every legs.bytes equals the measured embedded capture, script_sha256 matches the merged harness script, tree_hash is the harness derivation of a version token that resolves as a real commit, the health leg is the real degraded fallback shape, the metrics leg is either a real exposition or the collectors zero-byte gap proven by the embedded 404/200 probe pair, and the log tail names the fallback engagement

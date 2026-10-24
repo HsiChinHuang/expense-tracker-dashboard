@@ -1,0 +1,7 @@
+ac3 evidence: validator lines=278
+ac3 evidence: validator top-level imports=[json re sys ]
+ac3 evidence: pinned validator on the valid fixture rc=0 ACCEPT answer /tmp/tmp.HlvXfOULW6/good.json satisfies incident-response/response.schema.json
+ac3 evidence: NEGATIVE CONTROL - the same command on the out-of-policy fixture exits non-zero: REJECT answer $.actions_taken[0].action: value not in the pinned enum
+ac3 evidence: missing-answer run rc=2
+ac3 evidence: unknown-argument run rc=2
+ac3 GREEN: THE VALIDATOR COMMAND IS PINNED, SELF-CONTAINED AND REPRODUCIBLE - #!/usr/bin/env python3, stdlib trio json/re/sys only, the pinned --schema/--answer/--check-schema CLI, no install step and no network call, the valid fixture exits 0, the out-of-policy fixture exits non-zero, and a missing file or a bad argument fails loudly with a readable reason
