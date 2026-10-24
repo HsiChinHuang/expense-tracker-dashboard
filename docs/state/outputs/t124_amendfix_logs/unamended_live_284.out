@@ -1,0 +1,2 @@
+    ac2 BAD schema_contract action_enum_read_health,read_metrics,read_logs,read_version,read_manifest,write_report,restart_local_compose_app
+ac2 RED: the schema is not the contract this card promises (rc=1) - the probe asserts the nine required fields, the six read-only actions, and that a valid answer is ACCEPTED while a missing field, an out-of-policy action, a bad severity, an escaping evidence ref, an out-of-range confidence, a recovery claim and an extra key are each REJECTED

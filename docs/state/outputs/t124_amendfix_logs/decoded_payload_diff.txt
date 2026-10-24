@@ -1,0 +1,7 @@
+decoded payload line diff v1 -> v2 (1 line(s))
+line 38:
+  -     "restart_local_observability",
+  +     "restart_local_compose_app",
+
+base64 token: same length 9096 chars; single-line unwrapped base64 both; byte-exact re-encode roundtrip of v1 payload verified True
+b64 first-differing index 1282, remainder shifted (deterministic cascade of the 2-byte shortening of observability->compose_app); decoded diff above is the sole semantic change.
