@@ -55,57 +55,13 @@ fix available via `npm audit fix --force`
 Will install axios@1.20.0, which is outside the stated dependency range
 node_modules/axios
 
-braces  *
-Severity: high
-braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
-fix available via `npm audit fix --force`
-Will install tailwindcss@4.3.3, which is a breaking change
-node_modules/braces
-  chokidar  2.0.0 - 3.6.0
-  Depends on vulnerable versions of braces
-  node_modules/chokidar
-    tailwindcss  <=0.0.0-oxide-insiders.ff2c25f || 0.5.0 - 3.4.19
-    Depends on vulnerable versions of chokidar
-    Depends on vulnerable versions of fast-glob
-    Depends on vulnerable versions of micromatch
-    Depends on vulnerable versions of postcss-nested
-    Depends on vulnerable versions of postcss-selector-parser
-    node_modules/tailwindcss
-  micromatch  >=0.2.0
-  Depends on vulnerable versions of braces
-  node_modules/micromatch
-    fast-glob  *
-    Depends on vulnerable versions of micromatch
-    node_modules/fast-glob
-      globby  >=8.0.0
-      Depends on vulnerable versions of fast-glob
-      node_modules/globby
-        @typescript-eslint/typescript-estree  3.10.2-alpha.0 - 8.2.1-alpha.25
-        Depends on vulnerable versions of globby
-        node_modules/@typescript-eslint/typescript-estree
-          @typescript-eslint/parser  3.10.2-alpha.0 - 8.2.1-alpha.25
-          Depends on vulnerable versions of @typescript-eslint/typescript-estree
-          node_modules/@typescript-eslint/parser
-            @typescript-eslint/eslint-plugin  4.0.1-alpha.0 - 8.2.1-alpha.25
-            Depends on vulnerable versions of @typescript-eslint/parser
-            Depends on vulnerable versions of @typescript-eslint/type-utils
-            Depends on vulnerable versions of @typescript-eslint/utils
-            node_modules/@typescript-eslint/eslint-plugin
-          @typescript-eslint/type-utils  5.9.2-alpha.0 - 8.2.1-alpha.25
-          Depends on vulnerable versions of @typescript-eslint/typescript-estree
-          Depends on vulnerable versions of @typescript-eslint/utils
-          node_modules/@typescript-eslint/type-utils
-          @typescript-eslint/utils  <=8.2.1-alpha.25
-          Depends on vulnerable versions of @typescript-eslint/typescript-estree
-          node_modules/@typescript-eslint/utils
-
 esbuild  <=0.24.2
 Severity: moderate
 esbuild enables any website to send any requests to the development server and read the response - https://github.com/advisories/GHSA-67mh-4wv8-2f99
 fix available via `npm audit fix --force`
 Will install vite@5.4.21, which is outside the stated dependency range
 node_modules/esbuild
-  vite  <=6.4.2
+  vite  <=6.4.3
   Depends on vulnerable versions of esbuild
   node_modules/vite
 
@@ -116,7 +72,7 @@ PostCSS: Arbitrary file read and information disclosure via attacker-controlled 
 PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset - https://github.com/advisories/GHSA-fxqj-rqcc-2cmp
 PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure - https://github.com/advisories/GHSA-r28c-9q8g-f849
 fix available via `npm audit fix --force`
-Will install postcss@8.5.30, which is outside the stated dependency range
+Will install postcss@8.5.31, which is outside the stated dependency range
 node_modules/postcss
 
 postcss-selector-parser  <7.1.6
@@ -128,6 +84,10 @@ node_modules/postcss-selector-parser
   postcss-nested  2.0.3 - 6.2.0
   Depends on vulnerable versions of postcss-selector-parser
   node_modules/postcss-nested
+  tailwindcss  <=0.0.0-oxide-insiders.ff2c25f || 0.5.0 - 3.4.19
+  Depends on vulnerable versions of postcss-nested
+  Depends on vulnerable versions of postcss-selector-parser
+  node_modules/tailwindcss
 
 
 tinypool  <=2.1.1
@@ -146,7 +106,14 @@ node_modules/tinypool
 
 
 
-23 vulnerabilities (3 moderate, 17 high, 3 critical)
+zod  <4.6.6
+Severity: high
+Zod can exhaust memory while validating oversized constrained collections - https://github.com/advisories/GHSA-mrhx-c7xc-m3w5
+fix available via `npm audit fix --force`
+Will install zod@4.6.7, which is a breaking change
+node_modules/zod
+
+14 vulnerabilities (4 moderate, 7 high, 3 critical)
 
 To address issues that do not require attention, run:
   npm audit fix

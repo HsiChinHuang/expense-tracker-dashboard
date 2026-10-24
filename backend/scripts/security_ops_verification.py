@@ -77,7 +77,7 @@ SCAN_REPORTS: Final[tuple[str, ...]] = (
 )
 """The five REQ-SEC-003 committed reports (executed inputs of this card)."""
 
-EXPECTED_REPORT_ROWS: Final[str] = "21,33,42,3,23"
+EXPECTED_REPORT_ROWS: Final[str] = "21,33,42,3,14"
 """Expected per-tool measured counts; the gate re-parses them fresh and a
 drift against the reports fails the run (a hand-typed row cannot survive).
 

@@ -37,8 +37,8 @@ and the five-target `make -n security` contract is re-run live.
 SCAN_REPORT_ROWS reports=5 json_parse=3 txt_summary=2 PASS
 SCAN_SCHEMA_ROWS json=3 txt=2 gitleaks_array=1 summary_lines=2 PASS
 GITLEAKS_ZERO unregistered=0 registered=21 PASS
-REPORT_ROWS 21,33,42,3,23 PASS
-REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=23 PASS
+REPORT_ROWS 21,33,42,3,14 PASS
+REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=14 PASS
 REGISTER_COUNT_ROWS tools=5 measured=5 PASS
 REGISTER_DATA_ROWS 98 PASS
 SCAN_LOOP_ROWS findings=98 registered=98 equal=true PASS
