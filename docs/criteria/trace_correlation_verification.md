@@ -21,15 +21,15 @@ The driven pair is the two unauthenticated list endpoints (GET
 header): each produces a 401, each emits exactly one correlated app log
 line (the auth WARNING), and neither needs a database fixture.
 
-TRACE_JOURNEY PASS journey=expenses-list-401 trace_id=5f4dd6e9c3684ae8077f04d04e1bba42 log_lines=1 stack=testclient PASS
-TRACE_JOURNEY PASS journey=categories-list-401 trace_id=0a72f92a96a60ab9696b3b3e47c13ae8 log_lines=1 stack=testclient PASS
+TRACE_JOURNEY PASS journey=expenses-list-401 trace_id=215c26757bc687e30b220ae8404f066d log_lines=1 stack=testclient PASS
+TRACE_JOURNEY PASS journey=categories-list-401 trace_id=f111b1889ed6a308b173205c96c8ea12 log_lines=1 stack=testclient PASS
 
 ## Per-line evidence table
 
 | trace_id | request | log line (one per request - the measured truth) |
 |---|---|---|
-| 5f4dd6e9c3684ae8077f04d04e1bba42 | GET /api/v1/expenses (no header, 401) | the auth WARNING whose formatted line ends `"trace_id": "5f4dd6e9c3684ae8077f04d04e1bba42"`, equal to the exported SERVER span id |
-| 0a72f92a96a60ab9696b3b3e47c13ae8 | GET /api/v1/categories (no header, 401) | the auth WARNING whose formatted line ends `"trace_id": "0a72f92a96a60ab9696b3b3e47c13ae8"`, equal to the exported SERVER span id and distinct from the id above |
+| 215c26757bc687e30b220ae8404f066d | GET /api/v1/expenses (no header, 401) | the auth WARNING whose formatted line ends `"trace_id": "215c26757bc687e30b220ae8404f066d"`, equal to the exported SERVER span id |
+| f111b1889ed6a308b173205c96c8ea12 | GET /api/v1/categories (no header, 401) | the auth WARNING whose formatted line ends `"trace_id": "f111b1889ed6a308b173205c96c8ea12"`, equal to the exported SERVER span id and distinct from the id above |
 
 A third, out-of-request probe span (created outside any request by the
 test's control 4) carried a third distinct id, proving the id is per-request
