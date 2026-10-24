@@ -1,0 +1,181 @@
+{
+ "schema_version": "2.0",
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t120",
+ "milestone": "phase_21_topology_carrier_completion",
+ "platform_issue": 124,
+ "status": "proposed",
+ "authority": "phase_20 review_plan findings F1/F2/F3/F4/F5 (docs/state/outputs/phase_20_readme_scoring_map_definer_review_plan.json, WAL 1288) + operator approval of card t120 (WAL 1289); t119's 1ecb995 merge window is the sha-protocol precedent",
+ "policy": "W2 eight-property index-amendment policy (WAL 1248), invoked IN WRITING",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "re_premise_not_relax": true,
+ "ready_script_resurrected": false,
+ "chosen_shape": "F4 HYBRID (leg 5 name-list exclusion gains promote.yml; generator re-premised to the four-name set PLUS the human-gate property; leg 161 predicate re-premised; leg 183 unamended)",
+ "base": {
+  "main_tip_at_groom": "f9c7ecf",
+  "index_entries": 318,
+  "index_bytes": 1304515,
+  "index_line_endings": "LF (no CR byte in the file)",
+  "amendment_pins_are_against": "the LIVE docs/state/merge_test_index.json at main tip f9c7ecf; every old_command_sha256/entry_sha_before below was recomputed from those bytes at groom and re-verified forward AND reverse in the scratch/t120reh rehearsal clone"
+ },
+ "why_this_file_exists": "t119 added .github/workflows/promote.yml and priced seven carriers of the workflow-listing claim, but three carriers of the same 'exactly three pipelines' topology were left unpriced and are RED on main today, measured verbatim at groom: leg 5 rc=1 (its find-exclusion guard reports promote.yml as junk), leg 161 rc=1 (its tests[5] normalisation predicate AND a second-order effect F2 did not price - it executes the reconstructed AMENDED guard against the LIVE tree, which now legitimately contains promote.yml), leg 183 rc=1 (backend/scripts/security_ops_verification.py:563 asserts workflows == [ci.yml, deploy.yml, e2e.yml]). Without this record the card's builder commit heals leg 183 only and leaves two gates red on the merge commit.",
+ "leg183_noop_attestation": {
+  "amendment_required": false,
+  "reason": "leg 183's command contains NO workflow-topology literal; it heals by itself the moment the builder's generator+report commit lands. Editing it would be writing index bytes that need no writing.",
+  "command_len": 2437,
+  "command_sha256": "a2f45a34993b83feb15a776940b133137b414377ebf8c7a07f4a79902ce581db",
+  "entry_sha256": "d02cde6aeb0ef0ccf31ee18865fcc3c214f751ed8370a66852519bb9897dec6f",
+  "workflow_literals_absent_from_command": [
+   "ci.yml",
+   "deploy.yml",
+   "e2e.yml",
+   "promote.yml",
+   "WORKFLOW"
+  ],
+  "measured": "each of the five literals above is absent from the live tests[183].command (substring scan at groom); the orchestrator re-asserts entry_sha256 UNCHANGED after the window rather than computing an after-value"
+ },
+ "apply_mechanism": "the orchestrator loads the LIVE index, asserts entry_sha_before, applies replaced_regions forward by string replacement (never pasting a snapshot command), asserts the resulting command sha equals new_command_sha256 and the entry sha equals entry_sha_after, for legs 5 and 161 in the SAME merge window, then re-asserts leg 183's entry sha equals the no-op attestation above. No INDEX_ANCHORS rotation is needed: tests[5] and tests[161] are absent from INDEX_ANCHORS (16, 54, 131, 132, 133, 135, 215, 216) and docs_verification.py's 64-hex literal count is unchanged by this record. The reverse direction is proven by applying the same regions in reverse out of the settled commands.",
+ "index_sha_before": "ef76e389aafffe83de4ae8429f9d072dc23002d6ff2776b1735ce3a0555d7d30",
+ "index_sha_after_expected": "7ef6cc10b132c554a1d141d2e4aacf1a6c6382a004bbc65ddc14e583fcf52028",
+ "amendments": [
+  {
+   "index": 5,
+   "issue_id": "t0",
+   "card_ac": "ac3",
+   "defective_premise": "the .github/ exclusion list enumerates exactly three pipeline filenames, so any fourth committed workflow is reported as junk - falsified by t119's promote.yml",
+   "re_premised_to": "the same guard with promote.yml added to the enumerative exclusion list; every other exclusion, the ordering, the quoting and the message are preserved byte-for-byte. The form stays a name list ON PURPOSE (F4: a general junk-file guard's exclusions are inherently enumerative; converting it to a count would weaken it)",
+   "re_premise_not_relax": true,
+   "old_command_len": 603,
+   "old_command_sha256": "6fa1ddb0e95a4e6b70ef7baeab10dc7b7eec84078cc85fee7f961cf9ecced72d",
+   "new_command_len": 623,
+   "new_command_sha256": "1404f3dfd57ef3091b7005527d8ef7f52b47f7de33f075a82003a2f5f36d06b3",
+   "entry_sha_before": "7f75edbbd4e7f164a34648f3c175a5030e863737e5ef7add3c8ae5ae67b55746",
+   "entry_sha_after": "a47cdb087f33548e93b7d59df832ede91b03a7d85898e10cbcad952d25e876bc",
+   "replaced_regions": [
+    {
+     "from": "! -name deploy.yml ! -path security/pr-audit.md",
+     "to": "! -name deploy.yml ! -name promote.yml ! -path security/pr-audit.md",
+     "offset_in_old_command": 142,
+     "offset_in_new_command": 142,
+     "uniqueness": "this 47-byte string occurs exactly ONCE in the whole 1,304,515-byte index file (byte offset 1571), so the region replace is unambiguous across the file, not just within this command"
+    }
+   ]
+  },
+  {
+   "index": 161,
+   "issue_id": "t36",
+   "card_ac": "ac3",
+   "defective_premise": "four premises about a three-pipeline world: (i) the INS normaliser plus the asserted literal 'deploy.yml 2>/dev/null)' reconstructs the ORIGINAL t0 guard from the live tests[5]; (ii) the reconstructed AMENDED guard executes GREEN on today's tree; (iii) the simulated-tree controls; (iv) the normalised temp copy equals the live index byte-for-byte. (i) is falsified by the promote exclusion, (ii) is falsified by the live tree containing promote.yml, (iv) is falsified by the live index carrying the promote exclusion after this card's window. (iii) is TRUE and is preserved verbatim.",
+   "re_premised_to": "(i) the normaliser gains ONE more strip (' ! -name promote.yml') so the original guard is still reconstructed byte-exactly (measured: normalised == shipped t0 command, True); (ii) the assertion is RE-PREMISED, not deleted - the amended guard is now executed against a SIMULATED post-t36 tree (four pipelines, guard without the promote exclusion -> must go RED there, which is a strictly stronger fail-before proof than the phase-7 shape), and the live-tree claim is replaced by executing the LIVE tests[5] command from the index; (iii) unchanged byte-for-byte; (iv) the tail comparison now normalises BOTH sides (strips INS and the promote exclusion) so the protected property - leg 161 writes zero live index bytes - is unchanged",
+   "re_premise_not_relax": true,
+   "second_order_discovery": "F2 priced only the predicate. Groom measured that the F2-only fix leaves the leg RED at 'bash -c \"$am\" || exit 1', because the leg executes the reconstructed amended guard on the LIVE tree which now has four pipelines. A rehearsal amendment with regions F1/F2 only measured rc=1; adding F3/F4 measured rc=0. Recording this because a builder or orchestrator who applies only what F2 names will produce a red leg and blame the generator commit.",
+   "old_command_len": 4335,
+   "old_command_sha256": "21954926965c96af1612d22932e6e949b580637d612762af772b5bfc90dfd686",
+   "new_command_len": 5711,
+   "new_command_sha256": "8420288fad5b841b0207fdf45e6e9cb7b3d6376585c96c68d16217bc0d1fabb9",
+   "entry_sha_before": "f2aeafccc86db3165035bdeb4a2f72f55c9e6fefbb1376e7c7680037e2faaac4",
+   "entry_sha_after": "432f47452491b56477c1f7bae1a4789c3d4e6e4796e0ce0353761a46711d00cf",
+   "replaced_regions": [
+    {
+     "from": "const INS=\\\" ! -path security/pr-audit.md ! -path security/gitleaks-report.json ! -path security/semgrep-report.json ! -path security/trivy-report.json ! -path security/pip-audit-report.txt ! -path security/npm-audit-report.txt ! -path security/agent-security-notes.md ! -path security/ai-tool-data-policy.md ! -path ops/runbook.md ! -path ops/health-check.md ! -path ops/diagnosis.md ! -path ops/logging.md ! -path ops/deployment-health.md\\\";let s=",
+     "to": "const INS=\\\" ! -path security/pr-audit.md ! -path security/gitleaks-report.json ! -path security/semgrep-report.json ! -path security/trivy-report.json ! -path security/pip-audit-report.txt ! -path security/npm-audit-report.txt ! -path security/agent-security-notes.md ! -path security/ai-tool-data-policy.md ! -path ops/runbook.md ! -path ops/health-check.md ! -path ops/diagnosis.md ! -path ops/logging.md ! -path ops/deployment-health.md\\\";const PROM=\\\" ! -name promote.yml\\\";let s=",
+     "offset_in_old_command": 308,
+     "offset_in_new_command": 308,
+     "purpose": "declare the promote exclusion as a second strip target (PROM) next to the phase-7 INS literal"
+    },
+    {
+     "from": "if(s.includes(INS)){s=s.split(INS).join(\\\"\\\")",
+     "to": "if(s.includes(INS)){s=s.split(INS).join(\\\"\\\");if(s.includes(PROM)){s=s.split(PROM).join(\\\"\\\")}",
+     "offset_in_old_command": 799,
+     "offset_in_new_command": 835,
+     "purpose": "strip it too, so the ORIGINAL t0 guard is still reconstructed and the leg's asserted literal survives"
+    },
+    {
+     "from": "bash -c \"$or\" || exit 1; bash -c \"$am\" || exit 1; s=$(mktemp -d) || exit 1;",
+     "to": "p=$(mktemp -d) || exit 1; mkdir -p \"$p/frontend\" \"$p/security\" \"$p/ops\" \"$p/.github/workflows\" || exit 1; : > \"$p/security/.gitkeep\"; : > \"$p/ops/.gitkeep\"; : > \"$p/.github/workflows/.gitkeep\"; : > \"$p/.github/workflows/ci.yml\"; : > \"$p/.github/workflows/e2e.yml\"; : > \"$p/.github/workflows/deploy.yml\"; (cd \"$p\" && bash -c \"$or\") || exit 1; rm -rf \"$p\"; bash -c \"$am\" && exit 1; lv=$(node -e \"process.stdout.write(JSON.parse(require(\\\"fs\\\").readFileSync(process.argv[1],\\\"utf8\\\")).tests[5].command)\" docs/state/merge_test_index.json) || exit 1; bash -c \"$lv\" || exit 1; s=$(mktemp -d) || exit 1;",
+     "offset_in_old_command": 2813,
+     "offset_in_new_command": 2898,
+     "purpose": "re-premise the live-tree amended-guard execution: build a simulated post-t36 tree (four pipelines, guard WITHOUT the promote exclusion) and require the guard to go RED there; then execute the LIVE tests[5] command as the true statement about today. The three simulated-tree controls that follow are untouched"
+    },
+    {
+     "from": "cmp -s \"$base\" docs/state/merge_test_index.json || { rm -f \"$d\" \"$base\"; rm -rf \"$s\"; exit 1; }; rm -f \"$d\" \"$base\"; rm -rf \"$s\";",
+     "to": "cn=$(mktemp /tmp/t36-cmp-XXXXXX.json) || exit 1; cp docs/state/merge_test_index.json \"$cn\" || exit 1; node -e \"const fs=require(\\\"fs\\\");const INS2=\\\" ! -path security/pr-audit.md ! -path security/gitleaks-report.json ! -path security/semgrep-report.json ! -path security/trivy-report.json ! -path security/pip-audit-report.txt ! -path security/npm-audit-report.txt ! -path security/agent-security-notes.md ! -path security/ai-tool-data-policy.md ! -path ops/runbook.md ! -path ops/health-check.md ! -path ops/diagnosis.md ! -path ops/logging.md ! -path ops/deployment-health.md\\\",PROM2=\\\" ! -name promote.yml\\\";let s=fs.readFileSync(process.argv[1],\\\"utf8\\\");for(const t of [INS2,PROM2]){if(s.includes(t)){s=s.split(t).join(\\\"\\\")}}fs.writeFileSync(process.argv[1],s)\" \"$cn\" || exit 1; cmp -s \"$base\" \"$cn\" || { rm -f \"$d\" \"$base\" \"$cn\"; rm -rf \"$s\"; exit 1; }; rm -f \"$d\" \"$base\" \"$cn\"; rm -rf \"$s\";",
+     "offset_in_old_command": 3841,
+     "offset_in_new_command": 4447,
+     "purpose": "keep the 'live index untouched' tail in substance: normalise a COPY of the live index by the same two strips and compare against $base, so the leg still proves it wrote zero live index bytes"
+    }
+   ]
+  }
+ ],
+ "negative_control_matrix": [
+  {
+   "case": "amended leg 5 (record-reconstructed) on a synthetic four-pipeline tree",
+   "victim": "none - positive control: the re-premised guard accepts the truth",
+   "measured_rc": 0,
+   "expected_rc": 0
+  },
+  {
+   "case": "amended leg 5 on the same tree plus a fifth workflow file (junk.yml)",
+   "victim": "the exclusion list's completeness - proves the re-premise did not stop guarding (F4 both directions)",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "the ORIGINAL t0 guard reconstructed from the AMENDED command (INS + promote strip) on a four-pipeline tree",
+   "victim": "an amendment that quietly stopped guarding promote.yml - the fail-before proof survives the amendment",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended leg 161 with regions F1/F2 ONLY (what F2 names), no F3/F4",
+   "victim": "the live-tree amended-guard premise F2 did not price - proves the recorded amendment is the whole amendment, not half of it",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended leg 161 (all four regions) with tests[5] NOT amended in the same window",
+   "victim": "the half-applied merge window - leg 161 asserts its sibling moved too",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "amended legs 5/161/183 in the rehearsal clone's simulated merge window",
+   "victim": "none - positive control: all three carriers green together",
+   "measured_rc": 0,
+   "expected_rc": 0
+  },
+  {
+   "case": "legs 5/161/183 with a fifth workflow file added to the clone's .github/workflows, then removed",
+   "victim": "the whole carrier set's sensitivity - 1/1/1 while present, 0/0/0 after removal (recorded as the removal-direction pair)",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "generator with promote.yml's 'environment: production' line removed",
+   "victim": "the human-gate half of the F4 HYBRID claim (the fourth name alone must not be enough)",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "generator with an automatic RENDER_DEPLOY_HOOK job added to ci.yml and no workflow_run gate",
+   "victim": "the 'no un-gated auto-deploy' property the re-premise adds",
+   "measured_rc": 1,
+   "expected_rc": 1
+  },
+  {
+   "case": "generator on the restored four-pipeline tree",
+   "victim": "none - positive control: the re-premised generator is green on the truth",
+   "measured_rc": 0,
+   "expected_rc": 0
+  }
+ ],
+ "ready_script_note": "docs/state/amend_index_entry6_phase7.cjs.ready stays dead and byte-frozen (F3a): its AMEND_ABORT guard requires tests[5] to equal the ORIGINAL t0 text byte-for-byte, which leg 161 has always worked around by normalising. This record neither edits, re-points nor resurrects it; ac2 greps docs/state/outputs/ for any record that re-points it by indirection.",
+ "reader_class_note": "the regenerated report has seven readers besides leg 183 (legs 184/185/187/208/219/223/226 reference docs/criteria/security_ops_verification.md; only 183 regenerates it). No index byte is needed for them and none is written here; the verifier spot-checks 184/185/187 for unchanged rc on the merged bytes.",
+ "written_by_definer_applied_by": "definer-groom at main f9c7ecf; every old_command_sha256/entry_sha_before/new_command_sha256/entry_sha_after was recomputed from the live index bytes and re-verified forward AND reverse in the scratch/t120reh rehearsal clone (legs 5/161/183 all rc=0 in the simulated window). The orchestrator applies; the definer and the t120 builder write ZERO index bytes.",
+ "index_bytes_after_expected": 1305987
+}
