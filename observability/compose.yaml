@@ -63,6 +63,8 @@ services:
   tempo:
     image: grafana/tempo:2.5.0
     # Why this service exists: trace storage and query alongside the
-    # collector. Container-only ports, never published.
+    # collector. Container-only ports, never published. The collector
+    # exports its traces pipeline to this service at tempo:4317 (see
+    # observability/collector.yaml; never scheme-qualified).
     ports:
       - "4317"
