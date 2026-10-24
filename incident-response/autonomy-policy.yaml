@@ -147,3 +147,31 @@ allowed_actions:
       incident under the incidents grammar above, relative to the
       repository root; nothing outside those two paths is writable and
       secret-bearing locations are explicitly excluded.
+
+  # Allow class 3 (t123): safe LOCAL remediation. This is the third
+  # scoped action class of the On-Call rubric half: the responder may
+  # cycle a LOCAL compose service, inside the local compose project
+  # only, and nothing else. The scope guard is the entry itself -
+  # `environment: local-compose-only` - and every admitted command
+  # shape stays inside the `docker compose` grammar; kubectl,
+  # systemctl, service, docker restart and git remain outside this
+  # class and inside the deny floor above. Production restarts are
+  # denied by restart_production; this class reaches only the local
+  # compose project addressed by the repository-root compose file.
+  # Recordability of these actions in an incident answer is t124 scope
+  # (the response.schema.json enum still admits only the six read-only
+  # names); until t124 lands, a remediation performed under this class
+  # is reported by the human-operated resolution document.
+  - id: restart_local_compose_app
+    class: safe_local_remediation
+    environment: local-compose-only
+    commands:
+      - "docker compose restart app"
+      - "docker compose up -d app"
+    scope: >-
+      Restart or re-up the local compose app service inside the local
+      compose project only (the project defined by the repository-root
+      docker-compose.yml); the guard environment local-compose-only is
+      part of the entry, the commands admit no host tool, no other
+      project and no non-local target, and the denied classes above
+      (production restart, database mutation, merge) are untouched.
