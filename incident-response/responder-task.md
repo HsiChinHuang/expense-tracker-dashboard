@@ -97,8 +97,13 @@ answer document itself, and they are a subset of what the policy allows:
 - `read_manifest` - read `manifest.json`.
 - `write_report` - write the answer document itself.
 
-An action outside those six names is rejected by the schema, and an action
-that is not a read or the answer document is rejected by the policy.
+An action outside those names is rejected by the schema, and an action that
+is not a read, the answer document, or the one policy-scoped local
+remediation id is rejected by the policy. The schema admits exactly one
+remediation name so an answer can RECORD a fix a human already made;
+you must never execute it from this pass. That name is
+`restart_local_compose_app`, and it is never an instruction to act -
+you diagnose, a human operates, and the policy stays the authority.
 
 ## Recovery claims
 

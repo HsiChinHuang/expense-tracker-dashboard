@@ -82,14 +82,15 @@
         "properties": {
           "action": {
             "type": "string",
-            "description": "One of the six read-only actions; a policy-allow-list subset.",
+            "description": "One of the six read-only actions plus exactly one policy-scoped local remediation name; a policy-allow-list subset.",
             "enum": [
               "read_health",
               "read_metrics",
               "read_logs",
               "read_version",
               "read_manifest",
-              "write_report"
+              "write_report",
+              "restart_local_compose_app"
             ]
           },
           "justification": {

@@ -11,7 +11,7 @@ DOC_MAP_DOCS PASS root=21 team=3
 DOC_MAP_SECURITY PASS artifacts=8
 DOC_MAP_OPS PASS artifacts=5
 DOC_MAP_SCREENSHOTS PASS files=4
-README_MEASURE PASS lines=421 digest=dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708
+README_MEASURE PASS lines=421 digest=bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6
 CRITERIA243_ROWS PASS rows=15
 EVIDENCE_CHECKLIST PASS rows=14
 FIVE_MIN_PATHS PASS sections=2
@@ -23,12 +23,12 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=290 links=67 broken=0
+LINK_CHECK PASS files=291 links=67 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
 CARRIED_REPORT PASS file=docs/criteria/security_ops_verification.md rows=29
-INDEX_ANCHORS PASS floor=217 entries=318
+INDEX_ANCHORS PASS floor=217 entries=319
 STORED_GATES PASS executed=9 failures=0 restored=1
 DEFERRAL_REGISTER 3 DEFERRED
 | LIVE_AGENT_SESSION | DEFERRED | reason=docs/ai-workflow.md records are transcript attestations of real sessions, not a machine-verifiable live capture; no live session endpoint exists to re-test | live_check=open docs/ai-workflow.md and walk one session record end to end |
