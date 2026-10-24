@@ -1,0 +1,168 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t121",
+ "role": "builder",
+ "phase": "implement",
+ "status": "COMPLETE",
+ "reached_state": "built",
+ "evidence": {
+  "evidence_type": "build",
+  "branch": "issue/t121-cicd-scoring-rebaseline",
+  "branch_sha": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+  "branch_note": "Worktree branch pi-subagents/builder-mode-implement-card-t121-platform-issue-125-label-groomed-.-Milestone-phase_22-696df0ce-99dad70-86a3-s0-t0 created from main tip 351e6e8d3a0a56b3f5bd138fb7ff3efcb460a1a1 (asserted via the cmd.exe git route; the WSL-side git fails in this worktree because the .git pointer stores a Windows path - every git command was routed through cmd.exe with the Windows path, stdin=DEVNULL). The spawn contract names the push destination pi-subagents/builder-t121 (a NAMED branch, never HEAD:main); the schema branch field carries the canonical issue-branch form per the t120 precedent (which disclosed a field/destination divergence the same way). The push to pi-subagents/builder-t121 happens AFTER this handoff's second commit; see push_note.",
+  "schema_note": "Task names mode implement with filename t121_builder_build.json; validation invoked as `npx tsx scripts/validate_handoff.ts docs/state/outputs/t121_builder_build.json builder implement` per the standing t90..t120 fix (registry has no builder:build; schemas/builder/implement.json is the contract and evidence_type is build).",
+  "ac_hash": "sha256:e6e9be5b8b581662402e8cc9889cc18e249db4d14077d6b9b9742cdbb4433c3e",
+  "ac_hash_recompute": "Recomputed at builder run time from the working card docs/issues/t121.md (identical bytes to the committed groom blob cb58018, which is HEAD~1 of this branch): extract the six ```bash fences in ac1..ac6 order, CR-strip and trim each, sha256 over json.dumps(array, separators=(',',':')) = e6e9be5b8b581662402e8cc9889cc18e249db4d14077d6b9b9742cdbb4433c3e - EXACT match to the card's Metadata ac_hash. The six extracted blocks (/tmp/t121/ac1..6.sh) are the exact commands executed for ac_mapping; zero substitution.",
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "verification_commands_note": "The six fenced bash blocks of docs/issues/t121.md, extracted programmatically (ac_hash-verified) and run VERBATIM via bash from the repository root. Execution sites: (1) the canonical CRLF working tree at commit 0c37779 (all six rc=0); (2) a clean-LF clone (scratch/t121clone at autocrlf=false, checkout 0c37779, README materialized LF) for the $-anchored-grep shapes: ac1/ac2/ac3/ac5/ac6 rc=0, ac4 rc=1 there ONLY because the clone's working index bytes are the LF blob 7ef6cc10... while the fence pins the CRLF working digest e98f96bd... of the canonical checkout (ac4 is an index-scoped record fence, GREEN in the canonical tree where the index bytes are the pinned e98f96bd; the card itself writes zero index bytes and the groom's own ac4 baseline was the same canonical state).",
+  "fence_rc": {
+   "ac1": 0,
+   "ac2": 0,
+   "ac3": 0,
+   "ac4": 0,
+   "ac5": 0,
+   "ac6": 0
+  },
+  "fence_rc_provenance": "Canonical tree at 0c37779 (candidate committed, working tree clean): all six rc=0 GREEN. Baseline at base 351e6e8 BEFORE the edit: ac1/ac2/ac5/ac6 rc=1, ac3/ac4 rc=0 - EXACTLY the groom's per_block_pre_fix_rc table (ac3/ac4 are invariants/record fences GREEN at base by design). Clean-LF clone at 0c37779: ac1/ac2/ac3/ac5/ac6 rc=0; ac4 rc=1 in the clone is the LF-materialization artifact named in verification_commands_note (index-scoped, not a product defect).",
+  "ac_mapping": {
+   "ac1": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac1 of docs/issues/t121.md (the six blocks recomputing the card ac_hash sha256:e6e9be5b... exactly) run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN in the canonical tree AND in the clean-LF clone. Evidence line: CI/CD claims 3/3; the 2/3 line is dead; the Gap is a dated ruling record (2026-10-24, WAL 1291) naming LOGICAL separation, promote.yml, run 39933068472, and the no-second-deployed-target honesty boundary.",
+    "verdict": "PASS"
+   },
+   "ac2": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac2 of docs/issues/t121.md run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN in the canonical tree AND in the clean-LF clone. Evidence line: row 9 claims 3/3 citing promote.yml + run 39933068472 + WAL 1291 + LOGICAL/infrastructural boundary; 18 H2 and >=12 scoring rows survive; README ASCII.",
+    "verdict": "PASS"
+   },
+   "ac3": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac3 of docs/issues/t121.md run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN (canonical tree and clean-LF clone). Evidence line: measured README digest=a5e22eecd13a... lines=421; constant, report line and measured bytes agree - re-pinned by measurement, not copied from the card. Half-move negative controls (scratch roots): README moved only -> rc=1 'constant README_DIGEST=a5e22eec... but README measures 5f684eee...'; constant moved only -> rc=1 'constant README_DIGEST=000000000000 but README measures a5e22eec...'; full triple -> rc=0. The fence bites in its victim direction.",
+    "verdict": "PASS"
+   },
+   "ac4": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac4 of docs/issues/t121.md run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN in the canonical tree (index working bytes = the pinned e98f96bd 318-entry base; amendment record sound, PROPOSED, card_writes_index_bytes=false). rc=1 in the clean-LF clone ONLY (working index bytes materialize as the LF blob 7ef6cc10... there; the fence pins the canonical CRLF working digest - disclosed, index-scoped, zero index bytes written by this card).",
+    "verdict": "PASS"
+   },
+   "ac5": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac5 of docs/issues/t121.md run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN (canonical tree and clean-LF clone). Both control directions proven OUTSIDE the fence on real file copies (scratch /tmp/t121nc): FIRES on fabricated delivery.md Gap ('two deployed targets' + 'separate production instance' + 'second production environment exists' + missing infrastructural negation = 4 defects) and on a fabricated README row 9 ('two deployed targets' + 'separate prod database' + missing LOGICAL = 3 defects); SILENT on the real delivery.md CI/CD section and the real row 9.",
+    "verdict": "PASS"
+   },
+   "ac6": {
+    "commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+    "test": "fenced bash block ac6 of docs/issues/t121.md run VERBATIM via bash from the repository root at commit 0c37779: rc=0 GREEN (canonical tree and clean-LF clone). Evidence: 0 of 318 legs carry the 2/3 claim string; grep -rn '2/3' README.md docs/criteria/ finds no product carrier; delta inside README.md + delivery.md + docs_verification.py + docs_verification.md; pre-existing RED set [191,231,259] disclosed, not healed.",
+    "verdict": "PASS"
+   }
+  },
+  "test_summary": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0
+  },
+  "test_summary_note": "The six tests are the card's six verification fences (documentation card: the fences ARE its tests, per ## Verification commands). Supporting runs: generator docs_verification.py rc=0 ALL_CHECKS_PASS (double-run byte-identical); carried README-family legs 256/257/251/254/201/258 run verbatim from the live index against the candidate: all rc=0 (258 self-healed exactly as the amendment record priced - constant and README moved together).",
+  "lint_status": "CLEAN",
+  "lint_note": "ruff check scripts/docs_verification.py: All checks passed (rc=0). README/delivery additions ASCII-only, all-CRLF working bytes, files end in CRLF; delivery.md and README row 9 carry the ruling disclosure with no fabricated infrastructure (ac5 probe SILENT on the real text, FIRES on fabrications - matrix below).",
+  "measurements": {
+   "readme_before": "421 lines / 18 H2 / CR-stripped sha256 efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4 / CRLF / ASCII (base 351e6e8, matches the card's Context)",
+   "readme_after": "421 lines / 18 H2 / CR-stripped sha256 a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9 / CR==LF bytes (all-CRLF) / ends CRLF / ASCII-only - measured from MY edited bytes, NOT the groom rehearsal value 77cbdd64... (which was never copied; the rewrite is shape-preserving at 421/18 but the digest is the builder's own measurement)",
+   "readme_triple_pin": {
+    "lines": 421,
+    "h2": 18,
+    "cr_stripped_sha256": "a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9"
+   },
+   "req_doc_010": "421 lines: inside the 340..460 band (39 lines of headroom under the 460 ceiling), above the 412 floor, under the 500 REQ-DOC-010 cap",
+   "constants_repin": "backend/scripts/docs_verification.py: README_DIGEST efded7fb... -> a5e22eec... (measured); README_LINES stays 421 (measured unchanged); INDEX_FLOOR untouched; 13 64-hex literals before and after (replace-only)",
+   "report": "docs/criteria/docs_verification.md regenerated by the pinned invocation (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py, uv via PATH=$HOME/.local/bin): rc=0, ALL_CHECKS_PASS, README_MEASURE PASS lines=421 digest=a5e22eec..., STORED_GATES PASS executed=9 failures=0 restored=1, LINK_CHECK PASS files=282 links=67 broken=0; CR-stripped report digest c9f47ed2f1ce85beef3f9bab794a47adc107c10b0f0ade478fabdc634c86992e; DOUBLE-RUN byte-identical in this environment (disclosure below)",
+   "before_after_digests": {
+    "README.md": "efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4 -> a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9",
+    "docs/criteria/scoring_map/delivery.md": "(base cr-stripped sha not pinned by this card) -> 6b716e53b8572800ed54c0c8076bed0825e1822e51ff0b460493346b826911f4",
+    "docs/criteria/docs_verification.md": "7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a -> c9f47ed2f1ce85beef3f9bab794a47adc107c10b0f0ade478fabdc634c86992e",
+    "docs/state/merge_test_index.json": "e98f96bd7b7241458cf9f1d3c397730afd08af64564448fb579213bd29469b2b -> e98f96bd7b7241458cf9f1d3c397730afd08af64564448fb579213bd29469b2b (ZERO bytes touched - re-measured after the commit)"
+   }
+  },
+  "delta_purity": "Commit 0c37779 touches exactly four paths (git show --name-only: README.md, backend/scripts/docs_verification.py, docs/criteria/docs_verification.md, docs/criteria/scoring_map/delivery.md; 7 insertions, 7 deletions). Zero merge_test_index.json bytes (worktree index digest re-measured e98f96bd... after commit). Zero WAL/history bytes, zero scoring_map bytes beyond the delivery.md surface the ACs name, zero .github bytes, zero README triple-pin INDEX legs touched.",
+  "leg_227_placeholder_protocol": {
+   "record": "docs/state/outputs/t121_definer_gate_amendment.json - status proposed, UNTOUCHED by this card (the definer's bytes; the card writes zero index bytes and zero amendment bytes).",
+   "definer_placeholder_locks_reverified": "placeholder-form new_command_sha256 ce2de22191c9a5a7cb8a8edff60d85b8cf383d9f6434df70520f6a66231368d6 (len 4756) and entry_sha_after 236bcf52a561ab1d23a924d0b2dbc5d7193fee72890e1d3f92279010a84895fd RE-VERIFIED: applying the three replaced_regions to the live shipped leg 227 reproduces both exactly.",
+   "builder_measured_values_for_substitution": {
+    "<T121_README_CR_STRIPPED_DIGEST_64HEX>": "a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9",
+    "<T121_README_LINES>": "421",
+    "<T121_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>": "c9f47ed2f1ce85beef3f9bab794a47adc107c10b0f0ade478fabdc634c86992e"
+   },
+   "substituted_form_recomputed": {
+    "new_command_sha256": "2a5509183bfeee2e05f1e957450030e9663ad798dbf4ff8b48ee817a0ad19eba",
+    "new_command_len": 4774,
+    "entry_sha_after": "ef94c56b0b9e44e1fbd42ab25f4df1da1e6789e3bd63b9bf8545963f984112fa",
+    "note": "sha256 over the SUBSTITUTED command string and json.dumps(entry, separators=(',',':')) of the substituted entry, per the record's builder_instruction. These values belong in the orchestrator's merge window - this card wrote them NOWHERE but this handoff (no index bytes, no amendment-file bytes)."
+   },
+   "forward_green_proof_measured_by_builder": "The SUBSTITUTED leg-227 command run VERBATIM against this tree at commit 0c37779: rc=0 GREEN ('ac4 GREEN: BYTE-PINS EXECUTED' - README digest/lines, AGENTS/render/openapi pins, report digest + HEAD-blob match, workflows dir, 20-file freeze loop, seeded-probe and single-character-mutation controls all pass). This closes the groom's PARTIAL deferral (the groom's scratch clone could not carry a consistent regenerated report blob; this tree is the real commit).",
+   "necessity_control": "The OLD shipped leg-227 command run against the candidate tree: rc=1 ('ac4 RED: README is not the pin-2 FINAL digest') - the amendment is NECESSARY, not cosmetic.",
+   "placeholder_status": "KEPT in the amendment record (correct per protocol - the definer's file is untouched); measured values disclosed HERE, not written into index or amendment bytes."
+  },
+  "negative_control_matrix": [
+   {
+    "case": "ac5 probe vs fabricated delivery.md Gap claiming two deployed targets / separate production instance (real-file copy, /tmp/t121nc)",
+    "expected": "FIRES",
+    "measured": "FIRES - 4 defects (two deployed targets, separate production instance, second production environment exists, missing infrastructural negation)"
+   },
+   {
+    "case": "ac5 probe vs fabricated README row 9 claiming two deployed targets / separate prod database",
+    "expected": "FIRES",
+    "measured": "FIRES - 3 defects (two deployed targets, separate prod database, missing LOGICAL boundary word)"
+   },
+   {
+    "case": "ac5 probe vs the REAL delivery.md CI/CD section and REAL row 9",
+    "expected": "SILENT",
+    "measured": "SILENT on both (no defect; the negated honesty sentence 'no second deployed target exists' is stripped before the violation scan as designed)"
+   },
+   {
+    "case": "ac3 invariant vs half-moves (scratch roots)",
+    "expected": "RED",
+    "measured": "rc=1 README-moved-only and rc=1 constant-moved-only; rc=0 only when the full triple agrees"
+   },
+   {
+    "case": "settled (substituted) leg 227 vs candidate tree",
+    "expected": "rc=0",
+    "measured": "rc=0 GREEN (forward proof, see leg_227_placeholder_protocol)"
+   },
+   {
+    "case": "OLD shipped leg 227 vs candidate tree",
+    "expected": "rc=1",
+    "measured": "rc=1 - amendment necessary"
+   },
+   {
+    "case": "carried README-family legs 256/257/251/254/201/258 vs candidate tree (verbatim from the live index via python3 subprocess)",
+    "expected": "rc=0",
+    "measured": "all six rc=0; 258 self-heals exactly as priced (reads the README_DIGEST constant, which moved WITH the README)"
+   }
+  ],
+  "regeneration_stability_disclosure": "The t111/t121-groom known failure (STORED_GATES tests[134] rc=1) is an ENVIRONMENT gap, not a product state: gate 134 loads ./frontend/node_modules/js-yaml, absent in this fresh worktree (node_modules is gitignored). A relative symlink frontend/node_modules -> the parent checkout's frontend/node_modules (gitignored path, zero tracked bytes, left in place for the verifier) makes the generator run rc=0 with STORED_GATES PASS executed=9 failures=0 in THIS environment; the report was regenerated there and the DOUBLE RUN was byte-identical (rc=0 both times, digest c9f47ed2... stable). The placeholder was still KEPT (not faked away): the amendment record is the definer's file and the orchestrator substitutes in the merge window per protocol. Honest caveat: the committed report's LINK_CHECK row is files=282 links=67 (this worktree's walk surface) vs the base report's files=299 links=94 (the parent checkout's dirtier surface); the count is an environment-surface row, broken=0 is the load-bearing leg (t102/t111 precedent governs this class), and no index leg pins files=/links= values (swept).",
+  "residual_risks": [
+   "ac4 rc=1 in a clean-LF clone: the fence pins the CRLF WORKING digest e98f96bd of merge_test_index.json; an autocrlf=false clone materializes the LF blob 7ef6cc10... and the digest leg fires. The verifier must run ac4 in the canonical CRLF working tree (where it is GREEN) or against the canonical checkout's bytes; the groom's own ac4 baseline was the same canonical state.",
+   "The committed report embeds LINK_CHECK files=282 links=67 measured in this worktree; any later SKIP_DIRS/venv-cleanup or full local npm install changes that environment-surface row and forces a regeneration by whichever card owns that surface (t102/t111 class).",
+   "frontend/node_modules is a gitignored SYMLINK into the parent checkout left in this worktree so stored gate 134 can run; a verifier environment without it reproduces the disclosed tests[134] rc=1 environment variance (product bytes unaffected - the report blob is committed).",
+   "Leg 227 stays RED on this branch until the orchestrator applies the PROPOSED amendment in the merge window with the substituted values recorded above (W2: apply, re-assert entry digests, run the amended leg expecting rc=0 - the builder has already measured rc=0 against the candidate - and run the OLD leg expecting rc=1, measured rc=1 here).",
+   "Pre-existing RED set legs 191/231/259 remain RED (disclosed, not healed, per the card's Out of scope)."
+  ],
+  "push_note": "Push via the cmd.exe git route ONLY (WSL-side git is broken in this worktree by the Windows-path .git pointer), one attempt + one retry, timeout<=120s: git push origin HEAD:pi-subagents/builder-t121 (named branch; main is checked out in the parent repo and never receives a direct push). ls-remote read-back recorded in the final report.",
+  "worktree_state_note": "Worktree clean at the two commits (product 0c37779 + handoff); git status --porcelain empty apart from nothing (no foreign dirt in this fresh worktree). The scratch clone scratch/t121clone and tar scratch/t121clean.tar live in the PARENT repo's gitignored scratch/ and are disposable.",
+  "notes": "No platform issue was closed, commented on, or relabeled by this card beyond what the orchestrator contract assigns; no index bytes; no edits to docs/issues/*, docs/criteria/scoring_map/* beyond delivery.md's AC-named surfaces, or the amendment record. The 2/3 string is dead on both product carriers; the re-baseline is an interpretation change recorded verbatim under the operator ruling, never a loosened fence or an invented second deployed target."
+ },
+ "artifacts": {
+  "files_written": [
+   "README.md",
+   "docs/criteria/scoring_map/delivery.md",
+   "backend/scripts/docs_verification.py",
+   "docs/criteria/docs_verification.md",
+   "docs/state/outputs/t121_builder_build.json"
+  ],
+  "platform_issue": 125,
+  "output_path": "docs/state/outputs/t121_builder_build.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-24T11:06:16Z",
+ "retry_count": 0
+}
