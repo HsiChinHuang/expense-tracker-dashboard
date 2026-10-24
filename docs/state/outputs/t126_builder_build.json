@@ -48,7 +48,22 @@
       "failed": 0
     },
     "lint_status": "CLEAN",
-    "verification_commands_source": "docs/issues/<id>.md#verification-commands"
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured_triple_for_leg227": {
+      "at_t126_product_state": {
+        "README_cr_stripped_sha256": "dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708",
+        "README_line_count": 421,
+        "report_cr_stripped_sha256": "59e6ddf83d4c306d6d96e82146c110a183666569b460b9f2f899ab6462b6eb08",
+        "note": "the triple the ac3 fence measured when t126 was the tree tip (WAL-locked measurements, WAL 1320/1322); t126 moved zero README bytes"
+      },
+      "current_after_t124_merge": {
+        "README_cr_stripped_sha256": "bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6",
+        "README_line_count": 421,
+        "report_cr_stripped_sha256": "f018af69cca5cada95a30529da0d4316342fbb7c1c5ff6847546eda1f7bb44c4",
+        "note": "orchestrator-measured NOW from working-tree bytes CR-stripped; t124 row-12 rotated README/report - the LIVE leg-227 substitution consumes THESE, not the t126-era triple"
+      },
+      "appended_by": "orchestrator close-out (builder draft omitted the three values ac3 requires; verifier 7573a0ec proved the omission before its timeout); values measured, never authored"
+    }
   },
   "artifacts": {
     "files_written": [
