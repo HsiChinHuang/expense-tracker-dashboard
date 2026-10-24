@@ -1,0 +1,17 @@
+definer(t124 amend-fix): re-strike gate amendment for tests[284] with the real CARD name
+
+Supervisor ruling A: card governs. v1's amended probe hardcoded the stale guessed name
+restart_local_observability; the merged product (t123 dcae095 + t124 576d690) names
+restart_local_compose_app (schema enum, responder-task.md naming line, drill carrier row).
+
+v2 = v1 command with exactly one decoded-payload line corrected (ALLOWED_ACTIONS 7th entry;
+single occurrence - the drill-row membership check is dynamic, no second site). Re-encoded in
+the identical single-line base64 style (byte-exact roundtrip verified).
+
+Pins: entry_sha_before 2eca047fe4cc... (== LIVE tests[284], asserted); new_command_sha256
+3e3c4a60116f2c7d8f4e0982b112794acb645c8506fee14a894657c825b17e52 len 11041; entry_sha_after
+231aace612786bb790360d94b1dc198e44619d9768ad8276f76eec0f179144e1. Forward/reverse region
+reconstruction byte-exact. Measured: unamended LIVE 284 rc=1 (RED naming the enum premise -
+flip evidence); corrected amended rc=0 (ac2 GREEN, VALIDATOR_CONTRACT_OK 1+12).
+
+Status proposed; supersedes t124_definer_gate_amendment.json. Card writes zero index bytes.

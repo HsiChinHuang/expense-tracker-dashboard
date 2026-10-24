@@ -1,0 +1,16 @@
+    ac2 OK schema_contract required=9 actions=read_health,read_logs,read_manifest,read_metrics,read_version,restart_local_compose_app,write_report every action is also named in responder-task.md
+    ac2 OK  valid_answer           rc=0 want=0 out=ACCEPT answer /tmp/tmpnk2fstt_/valid_answer.json satisfies incident-response/response.schema.json
+    ac2 OK  missing_summary        rc=1 want=nonzero out=REJECT answer $: required field summary is missing
+    ac2 OK  missing_confidence     rc=1 want=nonzero out=REJECT answer $: required field confidence is missing
+    ac2 OK  out_of_policy_action   rc=1 want=nonzero out=REJECT answer $.actions_taken[0].action: value not in the pinned enum
+    ac2 OK  severity_out_of_enum   rc=1 want=nonzero out=REJECT answer $.severity: value not in the pinned enum
+    ac2 OK  evidence_ref_escapes   rc=1 want=nonzero out=REJECT answer $.evidence_refs[0]: value does not match the pinned pattern
+    ac2 OK  evidence_ref_absolute  rc=1 want=nonzero out=REJECT answer $.evidence_refs[0]: value does not match the pinned pattern
+    ac2 OK  evidence_refs_empty    rc=1 want=nonzero out=REJECT answer $.evidence_refs: fewer items than minItems 1
+    ac2 OK  confidence_out_of_range rc=1 want=nonzero out=REJECT answer $.confidence: above the pinned maximum
+    ac2 OK  recovery_claimed       rc=1 want=nonzero out=REJECT answer $.recovery_verified: value not in the pinned enum
+    ac2 OK  extra_top_level_key    rc=1 want=nonzero out=REJECT answer $: unknown key planned_fix is rejected
+    ac2 OK  action_extra_key       rc=1 want=nonzero out=REJECT answer $.actions_taken[0]: unknown key command is rejected
+    ac2 OK  summary_too_short      rc=1 want=nonzero out=REJECT answer $.summary: string shorter than minLength 40
+    ac2 VALIDATOR_CONTRACT_OK valid answer accepted and 12 mutants rejected
+ac2 GREEN: THE SCHEMA DEMANDS WHAT AN INCIDENT ANSWER MUST CARRY - the pinned probe drove the validator over one valid answer (accepted) and twelve mutants (all rejected), so the schema rejects the wrong shape rather than accepting everything
