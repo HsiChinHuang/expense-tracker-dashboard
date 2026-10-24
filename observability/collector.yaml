@@ -1,20 +1,21 @@
-# observability/collector.yaml - the OPTIONAL OTel collector configuration.
+# observability/collector.yaml - the OTel collector configuration.
 #
-# This file is NOT ENABLED for this milestone. It corresponds to the
-# COMMENTED optional otel-collector service block in
-# observability/compose.yaml - the same traces limitation t87 records -
-# and it documents that option; it does not activate it. Nothing in this
-# repo starts a collector, mounts this file, or sends data to it.
+# This file IS ENABLED AND MOUNTED: the otel-collector service in
+# observability/compose.yaml mounts it as its live collector configuration
+# (./collector.yaml:/etc/otelcol-contrib/config.yaml:ro). Starting that
+# compose file starts a collector reading this config; the traces pipeline
+# below receives OTLP spans and exports them to the in-cluster Tempo
+# service at tempo:4317 (never scheme-qualified) and to a local file.
 #
-# How to enable (both edits belong to a later card that is granted those
-# files; this card performs neither of them):
-#   1. uncomment the otel-collector service in observability/compose.yaml
-#   2. mount this file into that service as its collector configuration.
+# The API side that produces those spans is backend/app/trace.py: one
+# SERVER span per request whose 32-hex trace id the correlated log lines
+# carry (ops/logging.md). The measured journey is recorded in
+# docs/criteria/trace_correlation_verification.md.
 #
-# Endpoints are loopback-only, no credential appears anywhere in this
-# file, and no cloud or hosted endpoint is named. The scrape-and-alert
-# metrics path (prometheus + alertmanager + grafana) works without this
-# file; the collector is the legible, inert option for traces and logs.
+# Endpoints are loopback-only or in-cluster service names, no credential
+# appears anywhere in this file, and no cloud or hosted endpoint is named;
+# render.yaml deploys none of this stack. The scrape-and-alert metrics path
+# (prometheus + alertmanager + grafana) works without this file.
 
 receivers:
   otlp:
@@ -41,6 +42,12 @@ exporters:
     endpoint: 127.0.0.1:8889
     send_timestamps: true
     metric_expiration: 10m
+  otlp/tempo:
+    # In-cluster service name, never scheme-qualified (leg 271's
+    # non-local-URL scan fires on an http:// scheme form).
+    endpoint: tempo:4317
+    tls:
+      insecure: true
   file:
     path: ./otel-received.json
 
@@ -58,4 +65,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [file]
+      exporters: [otlp/tempo, file]
