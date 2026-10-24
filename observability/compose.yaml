@@ -3,7 +3,8 @@
 # the app stack in docker-compose.yml is FROZEN and is not touched here.
 # Exactly six services are enabled: prometheus (metrics scrape and rule
 # evaluation), alertmanager (alert routing), grafana (visualisation) and,
-# since t122, the OTel collector / Loki / Tempo traces-and-logs block.
+# since t122, the OTel collector / Loki / Tempo traces-and-logs block
+# (otel-collector receives spans, tempo stores traces, loki aggregates logs).
 # The collector, Loki and Tempo services carry NO host:container mapping:
 # their port list is container-only (unpublished) so the published host
 # band stays exactly 9090 / 9093 / 3000 as pinned below.
