@@ -1,0 +1,7 @@
+ac3 evidence: PyYAML 6.0.1 parsed collector.yaml; top-level keys = exporters, extensions, processors, receivers, service
+ac3 evidence: the header states IS ENABLED / mounted, names compose.yaml and names otel-collector; compose.yaml carries that service ACTIVE and mounting collector.yaml
+ac3 evidence: NEGATIVE CONTROLS ran - a file without the IS ENABLED sentence, a file still saying NOT ENABLED, a file that never names compose.yaml, a YAML with no collector vocabulary and a config with no traces pipeline were each REJECTED
+ac3 probe: THE COLLECTOR IS ENABLED AND MOUNTED - collector.yaml parses, states that it is enabled and mounted by the ACTIVE otel-collector service of observability/compose.yaml, that service exists uncommented and mounts this file, and the synthetic broken collector files were each REJECTED
+ac3 GREEN: THE COLLECTOR IS ENABLED AND MOUNTED - observability/collector.yaml parses under python3+PyYAML, states that it is enabled and mounted by the ACTIVE otel-collector service of observability/compose.yaml, that service exists uncommented and mounts the file, and the five synthetic broken collector files were each REJECTED
+
+--STDERR--

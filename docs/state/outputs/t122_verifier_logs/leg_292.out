@@ -1,0 +1,7 @@
+ac2 evidence: extracted inventory from observability/alerts.yaml = category_created_total=counter, db_fallback_active=gauge, expense_create_failures_total=counter, expense_created_total=counter
+ac2 evidence: metric names referenced by panel exprs = category_created_total, db_fallback_active, expense_create_failures_total, expense_created_total
+ac2 evidence: NEGATIVE CONTROLS ran - an invented metric name, a panel set that never visualises the fallback gauge and a dashboard whose only series is invented were each REJECTED
+ac2 probe: EVERY PANEL QUERIES A t76 NAME AND NOTHING ELSE - the expr metric tokens are exactly the extracted t76 inventory, with no invented name and no declared name left unvisualised
+ac2 GREEN: EVERY PANEL QUERIES A t76 NAME AND NOTHING ELSE - the metric tokens in the panel exprs are exactly the inventory extracted from the merged observability/alerts.yaml (no invented name, no declared name left unvisualised), and the invented-name, uncovered-gauge and invented-only synthetic dashboards were each REJECTED
+
+--STDERR--

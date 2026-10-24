@@ -1,0 +1,7 @@
+ac2 evidence: parsed host ports=3000 9090 9093 (protected set 18137 5173 8000 8001 8137 must be disjoint)
+ac2 evidence: mapping 9090:9090 count=1
+ac2 evidence: mapping 9093:9093 count=1
+ac2 evidence: mapping 3000:3000 count=1
+ac2 GREEN: PORT BAND PROVABLY COLLISION-FREE - parsed host ports are exactly 3000/9090/9093, disjoint from 8000/5173/8001/8137/18137, each mapping appears once, and the README prints the table and every protected port with its reason
+
+--STDERR--

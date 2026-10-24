@@ -1,0 +1,2 @@
+grep: backend/app: Is a directory
+ac2 RED: no app module emits a trace_id field - the vocabulary cannot gain a field nobody writes

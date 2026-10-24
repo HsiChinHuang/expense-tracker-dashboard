@@ -1,0 +1,10 @@
+ac4 evidence: README cr-stripped sha256=dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708 lines=421
+ac4 evidence: canonical digest form = CR-STRIPPED sha256 (tr -d CR | sha256sum); the git blob id d849c775e2f4c4b5872422ce1f9afb266a7049a2 of docs/criteria/docs_verification.md is carried ONLY as a blob identity, never as a sha256
+ac4 evidence: docs_verification.md working bytes == HEAD blob 7e02cb18e0ba4c58c4da3bc1cbdad8cb114b1dfb
+ac4 evidence: workflows dir=[.gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,]
+ac4 evidence: 20 byte-frozen files verified against their HEAD blobs
+ac4 evidence: NEGATIVE CONTROL git hash-object of a seeded probe file = d4f588b13c8d68bd7e94b44704670f6659b9da2a (must differ from every pinned digest)
+ac4 evidence: NEGATIVE CONTROL a README digest with one mutated character is rejected by the pinned comparison (collisions=0, want 0)
+ac4 GREEN: BYTE-PINS EXECUTED - README pin-2 FINAL (a64efaa2, 308 lines, pin-3 forbidden), AGENTS 8340781c, render 60110dd0, openapi 6f2a0a3d all match their CR-stripped sha256 pins, docs_verification.md matches BOTH its canonical cr-stripped sha256 29d22aff and its HEAD blob d849c775, 20 byte-frozen files match their HEAD blobs, the workflows dir is exactly .gitkeep,ci.yml,deploy.yml,e2e.yml, and a seeded probe file proves the digest comparison actually discriminates
+
+--STDERR--
