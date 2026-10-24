@@ -1,0 +1,151 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t120",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t120-workflow-topology-carriers",
+    "branch_sha": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+    "branch_note": "Branch created from main at 77c628a09f78976f1955f24b30937358fe057727 (verified: git fetch origin main via cmd.exe returned the same tip; git branch --show-current asserted main before branch creation and re-asserted issue/t120-workflow-topology-carriers before the commit). ONE product commit 03671cc carries exactly the three owned paths via explicit pathspec on both add and commit (git show --stat: 3 files changed, 52 insertions, 3 deletions). NOT PUSHED per the spawn contract - the orchestrator merges from this branch. main received zero commits; docs/state/merge_test_index.json received zero bytes (git diff --name-only main..HEAD -- the index is empty; content-proven by ac2's esha sweep: all 318 entries byte-identical to HEAD).",
+    "schema_note": "Task names mode build with filename t120_builder_build.json; registry has no builder:build, so validation is invoked as `npx tsx scripts/validate_handoff.ts docs/state/outputs/t120_builder_build.json builder implement` per the standing t90..t119 fix (schemas/builder/build.json does not exist; schemas/builder/implement.json is the contract and evidence_type is build).",
+    "ac_hash": "sha256:4fa628ec637a0b9c87e5c569f6390b499400dd04f49fcaceed534a45ab16e0b5",
+    "ac_hash_recompute": "Recomputed FROM THE COMMITTED CARD at builder run time: git show HEAD:docs/issues/t120.md, extract the six ```bash fences in ac1..ac6 order, CR-strip and trim each, sha256 over json.dumps(array, separators=(',',':')) = 4fa628ec637a0b9c87e5c569f6390b499400dd04f49fcaceed534a45ab16e0b5 - EXACT match to the card's Metadata line (the spawn prompt carried a truncated ...ab16e0b variant; the card's own spaced-groups line ends ab16e0b5 and the recomputation confirms it). The six extracted fences are the exact blocks executed for ac_mapping.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The six fenced blocks of docs/issues/t120.md, extracted byte-exactly (recomputing to the card ac_hash) and run VERBATIM via bash from the repository root; no substitution. Execution shapes: ac1/ac3/ac4 in a clean-LF git clone of the branch (/tmp/t120verify at 03671cc, the merge-candidate shape per the t102/t119 crlf_smudge precedent); ac2/ac5/ac6 in the main working tree where the fences' own tools (uv, node, the live index) resolve; the ac2/ac5 anchor and pin legs additionally re-run directly in the main tree.",
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 1,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 1,
+      "ac6": 1
+    },
+    "fence_rc_provenance": "ac1/ac3/ac4 rc=0 verbatim in the clean-LF clone of the pushed-shape branch (the merge-candidate shape; the report blob there carries no CR so ac1's $-anchored grep matches - in the CRLF worktree checkout the same grep fails on the CR, the F10/crlf_smudge class the card itself names in ac1's NRM comment and the t102/t116 pin discipline). ac2/ac5/ac6 rc=1 ONLY on the legs enumerated in fence_disclosures below; every other leg of all three fences printed its GREEN evidence line in the main working tree at 03671cc. Verdicts follow ORCHESTRATOR RULING (t120, precedent t119-ac3 ruling 515694e6): PASS-with-disclosure for ac2/ac5/ac6.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac1 -' of docs/issues/t120.md, extracted byte-identically from the committed card (recomputing to ac_hash 4fa628ec637a0b9c87e5c569f6390b499400dd04f49fcaceed534a45ab16e0b5) and run VERBATIM via bash in a clean-LF clone of the branch at 03671cc; rc=0 GREEN: generator asserts the four-name WORKFLOW_NAMES set AND _human_gate_holds() (workflow_dispatch + 'environment: production' + RENDER_DEPLOY_HOOK/workflow_run legs; stale three-name equality gone), the report delta vs 77c628a is exactly the WORKFLOW_SET_ROWS line (workflows=3 -> workflows=4, every other line byte-identical), CARRIED_DIGESTS == the measured cr-stripped report digest 38dcbd3dd367bc9a590f53dd78d82576784f6a92dd75e1c670d2eef72ac82c3e, and two regenerations are byte-identical (CR-stripped) and green.",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac2 -' run VERBATIM exits rc=1 ONLY on the INDEX_ANCHORS parse leg (regex INDEX_ANCHORS\\s*=\\s*\\{ cannot match the annotated declaration INDEX_ANCHORS: dict[int, tuple[str, str]] = { - measured None against MAIN's own committed blob, unsatisfiable-by-construction, see fence_disclosures.ac2); every other leg passes GREEN on this commit: the whole write surface is the three product paths, docs_verification.py moved on exactly the 2 lines of the one CARRIED_DIGESTS value replace-only, the 64-hex literal count stays 13, zero index bytes (git diff empty AND content-proven: with a corrected annotation-tolerant parse all 8 INDEX_ANCHORS entries and all 318 index entries are byte-identical to HEAD), and the dead phase-7 amend script is neither edited nor re-pointed. PASS per orchestrator ruling with the substantive anchor-immobility proof above.",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac3 -' run VERBATIM; rc=0 GREEN: docs/state/outputs/t120_definer_gate_amendment.json reconstructs legs 5 and 161 forward AND reverse losslessly in the pre-amendment state (entry shas match, new_command_sha256 reproduces), invokes the W2 eight-property policy in writing, names the F4 HYBRID chosen shape verbatim, attests leg 183 as a measured NO-OP against the live entry (5 named literals absent), forbids resurrecting the phase-7 amend script, and carries a 10-leg negative-control matrix. The record is the definer's; the builder wrote zero index bytes.",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac4 -' run VERBATIM; rc=0 GREEN: 5/5 generator gate-property controls fired as expected against the REAL shipped _human_gate_holds (P: four gated pipelines True; N1 missing promote False; N2 promote without environment: production False; N3 ci.yml RENDER_DEPLOY_HOOK without workflow_run False; N4 fifth junk.yml False), and 3/3 index-level topology controls (T1 amended guard green on a four-pipeline tree, T2 victim=fifth workflow file refused rc=1, T3 reconstructed ORIGINAL guard still red on promote.yml rc=1 so the fail-before proof survives). The re-premise FIRES in both directions; every victim named.",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac5 -' run VERBATIM exits rc=1 ONLY on the docs_verification.md no-op leg's comparison: regeneration moves the single LINK_CHECK line files=299 -> files=300 because git-ignored untracked backend/.pytest_cache/README.md is walked by the generator (SKIP_DIRS has no .pytest_cache entry) - REPRODUCED IDENTICALLY AT MAIN 77c628a with the same single-line move and gen rc=0, discharging this commit of causality (see fence_disclosures.ac5; the committed 299/94 line is itself unreproducible at main in any cache configuration - stale-PASS report hygiene, orchestrator backlog). Every other leg passes GREEN on this commit: leg 258 verbatim rc=0, docs_verification.py exits 0, README_LINES=421 / README_DIGEST=efded7fb.. / INDEX_FLOOR=217 unchanged, CARRIED_DIGESTS carries its 4 entries, and legs 227/256/258 entry shas are byte-identical to the t116/t111 settlements. PASS per orchestrator ruling.",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "03671ccc6bffe229d92ec6829946f8cffb0cb6db",
+        "test": "the fenced bash block under '### ac6 -' run VERBATIM exits rc=1 on two disclosed legs only (fence_disclosures.ac6a/ac6b): (a) leg 161 reconstructed PRE-window is rc=1 because the amended leg executes the LIVE tests[5] which is still unamended before the orchestrator's merge window - the card's own leg-161 ruling premise 2 concedes the assertion moves to 'the live tests[5] command from the index (tests[5] AFTER this card's window)', so the leg is satisfiable only post-window where the verifier runs it (in a throwaway simulated post-window sandbox - real .github/security/ops/frontend copies + the record-applied index, abandoned per orchestrator steer after both legs returned rc=0 - legs 5 AND 161 measured rc=0, corroborating the groom's scratch/t120reh rehearsal); (b) the ten-leg neighbourhood block demands rc=0 on legs 162/167/177/191, which the card's OWN F6 effective RED set lists as RED at base and which measured rc=1 AT MAIN (independently recorded RED by WAL 1287) - an internal contradiction in the card, not a product RED. The DoD legs that ARE this card's: leg 5 reconstructed rc=0, leg 183 LIVE rc=0 ('generator hermetic + ruff/mypy clean + byte-stable, ALL_CHECKS_PASS 28 (floor 18)'), and neighbourhood legs 131/143/155/227/256/258 rc=0. PASS per orchestrator ruling.",
+        "verdict": "PASS"
+      }
+    },
+    "fence_disclosures": {
+      "ac2": {
+        "verbatim_leg": "python3 block inside ac2: m = re.search(r\"INDEX_ANCHORS\\s*=\\s*\\{([^}]*)\\}\", g, re.S); ... if not anchors: 'ac2 RED: INDEX_ANCHORS could not be parsed - the anchor set this card's safety argument rests on is unreadable; re-groom'",
+        "measured": "rc=1 verbatim on the candidate AND the same regex returns None against main 77c628a's AND f9c7ecf's OWN committed backend/scripts/docs_verification.py blob (measured both).",
+        "proof_no_builder_artifact_can_change_it": "The shipped declaration at line 41 is 'INDEX_ANCHORS: dict[int, tuple[str, str]] = {' (PEP 526 annotated assignment); the fence regex requires the un-annotated 'INDEX_ANCHORS ='. The declaration predates this card (present byte-identically at f9c7ecf and main) and is OUTSIDE this card's 2-line CARRIED_DIGESTS write surface, so no admissible builder edit can make the regex match. Identical class to t119's ac3 unsatisfiable-grep (orchestrator ruling 515694e6).",
+        "substantive_pass": "With an annotation-tolerant parse (INDEX_ANCHORS[^{]*\\{) the leg's INTENT passes: all 8 anchors [16,54,131,132,133,135,215,216] unmoved and all 318 index entries byte-identical to HEAD (esha sweep).",
+        "disposition": "definer gate amendment pending (orchestrator dispatches after this handoff lands): change the fence regex to INDEX_ANCHORS[^{]*\\{ and recompute ac_hash; builder did NOT edit the card."
+      },
+      "ac5": {
+        "verbatim_leg": "B=$(mktemp); cp \"$G\" \"$B\"; (cd backend && PYTHONPATH=. uv run python scripts/docs_verification.py ...); cmp -s <(tr -d '\\r' < \"$G\") <(tr -d '\\r' < \"$B\") || 'ac5 RED: regenerating docs_verification.md changed its CONTENT (CR-stripped)...'",
+        "measured": "rc=1 verbatim on the candidate: the ONLY moved line is 'LINK_CHECK PASS files=299 links=94 broken=0' -> 'files=300' (links and broken unchanged).",
+        "proof_no_builder_artifact_can_change_it": "(1) Reproduced IDENTICALLY AT MAIN 77c628a: same pinned invocation, gen rc=0, same single-line 299->300 move - the drift exists with zero t120 bytes in the tree, so no artifact this card may write changes it. (2) The 300th file is backend/.pytest_cache/README.md, git-ignored (.gitignore:100) and untracked; docs_verification.py's SKIP_DIRS lacks .pytest_cache; docs_verification.py is NOT this card's surface beyond the one digest line. (3) The committed report's 299/94 line is unreproducible at main in ANY configuration (measured: 298/93 with neither cache nor untracked docs/state/pending_blockers/blocker_1.md, 299/93 with blocker only, 300/94 with cache present) i.e. it is stale-PASS at main - a report-hygiene finding surfaced by this card, not caused by it.",
+        "substantive_pass": "The window-safety property ac5 prices IS proven on this commit: leg 258 verbatim rc=0, the generator exits 0 with CARRIED_REPORT PASS rows=29 for security_ops (the re-pin landed), docs_verification.md's committed bytes are untouched by this card, and the README/INDEX_FLOOR/4-entry envelope plus the 227/256/258 settlement shas are byte-unchanged.",
+        "disposition": "backlog hygiene (orchestrator ledger): the LINK_CHECK walk should skip .pytest_cache-class caches and/or the report should be regenerated on a clean tree by the next card that legitimately touches docs_verification.md; NOT this card's surface (zero-byte table: docs/criteria/docs_verification.md = 0)."
+      },
+      "ac6a": {
+        "verbatim_leg": "command_for(161) -> reconstructed(pre-window) -> subprocess.run(['bash','-c',cmd]) rc != 0 -> 'ac6 RED: ... leg 161 (reconstructed(pre-window)) rc=1'",
+        "measured": "rc=1 verbatim pre-window; bash -x trace pins the exit to the amended leg's 'bash -c \"$lv\"' step, where lv is the LIVE tests[5] command (still the unamended guard on a tree that legitimately contains promote.yml).",
+        "proof_no_builder_artifact_can_change_it": "The card's own leg-161 ruling, premise 2, states verbatim: 'the live-tree execution is replaced by executing the live tests[5] command from the index (tests[5] AFTER this card's window), which is the true statement about today'. Pre-window tests[5] is unamended BY DESIGN (zero-byte table: '0 by the builder - legs 5/161 are amended by the ORCHESTRATOR'), so the leg is unsatisfiable pre-window by the card's own construction; the builder healing it would require writing index bytes, which ac2 makes RED. Corroboration: in a simulated post-window sandbox (record applied forward to a temp index, real .github/security/ops/frontend copies) legs 5 AND 161 both measured rc=0 - and the groom's scratch/t120reh rehearsal recorded the same before this card ran.",
+        "disposition": "post-window satisfiable: the verifier runs this fence after the orchestrator's merge-window amendment, where the leg executes the amended tests[5]; cite the premise verbatim (done above)."
+      },
+      "ac6b": {
+        "verbatim_leg": "neigh = [131, 143, 155, 162, 167, 177, 191, 227, 256, 258]; ... 'ac6 RED: legs %s in this card's own carrier neighbourhood are RED on this tree...'",
+        "measured": "rc=1 with red=[162, 167, 177, 191]; the other six (131/143/155/227/256/258) rc=0.",
+        "proof_no_builder_artifact_can_change_it": "The card's OWN F6 arithmetic lists the effective base RED set as including 162, 167, 177 and 191 ('the effective RED set is 33 items: [5, 139, 140, 161, 162, 163, 164, 166, 167, ...]' - and this card retires only {5,161,183}); I additionally re-measured all four rc=1 ON MAIN 77c628a with this card's bytes fully removed from the tree (checkout main, run, return). A fence that demands green on legs the same card prices as pre-existing RED is an internal contradiction - no product artifact can satisfy it without healing legs this card's Constraints forbid touching ('This card retires three legs and no others'). Spot-checked causes confirm base-redness, not regression: leg 162 fails inside make security-gitleaks (90 leaks - the t86-era scan drift), leg 191 fails its README-drift subleg (t47-era), 167/177 are the t37/t38 loop-closure family in the F6 set.",
+        "disposition": "card defect -> definer gate amendment pending (orchestrator ruling): the neighbourhood list should read [131, 143, 155, 227, 256, 258] (the six legs outside the F6 RED set), or cross-check the four against the recorded RED set instead of demanding green."
+      }
+    },
+    "changed_files": [
+      "backend/scripts/security_ops_verification.py",
+      "docs/criteria/security_ops_verification.md",
+      "backend/scripts/docs_verification.py"
+    ],
+    "changes": [
+      "backend/scripts/security_ops_verification.py (+50/-1): new module constant WORKFLOW_NAMES: Final[tuple[str, ...]] = (\"ci.yml\", \"deploy.yml\", \"e2e.yml\", \"promote.yml\"); new function _human_gate_holds(workflow_dir, workflows) implementing the F4 HYBRID gate property (set equality to the four names; promote.yml carries workflow_dispatch AND 'environment: production'; no other committed workflow references RENDER_DEPLOY_HOOK without also carrying workflow_run); and inside attest_layout the WORKFLOW_SET_ROWS assertion moved from the stale equality workflows == [\"ci.yml\", \"deploy.yml\", \"e2e.yml\"] to workflows == sorted(WORKFLOW_NAMES) and _human_gate_holds(workflow_dir, workflows). The row's value format is UNCHANGED (f\"workflows={len(workflows)} scan_jobs=0\"), so the report delta is one line. Nothing else in the generator was touched (no other assertion weakened).",
+      "docs/criteria/security_ops_verification.md (regenerated, 1 line): regenerated ONLY by the pinned invocation 'cd backend && PYTHONPATH=. uv run python scripts/security_ops_verification.py' (rc=0, ALL_CHECKS_PASS 28 PASS). Delta vs the committed blob, line-level: line 71 '-WORKFLOW_SET_ROWS workflows=3 scan_jobs=0 PASS' -> '+WORKFLOW_SET_ROWS workflows=4 scan_jobs=0 PASS'; diff over the CR-stripped blobs shows NO other line; committed blobs are LF on both sides (measured 0 CR bytes in HEAD and main blobs).",
+      "backend/scripts/docs_verification.py (2 +/- lines, replace-only): the single CARRIED_DIGESTS value for docs/criteria/security_ops_verification.md re-pinned from the stale 4d69122bc9eca30eed5dd1f10333c272ffbb01d4b0ccae5340dbcbbd4175b967 to the MEASURED cr-stripped digest 38dcbd3dd367bc9a590f53dd78d82576784f6a92dd75e1c670d2eef72ac82c3e of the regenerated report (hashlib.sha256 over the file bytes with CRLF->LF), applied by byte-precise replacement preserving CRLF working-tree bytes; git diff -U0 shows exactly the 2 lines; 64-hex literal count stays 13."
+    ],
+    "measured_digest": "38dcbd3dd367bc9a590f53dd78d82576784f6a92dd75e1c670d2eef72ac82c3e",
+    "measured_digest_note": "Measured from the regenerated bytes (never copied): hashlib.sha256(open(report,'rb').read().replace(b'\\r\\n',b'\\n')).hexdigest(). It coincides with the groom rehearsal's expectation 38dcbd3d.., which is a CORROBORATION of byte-equality with the rehearsal, not the authority - ac1's own python leg re-derives the same value from the committed bytes and rejects any copied digest.",
+    "report_line_before_after": {
+      "before": "WORKFLOW_SET_ROWS workflows=3 scan_jobs=0 PASS",
+      "after": "WORKFLOW_SET_ROWS workflows=4 scan_jobs=0 PASS"
+    },
+    "ac1_generator_shape_check_verbatim": "The card's ac1 python leg, run against the shipped generator: 'WORKFLOW_NAMES = the four pipelines, _human_gate_holds() tests the dispatch trigger, the production environment gate and the un-gated deploy-hook path, and WORKFLOW_SET_ROWS asserts both halves' - names parse in order [ci.yml, deploy.yml, e2e.yml, promote.yml], 'def _human_gate_holds(' present, 'workflows == sorted(WORKFLOW_NAMES) and _human_gate_holds' present, all four literals (workflow_dispatch / environment: production / RENDER_DEPLOY_HOOK / workflow_run) present, stale three-name equality absent.",
+    "ac4_control_battery": "5/5 generator controls + 3/3 index controls fired as expected with named victims (see ac_mapping.ac4); the gate function was probed on synthetic dirs through the REAL module import (PYTHONPATH=.:scripts uv run python), so the controls test the shipped bytes, not a copy.",
+    "delta_purity": "git diff --stat main..HEAD: exactly 3 files, 52 insertions 3 deletions, all three in the Owned files table. ZERO bytes: docs/state/merge_test_index.json (ac2 content-proves all 318 entries + all 8 anchors byte-identical), README.md, docs/criteria/docs_verification.md (touched by no commit; the working-tree regeneration was restored via git checkout each time), docs/criteria/scoring_map/**, the other five criteria reports, .github/workflows/**, docs/state/amend_index_entry6_phase7.cjs.ready (stays dead, unreferenced by anything new), the whole product tree. docs/log/orchestrator_wal.jsonl and docs/state/history/ were NOT dirty/staged/committed by this builder (history/ is untracked foreign, untouched).",
+    "legs_run": {
+      "183": {"rc": 0, "how": "base_measured verbatim from the live index, on the branch working tree", "note": "the card's healed carrier: 'generator hermetic + ruff/mypy clean + byte-stable, ALL_CHECKS_PASS 28 (floor 18)' - healed with ZERO index bytes exactly as the no-op attestation priced"},
+      "258": {"rc": 0, "how": "verbatim from the live index (ac5 leg 1)"},
+      "5": {"rc": 0, "how": "reconstructed forward from the amendment record (ac6 pre-window method)"},
+      "161": {"rc": 1, "how": "reconstructed pre-window (ac6); rc=0 in the simulated post-window sandbox and in the groom rehearsal - see fence_disclosures.ac6a"},
+      "neighbourhood": {"rc_zero": [131, 143, 155, 227, 256, 258], "rc_one": [162, 167, 177, 191], "note": "the four rc=1 legs are in the card's own F6 base RED set and re-measured rc=1 AT MAIN - see fence_disclosures.ac6b"},
+      "sweep": "NOT run - the 318-leg close-out sweep is the orchestrator's merge-window job per the spawn contract and the card's F6 arithmetic (30 RED / 288 GREEN expected, leg 190 flaky, re-run once)."
+    },
+    "test_summary": {
+      "total": 9,
+      "passed": 6,
+      "failed": 3
+    },
+    "test_summary_note": "Nine executed verification units: the six AC fences (ac1/ac3/ac4 rc=0; ac2/ac5/ac6 rc=1 solely on the four disclosed unsatisfiable/contradictory legs, verdicts PASS per orchestrator ruling) plus the three carrier legs the card names (183 rc=0 live, 5 rc=0 reconstructed, 161 disclosed above). No new test files: the card ships its own fences and ac2's write surface forbids test paths in the delta (three product paths only). No backend pytest run is priced by any AC of this card; leg 183 itself executes the generator's full hermetic battery (28 PASS rows) twice.",
+    "lint_status": "CLEAN",
+    "lint_note": "cd backend && uv run ruff check scripts/security_ops_verification.py scripts/docs_verification.py -> All checks passed (rc=0); uv run mypy scripts/security_ops_verification.py -> Success: no issues found (rc=0) - exactly the two checks leg 183 executes before its double regeneration. Line-length 100 respected (longest added line 99 chars). Working-tree bytes stay uniformly CRLF (autocrlf=true); the commit stores LF blobs like the base.",
+    "environment_disclosures": [
+      "uv 0.12.13 via PATH=$HOME/.local/bin:$PATH on WSL (the fences' own export), the prior cards' shape; every bash call carried an explicit timeout and no call came close to its budget.",
+      "All local git ops ran under WSL git; the one network op (fetch) ran via cmd.exe /d /c per the repo rule. Commit used -F msgfile with explicit pathspecs on add AND commit; git branch --show-current asserted before the commit.",
+      "ac1 requires the clean-LF merge-candidate clone (t102/t119 crlf_smudge class, named by the card's own ac1 NRM comment): in the CRLF worktree the report line ends with CR and the fence's grep -qxF cannot match; the committed blobs are LF and the clone is the shape the verifier re-measures.",
+      "docs_verification.py's LINK_CHECK walk is sensitive to git-ignored local caches (fence_disclosures.ac5); the working tree was restored (git checkout) after every regeneration so docs/criteria/docs_verification.md and agent_pack_verification.md carry zero delta in the final tree."
+    ],
+    "residual_risks": [
+      "The seven non-regenerating readers of the regenerated report (legs 184/185/187/208/219/223/226) were not run by this card (no fence prices them); the delta is provably one WORKFLOW_SET_ROWS line that none of them asserts a value out of, and the verifier spot-checks 184/185/187 per the card's Context.",
+      "The three disclosed fence defects (ac2 regex, ac6 neighbourhood list, ac5 cache-walk hygiene) are pending the orchestrator-dispatched definer gate amendment + backlog ledger; the verifier's contract for those legs is the amended fence, and verbatim rc=1 is disclosed, not re-litigated (t119 ac3 precedent).",
+      "Leg 161's post-window green rests on the groom rehearsal + this builder's sandbox corroboration; the authoritative proof is the orchestrator's W2 window followed by the verifier's verbatim run.",
+      "docs_verification.md's committed LINK_CHECK 299/94 line is stale-PASS at main (unreproducible in any cache configuration); until hygiene lands, any card regenerating that report moves the line - a hygiene class, not a t120 liability."
+    ],
+    "ac_suggestions": [],
+    "memory_applied": []
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/scripts/security_ops_verification.py",
+      "docs/criteria/security_ops_verification.md",
+      "backend/scripts/docs_verification.py",
+      "docs/state/outputs/t120_builder_build.json"
+    ],
+    "platform_issue": 124,
+    "output_path": "docs/state/outputs/t120_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-24T09:00:57Z",
+  "retry_count": 0
+}
