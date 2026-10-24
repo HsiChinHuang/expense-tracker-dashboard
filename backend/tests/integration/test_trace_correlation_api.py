@@ -89,7 +89,7 @@ class _CaptureHandler(logging.Handler):
             list: (record, formatted line) for every app-origin record.
         """
         out = []
-        for record, line in zip(self.records, self.lines):
+        for record, line in zip(self.records, self.lines, strict=False):
             if record.name.startswith("app.") or record.name.startswith("uvicorn"):
                 out.append((record, line))
         return out
@@ -111,7 +111,7 @@ def exporter() -> Generator[InMemorySpanExporter, None, None]:
     provider = install_tracing(processor=SimpleSpanProcessor(mem))
     attached = any(
         getattr(p, "span_exporter", None) is mem
-        for p in getattr(provider, "_active_span_processor")._span_processors
+        for p in provider._active_span_processor._span_processors  # noqa: SLF001
     )
     if not attached:  # tolerate the idempotent provider guard
         provider.add_span_processor(SimpleSpanProcessor(mem))
@@ -169,10 +169,12 @@ def _drain(exporter: InMemorySpanExporter) -> list[str]:
     Returns:
         list: Hex trace ids of the finished spans, in export order.
     """
-    return [
-        format(s.get_span_context().trace_id, "032x")
-        for s in exporter.get_finished_spans()
-    ]
+    ids = []
+    for s in exporter.get_finished_spans():
+        ctx = s.get_span_context()
+        if ctx is not None:
+            ids.append(format(ctx.trace_id, "032x"))
+    return ids
 
 
 class TestTraceCorrelation:
@@ -223,8 +225,14 @@ class TestTraceCorrelation:
         assert f'"trace_id": "{trace_id_one}"' in line_one
         assert f'"trace_id": "{trace_id_two}"' in line_two
         # Journey record markers (printed, never invented, for ac4's record).
-        print(f"TRACE_JOURNEY_MEASURED journey=expenses-list-401 trace_id={trace_id_one} log_lines=1 stack=testclient")
-        print(f"TRACE_JOURNEY_MEASURED journey=categories-list-401 trace_id={trace_id_two} log_lines=1 stack=testclient")
+        print(
+            "TRACE_JOURNEY_MEASURED journey=expenses-list-401 "
+            f"trace_id={trace_id_one} log_lines=1 stack=testclient"
+        )
+        print(
+            "TRACE_JOURNEY_MEASURED journey=categories-list-401 "
+            f"trace_id={trace_id_two} log_lines=1 stack=testclient"
+        )
 
     def test_out_of_request_probe_span_carries_a_third_distinct_id(
         self, exporter: InMemorySpanExporter, capture: _CaptureHandler
@@ -271,7 +279,7 @@ class TestTraceCorrelation:
         record, line = capture.correlated()[0]
         assert "\n" not in line, "one log line must be one line"
         assert line.rstrip().endswith(
-            '"trace_id": "%s"' % record.trace_id  # type: ignore[attr-defined]
+            f'"trace_id": "{record.trace_id}"'  # type: ignore[attr-defined]
         )
         assert record.trace_id != ALL_ZERO_ID  # type: ignore[attr-defined]
         assert record.levelname == "WARNING"

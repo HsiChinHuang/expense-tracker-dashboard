@@ -37,17 +37,17 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Iterable, MutableMapping
-from typing import Any, Callable
+from typing import Any
 
 from fastapi import FastAPI
 from opentelemetry import trace
 from opentelemetry.context import Context
 from opentelemetry.propagate import extract
 from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
-from opentelemetry.sdk.trace.export import SpanExporter, SpanProcessor
+from opentelemetry.sdk.trace import ReadableSpan, SpanProcessor, TracerProvider
+from opentelemetry.sdk.trace.export import SpanExporter
 from opentelemetry.trace import SpanKind, Status, StatusCode
-from starlette.types import ASGIApp, Message, Receive, Scope, Send
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 TRACER_SCOPE: str = "t122.trace.correlation"
 """Instrumentation-scope name of the request middleware's tracer."""
@@ -91,6 +91,8 @@ class FileSpanExporter(SpanExporter):
         """
         for span in spans:
             ctx = span.get_span_context()
+            if ctx is None:
+                continue
             line = {
                 "name": span.name,
                 "trace_id": format(ctx.trace_id, "032x"),
