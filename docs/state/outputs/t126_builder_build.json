@@ -1,0 +1,66 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t126",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t126-carrier-rotation",
+    "branch_sha": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+    "base": "0446fb87929c4eab2e771b20c6e67e534dc11fe4",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac1 fenced block (pin == measured security_ops digest, rows=29, pinned pair + README byte-untouched, exactly one changed line)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac2 fenced block (generator rc=0 twice, report ends ALL_CHECKS_PASS, INDEX_ANCHORS PASS floor=217 entries=318, STORED_GATES PASS executed=9 failures=0 restored=1, committed==generator bytes, agent_pack restored clean)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac3 fenced block (re-measures the triple; handoff-record check GREEN)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac4 fenced block (legs tests[226] rc=0, tests[256] rc=0, verbatim from live index)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac5 fenced block (delta == exactly the two owned files; index/README/agent_pack/security_ops pair untouched; 318 entries)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "36f8276794bdeb107c3f6ea0648aadf0b294108d",
+        "test": "docs/issues/t126.md#ac6 fenced block (ADD reconstructs at index-field 318 vs live 318-entry index; entry_sha 08fb8530c811d9d0f40d6ebe78582b6d9f7b78302ffcb9170eb53128c90a1157 recomputes; cmd len 2715; the ADD command itself also executed rc=0 on this WSL-shaped host)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands"
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md",
+      "docs/state/outputs/t126_builder_build.json"
+    ],
+    "platform_issue": 130,
+    "output_path": "docs/state/outputs/t126_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T00:30:00Z",
+  "retry_count": 0
+}
