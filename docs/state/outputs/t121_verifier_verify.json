@@ -1,0 +1,173 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t121",
+ "role": "verifier",
+ "phase": "verify_issue",
+ "status": "COMPLETE",
+ "reached_state": "verified",
+ "evidence": {
+  "evidence_type": "verification",
+  "verdict": "PASS",
+  "mode_disclosure": "Task named mode 'verify' with filename t121_verifier_verify.json; the registry has no verifier:verify schema (schemas/verifier/ holds verify_issue/verify_pre_merge/verify_post_merge only), so validation is invoked as `npx tsx scripts/validate_handoff.ts docs/state/outputs/t121_verifier_verify.json verifier verify_issue` per the standing t119/t120 precedent; phase carries verify_issue and reached_state carries verified.",
+  "milestone": "phase_22_scoring_fullmarks",
+  "platform_issue": 125,
+  "verified_against": {
+   "main_tip": "a28bdac419fb53425c2867b7c3f0ea2df3cbbdf6",
+   "branch": "main",
+   "builder_product_commit": "0c37779ccbd5c43c0e887b28fa76c1cea43804f7",
+   "merge_commit": "850b920638fdf2de319e57b04d6319dd3e2bbf64",
+   "merge_window_commit": "a28bdac419fb53425c2867b7c3f0ea2df3cbbdf6",
+   "groom_commit": "cb5801861b4c1a3b6c0c48cf5522dfb734f94f2d"
+  },
+  "verification_environment": "task contract: every platform call routed through cmd.exe with .env restored from scratch/env_quarantine_t94post and `rm -f .env` executed after EVERY platform call and before stopping (verified: .env absent at the end of every step). Local fence runs used the repo's canonical CRLF worktree plus two purpose-built scratch clones (scratch/t121v_pre = canonical autocrlf=true clone at 850b920; scratch/t121v_lf = clean-LF autocrlf=false clone at 850b920). UV_PROJECT_ENVIRONMENT and PYTHONPATH were both empty -> [VENV_UNAVAILABLE] logged; uv resolved via $HOME/.local/bin for the lint run. Zero command-string substitution.",
+  "ac_hash_recomputed": "re-derived from the COMMITTED card blob `git show cb58018:docs/issues/t121.md` (t70 recipe): the six ```bash fences in ac1..ac6 order, each CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':'))",
+  "ac_hash": "sha256:e6e9be5b8b581662402e8cc9889cc18e249db4d14077d6b9b9742cdbb4433c3e",
+  "ac_hash_match": true,
+  "ac_hash_four_way_equality": "committed blob cb58018 == working file docs/issues/t121.md == card Metadata ac_hash == task-stated value: all e6e9be5b8b581662402e8cc9889cc18e249db4d14077d6b9b9742cdbb4433c3e",
+  "ac_results": {
+   "ac1": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac1 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. rc=0 GREEN: CI/CD claims 3/3; the 2/3 line is dead; the Gap is a dated ruling record (2026-10-24, WAL 1291) naming LOGICAL separation, promote.yml, run 39933068472 and the no-second-deployed-target honesty boundary.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "run in the canonical worktree at a28bdac and re-run rc=0 in the clean-LF clone; both directions agree."
+   },
+   "ac2": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac2 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. rc=0 GREEN: row 9 claims 3/3 citing promote.yml + run 39933068472 + WAL 1291 + LOGICAL/infrastructural boundary; 18 H2 and >=12 scoring rows survive; README ASCII.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "row 9 is the single | 9 | CI/CD (0-3) | line at README.md:283; cells[2] == '3/3'."
+   },
+   "ac3": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac3 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. rc=0 GREEN: measured README digest=a5e22eecd13a... lines=421; constant, report line and measured bytes agree - re-pinned by measurement.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "independently re-measured outside the fence: README CR-stripped sha256 a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9 / 421 lines == docs_verification.py README_DIGEST/README_LINES == report README_MEASURE PASS lines=421 digest=a5e22eec...; report CR-stripped digest c9f47ed2f1ce85beef3f9bab794a47adc107c10b0f0ade478fabdc634c86992e."
+   },
+   "ac4": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac4 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. governing rc=0 GREEN in the canonical pre-window clone (scratch/t121v_pre, autocrlf=true, checkout 850b920) where the working index bytes are the pinned e98f96bd 318-entry base.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "DISCLOSED, index-scoped, not a product defect - exactly the class the builder disclosed and the task names. Three environments, one cause class: (a) canonical PRE-window clone at 850b920, working index == e98f96bd -> rc=0 GREEN (the governing record rc: the fence pins the PRE-application base the proposal was struck against); (b) canonical post-window worktree at a28bdac -> rc=1 with 'live index is not the 318-entry e98f96bd base' plus 'region from-string occurs 0 times' for both digest regions and 'settled form equals the shipped command' - i.e. the amendment has ALREADY been applied (live index cce484d8, leg 227 now carries the substituted a5e22eec/421/c9f47ed2 pins); this is the post-application state, not a soundness failure; (c) clean-LF clone (autocrlf=false) at 850b920 -> rc=1 with the SINGLE defect 'live index is not the 318-entry e98f96bd base' because the working bytes materialize as the LF blob 7ef6cc10b132c554a1d141d2e4aacf1a6c6382a004bbc65ddc14e583fcf52028 while the fence pins the CRLF working digest e98f96bd - the same LF-blob-vs-CRLF-worktree digest class the builder's residual_risks names (proven: scratch/index_pre_t121_window.json LF bytes = 7ef6cc10..., CRLF-ified = e98f96bd exactly). Record soundness re-verified independently: status proposed, card_writes_index_bytes false, old_command_sha256 94c1974f/len 4774 and entry_sha_before bad07ccc match the pre-window live leg, 3 regions unique + reverse-lossless, new_command_sha256 ce2de221/len 4756 and placeholder-form entry_sha_after 236bcf52 reconstruct, settled form differs from shipped."
+   },
+   "ac5": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac5 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. rc=0 GREEN: control FIRES on fabricated two-deployed-targets text (4 defects) and is SILENT on the ruling text; both live surfaces carry the LOGICAL-not-infrastructural disclosure and claim no second deployed target.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "both control directions proven inside the fence on synthetic strings; the live-surface probe is silent on the real delivery.md CI/CD section and the real row 9."
+   },
+   "ac6": {
+    "verdict": "PASS",
+    "command": "the fenced bash block ac6 of docs/issues/t121.md, extracted from the COMMITTED card blob git show cb58018:docs/issues/t121.md (the six blocks recompute the card ac_hash e6e9be5b...3c3e exactly) and run VERBATIM via python3 subprocess ['bash','-c',block] from the repository root at main tip a28bdac. rc=0 GREEN: the 2/3 string is dead on every carrier, zero of 318 legs asserts it, delta is pure; pre-existing RED set [191,231,259] disclosed, not healed.",
+    "exit_code": 0,
+    "output_path": null,
+    "note": "grep -rn '2/3' README.md docs/criteria/ returns ZERO hits at all (not even the 282/308 / pin-2/3/4 false positives survive in this scope); python sweep of all 318 legs' command AND every non-command string field = 0 hits."
+   }
+  },
+  "leg_227_re_measure": {
+   "command_sha256": "2a5509183bfeee2e05f1e957450030e9663ad798dbf4ff8b48ee817a0ad19eba",
+   "command_len": 4774,
+   "entry_sha": "ef94c56b0b9e44e1fbd42ab25f4df1da1e6789e3bd63b9bf8545963f984112fa",
+   "rc": 0,
+   "rc_note": "the amended leg 227 command taken VERBATIM from the LIVE docs/state/merge_test_index.json at a28bdac and run via python3 subprocess bash -c from the repository root: rc=0 GREEN ('ac4 GREEN: BYTE-PINS EXECUTED' - README digest/lines, AGENTS/render/openapi pins, report digest + HEAD-blob match, workflows dir, 20-file HEAD-blob freeze loop, seeded-probe and single-character-mutation controls all pass). Orchestrator's post-window rc=0 claim RE-MEASURED INDEPENDENTLY and confirmed.",
+   "derivation_proven": "forward: pre-window shipped leg 227 + the three replaced_regions -> placeholder form sha ce2de221/len 4756 (matches the record); + the builder's three measured values -> a command BYTE-IDENTICAL to the live leg 227, sha 2a550918/len 4774. reverse-lossless: LIFO reverse of the placeholder form reproduces the shipped command (ac4 semantics) AND reverse from the LIVE substituted command reproduces it too.",
+   "placeholder_residue": "grep '<T121' docs/state/merge_test_index.json = 0 hits (grep rc=1); the live leg contains a5e22eec, c9f47ed2 and '= 421 ]' and contains neither efded7fb nor 7ace2eb5.",
+   "necessity_control": "the OLD shipped leg 227 (pre-window snapshot) run against the merged tree: rc=1 'ac4 RED: README is not the pin-2 FINAL digest - pin-3 is forbidden for this milestone' - the amendment is NECESSARY, not cosmetic.",
+   "post_window_index_sha256": "cce484d8e4e8103922126aa98bbef8a03ef689e61013e5c9d27a12192515c868",
+   "post_window_index_size": 1305987
+  },
+  "honesty_audit": {
+   "core_of_card": true,
+   "readme_row_9_verbatim": "| 9 | CI/CD (0-3) | 3/3 | per the operator ruling of 2026-10-24 (WAL 1291) environment separation is LOGICAL (deploy.yml automatic plus the human-gated `.github/workflows/promote.yml`, rehearsed green in run 39933068472), NOT infrastructural - no second deployed target exists and none is claimed. | `.github/workflows/ci.yml` | `docs/criteria/scoring_map/delivery.md`, `docs/criteria/infra_verification.md` |",
+   "delivery_gap_verbatim": "- Gap (dated ruling record, 2026-10-24, orchestrator WAL entry 1291): the operator ruled verbatim that environment separation is LOGICAL (two pipelines, two gates, one Render target), NOT infrastructural, and under that ruling rubric point 3 is satisfied at this project scale - deploy.yml is the automatic (de facto dev) flow and .github/workflows/promote.yml is the human-gated production pipeline consuming the GitHub Environment production with required reviewers, rehearsed green in Actions run 39933068472 (WAL 1281); the ruling is an interpretation, not a measurement, and no second deployed target exists or is claimed here - render.yaml declares exactly one web service plus one database and both pipelines deploy to that one target.",
+   "delivery_reason_ruling_sentence": "The third point (CD to dev AND a manual production deploy) is ruled SATISFIED at this project scale by the operator ruling of 2026-10-24 (orchestrator WAL entry 1291): the automatic flow deploy.yml carries the dev cadence and the human-gated production pipeline .github/workflows/promote.yml (a workflow_dispatch deploy that consumes the GitHub Environment named production with required reviewers, which the operator created in repository Settings - a Settings artifact that cannot be verified from the tree) carries the production gate, rehearsed green in Actions run 39933068472 (WAL 1281) with the gate demonstrably exercised; the re-baseline to 3/3 prices that logical separation and no more.",
+   "requirement_a_logical_not_infrastructural": "SATISFIED on both surfaces - README row 9: 'environment separation is LOGICAL (...), NOT infrastructural'; delivery.md Gap: 'the operator ruled verbatim that environment separation is LOGICAL (two pipelines, two gates, one Render target), NOT infrastructural'.",
+   "requirement_b_ruling_date_and_wal": "SATISFIED on both surfaces - README row 9: 'per the operator ruling of 2026-10-24 (WAL 1291)'; delivery.md Gap: '(dated ruling record, 2026-10-24, orchestrator WAL entry 1291)'.",
+   "requirement_c_promote_yml_and_rehearsal_run": "SATISFIED on both surfaces - README row 9 cites '.github/workflows/promote.yml' and 'rehearsed green in run 39933068472'; delivery.md cites '.github/workflows/promote.yml' and 'rehearsed green in Actions run 39933068472 (WAL 1281)' in both the Reason and the Gap.",
+   "requirement_d_no_second_target_claim": "SATISFIED - grep -i 'deployed target' README.md yields exactly ONE line (row 9) and grep -i 'deployed target' docs/criteria/scoring_map/delivery.md yields exactly ONE line (the Gap); in both the full sentence is a NEGATION ('no second deployed target exists and none is claimed' / 'no second deployed target exists or is claimed here'). There is no affirmative second-deployed-target claim on either surface, and the tree-wide grep over docs/criteria/ returns the same single Gap line.",
+   "ac5_probe_directions": "FIRES on fabricated two-deployed-targets text (4 defects) and SILENT on the ruling text - measured rc=0 inside the fence."
+  },
+  "carrier_hygiene": {
+   "grep_readme_and_criteria_2of3": "0 hits (grep rc=1) - even the 282/308 and pin-2/3/4 false-positive exclusions are unnecessary at this tip",
+   "index_leg_scan": "python scan of all 318 legs: 0 legs contain '2/3' in command; 0 legs contain '2/3' in ANY non-command string field; 0 legs contain 'Claim: 2/3'",
+   "other_rows_fractions": "out of this card's scope per the task (e.g. 1/2 fractions on other rows are not t121 carriers)"
+  },
+  "zero_byte_table": {
+   "builder_commit_stat": "git show 0c37779 --stat: exactly 4 paths - README.md (2 +-), backend/scripts/docs_verification.py (2 +-), docs/criteria/docs_verification.md (4 +--), docs/criteria/scoring_map/delivery.md (6 +--) = 7 insertions / 7 deletions",
+   "index_delta_vs_pre_window": "scratch/index_pre_t121_window.json (1305987 bytes, LF, sha 7ef6cc10... == the e98f96bd base CRLF-ified) vs live index: 318 entries both sides, entries differing = [227] ONLY, and within leg 227 only the 'command' field; the other 317 entries are byte-identical",
+   "merge_window_commit_delta": "git show a28bdac --stat: docs/log/orchestrator_wal.jsonl (+2 lines, WAL 1298/1299) + docs/state/merge_test_index.json (1 line) - the window moved index bytes only under W2",
+   "triple_pin_carrier_legs": {
+    "256": 0,
+    "257": 0,
+    "251": 0,
+    "254": 0,
+    "201": 0
+   },
+   "digest_pinned_legs": {
+    "258": "rc=0 GREEN - self-healed exactly as priced (reads the README_DIGEST constant, which moved WITH the README)",
+    "191": "rc=1 disclosed pre-existing RED",
+    "231": "rc=1 disclosed pre-existing RED",
+    "259": "rc=1 disclosed pre-existing RED"
+   }
+  },
+  "report_churn_rule": "docs/criteria/docs_verification.md was NOT regenerated by this verifier run (only read); `git status --porcelain` after every leg run shows it unmodified, so no `git checkout --` restore was needed. The only worktree dirt is the PRE-EXISTING docs/criteria/agent_pack_verification.md modification (README 396 -> 421 prose line) that was already present when this verifier started - not committed, not restored by me, disclosed.",
+  "lint_report": {
+   "errors": 77,
+   "warnings": 0
+  },
+  "lint_note": "ruff check --output-format=json via uv: 77 findings, all severity=error, concentrated in pre-existing files outside this card (incident-response/validate_response.py 35, docs/tools/leg_path_pin_audit.py 27, mcp-server/*, agent-hooks/*, e2e/*). ZERO findings in the four t121-owned paths. Lint is non-blocking per skill.",
+  "test_summary": {
+   "total": 15,
+   "passed": 15,
+   "failed": 0
+  },
+  "test_summary_note": "6 card fences (ac1/ac2/ac3/ac5/ac6 rc=0 in the canonical tree; ac4 rc=0 in its governing pre-window canonical tree) + 1 amended leg 227 rc=0 + 5 carried triple-pin legs 256/257/251/254/201 rc=0 + leg 258 rc=0 + 2 necessity/RED-set controls (OLD leg 227 rc=1 as expected, RED set 191/231/259 rc=1 as disclosed). Every command executed VERBATIM via python3 subprocess bash -c; zero hand-copied shell.",
+  "failure_type": null,
+  "test_quality_warnings": [],
+  "dod_verified": {
+   "dod1_carrier_sweep": true,
+   "dod2_triple_pin_and_leg227_green_on_merged_tree": true,
+   "dod3_wal1291_run_rehearsal_and_honesty_boundary": true
+  },
+  "dod_notes": "DoD-1: 0 product carriers, 0 of 318 legs assert the claim. DoD-2: constant/measured/report agree on a5e22eec-421 and the amended leg 227 runs rc=0 VERBATIM on the merged tree (verifier re-measure). DoD-3: delivery.md cites WAL 1291 + run 39933068472 + the no-second-deployed-target boundary.",
+  "label_transition": {
+   "before": [
+    "groomed"
+   ],
+   "after": [
+    "verified"
+   ],
+   "groomed_removed": true,
+   "verified_added": true,
+   "note": "the task states the card is currently `groomed` (the builder/merge path did not carry a state label); per the skill's PASS transition the state label was advanced to `verified` - `label remove built` was not attempted because `built` was not present, and the read-back after `label add verified` shows labels == ['verified']."
+  },
+  "platform_calls": [
+   "issue get 125 -> state open, labels [groomed] (pre-transition read-back)",
+   "issue comment 125 -> verdict comment created 2026-10-24T11:22:46Z",
+   "label remove 125 --label groomed -> labels [] read-back 2026-10-24T11:22:55Z",
+   "label add 125 --labels verified -> labels [verified] read-back 2026-10-24T11:23:32Z"
+  ],
+  "environment_notes": [
+   "[VENV_UNAVAILABLE] UV_PROJECT_ENVIRONMENT and PYTHONPATH both empty; uv resolved from $HOME/.local/bin for the lint run only - no card fence requires uv.",
+   "Platform calls were routed through cmd.exe with .env restored from scratch/env_quarantine_t94post and `rm -f .env` immediately after each call; .env is absent at the end of this run.",
+   "scratch clones created for this verification (gitignored, disposable): scratch/t121v_pre (canonical autocrlf=true clone at 850b920), scratch/t121v_lf (clean-LF autocrlf=false clone at 850b920), plus scratch/t121v_*.cmd/.json/.txt call artifacts."
+  ],
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "verification_commands_note": "the six fenced ```bash blocks of docs/issues/t121.md, extracted programmatically from the committed card blob (ac_hash-verified) and run VERBATIM; no substitution, no relaxation, no command edited."
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/state/outputs/t121_verifier_verify.json"
+  ],
+  "platform_issue": 125,
+  "output_path": "docs/state/outputs/t121_verifier_verify.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-24T11:24:14Z",
+ "retry_count": 0
+}
