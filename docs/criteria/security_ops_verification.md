@@ -68,7 +68,7 @@ DIAGNOSIS_ROWS scenario=1 steps=6 output=match recovery=1 PASS
 DEPLOYMENT_ANCHOR_ROWS dockerfile_cmd=1 render_health_path=1 smoke_vocabulary=4 PASS
 DEPLOYMENT_ROWS records=2 fields=10 deferred_live_state=1 PASS
 LAYOUT_ROWS security=8 ops=5 gitkeep_only=0 PASS
-WORKFLOW_SET_ROWS workflows=3 scan_jobs=0 PASS
+WORKFLOW_SET_ROWS workflows=4 scan_jobs=0 PASS
 ```
 
 ## Deferral register (plan.md phase_7 ruling 4 - recorded, never asserted)

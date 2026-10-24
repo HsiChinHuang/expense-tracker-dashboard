@@ -105,6 +105,15 @@ never relaxed: the report may not be empty-edited back to zero, and every
 single hit must carry its own register row naming its
 ``<path>:<rule>:<line>`` anchor suffix (see :data:`SCAN_ANCHOR`)."""
 
+WORKFLOW_NAMES: Final[tuple[str, ...]] = ("ci.yml", "deploy.yml", "e2e.yml", "promote.yml")
+"""The four committed pipelines of the topology claim (t119 added ``promote.yml``).
+
+The set is the F4 HYBRID shape of card t120: the four named pipelines, one of
+them human-gated. It is a NAME set, never a bare count, so a fifth unexpected
+workflow file fails the row (the count-only form would create a second
+vocabulary for the same fact, which F4 refuses).
+"""
+
 SECURITY_NAMES: Final[int] = 8
 """REQ-SEC-003 names expected in ``security/`` (plus the .gitkeep marker)."""
 
@@ -542,6 +551,46 @@ def record_deployment(repo_root: Path, v: Verifier) -> None:
     )
 
 
+def _human_gate_holds(workflow_dir: Path, workflows: list[str]) -> bool:
+    """CHECK the human-gate half of the topology claim (t120 F4 HYBRID).
+
+    The point of the ``WORKFLOW_SET_ROWS`` row was never "three files"; it is
+    that these pipelines exist AND production deploys are gated by a human.
+    Three properties, each proved to bite by an ac4 negative control:
+
+    * ``workflows`` is exactly :data:`WORKFLOW_NAMES` - a missing pipeline
+      (control N1) or a fifth unexpected file (control N4) fails the row.
+    * ``promote.yml`` carries the ``workflow_dispatch`` trigger AND the
+      ``environment: production`` gate (control N2: an un-gated promote).
+    * no OTHER committed workflow references ``RENDER_DEPLOY_HOOK`` without
+      also carrying a ``workflow_run`` gate (control N3: an automatic deploy).
+
+    Args:
+        workflow_dir: The ``.github/workflows`` directory to read.
+        workflows: The sorted workflow file names found in that directory.
+
+    Returns:
+        bool: True only when the set and every gate property hold.
+    """
+    if workflows != sorted(WORKFLOW_NAMES):
+        return False
+    bodies = {}
+    for name in WORKFLOW_NAMES:
+        path = workflow_dir / name
+        if not path.is_file():
+            return False
+        bodies[name] = path.read_text(encoding="utf-8", errors="replace")
+    promote = bodies["promote.yml"]
+    if "workflow_dispatch" not in promote or "environment: production" not in promote:
+        return False
+    for name, body in bodies.items():
+        if name == "promote.yml":
+            continue
+        if "RENDER_DEPLOY_HOOK" in body and "workflow_run" not in body:
+            return False
+    return True
+
+
 def attest_layout(repo_root: Path, v: Verifier) -> None:
     """EXECUTE the ``security/`` / ``ops/`` layout counts (REQ-DOC-030/031).
 
@@ -560,7 +609,7 @@ def attest_layout(repo_root: Path, v: Verifier) -> None:
     )
     v.record(
         "WORKFLOW_SET_ROWS",
-        workflows == ["ci.yml", "deploy.yml", "e2e.yml"],
+        workflows == sorted(WORKFLOW_NAMES) and _human_gate_holds(workflow_dir, workflows),
         f"workflows={len(workflows)} scan_jobs=0",
     )
 
