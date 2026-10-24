@@ -24,6 +24,7 @@ from app.routers.dashboard import router as dashboard_router
 from app.routers.expenses import router as expenses_router
 from app.routers.health import router as health_router
 from app.telemetry import register_metrics, setup_telemetry
+from app.trace import install_trace_correlation
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +93,13 @@ def create_app() -> FastAPI:
     application = FastAPI(title="Expense Tracker Dashboard API", version=get_settings().APP_VERSION)
 
     register_error_handlers(application)
+
+    # t122 trace correlation (additive wiring, P6): the provider, the
+    # one-span-per-request middleware and the handler-level log filter are
+    # installed right after the error handlers and BEFORE every route so
+    # each request (including the 401 pair the correlation test drives)
+    # runs inside a server span whose 32-hex id the access line carries.
+    application = install_trace_correlation(application)
 
     # The decorator, the ``-> dict[str, str]`` annotation, the docstring
     # and the operationId below are FROZEN CONTRACT, not style: openapi.yaml

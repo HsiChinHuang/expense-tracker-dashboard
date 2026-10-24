@@ -1,10 +1,13 @@
 # Observability stack for THIS repo (phase_13, criterion 13; REQ-OPS-083
 # realised rather than deferred). This is a SECOND, separate compose file:
 # the app stack in docker-compose.yml is FROZEN and is not touched here.
-# Exactly three services are enabled: prometheus (metrics scrape and rule
-# evaluation), alertmanager (alert routing) and grafana (visualisation).
-# The OTel collector / Loki / Tempo block at the bottom is commented
-# optional YAML and stays inert for this milestone.
+# Exactly six services are enabled: prometheus (metrics scrape and rule
+# evaluation), alertmanager (alert routing), grafana (visualisation) and,
+# since t122, the OTel collector / Loki / Tempo traces-and-logs block
+# (otel-collector receives spans, tempo stores traces, loki aggregates logs).
+# The collector, Loki and Tempo services publish NO host port at all (no
+# ports: stanza): the compose network reaches them by service name, so the
+# published host band stays exactly 9090 / 9093 / 3000 as pinned below.
 # Port band pinned once in docs/plan.md: 9090 / 9093 / 3000, mapped in
 # HOST:CONTAINER equal form. It collides with neither 8001 (the recorded
 # alternate Docker-stack mapping) nor 8137 (the pinned local verification
@@ -38,26 +41,25 @@ services:
     ports:
       - "3000:3000"
 
-  # ----------------------------------------------------------------------
-  # Optional traces and logs block - COMMENTED OUT ON PURPOSE.
-  # The OTel collector, Loki and Tempo block is commented out and is NOT
-  # enabled for this milestone (the same traces limitation t87 records).
-  # Uncomment the three services below to add the pipeline; no gate in
-  # this milestone depends on it, and the live service set above must
-  # stay exactly prometheus + alertmanager + grafana while commented.
-  #
-  # otel-collector:
-  #   image: otel/opentelemetry-collector-contrib:0.102.0
-  #   # Would add: a collector that receives and fans out traces.
-  #   # Not enabled for this milestone: traces stay a recorded limitation.
-  #
-  # loki:
-  #   image: grafana/loki:3.1.0
-  #   # Would add: a logs aggregation backend queried by Grafana.
-  #   # Not enabled for this milestone: logs stay a recorded limitation.
-  #
-  # tempo:
-  #   image: grafana/tempo:2.5.0
-  #   # Would add: trace storage and query alongside the collector.
-  #   # Not enabled for this milestone: traces stay a recorded limitation.
-  # ----------------------------------------------------------------------
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.102.0
+    # Why this service exists: it receives the trace spans the API
+    # produces and fans them out - the traces half of the block. It
+    # mounts observability/collector.yaml as its live configuration.
+    # It publishes NO host port: other services on the compose network
+    # reach it without a mapping, so the published host band stays
+    # exactly 9090 / 9093 / 3000.
+    volumes:
+      - ./collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+
+  loki:
+    image: grafana/loki:3.1.0
+    # Why this service exists: logs aggregation the operator can query -
+    # the logs half of the block. Publishes NO host port.
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    # Why this service exists: trace storage and query alongside the
+    # collector. Publishes NO host port. The collector exports its
+    # traces pipeline to this service at tempo:4317 (see
+    # observability/collector.yaml; never scheme-qualified).

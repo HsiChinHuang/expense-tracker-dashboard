@@ -67,19 +67,25 @@ binding under `observability/`:
 
 The band above (3000, 9090, 9093) is disjoint from all five.
 
-## Optional traces and logs block
+## Traces and logs block
 
-The OTel collector, Loki and Tempo block is commented out and is NOT enabled
-for this milestone. It is carried as commented YAML in
-`observability/compose.yaml` so the decision is visible rather than silently
-absent:
+The OTel collector, Loki and Tempo block is enabled for this milestone. It
+runs as three active services in `observability/compose.yaml`:
 
-- `otel-collector` would receive and fan out traces.
-- `tempo` would store and serve those traces for query.
-- `loki` would aggregate logs that Grafana can query.
+- `otel-collector` receives and fans out traces, mounting
+  `observability/collector.yaml` as its live configuration.
+- `tempo` stores and serves those traces for query; the collector exports to
+  the in-cluster endpoint `tempo:4317` (never scheme-qualified).
+- `loki` aggregates logs that Grafana can query.
 
-Uncommenting is a deliberate later step. Until then traces and logs remain a
-recorded limitation, which is the same limitation the telemetry card records.
+These three services publish no host ports, so the published host band stays
+exactly 3000 / 9090 / 9093. The trace ids they carry are the `trace_id` the
+API puts on every correlated request log line (backend/app/trace.py), and
+the measured two-request journey is recorded in
+`docs/criteria/trace_correlation_verification.md`.
+
+Like the rest of this stack this block is LOCAL ONLY: `render.yaml` deploys
+none of it, and nothing here starts automatically.
 
 ## Files owned elsewhere
 
