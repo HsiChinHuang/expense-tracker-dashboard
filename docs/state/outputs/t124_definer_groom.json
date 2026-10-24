@@ -76,7 +76,7 @@
       "ac6": "delta purity, closed OPS_ARTIFACTS, verbatim schema pins, four standing disclosures"
     },
     "no_new_red_baseline": "the only legs this card can move are 284 (fixed by its own W2 amendment in the merge window) and the README custody legs 227/258/259 (moved only by the builder's single triple-pin commit, and 227's own re-pin stays t122's pending amendment). 289/290 (autocrlf CR-smudge), 259 (index-bytes), 188/192 (docker daemon unreachable) and 191/231 stay exactly as disclosed; the card commits zero .sh bytes and zero index bytes",
-    "groom_commits": "branch pi-subagents/definer-t124; commits: rebased skeleton 2eb872d, card + ac_hash a61cf30, leg-284 gate amendment 176994f, this groom JSON (HEAD); ac_hash computed from git show a61cf30:docs/issues/t124.md"
+    "groom_commits": "branch pi-subagents/definer-t124: rebased skeleton 2eb872d, card + ac_hash a61cf30, gate amendment 176994f, groom JSON 65af870, amendment two-region fix 30c8657 (HEAD); ac_hash computed from git show a61cf30:docs/issues/t124.md; the fix replaces five replaced_regions (the plaintext probe edits live INSIDE the base64 payload and are not findable in the live command string) with the two whole-token regions ac2 reconstructs (payload token + outer echo phrase); all pinned shas/lens/entry-shas are unchanged and re-verified against the live index"
   },
   "artifacts": {
     "files_written": [
