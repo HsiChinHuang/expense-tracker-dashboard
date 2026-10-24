@@ -1,0 +1,137 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t124",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t124-oncall-drill",
+    "branch_sha": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "FAIL"
+      },
+      "ac3": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "FAIL"
+      },
+      "ac6": {
+        "commit": "576d690ae006a56935254c5bc043cf5ac6ae3e60",
+        "test": "see docs/issues/t124.md#verification-commands acN fence (verbatim; rc recorded in raw draft scratch/t124_builder_implement.raw.json)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 4,
+      "failed": 2
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash": "sha256:c008721dd792e074f0dce4159a1cc1da1d0613af52825c1a80c6c2f61c19a4fc",
+    "base_commit": "e761d5e7271dd150189b3d74557fb1bae9b73098",
+    "files_changed": [
+      "incident-response/response.schema.json",
+      "incident-response/responder-task.md",
+      "docs/criteria/oncall_drill_verification.md",
+      "docs/criteria/scoring_map/telemetry.md",
+      "README.md",
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md"
+    ],
+    "delta_purity": {
+      "merge_base": "e761d5e7271dd150189b3d74557fb1bae9b73098",
+      "files": 7,
+      "index_bytes": 0,
+      "sh_bytes": 0,
+      "ops_artifacts_changed": false,
+      "generator_taught_carrier": false
+    },
+    "digests": {
+      "README_before": "dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708",
+      "README_after": "bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6",
+      "README_lines_before": 421,
+      "README_lines_after": 421,
+      "docs_verification_report_before": "59e6ddf83d4c306d6d96e82146c110a183666569b460b9f2f899ab6462b6eb08",
+      "docs_verification_report_after": "f018af69cca5cada95a30529da0d4316342fbb7c1c5ff6847546eda1f7bb44c4",
+      "schema_before": "bc98b1c9d6653dbf6093f4f3bf98498dcc01cfd8cbf35225c698bbdc85e4a841",
+      "schema_after": "3c8f87dfc662f647e2563c1e88c28c007413e84be69f8a08a85134ae71ef6019",
+      "responder_task_after": "bf452b4f1e8a3f1107724b2b7c27f9073f57ca47ef818fc12f794f60c229c192",
+      "carrier_after": "767520115d719e3280a75d6c5b013c55109b22b7445404084e0e757b368a927b",
+      "telemetry_after": "dbe2b51b0e2a0453fe110baefe0e1acbadb78daa14b08bf7bc58ce826deec0b2",
+      "index_sha_unmodified": "3f9664b0603548ac7c21fee01d11998bbf49f1e7de0d174278f37a321c1a2bba"
+    },
+    "report_regeneration": {
+      "generator": "backend/scripts/docs_verification.py",
+      "command": "PATH=$HOME/.local/bin:$PATH; cd backend && UV_PROJECT_ENVIRONMENT=<outside-tree> PYTHONPATH=. uv run python scripts/docs_verification.py",
+      "output": "docs_verification: GREEN",
+      "README_MEASURE": "PASS lines=421 digest=bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6",
+      "INDEX_ANCHORS_before": "PASS floor=217 entries=318",
+      "INDEX_ANCHORS_after": "PASS floor=217 entries=319",
+      "agent_pack_verification_md": "restored via git checkout, clean in status"
+    },
+    "ac_red_disclosures": [
+      {
+        "ac": "ac2",
+        "rc": 1,
+        "status": "RED-disclosed",
+        "reason": "amendment record probes the stale name restart_local_observability; per supervisor ruling A the card name restart_local_compose_app is implemented and the amendment is NOT touched. rc pair old=1 new=1 (both RED naming action_enum_..., i.e. the enum premise, not a relaxation). Before-pins verify (old pins); sweep names exactly leg 284; no leg pins schema digest bc98b1c9."
+      },
+      {
+        "ac": "ac5",
+        "rc": 1,
+        "status": "RED-disclosed",
+        "reason": "two tree-independent card defects: (1) the leg uses len(rd.split(\"\\n\")) which yields 422 for ANY 421-line file (main's README gives 422 too), against README_LINES=421 - an off-by-one in the fence itself, not a delta defect; the generator's splitlines convention measures 421 and the regenerated report PASSes lines=421. (2) leg 227 in the LIVE index already pins dd5c7500+59e6ddf8, neither the pre-chain a5e22eec digest nor t122's T122_README placeholder - the custody chain moved outside the card's knowledge, and this card writes zero index bytes, so re-pinning is forbidden."
+      }
+    ],
+    "disclosures": [
+      "ac2 RED 1/1: the definer amendment probes restart_local_observability, a stale name; supervisor ruling A - implement the CARD name restart_local_compose_app, do not touch the amendment or the index.",
+      "ac5 defect 1: the fence's len(split(\"\\n\")) line-count convention is off by one against README_LINES for every 421-line README, including main's; the committed generator's splitlines convention (421) is the one the report and the pin use.",
+      "ac5 defect 2: live leg 227 pins dd5c7500/59e6ddf8 (neither pre-chain a5e22eec nor the t122 placeholder) - orchestrator must substitute bea72320/f018af69 in the merge window; this card writes zero index bytes.",
+      "Stored-gates consequence: leg 284 flips GREEN->RED pending definer re-amendment; leg 227 goes RED pending substitution; legs 259 (frozen-pin class) and 289 (env autocrlf smudge) were RED at base and stay RED - no new RED is introduced by this delta beyond 284/227, both disclosed and both outside builder custody.",
+      "This is a DOCUMENTED-ONLY drill: no docker daemon is reachable, no container was restarted, recovery_verified is false in the rows and in the embedded answer.",
+      "Env repair only (untracked): frontend/node_modules/js-yaml was copied from the main checkout into the worktree so the generator's STORED_GATES leg 134 could import it; no tracked bytes involved."
+    ],
+    "lint_note": "orchestrator measured ruff on the only lintable delta file backend/scripts/docs_verification.py at merged main: All checks passed (builder draft carried no lint field)",
+    "normalization_note": "orchestrator mechanically re-shaped the builder draft (free-form, status draft_ready_for_review) into schemas/builder/implement.json shape using ONLY the builder's own measured values; raw draft preserved at scratch/t124_builder_implement.raw.json"
+  },
+  "artifacts": {
+    "files_written": [
+      "incident-response/response.schema.json",
+      "incident-response/responder-task.md",
+      "docs/criteria/oncall_drill_verification.md",
+      "docs/criteria/scoring_map/telemetry.md",
+      "README.md",
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md",
+      "docs/state/outputs/t124_builder_implement.json",
+      "scratch/t124_builder_implement.raw.json"
+    ],
+    "platform_issue": 128,
+    "output_path": "docs/state/outputs/t124_builder_implement.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-24T17:23:40Z",
+  "retry_count": 0
+}
