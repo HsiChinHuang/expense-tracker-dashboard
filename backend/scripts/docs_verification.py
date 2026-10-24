@@ -31,7 +31,7 @@ OUT = os.path.join(ROOT, "docs", "criteria", "docs_verification.md")
 
 # --- frozen pins (measured, never invented) --------------------------------
 
-README_DIGEST = "efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4"
+README_DIGEST = "a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9"
 README_LINES = 421
 INDEX_FLOOR = 217
 

@@ -11,7 +11,7 @@ DOC_MAP_DOCS PASS root=21 team=3
 DOC_MAP_SECURITY PASS artifacts=8
 DOC_MAP_OPS PASS artifacts=5
 DOC_MAP_SCREENSHOTS PASS files=4
-README_MEASURE PASS lines=421 digest=efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4
+README_MEASURE PASS lines=421 digest=a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9
 CRITERIA243_ROWS PASS rows=15
 EVIDENCE_CHECKLIST PASS rows=14
 FIVE_MIN_PATHS PASS sections=2
@@ -23,7 +23,7 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=299 links=94 broken=0
+LINK_CHECK PASS files=282 links=67 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
