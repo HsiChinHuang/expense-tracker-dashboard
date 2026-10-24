@@ -45,15 +45,29 @@
    "index": 268,
    "stale_premises_after_t122": [
     "live service set EXACTLY alertmanager grafana prometheus (t122 adds loki, otel-collector, tempo - the message text appears TWICE in the leg, once per parser branch; both regions are located by short unique keys and carry escape depth ONE backslash)",
-    "the two-service negative-control document's accepted-set wording ('the three-service assertion') - moved so the control keeps discriminating against the six-service set"
+    "the two-service negative-control document's accepted-set wording ('the three-service assertion') - moved so the control keeps discriminating against the six-service set",
+    "AMENDMENT-FIX ADDENDUM (a defect in THIS proposal's first cut, NOT in the live leg): the ports requirement loop was carried over unscoped, so it demanded a ports entry from every service in the six-service set - no product byte can satisfy both that and card constraint 5 / the verbatim tests[269] pin (published host band EXACTLY 9090/9093/3000 forces otel-collector/loki/tempo to publish nothing). Regions 5 (python twin) and 6 (node twin) scope the loop to prometheus/alertmanager/grafana"
    ],
-   "defective_premise": "after t122 lands, the leg's enabled-set premise describes the pre-enablement compose file - the leg goes RED on true product state",
+   "defective_premise": "after t122 lands, the leg's enabled-set premise describes the pre-enablement compose file - the leg goes RED on true product state; AND (amendment-fix addendum) the first cut of this amendment carried the leg's publishes-no-ports loop over the full six-service set, which is itself unsatisfiable next to card constraint 5 and the verbatim tests[269] host-band pin - builder run 92dc6af8 measured that contradiction at product tree 7c9df78 (rc=1, 'service otel-collector publishes no ports'), left the amendment and the index untouched, and escalated",
+   "why_amendment_fix": "Builder run 92dc6af8 measured, at product tree 7c9df78 on branch issue/t122-trace-id-correlation, that the first-cut amended leg-268 command was unsatisfiable: its publishes-no-ports loop (python twin 'for k, v in s.items() if not (v or {}).get(ports)', node twin 'if(!(S[k]&&S[k].ports))') ran over the whole six-service set, while card constraint 5 and the verbatim tests[269] pin the published host band to EXACTLY 9090/9093/3000 - so otel-collector/loki/tempo must publish NOTHING and no product byte satisfies both. The builder correctly touched neither this amendment nor the index and escalated. Mechanics (t124 30c8657 precedent checked): the ports check is a plain WHOLE-TOKEN inline slice of the leg - it is NOT inside any base64 payload (this leg carries no base64 token at all; region 0 edits a python-set slice), so the fix ADDS two whole-token regions (5 = python twin, 6 = node twin) rather than editing region 0's content. entry_sha_before stays b31a592e against the live cce484d8 index; the reverse proof (all seven regions to->from in LIFO order) reproduces the shipped 15ac05ec35dc command byte-exactly.",
    "negative_control_matrix": [
     {
      "case": "re-premised leg vs BASE tree (compose still three services)",
      "victim": "the presence premise cannot pass on the stale tree",
      "expected_rc": 1,
      "measured_rc": "builder/merge-window obligation (base tree is three-service by construction; the service-set comparison is the first python leg)"
+    },
+    {
+     "case": "amended leg vs the t122-enabled tree where the trio publishes no host port - the contradiction this amendment-fix removes",
+     "victim": "first-cut regions 0-4 only: the unscoped ports loop goes RED on the true enabled state",
+     "expected_rc": 0,
+     "measured_rc": "0 at product tree 7c9df78 (branch issue/t122-trace-id-correlation) via BOTH parser branches - python3+PyYAML branch rc=0, node+js-yaml branch (python3 suppressed) rc=0"
+    },
+    {
+     "case": "amended leg vs a compose document that drops prometheus's ports stanza",
+     "victim": "the scoped requirement still prices the publishing trio",
+     "expected_rc": 1,
+     "measured_rc": "1 with 'ac1 RED: service prometheus publishes no ports' - the non-trio failing message is byte-preserved"
     }
    ],
    "issue_id": "t75",
@@ -62,10 +76,10 @@
    "re_premise_not_relax": true,
    "old_command_len": 5357,
    "old_command_sha256": "15ac05ec35dc3f3173f2b23658a869f98165d2d08b37468f174961238e5732a7",
-   "new_command_len": 5487,
-   "new_command_sha256": "9dbe27ecc723207105bed9b29532c4c198f1564166827edb113051d9cda55a41",
+   "new_command_len": 5606,
+   "new_command_sha256": "3034bbc4ae810cfc4f0520e2a7c6003bcb92f7467299df06a420e4f9348fefea",
    "entry_sha_before": "b31a592e41ef255b5c130009081295fc2251208fe3e763585259a9ba12e6f182",
-   "entry_sha_after": "983e8b5ecbbd681df5e9747e5664dbf899591dbb7e594fdebe44b48982df0e44",
+   "entry_sha_after": "c8d795207fdb0eb497727cc529ca6890523e4821136abcec3537a91af606ada7",
    "replaced_regions": [
     {
      "label": "python-branch six-service premise (escape depth ONE backslash: the slice sits inside bash -c single quotes AND a python3 -c double-quoted string, so every inner literal is \\\" )",
@@ -91,6 +105,16 @@
      "label": "GREEN verdict wording",
      "from": "the live service set is exactly prometheus + alertmanager + grafana with tag-pinned images and published ports",
      "to": "the live service set is exactly prometheus + alertmanager + grafana + loki + otel-collector + tempo with tag-pinned images and published ports"
+    },
+    {
+     "label": "python-branch ports requirement scoped to the PUBLISHING trio only (escape depth ONE backslash: the slice sits inside bash -c single quotes AND a python3 -c double-quoted string, so every inner literal is \\\" ). Builder-measured at product tree 7c9df78 by run 92dc6af8: the unscoped loop demands a ports entry from EVERY service in the six-service set, which contradicts card constraint 5 and the verbatim tests[269] pin - the published host band stays EXACTLY 9090 / 9093 / 3000, so otel-collector / loki / tempo must publish NOTHING (any ports entry, even a container-only 4317, parses into the host band). otel-collector / loki / tempo are removed from the loop; the prometheus / alertmanager / grafana requirement and its failing message are kept verbatim.",
+     "from": "b += [\\\"service \\\" + k + \\\" publishes no ports\\\" for k, v in s.items() if not (v or {}).get(\\\"ports\\\")];",
+     "to": "P={\\\"prometheus\\\",\\\"alertmanager\\\",\\\"grafana\\\"}; b += [\\\"service \\\" + k + \\\" publishes no ports\\\" for k, v in s.items() if k in P and not (v or {}).get(\\\"ports\\\")];"
+    },
+    {
+     "label": "node-branch ports requirement scoped to the PUBLISHING trio only - the SAME check appears TWICE in this leg (once per parser branch), so this region is located by the node-only key 'if(!(S[k]&&S[k].ports))', never by the shared message text. Same builder-measured contradiction as the python twin; the non-trio requirement is kept byte-identical in semantics and in its failing message.",
+     "from": "if(!(S[k]&&S[k].ports)){b.push(\\\"service \\\"+k+\\\" publishes no ports\\\")}",
+     "to": "if([\\\"prometheus\\\",\\\"alertmanager\\\",\\\"grafana\\\"].includes(k)&&!(S[k]&&S[k].ports)){b.push(\\\"service \\\"+k+\\\" publishes no ports\\\")}"
     }
    ],
    "region_proofs": {
