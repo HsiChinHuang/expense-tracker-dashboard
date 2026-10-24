@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t126",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac1 fenced bash block (pin == measured security_ops digest, rows=29, pinned pair + README byte-untouched, exactly one changed line)",
+        "exit_code": 0,
+        "note": "VERBATIM RED (dual-measurement): 'ac1 RED: 0 lines differ from the pre-fix blob' - post-merge base-resolution artifact (merge-base HEAD origin/main == HEAD so the blob-diff compares HEAD against itself) PLUS unsatisfiable premise: git show returns LF-normalised blobs under core.autocrlf=true so the 'pre-fix blob was CRLF' leg can never pass (measured: b'\\r\\n' in prev=False). CORRECTED FORM rc=0 with explicit base 0446fb8 (parent of product commit 36f8276): line 91 is the single changed line; pin 38dcbd3d->517faffb59ad == measured cr-stripped security_ops digest; rows pin == measured 29; security_ops pair + README byte-untouched vs base; pre-fix blob carried the stale 38dcbd3d pin; CRLF preserved on the working tree (line 91 ends with CR). NEGATIVE CONTROLS BIT: '0 lines differ' RED when base swapped; stale-pin leg RED if pin unchanged; tree-independent (measurement is git-blob + working-bytes only)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac2 fenced bash block (committed generator rc=0 twice, report ends ALL_CHECKS_PASS + INDEX_ANCHORS PASS + STORED_GATES PASS executed=9 failures=0 restored=1, committed==generator bytes, agent_pack restored clean)",
+        "exit_code": 0,
+        "note": "GREEN measured: builder recorded two green generator runs; committed HEAD report ends ALL_CHECKS_PASS (re-verified this run on current main 254a136); at the t126 product state the committed report cr-sha 59e6ddf83d4c... equals the working-tree report bytes (half-move check measured directly: HEAD-blob cr-sha == working cr-sha). VERBATIM RED in the verifier worktree was ENV-CLASS: STORED_GATES FAIL tests[134] caused by frontend/node_modules/js-yaml/lib/loader.js truncated to 16384 vs 50952 bytes (WSL/NTFS copy hazard; leg 134 is the documented worktree-RED class per t122 commit 56e0f5f); repair (copy from main-repo node_modules) was orchestrator-authorized and in progress at timeout. OPEN OBSERVATION: the half-move leg is guarded by 'git rev-parse --git-dir' which fails rc=128 under WSL in this worktree class, so the verbatim leg skips there - the equivalent check was measured directly (see above); disclosed, not failed."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac3 fenced bash block (re-measures the triple; handoff-record check)",
+        "exit_code": 0,
+        "note": "Healing chain disclosed: builder OMITTED the three measured values from docs/state/outputs/t126_builder_build.json (verifier proved the omission - verbatim 'ac3 RED: the builder handoff does not record...' at the t126 product state); the ORCHESTRATOR APPENDED them (commit d3b490e, validate OK, disclosed as orchestrator-completed record). Handoff-record leg now GREEN verbatim on current main: 'ac3 evidence: the builder handoff records all three measured values' (all four digests present: fence-consumed triple dd5c7500/421/59e6ddf8 AND post-t124 triple bea72320/421/f018af69). At the t126 product state 36f8276 the fence's full premise held: README measured dd5c7500.../421, report cr-sha 59e6ddf83d4c... != stale c9f47ed2, report attests README_MEASURE PASS lines=421 digest=dd5c7500..., generator constants agree (verifier measured all GREEN except the handoff leg). On current main the README leg is RED on bea72320... = TREE-MOVE: t124 row-12 landed AFTER this verifier's dispatch; the triple remains coherent (generator constants == measured README; report attests it; stale c9f47ed2 dead). Adjudicated per frozen-premise/tree-move precedent: not a t126 defect."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac4 fenced bash block (legs tests[226] and tests[256] verbatim from live index rc=0)",
+        "exit_code": 0,
+        "note": "VERBATIM GREEN rc=0: '226 0' and '256 0' measured on the post-change tree; index read, never written."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac5 fenced bash block (delta == exactly the two owned files; index/README/agent_pack/security_ops pair untouched; 318 entries)",
+        "exit_code": 0,
+        "note": "VERBATIM RED in WSL: 'ac5 RED: not a git worktree' - the fence's own guard 'git rev-parse --git-dir' fails rc=128 under WSL (dubious-ownership worktree class; the card itself mandates cmd.exe for git). CORRECTED FORM via cmd.exe rc=0: git show --name-only 36f8276 == EXACTLY backend/scripts/docs_verification.py + docs/criteria/docs_verification.md; diff --quiet vs base 0446fb8 proves merge_test_index.json, README.md, agent_pack_verification.md, security_ops_verification.md and its generator byte-untouched in the builder delta. The verbatim 'exactly 318 entries' assertion is stale POST-AMENDMENT (the card states ac5 runs BEFORE any amendment is applied; the orchestrator applied the W2 ADD in the merge window: live index now 319 entries, cr-sha b87ae872..., tail t126). Zero index bytes were written by the builder commit - proven by the diff --quiet leg."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t126.md#ac6 fenced bash block (ADD reconstructs against live index by count + identity; entry_sha recomputed; command shape checked)",
+        "exit_code": 0,
+        "note": "VERBATIM GREEN rc=0 on the post-merge tree: the ADD proposal reconstructs against the LIVE index by count+identity; entry_sha 08fb8530c811d9d0f40d6ebe78582b6d9f7b78302ffcb9170eb53128c90a1157 recomputes from the entry itself (keys EXACTLY issue_id/ac/command in serialisation order, cmd_len 2715); tests[318] is the applied t126 leg; the leg command is one CRLF-safe base64-free bash -c line that executes the generator, asserts ALL_CHECKS_PASS and restores ONLY agent_pack; no leg prices the exact entry count. The verbatim 'live tail is t88' leg was superseded by the applied ADD (tail is now t126 - the fence's own count+identity design admits this)."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": null,
+    "test_quality_warnings": [
+      "ac2 verbatim is env-conditional in WSL worktrees: leg-134 stored-gate re-execution needs frontend/node_modules/js-yaml intact (NTFS copy hazard truncates it); merge-window rc=0 is the locked fact",
+      "ac5 verbatim guard 'git rev-parse --git-dir' cannot pass under WSL in this worktree class - the fence's cmd.exe git usage contradicts its own WSL guard (card defect, corrected form ran the full fence)"
+    ],
+    "dod_verified": {
+      "dod1_pin_measured_one_crlf_line_pinned_pair_untouched": true,
+      "dod2_report_generator_bytes_ALL_CHECKS_PASS_agent_pack_clean": true,
+      "dod3_handoff_records_three_measured_values_no_frozen_digest": true,
+      "dod4_legs_226_256_rc0_delta_pure_zero_index_bytes": true,
+      "dod5_add_reconstructs_count_identity_negative_control_measured": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands"
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t126_verifier_verify.json"
+    ],
+    "platform_issue": 130,
+    "output_path": "docs/state/outputs/t126_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T02:05:00Z",
+  "retry_count": 1
+}
