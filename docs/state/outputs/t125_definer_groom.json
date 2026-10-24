@@ -1,0 +1,273 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t125",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "milestone": "phase_22_scoring_fullmarks",
+  "platform_issue": 129,
+  "ac_hash": "sha256:157262cccf00b116cc1983dda7582c1a2657c0e661e4756d01ce7d8649139967",
+  "ac_hash_spaced": "157262cc cf00b116 cc1983dd a7582c1a 2657c0e6 61e4756d 01ce7d86 49139967",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "set -u\nexport PATH=\"$HOME/.local/bin:$PATH\"\nR=security/npm-audit-report.txt\ntest -f \"$R\" || { echo \"ac1 RED: $R missing\"; exit 1; }\ncommand -v make >/dev/null || { echo \"ac1 RED: make missing\"; exit 1; }\ncommand -v cmd.exe >/dev/null || { echo \"ac1 RED: cmd.exe missing\"; exit 1; }\npython3 - \"$R\" <<'PYEOF' || exit 1\nimport re, sys\nraw = open(sys.argv[1], \"rb\").read()\nif b\"\\x00\" in raw:\n    print(\"ac1 RED: NUL bytes in the report\"); raise SystemExit(1)\nt = raw.replace(b\"\\r\", b\"\").decode(\"utf-8\", \"replace\")\nlines = t.split(\"\\n\")\nif not lines or lines[0].strip() != \"# npm audit report\":\n    print(\"ac1 RED: the report no longer leads with '# npm audit report' - the regeneration is not the tool's own output\"); raise SystemExit(1)\nsnap = [i for i, l in enumerate(lines) if \"snapshot_date\" in l]\nif len(snap) != 1:\n    print(\"ac1 RED: %d snapshot_date lines, expected exactly 1 - the dated-snapshot disclosure must exist once and only once\" % len(snap)); raise SystemExit(1)\ns = lines[snap[0]]\nif not s.startswith(\"# \"):\n    print(\"ac1 RED: the snapshot line is not a '#' comment - tool output is never decorated any other way\"); raise SystemExit(1)\nfail = []\nfor needle, why in [\n    (\"advisory\", \"the line must name the npm advisory DB as the thing that drifts\"),\n    (\"advisory-DB-dependent\", \"the line must state that the count is advisory-DB-dependent\"),\n    (\"fresh\", \"the line must state that the fence measures report-vs-fresh-regen freshness\"),\n]:\n    if needle not in s:\n        fail.append(\"snapshot line lacks %r - %s\" % (needle, why))\nif re.search(r\"\\d{4}-\\d{2}-\\d{2}\", s) is None:\n    fail.append(\"the snapshot line carries no YYYY-MM-DD date - an undated snapshot is not attributable\")\nif re.search(r\"[0-9]+ vulnerabilit\", s):\n    fail.append(\"the snapshot line itself carries a '<n> vulnerabilit' phrase - it would be parsed as a count by the head-1/tail-1 regexes and double-count the baseline\")\nfor frag in (\"23\", \"14\"):\n    if re.search(r\"(^|[^0-9])\" + frag + r\" vulnerabilit\", s):\n        fail.append(\"the snapshot line hardcodes count %s - the disclosure must be count-free so it cannot go stale twice\" % frag)\nif fail:\n    sys.stdout.write(\"ac1 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac1 RED: the dated-snapshot disclosure is not honest (%d defects above)\" % len(fail))\n    raise SystemExit(1)\ncounts = re.findall(r\"([0-9]+) vulnerabilit\", t)\nif not counts:\n    print(\"ac1 RED: no '<n> vulnerabilit' summary line parses from the report\"); raise SystemExit(1)\nsys.stdout.write(\"ac1 evidence: report leads with the tool line; dated snapshot line (count-free, dated %s) present once; parsed summary counts=%s\\n\" % (re.findall(r\"\\d{4}-\\d{2}-\\d{2}\", s)[:1], counts))\nPYEOF\nG=$(wslpath -w \"$PWD\")\nfor p in package.json frontend/package.json backend/pyproject.toml backend/uv.lock e2e/package.json; do\n  a=$(cmd.exe /c \"git -C $G rev-parse HEAD:$p\" 2>/dev/null | tr -d \"\\r\")\n  b=$(cmd.exe /c \"git -C $G hash-object $p\" 2>/dev/null | tr -d \"\\r\")\n  [ -n \"$a\" ] || { echo \"ac1 RED: manifest blob unreadable: $p\"; exit 1; }\n  [ \"$a\" = \"$b\" ] || { echo \"ac1 RED: manifest changed: $p - the re-baseline may move the report, never a dependency manifest\"; exit 1; }\ndone\necho \"ac1 evidence: five manifests byte-untouched (read-only audit proof, the same set leg 165 checks)\"\nt=$(mktemp /tmp/t125-ac1-XXXXXX.txt)\nNPM_AUDIT_REPORT=\"$t\" make security-npm-audit >/dev/null 2>&1 || { rm -f \"$t\"; echo \"ac1 RED: make security-npm-audit (read-only override path) failed\"; exit 1; }\nn=$(grep -oE \"[0-9]+ vulnerabilit\" \"$R\" | grep -oE \"^[0-9]+\" | tail -1)\nn2=$(grep -oE \"[0-9]+ vulnerabilit\" \"$t\" | grep -oE \"^[0-9]+\" | tail -1)\nrm -f \"$t\"\n[ \"${n2:-x}\" = \"$n\" ] || { echo \"ac1 RED: committed count=$n but a fresh regeneration says $n2 - the report is stale or hand-edited (this is exactly the leg-165 premise; the fence is preserved, not loosened)\"; exit 1; }\necho \"ac1 GREEN: report is fresh-regenerated through the read-only make path, carries the count-free dated-snapshot disclosure, and the five manifests are byte-untouched\"",
+   "ac2": "set -u\nP=backend/scripts/security_ops_verification.py\ntest -f \"$P\" || { echo \"ac2 RED: $P missing\"; exit 1; }\npython3 - \"$P\" <<'PYEOF' || exit 1\nimport re, sys\nsrc = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nm = re.search(r'^EXPECTED_REPORT_ROWS: Final\\[str\\] = \"([0-9,]*)\"', src, re.M)\nif not m:\n    print(\"ac2 RED: EXPECTED_REPORT_ROWS not found in the generator\"); raise SystemExit(1)\nold = m.group(1)\nlm = re.search(r\"^EXPECTED_LOOP_IDS: Final\\[int\\] = (\\d+)\", src, re.M)\nif not lm:\n    print(\"ac2 RED: EXPECTED_LOOP_IDS not found in the generator\"); raise SystemExit(1)\nloop = int(lm.group(1))\ndef R(p):\n    return open(p, encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\", \"\")\nimport json\ng = json.loads(R(\"security/gitleaks-report.json\"))\ng0 = len(re.findall(r'\"Description\"', R(\"security/gitleaks-report.json\")))\ns = json.loads(R(\"security/semgrep-report.json\"))\ns1 = len(s[\"results\"])\nt = json.loads(R(\"security/trivy-report.json\"))\ntv = 0\nfor r in t[\"Results\"]:\n    tv += len(r.get(\"Vulnerabilities\") or []) + len(r.get(\"Misconfigurations\") or [])\npa = R(\"security/pip-audit-report.txt\")\npm = re.search(r\"Found ([0-9]+) known vulnerabilit\", pa) or re.search(r\"No known vulnerabilit\", pa)\nif not pm:\n    print(\"ac2 RED: pip-audit summary line unparsable\"); raise SystemExit(1)\np3 = int(pm.group(1)) if pm.lastindex else 0\nna = R(\"security/npm-audit-report.txt\")\nnm = re.search(r\"([0-9]+) vulnerabilit\", na)\nif not nm:\n    print(\"ac2 RED: npm-audit summary line unparsable\"); raise SystemExit(1)\nn4 = int(nm.group(1))\nwant = \"%d,%d,%d,%d,%d\" % (g0, s1, tv, p3, n4)\nfail = []\nif old == \"21,33,42,3,23\":\n    fail.append(\"the constant is still the stale literal 21,33,42,3,23 - WAL 1301's drift is not re-baselined\")\nif old != want:\n    fail.append(\"the constant is %r but the committed reports measure %r - the generator would emit a REPORT_ROWS FAIL line the moment it runs (re-run ac1's regeneration first, then re-pin from the measured bytes, never from this card)\" % (old, want))\nif loop != 98:\n    fail.append(\"EXPECTED_LOOP_IDS moved to %d - groom MEASURED the distinct-id set at 98 with the old report AND with the fresh regen (one advisory vanished, one appeared: cardinality invariant), so this constant must stay 98 and the register must SWAP its row (ac4)\" % loop)\nif fail:\n    sys.stdout.write(\"ac2 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac2 RED: the generator constant is not the measured tuple (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac2 evidence: EXPECTED_REPORT_ROWS=%s equals the tuple freshly parsed from the five committed reports; EXPECTED_LOOP_IDS stays 98 (measured cardinality-invariance of the advisory swap)\\n\" % old)\nPYEOF\necho \"ac2 GREEN: the generator constant is the measured tuple; EXPECTED_LOOP_IDS provably stays 98\"",
+   "ac3": "set -u\nD=docs/criteria/security_ops_verification.md\ntest -f \"$D\" || { echo \"ac3 RED: $D missing\"; exit 1; }\npython3 - \"$D\" <<'PYEOF' || exit 1\nimport json, re, sys\nmd = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ndef R(p):\n    return open(p, encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\", \"\")\ng = R(\"security/gitleaks-report.json\")\ng0 = len(re.findall(r'\"Description\"', g))\ns = json.loads(R(\"security/semgrep-report.json\"))\ns1 = len(s[\"results\"])\nt = json.loads(R(\"security/trivy-report.json\"))\ntv = 0\nfor r in t[\"Results\"]:\n    tv += len(r.get(\"Vulnerabilities\") or []) + len(r.get(\"Misconfigurations\") or [])\npa = R(\"security/pip-audit-report.txt\")\npm = re.search(r\"Found ([0-9]+) known vulnerabilit\", pa) or re.search(r\"No known vulnerabilit\", pa)\nif not pm:\n    print(\"ac3 RED: pip-audit summary unparsable\"); raise SystemExit(1)\np3 = int(pm.group(1)) if pm.lastindex else 0\nna = R(\"security/npm-audit-report.txt\")\nnm = re.search(r\"([0-9]+) vulnerabilit\", na)\nif not nm:\n    print(\"ac3 RED: npm-audit summary unparsable\"); raise SystemExit(1)\nn4 = int(nm.group(1))\nids = set(re.findall(r'\"check_id\": *\"([^\"]+)\"', R(\"security/semgrep-report.json\")))\nids |= set(re.findall(r'\"VulnerabilityID\": *\"([^\"]*)\"', R(\"security/trivy-report.json\")))\nids |= set(re.findall(r'\"ID\": *\"(DS-[0-9]+)\"', R(\"security/trivy-report.json\")))\nids |= set(re.findall(r\"(?:PYSEC|CVE|GHSA)-[0-9]{4}-[0-9]+\", pa))\nids |= set(re.findall(r\"GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}\", na))\nwant_rows = \"%d,%d,%d,%d,%d\" % (g0, s1, tv, p3, n4)\nfail = []\nrr = re.search(r\"^REPORT_ROWS (\\S+) (PASS|FAIL)\", md, re.M)\nif not rr:\n    fail.append(\"no REPORT_ROWS line in the committed md\")\nelif rr.group(2) != \"PASS\":\n    fail.append(\"REPORT_ROWS is FAIL - the generator was run against a half-moved tree\")\nelif rr.group(1) != want_rows:\n    fail.append(\"md REPORT_ROWS=%s but the committed reports freshly parse to %s - the md was hand-edited or not regenerated after the report moved (run the generator, leg 181/184's own premise)\" % (rr.group(1), want_rows))\nsr = re.search(r\"^REPORT_SUMMARY_ROWS pip_audit=(\\d+) npm_audit=(\\d+) (PASS|FAIL)\", md, re.M)\nif not sr:\n    fail.append(\"no REPORT_SUMMARY_ROWS line\")\nelif sr.group(3) != \"PASS\" or (int(sr.group(1)), int(sr.group(2))) != (p3, n4):\n    fail.append(\"REPORT_SUMMARY_ROWS does not attest pip_audit=%d npm_audit=%d\" % (p3, n4))\nsl = re.search(r\"^SCAN_LOOP_ROWS findings=(\\d+) registered=(\\d+) equal=(true|false) (PASS|FAIL)\", md, re.M)\nif not sl:\n    fail.append(\"no SCAN_LOOP_ROWS line\")\nelif sl.group(4) != \"PASS\" or int(sl.group(1)) != len(ids) or int(sl.group(2)) != len(ids):\n    fail.append(\"SCAN_LOOP_ROWS does not attest findings=registered=%d (groom measured 98 on BOTH the old and the fresh report - the id swap preserves cardinality)\" % len(ids))\nif re.search(r\"npm_audit=23\\b\", md):\n    fail.append(\"the md still carries the hand-attested npm_audit=23 summary\")\nif not re.search(r\"^ALL_CHECKS_PASS \\d+ PASS\", md, re.M):\n    fail.append(\"no ALL_CHECKS_PASS footer - this md was not produced by a generator run\")\nif fail:\n    sys.stdout.write(\"ac3 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac3 RED: the criteria md is a half-move (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac3 evidence: md REPORT_ROWS=%s, REPORT_SUMMARY_ROWS pip_audit=%d npm_audit=%d, SCAN_LOOP_ROWS findings=registered=%d - every line equals what the committed bytes freshly parse to (invariant: RED against any half-move)\\n\" % (want_rows, p3, n4, len(ids)))\nPYEOF\necho \"ac3 GREEN: the criteria md is generator-produced and byte-agrees with the re-baselined reports\"",
+   "ac4": "set -u\ncommand -v cmd.exe >/dev/null || { echo \"ac4 RED: cmd.exe missing - the restore proof cannot be judged on this host\"; exit 1; }\ncommand -v make >/dev/null || { echo \"ac4 RED: make missing\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport re, sys\ndef R(p):\n    return open(p, encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\", \"\")\nrep = R(\"security/npm-audit-report.txt\")\nreg = R(\"security/agent-security-notes.md\")\nrep_ids = set(re.findall(r\"GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}\", rep))\nif not rep_ids:\n    print(\"ac4 RED: no GHSA ids parse from the report\"); raise SystemExit(1)\nn = re.findall(r\"([0-9]+) vulnerabilit\", rep)\nif not n:\n    print(\"ac4 RED: no count parses from the report\"); raise SystemExit(1)\nn = n[-1]\nst = reg.find(\"## Accepted Findings\")\nif st < 0:\n    print(\"ac4 RED: no Accepted Findings register\"); raise SystemExit(1)\nbody = reg[st:]\nfail = []\nif not re.search(r\"^\\| npm-audit \\| %s \\|\" % re.escape(n), body, re.M):\n    fail.append(\"the register carries no '| npm-audit | %s |' count row matching the report's measured count (hand-typed counts are forbidden: parse-then-compare, the leg-181 premise)\" % n)\nreg_npm = set()\nfor line in body.splitlines():\n    cells = [c.strip() for c in line.strip().strip(\"|\").split(\"|\")] if line.strip().startswith(\"|\") else []\n    if len(cells) >= 2 and re.fullmatch(r\"GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}\", cells[0]) and \"npm-audit\" in line:\n        reg_npm.add(cells[0])\nmissing = sorted(rep_ids - reg_npm)\nstale = sorted(reg_npm - rep_ids)\nif missing:\n    fail.append(\"%d advisory ids in the (fresh) report have no register row - first few %s: the register must be re-baselined WITH the report\" % (len(missing), missing[:3]))\nif stale:\n    fail.append(\"%d register npm-audit rows name ids the fresh report no longer lists - first few %s: a vanished advisory's row is SWAPPED to the replacement id (same tool, same disposition prose), not deleted and not left as a fossil\" % (len(stale), stale[:3]))\nif len(reg_npm) != len(rep_ids):\n    fail.append(\"register npm-audit id rows %d != report ids %d\" % (len(reg_npm), len(rep_ids)))\nif fail:\n    sys.stdout.write(\"ac4 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac4 RED: the closed loop is not re-baselined (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac4 evidence: register '| npm-audit | %s |' row matches the report; register npm-audit id set == report id set (%d ids, swap-complete both directions)\\n\" % (n, len(rep_ids)))\nPYEOF\n[ -n \"${SKIP_FRESH:-}\" ] && { echo \"ac4 GREEN (register loop proven; freshness controls skipped by SKIP_FRESH - disclosed, not silent)\"; exit 0; }\nBK=$(mktemp /tmp/t125-rep-XXXXXX.txt)\ncp security/npm-audit-report.txt \"$BK\"\nPRE_SHA=$(sha256sum security/npm-audit-report.txt | cut -d' ' -f1)\nrestore() { cp \"$BK\" security/npm-audit-report.txt; }\nPROOF_OK=1\ntrap '{ [ \"${PROOF_OK:-0}\" = 1 ] || restore; }' EXIT\npython3 - <<'PYEOF' || { echo \"ac4 RED: control broken - the FIRES-direction victim was never fabricated\"; restore; exit 1; }\nimport re\np = \"security/npm-audit-report.txt\"\nt = open(p, encoding=\"utf-8\", errors=\"replace\").read()\nc = re.findall(r\"([0-9]+) vulnerabilit\", t)\nn = int(c[-1])\nt2 = t.replace(\"%d vulnerabilit\" % n, \"%d vulnerabilit\" % (n + 9), 1)\nif t2 == t:\n    raise SystemExit(1)\nopen(p, \"w\", encoding=\"utf-8\", newline=\"\").write(t2)\nprint(\"ac4 evidence: fabrication control - the working copy's count hand-edited %d -> %d (real bytes backed up; restore is trapped and verified below)\" % (n, n + 9))\nPYEOF\nLEG=$(python3 -c \"import json;print(json.load(open('docs/state/merge_test_index.json',encoding='utf-8'))['tests'][165]['command'])\")\nif bash -c \"$LEG\" >/dev/null 2>&1; then\n  echo \"ac4 RED: the leg-165 freshness fence is SILENT on a hand-edited count - the re-baseline LOOSENED the fence (victim: every future stale-report drift, WAL 1301 included)\"\n  restore; rm -f \"$BK\"; exit 1\nfi\necho \"ac4 evidence: FIRES-direction proven - leg 165 rc!=0 against the fabricated count (discriminating power preserved)\"\nrestore\ncmp -s security/npm-audit-report.txt \"$BK\" || { echo \"ac4 RED: the real report bytes were NOT restored - the control must never leave a mark\"; rm -f \"$BK\"; exit 1; }\nif ! bash -c \"$LEG\" >/dev/null 2>&1; then\n  echo \"ac4 RED: SILENT-direction failed - leg 165 is RED on the builder's own fresh bytes (victim: the card becomes unsatisfiable)\"\n  rm -f \"$BK\"; exit 1\nfi\necho \"ac4 evidence: SILENT-direction proven - leg 165 rc=0 on the fresh re-baselined bytes\"\ncmp -s security/npm-audit-report.txt \"$BK\" || { echo \"ac4 RED: the real report bytes were NOT restored after the SILENT-direction control\"; rm -f \"$BK\"; exit 1; }\nrm -f \"$BK\"\nPROOF_OK=1\ntrap - EXIT\nPOST_SHA=$(sha256sum security/npm-audit-report.txt | cut -d' ' -f1)\n[ \"$PRE_SHA\" = \"$POST_SHA\" ] || { echo \"ac4 RED: the report bytes changed across the controls ($PRE_SHA -> $POST_SHA) - a control that leaves a mark is a fabrication waiting to happen\"; exit 1; }\nG=$(wslpath -w \"$PWD\")\nS=$(cmd.exe /c \"git -C $G status --porcelain -- security/npm-audit-report.txt\" 2>/dev/null | tr -d \"\\r\")\necho \"ac4 evidence: the controls left zero trace - report digest $POST_SHA identical before and after; git status for the path reads '${S:-clean}' (M is expected while the re-baseline is uncommitted and must be empty once the builder's commit lands)\"\necho \"ac4 GREEN: register loop re-baselined by measurement, and the freshness fence proven to FIRE on fabrication and SILENT on fresh bytes with the real report restored byte-identically\"",
+   "ac5": "set -u\ncommand -v python3 >/dev/null || { echo \"ac5 RED: python3 missing\"; exit 1; }\ncommand -v cmd.exe >/dev/null || { echo \"ac5 RED: cmd.exe missing - leg 165's manifest proof cannot run on this host\"; exit 1; }\ncd \"$(git rev-parse --show-toplevel 2>/dev/null || echo .)\" || exit 1\nRES=$(mktemp /tmp/t125-res-XXXXXX.txt)\n: > \"$RES\"\nfor i in 165 184 181 166 175 167; do\n  python3 - \"$i\" >> \"$RES\" 2>&1 <<'PYEOF'\nimport json, subprocess, sys\ni = int(sys.argv[1])\ncmd = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"][i][\"command\"]\ntry:\n    p = subprocess.run([\"bash\", \"-c\", cmd], capture_output=True, text=True, timeout=420)\n    rc = p.returncode\nexcept Exception:\n    rc = -1\nprint(\"%d %d\" % (i, rc))\nPYEOF\ndone\ncat \"$RES\"\nFAIL=0\nMAP=\"\"\nfor i in 165 184 181 166 175 167; do\n  rc=$(awk -v n=\"$i\" '$1==n{print $2; exit}' \"$RES\")\n  [ -n \"$rc\" ] || { echo \"ac5 RED: leg $i produced no rc line - the sweep did not run to completion\"; FAIL=1; continue; }\n  MAP=\"$MAP $i:rc=$rc\"\n  case \"$i\" in\n    165) [ \"$rc\" = \"0\" ] || { echo \"ac5 RED: leg 165 rc=$rc - the re-baseline did not heal the drift it exists to heal\"; FAIL=1; } ;;\n    184) [ \"$rc\" = \"0\" ] || { echo \"ac5 RED: leg 184 rc=$rc - the md-vs-fresh-bytes persistence carrier broke: the report moved and the regenerated md did not follow in the same commit\"; FAIL=1; } ;;\n    181|166|175|167) [ \"$rc\" != \"0\" ] || { echo \"ac5 RED: leg $i went GREEN unexpectedly - the WAL 1301 pre-existing RED set must be DISCLOSED, not silently healed (healing it is not this card's scope and an unexplained green here means something else moved)\"; FAIL=1; } ;;\n  esac\ndone\n[ \"$FAIL\" = \"0\" ] || { rm -f \"$RES\"; exit 1; }\nrm -f \"$RES\"\necho \"ac5 evidence: measured rc on the carrier set =$MAP - 165 healed, 184 persistence held, the disclosed WAL 1301 set (181/166/175/167) stayed RED as disclosed; legs 5/159 rc=0 at groom; legs 161/183 retired (WAL 1301 re-measured GREEN); leg 177 is BUILDER-MEASURED (groom did not run the ~8-minute gitleaks regen; it touches the npm report only in find-exclusions and NUL/size checks, count-agnostic) and its rc must appear in the builder handoff\"\necho \"ac5 GREEN: zero new RED measured on the carrier set - the drift healed, the persistence carrier survived, the disclosed RED set stayed disclosed\"",
+   "ac6": "set -u\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\nHITS=$(grep -rnE 'npm-audit \\| 23 \\|' security/ docs/criteria/ 2>/dev/null || true)\nHITS=\"$HITS$(grep -rnE 'npm_audit=23' docs/criteria/ 2>/dev/null || true)\"\nHITS=\"$HITS$(grep -rnE 'EXPECTED_REPORT_ROWS: Final\\[str\\] = \"21,33,42,3,23\"' backend/scripts/ 2>/dev/null || true)\"\nif [ -n \"$HITS\" ]; then\n  echo \"ac6 evidence: surviving 23-count carriers: $(printf '%s' \"$HITS\" | head -3)\"\n  echo \"ac6 RED: a 23-count carrier survives on a product path - the re-baseline is incomplete\"\n  exit 1\nfi\npython3 - <<'PYEOF' || exit 1\nimport json, re, sys\ntests = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nif len(tests) != 318:\n    print(\"ac6 RED: the index has %d legs, not 318 - re-run the sweep against the live index\" % len(tests)); raise SystemExit(1)\ncarriers = [i for i, t in enumerate(tests) if \"npm-audit-report\" in t[\"command\"]]\nhard = [i for i in carriers if re.search(r\"23 vulnerabilit|npm-audit \\| 23|npm_audit=23|count=23\", tests[i][\"command\"])]\ndyn = [i for i in carriers if \"NPM_AUDIT_REPORT\" in tests[i][\"command\"]]\ndyn_ok = all('[ \"${n2:-x}\" = \"$n\" ]' in tests[i][\"command\"] and \"23\" not in tests[i][\"command\"] for i in dyn)\nif hard:\n    print(\"ac6 RED: index legs hardcode the drifting count: %s - the no-amendment verdict is false and a gate amendment must be authored (W2)\" % hard); raise SystemExit(1)\nif dyn != [165]:\n    print(\"ac6 RED: the regeneration-carrier set moved off leg 165 alone (%s) - re-measure the amendment verdict\" % dyn); raise SystemExit(1)\nif not dyn_ok:\n    print(\"ac6 RED: leg 165 is no longer the dynamic n2==n count-agnostic check - the no-amendment verdict must be re-derived from the shipped text\"); raise SystemExit(1)\nsys.stdout.write(\"ac6 evidence: %d legs reference the report path, ZERO hardcode the count; the only regeneration leg (165) is the dynamic '[ \\\"${n2:-x}\\\" = \\\"$n\\\" ]' check with no numeric literal - NO gate amendment needed, proven from the live index bytes\\n\" % len(carriers))\nPYEOF\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  BASE=$(git merge-base HEAD origin/main 2>/dev/null || true)\n  if [ -n \"${BASE:-}\" ]; then\n    FILES=$(git diff --name-only \"$BASE\"...HEAD 2>/dev/null || true)\n    if [ -z \"$FILES\" ]; then\n      FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || true)\n      [ -n \"$FILES\" ] || { echo \"ac6 RED: no diff against origin/main or the parent commit - the delta fence cannot be judged\"; exit 1; }\n    fi\n    OUT=$(printf \"%s\\n\" \"$FILES\" | grep -vE '^(security/npm-audit-report\\.txt|security/agent-security-notes\\.md|backend/scripts/security_ops_verification\\.py|docs/criteria/security_ops_verification\\.md)$' | grep -v '^docs/' || true)\n    [ -z \"$OUT\" ] || { echo \"ac6 RED: the builder commit moved paths outside the four owned product surfaces: $OUT\"; exit 1; }\n    printf \"%s\\n\" \"$FILES\" | grep -q '^README.md$' && { echo \"ac6 RED: README.md moved - the triple-pin legs (227 and friends) must not be disturbed by this card\"; exit 1; }\n    printf \"%s\\n\" \"$FILES\" | grep -q 'merge_test_index' && { echo \"ac6 RED: an index byte moved - the card writes zero index bytes (W2: the orchestrator applies amendments; groom measured ZERO needed)\"; exit 1; }\n    echo \"ac6 evidence: delta is inside the four owned product paths; README and index bytes untouched\"\n  fi\nfi\necho \"ac6 GREEN: the 23-count is dead on every product carrier, zero leg hardcodes it (no amendment - re-proved), README and index bytes untouched\""
+  },
+  "verification_commands_source": "the six fenced bash blocks in docs/issues/t125.md as committed by THIS groom commit; recomputed from the committed blob (t58/t116 recipe: CR-strip + trim each block, sha256 over json.dumps(blocks, separators=(',',':'))); forward and reverse proof in ac_hash_proof",
+  "ac_hash_proof": {
+   "groom_commit_final": "1b61d55115d0efc73513a1c2937bc0053e439b20",
+   "groom_commit_draft": "ceee839",
+   "recipe": "sha256(json.dumps([block.replace(chr(13),'').strip() for block in re.findall(r'^```bash\\n(.*?)^```', text, re.S|re.M)], separators=(',',':')))",
+   "forward": "blocks decoded from the working file == blocks decoded from `git show <final commit>:docs/issues/t125.md` (byte-identical, 6 blocks)",
+   "reverse": "the ac_hash recorded in the metadata is identical at the hash-recording commit 1b61d55 and at its parent d88341c, because the metadata edit touched no fenced block - the value is invariant under checkout and under metadata refinement",
+   "blocks": 6
+  },
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "contract_first_applied": true,
+  "base_measured": {
+   "main_tip_at_groom": "9922705c8414316b839240275ce78b4caa371d5b",
+   "sweep_that_found_the_drift": "81aede10020fc5c9dc41273126753959657b8a8e (WAL 1301)",
+   "index_entries": 318,
+   "index_file_sha256": "cce484d8e4e8103922126aa98bbef8a03ef689e61013e5c9d27a12192515c868",
+   "readme_at_head": {
+    "lines": 421,
+    "cr_stripped_sha256": "a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9",
+    "edited_by_this_card": false
+   },
+   "committed_report": {
+    "count": 23,
+    "lines": 154,
+    "cr_stripped_sha256": "f941c82de7a70ee6f68c2b2d3fdda4cc2bd90bea6fd6d92d746504807e28f744"
+   },
+   "agent_security_notes": {
+    "cr_stripped_sha256": "601ce40c113a1985d4bede25d05a50ff2fa55f87cd9a36bc3f1c2f4460bfbc19",
+    "carrier_line": 222
+   },
+   "generator_py": {
+    "cr_stripped_sha256": "a7ca9741dc818d9e328b13ff0ab460fe6d8fcb26bca00e34bc187e46e42795f5",
+    "line_80": "EXPECTED_REPORT_ROWS: Final[str] = \"21,33,42,3,23\"",
+    "line_92": "EXPECTED_LOOP_IDS: Final[int] = 98"
+   },
+   "criteria_md": {
+    "cr_stripped_sha256": "38dcbd3dd367bc9a590f53dd78d82576784f6a92dd75e1c670d2eef72ac82c3e",
+    "line_40": "REPORT_ROWS 21,33,42,3,23 PASS",
+    "line_41": "REPORT_SUMMARY_ROWS pip_audit=3 npm_audit=23 PASS"
+   },
+   "makefile_default_path_verbatim": "security-npm-audit: / @bash -c 'D=$$(wslpath -w \"$$PWD/frontend\"); out=\"$${NPM_AUDIT_REPORT:-security/npm-audit-report.txt}\"; ...' (Makefile:135-136) - with NPM_AUDIT_REPORT unset the target writes the committed path; the legs and ac1 use the override (read-only path)"
+  },
+  "drift_measurement": {
+   "leg_165_verbatim_at_head": {
+    "rc": 1,
+    "evidence": [
+     "ac3 evidence: npm audit parsed vulnerability count=23",
+     "regeneration count 14 differs from committed 23"
+    ]
+   },
+   "fresh_regeneration": {
+    "count": 14,
+    "distinct_ghsa_ids": 44,
+    "lines": 121,
+    "make_rc": 0,
+    "path": "NPM_AUDIT_REPORT=<scratch> make security-npm-audit (read-only)"
+   },
+   "advisory_id_swap": {
+    "removed": [
+     "GHSA-vfj7-8cjw-p6xm"
+    ],
+    "added": [
+     "GHSA-mrhx-c7xc-m3w5"
+    ],
+    "distinct_ids_old": 44,
+    "distinct_ids_new": 44
+   },
+   "loop_id_cardinality": {
+    "ids_with_old_report": 98,
+    "ids_with_fresh_report": 98,
+    "expected_loop_ids_verdict": "STAYS 98 - measured cardinality invariance (one advisory vanished, one appeared); the register must SWAP one row instead, which ac4 enforces",
+    "ruling_ref": "RULING 1e"
+   },
+   "manifests": "five manifests byte-untouched (leg 165's own proof passes before the count step; ac1 re-checks)"
+  },
+  "carrier_table": [
+   {
+    "carrier": "security/npm-audit-report.txt",
+    "state_at_head": "count 23 (stale)",
+    "legs": [
+     165
+    ],
+    "disposition": "ac1: regenerate via the read-only make path + count-free dated snapshot line"
+   },
+   {
+    "carrier": "security/agent-security-notes.md:222 '| npm-audit | 23 |' + the vanished advisory's register row",
+    "state_at_head": "23 / carries GHSA-vfj7-8cjw-p6xm",
+    "legs": [
+     181,
+     184
+    ],
+    "disposition": "ac4: count row re-baselined by parse-then-compare; register npm-audit id set must EQUAL the report id set both directions (swap, not delete)"
+   },
+   {
+    "carrier": "backend/scripts/security_ops_verification.py:80 EXPECTED_REPORT_ROWS",
+    "state_at_head": "\"21,33,42,3,23\"",
+    "legs": [
+     184
+    ],
+    "disposition": "ac2: exact before/after constant assertion against the freshly parsed tuple; generator source is product code = the builder's job (RULING 1c)"
+   },
+   {
+    "carrier": "docs/criteria/security_ops_verification.md:40-41 REPORT_ROWS / REPORT_SUMMARY_ROWS (+SCAN_LOOP_ROWS)",
+    "state_at_head": "21,33,42,3,23 / npm_audit=23 (GREEN at HEAD - persistence carrier)",
+    "legs": [
+     184
+    ],
+    "disposition": "ac3: regenerate by RUNNING the generator, never hand-edit; invariant fence RED against any half-move"
+   },
+   {
+    "carrier": "backend/scripts/security_ops_verification.py:92 EXPECTED_LOOP_IDS",
+    "state_at_head": "98",
+    "legs": [
+     184
+    ],
+    "disposition": "NO CHANGE - measured cardinality invariance; ac2 refuses any move"
+   },
+   {
+    "carrier": "docs/issues/groom/t87.md:58 and scratch clones",
+    "state_at_head": "carry 23",
+    "legs": [],
+    "disposition": "NOT carriers - historical records, left alone (RULING 1)"
+   }
+  ],
+  "per_block_rc": {
+   "ac1": {
+    "base_rc": 1,
+    "base_reason": "0 snapshot_date lines (expected 1)",
+    "candidate_rc": 0
+   },
+   "ac2": {
+    "base_rc": 1,
+    "base_reason": "the constant is still the stale literal 21,33,42,3,23",
+    "candidate_rc": 0
+   },
+   "ac3": {
+    "base_rc": 1,
+    "base_reason": "the md still carries the hand-attested npm_audit=23 summary",
+    "candidate_rc": 0
+   },
+   "ac4": {
+    "base_rc": 1,
+    "base_reason": "FIRES-direction proven at base (fabricated count -> leg 165 rc!=0), then SILENT-direction correctly RED because leg 165 is RED at base; report bytes restored byte-identically (md5 verified)",
+    "candidate_rc": 0,
+    "candidate_note": "both directions GREEN in the clone: FIRES on 14->23 fabrication, SILENT on fresh bytes, digest 47ea6aa2... identical before/after"
+   },
+   "ac5": {
+    "base_rc": 1,
+    "base_reason": "leg 165 rc=1 at base (the drift is not yet healed); full six-leg table printed",
+    "candidate_rc": 0,
+    "candidate_table": {
+     "165": 0,
+     "184": 0,
+     "181": 1,
+     "166": 1,
+     "175": 1,
+     "167": 1
+    }
+   },
+   "ac6": {
+    "base_rc": 1,
+    "base_reason": "three 23-count carriers survive (register:222, md:41, generator:80)",
+    "candidate_rc": 0
+   }
+  },
+  "leg_rc_table_at_head": {
+   "165": 1,
+   "184": 0,
+   "181": 1,
+   "166": 1,
+   "175": 1,
+   "167": 1,
+   "5": 0,
+   "159": 0
+  },
+  "leg_165_amendment_verdict": {
+   "amendment_needed": false,
+   "reason": "leg 165 is count-agnostic by construction: n=$(grep -oE \"[0-9]+ vulnerabilit\" \"$f\" | grep -oE \"^[0-9]+\" | tail -1) ... n2=$(grep -oE \"[0-9]+ vulnerabilit\" \"$t\" | grep -oE \"^[0-9]+\" | tail -1); [ \"${n2:-x}\" = \"$n\" ]. The literal '23' occurs ZERO times in the 1363-char command; the check compares the committed report against a fresh regeneration dynamically, so the re-baselined report turns it rc=0 WITHOUT any index edit - and it keeps its discriminating power (ac4 proves FIRES on a hand-edited count).",
+   "leg_165_command_sha256": "51ef3ff04fd1ab1f3bc90f56562804b0ec9a0e1b0184f54892fbbb2a05fbf083",
+   "leg_165_entry_sha256": "8c8175060f435d006b5aa45a62386aa77c943f5b5db26e35f7dba715ccade84c",
+   "leg_165_command_len": 1363
+  },
+  "self_healing_legs": {
+   "181": "parse-then-compare against the committed reports: 'if (table[tool] !== counts[tool]) { ... hand-typed counts are forbidden }' - counts are parsed from the report bytes, so the register row update (ac4) turns the npm-audit comparison green; its RED at HEAD is the pre-existing gitleaks-zero premise (t86 re-premise class), not this card",
+   "184": "compares the md's REPORT_ROWS against '$r' freshly parsed from the same committed bytes plus the register rows - no literal 23; it is GREEN at HEAD and goes RED the moment the report moves without the regenerated md (ac3 fences exactly that half-move)"
+  },
+  "gate_amendment": {
+   "file": null,
+   "authored": false,
+   "verdict": "NO amendment authored (RULING 2): zero of the 318 legs hardcodes the drifting count - measured over the live index (carrier legs referencing the report path: 5,159,161,165,166,167,175,177,181,184; hardcoded-count subset: EMPTY; regeneration-carrier set: [165] only, dynamic). ac6 re-proves this sweep from the live index bytes so the verdict cannot rot; no empty amendment file was created."
+  },
+  "pre_existing_red_set": {
+   "legs": [
+    167,
+    181,
+    166,
+    175,
+    191,
+    231,
+    259
+   ],
+   "disposition": "disclosed, NOT healed (RULING 3); ac5 refuses any of 181/166/175/167 turning green, so an unexplained green is caught rather than celebrated"
+  },
+  "rehearsal": {
+   "clone": "scratch/t125clone (disposable clone of draft commit ceee839)",
+   "full_rebaseline_performed": true,
+   "generator_run": "PYTHONPATH=. python3 scripts/security_ops_verification.py rc=0, ALL_CHECKS_PASS 28 PASS, SCAN_LOOP_ROWS findings=98 registered=98 PASS - the generator is stdlib-only by its own docstring, so NO venv and NO uv was invoked anywhere in this groom (WAL 1301 hazard avoided)",
+   "ac_rcs": {
+    "base": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "candidate": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "note": "EVIDENCE ONLY - the builder regenerates the report from ITS OWN tree; every AC is count-agnostic and id-set-agnostic, so a further advisory move between groom and build moves the numbers and the fences still hold"
+  },
+  "deferred_proofs": [
+   "leg 177 rc is BUILDER-MEASURED: it regenerates gitleaks end-to-end (~8 min) and touches the npm report only in find-exclusions and NUL/size checks (count-agnostic); groom skipped it deliberately and ac5 requires its rc in the builder handoff",
+   "leg 183 was not run: it is retired (WAL 1301 re-measured GREEN) and no t125 AC requires uv run; the generator was executed with plain stdlib python3 instead"
+  ],
+  "environment_discipline": "no uv, no uv sync, no python -m venv, no pip was invoked against backend/.venv or any in-tree venv in this groom; the generator ran under plain python3 (stdlib only); every git call was one op via cmd.exe with a read-back; the real report bytes were restored byte-identically after every control (md5/sha256 verified, git status clean for the path)"
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t125.md",
+   "docs/state/outputs/t125_definer_groom.json"
+  ],
+  "platform_issue": 129,
+  "output_path": "docs/state/outputs/t125_definer_groom.json"
+ },
+ "error": null,
+ "timestamp": "2026-10-24T12:48:06Z",
+ "retry_count": 0,
+ "next_action": null
+}
