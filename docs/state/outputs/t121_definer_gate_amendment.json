@@ -1,0 +1,147 @@
+{
+ "schema_version": 2.0,
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t121",
+ "milestone": "phase_22_scoring_fullmarks",
+ "platform_issue": 125,
+ "status": "proposed",
+ "authority": "operator ruling 2026-10-24 recorded at orchestrator WAL entry 1291 ('environment separation is LOGICAL (two pipelines, two gates, one Render target), NOT infrastructural'); W2 eight-property index-amendment policy (WAL 1248), invoked IN WRITING",
+ "policy": "W2",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "base": {
+  "asserted_worktree_head": "bc80415bba8d928193f29ee6e957e135669bb636",
+  "main_tip_at_groom": "08d5cbb1bac6a2bedc6cbc4805be2ea17af530c4",
+  "index_entries": 318,
+  "index_file_sha256": "e98f96bd7b7241458cf9f1d3c397730afd08af64564448fb579213bd29469b2b",
+  "note": "bc80415..08d5cbb touches only the WAL and the t120 verifier output; the merge_test_index bytes are identical at both, so every pin here holds at both commits (verified by digest at groom)"
+ },
+ "why_this_file_exists": "tests[227] (t59 ac4) hardcodes three README-family bytes - the CR-stripped README digest, the '= 421 ]' line-count predicate and the CR-stripped docs_verification.md digest. t121 rewrites README scoring row 9, which moves the README digest; the builder re-pins docs_verification.py and regenerates the report, which moves the report digest. Without this amendment the settlement t111/t116 struck goes RED on true product state - the same carrier debt class t120 closed for legs 5/161/183.",
+ "re_premise_not_relax": true,
+ "re_premised_to": "the SAME leg with its three README-family byte pins replaced by placeholders that the builder substitutes with ITS OWN MERGED-TREE MEASUREMENTS; the AGENTS.md pin, the openapi.yaml pin, the render.yaml pin, the 20-file HEAD-blob freeze loop, the seeded-probe control and the single-character-mutation control are preserved verbatim - the settled leg still fails if ANY frozen surface drifts",
+ "claim_re_premise_set_over_index": {
+  "value": "EMPTY",
+  "sweep": "no leg of the 318 contains the literal '2/3', the fragment 'Claim: 2/3', the old README row-9 fragment 'no second environment to deploy to', the old delivery.md Gap fragment 'the second environment it would need does not exist', the scoring row-9 claim cell 'CI/CD (0-3)', or any citation of scoring_map/delivery.md; the only claim carriers are README.md:283 and docs/criteria/scoring_map/delivery.md:25, both product paths owned by the card"
+ },
+ "placeholder_protocol": {
+  "placeholders": [
+   "<T121_README_CR_STRIPPED_DIGEST_64HEX>",
+   "<T121_README_LINES>",
+   "<T121_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>"
+  ],
+  "meaning": "the settlement cannot be byte-frozen at groom: the candidate README does not exist until t121's builder writes it, and docs_verification.md regeneration is not byte-stable at groom (STORED_GATES tests[134] rc=1 environment variance - the t111 precedent). The pins are the VALUES the builder MEASURES on its merged bytes, not numbers copied from a card.",
+  "builder_instruction": "after your README edit and docs_verification.py re-pin and report regeneration, in the SAME commit: replace each placeholder with the measured value - README digest: tr -d CR < README.md | sha256sum; README lines: wc -l on CR-normalised bytes; report digest: tr -d CR < docs/criteria/docs_verification.md | sha256sum AFTER regeneration - then recompute new_command_sha256 (sha256 over the substituted command string) and entry_sha_after (sha256 over json.dumps(entry, separators=(',',':')) of the substituted entry) and record both in your build output. Rehearsal evidence only: a scratch-clone rewrite of row 9 measured 421 lines / 18 H2 / digest 77cbdd64d901cef65430c73d4145d96962535cd1f82017903f200eed418649c5 - NEVER copy it, measure your own bytes.",
+  "orchestrator_instruction": "apply in t121's merge window per W2: forward-apply the three regions to the LIVE leg 227, substitute the builder-measured values, re-assert entry digests against the amended entry, run the amended leg VERBATIM expecting rc=0, and run the OLD leg against the merged tree expecting rc=1 (the amendment must be shown necessary, not cosmetic)."
+ },
+ "amendments": [
+  {
+   "index": 227,
+   "issue_id": "t59",
+   "card_ac": "ac4 (record soundness) / ac3 (pin values)",
+   "title": "tests[227] README triple-pin re-premise: three byte pins replaced by builder-measured placeholders, every frozen half preserved verbatim",
+   "re_premise_not_relax": true,
+   "stale_premises_after_t121": [
+    "README digest efded7fb (row 9 rewrite moves it)",
+    "README line count 421 (may move with the rewrite - rehearsal says it will not, the builder measures)",
+    "docs_verification.md digest 7ace2eb5 (the ac3 regeneration moves it)"
+   ],
+   "stale_premise_measurements": {
+    "README.md": "pinned efded7fb.../421 = the current shipped bytes (GREEN today); t121 rewrites row 9 and necessarily moves the digest",
+    "docs/criteria/docs_verification.md": "pinned 7ace2eb5... = the current committed report; the ac3 re-pin regenerates the report and moves the README_MEASURE line",
+    "not_touched": "render.yaml digest, AGENTS.md pin, openapi.yaml pin, workflows listing [.gitkeep,ci.yml,deploy.yml,e2e.yml,promote.yml,], 20-file HEAD-blob freeze loop, seeded-probe and single-character-mutation controls - all preserved verbatim"
+   },
+   "defective_premise": "after t121 lands, three of the leg's byte pins describe bytes that the card itself legitimately moves - the leg would go RED on true product state",
+   "old_command_len": 4774,
+   "old_command_sha256": "94c1974f47149b0260d0163e0d00a95e8077eda8d4481bed7561e5992e675907",
+   "new_command_len": 4756,
+   "new_command_sha256": "ce2de22191c9a5a7cb8a8edff60d85b8cf383d9f6434df70520f6a66231368d6",
+   "new_command_sha256_note": "PLACEHOLDER form (three regions applied, values not yet measured). Historical intermediate: the two-region placeholder form (README digest + line count only) measured sha256 9994eb97d7c628335af115a089c25eda5da3572322c0d8700d63573477952b34 / entry sha 676ced0eacb23bc4d70e8289013a1832ab7c29f6789f1471c4b150a301b833e1 at groom; the final form adds the report-digest region. The builder/orchestrator recompute the FINAL shas over the SUBSTITUTED form per placeholder_protocol.",
+   "entry_sha_before": "bad07ccc4a14dae554cb215058345e1cc20c90889c68a0b2a78cfdcfb213fe38",
+   "entry_sha_after": "236bcf52a561ab1d23a924d0b2dbc5d7193fee72890e1d3f92279010a84895fd",
+   "entry_sha_after_note": "digest of the PLACEHOLDER-form entry; the applied entry's digest is recomputed after substitution",
+   "replaced_regions": [
+    {
+     "label": "README cr-stripped digest literal",
+     "from": "\"efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4\"",
+     "to": "\"<T121_README_CR_STRIPPED_DIGEST_64HEX>\""
+    },
+    {
+     "label": "README line-count predicate",
+     "from": "= 421 ]",
+     "to": "= <T121_README_LINES> ]"
+    },
+    {
+     "label": "docs_verification.md cr-stripped digest literal",
+     "from": "\"7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a\"",
+     "to": "\"<T121_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\""
+    }
+   ],
+   "region_proofs": {
+    "uniqueness": "each from-string occurs exactly once in the live leg-227 command (asserted at authoring); the efded7fb and 7ace2eb5 digest literals occur nowhere else in the index file",
+    "reverse_lossless": "applying the three regions then reversing them in LIFO order reconstructs the shipped command byte-for-byte (asserted at authoring)",
+    "settled_differs_from_shipped": "substituting the rehearsal candidate digest and the base values yields a command != the shipped command (asserted) - the amendment is not a no-op dressed as a fix"
+   },
+   "settled_form_rehearsal_sha256": "7a7a9b3388b9e5cb4b4acebe9827e612a63e91a56d0bb179472c47e180f29864",
+   "settled_form_rehearsal_note": "sha256 of the leg with placeholders filled by groom-time rehearsal values (README 77cbdd64..., 421 lines, report 7ace2eb5...) - recorded so the builder can sanity-shape its own substituted form; NOT a pin",
+   "negative_control_matrix": [
+    {
+     "case": "settled (substituted) leg vs BASE tree",
+     "victim": "the settlement cannot pass on the stale base bytes",
+     "expected_rc": 1,
+     "measured_rc": 1,
+     "how_measured": "substituted command run against the worktree at base: 'ac4 RED: README is not the pin-2 FINAL digest' (README measures efded7fb, settled form demands the candidate digest)"
+    },
+    {
+     "case": "OLD (shipped) leg vs CANDIDATE tree (scratch clone with row-9 rewrite)",
+     "victim": "proves the amendment is NECESSARY - without it t121's true product state goes RED",
+     "expected_rc": 1,
+     "measured_rc": 1,
+     "how_measured": "shipped command run in scratch/t121reh (candidate README 77cbdd64...): 'ac4 RED: README cr-stripped sha256=77cbdd64... is not the pin-2 FINAL digest'"
+    },
+    {
+     "case": "settled leg vs committed candidate clone (forward GREEN proof)",
+     "victim": "the settlement must be satisfiable, not merely different",
+     "expected_rc": 0,
+     "measured_rc": 1,
+     "how_measured": "PARTIAL at groom: rc=1 with the README digest/lines legs GREEN, failing only the leg's own 20-file HEAD-blob freeze loop because the scratch clone's committed state did not carry a consistent regenerated docs_verification.md blob; the report digest is builder-measured by protocol, so the FULL GREEN proof is a builder/merge-window obligation (recorded honestly, t111 class)",
+     "status": "PARTIAL - forward GREEN proof deferred to the merge window by the placeholder protocol"
+    },
+    {
+     "case": "carried README-reading legs vs candidate tree (256/201/251/254/257)",
+     "victim": "the row-9 rewrite must not disturb measurement-derived fences",
+     "expected_rc": 0,
+     "measured_rc": 0,
+     "how_measured": "legs 256, 201, 251, 254, 257 run verbatim in scratch/t121reh: all rc=0 (band/H2/cross-consistency legs are measurement-derived, not digest-pinned)"
+    },
+    {
+     "case": "carried digest-pinned legs vs candidate tree (258/259/231)",
+     "victim": "disclosed, not healed: 258 reads the README_DIGEST constant (GREEN at base, GREEN again after the ac3 re-pin); 259/231 are retired t72-era pins in the recorded pre-existing RED set",
+     "expected_rc": 1,
+     "measured_rc": 1,
+     "how_measured": "all three run verbatim in scratch/t121reh: rc=1 with 'measured README digest ... is not the README_DIGEST constant' - 258 self-heals when the builder moves constant and README together (ac3 fences exactly that pairing); 259/231 stay in the disclosed RED set, no index byte of theirs is touched"
+    }
+   ],
+   "index_anchor_check": "leg 227 is NOT in INDEX_ANCHORS {16,54,131,132,133,135,215,216}; the amendment moves no anchored entry"
+  }
+ ],
+ "w2_eight_property_evidence": {
+  "1_wal_names_card_first": "the merge-window WAL entry names t121 and this amendment file before any index byte moves",
+  "2_text_written_not_implied": "this file is the written record; the three regions are literal from/to strings",
+  "3_derived_not_copied": "the substituted values are builder-MEASURED on merged bytes (placeholder protocol); the definer measured every pin against the live index bytes at groom",
+  "4_regions_lossless": "uniqueness + reverse-lossless asserted at authoring and re-asserted by the ac4 fence",
+  "5_entry_shas_pinned": "entry_sha_before bad07ccc... / placeholder-form entry_sha_after recorded; builder recomputes after substitution",
+  "6_negative_controls": "settled-vs-base FIRES, old-vs-candidate FIRES (both directions measured); carried-leg table recorded; forward GREEN proof deferred honestly (see matrix)",
+  "7_no_leg_deleted_no_threshold_move": "leg 227 keeps every assertion; no threshold, floor or ceiling moves; 318 entries before and after",
+  "8_both_states_reconstructible": "shipped command reconstructs from the placeholder form by LIFO reverse; applied command reconstructs from the placeholder form by substitution"
+ },
+ "not_amended": {
+  "legs_258_259_231": "258 self-heals via the builder's ac3 re-pin (constant+README move together); 259/231 are the disclosed pre-existing RED set",
+  "legs_256_201_251_254_257": "measurement-derived, GREEN against the candidate, zero index bytes needed",
+  "claim_string_legs": "none exist - the claim re-premise set over the index is EMPTY (see claim_re_premise_set_over_index)"
+ },
+ "written_by_definer_applied_by": "definer-groom for t121 (platform issue #125) on 2026-10-24; applied by the orchestrator in t121's merge window under W2 after the builder's merge commit lands"
+}

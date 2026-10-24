@@ -1,0 +1,146 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t121",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "milestone": "phase_22_scoring_fullmarks",
+  "platform_issue": 125,
+  "ac_hash": "sha256:e6e9be5b8b581662402e8cc9889cc18e249db4d14077d6b9b9742cdbb4433c3e",
+  "ac_hash_spaced": "e6e9be5b 8b581662 402e8cc9 889cc18e 249db4d1 4077d6b9 b9742cdb b4433c3e",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "set -u\nD=docs/criteria/scoring_map/delivery.md\ntest -f \"$D\" || { echo \"ac1 RED: $D missing\"; exit 1; }\npython3 - \"$D\" <<'PYEOF' || exit 1\nimport re, sys\nt = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nm = re.search(r\"^## CI/CD\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not m:\n    print(\"ac1 RED: no '## CI/CD' section in delivery.md\"); raise SystemExit(1)\nsec = m.group(1)\nfail = []\nif \"- Claim: 3/3\" not in sec:\n    fail.append(\"the CI/CD section does not claim 3/3\")\nif \"- Claim: 2/3\" in sec or \"2/3\" in sec:\n    fail.append(\"a 2/3 fragment survives in the CI/CD section - the record must be re-baselined once, not half-moved\")\ngap = [ln for ln in sec.splitlines() if ln.startswith(\"- Gap\")]\nif not gap:\n    fail.append(\"the Gap line was deleted instead of rewritten - the ruling record must stay visible to a reader probing render.yaml\")\ngap = gap[0]\nfor needle, why in [\n    (\"2026-10-24\", \"the ruling record must be dated\"),\n    (\"1291\", \"the Gap must cite the WAL entry carrying the operator ruling\"),\n    (\"LOGICAL\", \"the Gap must state the logical-not-infrastructural boundary (the ruling word)\"),\n    (\"infrastructural\", \"the Gap must name the infrastructural half it does NOT claim\"),\n    (\"no second deployed target\", \"the Gap must say plainly that no second deployed target exists\"),\n]:\n    if needle not in gap:\n        fail.append(\"Gap line lacks %r - %s\" % (needle, why))\nif \"39933068472\" not in sec:\n    fail.append(\"the section does not cite rehearsal run 39933068472 - the gate the ruling prices was demonstrably exercised\")\nif \".github/workflows/promote.yml\" not in sec:\n    fail.append(\"the section does not name promote.yml as the human-gated pipeline\")\nif fail:\n    sys.stdout.write(\"ac1 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac1 RED: delivery.md CI/CD section is not the ruling record (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac1 evidence: CI/CD claims 3/3; the 2/3 line is dead; the Gap is a dated ruling record (2026-10-24, WAL 1291) naming LOGICAL separation, promote.yml, run 39933068472, and the no-second-deployed-target honesty boundary\\n\")\nPYEOF\necho \"ac1 GREEN: delivery.md CI/CD section is the dated ruling record, not a loosened claim\"",
+   "ac2": "set -u\nR=README.md\ntest -f \"$R\" || { echo \"ac2 RED: README.md missing\"; exit 1; }\npython3 - \"$R\" <<'PYEOF' || exit 1\nimport sys\nraw = open(sys.argv[1], \"rb\").read()\nif b\"\\x00\" in raw or any(b > 127 for b in raw):\n    print(\"ac2 RED: README is no longer ASCII-only\"); raise SystemExit(1)\nt = raw.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\")\nlines = t.splitlines()\nrow = [ln for ln in lines if ln.startswith(\"| 9 | CI/CD (0-3) |\")]\nif len(row) != 1:\n    print(\"ac2 RED: expected exactly one scoring row 9, found %d\" % len(row)); raise SystemExit(1)\nrow = row[0]\ncells = [c.strip() for c in row.strip(\"|\").split(\"|\")]\nfail = []\nif cells[2] != \"3/3\":\n    fail.append(\"row 9 claim cell is %r, not '3/3'\" % cells[2])\nfor needle, why in [\n    (\"promote.yml\", \"the ruling prices the human-gated pipeline and the row must name it\"),\n    (\"39933068472\", \"the row must cite the rehearsal run that exercised the gate (WAL 1281)\"),\n    (\"WAL 1291\", \"the row must cite the WAL entry carrying the operator ruling\"),\n    (\"LOGICAL\", \"the row must carry the ruling word\"),\n    (\"infrastructural\", \"the row must name the boundary it does NOT cross\"),\n]:\n    if needle not in row:\n        fail.append(\"row 9 lacks %r - %s\" % (needle, why))\nif \"2/3\" in row:\n    fail.append(\"a 2/3 fragment survives in row 9\")\nrows = [ln for ln in lines if ln.startswith(\"| \") and \"| (0-\" in ln or ln.startswith(\"| \") and any(x in ln for x in (\"(0-1)\", \"(0-2)\", \"(0-3)\", \"(0-4)\", \"(0-5)\"))]\nh2 = sum(1 for ln in lines if ln.startswith(\"## \"))\nif h2 != 18:\n    fail.append(\"README has %d H2 headings, not the frozen 18 - the rewrite must be shape-preserving\" % h2)\nif len(rows) < 12:\n    fail.append(\"only %d scoring rows survive; the map has 12 - a row was deleted, not re-baselined\" % len(rows))\nif fail:\n    sys.stdout.write(\"ac2 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac2 RED: README row 9 is not the ruling one-liner (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac2 evidence: row 9 claims 3/3 citing promote.yml + run 39933068472 + WAL 1291 + LOGICAL/infrastructural boundary; 18 H2 and >=12 scoring rows survive; README ASCII\\n\")\nPYEOF\necho \"ac2 GREEN: README row 9 is the ruling one-liner and the structural invariants survive\"",
+   "ac3": "set -u\nfor f in README.md backend/scripts/docs_verification.py docs/criteria/docs_verification.md; do\n  test -f \"$f\" || { echo \"ac3 RED: $f missing\"; exit 1; }\ndone\npython3 - <<'PYEOF' || exit 1\nimport re, hashlib, sys\nBASE_DIGEST = \"efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4\"\nraw = open(\"README.md\", \"rb\").read()\nmeas_digest = hashlib.sha256(raw.replace(b\"\\r\", b\"\")).hexdigest()\nmeas_lines = raw.replace(b\"\\r\\n\", b\"\\n\").count(b\"\\n\")\ng = open(\"backend/scripts/docs_verification.py\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ncm = re.search(r'README_DIGEST\\s*=\\s*\"([0-9a-f]{64})\"', g)\ncl = re.search(r\"README_LINES\\s*=\\s*(\\d+)\", g)\nif not cm or not cl:\n    print(\"ac3 RED: README_DIGEST/README_LINES constants not found in docs_verification.py\"); raise SystemExit(1)\nc_digest, c_lines = cm.group(1), int(cl.group(1))\nrep = open(\"docs/criteria/docs_verification.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nrm = re.search(r\"README_MEASURE PASS lines=(\\d+) digest=([0-9a-f]{64})\", rep)\nif not rm:\n    print(\"ac3 RED: no README_MEASURE PASS line in the committed report\"); raise SystemExit(1)\nr_lines, r_digest = int(rm.group(1)), rm.group(2)\nfail = []\nif meas_digest != BASE_DIGEST:\n    # the builder moved the README: every surface must have moved WITH it, to the measured value\n    if c_digest != meas_digest:\n        fail.append(\"constant README_DIGEST=%s but README measures %s - the pin was not re-pinned to the merged bytes (never copied from a card)\" % (c_digest[:12], meas_digest[:12]))\n    if r_digest != meas_digest:\n        fail.append(\"report line digest=%s but README measures %s - regenerate the report after re-pinning, in the same commit\" % (r_digest[:12], meas_digest[:12]))\n    if not (c_lines == r_lines == meas_lines):\n        fail.append(\"line count moved apart: constant=%d report=%d measured=%d\" % (c_lines, r_lines, meas_lines))\n    if meas_digest == BASE_DIGEST:\n        fail.append(\"unreachable\")\nelse:\n    # base state: nothing moved, so nothing may have moved\n    if not (c_digest == r_digest == meas_digest and c_lines == r_lines == meas_lines):\n        fail.append(\"README is at the base digest but the three surfaces already disagree\")\nif not (340 <= meas_lines <= 460 or meas_lines <= 500):\n    fail.append(\"measured line count %d outside band 340..460 and the 500 ceiling\" % meas_lines)\nif fail:\n    sys.stdout.write(\"ac3 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac3 RED: the triple pin is a half-move (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac3 evidence: measured README digest=%s... lines=%d; constant, report line and measured bytes agree (base-pinned\" % (meas_digest[:12], meas_lines) + \" or re-pinned by measurement) - a half-move is RED\\n\")\nPYEOF\necho \"ac3 GREEN: the triple pin (constant, measured bytes, report line) is a consistent whole\"",
+   "ac4": "set -u\nA=docs/state/outputs/t121_definer_gate_amendment.json\ntest -f \"$A\" || { echo \"ac4 RED: $A missing - the proposal is the written record the merge window applies\"; exit 1; }\npython3 - \"$A\" <<'PYEOF' || exit 1\nimport json, hashlib, sys\nrec = json.load(open(sys.argv[1], encoding=\"utf-8\"))\nraw = open(\"docs/state/merge_test_index.json\", \"rb\").read()\ntests = json.loads(raw.decode(\"utf-8\"))[\"tests\"]\ndef csha(s): return hashlib.sha256(s.encode()).hexdigest()\ndef esha(x): return hashlib.sha256(json.dumps(x, separators=(\",\", \":\")).encode()).hexdigest()\nfail = []\nif rec.get(\"status\") != \"proposed\":\n    fail.append(\"amendment status is %r, not 'proposed' - the definer proposes, the orchestrator applies\" % rec.get(\"status\"))\nif rec.get(\"card_writes_index_bytes\") is not False:\n    fail.append(\"card_writes_index_bytes must be False\")\nif len(tests) != 318 or hashlib.sha256(raw).hexdigest() != \"e98f96bd7b7241458cf9f1d3c397730afd08af64564448fb579213bd29469b2b\":\n    fail.append(\"live index is not the 318-entry e98f96bd base the pins were struck against - re-pin before applying\")\nam = [a for a in rec[\"amendments\"] if a[\"index\"] == 227][0]\ncmd = tests[227][\"command\"]\nif csha(cmd) != am[\"old_command_sha256\"] or len(cmd) != am[\"old_command_len\"]:\n    fail.append(\"old_command_sha256/len do not match the live leg 227\")\nif esha(tests[227]) != am[\"entry_sha_before\"]:\n    fail.append(\"entry_sha_before does not match the live entry\")\nbuilt = cmd\nfor reg in am[\"replaced_regions\"]:\n    n = cmd.count(reg[\"from\"])\n    if n != 1:\n        fail.append(\"region from-string occurs %d times (must be exactly 1): %r\" % (n, reg[\"from\"][:48]))\n    built = built.replace(reg[\"from\"], reg[\"to\"], 1)\nback = built\nfor reg in reversed(am[\"replaced_regions\"]):\n    back = back.replace(reg[\"to\"], reg[\"from\"], 1)\nif back != cmd:\n    fail.append(\"region replacement is not reverse-lossless\")\nif csha(built) != am[\"new_command_sha256\"] or len(built) != am[\"new_command_len\"]:\n    fail.append(\"new_command_sha256/len do not reconstruct from the regions\")\nimport copy\ne2 = copy.deepcopy(tests[227]); e2[\"command\"] = built\nif esha(e2) != am[\"entry_sha_after\"]:\n    fail.append(\"entry_sha_after does not reconstruct from the built entry\")\nsettled = built\nfor ph, val in [(\"<T121_README_CR_STRIPPED_DIGEST_64HEX>\", \"77cbdd64d901cef65430c73d4145d96962535cd1f82017903f200eed418649c5\"),\n                (\"= <T121_README_LINES> ]\", \"= 421 ]\"),\n                (\"<T121_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\", \"7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a\")]:\n    settled = settled.replace(ph, val)\nif settled == cmd:\n    fail.append(\"the settled form equals the shipped command - the amendment would be a no-op dressed as a fix\")\nif \"<T121_\" in settled:\n    fail.append(\"placeholders survive substitution - the protocol is incomplete\")\nif fail:\n    sys.stdout.write(\"ac4 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac4 RED: the leg-227 amendment record is not sound (%d defects above)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac4 evidence: amendment PROPOSED against the e98f96bd index; old/new command shas and before/after entry shas reconstruct; 3 regions unique + reverse-lossless; settled form differs from shipped; card writes zero index bytes\\n\")\nPYEOF\necho \"ac4 GREEN: the leg-227 gate amendment is a sound, reconstructible, PROPOSED record\"",
+   "ac5": "set -u\npython3 - <<'PYEOF' || exit 1\nimport re, sys\nVIOLATIONS = [\"two deployed targets\", \"two render services\",\n              \"separate production instance\", \"second production environment exists\",\n              \"two deployed environments\", \"separate prod database\",\n              \"a second deployed target exists\", \"the second deployed target exists\"]\nNEGATIONS = [\"no second deployed target\", \"not a second deployed target\",\n             \"never claim a second deployed target\", \"must not claim a second deployed target\"]\ndef probe(text):\n    \"\"\"Return list of defects: undisclosed second-target claims + missing disclosure.\n    Negated honesty sentences (the ruling record's own 'no second deployed target exists'\n    wording) are stripped BEFORE the violation scan so the fence never fires on honesty.\"\"\"\n    low = text.lower()\n    for n in NEGATIONS:\n        low = low.replace(n, \" \")\n    d = [v for v in VIOLATIONS if v in low]\n    if \"logical\" not in low:\n        d.append(\"missing the LOGICAL boundary word\")\n    if \"infrastructural\" not in low:\n        d.append(\"missing the infrastructural negation\")\n    return d\n# negative controls, both directions, on synthetic text only (victims named)\nfires = probe(\"The two pipelines deploy to two deployed targets, each Render service with its own database; a second deployed target exists.\")\nif not fires:\n    print(\"ac5 RED: control broken - the probe is SILENT on fabricated 'two deployed targets' text (victim: every future honesty claim on this row)\"); raise SystemExit(1)\nsilent = probe(\"environment separation is LOGICAL (two pipelines, two gates, one Render target), NOT infrastructural\")\nif silent:\n    print(\"ac5 RED: control broken - the probe FIRES on the ruling text itself (victim: the card becomes unsatisfiable): %s\" % silent); raise SystemExit(1)\nsys.stdout.write(\"ac5 evidence: control FIRES on fabricated two-deployed-targets text (%d defects) and is SILENT on the ruling text - both directions proven on synthetic strings\\n\" % len(fires))\n# the live surfaces\nfail = []\nd = open(\"docs/criteria/scoring_map/delivery.md\", encoding=\"utf-8\", errors=\"replace\").read()\nm = re.search(r\"^## CI/CD\\n(.*?)(?=^## |\\Z)\", d.replace(\"\\r\\n\", \"\\n\"), re.M | re.S)\nif not m:\n    print(\"ac5 RED: no CI/CD section to probe\"); raise SystemExit(1)\nfor x in probe(m.group(1)):\n    fail.append(\"delivery.md CI/CD: \" + x)\nif \"no second deployed target\" not in m.group(1).lower():\n    fail.append(\"delivery.md CI/CD: the explicit no-second-deployed-target sentence is missing\")\nrow = [ln for ln in open(\"README.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\").splitlines() if ln.startswith(\"| 9 | CI/CD (0-3) |\")]\nif not row:\n    print(\"ac5 RED: no README row 9 to probe\"); raise SystemExit(1)\nfor x in probe(row[0]):\n    fail.append(\"README row 9: \" + x)\nif fail:\n    sys.stdout.write(\"ac5 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac5 RED: the honest-boundary disclosure is incomplete on the live surfaces (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac5 evidence: both live surfaces carry the LOGICAL-not-infrastructural disclosure and claim no second deployed target\\n\")\nPYEOF\necho \"ac5 GREEN: the honest boundary is stated on both surfaces and the probe is proven to bite\"",
+   "ac6": "set -u\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\nHITS=$(grep -rn '2/3' README.md docs/criteria/ 2>/dev/null | grep -v '282/308' | grep -v 'pin-2/3/4' || true)\nif [ -n \"$HITS\" ]; then\n  echo \"ac6 evidence: surviving 2/3 carriers: $(printf '%s' \"$HITS\" | head -3)\"\n  echo \"ac6 RED: the 2/3 claim string still survives on a product carrier - the re-baseline is incomplete\"\n  exit 1\nfi\npython3 - <<'PYEOF' || exit 1\nimport json, sys\ntests = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\ncarriers = [i for i, t in enumerate(tests)\n            if \"2/3\" in t[\"command\"] or \"scoring_map/delivery\" in t[\"command\"]\n            or \"no second environment to deploy to\" in t[\"command\"]\n            or \"the second environment it would need does not exist\" in t[\"command\"]]\nmeta = [i for i, t in enumerate(tests) for k, v in t.items()\n        if k != \"command\" and isinstance(v, str) and \"Claim: 2/3\" in v]\nif carriers or meta:\n    print(\"ac6 RED: index legs assert the claim: commands=%s meta=%s\" % (carriers, meta))\n    raise SystemExit(1)\nred_set = {191, 231, 259}\nsys.stdout.write(\"ac6 evidence: 0 of %d legs carry the 2/3 claim string (groom measured the same zero set); pre-existing RED set %s is disclosed, not healed, by this card\\n\" % (len(tests), sorted(red_set)))\nPYEOF\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  BASE=$(git merge-base HEAD origin/main 2>/dev/null || git rev-parse HEAD~1 2>/dev/null || true)\n  if [ -n \"${BASE:-}\" ]; then\n    OUT=$(git diff --name-only \"$BASE\"...HEAD 2>/dev/null | grep -vE '^(README\\.md|docs/criteria/scoring_map/delivery\\.md|backend/scripts/docs_verification\\.py|docs/criteria/docs_verification\\.md)$' | grep -v '^docs/' || true)\n    [ -z \"$OUT\" ] || { echo \"ac6 RED: the builder commit moved paths outside the four owned surfaces: $OUT\"; exit 1; }\n    echo \"ac6 evidence: builder delta is inside README.md + delivery.md + docs_verification.py + docs_verification.md\"\n  fi\nfi\necho \"ac6 GREEN: the 2/3 string is dead on every carrier, zero leg asserts it, delta is pure\""
+  },
+  "verification_commands_source": "the six fenced bash blocks in docs/issues/t121.md as committed by THIS groom commit; recomputed from the committed blob (t58/t116 recipe: CR-strip + trim each block, sha256 over json.dumps(blocks, separators=(',',':')))",
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "contract_first_applied": true,
+  "base_measured": {
+   "asserted_worktree_head": "bc80415bba8d928193f29ee6e957e135669bb636",
+   "main_tip_at_groom": "08d5cbb1bac6a2bedc6cbc4805be2ea17af530c4",
+   "index_entries": 318,
+   "index_file_sha256": "e98f96bd7b7241458cf9f1d3c397730afd08af64564448fb579213bd29469b2b",
+   "readme_at_base": {
+    "lines": 421,
+    "cr_stripped_sha256": "efded7fb4484f2cfabe2d1faee6e5d8c2b3a77162570a1613eba9374bcb789e4",
+    "h2": 18,
+    "encoding": "CRLF, ASCII-only"
+   },
+   "report_at_base": {
+    "cr_stripped_sha256": "7ace2eb5785087af51c00179fb61a43fbf8011de533f1cb91351be961883cd2a"
+   },
+   "method": "every leg executed VERBATIM from docs/state/merge_test_index.json via python3 subprocess bash -c; zero hand-copied shell; negative controls run in scratch clones only"
+  },
+  "per_block_pre_fix_rc": {
+   "ac1": {
+    "base_rc": 1,
+    "class": "expected RED at base - delivery.md still carries Claim 2/3 (9 defects)",
+    "candidate_rc": 0
+   },
+   "ac2": {
+    "base_rc": 1,
+    "class": "expected RED at base - README row 9 still claims 2/3 (6 defects)",
+    "candidate_rc": 0
+   },
+   "ac3": {
+    "base_rc": 0,
+    "class": "GREEN at base BY DESIGN - an invariant fence: true when nothing moved, true after a complete re-pin, RED against a half-move",
+    "candidate_rc": 1,
+    "candidate_note": "RED on the scratch candidate because the rehearsal clone moved README without re-pinning docs_verification.py/report - exactly the half-move the fence exists to catch; the builder's commit must be GREEN"
+   },
+   "ac4": {
+    "base_rc": 0,
+    "class": "GREEN at groom - the amendment record is sound and PROPOSED; the fence re-asserts every pin against the live index",
+    "candidate_rc": "not run in clone (record/index-scoped, product-tree invariant)"
+   },
+   "ac5": {
+    "base_rc": 1,
+    "class": "expected RED at base - the live surfaces carry no ruling disclosure yet; controls proven BOTH directions on synthetic strings inside the fence (FIRES on fabricated two-deployed-targets text, SILENT on the ruling text)",
+    "candidate_rc": 0
+   },
+   "ac6": {
+    "base_rc": 1,
+    "class": "expected RED at base - README.md:283 and delivery.md:25 still carry the 2/3 string",
+    "candidate_rc": 0
+   }
+  },
+  "carrier_table_2of3": {
+   "product_carriers": [
+    "README.md:283 (scoring row 9 claim cell + why text)",
+    "docs/criteria/scoring_map/delivery.md:25 (- Claim: 2/3) + the section's Gap/Reason prose"
+   ],
+   "false_positives_excluded_by_ac6_sweep": [
+    "docs/issues/closed/index.md:91/95 (historical - outside the README.md+docs/criteria/ grep scope)",
+    "docs/backlog.md:113 ('282/308')",
+    "docs/issues/groom/t72.md:64 ('pin-2/3/4')",
+    "backend/uv.lock URLs (outside scope)"
+   ],
+   "index_legs_carrying_the_claim_string": [],
+   "sweep": "318 legs grepped for '2/3', 'Claim: 2/3', 'no second environment to deploy to', 'the second environment it would need does not exist', 'CI/CD (0-3)', 'scoring_map/delivery', 'delivery.md' - ZERO hits; the claim re-premise set over the index is EMPTY"
+  },
+  "leg_227_amendment": {
+   "file": "docs/state/outputs/t121_definer_gate_amendment.json",
+   "status": "proposed",
+   "old_command_sha256": "94c1974f47149b0260d0163e0d00a95e8077eda8d4481bed7561e5992e675907",
+   "old_command_len": 4774,
+   "entry_sha_before": "bad07ccc4a14dae554cb215058345e1cc20c90889c68a0b2a78cfdcfb213fe38",
+   "placeholder_form_new_command_sha256": "ce2de22191c9a5a7cb8a8edff60d85b8cf383d9f6434df70520f6a66231368d6",
+   "placeholder_form_len": 4756,
+   "placeholder_form_entry_sha_after": "236bcf52a561ab1d23a924d0b2dbc5d7193fee72890e1d3f92279010a84895fd",
+   "historical_two_region_form_sha256": "9994eb97d7c628335af115a089c25eda5da3572322c0d8700d63573477952b34",
+   "regions": 3,
+   "regions_unique_reverse_lossless": true,
+   "settled_differs_from_shipped": true,
+   "index_bytes_verdict": "YES - index bytes must move, exactly one leg (227), via the PROPOSED amendment; the card itself writes zero index bytes and the orchestrator applies in the merge window under W2"
+  },
+  "pre_existing_red_set": {
+   "legs": [
+    191,
+    231,
+    259
+   ],
+   "disposition": "disclosed, not healed; 258 is GREEN at base and self-heals after the builder's ac3 re-pin (it reads the README_DIGEST constant)"
+  },
+  "rehearsal": {
+   "clone": "scratch/t121reh (disposable scratch clone of the main repo, candidate commit aa42387)",
+   "candidate_readme": {
+    "lines": 421,
+    "h2": 18,
+    "cr_stripped_sha256": "77cbdd64d901cef65430c73d4145d96962535cd1f82017903f200eed418649c5"
+   },
+   "note": "REHEARSAL EVIDENCE ONLY - the shape-preserving rewrite keeps 421/18; the builder re-pins from ITS OWN merged bytes, never from this value (ac3 and the amendment's placeholder_protocol both enforce this)"
+  },
+  "deferred_proofs": [
+   "leg-227 forward GREEN proof (settled leg rc=0 on the merged tree) - deferred to the merge window by the placeholder protocol (t111 precedent): the report digest is builder-measured, so the settled form cannot exist at groom; the FIRES-direction controls are measured",
+   "merged-tree docs_verification.md digest - regeneration is not byte-stable at groom (STORED_GATES tests[134] rc=1 environment variance); builder measures after re-pin, orchestrator substitutes"
+  ],
+  "environment_incident": "the worktree's .git pointer file was found MISSING at the commit step (all sibling pi-subagent worktrees lost theirs in the same window - a mass cleanup event outside this card); the commit was produced in a scratch clone against the same object store and pushed per protocol - disclosed for the WAL",
+  "ordering_constraint": "t121's README edit lands BEFORE t122 and t124 (single-writer; they re-pin on t121's merged bytes)"
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t121.md",
+   "docs/state/outputs/t121_definer_gate_amendment.json",
+   "docs/state/outputs/t121_definer_groom.json"
+  ],
+  "platform_issue": 125,
+  "output_path": "docs/state/outputs/t121_definer_groom.json"
+ },
+ "error": null,
+ "timestamp": "2026-10-24T10:41:24Z",
+ "retry_count": 0,
+ "next_action": null
+}
