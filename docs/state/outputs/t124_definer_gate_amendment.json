@@ -56,27 +56,12 @@
           "why": "payload"
         },
         {
-          "from": "ALLOWED_ACTIONS = [\n    \"read_health\",\n    \"read_metrics\",\n    \"read_logs\",\n    \"read_version\",\n    \"read_manifest\",\n    \"write_report\",\n]",
-          "to": "ALLOWED_ACTIONS = [\n    \"read_health\",\n    \"read_metrics\",\n    \"read_logs\",\n    \"read_version\",\n    \"read_manifest\",\n    \"write_report\",\n    \"restart_local_observability\",\n]",
-          "why": "enum"
-        },
-        {
-          "from": "import copy\nimport json",
-          "to": "import copy\nimport json\nimport re",
-          "why": "import re"
-        },
-        {
-          "from": "for name in actions:\n    if name not in prompt:\n        problems.append(\"action_not_named_in_prompt_\" + name)\n",
-          "to": "for name in actions:\n    if name not in prompt:\n        problems.append(\"action_not_named_in_prompt_\" + name)\n\n# --- t124 re-premise of the t81 set-equality fence (gate amendment W2/t124-A1). The\n# enum is now the six read-only names PLUS EXACTLY ONE narrow remediation name, so an\n# on-call answer can RECORD the one policy-allowed local action the drill rehearsed.\n# The set-equality premise is KEPT, not relaxed: the extended expected set is pinned,\n# the addition is capped at one name, and restart_service - the exact name the\n# out_of_policy_action mutant below must keep REJECTING - is asserted ABSENT.\nREAD_ONLY_ACTIONS = [\n    \"read_health\",\n    \"read_metrics\",\n    \"read_logs\",\n    \"read_version\",\n    \"read_manifest\",\n    \"write_report\",\n]\nif len([a for a in actions if a not in READ_ONLY_ACTIONS]) != 1:\n    problems.append(\"action_enum_remediation_count_\" + str(len([a for a in actions if a not in READ_ONLY_ACTIONS])))\nif \"restart_service\" in actions:\n    problems.append(\"action_enum_admits_t81_mutant_restart_service\")\nDRILL = \"docs/criteria/oncall_drill_verification.md\"\nif not os.path.isfile(DRILL):\n    problems.append(\"action_enum_remediation_drill_carrier_missing\")\nelse:\n    _dt = open(DRILL, encoding=\"utf-8\").read().replace(\"\\r\\n\", \"\\n\")\n    _m = re.search(r\"^\\|\\s*ONCALL_DRILL\\s*\\|\\s*remediation_action\\s*\\|\\s*([^|\\s]+)\\s*\\|\", _dt, re.M)\n    if not _m:\n        problems.append(\"action_enum_remediation_drill_row_unreadable\")\n    elif _m.group(1) not in actions:\n        problems.append(\"action_enum_remediation_drill_row_mismatch_\" + _m.group(1))\n",
-          "why": "block"
-        },
-        {
           "from": "the six read-only actions, and that a valid answer is ACCEPTED",
           "to": "the six read-only actions plus exactly one narrow remediation action, and that a valid answer is ACCEPTED",
           "why": "echo"
         }
       ],
-      "rebuild": "start from the base64 token replacement, then apply the three plaintext regions inside the decoded payload (ALLOWED_ACTIONS gains restart_local_observability; import re is added; the prompt-naming loop gains the pinned narrowness/narrow-name block) and finally the command-echo phrase; the whole-token replacement is applied FIRST so the plaintext regions never touch the base64 alphabet, and the reverse reconstruction is verified byte-exact by ac2",
+      "rebuild": "two whole-token regions: (1) the base64 payload token is replaced WHOLE (the new payload embeds all probe edits: ALLOWED_ACTIONS gains restart_local_observability, import re is added, the prompt-naming loop is followed by the pinned narrowness block); (2) the plaintext command-echo phrase is replaced in the outer command. The whole-token replacement is applied FIRST so the echo region never touches the base64 alphabet; ac2 reconstructs forward and reverse and refuses GREEN/GREEN",
       "why": "the probe asserts sorted(actions) != sorted(ALLOWED_ACTIONS) against the six-name set and names every enum entry in responder-task.md. The naming loop is KEPT verbatim (the new action must still be named in the prompt, and ac1 requires that naming line to carry a prohibition word so it reads as a boundary, not an instruction). The set-equality premise is KEPT too: only its expected set moves, the addition is capped at exactly one name, restart_service is asserted ABSENT so the probe's own out_of_policy_action mutant (restart_service + recovery_verified true) stays REJECTED with no re-premise, and the one added name must equal the action the drill recorded in docs/criteria/oncall_drill_verification.md. A five-class or wildcard relaxation would make the fence vacuous; the opposite-sides rc contract in ac2 refuses that (GREEN/GREEN on one tree is itself RED).",
       "t81_mutant_preserved": "out_of_policy_action feeds {\"action\": \"restart_service\"} and expects a non-zero validator exit; restart_service is deliberately NOT added to the enum and the amended probe asserts its absence from the enum, so the mutant's disposition is unchanged and needs no re-premise",
       "new_action_name": "restart_local_observability",
