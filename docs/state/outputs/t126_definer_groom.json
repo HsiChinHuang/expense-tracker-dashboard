@@ -1,0 +1,147 @@
+{
+ "schema_version": 2.0,
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "card": "t126",
+ "platform_issue": 130,
+ "milestone": "phase_22_scoring_fullmarks",
+ "branch": "groom/t126-carrier-rotation",
+ "base_commit": "abe9c44bf79cc01b825c5e4efb0955d288dc67f0",
+ "card_path": "docs/issues/t126.md",
+ "gate_amendment_path": "docs/state/outputs/t126_definer_gate_amendment.json",
+ "evidence": {
+  "ac_hash": "sha256:e416797210725e409b1fe030589fae04f74bcf69744733387d5a1496c74b8a6b",
+  "ac_hash_recipe": "t58/t116: each fenced bash block CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')); recomputed from the COMMITTED card blob per the t70 lesson (forward and reverse proof below)",
+  "ac_count": 6,
+  "sections_filled": [
+   "Metadata",
+   "Goal",
+   "Context",
+   "Ordering (binding)",
+   "Acceptance criteria (ac1-ac6 fenced)",
+   "Verification commands",
+   "Out of scope",
+   "Definition of Done"
+  ],
+  "verification_commands_source": "the six fenced bash blocks under '## Acceptance criteria' ARE the verification commands (the t125/t122 sibling-card shape; older cards carried a separate '## Verification commands' section listing the same blocks - this card carries both: the fences and the index list)",
+  "verification_commands": [
+   {
+    "ac": "ac1",
+    "command_sha256": "73495c1f6cf254b3bef8b22d0241d70393d8380c5769b17ef0c1c6c8fa131d22",
+    "len": 5904,
+    "summary": "carried pin == MEASURED cr-stripped digest of the committed security_ops report; CARRIED rows pin == measured PASS rows (29); the security_ops report, its generator and README are byte-untouched vs the merge base; exactly ONE generator line changed vs the pre-fix blob and it keeps its CRLF terminator. git is reached through cmd.exe (WSL-side git refuses this worktree)."
+   },
+   {
+    "ac": "ac2",
+    "command_sha256": "038fc5b387e7775fb07a2a71bb48167a1a3e04236a326ee0601478035043eb2c",
+    "len": 3973,
+    "summary": "committed generator (uv, UV_PROJECT_ENVIRONMENT in a fresh mktemp -d OUTSIDE the tree) exits rc=0 twice; the report ends ALL_CHECKS_PASS with INDEX_ANCHORS PASS and STORED_GATES PASS executed=9 failures=0 restored=1; run 2 leaves byte-identical bytes (determinism); the committed report equals the working bytes the generator writes (half-move check); agent_pack is cmd.exe git-restored and diff-clean."
+   },
+   {
+    "ac": "ac3",
+    "command_sha256": "b6df85fcb16ab9a93597f464bb6217d3646a3835fc993423267bb329f65f141c",
+    "len": 3480,
+    "summary": "re-measures the THREE values the orchestrator's t122 leg-227 substitution needs (README cr-stripped digest, README line count, regenerated report cr-stripped digest); refuses README != dd5c7500/421, generator constants disagreeing with the measured README, the stale t121-era report c9f47ed2, and a report that does not attest the measured README; checks the builder handoff records all three when present."
+   },
+   {
+    "ac": "ac4",
+    "command_sha256": "9b6eb6f8dc8f4e5f8af3373fac96322a791cf020db9242494a7c08f8b35dfe86",
+    "len": 1485,
+    "summary": "zero new RED: legs tests[226] and tests[256] extracted VERBATIM from the live index and run in a python subprocess (900s cap) must both exit rc=0; the index file is read, never written."
+   },
+   {
+    "ac": "ac5",
+    "command_sha256": "c9eceb9e6ec5d8e0bb0dc4660340fb83f8d53bece3ff7acd9679dc09bf5a17a4",
+    "len": 2536,
+    "summary": "delta purity: the builder commit touches EXACTLY backend/scripts/docs_verification.py + docs/criteria/docs_verification.md; index, README, agent_pack and the security_ops pair provably untouched (cmd.exe diff --quiet per path); the live index still carries exactly 318 entries."
+   },
+   {
+    "ac": "ac6",
+    "command_sha256": "1d729ff76e140017fb00c78ca47f041a09d94410ac41fd0386988a2e0b81c007",
+    "len": 5634,
+    "summary": "the leak-class ADD proposal reconstructs against the LIVE index by COUNT and IDENTITY (never the file digest - the t122 frozen-premise lesson): index_field == live len(tests), entries_before/after, entry keys exactly [issue_id, ac, command], command_len and entry_sha recomputed from the entry itself, command is one CRLF-safe base64-free bash -c line carrying UV_PROJECT_ENVIRONMENT / the generator / ALL_CHECKS_PASS / the agent_pack-only restore, live tail is t88, append position is not an INDEX_ANCHORS position, and no leg hardcodes the entry count."
+   }
+  ],
+  "first_run_measurements": [
+   "ac1 rc=1 at base (by design - the leak): 'CARRIED_DIGESTS[security_ops] = 38dcbd3dd367 but the committed report measures 517faffb59ad'; the fence bites exactly where WAL 1317 diagnosed.",
+   "ac3 rc=1 at base (by design): README measures dd5c7500/421 and the generator constants agree, but the committed report is the stale t121-era c9f47ed2 - the regeneration half of the card is what turns this GREEN.",
+   "ac4 rc=0 GREEN at base in 40s: legs 226 and 256 verbatim both rc=0 (the zero-new-RED pair).",
+   "ac6 rc=0 GREEN at base: ADD PROPOSED at index-field 318 (append as the 319th entry), entry_sha 08fb8530c811d9d0f40d6ebe78582b6d9f7b78302ffcb9170eb53128c90a1157 recomputes, live tail t88, no leg prices the exact count.",
+   "ac2/ac5 not rehearsed at groom: ac2 needs the builder's re-pin to be able to exit rc=0 (at base the generator exits 1 with CARRIED_REPORT FAIL - the MEASURED negative control BASE_GEN_RC=1 from run c4cc557a, independently corroborated by WAL 1317); ac5 judges a delta that only exists after the builder commit.",
+   "all six blocks pass bash -n; blocks are 5905/3974/3481/1486/2537/5635 bytes."
+  ],
+  "negative_controls": {
+   "ac1": {
+    "victim": "a report EDITED to match the stale pin, or a multi-line rewrite posing as a re-pin",
+    "form": "rows pin vs measured PASS rows + byte-identity of the pinned pair vs the merge base + exactly-one-changed-line + pre-fix blob must carry 38dcbd3d"
+   },
+   "ac2": {
+    "victim": "a hand-edited or half-moved report",
+    "form": "two generator runs must agree byte-for-byte and the committed bytes must equal the generator's output"
+   },
+   "ac3": {
+    "victim": "a frozen or stale value copied from a card/WAL instead of measured",
+    "form": "every value is re-measured from the tree; the stale c9f47ed2 digest is refused BY NAME"
+   },
+   "ac4": {
+    "victim": "a leg silently broken by the change",
+    "form": "the two base-GREEN legs run verbatim from the live index"
+   },
+   "ac5": {
+    "victim": "scope creep into index/README/agent_pack/security_ops bytes",
+    "form": "sorted delta equality plus per-path diff --quiet plus the 318-entry count"
+   },
+   "ac6": {
+    "victim": "an amendment that does not reconstruct, or a leg command that hides its behaviour in base64 or restores the product it prices",
+    "form": "entry_sha recomputation, command-shape greps, and an explicit RED if the command restores docs_verification.md"
+   }
+  },
+  "locked_facts_reused_from_run_c4cc557a": {
+   "policy": "sanity-checked ONCE at abe9c44, every pin matched, nothing re-derived from scratch",
+   "stale_pin": "38dcbd3dd367bc9a590f53dd78d82576784f6a92dd75e1c670d2eef72ac82c3e (generator lines 90-91, CRLF-anchored)",
+   "security_ops_report_cr_sha256": "517faffb59ad9acd7b8918cc9bf6d986594f9ee2d94020785696cfcd1b02dfd1",
+   "readme_cr_sha256": "dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708",
+   "readme_lines": 421,
+   "stale_docs_report_cr_sha256": "c9f47ed2f1ce85beef3f9bab794a47adc107c10b0f0ade478fabdc634c86992e",
+   "agent_pack_cr_sha256": "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
+   "live_index": {
+    "entries": 318,
+    "file_sha256": "573d21013d047d35d7b979f52a6abee477e2b4bb4d31072558a9a4c2b9461305"
+   },
+   "base_gen_rc": 1,
+   "regenerated_report_digest": "TREE-MD-SET DEPENDENT - deliberately NOT frozen anywhere (the clone preview measured 2ad993ba on 289 md files; the committed tree has 282; ac3 measures it on the merged tree)"
+  }
+ },
+ "gate_amendment_summary": {
+  "operation": "ADD",
+  "add_count": 1,
+  "index_field": 318,
+  "position_semantics": "zero-based tests[N]: append as the 319th entry after the live tail tests[317]",
+  "entry_keys_order": [
+   "issue_id",
+   "ac",
+   "command"
+  ],
+  "entry_id": "t126/ac-generator-execution",
+  "entry_sha": "08fb8530c811d9d0f40d6ebe78582b6d9f7b78302ffcb9170eb53128c90a1157",
+  "command_len": 2715,
+  "no_leg_deleted": true,
+  "why": "no leg of the 318-entry sweep executes docs_verification.py AS A GENERATOR (256/257 test -f, 258/259 grep constants, 226 checks report-vs-README coherence), which is exactly why the t125 carrier leak stayed green until the t122 merge window; this leg turns the next stale carried digest RED at the commit that introduces it"
+ },
+ "disclosures": [
+  "SKIPPED PER ORCHESTRATOR STEERING: the #130 grooming -> groomed label transition (the orchestrator performs it) and the #130 body sync (the ~39KB card body exceeds the cmd.exe command-line ceiling; if attempted, use an in-process syncbody-style .ts preload like the main tree's scratch/syncbody_t120.ts, never an inline --body).",
+  "No .env exists in the worktree and none was ever committed: the two strays created while probing platform.ts were rm -f'd (entries 417195a5 and 686500b6).",
+  "Disclosed pre-existing RED, NOT priced by this card: tests[259]'s frozen index digest a77f98a0... vs live 573d2101... (structurally unsatisfiable without an index edit; RED per WAL 1301 before this card exists). Its staleness half IS healed as a side effect of ac2.",
+  "Disclosed environment-conditional leg, NOT an AC: tests[257] re-executes tests[242] (t66), which reads the base README via cmd.exe git show; it measured rc=1 only inside the predecessor's clone and is unverified on the orchestrator env.",
+  "ac1/ac2/ac5 assume the WSL host shape (cmd.exe present, wslpath -w or pwd -W resolvable); on a non-WSL sweep host they would RED for environment reasons - the same disclosed class as leg 257. The ADD leg carries the same assumption and says so in its own RED text.",
+  "The definer wrote ZERO index bytes, ZERO backend bytes, ZERO README bytes: git status shows exactly the two new docs artifacts."
+ ],
+ "next_state_requirements": [
+  "builder: one commit, exactly two files (backend/scripts/docs_verification.py re-pin of ONE CRLF line to the MEASURED digest; docs/criteria/docs_verification.md regenerated by the committed generator), agent_pack git-restored, handoff carrying the three measured values (ac3)",
+  "orchestrator: apply the ADD under W2 with the entry serialised in the recorded key order, substitute t122 leg 227 with the three MEASURED values from the merged tree, write the WAL entry naming t126 before any index byte moves, and perform the #130 label transition",
+  "verifier: re-derive ac_hash from git show <groom commit>:docs/issues/t126.md and run all six fences on the merged tree"
+ ],
+ "written_by": "definer-groom (run c1f0d2e4, worktree s0-0)"
+}

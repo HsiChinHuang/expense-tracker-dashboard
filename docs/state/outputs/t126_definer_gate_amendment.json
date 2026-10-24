@@ -1,0 +1,94 @@
+{
+ "schema_version": 2.0,
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t126",
+ "milestone": "phase_22_scoring_fullmarks",
+ "platform_issue": 130,
+ "status": "proposed",
+ "authority": "W2 index-amendment policy; the t122_definer_gate_amendment.json record is the shape precedent. This is an ADD (a new coverage leg), not a region amendment: no existing leg is touched, so no replaced_regions / entry_sha_before exists anywhere in this file.",
+ "policy": "W2",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "operation": "ADD",
+ "add_count": 1,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "index_field": 318,
+ "position_semantics": "index-field 318 is ZERO-BASED tests[N] notation (proven by the t122/t123/t124 amendments whose entry_sha_before matched the LIVE index): 318 is the position AFTER the current tail tests[317], i.e. APPEND as the 319th entry of the tests array.",
+ "entries_before": 318,
+ "entries_after": 319,
+ "base": {
+  "asserted_worktree_head": "abe9c44bf79cc01b825c5e4efb0955d288dc67f0",
+  "main_tip_at_groom": "abe9c44bf79cc01b825c5e4efb0955d288dc67f0",
+  "index_entries": 318,
+  "index_file_sha256": "573d21013d047d35d7b979f52a6abee477e2b4bb4d31072558a9a4c2b9461305",
+  "note": "the index sha is recorded as INFORMATION, not as an assertion: the t122 verifier taught (WAL 1318, ac6 frozen-premise class) that pinning the index digest inside a card fence turns a legitimate index move into a false RED. The card's ac6 fence therefore asserts the ENTRY COUNT (318) and the identity of the live tail entry (t88), and recomputes the ADD entry digest from the entry itself - none of which moves when an unrelated amendment is applied."
+ },
+ "why_this_leg_exists": "The t125 leak that created t126 was invisible to the whole 318-leg sweep: no leg executes backend/scripts/docs_verification.py AS A GENERATOR. Legs 256/257 only test -f its existence, legs 258/259 only grep its constants, and leg 226 checks report-vs-README coherence, not carried digests. A stale CARRIED_DIGESTS entry therefore stayed green until the t122 merge window tried to regenerate the report (WAL 1317). This ADD closes the leak CLASS: it executes the committed generator end to end on every merge sweep, so any future carried digest that stops measuring its committed report turns the sweep RED at the commit that introduced the drift, not two milestones later.",
+ "add": {
+  "action": "append",
+  "index_field": 318,
+  "entry_keys_order": [
+   "issue_id",
+   "ac",
+   "command"
+  ],
+  "entry_keys_note": "the entry keys are EXACTLY issue_id, ac, command (the same key set as every other leg; the file's own key order is issue_id/command/ac, so the orchestrator MUST serialise the new entry in the order recorded in entry_keys_order when recomputing entry_sha - the digest is key-order dependent",
+  "entry": {
+   "issue_id": "t126",
+   "ac": "ac-generator-execution",
+   "command": "bash -c 'command -v uv >/dev/null 2>&1 || { echo \"t126 leg RED: uv missing - the committed generator can only be executed under the pinned tool (uv run)\"; exit 1; }; command -v cmd.exe >/dev/null 2>&1 || { echo \"t126 leg RED: cmd.exe missing - git must be reached through cmd.exe on this host\"; exit 1; }; test -f backend/scripts/docs_verification.py || { echo \"t126 leg RED: backend/scripts/docs_verification.py missing - the generator this leg exists to execute\"; exit 1; }; test -f docs/criteria/docs_verification.md || { echo \"t126 leg RED: docs/criteria/docs_verification.md missing\"; exit 1; }; G=$(wslpath -w \"$PWD\" 2>/dev/null || pwd -W 2>/dev/null || echo \"$PWD\"); D=$(mktemp -d) || { echo \"t126 leg RED: mktemp failed\"; exit 1; }; LOG=$(mktemp) || { echo \"t126 leg RED: mktemp failed\"; exit 1; }; ( cd backend && UV_PROJECT_ENVIRONMENT=\"$D/venv\" PYTHONPATH=. uv run python scripts/docs_verification.py ) >\"$LOG\" 2>&1; RC=$?; tail -12 \"$LOG\"; if [ \"$RC\" -ne 0 ]; then echo \"t126 leg RED: the committed generator exited rc=$RC on this tree - the log tail above names the failing check, and a stale carried digest is exactly the leak class this leg exists to catch (at the t126 base it was CARRIED_REPORT FAIL digest=517faffb against the stale 38dcbd3d pin)\"; rm -rf \"$D\"; rm -f \"$LOG\"; exit 1; fi; tail -n 1 docs/criteria/docs_verification.md | tr -d \"\\r\" | grep -q \"^ALL_CHECKS_PASS$\" || { echo \"t126 leg RED: the generator exited 0 but the docs report does not end ALL_CHECKS_PASS\"; rm -rf \"$D\"; rm -f \"$LOG\"; exit 1; }; grep -qE \"^INDEX_ANCHORS PASS floor=[0-9]+ entries=[0-9]+$\" docs/criteria/docs_verification.md || { echo \"t126 leg RED: the regenerated docs report carries no INDEX_ANCHORS PASS line\"; rm -rf \"$D\"; rm -f \"$LOG\"; exit 1; }; grep -qE \"^STORED_GATES PASS executed=9 failures=0 restored=1$\" docs/criteria/docs_verification.md || { echo \"t126 leg RED: the regenerated docs report does not carry STORED_GATES PASS executed=9 failures=0 restored=1 - the nine stored gates are not all green on this tree\"; rm -rf \"$D\"; rm -f \"$LOG\"; exit 1; }; cmd.exe /d /c \"git -C $G checkout -- docs/criteria/agent_pack_verification.md\" >/dev/null 2>&1 || { echo \"t126 leg RED: the agent_pack restore failed - the generator re-executes the t35 gate which rewrites that evidence doc and it must be restored\"; rm -rf \"$D\"; rm -f \"$LOG\"; exit 1; }; rm -rf \"$D\"; rm -f \"$LOG\"; echo \"t126 leg GREEN: the committed docs_verification generator executes end to end on this tree - rc=0, the report ends ALL_CHECKS_PASS with INDEX_ANCHORS PASS and STORED_GATES PASS executed=9 failures=0, and the agent_pack side effect is restored (the docs report itself is the generator product and is deliberately NOT restored)\"'"
+  },
+  "command_len": 2715,
+  "entry_sha": "08fb8530c811d9d0f40d6ebe78582b6d9f7b78302ffcb9170eb53128c90a1157",
+  "entry_sha_recipe": "sha256(json.dumps(entry, separators=(',',':'))) over the NEW entry itself, keys in the order issue_id, ac, command; there is no entry_sha_before because an ADD replaces nothing",
+  "no_before_digest": "ADD - nothing is replaced"
+ },
+ "command_design": {
+  "self_contained": "one bash -c string; no scratch file is committed; the venv is created in a fresh mktemp -d OUTSIDE the tree via UV_PROJECT_ENVIRONMENT so no backend/.venv byte is touched (WAL 1301 WSL-uv-sync layout hazard)",
+  "crlf_safe": "no CR byte appears in the command; every read that digests or greps a working-tree file goes through tr -d \"\\r\"",
+  "no_base64": "the command carries no base64 payload - a reader must be able to see exactly what it executes",
+  "restore_discipline": "the leg restores ONLY docs/criteria/agent_pack_verification.md (rewritten as a side effect of re-executing the t35 stored gate). docs/criteria/docs_verification.md is deliberately NOT restored: it is the product of the generator, and restoring it would hide the very half-move (report moved, commit did not) this leg prices.",
+  "residue": "the leg leaves the regenerated report in the working tree; the sweep harness runs legs against a fresh checkout, and the orchestrator's post-sweep git status check is where a dirty report is expected and read as the leg's evidence"
+ },
+ "negative_control_matrix": [
+  {
+   "case": "the ADD leg vs the t126 BASE tree (stale 38dcbd3d carried pin)",
+   "victim": "the carried-digest premise - the generator refuses to produce a report while its pin does not measure the committed report",
+   "expected_rc": 1,
+   "measured_rc": 1,
+   "how_measured": "predecessor run c4cc557a rehearsed the generator on a clone at 54f4677 with the pin UNrotated: exit 1 with 'CARRIED_REPORT FAIL docs/criteria/security_ops_verification.md digest=517faffb59ad9acd7b8918cc9bf6d986594f9ee2d94020785696cfcd1b02dfd1' (BASE_GEN_RC=1, WAL 1317 records the same failure independently on the t122 merge window)"
+  },
+  {
+   "case": "the ADD leg vs the t126 CANDIDATE tree (pin rotated, report regenerated)",
+   "victim": "the whole generator pipeline: carried digests, index anchors, the nine stored gates, openapi parity, links",
+   "expected_rc": 0,
+   "measured_rc": "builder/merge-window obligation - the regenerated report digest is TREE-MD-SET DEPENDENT, so the green cannot be rehearsed on a clone (289 md files previewed vs 282 on the committed tree); it must be measured on the merged tree",
+   "evidence_form": "rc=0 plus the report's own INDEX_ANCHORS PASS / STORED_GATES PASS executed=9 failures=0 restored=1 lines"
+  },
+  {
+   "case": "the ADD leg vs a tree where docs/criteria/docs_verification.md was hand-edited or committed stale",
+   "victim": "the half-move class: the leg regenerates the report itself and asserts the committed bytes' own PASS lines, so a committed report that the generator does not reproduce stays RED on the lines the generator did not write",
+   "expected_rc": 1,
+   "measured_rc": "structural - the generator overwrites the file before the assertions run, so the only bytes that can satisfy the tail/INDEX_ANCHORS/STORED_GATES greps are generator-written bytes"
+  }
+ ],
+ "not_amended": {
+  "existing_legs": "ZERO existing legs are amended by this file. Legs 226/256 are the zero-new-RED pair the card keeps GREEN (ac4); 257 is environment-conditional and 258/259 are disclosed pre-existing RED (healed vs newly broken by this card respectively) - none of them is edited here.",
+  "leg_259_index_pin": "tests[259] carries a frozen index digest a77f98a0117d1d0b07695f2d1a1a34a3b1bbb2dcccf8687cc0f0d5a21cb578f4 against the live 573d2101... - structurally unsatisfiable without an index edit and RED before this card exists (WAL 1301 pre-existing RED set). t126 neither heals nor worsens it, and this card deliberately does NOT encode it as an AC.",
+  "count_premise_sweep": "measured at groom over the live 318-entry index: no leg asserts an exact entry count (grep for '318' hits only two base64 payloads; no len(tests) != / == numeric equality anywhere), so the append to 319 entries breaks no existing leg. The generator's own INDEX_FLOOR is a >= 217 floor and INDEX_ANCHORS positions 16/54/131/132/133/135/215/216 all sit below the append position, so the ADD cannot move an anchored entry."
+ },
+ "w2_eight_property_evidence": {
+  "1_wal_names_card_first": "the merge-window WAL entry names t126 and this file before any index byte moves",
+  "2_text_written_not_implied": "this file carries the full new entry verbatim; the orchestrator appends exactly these bytes",
+  "3_derived_not_copied": "the command was authored from the generator's own observed behaviour (the t35 side effect, the STORED_GATES line format, the CARRIED digest failure text) measured at abe9c44, not copied from a prior card",
+  "4_regions_lossless": "no region replacement occurs (ADD); losslessness is trivial - removing the appended entry restores the previous index byte-for-byte",
+  "5_entry_shas_pinned": "entry_sha of the new entry is pinned and recomputed by the card's ac6 fence from the entry itself",
+  "6_negative_controls": "the base-tree RED is MEASURED (rc=1, CARRIED_REPORT FAIL); the candidate-tree GREEN is deferred honestly to the merged tree because the report digest is tree-md-set dependent",
+  "7_no_leg_deleted_no_threshold_move": "318 entries before, 319 after, nothing removed, no verifier threshold or index floor moved",
+  "8_both_states_reconstructible": "the pre-amendment index is reconstructible by popping the appended entry; the post-amendment index is reconstructible by appending the pinned entry bytes"
+ },
+ "written_by_definer_applied_by": "definer-groom for t126 (platform issue #130); applied by the orchestrator in t126's merge window under W2 (this is a PROPOSAL; the definer writes zero index bytes)"
+}
