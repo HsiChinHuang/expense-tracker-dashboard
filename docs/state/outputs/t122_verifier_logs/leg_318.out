@@ -1,0 +1,6 @@
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: /tmp/tmp.577PGT2Hxl/venv
+Installed 58 packages in 77ms
+STORED_GATES FAIL tests[134] rc=1
+docs_verification: RED (1 failing checks)
+t126 leg RED: the committed generator exited rc=1 on this tree - the log tail above names the failing check, and a stale carried digest is exactly the leak class this leg exists to catch (at the t126 base it was CARRIED_REPORT FAIL digest=517faffb against the stale 38dcbd3d pin)

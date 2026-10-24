@@ -1,0 +1,7 @@
+ac1 evidence: README lines=97
+ac1 evidence: live services=alertmanager grafana loki otel-collector prometheus tempo
+ac1 evidence: YAML validator GREEN via python3+PyYAML, and the two-service negative control was rejected
+ac1 evidence: docker compose config leg ran and passed (docker present on this host)
+ac1 GREEN: COMPOSE SKELETON VALID - observability/ exists with exactly the two card files, the live service set is exactly prometheus + alertmanager + grafana + loki + otel-collector + tempo with tag-pinned images and published ports, and the two-service negative control was rejected
+
+--STDERR--

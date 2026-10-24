@@ -1,0 +1,7 @@
+ac1 evidence: python3 json parsed dashboard.json; title='Expense Tracker' panels=3 datasource={'type': 'prometheus', 'uid': 'prometheus-local'}
+ac1 evidence: panel titles = Expense creation rate; Creation failure rate; Database fallback state
+ac1 evidence: NEGATIVE CONTROLS ran - a four-panel dashboard, a no-title dashboard, a no-datasource dashboard and a dashboard missing the fallback panel were each REJECTED
+ac1 probe: THE DASHBOARD EXISTS PARSES AND CARRIES EXACTLY THE THREE REQUIRED PANELS - dashboard.json parses under python3 json, carries a title and a datasource reference, and holds exactly the expense creation rate, creation failure rate and database fallback state panels, each with a non-empty expr target
+ac1 GREEN: THE DASHBOARD EXISTS, PARSES AND CARRIES EXACTLY THE THREE REQUIRED PANELS - observability/dashboard.json parses under python3 json with a title, a datasource reference and exactly the expense creation rate, creation failure rate and database fallback state panels, each with a non-empty expr target, and the four synthetic broken dashboards (four-panel, no-title, no-datasource, no-fallback-panel) were each REJECTED
+
+--STDERR--

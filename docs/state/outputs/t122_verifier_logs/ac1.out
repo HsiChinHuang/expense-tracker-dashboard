@@ -1,0 +1,22 @@
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @application.on_event("startup")
+
+../../../../../../../../../../tmp/t122_verify_env/lib/python3.12/site-packages/fastapi/applications.py:4744
+tests/integration/test_trace_correlation_api.py::TestTraceCorrelation::test_two_401_requests_carry_distinct_span_equal_trace_ids
+tests/integration/test_trace_correlation_api.py::TestTraceCorrelation::test_out_of_request_probe_span_carries_a_third_distinct_id
+tests/integration/test_trace_correlation_api.py::TestTraceCorrelation::test_correlated_line_is_a_single_line_carrying_the_field
+  /tmp/t122_verify_env/lib/python3.12/site-packages/fastapi/applications.py:4744: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 10 warnings in 3.44s
+ac1 evidence: instrumentation present in backend/app; the correlation module passes and names all four negative controls (all-zero id, distinctness, out-of-request span) and the 401-pair form; the ONE-line-per-request truth is enforced by the module's own per-request log-line count
+ac1 GREEN: one trace ID per request, one correlated log line per request, ids distinct and span-equal, four controls armed

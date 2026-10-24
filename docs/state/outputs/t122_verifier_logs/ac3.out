@@ -1,0 +1,2 @@
+ac3 evidence: live set EXACTLY alertmanager grafana loki otel-collector prometheus tempo; every image tag-pinned; endpoint tempo:4317 not scheme-qualified; collector.yaml states it is enabled and is mounted by otel-collector; docker-compose.yml measures the frozen 266e326f3fea
+ac3 GREEN: the traces/logs stack is ENABLED as six pinned services, the Tempo endpoint stays in-cluster unschemed, and the app stack is untouched

@@ -1,0 +1,19 @@
+backend/app/trace.py:32-hex ``trace_id`` on every app log line the request emits.
+backend/app/trace.py:sets ``record.trace_id`` to the 32-hex id of the current span, or ``None``
+backend/app/trace.py:per request carries ``"trace_id": "<hex>"`` inside its JSON payload.
+backend/app/trace.py:TRACE_ID_FIELD: str = "trace_id"
+backend/app/trace.py:                "trace_id": format(ctx.trace_id, "032x"),
+backend/app/trace.py:    ``trace_id`` the correlation filter reads from the activated context.
+backend/app/trace.py:    """Handler-level filter that stamps ``record.trace_id`` from the span.
+backend/app/trace.py:        record.trace_id = (
+backend/app/trace.py:            format(ctx.trace_id, "032x")
+backend/app/trace.py:            if ctx.is_valid and ctx.trace_id
+backend/app/trace.py:    a ``"trace_id": "<32hex>"`` fragment. When no span is active the field
+backend/app/trace.py:        """Render the base line plus the trace_id JSON fragment.
+backend/app/trace.py:            record: The access record (carries ``trace_id`` via the filter).
+backend/app/trace.py:            str: The formatted line ending with the trace_id fragment.
+backend/app/trace.py:        trace_id = getattr(record, TRACE_ID_FIELD, None)
+backend/app/trace.py:        return f'{base} "{TRACE_ID_FIELD}": {json.dumps(trace_id)}'
+grep: backend/app/__pycache__/trace.cpython-312.pyc: binary file matches
+ac2 evidence: 17 event rows survive byte-identical in name set; trace_id is documented in Format and Events; all three controls (18-event table, no-trace_id doc, renamed event) were REJECTED
+ac2 GREEN: the seventeen-event vocabulary keeps seventeen events and gains the trace_id field, with the three vocabulary controls proven

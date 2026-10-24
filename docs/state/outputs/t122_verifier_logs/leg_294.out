@@ -1,0 +1,4 @@
+ac4 RED: dashboard.json is not 2-space-indented canonical JSON - re-serialise with json.dumps(indent=2), the pinned validator, rather than hand-formatting it
+ac4 RED: observability/dashboard.json has CRLF line endings in the working copy - commit LF (core.autocrlf is true and .gitattributes is absent, so these NEW files are read from the working copy)
+ac4 RED: observability/collector.yaml has CRLF line endings in the working copy - commit LF (core.autocrlf is true and .gitattributes is absent, so these NEW files are read from the working copy)
+ac4 RED: the probe exited non-zero - its own ac4 RED lines above name the failing leg (RED at base by design: at BASE 09bca7c observability/ holds only the four merged t75 and t76 files README.md compose.yaml prometheus.yml alerts.yaml and this card adds dashboard.json and collector.yaml)

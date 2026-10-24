@@ -1,0 +1,3 @@
+ac3 GREEN: BLOCK PRESENT, ACTIVE AND EXPLAINED - otel-collector, loki and tempo exist as active service keys with reason lines naming traces and logs, no commented form of any of the three survives, and the README states the enabled-for-this-milestone sentence verbatim
+
+--STDERR--
