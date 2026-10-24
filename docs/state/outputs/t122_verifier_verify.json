@@ -1,258 +1,258 @@
 {
- "schema_version": "2.0",
- "issue_id": "t122",
- "role": "verifier",
- "phase": "verify_issue",
- "status": "COMPLETE",
- "reached_state": "verified",
- "evidence": {
-  "evidence_type": "verification",
-  "verdict": "PASS",
-  "subject": {
-   "platform_issue": 126,
-   "card": "docs/issues/t122.md",
-   "product_merge_commit": "cb27408996e11ab75ad8126f18d097fbeb268560",
-   "branch_merged": "issue/t122-trace-id-correlation @ 7c9df78d9e4a4a0fd5e287a533eb684b5c4532fe",
-   "verified_against": "HEAD 31b83cc5b874567b72e8b8f4c004101eb207a2e1 (worktree content byte-identical to origin/main e88864f modulo the WAL-only line; git diff HEAD origin/main touches only docs/log/orchestrator_wal.jsonl)"
-  },
-  "ac_hash": "sha256:6988de5c833decc4906fd40d5ac8e7e5ad23b1ccf71b9525b1dc33ac9c0d8905",
-  "ac_hash_recomputed": "6988de5c833decc4906fd40d5ac8e7e5ad23b1ccf71b9525b1dc33ac9c0d8905",
-  "ac_hash_match": true,
-  "ac_hash_method": "re-derived from git show origin/main:docs/issues/t122.md per the t58/t116/t121 recipe (6 bash blocks, CR-stripped+trimmed, sha256 over json.dumps(blocks,separators=(',',':'))); working file identical to the committed blob modulo CR",
-  "verification_environment": {
-   "host": "WSL2 Ubuntu, Python 3.12.3, node v18.19.1, uv 0.12.13 at ~/.local/bin (PATH per task rule)",
-   "UV_PROJECT_ENVIRONMENT": "/tmp/t122_verify_env (created by 'uv sync --frozen' OUTSIDE the tree; backend/.venv never created or touched; PYTHONPATH=worktree root)",
-   "git": "all git via cmd.exe /d /c git -C <windows path> (worktree .git pointer is a Windows path)"
-  },
-  "ac_results": {
-   "ac1": {
+  "schema_version": "2.0",
+  "issue_id": "t122",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
     "verdict": "PASS",
-    "command": "set -u\ncommand -v uv >/dev/null 2>&1 || { echo \"ac1 RED: uv missing - the shared-venv convention (uv run) cannot execute the probe\"; exit 1; }\ntest -d backend/app || { echo \"ac1 RED: backend/app missing\"; exit 1; }\ngrep -rEq 'trace_id|traceparent' backend/app || { echo \"ac1 RED: no trace_id/traceparent anywhere in backend/app - the instrumentation this card exists to add is absent (RED at base by design)\"; exit 1; }\ntest -f backend/tests/integration/test_trace_correlation_api.py || { echo \"ac1 RED: backend/tests/integration/test_trace_correlation_api.py missing - the correlation must be an executed assertion, not a claim\"; exit 1; }\ncd backend && out=$(uv run pytest tests/integration/test_trace_correlation_api.py -q 2>&1); rc=$?\ncd ..\nprintf '%s\\n' \"$out\" | tail -20\n[ \"$rc\" -eq 0 ] || { echo \"ac1 RED: the trace-correlation module is RED - it must assert (a) two 401-producing requests, (b) exactly ONE correlated app log line per request, (c) log trace_id == exported span id, (d) distinct ids across requests, (e) an out-of-request probe span with a third distinct id\"; exit 1; }\nprintf '%s' \"$out\" | grep -qE '[1-9][0-9]* passed' || { echo \"ac1 RED: the module reported no passing test\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport re, subprocess, sys\nsrc = open(\"backend/tests/integration/test_trace_correlation_api.py\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nfail = []\n# the four negative controls must be NAMED in the module the fence runs\nfor key, why in [(\"00000000\", \"control 1: removing instrumentation degenerates the id to all-zero - the module must assert the id is not 0*32\"),\n                 (\"distinct\", \"control 2/3: hardcoded-id collapse and parallel-uuid mismatch are both caught only by an explicit distinctness assertion\"),\n                 (\"out_of_request\", \"control 4: a process-scoped id is caught only by a span created OUTSIDE any request carrying a fourth distinct id\")]:\n    if key not in src:\n        fail.append(\"the module never mentions %r - %s\" % (key, why))\nif \"401\" not in src:\n    fail.append(\"the module does not use 401-producing requests - the two requests must be reachable paths that need no database fixture\")\nif re.search(r\"health\", src):\n    fail.append(\"the module must not use /api/v1/health as a correlated request - measured: health emits ZERO app log lines\")\nif fail:\n    sys.stdout.write(\"ac1 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac1 RED: the correlation module does not carry the four controls (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac1 evidence: instrumentation present in backend/app; the correlation module passes and names all four negative controls (all-zero id, distinctness, out-of-request span) and the 401-pair form; the ONE-line-per-request truth is enforced by the module's own per-request log-line count\\n\")\nPYEOF\necho \"ac1 GREEN: one trace ID per request, one correlated log line per request, ids distinct and span-equal, four controls armed\"",
-    "exit_code": 0,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac1.out",
-    "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac1 GREEN: one trace ID per request, one correlated log line per request, ids distinct and span-equal, four controls armed"
-   },
-   "ac3": {
-    "verdict": "PASS",
-    "command": "set -u\nC=observability/compose.yaml\nD=docker-compose.yml\nfor f in \"$C\" \"$D\" observability/collector.yaml observability/README.md; do\n  test -f \"$f\" || { echo \"ac3 RED: $f missing\"; exit 1; }\ndone\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac3 RED: python3 missing\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport hashlib, re, sys\ntry:\n    import yaml\nexcept Exception as exc:\n    print(\"ac3 RED: PyYAML not importable (%s) - install it into the interpreter, never edit the fence\" % exc); raise SystemExit(1)\nWANT = {\"prometheus\", \"alertmanager\", \"grafana\", \"loki\", \"otel-collector\", \"tempo\"}\nraw = open(\"observability/compose.yaml\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ndoc = yaml.safe_load(raw) or {}\nsvc = doc.get(\"services\") or {}\nnames = set(svc)\nfail = []\nif names != WANT:\n    fail.append(\"live service set is %s - the enabled set must be EXACTLY alertmanager grafana loki otel-collector prometheus tempo; a drift to two or four is the negative control this fence exists to catch\" % \" \".join(sorted(names)))\nfor k, v in sorted(svc.items()):\n    img = str((v or {}).get(\"image\") or \"\")\n    if not img:\n        fail.append(\"service %s has no image\" % k)\n    elif \":\" not in img or img.endswith(\":latest\"):\n        fail.append(\"service %s image %s is not pinned by version tag - :latest and bare images are forbidden\" % (k, img))\nif not re.search(r\"^  otel-collector:\", raw, re.M):\n    fail.append(\"otel-collector is not an active two-space-indented service key\")\nfor k in (\"loki\", \"tempo\"):\n    if re.search(r\"^\\s*#\\s*%s\\s*:\" % k, raw, re.M):\n        fail.append(\"%s still appears in COMMENTED form - the inert-block form is the stale state\" % k)\nif re.search(r\"https?://\\s*tempo\", raw):\n    fail.append(\"the compose file scheme-qualifies the Tempo endpoint - write 'endpoint: tempo:4317', NEVER 'http://tempo:4317' (leg 271's non-local-URL scan fires on the scheme form and this card must not break it)\")\nif \"tempo:4317\" not in raw:\n    fail.append(\"no bare tempo:4317 endpoint in the compose file - the collector must export to it\")\nif re.search(r\"^\\s*-\\s*\\\"?(3[0-9]{3}|4317|3100|9090|9093):\\d\", raw, re.M) and not re.search(r\"\\\"9090:9090\\\"\", raw):\n    fail.append(\"unreachable\")\nnew_ports = re.findall(r\"^\\s*-\\s*\\\"?([0-9]{2,5}):\", raw, re.M)\nif sorted(set(new_ports) - {\"3000\", \"9090\", \"9093\"}) or sorted(set(new_ports)) != [\"3000\", \"9090\", \"9093\"]:\n    fail.append(\"published host ports drifted from exactly 3000 9090 9093 - the new services publish NOTHING (leg 269 parses this set and must stay GREEN)\")\ncol = open(\"observability/collector.yaml\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nif re.search(r\"\\bNOT\\s+ENABLED\\b\", col, re.I):\n    fail.append(\"collector.yaml still states it is NOT ENABLED - a mounted config that claims inertness is as false as an inert one that claims to run\")\nif not re.search(r\"\\b(IS ENABLED|IS NOW ENABLED|IS MOUNTED|ENABLED AND MOUNTED|NOW MOUNTED)\\b\", col, re.I):\n    fail.append(\"collector.yaml never states it is enabled/mounted\")\nvol = \"\\n\".join(str(x) for x in ((svc.get(\"otel-collector\") or {}).get(\"volumes\") or []))\nif \"collector.yaml\" not in vol:\n    fail.append(\"the otel-collector service mounts no collector.yaml\")\n# the app stack is FROZEN: docker-compose.yml bytes and its three service keys must not move\ndraw = open(\"docker-compose.yml\", \"rb\").read()\nBASE = \"266e326f3feab91b014c65d944b06f77dcb8cb70155ecbdb1d0db8d8ccfb073b\"\nmeas = hashlib.sha256(draw.replace(b\"\\r\", b\"\")).hexdigest()\nif meas != BASE:\n    fail.append(\"docker-compose.yml CR-stripped digest is %s, not the frozen %s - the app stack is FROZEN for this milestone (leg 269 pins its 8000:8000 mapping, leg 227 its HEAD blob)\" % (meas[:12], BASE[:12]))\nif fail:\n    sys.stdout.write(\"ac3 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac3 RED: the enablement is not the six-service live state (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac3 evidence: live set EXACTLY alertmanager grafana loki otel-collector prometheus tempo; every image tag-pinned; endpoint tempo:4317 not scheme-qualified; collector.yaml states it is enabled and is mounted by otel-collector; docker-compose.yml measures the frozen %s\\n\" % BASE[:12])\nPYEOF\necho \"ac3 GREEN: the traces/logs stack is ENABLED as six pinned services, the Tempo endpoint stays in-cluster unschemed, and the app stack is untouched\"",
-    "exit_code": 0,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac3.out",
-    "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac3 GREEN: the traces/logs stack is ENABLED as six pinned services, the Tempo endpoint stays in-cluster unschemed, and the app stack is untouched"
-   },
-   "ac5": {
-    "verdict": "PASS",
-    "command": "set -u\nfor f in docs/criteria/scoring_map/telemetry.md README.md backend/scripts/docs_verification.py docs/criteria/docs_verification.md; do\n  test -f \"$f\" || { echo \"ac5 RED: $f missing\"; exit 1; }\ndone\npython3 - <<'PYEOF' || exit 1\nimport hashlib, re, sys\nBASE = \"a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9\"\nt = open(\"docs/criteria/scoring_map/telemetry.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nsec = re.search(r\"^## Observability\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not sec:\n    print(\"ac5 RED: no '## Observability' section in telemetry.md\"); raise SystemExit(1)\ns = sec.group(1)\nfail = []\nif \"- Claim: 2/2\" not in s:\n    fail.append(\"the Observability section does not claim 2/2\")\nif \"1/2\" in s:\n    fail.append(\"a 1/2 fragment survives in the section - the record is re-baselined once, not half-moved\")\ngap = [ln for ln in s.splitlines() if ln.startswith(\"- Gap\")]\nif not gap:\n    fail.append(\"the Gap line was deleted instead of rewritten as a dated closure note - the absence record must stay visible to a reader who greps the base commit\")\nelse:\n    g = gap[0]\n    for needle, why in [(\"2026\", \"the closure note must be dated\"),\n                        (\"trace_id\", \"the note must name the fact that replaced the absence\"),\n                        (\"render.yaml\", \"the note must keep the hosted classification honest\")]:\n        if needle not in g:\n            fail.append(\"Gap closure note lacks %r - %s\" % (needle, why))\nif \"SPA fallback\" not in s:\n    fail.append(\"the section lost the hosted honesty sentence (hosted /metrics was MEASURED returning the SPA fallback document)\")\nif \"docs/criteria/trace_correlation_verification.md\" not in s:\n    fail.append(\"the claim does not cite the journey record - a 2/2 with no measurement path is a restated number\")\n# the claim is allowed ONLY if the measurement exists on the tree\nif not __import__(\"os\").path.exists(\"docs/criteria/trace_correlation_verification.md\"):\n    fail.append(\"the section claims 2/2 while docs/criteria/trace_correlation_verification.md does not exist - claim 2/2 only if measured\")\nif __import__(\"os\").system(\"grep -rEq 'trace_id|traceparent' backend/app\") != 0:\n    fail.append(\"the section claims 2/2 while backend/app carries no trace_id/traceparent - the claim exceeds what the tree proves\")\n# README row 10 must agree with the record\nraw = open(\"README.md\", \"rb\").read()\nif any(b > 127 for b in raw):\n    print(\"ac5 RED: README is no longer ASCII-only\"); raise SystemExit(1)\nlines = raw.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\").splitlines()\nrow = [ln for ln in lines if ln.startswith(\"| 10 | Observability (0-2) |\")]\nif len(row) != 1:\n    print(\"ac5 RED: expected exactly one scoring row 10, found %d\" % len(row)); raise SystemExit(1)\nrow = row[0]\ncells = [c.strip() for c in row.strip(\"|\").split(\"|\")]\nif cells[2] != \"2/2\":\n    fail.append(\"README row 10 claim cell is %r, not '2/2'\" % cells[2])\nif \"1/2\" in row:\n    fail.append(\"a 1/2 fragment survives in row 10\")\nif \"trace_id\" not in row:\n    fail.append(\"row 10 does not name the trace_id - the Why column must state the fact that earned the point\")\nif \"scoring_map/telemetry.md\" not in row:\n    fail.append(\"row 10 lost its deep-dive citation\")\nh2 = sum(1 for ln in lines if ln.startswith(\"## \"))\nif h2 != 18:\n    fail.append(\"README has %d H2 headings, not the frozen 18 - the edit must be shape-preserving\" % h2)\n# the triple pin: constant, measured bytes and report line agree, or nothing moved\nmeas_digest = hashlib.sha256(raw.replace(b\"\\r\", b\"\")).hexdigest()\nmeas_lines = raw.replace(b\"\\r\\n\", b\"\\n\").count(b\"\\n\")\ng = open(\"backend/scripts/docs_verification.py\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ncm = re.search(r'README_DIGEST\\s*=\\s*\"([0-9a-f]{64})\"', g)\ncl = re.search(r\"README_LINES\\s*=\\s*(\\d+)\", g)\nif not cm or not cl:\n    print(\"ac5 RED: README_DIGEST/README_LINES constants not found\"); raise SystemExit(1)\nc_digest, c_lines = cm.group(1), int(cl.group(1))\nrep = open(\"docs/criteria/docs_verification.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nrm = re.search(r\"README_MEASURE PASS lines=(\\d+) digest=([0-9a-f]{64})\", rep)\nif not rm:\n    print(\"ac5 RED: no README_MEASURE PASS line in the committed report\"); raise SystemExit(1)\nr_lines, r_digest = int(rm.group(1)), rm.group(2)\nif meas_digest != BASE:\n    if c_digest != meas_digest:\n        fail.append(\"constant README_DIGEST=%s but README measures %s - re-pin to the merged bytes, never copy from a card\" % (c_digest[:12], meas_digest[:12]))\n    if r_digest != meas_digest:\n        fail.append(\"report digest=%s but README measures %s - regenerate the report in the same commit\" % (r_digest[:12], meas_digest[:12]))\n    if not (c_lines == r_lines == meas_lines):\n        fail.append(\"line count moved apart: constant=%d report=%d measured=%d\" % (c_lines, r_lines, meas_lines))\nelse:\n    if not (c_digest == r_digest == meas_digest and c_lines == r_lines == meas_lines):\n        fail.append(\"README is at the base digest but the three surfaces already disagree\")\nif meas_lines > 500:\n    fail.append(\"README line count %d breaks the REQ-DOC-010 500 ceiling\" % meas_lines)\nif fail:\n    sys.stdout.write(\"ac5 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac5 RED: the regeneration is not a measured whole (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac5 evidence: telemetry.md claims 2/2 citing the journey record with a dated closure note and the SPA-fallback honesty sentence; README row 10 agrees; triple pin consistent at %s/%d lines\\n\" % (meas_digest[:12], meas_lines))\nPYEOF\necho \"ac5 GREEN: the 2/2 claim is backed by a measurement on the tree and the triple pin moved as one whole\"",
-    "exit_code": 0,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac5.out",
-    "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac5 GREEN: the 2/2 claim is backed by a measurement on the tree and the triple pin moved as one whole"
-   },
-   "ac2": {
-    "verdict": "PASS",
-    "command": "set -u\nL=ops/logging.md\ntest -f \"$L\" || { echo \"ac2 RED: ops/logging.md missing\"; exit 1; }\ngrep -qE 'trace_id' backend/app || { echo \"ac2 RED: no app module emits a trace_id field - the vocabulary cannot gain a field nobody writes\"; exit 1; }\npython3 - \"$L\" <<'PYEOF' || exit 1\nimport re, sys\npath = sys.argv[1]\nt = open(path, encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nsec = re.search(r\"^## Events\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not sec:\n    print(\"ac2 RED: no '## Events' section in ops/logging.md\"); raise SystemExit(1)\nbody = sec.group(1)\nrows = re.findall(r\"^\\| ([a-z_]+\\.[a-z_.]+) \\| (DEBUG|INFO|WARNING|ERROR|CRITICAL) \\| (.+) \\|$\", body, re.M)\nWANT = [\"auth.login\",\"auth.login_failed\",\"auth.register\",\"budget.created\",\"budget.deleted\",\n        \"budget.updated\",\"category.created\",\"category.deleted\",\"db.connected\",\"db.connection_restored\",\n        \"db.error\",\"db.fallback_initialized\",\"db.fallback_triggered\",\"expense.created\",\"expense.deleted\",\n        \"expense.updated\",\"unhandled.error\"]\nfail = []\nif len(rows) != 17:\n    fail.append(\"the event table has %d rows, not the frozen 17 - the field is ADDED, the vocabulary is not extended\" % len(rows))\nnames = sorted(n for n, _, _ in rows)\nif names != sorted(WANT):\n    fail.append(\"the event set drifted (a rename is a new event): %s\" % \",\".join(names))\nfmt = re.search(r\"^## Format\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not fmt or '\"trace_id\"' not in fmt.group(1):\n    fail.append(\"the Format example does not carry a \\\"trace_id\\\" key - every line is one JSON object, so the field belongs in the format, not in an event row\")\nif not re.search(r\"trace_id\", body):\n    fail.append(\"the events section never mentions trace_id - a reader of the vocabulary must learn the field is present on every correlated line\")\nif re.search(r\"^\\| *trace(_|\\.)?id *\\|\", body, re.M):\n    fail.append(\"trace_id was added as an EVENT row - it is a field, not an event; the count must stay 17\")\n\n# ---- negative controls on synthetic text (victims named; no product byte touched) ----\ndef validate(text):\n    s = re.search(r\"^## Events\\n(.*?)(?=^## |\\Z)\", text, re.M | re.S)\n    b = s.group(1) if s else \"\"\n    r = re.findall(r\"^\\| ([a-z_]+\\.[a-z_.]+) \\| (DEBUG|INFO|WARNING|ERROR|CRITICAL) \\| (.+) \\|$\", b, re.M)\n    f = []\n    if len(r) != 17:\n        f.append(\"count\")\n    if sorted(n for n, _, _ in r) != sorted(WANT):\n        f.append(\"names\")\n    fm = re.search(r\"^## Format\\n(.*?)(?=^## |\\Z)\", text, re.M | re.S)\n    if not fm or '\"trace_id\"' not in fm.group(1):\n        f.append(\"no_trace_id_field\")\n    return f\nhead = t[:t.index(\"## Events\")]\ntail = t[t.index(\"## Events\"):]\nctrl = []\nctrl.append((\"an 18-event table\", tail.replace(\"| unhandled.error | ERROR | error_type |\",\n              \"| unhandled.error | ERROR | error_type |\\n| trace.exported | INFO | trace_id |\", 1)))\nctrl.append((\"a doc without the trace_id field\", re.sub(r'\"trace_id\"[^\\n]*', \"\", t)))\nctrl.append((\"a renamed event\", tail.replace(\"| db.connected |\", \"| db.connection_opened |\", 1)))\nfor label, synthetic in ctrl:\n    if not validate(synthetic):\n        print(\"ac2 RED: control broken - the validator ACCEPTED %s, so the vocabulary fence proves nothing (victim: every future reader of ops/logging.md)\" % label)\n        raise SystemExit(1)\nif fail:\n    sys.stdout.write(\"ac2 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac2 RED: the vocabulary did not gain the field cleanly (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac2 evidence: 17 event rows survive byte-identical in name set; trace_id is documented in Format and Events; all three controls (18-event table, no-trace_id doc, renamed event) were REJECTED\\n\")\nPYEOF\necho \"ac2 GREEN: the seventeen-event vocabulary keeps seventeen events and gains the trace_id field, with the three vocabulary controls proven\"",
-    "exit_code": 1,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac2.out",
-    "note": "VERBATIM rc=1 for a PROVEN CARD DEFECT (grep -qE 'trace_id' backend/app lacks -r; grep on a directory exits rc=2 regardless of content - standalone proof: rc=2 even when the dir CONTAINS trace_id). Corrected form (minimal edit: add -r, matching ac1's proven grep -rEq form) rc=0: docs/state/outputs/t122_verifier_logs/ac2_corrected.out. Corrected form still bites (rc=1 on a synthetic dir without trace_id, rc=0 with). Substance fully verified inside the corrected fence: 17 frozen event rows byte-identical, trace_id in Format and Events, all three vocabulary controls REJECTED. See evidence.dual_measurement.ac2."
-   },
-   "ac4": {
-    "verdict": "PASS",
-    "command": "set -u\nJ=docs/criteria/trace_correlation_verification.md\ntest -f \"$J\" || { echo \"ac4 RED: $J missing - the correlation must be a measured record a reader can check in 30 seconds, not a claim in prose\"; exit 1; }\npython3 - \"$J\" <<'PYEOF' || exit 1\nimport re, sys\nt = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nrows = [ln for ln in t.splitlines() if ln.startswith(\"TRACE_JOURNEY\")]\ndef parse(ln):\n    m = re.match(r\"^TRACE_JOURNEY PASS journey=(\\S+) trace_id=([0-9a-f]{32}) log_lines=(\\d+) stack=(local-compose|testclient) PASS$\", ln)\n    return m\npairs, fail = [], []\nif len(rows) < 2:\n    fail.append(\"fewer than TWO TRACE_JOURNEY rows - the record must show two correlated request/trace PAIRS, never two log lines on one trace (measured: every reachable path emits exactly one correlated line per request)\")\nfor ln in rows:\n    m = parse(ln)\n    if not m:\n        fail.append(\"row does not match the pinned form 'TRACE_JOURNEY PASS journey=<name> trace_id=<32hex> log_lines=<n> stack=<local-compose|testclient> PASS': %r\" % ln[:80])\n        continue\n    pairs.append(m.group(2))\nif len(set(pairs)) != len(pairs) or len(pairs) < 2:\n    fail.append(\"the trace ids are not two DISTINCT 32-hex values - a repeated id is one request measured twice\")\nfor p in pairs:\n    if len(set(p)) <= 2:\n        fail.append(\"trace id %s is degenerate - an all-zero or single-character id is the instrumentation-collapse signature\" % p[:12])\nif not re.search(r\"^\\| *[0-9a-f]{32} *\\|\", t, re.M):\n    fail.append(\"no per-line evidence table row carrying the 32-hex id - the row alone is a number, the table is the measurement\")\nif not re.search(r'\"event\"\\s*:\\s*\"[a-z_]+\\.[a-z_.]+\"', t):\n    fail.append(\"the record quotes no frozen-vocabulary log line - correlation is proven by a QUOTED line carrying both the event name and the trace_id\")\nif \"SPA fallback\" not in t:\n    fail.append(\"the honesty sentence is missing - hosted /metrics was measured returning the SPA fallback document, and hosted render.yaml deploys NO collector, Tempo or Loki process; the record must say so (staged-config-only stays honest)\")\nif \"render.yaml\" not in t:\n    fail.append(\"the record never names render.yaml - the staged-config-only classification must name the surface it is staged on\")\n\n# ---- validator controls on synthetic records (victims named) ----\nGOOD = \"TRACE_JOURNEY PASS journey=expense-create trace_id=0123456789abcdef0123456789abcdef log_lines=1 stack=testclient PASS\\n\" \\\n       \"TRACE_JOURNEY PASS journey=expense-list trace_id=89abcdef0123456789abcdef01234567 log_lines=1 stack=testclient PASS\\n\" \\\n       \"| 0123456789abcdef0123456789abcdef | expense.created | expense_id |\\n\" \\\n       '{\"event\": \"expense.created\", \"trace_id\": \"0123456789abcdef0123456789abcdef\"}\\n' \\\n       \"render.yaml deploys none of this stack; hosted /metrics returns the SPA fallback document.\\n\"\ndef validate(text):\n    r = [ln for ln in text.splitlines() if ln.startswith(\"TRACE_JOURNEY\")]\n    ids = []\n    for ln in r:\n        m = parse(ln)\n        if not m:\n            return [\"form\"]\n        ids.append(m.group(2))\n    e = []\n    if len(ids) < 2:\n        e.append(\"count\")\n    if len(set(ids)) != len(ids):\n        e.append(\"distinct\")\n    if not re.search(r\"^\\| *[0-9a-f]{32} *\\|\", text, re.M):\n        e.append(\"evidence-table\")\n    if not re.search(r'\"event\"\\s*:\\s*\"[a-z_]+\\.[a-z_.]+\"', text):\n        e.append(\"quoted-line\")\n    if \"SPA fallback\" not in text:\n        e.append(\"honesty\")\n    return e\nctrls = [\n    (\"a single-pair record\", GOOD.splitlines(True)[1:].join([]) + GOOD.splitlines(True)[0] + GOOD.splitlines(True)[2:]),\n    (\"a repeated-id record\", GOOD.replace(\"89abcdef0123456789abcdef01234567\", \"0123456789abcdef0123456789abcdef\")),\n    (\"a malformed row (no stack field)\", GOOD.replace(\" stack=testclient PASS\", \"\", 1)),\n    (\"a record with no quoted log line\", GOOD.replace('{\"event\": \"expense.created\", \"trace_id\": \"0123456789abcdef0123456789abcdef\"}\\n', \"\")),\n    (\"a record that omits the hosted honesty sentence\", GOOD.replace(\"render.yaml deploys none of this stack; hosted /metrics returns the SPA fallback document.\\n\", \"\")),\n]\nfor label, synthetic in ctrls:\n    if not validate(synthetic):\n        print(\"ac4 RED: control broken - the validator ACCEPTED %s (victim: a reader who trusts a correlation record that proves nothing)\" % label)\n        raise SystemExit(1)\nif validate(GOOD):\n    print(\"ac4 RED: the validator rejects its own well-formed sample (%s) - the fence is unsatisfiable as written\" % validate(GOOD))\n    raise SystemExit(1)\nsys.stdout.write(\"ac4 evidence: %d TRACE_JOURNEY rows on the pinned form with distinct non-degenerate 32-hex ids, an evidence table, a quoted frozen-vocabulary line and the SPA-fallback/render.yaml honesty sentence; all five controls REJECTED and the well-formed sample ACCEPTED\\n\" % len(rows))\nPYEOF\necho \"ac4 GREEN: the journey record measures two correlated request/trace pairs honestly and its validator is proven to bite\"",
-    "exit_code": 1,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac4.out",
-    "note": "VERBATIM rc=1 for a PROVEN CARD DEFECT: GOOD.splitlines(True)[1:].join([]) raises AttributeError ('list' object has no attribute 'join') - a Python syntax error in the card's own control expression, tree-independent (crashes standalone in /tmp and $HOME against a synthetic GOOD string, no repo file opened). Corrected form (replace the crashing expression with \"\".join(GOOD.splitlines(True)[2:]) for the single-pair control) rc=0: docs/state/outputs/t122_verifier_logs/ac4_corrected2.out - all five controls REJECTED, well-formed sample ACCEPTED, corrected single-pair control proven to still bite (validate -> ['count']). Substance: the committed journey record carries 2 TRACE_JOURNEY rows with distinct non-degenerate 32-hex ids, evidence table, quoted vocabulary line, SPA-fallback/render.yaml honesty sentence. See evidence.dual_measurement.ac4."
-   },
-   "ac6": {
-    "verdict": "PASS",
-    "command": "set -u\nA=docs/state/outputs/t122_definer_gate_amendment.json\ntest -f \"$A\" || { echo \"ac6 RED: $A missing - the re-premise proposals are the written record the merge window applies\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\npython3 - \"$A\" <<'PYEOF' || exit 1\nimport copy, hashlib, json, sys\nrec = json.load(open(sys.argv[1], encoding=\"utf-8\"))\nraw = open(\"docs/state/merge_test_index.json\", \"rb\").read()\ntests = json.loads(raw.decode(\"utf-8\"))[\"tests\"]\ndef csha(s): return hashlib.sha256(s.encode()).hexdigest()\ndef esha(x): return hashlib.sha256(json.dumps(x, separators=(\",\", \":\")).encode()).hexdigest()\nfail = []\nif rec.get(\"status\") != \"proposed\":\n    fail.append(\"amendment status is %r, not 'proposed' - the definer proposes, the orchestrator applies\" % rec.get(\"status\"))\nif rec.get(\"card_writes_index_bytes\") is not False:\n    fail.append(\"card_writes_index_bytes must be False\")\nif rec.get(\"policy\") != \"W2\":\n    fail.append(\"policy must be W2\")\nif len(tests) != 318 or hashlib.sha256(raw).hexdigest() != \"e19cf6fdbbf69a049f83da109a63e1af065c80575433bd0d8eb35e7f2b018566\":\n    fail.append(\"live index is not the 318-entry e19cf6fd base the pins were struck against - re-pin before applying\")\nwant = {268, 270, 293, 227}\nhave = {a[\"index\"] for a in rec[\"amendments\"]}\nif have != want:\n    fail.append(\"amendment index set is %s, expected %s (268/270/293 re-premise + 227 placeholder re-pin)\" % (sorted(have), sorted(want)))\nfor a in rec[\"amendments\"]:\n    i = a[\"index\"]\n    cmd = tests[i][\"command\"]\n    if csha(cmd) != a[\"old_command_sha256\"] or len(cmd) != a[\"old_command_len\"]:\n        fail.append(\"leg %d: old_command_sha256/len do not match the live entry\" % i)\n    if esha(tests[i]) != a[\"entry_sha_before\"]:\n        fail.append(\"leg %d: entry_sha_before does not match the live entry\" % i)\n    built = cmd\n    for reg in a[\"replaced_regions\"]:\n        n = cmd.count(reg[\"from\"])\n        if n != 1:\n            fail.append(\"leg %d: region from-string occurs %d times (must be exactly 1): %r\" % (i, n, reg[\"from\"][:60]))\n        built = built.replace(reg[\"from\"], reg[\"to\"], 1)\n    back = built\n    for reg in reversed(a[\"replaced_regions\"]):\n        back = back.replace(reg[\"to\"], reg[\"from\"], 1)\n    if back != cmd:\n        fail.append(\"leg %d: region replacement is not reverse-lossless\" % i)\n    if csha(built) != a[\"new_command_sha256\"] or len(built) != a[\"new_command_len\"]:\n        fail.append(\"leg %d: new_command_sha256/len do not reconstruct from the regions\" % i)\n    e2 = copy.deepcopy(tests[i]); e2[\"command\"] = built\n    if esha(e2) != a[\"entry_sha_after\"]:\n        fail.append(\"leg %d: entry_sha_after does not reconstruct from the built entry\" % i)\n    if built == cmd:\n        fail.append(\"leg %d: the amendment is a no-op dressed as a fix\" % i)\nam227 = [a for a in rec[\"amendments\"] if a[\"index\"] == 227][0]\nif \"<T122_\" not in am227[\"replaced_regions\"][0][\"to\"]:\n    fail.append(\"leg 227 is not in the placeholder form - the report digest is not freezable at groom (leg 134 is RED inside worktrees), so the t111 protocol is mandatory\")\nfor ph in (\"<T122_README_CR_STRIPPED_DIGEST_64HEX>\", \"<T122_README_LINES>\", \"<T122_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\"):\n    if ph not in \"\".join(r[\"to\"] for r in am227[\"replaced_regions\"]):\n        fail.append(\"placeholder %s is absent from the leg-227 regions\" % ph)\nif \"stale_premises_after_t122\" not in json.dumps(rec):\n    fail.append(\"the record does not name its stale premises\")\nsys.stdout.write(\"ac6 evidence: 4 amendments PROPOSED against the e19cf6fd index; every old/new command sha and before/after entry sha reconstructs; every region unique + LIFO reverse-lossless; leg 227 in placeholder form; card writes zero index bytes\\n\")\nPYEOF\npython3 - <<'PYEOF' || exit 1\nimport json, sys\ntests = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nstay = {269: \"port band + app-stack freeze\", 271: \"README operator-usable + no scheme-qualified URL\",\n        291: \"dashboard panels\", 292: \"metric-name coverage\", 294: \"dashboard annotation\"}\nfor i, why in sorted(stay.items()):\n    if tests[i][\"issue_id\"] not in (\"t75\", \"t77\"):\n        print(\"ac6 RED: leg %d is not the carried leg this card priced (%s)\" % (i, tests[i][\"issue_id\"])); raise SystemExit(1)\nred = {191, 231, 259}\nsys.stdout.write(\"ac6 evidence: %d legs stay untouched and GREEN on the enabled tree (%s); pre-existing RED set %s is disclosed, not healed\\n\"\n                 % (len(stay), \", \".join(str(k) for k in sorted(stay)), sorted(red)))\nPYEOF\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  BASE=$(git merge-base HEAD origin/main 2>/dev/null || git rev-parse HEAD~1 2>/dev/null || true)\n  if [ -n \"${BASE:-}\" ]; then\n    OUT=$(git diff --name-only \"$BASE\"...HEAD 2>/dev/null \\\n      | grep -vE '^(README\\.md|docs/criteria/scoring_map/telemetry\\.md|docs/criteria/trace_correlation_verification\\.md|docs/criteria/docs_verification\\.md|backend/scripts/docs_verification\\.py|backend/app/|backend/tests/|ops/logging\\.md|observability/)$' \\\n      | grep -v '^docs/' || true)\n    [ -z \"$OUT\" ] || { echo \"ac6 RED: the builder commit moved paths outside the owned surfaces: $OUT\"; exit 1; }\n    echo \"ac6 evidence: builder delta is inside the owned product paths (backend/app, backend/tests, observability/, ops/logging.md, telemetry.md, the journey record, README + the two docs_verification surfaces)\"\n  fi\nfi\necho \"ac6 GREEN: zero new RED - three absence legs re-premised in a sound proposal, five legs untouched, the 227 re-pin is a placeholder protocol, delta is pure\"",
-    "exit_code": 0,
-    "output_path": "docs/state/outputs/t122_verifier_logs/ac6.out",
-    "note": "VERBATIM rc=0 (the fence's fail list is built but never evaluated before the evidence line - a latent card defect disclosed, not exploited). FROZEN-PREMISE classification (t81/t124 precedent): the index-pin line (len==318 and sha==e19cf6fd...) is FROZEN-STALE on LIVE main (319 entries, blob sha 6be84ae1... after the t126 ADD) - had the fail list been evaluated the fence would trip ONLY on that pin line + the expected post-application old_command/entry_sha_before mismatches; every substantive check (status proposed, card_writes_index_bytes False, policy W2, region uniqueness + LIFO reverse-lossless reconstruction, 227 placeholder form, stale-premise naming) re-proven GREEN: the corrected python run against the BASE index (81aede1 blob, CRLF sha e19cf6fd, 318 entries) yields ZERO defects, and live legs 268/270/293 byte-match the proposal's entry_sha_after. No substantive check fails on the current tree => not a build defect."
-   }
+    "subject": {
+      "platform_issue": 126,
+      "card": "docs/issues/t122.md",
+      "product_merge_commit": "cb27408996e11ab75ad8126f18d097fbeb268560",
+      "branch_merged": "issue/t122-trace-id-correlation @ 7c9df78d9e4a4a0fd5e287a533eb684b5c4532fe",
+      "verified_against": "HEAD 31b83cc5b874567b72e8b8f4c004101eb207a2e1 (worktree content byte-identical to origin/main e88864f modulo the WAL-only line; git diff HEAD origin/main touches only docs/log/orchestrator_wal.jsonl)"
+    },
+    "ac_hash": "sha256:6988de5c833decc4906fd40d5ac8e7e5ad23b1ccf71b9525b1dc33ac9c0d8905",
+    "ac_hash_recomputed": "6988de5c833decc4906fd40d5ac8e7e5ad23b1ccf71b9525b1dc33ac9c0d8905",
+    "ac_hash_match": true,
+    "ac_hash_method": "re-derived from git show origin/main:docs/issues/t122.md per the t58/t116/t121 recipe (6 bash blocks, CR-stripped+trimmed, sha256 over json.dumps(blocks,separators=(',',':'))); working file identical to the committed blob modulo CR",
+    "verification_environment": {
+      "host": "WSL2 Ubuntu, Python 3.12.3, node v18.19.1, uv 0.12.13 at ~/.local/bin (PATH per task rule)",
+      "UV_PROJECT_ENVIRONMENT": "/tmp/t122_verify_env (created by 'uv sync --frozen' OUTSIDE the tree; backend/.venv never created or touched; PYTHONPATH=worktree root)",
+      "git": "all git via cmd.exe /d /c git -C <windows path> (worktree .git pointer is a Windows path)"
+    },
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "set -u\ncommand -v uv >/dev/null 2>&1 || { echo \"ac1 RED: uv missing - the shared-venv convention (uv run) cannot execute the probe\"; exit 1; }\ntest -d backend/app || { echo \"ac1 RED: backend/app missing\"; exit 1; }\ngrep -rEq 'trace_id|traceparent' backend/app || { echo \"ac1 RED: no trace_id/traceparent anywhere in backend/app - the instrumentation this card exists to add is absent (RED at base by design)\"; exit 1; }\ntest -f backend/tests/integration/test_trace_correlation_api.py || { echo \"ac1 RED: backend/tests/integration/test_trace_correlation_api.py missing - the correlation must be an executed assertion, not a claim\"; exit 1; }\ncd backend && out=$(uv run pytest tests/integration/test_trace_correlation_api.py -q 2>&1); rc=$?\ncd ..\nprintf '%s\\n' \"$out\" | tail -20\n[ \"$rc\" -eq 0 ] || { echo \"ac1 RED: the trace-correlation module is RED - it must assert (a) two 401-producing requests, (b) exactly ONE correlated app log line per request, (c) log trace_id == exported span id, (d) distinct ids across requests, (e) an out-of-request probe span with a third distinct id\"; exit 1; }\nprintf '%s' \"$out\" | grep -qE '[1-9][0-9]* passed' || { echo \"ac1 RED: the module reported no passing test\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport re, subprocess, sys\nsrc = open(\"backend/tests/integration/test_trace_correlation_api.py\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nfail = []\n# the four negative controls must be NAMED in the module the fence runs\nfor key, why in [(\"00000000\", \"control 1: removing instrumentation degenerates the id to all-zero - the module must assert the id is not 0*32\"),\n                 (\"distinct\", \"control 2/3: hardcoded-id collapse and parallel-uuid mismatch are both caught only by an explicit distinctness assertion\"),\n                 (\"out_of_request\", \"control 4: a process-scoped id is caught only by a span created OUTSIDE any request carrying a fourth distinct id\")]:\n    if key not in src:\n        fail.append(\"the module never mentions %r - %s\" % (key, why))\nif \"401\" not in src:\n    fail.append(\"the module does not use 401-producing requests - the two requests must be reachable paths that need no database fixture\")\nif re.search(r\"health\", src):\n    fail.append(\"the module must not use /api/v1/health as a correlated request - measured: health emits ZERO app log lines\")\nif fail:\n    sys.stdout.write(\"ac1 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac1 RED: the correlation module does not carry the four controls (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac1 evidence: instrumentation present in backend/app; the correlation module passes and names all four negative controls (all-zero id, distinctness, out-of-request span) and the 401-pair form; the ONE-line-per-request truth is enforced by the module's own per-request log-line count\\n\")\nPYEOF\necho \"ac1 GREEN: one trace ID per request, one correlated log line per request, ids distinct and span-equal, four controls armed\"",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac1.out",
+        "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac1 GREEN: one trace ID per request, one correlated log line per request, ids distinct and span-equal, four controls armed"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "set -u\nC=observability/compose.yaml\nD=docker-compose.yml\nfor f in \"$C\" \"$D\" observability/collector.yaml observability/README.md; do\n  test -f \"$f\" || { echo \"ac3 RED: $f missing\"; exit 1; }\ndone\ncommand -v python3 >/dev/null 2>&1 || { echo \"ac3 RED: python3 missing\"; exit 1; }\npython3 - <<'PYEOF' || exit 1\nimport hashlib, re, sys\ntry:\n    import yaml\nexcept Exception as exc:\n    print(\"ac3 RED: PyYAML not importable (%s) - install it into the interpreter, never edit the fence\" % exc); raise SystemExit(1)\nWANT = {\"prometheus\", \"alertmanager\", \"grafana\", \"loki\", \"otel-collector\", \"tempo\"}\nraw = open(\"observability/compose.yaml\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ndoc = yaml.safe_load(raw) or {}\nsvc = doc.get(\"services\") or {}\nnames = set(svc)\nfail = []\nif names != WANT:\n    fail.append(\"live service set is %s - the enabled set must be EXACTLY alertmanager grafana loki otel-collector prometheus tempo; a drift to two or four is the negative control this fence exists to catch\" % \" \".join(sorted(names)))\nfor k, v in sorted(svc.items()):\n    img = str((v or {}).get(\"image\") or \"\")\n    if not img:\n        fail.append(\"service %s has no image\" % k)\n    elif \":\" not in img or img.endswith(\":latest\"):\n        fail.append(\"service %s image %s is not pinned by version tag - :latest and bare images are forbidden\" % (k, img))\nif not re.search(r\"^  otel-collector:\", raw, re.M):\n    fail.append(\"otel-collector is not an active two-space-indented service key\")\nfor k in (\"loki\", \"tempo\"):\n    if re.search(r\"^\\s*#\\s*%s\\s*:\" % k, raw, re.M):\n        fail.append(\"%s still appears in COMMENTED form - the inert-block form is the stale state\" % k)\nif re.search(r\"https?://\\s*tempo\", raw):\n    fail.append(\"the compose file scheme-qualifies the Tempo endpoint - write 'endpoint: tempo:4317', NEVER 'http://tempo:4317' (leg 271's non-local-URL scan fires on the scheme form and this card must not break it)\")\nif \"tempo:4317\" not in raw:\n    fail.append(\"no bare tempo:4317 endpoint in the compose file - the collector must export to it\")\nif re.search(r\"^\\s*-\\s*\\\"?(3[0-9]{3}|4317|3100|9090|9093):\\d\", raw, re.M) and not re.search(r\"\\\"9090:9090\\\"\", raw):\n    fail.append(\"unreachable\")\nnew_ports = re.findall(r\"^\\s*-\\s*\\\"?([0-9]{2,5}):\", raw, re.M)\nif sorted(set(new_ports) - {\"3000\", \"9090\", \"9093\"}) or sorted(set(new_ports)) != [\"3000\", \"9090\", \"9093\"]:\n    fail.append(\"published host ports drifted from exactly 3000 9090 9093 - the new services publish NOTHING (leg 269 parses this set and must stay GREEN)\")\ncol = open(\"observability/collector.yaml\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nif re.search(r\"\\bNOT\\s+ENABLED\\b\", col, re.I):\n    fail.append(\"collector.yaml still states it is NOT ENABLED - a mounted config that claims inertness is as false as an inert one that claims to run\")\nif not re.search(r\"\\b(IS ENABLED|IS NOW ENABLED|IS MOUNTED|ENABLED AND MOUNTED|NOW MOUNTED)\\b\", col, re.I):\n    fail.append(\"collector.yaml never states it is enabled/mounted\")\nvol = \"\\n\".join(str(x) for x in ((svc.get(\"otel-collector\") or {}).get(\"volumes\") or []))\nif \"collector.yaml\" not in vol:\n    fail.append(\"the otel-collector service mounts no collector.yaml\")\n# the app stack is FROZEN: docker-compose.yml bytes and its three service keys must not move\ndraw = open(\"docker-compose.yml\", \"rb\").read()\nBASE = \"266e326f3feab91b014c65d944b06f77dcb8cb70155ecbdb1d0db8d8ccfb073b\"\nmeas = hashlib.sha256(draw.replace(b\"\\r\", b\"\")).hexdigest()\nif meas != BASE:\n    fail.append(\"docker-compose.yml CR-stripped digest is %s, not the frozen %s - the app stack is FROZEN for this milestone (leg 269 pins its 8000:8000 mapping, leg 227 its HEAD blob)\" % (meas[:12], BASE[:12]))\nif fail:\n    sys.stdout.write(\"ac3 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac3 RED: the enablement is not the six-service live state (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac3 evidence: live set EXACTLY alertmanager grafana loki otel-collector prometheus tempo; every image tag-pinned; endpoint tempo:4317 not scheme-qualified; collector.yaml states it is enabled and is mounted by otel-collector; docker-compose.yml measures the frozen %s\\n\" % BASE[:12])\nPYEOF\necho \"ac3 GREEN: the traces/logs stack is ENABLED as six pinned services, the Tempo endpoint stays in-cluster unschemed, and the app stack is untouched\"",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac3.out",
+        "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac3 GREEN: the traces/logs stack is ENABLED as six pinned services, the Tempo endpoint stays in-cluster unschemed, and the app stack is untouched"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "set -u\nfor f in docs/criteria/scoring_map/telemetry.md README.md backend/scripts/docs_verification.py docs/criteria/docs_verification.md; do\n  test -f \"$f\" || { echo \"ac5 RED: $f missing\"; exit 1; }\ndone\npython3 - <<'PYEOF' || exit 1\nimport hashlib, re, sys\nBASE = \"a5e22eecd13a38a23129825de11d3c2ef83f9792c011a342f416e670fb73a4d9\"\nt = open(\"docs/criteria/scoring_map/telemetry.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nsec = re.search(r\"^## Observability\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not sec:\n    print(\"ac5 RED: no '## Observability' section in telemetry.md\"); raise SystemExit(1)\ns = sec.group(1)\nfail = []\nif \"- Claim: 2/2\" not in s:\n    fail.append(\"the Observability section does not claim 2/2\")\nif \"1/2\" in s:\n    fail.append(\"a 1/2 fragment survives in the section - the record is re-baselined once, not half-moved\")\ngap = [ln for ln in s.splitlines() if ln.startswith(\"- Gap\")]\nif not gap:\n    fail.append(\"the Gap line was deleted instead of rewritten as a dated closure note - the absence record must stay visible to a reader who greps the base commit\")\nelse:\n    g = gap[0]\n    for needle, why in [(\"2026\", \"the closure note must be dated\"),\n                        (\"trace_id\", \"the note must name the fact that replaced the absence\"),\n                        (\"render.yaml\", \"the note must keep the hosted classification honest\")]:\n        if needle not in g:\n            fail.append(\"Gap closure note lacks %r - %s\" % (needle, why))\nif \"SPA fallback\" not in s:\n    fail.append(\"the section lost the hosted honesty sentence (hosted /metrics was MEASURED returning the SPA fallback document)\")\nif \"docs/criteria/trace_correlation_verification.md\" not in s:\n    fail.append(\"the claim does not cite the journey record - a 2/2 with no measurement path is a restated number\")\n# the claim is allowed ONLY if the measurement exists on the tree\nif not __import__(\"os\").path.exists(\"docs/criteria/trace_correlation_verification.md\"):\n    fail.append(\"the section claims 2/2 while docs/criteria/trace_correlation_verification.md does not exist - claim 2/2 only if measured\")\nif __import__(\"os\").system(\"grep -rEq 'trace_id|traceparent' backend/app\") != 0:\n    fail.append(\"the section claims 2/2 while backend/app carries no trace_id/traceparent - the claim exceeds what the tree proves\")\n# README row 10 must agree with the record\nraw = open(\"README.md\", \"rb\").read()\nif any(b > 127 for b in raw):\n    print(\"ac5 RED: README is no longer ASCII-only\"); raise SystemExit(1)\nlines = raw.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\").splitlines()\nrow = [ln for ln in lines if ln.startswith(\"| 10 | Observability (0-2) |\")]\nif len(row) != 1:\n    print(\"ac5 RED: expected exactly one scoring row 10, found %d\" % len(row)); raise SystemExit(1)\nrow = row[0]\ncells = [c.strip() for c in row.strip(\"|\").split(\"|\")]\nif cells[2] != \"2/2\":\n    fail.append(\"README row 10 claim cell is %r, not '2/2'\" % cells[2])\nif \"1/2\" in row:\n    fail.append(\"a 1/2 fragment survives in row 10\")\nif \"trace_id\" not in row:\n    fail.append(\"row 10 does not name the trace_id - the Why column must state the fact that earned the point\")\nif \"scoring_map/telemetry.md\" not in row:\n    fail.append(\"row 10 lost its deep-dive citation\")\nh2 = sum(1 for ln in lines if ln.startswith(\"## \"))\nif h2 != 18:\n    fail.append(\"README has %d H2 headings, not the frozen 18 - the edit must be shape-preserving\" % h2)\n# the triple pin: constant, measured bytes and report line agree, or nothing moved\nmeas_digest = hashlib.sha256(raw.replace(b\"\\r\", b\"\")).hexdigest()\nmeas_lines = raw.replace(b\"\\r\\n\", b\"\\n\").count(b\"\\n\")\ng = open(\"backend/scripts/docs_verification.py\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\ncm = re.search(r'README_DIGEST\\s*=\\s*\"([0-9a-f]{64})\"', g)\ncl = re.search(r\"README_LINES\\s*=\\s*(\\d+)\", g)\nif not cm or not cl:\n    print(\"ac5 RED: README_DIGEST/README_LINES constants not found\"); raise SystemExit(1)\nc_digest, c_lines = cm.group(1), int(cl.group(1))\nrep = open(\"docs/criteria/docs_verification.md\", encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nrm = re.search(r\"README_MEASURE PASS lines=(\\d+) digest=([0-9a-f]{64})\", rep)\nif not rm:\n    print(\"ac5 RED: no README_MEASURE PASS line in the committed report\"); raise SystemExit(1)\nr_lines, r_digest = int(rm.group(1)), rm.group(2)\nif meas_digest != BASE:\n    if c_digest != meas_digest:\n        fail.append(\"constant README_DIGEST=%s but README measures %s - re-pin to the merged bytes, never copy from a card\" % (c_digest[:12], meas_digest[:12]))\n    if r_digest != meas_digest:\n        fail.append(\"report digest=%s but README measures %s - regenerate the report in the same commit\" % (r_digest[:12], meas_digest[:12]))\n    if not (c_lines == r_lines == meas_lines):\n        fail.append(\"line count moved apart: constant=%d report=%d measured=%d\" % (c_lines, r_lines, meas_lines))\nelse:\n    if not (c_digest == r_digest == meas_digest and c_lines == r_lines == meas_lines):\n        fail.append(\"README is at the base digest but the three surfaces already disagree\")\nif meas_lines > 500:\n    fail.append(\"README line count %d breaks the REQ-DOC-010 500 ceiling\" % meas_lines)\nif fail:\n    sys.stdout.write(\"ac5 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac5 RED: the regeneration is not a measured whole (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac5 evidence: telemetry.md claims 2/2 citing the journey record with a dated closure note and the SPA-fallback honesty sentence; README row 10 agrees; triple pin consistent at %s/%d lines\\n\" % (meas_digest[:12], meas_lines))\nPYEOF\necho \"ac5 GREEN: the 2/2 claim is backed by a measurement on the tree and the triple pin moved as one whole\"",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac5.out",
+        "note": "VERBATIM card fence rc=0 on the committed tree at HEAD 31b83cc (== origin/main tip content; product merged as cb27408). ac5 GREEN: the 2/2 claim is backed by a measurement on the tree and the triple pin moved as one whole"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "set -u\nL=ops/logging.md\ntest -f \"$L\" || { echo \"ac2 RED: ops/logging.md missing\"; exit 1; }\ngrep -qE 'trace_id' backend/app || { echo \"ac2 RED: no app module emits a trace_id field - the vocabulary cannot gain a field nobody writes\"; exit 1; }\npython3 - \"$L\" <<'PYEOF' || exit 1\nimport re, sys\npath = sys.argv[1]\nt = open(path, encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nsec = re.search(r\"^## Events\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not sec:\n    print(\"ac2 RED: no '## Events' section in ops/logging.md\"); raise SystemExit(1)\nbody = sec.group(1)\nrows = re.findall(r\"^\\| ([a-z_]+\\.[a-z_.]+) \\| (DEBUG|INFO|WARNING|ERROR|CRITICAL) \\| (.+) \\|$\", body, re.M)\nWANT = [\"auth.login\",\"auth.login_failed\",\"auth.register\",\"budget.created\",\"budget.deleted\",\n        \"budget.updated\",\"category.created\",\"category.deleted\",\"db.connected\",\"db.connection_restored\",\n        \"db.error\",\"db.fallback_initialized\",\"db.fallback_triggered\",\"expense.created\",\"expense.deleted\",\n        \"expense.updated\",\"unhandled.error\"]\nfail = []\nif len(rows) != 17:\n    fail.append(\"the event table has %d rows, not the frozen 17 - the field is ADDED, the vocabulary is not extended\" % len(rows))\nnames = sorted(n for n, _, _ in rows)\nif names != sorted(WANT):\n    fail.append(\"the event set drifted (a rename is a new event): %s\" % \",\".join(names))\nfmt = re.search(r\"^## Format\\n(.*?)(?=^## |\\Z)\", t, re.M | re.S)\nif not fmt or '\"trace_id\"' not in fmt.group(1):\n    fail.append(\"the Format example does not carry a \\\"trace_id\\\" key - every line is one JSON object, so the field belongs in the format, not in an event row\")\nif not re.search(r\"trace_id\", body):\n    fail.append(\"the events section never mentions trace_id - a reader of the vocabulary must learn the field is present on every correlated line\")\nif re.search(r\"^\\| *trace(_|\\.)?id *\\|\", body, re.M):\n    fail.append(\"trace_id was added as an EVENT row - it is a field, not an event; the count must stay 17\")\n\n# ---- negative controls on synthetic text (victims named; no product byte touched) ----\ndef validate(text):\n    s = re.search(r\"^## Events\\n(.*?)(?=^## |\\Z)\", text, re.M | re.S)\n    b = s.group(1) if s else \"\"\n    r = re.findall(r\"^\\| ([a-z_]+\\.[a-z_.]+) \\| (DEBUG|INFO|WARNING|ERROR|CRITICAL) \\| (.+) \\|$\", b, re.M)\n    f = []\n    if len(r) != 17:\n        f.append(\"count\")\n    if sorted(n for n, _, _ in r) != sorted(WANT):\n        f.append(\"names\")\n    fm = re.search(r\"^## Format\\n(.*?)(?=^## |\\Z)\", text, re.M | re.S)\n    if not fm or '\"trace_id\"' not in fm.group(1):\n        f.append(\"no_trace_id_field\")\n    return f\nhead = t[:t.index(\"## Events\")]\ntail = t[t.index(\"## Events\"):]\nctrl = []\nctrl.append((\"an 18-event table\", tail.replace(\"| unhandled.error | ERROR | error_type |\",\n              \"| unhandled.error | ERROR | error_type |\\n| trace.exported | INFO | trace_id |\", 1)))\nctrl.append((\"a doc without the trace_id field\", re.sub(r'\"trace_id\"[^\\n]*', \"\", t)))\nctrl.append((\"a renamed event\", tail.replace(\"| db.connected |\", \"| db.connection_opened |\", 1)))\nfor label, synthetic in ctrl:\n    if not validate(synthetic):\n        print(\"ac2 RED: control broken - the validator ACCEPTED %s, so the vocabulary fence proves nothing (victim: every future reader of ops/logging.md)\" % label)\n        raise SystemExit(1)\nif fail:\n    sys.stdout.write(\"ac2 evidence: \" + \"; \".join(fail) + \"\\n\")\n    print(\"ac2 RED: the vocabulary did not gain the field cleanly (%d defects)\" % len(fail))\n    raise SystemExit(1)\nsys.stdout.write(\"ac2 evidence: 17 event rows survive byte-identical in name set; trace_id is documented in Format and Events; all three controls (18-event table, no-trace_id doc, renamed event) were REJECTED\\n\")\nPYEOF\necho \"ac2 GREEN: the seventeen-event vocabulary keeps seventeen events and gains the trace_id field, with the three vocabulary controls proven\"",
+        "exit_code": 1,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac2.out",
+        "note": "VERBATIM rc=1 for a PROVEN CARD DEFECT (grep -qE 'trace_id' backend/app lacks -r; grep on a directory exits rc=2 regardless of content - standalone proof: rc=2 even when the dir CONTAINS trace_id). Corrected form (minimal edit: add -r, matching ac1's proven grep -rEq form) rc=0: docs/state/outputs/t122_verifier_logs/ac2_corrected.out. Corrected form still bites (rc=1 on a synthetic dir without trace_id, rc=0 with). Substance fully verified inside the corrected fence: 17 frozen event rows byte-identical, trace_id in Format and Events, all three vocabulary controls REJECTED. See evidence.dual_measurement.ac2."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "set -u\nJ=docs/criteria/trace_correlation_verification.md\ntest -f \"$J\" || { echo \"ac4 RED: $J missing - the correlation must be a measured record a reader can check in 30 seconds, not a claim in prose\"; exit 1; }\npython3 - \"$J\" <<'PYEOF' || exit 1\nimport re, sys\nt = open(sys.argv[1], encoding=\"utf-8\", errors=\"replace\").read().replace(\"\\r\\n\", \"\\n\")\nrows = [ln for ln in t.splitlines() if ln.startswith(\"TRACE_JOURNEY\")]\ndef parse(ln):\n    m = re.match(r\"^TRACE_JOURNEY PASS journey=(\\S+) trace_id=([0-9a-f]{32}) log_lines=(\\d+) stack=(local-compose|testclient) PASS$\", ln)\n    return m\npairs, fail = [], []\nif len(rows) < 2:\n    fail.append(\"fewer than TWO TRACE_JOURNEY rows - the record must show two correlated request/trace PAIRS, never two log lines on one trace (measured: every reachable path emits exactly one correlated line per request)\")\nfor ln in rows:\n    m = parse(ln)\n    if not m:\n        fail.append(\"row does not match the pinned form 'TRACE_JOURNEY PASS journey=<name> trace_id=<32hex> log_lines=<n> stack=<local-compose|testclient> PASS': %r\" % ln[:80])\n        continue\n    pairs.append(m.group(2))\nif len(set(pairs)) != len(pairs) or len(pairs) < 2:\n    fail.append(\"the trace ids are not two DISTINCT 32-hex values - a repeated id is one request measured twice\")\nfor p in pairs:\n    if len(set(p)) <= 2:\n        fail.append(\"trace id %s is degenerate - an all-zero or single-character id is the instrumentation-collapse signature\" % p[:12])\nif not re.search(r\"^\\| *[0-9a-f]{32} *\\|\", t, re.M):\n    fail.append(\"no per-line evidence table row carrying the 32-hex id - the row alone is a number, the table is the measurement\")\nif not re.search(r'\"event\"\\s*:\\s*\"[a-z_]+\\.[a-z_.]+\"', t):\n    fail.append(\"the record quotes no frozen-vocabulary log line - correlation is proven by a QUOTED line carrying both the event name and the trace_id\")\nif \"SPA fallback\" not in t:\n    fail.append(\"the honesty sentence is missing - hosted /metrics was measured returning the SPA fallback document, and hosted render.yaml deploys NO collector, Tempo or Loki process; the record must say so (staged-config-only stays honest)\")\nif \"render.yaml\" not in t:\n    fail.append(\"the record never names render.yaml - the staged-config-only classification must name the surface it is staged on\")\n\n# ---- validator controls on synthetic records (victims named) ----\nGOOD = \"TRACE_JOURNEY PASS journey=expense-create trace_id=0123456789abcdef0123456789abcdef log_lines=1 stack=testclient PASS\\n\" \\\n       \"TRACE_JOURNEY PASS journey=expense-list trace_id=89abcdef0123456789abcdef01234567 log_lines=1 stack=testclient PASS\\n\" \\\n       \"| 0123456789abcdef0123456789abcdef | expense.created | expense_id |\\n\" \\\n       '{\"event\": \"expense.created\", \"trace_id\": \"0123456789abcdef0123456789abcdef\"}\\n' \\\n       \"render.yaml deploys none of this stack; hosted /metrics returns the SPA fallback document.\\n\"\ndef validate(text):\n    r = [ln for ln in text.splitlines() if ln.startswith(\"TRACE_JOURNEY\")]\n    ids = []\n    for ln in r:\n        m = parse(ln)\n        if not m:\n            return [\"form\"]\n        ids.append(m.group(2))\n    e = []\n    if len(ids) < 2:\n        e.append(\"count\")\n    if len(set(ids)) != len(ids):\n        e.append(\"distinct\")\n    if not re.search(r\"^\\| *[0-9a-f]{32} *\\|\", text, re.M):\n        e.append(\"evidence-table\")\n    if not re.search(r'\"event\"\\s*:\\s*\"[a-z_]+\\.[a-z_.]+\"', text):\n        e.append(\"quoted-line\")\n    if \"SPA fallback\" not in text:\n        e.append(\"honesty\")\n    return e\nctrls = [\n    (\"a single-pair record\", GOOD.splitlines(True)[1:].join([]) + GOOD.splitlines(True)[0] + GOOD.splitlines(True)[2:]),\n    (\"a repeated-id record\", GOOD.replace(\"89abcdef0123456789abcdef01234567\", \"0123456789abcdef0123456789abcdef\")),\n    (\"a malformed row (no stack field)\", GOOD.replace(\" stack=testclient PASS\", \"\", 1)),\n    (\"a record with no quoted log line\", GOOD.replace('{\"event\": \"expense.created\", \"trace_id\": \"0123456789abcdef0123456789abcdef\"}\\n', \"\")),\n    (\"a record that omits the hosted honesty sentence\", GOOD.replace(\"render.yaml deploys none of this stack; hosted /metrics returns the SPA fallback document.\\n\", \"\")),\n]\nfor label, synthetic in ctrls:\n    if not validate(synthetic):\n        print(\"ac4 RED: control broken - the validator ACCEPTED %s (victim: a reader who trusts a correlation record that proves nothing)\" % label)\n        raise SystemExit(1)\nif validate(GOOD):\n    print(\"ac4 RED: the validator rejects its own well-formed sample (%s) - the fence is unsatisfiable as written\" % validate(GOOD))\n    raise SystemExit(1)\nsys.stdout.write(\"ac4 evidence: %d TRACE_JOURNEY rows on the pinned form with distinct non-degenerate 32-hex ids, an evidence table, a quoted frozen-vocabulary line and the SPA-fallback/render.yaml honesty sentence; all five controls REJECTED and the well-formed sample ACCEPTED\\n\" % len(rows))\nPYEOF\necho \"ac4 GREEN: the journey record measures two correlated request/trace pairs honestly and its validator is proven to bite\"",
+        "exit_code": 1,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac4.out",
+        "note": "VERBATIM rc=1 for a PROVEN CARD DEFECT: GOOD.splitlines(True)[1:].join([]) raises AttributeError ('list' object has no attribute 'join') - a Python syntax error in the card's own control expression, tree-independent (crashes standalone in /tmp and $HOME against a synthetic GOOD string, no repo file opened). Corrected form (replace the crashing expression with \"\".join(GOOD.splitlines(True)[2:]) for the single-pair control) rc=0: docs/state/outputs/t122_verifier_logs/ac4_corrected2.out - all five controls REJECTED, well-formed sample ACCEPTED, corrected single-pair control proven to still bite (validate -> ['count']). Substance: the committed journey record carries 2 TRACE_JOURNEY rows with distinct non-degenerate 32-hex ids, evidence table, quoted vocabulary line, SPA-fallback/render.yaml honesty sentence. See evidence.dual_measurement.ac4."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "set -u\nA=docs/state/outputs/t122_definer_gate_amendment.json\ntest -f \"$A\" || { echo \"ac6 RED: $A missing - the re-premise proposals are the written record the merge window applies\"; exit 1; }\ncommand -v python3 >/dev/null || { echo \"ac6 RED: python3 missing\"; exit 1; }\npython3 - \"$A\" <<'PYEOF' || exit 1\nimport copy, hashlib, json, sys\nrec = json.load(open(sys.argv[1], encoding=\"utf-8\"))\nraw = open(\"docs/state/merge_test_index.json\", \"rb\").read()\ntests = json.loads(raw.decode(\"utf-8\"))[\"tests\"]\ndef csha(s): return hashlib.sha256(s.encode()).hexdigest()\ndef esha(x): return hashlib.sha256(json.dumps(x, separators=(\",\", \":\")).encode()).hexdigest()\nfail = []\nif rec.get(\"status\") != \"proposed\":\n    fail.append(\"amendment status is %r, not 'proposed' - the definer proposes, the orchestrator applies\" % rec.get(\"status\"))\nif rec.get(\"card_writes_index_bytes\") is not False:\n    fail.append(\"card_writes_index_bytes must be False\")\nif rec.get(\"policy\") != \"W2\":\n    fail.append(\"policy must be W2\")\nif len(tests) != 318 or hashlib.sha256(raw).hexdigest() != \"e19cf6fdbbf69a049f83da109a63e1af065c80575433bd0d8eb35e7f2b018566\":\n    fail.append(\"live index is not the 318-entry e19cf6fd base the pins were struck against - re-pin before applying\")\nwant = {268, 270, 293, 227}\nhave = {a[\"index\"] for a in rec[\"amendments\"]}\nif have != want:\n    fail.append(\"amendment index set is %s, expected %s (268/270/293 re-premise + 227 placeholder re-pin)\" % (sorted(have), sorted(want)))\nfor a in rec[\"amendments\"]:\n    i = a[\"index\"]\n    cmd = tests[i][\"command\"]\n    if csha(cmd) != a[\"old_command_sha256\"] or len(cmd) != a[\"old_command_len\"]:\n        fail.append(\"leg %d: old_command_sha256/len do not match the live entry\" % i)\n    if esha(tests[i]) != a[\"entry_sha_before\"]:\n        fail.append(\"leg %d: entry_sha_before does not match the live entry\" % i)\n    built = cmd\n    for reg in a[\"replaced_regions\"]:\n        n = cmd.count(reg[\"from\"])\n        if n != 1:\n            fail.append(\"leg %d: region from-string occurs %d times (must be exactly 1): %r\" % (i, n, reg[\"from\"][:60]))\n        built = built.replace(reg[\"from\"], reg[\"to\"], 1)\n    back = built\n    for reg in reversed(a[\"replaced_regions\"]):\n        back = back.replace(reg[\"to\"], reg[\"from\"], 1)\n    if back != cmd:\n        fail.append(\"leg %d: region replacement is not reverse-lossless\" % i)\n    if csha(built) != a[\"new_command_sha256\"] or len(built) != a[\"new_command_len\"]:\n        fail.append(\"leg %d: new_command_sha256/len do not reconstruct from the regions\" % i)\n    e2 = copy.deepcopy(tests[i]); e2[\"command\"] = built\n    if esha(e2) != a[\"entry_sha_after\"]:\n        fail.append(\"leg %d: entry_sha_after does not reconstruct from the built entry\" % i)\n    if built == cmd:\n        fail.append(\"leg %d: the amendment is a no-op dressed as a fix\" % i)\nam227 = [a for a in rec[\"amendments\"] if a[\"index\"] == 227][0]\nif \"<T122_\" not in am227[\"replaced_regions\"][0][\"to\"]:\n    fail.append(\"leg 227 is not in the placeholder form - the report digest is not freezable at groom (leg 134 is RED inside worktrees), so the t111 protocol is mandatory\")\nfor ph in (\"<T122_README_CR_STRIPPED_DIGEST_64HEX>\", \"<T122_README_LINES>\", \"<T122_DOCS_VERIFICATION_REPORT_CR_STRIPPED_DIGEST_64HEX>\"):\n    if ph not in \"\".join(r[\"to\"] for r in am227[\"replaced_regions\"]):\n        fail.append(\"placeholder %s is absent from the leg-227 regions\" % ph)\nif \"stale_premises_after_t122\" not in json.dumps(rec):\n    fail.append(\"the record does not name its stale premises\")\nsys.stdout.write(\"ac6 evidence: 4 amendments PROPOSED against the e19cf6fd index; every old/new command sha and before/after entry sha reconstructs; every region unique + LIFO reverse-lossless; leg 227 in placeholder form; card writes zero index bytes\\n\")\nPYEOF\npython3 - <<'PYEOF' || exit 1\nimport json, sys\ntests = json.load(open(\"docs/state/merge_test_index.json\", encoding=\"utf-8\"))[\"tests\"]\nstay = {269: \"port band + app-stack freeze\", 271: \"README operator-usable + no scheme-qualified URL\",\n        291: \"dashboard panels\", 292: \"metric-name coverage\", 294: \"dashboard annotation\"}\nfor i, why in sorted(stay.items()):\n    if tests[i][\"issue_id\"] not in (\"t75\", \"t77\"):\n        print(\"ac6 RED: leg %d is not the carried leg this card priced (%s)\" % (i, tests[i][\"issue_id\"])); raise SystemExit(1)\nred = {191, 231, 259}\nsys.stdout.write(\"ac6 evidence: %d legs stay untouched and GREEN on the enabled tree (%s); pre-existing RED set %s is disclosed, not healed\\n\"\n                 % (len(stay), \", \".join(str(k) for k in sorted(stay)), sorted(red)))\nPYEOF\nif git rev-parse --git-dir >/dev/null 2>&1; then\n  BASE=$(git merge-base HEAD origin/main 2>/dev/null || git rev-parse HEAD~1 2>/dev/null || true)\n  if [ -n \"${BASE:-}\" ]; then\n    OUT=$(git diff --name-only \"$BASE\"...HEAD 2>/dev/null \\\n      | grep -vE '^(README\\.md|docs/criteria/scoring_map/telemetry\\.md|docs/criteria/trace_correlation_verification\\.md|docs/criteria/docs_verification\\.md|backend/scripts/docs_verification\\.py|backend/app/|backend/tests/|ops/logging\\.md|observability/)$' \\\n      | grep -v '^docs/' || true)\n    [ -z \"$OUT\" ] || { echo \"ac6 RED: the builder commit moved paths outside the owned surfaces: $OUT\"; exit 1; }\n    echo \"ac6 evidence: builder delta is inside the owned product paths (backend/app, backend/tests, observability/, ops/logging.md, telemetry.md, the journey record, README + the two docs_verification surfaces)\"\n  fi\nfi\necho \"ac6 GREEN: zero new RED - three absence legs re-premised in a sound proposal, five legs untouched, the 227 re-pin is a placeholder protocol, delta is pure\"",
+        "exit_code": 0,
+        "output_path": "docs/state/outputs/t122_verifier_logs/ac6.out",
+        "note": "VERBATIM rc=0 (the fence's fail list is built but never evaluated before the evidence line - a latent card defect disclosed, not exploited). FROZEN-PREMISE classification (t81/t124 precedent): the index-pin line (len==318 and sha==e19cf6fd...) is FROZEN-STALE on LIVE main (319 entries, blob sha 6be84ae1... after the t126 ADD) - had the fail list been evaluated the fence would trip ONLY on that pin line + the expected post-application old_command/entry_sha_before mismatches; every substantive check (status proposed, card_writes_index_bytes False, policy W2, region uniqueness + LIFO reverse-lossless reconstruction, 227 placeholder form, stale-premise naming) re-proven GREEN: the corrected python run against the BASE index (81aede1 blob, CRLF sha e19cf6fd, 318 entries) yields ZERO defects, and live legs 268/270/293 byte-match the proposal's entry_sha_after. No substantive check fails on the current tree => not a build defect."
+      }
+    },
+    "dual_measurement": {
+      "ac2": {
+        "class": "WAL 1308 grep-form card defect",
+        "verbatim_command": "grep -qE 'trace_id' backend/app",
+        "verbatim_rc": 1,
+        "verbatim_diagnosis": "grep exits rc=2 'Is a directory' BEFORE any content read; standalone proof in /tmp/t122/synth: rc=2 against a dir that CONTAINS trace_id AND against one that does not => the verbatim line can never pass on any tree",
+        "minimal_edit": "add -r: grep -qE -> grep -rE (identical pattern, identical RED message, identical exit path; matches ac1's proven grep -rEq form)",
+        "corrected_rc": 0,
+        "corrected_negative_control": "rc=1 against synthetic dir WITHOUT trace_id (still bites), rc=0 against synthetic dir WITH trace_id",
+        "corrected_fence_copy": "docs/state/outputs/t122_verifier_logs/ac2_corrected.sh"
+      },
+      "ac4": {
+        "class": "NEW class: card-internal Python syntax crash",
+        "verbatim_expression": "GOOD.splitlines(True)[1:].join([])",
+        "verbatim_rc": 1,
+        "verbatim_diagnosis": "AttributeError: 'list' object has no attribute 'join' (list.join does not exist; str.join was intended). Traceback at fence line 57 = the ctrls list literal.",
+        "tree_independence_proof": "the crashing line run STANDALONE against the synthetic GOOD string in /tmp AND in $HOME (no repo file opened, no cwd dependency) raises the identical AttributeError => the fence is unsatisfiable on EVERY tree, product defects cannot be attributed to it",
+        "minimal_edit": "'a single-pair record' control: GOOD.splitlines(True)[1:].join([]) + GOOD.splitlines(True)[0] + GOOD.splitlines(True)[2:] -> GOOD.splitlines(True)[0] + \"\".join(GOOD.splitlines(True)[2:]) (same intent: drop row 2, keep row 1 + evidence/quoted/honesty lines)",
+        "corrected_rc": 0,
+        "corrected_negative_control": "all five controls REJECTED + GOOD ACCEPTED inside the corrected fence (fence's own loop); corrected single-pair control proven standalone: validate(single-pair) -> ['count']",
+        "corrected_fence_copy": "docs/state/outputs/t122_verifier_logs/ac4_corrected2.sh"
+      },
+      "builder_did_not_edit_the_card": "confirmed - the committed card blob at origin/main still carries both defects verbatim (ac_hash recomputes to the frozen value)"
+    },
+    "amended_legs": [
+      {
+        "index": 268,
+        "kind": "amended",
+        "entry_sha256_prefix": "c8d795207fdb0eb497727cc529ca6890523e4821136abcec3537a91af606ada7",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 270,
+        "kind": "amended",
+        "entry_sha256_prefix": "6c6904e0deb6",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 293,
+        "kind": "amended",
+        "entry_sha256_prefix": "cff98083b976",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 227,
+        "kind": "amended",
+        "entry_sha256_prefix": "adaecf6e21f9",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      }
+    ],
+    "verbatim_neighbors": [
+      {
+        "index": 269,
+        "kind": "verbatim_neighbor",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 271,
+        "kind": "verbatim_neighbor",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 291,
+        "kind": "verbatim_neighbor",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      },
+      {
+        "index": 292,
+        "kind": "verbatim_neighbor",
+        "rc": 0,
+        "output_tail": "--STDERR--"
+      }
+    ],
+    "amendment_application_proof": {
+      "live_268_entry_sha_equals_proposed_entry_sha_after": true,
+      "live_270_entry_sha_equals_proposed_entry_sha_after": true,
+      "live_293_entry_sha_equals_proposed_entry_sha_after": true,
+      "live_227": "orchestrator substituted the merged-tree MEASURED values per the t126 window (placeholders resolved: contains dd5c75004db9b05a.../421/59e6ddf83d4c306d..., zero '<T122_' tokens); live entry_sha adaecf6e21f9; independently re-measured README cr-sha dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708 / 421 lines and report cr-sha 59e6ddf83d4c306d6d96e82146c110a183666569b460b9f2f899ab6462b6eb08 with README_MEASURE PASS lines=421 digest=dd5c7500... inside the leg output",
+      "corrected_ac6_python_against_base_index": "0 defects (base = git show 81aede1:docs/state/merge_test_index.json, LF blob cce484d8, CRLF-working-copy sha e19cf6fd, 318 entries)"
+    },
+    "delta_purity": {
+      "merge_commit": "cb27408",
+      "first_parent": "f64c3e009b9fa438b4ebe089a6b8a3dec8f4f9ad",
+      "files_touched": [
+        "README.md",
+        "backend/app/main.py",
+        "backend/app/trace.py",
+        "backend/scripts/docs_verification.py",
+        "backend/tests/integration/test_trace_correlation_api.py",
+        "docs/criteria/scoring_map/telemetry.md",
+        "docs/criteria/trace_correlation_verification.md",
+        "observability/README.md",
+        "observability/collector.yaml",
+        "observability/compose.yaml",
+        "ops/logging.md"
+      ],
+      "count": 11,
+      "expected": 11,
+      "pure": true,
+      "note": "git diff --name-only f64c3e0 cb27408 = exactly the 11 owned t122 paths; the second-parent diff (7c9df78 -> cb27408) carries only orchestrator-side window artifacts (WAL, t122/t124 cards+amendments, t125 verifier JSON) - zero product bytes"
+    },
+    "leg_294_supplementary": {
+      "rc": 1,
+      "classification": "environment-conditional autocrlf-smudge RED, pre-existing class, NOT t122",
+      "evidence": "RED lines name observability/dashboard.json + collector.yaml CRLF in the WORKING COPY only; git blobs at origin/main are CR-free (CR count 0 vs worktree 159/68); dashboard.json predates t122 (added by 96c691e t77) and is NOT in the t122 delta; with the LF blobs restored leg 294 measures rc=0 (docs/state/outputs/t122_verifier_logs/leg_294_lf_blobs.out); worktree restored byte-clean afterwards"
+    },
+    "leg_318_supplementary": {
+      "rc": 1,
+      "classification": "worktree-only environment RED (disclosed premise), NOT a t122/product defect",
+      "evidence": "the t126 ADD leg runs the committed generator whose STORED_GATES sub-step re-executes tests[134]; tests[134] is the card-Context-disclosed worktree-only RED (js-yaml unresolvable from the worktree root - frontend/node_modules/js-yaml absent here); the merge window measured this leg rc=0 on the main checkout. Side effect: the leg rewrote docs/criteria/docs_verification.md in the worktree; restored via git checkout -- immediately (WAL-mandated), worktree verified clean"
+    },
+    "test_summary": {
+      "total": 16,
+      "passed": 14,
+      "failed": 2
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "uv run ruff check --output-format=json with UV_PROJECT_ENVIRONMENT=/tmp/t122_verify_env: 0 findings; 'All checks passed!'",
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "dod1_trace_id_present_and_correlation_module_passes": true,
+      "dod2_logging_md_seventeen_events_with_trace_id_documented": true,
+      "dod3_compose_six_services_pinned_tempo4317_app_stack_frozen_266e326f": true,
+      "dod4_journey_record_two_rows_distinct_32hex_table_quoted_honesty": true,
+      "dod5_telemetry_2of2_citing_record_readme_row10_triple_pin_whole_dd5c7500_421": true,
+      "dod6_zero_new_red_amended_legs_green_neighbors_green_227_substituted_pre_existing_red_set_disclosed": true
+    },
+    "ac_suggestions": [
+      "ac2 fence line: use grep -rE (or grep -rEq 'trace_id|traceparent') - the committed 'grep -qE ... backend/app' can never pass (directory rc=2). WAL 1308 class.",
+      "ac4 fence ctrls line: 'GOOD.splitlines(True)[1:].join([])' is a Python syntax crash (list.join does not exist); use '\"\".join(GOOD.splitlines(True)[2:])' or GOOD.replace(first_row,'',1). NEW class - recommend a card-lint that execs each fence's embedded python against a synthetic fixture before grooming.",
+      "ac6 fence: the fail list is built but never evaluated (no 'if fail:' before the evidence write) - the fence prints GREEN even when pins drift; and the index-pin line (318/e19cf6fd) is frozen-stale post-t126 (LIVE 319/6be84ae1). Recommend evaluating fail lists in every fence and re-striking index pins at merge-window close."
+    ],
+    "disclosures": [
+      "ac6 frozen-premise: the verbatim fence rc=0 ONLY because its fail list is never evaluated; the substantive re-proof (corrected python vs base index = 0 defects; live 268/270/293 == proposed entry_sha_after) classifies the stale 318/e19cf6fd pin as frozen-premise (t81/t124 precedent), not a build defect.",
+      "t126 ADD leg sits at tests[318] (319-entry index, entry_sha 08fb8530); measured rc=1 in this worktree solely via the tests[134] worktree-only premise (card Context, WAL); rc=0 in the merge window.",
+      "leg 294 rc=1 in this worktree is the pre-existing autocrlf-smudge class (blobs LF, worktree CRLF; dashboard.json is t77-era, outside the t122 delta); rc=0 with LF blobs.",
+      "platform operations NOT performed: scripts/platform.ts aborts with '.env not found' in both this worktree and the main checkout (.env absent - WAL precedent: orchestrator copies it in per call and removes it). The built->verified label transition and the verdict comment on #126 are therefore left to the orchestrator.",
+      "scope lock honored (WAL 1312 precedent): t122 verified only; no 319-leg sweep; out-of-scope observations (294/318/134) reported as disclosures only.",
+      "builder did not edit the card per orchestrator ruling - confirmed by ac_hash re-derivation from the committed blob."
+    ],
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "all six commands extracted verbatim from the fenced bash blocks of git show origin/main:docs/issues/t122.md (the ac_hash recipe proves extraction fidelity); index legs extracted from docs/state/merge_test_index.json via python json and executed with bash -c from the repo root with PATH=$HOME/.local/bin:$PATH",
+    "test_summary_note": "16 = 6 verbatim fences + 8 index legs (amended 268/270/293/227 + verbatim neighbors 269/271/291/292). The 2 'failed' are ac2/ac4 verbatim fences adjudicated as PROVEN CARD DEFECTS with corrected-GREEN (see dual_measurement); every product-side measurement is rc=0. Supplementary legs 294/318 measured separately (both rc=1, both classified environment-conditional above)."
   },
-  "dual_measurement": {
-   "ac2": {
-    "class": "WAL 1308 grep-form card defect",
-    "verbatim_command": "grep -qE 'trace_id' backend/app",
-    "verbatim_rc": 1,
-    "verbatim_diagnosis": "grep exits rc=2 'Is a directory' BEFORE any content read; standalone proof in /tmp/t122/synth: rc=2 against a dir that CONTAINS trace_id AND against one that does not => the verbatim line can never pass on any tree",
-    "minimal_edit": "add -r: grep -qE -> grep -rE (identical pattern, identical RED message, identical exit path; matches ac1's proven grep -rEq form)",
-    "corrected_rc": 0,
-    "corrected_negative_control": "rc=1 against synthetic dir WITHOUT trace_id (still bites), rc=0 against synthetic dir WITH trace_id",
-    "corrected_fence_copy": "docs/state/outputs/t122_verifier_logs/ac2_corrected.sh"
-   },
-   "ac4": {
-    "class": "NEW class: card-internal Python syntax crash",
-    "verbatim_expression": "GOOD.splitlines(True)[1:].join([])",
-    "verbatim_rc": 1,
-    "verbatim_diagnosis": "AttributeError: 'list' object has no attribute 'join' (list.join does not exist; str.join was intended). Traceback at fence line 57 = the ctrls list literal.",
-    "tree_independence_proof": "the crashing line run STANDALONE against the synthetic GOOD string in /tmp AND in $HOME (no repo file opened, no cwd dependency) raises the identical AttributeError => the fence is unsatisfiable on EVERY tree, product defects cannot be attributed to it",
-    "minimal_edit": "'a single-pair record' control: GOOD.splitlines(True)[1:].join([]) + GOOD.splitlines(True)[0] + GOOD.splitlines(True)[2:] -> GOOD.splitlines(True)[0] + \"\".join(GOOD.splitlines(True)[2:]) (same intent: drop row 2, keep row 1 + evidence/quoted/honesty lines)",
-    "corrected_rc": 0,
-    "corrected_negative_control": "all five controls REJECTED + GOOD ACCEPTED inside the corrected fence (fence's own loop); corrected single-pair control proven standalone: validate(single-pair) -> ['count']",
-    "corrected_fence_copy": "docs/state/outputs/t122_verifier_logs/ac4_corrected2.sh"
-   },
-   "builder_did_not_edit_the_card": "confirmed - the committed card blob at origin/main still carries both defects verbatim (ac_hash recomputes to the frozen value)"
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t122_verifier_verify.json",
+      "docs/state/outputs/t122_verifier_logs/ac1.out",
+      "docs/state/outputs/t122_verifier_logs/ac2.out",
+      "docs/state/outputs/t122_verifier_logs/ac3.out",
+      "docs/state/outputs/t122_verifier_logs/ac4.out",
+      "docs/state/outputs/t122_verifier_logs/ac5.out",
+      "docs/state/outputs/t122_verifier_logs/ac6.out",
+      "docs/state/outputs/t122_verifier_logs/ac2_corrected.out",
+      "docs/state/outputs/t122_verifier_logs/ac4_corrected2.out",
+      "docs/state/outputs/t122_verifier_logs/ac2_corrected.sh",
+      "docs/state/outputs/t122_verifier_logs/ac4_corrected2.sh",
+      "docs/state/outputs/t122_verifier_logs/leg_268.out",
+      "docs/state/outputs/t122_verifier_logs/leg_269.out",
+      "docs/state/outputs/t122_verifier_logs/leg_270.out",
+      "docs/state/outputs/t122_verifier_logs/leg_271.out",
+      "docs/state/outputs/t122_verifier_logs/leg_291.out",
+      "docs/state/outputs/t122_verifier_logs/leg_292.out",
+      "docs/state/outputs/t122_verifier_logs/leg_293.out",
+      "docs/state/outputs/t122_verifier_logs/leg_227.out",
+      "docs/state/outputs/t122_verifier_logs/leg_294.out",
+      "docs/state/outputs/t122_verifier_logs/leg_294_lf_blobs.out",
+      "docs/state/outputs/t122_verifier_logs/leg_318.out"
+    ],
+    "platform_issue": 126,
+    "output_path": "docs/state/outputs/t122_verifier_verify.json"
   },
-  "amended_legs": [
-   {
-    "index": 268,
-    "kind": "amended",
-    "entry_sha256_prefix": "c8d795207fdb0eb497727cc529ca6890523e4821136abcec3537a91af606ada7",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 270,
-    "kind": "amended",
-    "entry_sha256_prefix": "6c6904e0deb6",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 293,
-    "kind": "amended",
-    "entry_sha256_prefix": "cff98083b976",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 227,
-    "kind": "amended",
-    "entry_sha256_prefix": "adaecf6e21f9",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   }
-  ],
-  "verbatim_neighbors": [
-   {
-    "index": 269,
-    "kind": "verbatim_neighbor",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 271,
-    "kind": "verbatim_neighbor",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 291,
-    "kind": "verbatim_neighbor",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   },
-   {
-    "index": 292,
-    "kind": "verbatim_neighbor",
-    "rc": 0,
-    "output_tail": "--STDERR--"
-   }
-  ],
-  "amendment_application_proof": {
-   "live_268_entry_sha_equals_proposed_entry_sha_after": true,
-   "live_270_entry_sha_equals_proposed_entry_sha_after": true,
-   "live_293_entry_sha_equals_proposed_entry_sha_after": true,
-   "live_227": "orchestrator substituted the merged-tree MEASURED values per the t126 window (placeholders resolved: contains dd5c75004db9b05a.../421/59e6ddf83d4c306d..., zero '<T122_' tokens); live entry_sha adaecf6e21f9; independently re-measured README cr-sha dd5c75004db9b05a16d20643f7d6374aa076198e98aef1e7228fe0a12c2d4708 / 421 lines and report cr-sha 59e6ddf83d4c306d6d96e82146c110a183666569b460b9f2f899ab6462b6eb08 with README_MEASURE PASS lines=421 digest=dd5c7500... inside the leg output",
-   "corrected_ac6_python_against_base_index": "0 defects (base = git show 81aede1:docs/state/merge_test_index.json, LF blob cce484d8, CRLF-working-copy sha e19cf6fd, 318 entries)"
-  },
-  "delta_purity": {
-   "merge_commit": "cb27408",
-   "first_parent": "f64c3e009b9fa438b4ebe089a6b8a3dec8f4f9ad",
-   "files_touched": [
-    "README.md",
-    "backend/app/main.py",
-    "backend/app/trace.py",
-    "backend/scripts/docs_verification.py",
-    "backend/tests/integration/test_trace_correlation_api.py",
-    "docs/criteria/scoring_map/telemetry.md",
-    "docs/criteria/trace_correlation_verification.md",
-    "observability/README.md",
-    "observability/collector.yaml",
-    "observability/compose.yaml",
-    "ops/logging.md"
-   ],
-   "count": 11,
-   "expected": 11,
-   "pure": true,
-   "note": "git diff --name-only f64c3e0 cb27408 = exactly the 11 owned t122 paths; the second-parent diff (7c9df78 -> cb27408) carries only orchestrator-side window artifacts (WAL, t122/t124 cards+amendments, t125 verifier JSON) - zero product bytes"
-  },
-  "leg_294_supplementary": {
-   "rc": 1,
-   "classification": "environment-conditional autocrlf-smudge RED, pre-existing class, NOT t122",
-   "evidence": "RED lines name observability/dashboard.json + collector.yaml CRLF in the WORKING COPY only; git blobs at origin/main are CR-free (CR count 0 vs worktree 159/68); dashboard.json predates t122 (added by 96c691e t77) and is NOT in the t122 delta; with the LF blobs restored leg 294 measures rc=0 (docs/state/outputs/t122_verifier_logs/leg_294_lf_blobs.out); worktree restored byte-clean afterwards"
-  },
-  "leg_318_supplementary": {
-   "rc": 1,
-   "classification": "worktree-only environment RED (disclosed premise), NOT a t122/product defect",
-   "evidence": "the t126 ADD leg runs the committed generator whose STORED_GATES sub-step re-executes tests[134]; tests[134] is the card-Context-disclosed worktree-only RED (js-yaml unresolvable from the worktree root - frontend/node_modules/js-yaml absent here); the merge window measured this leg rc=0 on the main checkout. Side effect: the leg rewrote docs/criteria/docs_verification.md in the worktree; restored via git checkout -- immediately (WAL-mandated), worktree verified clean"
-  },
-  "test_summary": {
-   "total": 16,
-   "passed": 14,
-   "failed": 2,
-   "note": "16 = 6 verbatim fences + 8 index legs (amended 268/270/293/227 + verbatim neighbors 269/271/291/292). The 2 'failed' are ac2/ac4 verbatim fences adjudicated as PROVEN CARD DEFECTS with corrected-GREEN (see dual_measurement); every product-side measurement is rc=0. Supplementary legs 294/318 measured separately (both rc=1, both classified environment-conditional above)."
-  },
-  "failure_type": null,
-  "lint_report": {
-   "errors": 0,
-   "warnings": 0
-  },
-  "lint_note": "uv run ruff check --output-format=json with UV_PROJECT_ENVIRONMENT=/tmp/t122_verify_env: 0 findings; 'All checks passed!'",
-  "test_quality_warnings": [],
-  "dod_verified": {
-   "dod1_trace_id_present_and_correlation_module_passes": true,
-   "dod2_logging_md_seventeen_events_with_trace_id_documented": true,
-   "dod3_compose_six_services_pinned_tempo4317_app_stack_frozen_266e326f": true,
-   "dod4_journey_record_two_rows_distinct_32hex_table_quoted_honesty": true,
-   "dod5_telemetry_2of2_citing_record_readme_row10_triple_pin_whole_dd5c7500_421": true,
-   "dod6_zero_new_red_amended_legs_green_neighbors_green_227_substituted_pre_existing_red_set_disclosed": true
-  },
-  "ac_suggestions": [
-   "ac2 fence line: use grep -rE (or grep -rEq 'trace_id|traceparent') - the committed 'grep -qE ... backend/app' can never pass (directory rc=2). WAL 1308 class.",
-   "ac4 fence ctrls line: 'GOOD.splitlines(True)[1:].join([])' is a Python syntax crash (list.join does not exist); use '\"\".join(GOOD.splitlines(True)[2:])' or GOOD.replace(first_row,'',1). NEW class - recommend a card-lint that execs each fence's embedded python against a synthetic fixture before grooming.",
-   "ac6 fence: the fail list is built but never evaluated (no 'if fail:' before the evidence write) - the fence prints GREEN even when pins drift; and the index-pin line (318/e19cf6fd) is frozen-stale post-t126 (LIVE 319/6be84ae1). Recommend evaluating fail lists in every fence and re-striking index pins at merge-window close."
-  ],
-  "disclosures": [
-   "ac6 frozen-premise: the verbatim fence rc=0 ONLY because its fail list is never evaluated; the substantive re-proof (corrected python vs base index = 0 defects; live 268/270/293 == proposed entry_sha_after) classifies the stale 318/e19cf6fd pin as frozen-premise (t81/t124 precedent), not a build defect.",
-   "t126 ADD leg sits at tests[318] (319-entry index, entry_sha 08fb8530); measured rc=1 in this worktree solely via the tests[134] worktree-only premise (card Context, WAL); rc=0 in the merge window.",
-   "leg 294 rc=1 in this worktree is the pre-existing autocrlf-smudge class (blobs LF, worktree CRLF; dashboard.json is t77-era, outside the t122 delta); rc=0 with LF blobs.",
-   "platform operations NOT performed: scripts/platform.ts aborts with '.env not found' in both this worktree and the main checkout (.env absent - WAL precedent: orchestrator copies it in per call and removes it). The built->verified label transition and the verdict comment on #126 are therefore left to the orchestrator.",
-   "scope lock honored (WAL 1312 precedent): t122 verified only; no 319-leg sweep; out-of-scope observations (294/318/134) reported as disclosures only.",
-   "builder did not edit the card per orchestrator ruling - confirmed by ac_hash re-derivation from the committed blob."
-  ],
-  "verification_commands_source": "docs/issues/t122.md#verification-commands",
-  "verification_commands_note": "all six commands extracted verbatim from the fenced bash blocks of git show origin/main:docs/issues/t122.md (the ac_hash recipe proves extraction fidelity); index legs extracted from docs/state/merge_test_index.json via python json and executed with bash -c from the repo root with PATH=$HOME/.local/bin:$PATH"
- },
- "artifacts": {
-  "files_written": [
-   "docs/state/outputs/t122_verifier_verify.json",
-   "docs/state/outputs/t122_verifier_logs/ac1.out",
-   "docs/state/outputs/t122_verifier_logs/ac2.out",
-   "docs/state/outputs/t122_verifier_logs/ac3.out",
-   "docs/state/outputs/t122_verifier_logs/ac4.out",
-   "docs/state/outputs/t122_verifier_logs/ac5.out",
-   "docs/state/outputs/t122_verifier_logs/ac6.out",
-   "docs/state/outputs/t122_verifier_logs/ac2_corrected.out",
-   "docs/state/outputs/t122_verifier_logs/ac4_corrected2.out",
-   "docs/state/outputs/t122_verifier_logs/ac2_corrected.sh",
-   "docs/state/outputs/t122_verifier_logs/ac4_corrected2.sh",
-   "docs/state/outputs/t122_verifier_logs/leg_268.out",
-   "docs/state/outputs/t122_verifier_logs/leg_269.out",
-   "docs/state/outputs/t122_verifier_logs/leg_270.out",
-   "docs/state/outputs/t122_verifier_logs/leg_271.out",
-   "docs/state/outputs/t122_verifier_logs/leg_291.out",
-   "docs/state/outputs/t122_verifier_logs/leg_292.out",
-   "docs/state/outputs/t122_verifier_logs/leg_293.out",
-   "docs/state/outputs/t122_verifier_logs/leg_227.out",
-   "docs/state/outputs/t122_verifier_logs/leg_294.out",
-   "docs/state/outputs/t122_verifier_logs/leg_294_lf_blobs.out",
-   "docs/state/outputs/t122_verifier_logs/leg_318.out"
-  ],
-  "platform_issue": 126,
-  "output_path": "docs/state/outputs/t122_verifier_verify.json"
- },
- "error": null,
- "next_action": null,
- "timestamp": "2026-10-24T16:30:03Z",
- "retry_count": 0
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-24T16:30:03Z",
+  "retry_count": 0
 }
