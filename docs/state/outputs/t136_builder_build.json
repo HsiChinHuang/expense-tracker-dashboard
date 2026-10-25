@@ -1,0 +1,88 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t136",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t136-docs-report-record-accuracy",
+    "branch_sha": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+    "branch_note": "Branched from the DISPATCH BASE fbfbfbdde9007086ed64173fc01efb6870841856 (main tip that already contains docs/issues/t136.md). Product commit aaea9cf carries ONLY the regenerated docs/criteria/docs_verification.md; this handoff commit (docs/state/outputs/t136_builder_build.json) sits on top. Both commits pushed to origin at issue/t136-docs-report-record-accuracy.",
+    "base": "fbfbfbdde9007086ed64173fc01efb6870841856",
+    "t136_base": "fbfbfbdde9007086ed64173fc01efb6870841856",
+    "byte_source": "fresh clone of the builder product commit (worktree -> t136_build_clone, same /mnt/c volume) with DEFAULT core.autocrlf=true (system config; NO -c core.autocrlf=false override - stored leg 128 needs the CRLF worktree form) plus an mklink /J frontend/node_modules junction so stored leg 134 finds js-yaml; generator run as (cd backend && PYTHONPATH=. UV_PROJECT_ENVIRONMENT=/tmp/t136b_venv uv run python scripts/docs_verification.py), rc=0 GREEN. The polluted main checkout was NEVER the byte-source.",
+    "regeneration_idempotent": true,
+    "regeneration_idempotency_evidence": "Generator run twice in the same clean clone; second run byte-identical to the first (cmp rc=0).",
+    "link_check_row_measured": "LINK_CHECK PASS files=302 links=67 broken=0",
+    "link_check_row_base": "LINK_CHECK PASS files=300 links=67 broken=0",
+    "one_line_diff": "-LINK_CHECK PASS files=300 links=67 broken=0 / +LINK_CHECK PASS files=302 links=67 broken=0 (exactly one removed line and one added line; links=67 broken=0 unchanged; diff --stat 1 file changed, 1 insertion(+), 1 deletion(-))",
+    "counters_measured": {"files": 302, "links": 67, "broken": 0},
+    "files_count_rederivation": "ac1's independent re-derivation of the generator's own counting rule (SKIP_DIRS at docs_verification.py:96 + the walk at :313-318), run in the dirt-free clone of the product commit, measured E=302 and required F==E: PASS. The dispatch-base orchestrator preflight also measured 302 and cr-sha a0399b17... at fbfbfbd independently; the groom's 301/436301f6 pair was measured at ITS base b437216 before this card existed, and the card itself (line ~90) predicts the builder's own card moves the counter to 302.",
+    "report_cr_sha_new": "a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721",
+    "report_cr_sha_old": "737f96a9a83b6c7fb78cda5a597663e296766e5be2289fee4ed3081a62317a46",
+    "rejected_polluted_digest": "4b1ec8a1da8fe1f84d9e2a64c4c921ab1787b2e6c33f7a39d23bac9c85ba70f6 (files=320 links=94) - REJECTED machine dirt from the polluted main checkout (15 site-packages .md under backend/.pi-agent/venvs, .pytest_cache README, gitignored runtime logs); never used as byte-source and never committed.",
+    "report_wc_l": 55,
+    "report_cr_count": 0,
+    "report_line_endings": "worktree copy is LF-only (CR=0, LF=55) - the generator writes LF-only bytes; ac1's uniform-line-endings leg accepts pure LF. git smudge (core.autocrlf=true) normalizes on commit; the committed blob is LF-only.",
+    "leg227_repin_owned_by": "orchestrator",
+    "leg227_repin_note": "M1 merge-window obligation: re-pin tests[227] from 737f96a9a83b6c7fb78cda5a597663e296766e5be2289fee4ed3081a62317a46 to a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721 (REPLACE-only inside that leg's command string). ZERO index bytes moved in this build - ac5 verified docs/state/merge_test_index.json byte-zero vs the dispatch base. M2 (post-re-pin sweep-order 318-then-227 rc=0/rc=0) is likewise orchestrator merge-window work; ac4 here proves only the PRE-re-pin hazard RED half (leg 318 rc=0 then leg 227 rc=1 'drifted' on the dispatch base).",
+    "generator_untouched": "backend/scripts/docs_verification.py byte-zero vs dispatch base (ac2 diff --quiet rc=0); counters were already dynamic at :313-318/:336; zero SKIP_DIRS bytes; hex-literal count stays 13.",
+    "ac_hash": "sha256:b8c99f9ac29ef164e055e2aaffa9e3bb680bb0939fba7e4012b662323e423914",
+    "ac_hash_recompute": "MATCH. Recomputed from the committed card blob (git show HEAD:docs/issues/t136.md, CR-stripped, anchored extraction, six fenced bash blocks ac1..ac6 stripped, compact json) = b8c99f9ac29ef164e055e2aaffa9e3bb680bb0939fba7e4012b662323e423914 == the card literal. All six fences were then run VERBATIM from that extraction with zero edits.",
+    "ac_fences_run_verbatim": true,
+    "ac_mapping": {
+      "ac1": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac1 block run VERBATIM with T136_BASE=fbfbfbd: rc=0 GREEN - report records files=302 == the dirt-free-clone re-derivation E=302, links=67 broken=0 unchanged, stale files=300 proven gone, committed bytes == dirt-free-clone generator output (cr-stripped cmp), uniform line endings (CR=0 LF=55), negative controls refuse 300 and 303",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac2 block run VERBATIM: rc=0 GREEN - generator diff byte-zero vs BASE, dynamic forms present (SKIP_DIRS, md_files.extend walk, emit f-string), do-not-edit header intact, synthetic literal-bake refused",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac3 block run VERBATIM: rc=0 GREEN - delta is exactly 1 removed / 1 added line and it is the LINK_CHECK row (300 -> 302), 55 lines, STORED_GATES PASS executed=9 failures=0 restored=1, 4 CARRIED_REPORT rows, ALL_CHECKS_PASS last, NC detects a synthetic second changed row as 2",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac4 block run VERBATIM: rc=0 GREEN - 319 legs: digest pins [227], counter pins [], blob pins [227], 11 mention legs [219,220,223,226,227,256,257,258,259,279,318]; CARRIED_DIGESTS 4 keys and NOT this report; hex count 13; EXECUTED sweep-order hazard on the PRE-re-pin dispatch base: leg 318 rc=0 (leaves regenerated bytes a0399b17 by design) then leg 227 rc=1 with 'drifted' on the old 737f96a9 pin - the RED half is proven; the post-re-pin GREEN half is orchestrator merge-window obligation M2, NOT builder work; synthetic-pin NC fires",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac5 block run VERBATIM with T136_BASE=fbfbfbd (product commit only at run time): rc=0 GREEN - changed=[docs/criteria/docs_verification.md,] only; index/generators/README/agent-pack byte-zero; no SKIP_DIRS edit; index-byte NC fires. This handoff (docs/state/outputs/t136_*) is the only additional path in the final delta and is whitelisted by the same fence.",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "aaea9cf216e5256ff532e04bc0231eed7e207e3d",
+        "test": "fenced ac6 block run VERBATIM after this handoff exists: rc=0 GREEN - fresh report cr-sha a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721 != base 737f96a9..., this handoff carries both digests, both LINK_CHECK rows, byte_source, leg227_repin_owned_by=orchestrator, and the rejected polluted 4b1ec8a1 digest; the quoted row equals the report's line; base-value and mutation NCs refuse",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "No hand-edit of the generated markdown anywhere: bytes were produced solely by the committed generator in the dirt-free clone and copied verbatim. No generator, index, README, or SKIP_DIRS bytes. Scratch artifacts: t136_build_clone and the per-AC clones removed; worktree frontend/node_modules junction left in place (gitignored, needed for any re-verification); /tmp/t136b_venv kept (outside the tree). A stray 'nul' file created by one early cmd-redirect typo in WSL bash was deleted before the product commit and is not in any commit."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/criteria/docs_verification.md",
+      "docs/state/outputs/t136_builder_build.json"
+    ],
+    "platform_issue": 141,
+    "output_path": "docs/state/outputs/t136_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T15:40:00Z",
+  "retry_count": 0
+}
