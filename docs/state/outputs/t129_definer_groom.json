@@ -1,0 +1,45 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t129",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "ac_hash": "sha256:29c6f8aa05990fa70fdb5cd8c17498b3679048ed920638879e3635d5820400d0",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "python3 (read-only) extracts the generator invocation from LIVE docs/state/merge_test_index.json tests[226] (t59 ac2) into /tmp/t129_ac1_gen_spec.json, then cd <cwd> && uv run python <script> TWICE; fence asserts rc=0 both times and identical sha256 of the CR-stripped docs/criteria/req_coverage_verification.md (determinism). Fenced bash: docs/issues/t129.md#acceptance-criteria ac1",
+   "ac2": "C=$(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md); for sc in \"IMPLEMENTED_TESTED 117\" \"IMPLEMENTED_STRUCTURAL 621\" \"DEFERRED_RULLED 10\" \"GAP 0\" \"EXAMPLE_REFERENCE 1\"; do printf \"%s\\n\" \"$C\" | grep -qE \"^REQ_STATUS_COUNT ${sc}$\"; done; plus grep -cE \"^REQ_ROW PASS id=REQ-[A-Z_]+-[0-9]{3} \" == 749 - the same for-sc grep pattern live leg 221 uses, over exactly 749 rows",
+   "ac3": "cp docs/state/merge_test_index.json /tmp/t129_ac3_index.json; python3 applies docs/state/outputs/t129_definer_gate_amendment.json to the COPY (asserts entry_sha_before matches the live entry, entry_sha_after recomputes), then bash -c each amended tests[221]/tests[226] command asserting rc=0; the real index is never written",
+   "ac4": "python3 loads the live index and bash -c runs baseline tests[224] (t58 ac4) and tests[227] (t59 ac4), asserting identity (issue_id/ac) and rc=0 - the neighbor spot-run proves the regeneration leaves its neighbours green",
+   "ac5": "cmd.exe /d /c git -C <wslpath -w $PWD> diff --name-only $(merge-base main HEAD)..HEAD restricted to {docs/criteria/req_coverage_verification.md, docs/state/outputs/t129_builder_build.json, this card's groom artifacts}; any other file is RED, and a non-empty diff on docs/state/merge_test_index.json is RED (zero index bytes)",
+   "ac6": "python3 validates docs/state/outputs/t129_builder_build.json as JSON and asserts it states the measured 117/621 tallies, a 64-hex generator output digest, and a leg rc table naming legs 221 and 226"
+  },
+  "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+  "contract_first_applied": true,
+  "ac_hash_provenance": "sha256 over json.dumps(blocks, separators=(',',':')) of the six fenced bash blocks under '## Acceptance criteria', each CR-stripped and trimmed; computed from the working tree, then RE-DERIVED from 'git show HEAD:docs/issues/t129.md' at the groom commit 2d7a80a with an identical digest (the t58/t116 recipe)",
+  "locked_facts_reverified": "the two cheap digest verifications this dispatch authorized PASSED at main 61260d1: live tests[221] (t58/ac1, cmd len 3038) entry sha == 5660cabdd44c4f60de02996caaa10e36ca57c77455b60d7fe7bc1639f8e98f04 and live tests[226] (t59/ac2, cmd len 9002) entry sha == cc12475cb9c6e75d26fa54237a2fec55cb47c6407bb6b21b74a16d0d5c47905a. The dispatch's 'tests[220]/tests[225]' notation is off-by-one; the digests, command lengths and issue/ac identity pin the true positions 221/226, and the card and amendment record fence by digest+identity, never by the off-by-one notation. A full-index read-only scan confirmed the 116/622 tally-pair pattern appears in EXACTLY those two legs of 319.",
+  "amendment_record": "docs/state/outputs/t129_definer_gate_amendment.json - two REPLACE_COMMAND amendments (indexes 221 and 226). Leg 221: 3 literal substitutions (\"IMPLEMENTED_TESTED 116\"->117, \"IMPLEMENTED_STRUCTURAL 622\"->621, prose 116/622/10/0/1->117/621/10/0/1), old_command_sha256 013f18b8..., new 9ff0de65..., entry 5660cabd... -> 0ed08272...; leg 226: 4 literal substitutions across 3 rules (IMPLEMENTED_TESTED:116->117, IMPLEMENTED_STRUCTURAL:622->621, prose tally 116/622/10/0/1->117/621/10/0/1 twice), old_command_sha256 613a8138..., new aa31182d..., entry cc12475c... -> 721d310d...; both amended commands verified to contain ZERO occurrences of 116 or 622 and to keep the same command length (3038/9002) because the substitutions are digit-for-digit.",
+  "measurement_scope": "ZERO-MEASUREMENT WRITE-ONLY mandate honoured: no generator run, no leg run, no matrix regeneration was performed by this groom. The only executable verification run here were the two authorized entry-digest recomputations (read-only) and the ac_hash re-derivation from the committed card blob. Consequently the rc=0 GREEN of the amended legs (card ac3) and the 117/621 regenerated tallies (card ac2) are LOCKED FACTS from the two prior completed runs plus fenced outcomes for the builder/verifier to measure - stated as such in the amendment record's proof_state, never asserted as this groom's own measurement.",
+  "disclosures": [
+   "Platform sync for #133 (issue update body mirror + defined->groomed label transition) was NOT performed: this dispatch's work order was write+commit+push only under a zero-measurement mandate and named no platform step. The orchestrator's Gate 1 must either accept the file-as-authoritative mirror or run the sync; recorded here rather than silently omitted.",
+   "docs/criteria/req_coverage_verification.md is still the STALE 116/622 report on this branch - regenerating it is the builder's product (card ac2), not the definer's. This groom commit touches zero product bytes.",
+   "docs/state/merge_test_index.json is byte-identical to main at this commit; the definer wrote zero index bytes (card ac5 fences the builder to the same contract)."
+  ]
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t129.md",
+   "docs/state/outputs/t129_definer_gate_amendment.json",
+   "docs/state/outputs/t129_definer_groom.json"
+  ],
+  "platform_issue": 133,
+  "output_path": "docs/state/outputs/t129_definer_groom.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-25T04:24:52Z",
+ "retry_count": 2
+}
