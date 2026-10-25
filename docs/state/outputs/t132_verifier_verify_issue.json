@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t132",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced ac1 bash block above (scratch clone + live tests[153] command -> the ' M docs/criteria/agent_pack_verification.md' line EXISTS; GREEN-BY-DESIGN negative control)",
+        "exit_code": 0,
+        "note": "PASS-with-disclosure per the t124/t131 adjudication rule. Fence defect (b): the fence addresses 'index field 154' as tests[153], which is the t34 permissions leg (verified: issue_id=t34, command contains no report generator, writes nothing) - fence-as-written can NEVER reproduce the defect. Substance measured with corrected addressing tests[154] (the record's field==tests[N] convention): the PRE-application (eb3523a) tests[154] command (t35, len 1852) run on a pristine scratch clone (autocrlf=false, truly LF-clean tree, UV_PROJECT_ENVIRONMENT=/tmp/verif_t132_venv) exited rc=0 and left ' M docs/criteria/agent_pack_verification.md' in git status --porcelain - the DIRTY-AT-GREEN defect REPRODUCED, negative control GREEN-by-design. Post-application the same leg (live tests[154], len 2178, sha 7ed4e95d) ran rc=0 and left docs/criteria CLEAN - the premise is now healed exactly as the card predicts (a re-groom note: on post-W2 main the fence's own RED branch text says the card 'must be re-groomed, not silently passed' if the named leg self-restores; the healed state is the card's designed end-state, delivered by the W2 window, not a silent pass)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced ac2 bash block above (amended leg text on a scratch clone -> 'git status --porcelain docs/criteria' EMPTY)",
+        "exit_code": 0,
+        "note": "PASS-with-disclosure. Substance measured: the v2 append-placement amended command (pre-application tests[154] inner + '; ' + the v2 record's restore_suffix, which reconstructs the LIVE command byte-exactly - rebuilt==live verified for all six fields) run on the pristine scratch clone exited rc=0 with 'git status --porcelain docs/criteria' EMPTY - the FIXED BEHAVIOR holds. Independent corroboration: the LIVE post-W2 tests[154] leg ran rc=0 and left the WHOLE clone tree 0 dirty lines (docs/criteria included), and the orchestrator's post-window verbatim sweep measured legs 154/155/217/221/226 rc=0 with the two protected reports NOT dirty. Fence defects disclosed: (b) wrong target tests[153] makes the fence vacuously GREEN (t34 writes nothing -> clean tree regardless); (c) the dispatch-disclosed rc=2 quoting defect did NOT reproduce in my verbatim measurement: the fence's python line 'docs/criteria/req_coverage_verification.md\\\" >/dev/null 2>&1 ' is a DOUBLE-quoted python string, so \\\" collapses to a plain quote and the amended command passes bash -n (rc=0) and runs rc=0 - the fence-as-written is vacuous, not a syntax error, in my measurement (builder 81eb48e7 recorded variant A rc=2; the discrepancy is disclosed, not adjudicated away - the substance is proven by the corrected variant regardless). Re-groom suggestion: fix the fence target to tests[154] and drop the vacuous-by-construction assert."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced ac3 bash block above (sha256(worktree report after restore) == sha256(committed blob))",
+        "exit_code": 0,
+        "note": "PASS-with-disclosure (same fence defects (b)/(c) as ac2). Substance measured on the pristine clone: ran the LIVE self-restoring tests[154] command (rc=0), then immediately compared digests: docs/criteria/agent_pack_verification.md committed==worktree==0123737e4ea5e47c (matches the builder's 0123737e), AND the second protected report docs/criteria/req_coverage_verification.md committed==worktree==49324fe148e71b6f. The checkout restore erases the side effect with exact byte identity, no silent re-pin. (The pre-restore regeneration drift - content BACKEND_COLLECTION 307->310 plus CRLF - is the builder-measured generator-content territory, out of this card's scope.)"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced ac4 bash block above (non-regenerating neighbor tests[151] rc=0, entry digest unchanged)",
+        "exit_code": 0,
+        "note": "Verbatim fence run from the repo root: 'ac4 GREEN: NEIGHBOR STABLE - tests[151] (t34, non-regenerating) rc=0 entry=28ce9c2f7ddd295a' - fence ran clean, no defects (the fence's own addressing is correct for this AC). Exit code 0."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced ac5 bash block above (branch delta == card + 2 JSONs; index byte-identical to base; every entry_sha_before matches the live index)",
+        "exit_code": 0,
+        "note": "PASS-with-disclosure. Fence-as-written ran rc=1 RED, blocked by disclosed fence defect (d): it compares against groom base 61260d1 with an allow-list of card+2 definer JSONs, so the legitimate merged history (t127-t131 handoffs, t129/t130 cards, WAL, and the W2 index commit itself) trips the allow-list, and its entry_sha_before==LIVE check fails for 221/226 by design (chaining). Substance measured with corrected bases: (1) builder delta 09e4180..643f8c99 == exactly ['docs/state/outputs/t132_builder_build.json'] - ZERO index bytes by the builder (git diff --quiet rc=0); (2) the groom v2 commit 70c6e56 touched ONLY docs/state/outputs/t132_definer_gate_amendment_v2.json - ZERO index bytes by the definer; (3) the W2 commit 40c6ad4 touched ONLY docs/state/merge_test_index.json and moved EXACTLY the six entries [154,155,217,220,221,226] of 319 (entry-by-entry diff vs parent eb3523a; no leg added/deleted); (4) the index is clean in the worktree. Amendments remain orchestrator-applied proposals (WAL 1274) - the application happened in the W2 window with forward+reverse proofs recorded in the commit message. Re-groom suggestion: re-base ac5 to diff the builder branch against its own base and allow-list the builder handoff."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced ac6 bash block above (dirty-set table + collision disclosure + live digests present in card and record)",
+        "exit_code": 0,
+        "note": "PASS-with-disclosure. Fence-as-written ran rc=1 RED: it reads the v1 record (docs/state/outputs/t132_definer_gate_amendment.json), whose old_command digests are now STALE because the W2 window applied the amendments - the live commands are the NEW commands, so every old_command_sha256 check fails post-application by design (the fence was groomed pre-application and never re-based; v2 supersedes v1 per the definer gate amendment v2 record). Substance measured against the SUPERSEDING v2 record with the correct pre/post pairing: for ALL SIX fields {154,155,217,220,221,226}: old_command_sha256/old_command_len match the PRE-application live index (eb3523a); new_command_sha256 matches the POST-application live index (HEAD 40c6ad4); entry_sha_before==pre-live entry digest; entry_sha_after==post-live entry digest; the restore_suffix is present AT THE END of every live command (append placement verified positionally and by byte-exact reconstruction rebuilt==live); new_command_len>old_command_len for all six; restore_suffix carries 'checkout --' and 'agent_pack_verification.md'. Honesty table verbatim in card AND both records: legs_lacking_restore [154,155,217,220,221,226], legs_with_proven_restore [183,318], leg_154_rc=0 (dirty-at-green), leg_221_rc=1 (t129's premise, disclosed); t129 collision/chain disclosure present in card, v1 and v2. Re-groom suggestion: point ac6 at the v2 record and pair old digests against the pre-application index."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac1/ac2/ac3 fences address index field 154 as tests[153] (the t34 permissions leg, writes nothing) - the fences are vacuous as written; corrected addressing is tests[154] (field==tests[N] convention). Card re-groom should fix the addressing.",
+      "ac2/ac3 fence quoting: the dispatch-disclosed rc=2 syntax defect did NOT reproduce verbatim (the escaped \\\" sits in a double-quoted python string and collapses to a plain quote; the fence-as-written amended command passes bash -n and runs rc=0 but is VACUOUS due to the wrong target). Disclosed measurement discrepancy vs builder variant A rc=2.",
+      "ac5/ac6 fences are pre-application-shaped: ac5's groom-base allow-list and ac6's v1-record/live-old-digest pairing both fail by design post-W2-application. Substance re-based and PASS.",
+      "ac_hash metadata line carries a DOUBLE prefix 'sha256:sha256:'; the hash BODY re-derives EXACTLY: sha256 over the six CR-stripped trimmed fenced blocks from git show HEAD:docs/issues/t132.md == fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 (derived_matches_body=True)."
+    ],
+    "dod_verified": {
+      "dod1_card_committed_with_six_fences_and_ac_hash": true,
+      "dod2_gate_amendment_record_six_proposals_live_keyed": true,
+      "dod3_groom_json_complete_schema_valid": true,
+      "dod4_zero_index_bytes_on_branch": true,
+      "dod5_orchestrator_applied_and_legs_self_restore": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_notes": {
+      "mode": "verify_issue at post-W2 main tip 40c6ad4 (worktree HEAD; builder branch issue/t132-report-hygiene-v2 @ 643f8c99 merged at eb3523a; W2 index commit 40c6ad4 on top)",
+      "ac_hash_rederivation": "six fenced blocks extracted from git show HEAD:docs/issues/t132.md (CR-stripped, trimmed, sha256 over json.dumps(blocks,separators=(',',':'))) -> fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 == the card's hash body; card line double-prefix 'sha256:sha256:' confirmed verbatim (defect (a), disclosed, not edited).",
+      "orchestrator_locked_measurements_cited_not_rerun": "the six-leg post-window verbatim sweep (154 rc=0 20s, 155 rc=0 6s, 217 rc=0 26s, 221 rc=0 19s, 226 rc=0 13s; 220 rc=1 DISCLOSED test_env clone artifact - its own stderr 'no backend/.venv python to run the self-test copy (prerequisite: cd backend && uv sync)', same class as legs 224/185, zero main-tree bytes, GREEN in the main-tree sweep baseline) and the MERGE+W2 window proofs at 40c6ad4 (forward+reverse for all six fields) are cited per dispatch, not re-run.",
+      "independent_leg_evidence": "ONE leg re-run by the verifier (dispatch allowance): LIVE tests[154] (len 2178) on a fresh scratch clone (cmd.exe git clone, core.autocrlf=false + rm --cached/reset to defeat the host system-wide autocrlf=true checkout hazard - first reset --hard left CRLF bytes in the working tree and a naive leg run then showed 1202 CRLF-dirty files, a harness artifact disclosed and root-caused; after a true LF re-materialization the clone was 0-dirty) -> leg rc=0, docs/criteria CLEAN, whole tree 0 dirty lines. Plus ac1 substance (pre-application tests[154] rc=0 + M-line) and ac2/ac3 substance runs, all inside the scratch clone; the real worktree was never dirtied (git status clean before and after).",
+      "venv": "[UV_PROJECT_ENVIRONMENT] empty at spawn -> used UV_PROJECT_ENVIRONMENT=/tmp/verif_t132_venv for every uv-using run; backend/.venv never touched.",
+      "harness": "WSL git cannot resolve this worktree's Windows-path .git pointer; all repo git ops ran via mounted-path GIT_DIR/GIT_WORK_TREE (read-only: show/log/diff/status) or cmd.exe git; one op per cmd.exe call; fence blocks extracted by script under the repo working tree (scratch/t132_v_*.py).",
+      "w2_commit_message_proofs": "40c6ad4 records entry_sha_before==LIVE verified for all six before application, new_command_sha256 forward proof, and entry_sha_after reverse re-derivation - independently RE-VERIFIED by this verifier's digest measurements against both index states (all true).",
+      "platform_bookkeeping": "Label transitions/body sync are orchestrator-owned in this milestone per the card's Out-of-scope section (WAL precedent: ingest commits); no platform.ts call made by the verifier.",
+      "lint": "No product code touched by this card (delta is docs/JSON only); ruff not applicable to the delta; recorded 0/0 non-blocking."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t132_verifier_verify_issue.json"
+    ],
+    "platform_issue": 136,
+    "output_path": "docs/state/outputs/t132_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T06:12:00Z",
+  "retry_count": 0
+}
