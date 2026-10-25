@@ -5,29 +5,11 @@
   "phase": "implement",
   "status": "COMPLETE",
   "reached_state": "built",
-  "card": "docs/issues/t130.md",
-  "ac_hash": "sha256:2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159",
-  "ac_hash_recompute": "Re-measured at build: the six fenced bash blocks of docs/issues/t130.md, CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')) = 2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159, EXACT match to the card's frozen ac_hash. Fences were extracted byte-identically (scratch/t130b/extract.py -> scratch/t130b/fences/ac1..6.sh, gitignored scratch) and executed VERBATIM; no fence text was substituted.",
-  "base": "fa2931a3a02531fe0ac6511e3605ea7998f184f0",
-  "branch": "issue/t130-leg259-premise-rewrite",
-  "measured": {
-    "live_index_sha256_at_build": "73056f42a8232deba8e52f1e329167f54fbb51134e75a5c42d369ca3040a7377",
-    "live_index_entries": 319,
-    "live_tests259_entry_sha": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
-    "live_tests259_cmd_len": 7050,
-    "live_tests259_cmd_sha": "f73949b1c511461ebc1b2889209360681ee83933e6d25d48940da095e0413cda",
-    "amendment_new_command_len": 7319,
-    "amendment_new_command_sha256": "71a5a448981d0040c811c0f1dfff18d098db22da73cfeed9b859ab2513cd2620",
-    "amendment_entry_sha_before": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
-    "amendment_entry_sha_after": "16a708bfff1ebe91728e0a78efd852db410b266620cdb1dfb6bec4199bd90e0d",
-    "entry_sha_before_eq_live": true,
-    "amendment_self_consistency": "ac2's own assertions passed: sha256(new_command)==new_command_sha256 and len(new_command)==new_command_len (7319)."
-  },
   "evidence": {
     "evidence_type": "build",
     "branch": "issue/t130-leg259-premise-rewrite",
     "branch_sha": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
-    "branch_sha_note": "2873d03 is the first commit of this branch (the handoff with placeholder fields). The measured fence run below was executed at the FINAL tip (this commit amended in-place with the real SHAs/rcs); amending to embed the final self-referential SHA is mathematically impossible (a commit cannot contain its own hash), so the orchestrator should treat the pushed branch tip as authoritative and 2873d03 as the recorded content-equivalent anchor (t121/t126/t127 precedent records the same shape). Only the placeholder fields differ between 2873d03 and the final tip; no fence reads them except ac5's allow-list, which names this exact path.",
+    "branch_sha_note": "2873d03 is the branch's FIRST commit (handoff v1 with placeholder fields). The branch tip is a later commit carrying this validated handoff v2 (a commit cannot contain its own hash; force-push is blacklisted so no amend-and-force). The six fences were measured at the branch tip; the card, amendment, groom JSON and index bytes are UNCHANGED across every commit on the branch (only this handoff file moves), so the ac1/ac2/ac3/ac4/ac6 at-tip measurements hold for the tip, and ac5 was re-measured at the final tip. Treat the pushed branch tip as authoritative; 2873d03 is the recorded content anchor (t121/t126/t127 precedent records the same self-reference shape).",
     "ac_results": {
       "ac1": {
         "rc": 0,
@@ -39,7 +21,7 @@
       },
       "ac2": {
         "rc": 0,
-        "note": "The amendment's stored new_command (7319B, sha 71a5a448 - self-consistency asserted by the fence itself) runs rc=0 against the LIVE index. Internal evidence: README cr_sha256=bea72320...==constant, lines=421==constant, report row README_MEASURE PASS, 13 hex literals == base 13, index structure intact at 319 entries with digest 72d5e77d... recorded as INFORMATIONAL (never pinned), the two demoted clauses echo as audit lines, INDEX_FLOOR 217 <= 319.",
+        "note": "The amendment's stored new_command (7319B, sha 71a5a448 - self-consistency asserted by the fence itself) runs rc=0 against the LIVE index. Internal evidence: README cr_sha256=bea72320...==constant, lines=421==constant, report row README_MEASURE PASS, 13 hex literals == base 13, index structure intact at 319 entries with digest recorded as INFORMATIONAL (never pinned; the leg's IDX echo is computed as tr -d '\\r' | sha256sum, so it reports the CR-stripped digest 72d5e77d... while the on-disk worktree bytes hash to 73056f42... - CRLF checkout artifact, disclosed, the digest is informational by design), the two demoted clauses echo as audit lines, INDEX_FLOOR 217 <= 319.",
         "key_stdout": [
           "ac7 evidence: index digest measured sha256=72d5e77d8649913f1abcb852841557206ce54ae3319d3e0deacdac08f99757ae (INFORMATIONAL - recorded, never pinned ...)",
           "t130 ac2 evidence: amended-command rc=0 against the live index",
@@ -130,7 +112,7 @@
     "verification_commands_source": "docs/issues/<id>.md#verification-commands",
     "delta_purity": "Branch delta vs base fa2931a (= merge-base main HEAD): exactly one committed file, docs/state/outputs/t130_builder_build.json (this handoff). docs/state/merge_test_index.json, README.md, backend/, docs/criteria/, docs/issues/ and the amendment/groom artifacts are byte-identical to base. scratch/t130b (fence extraction + logs) is gitignored (line 204 of .gitignore) and never committed. The index-bytes count written by this branch is ZERO (WAL 1274 protocol - the orchestrator applies the amendment in the merge window).",
     "measure_at_tip_note": "Per the ac5 design (its allow-list explicitly contains docs/state/outputs/t130_builder_build.json, unlike the t99 purity clause), all six fences were run AT THE FINAL BRANCH TIP with the handoff committed, and the card's Definition of Done ('ac1 GREEN BY DESIGN and ac2 GREEN on the same branch tip') is satisfied at that same tip. ac5 was run after the handoff commit precisely because it audits the committed delta.",
-    "validator_note": "The single validator call is 'npx tsx scripts/validate_handoff.ts docs/state/outputs/t130_builder_build.json builder implement' - the dispatch said 'builder build', but the registry (extensions/schema_validator.ts HANDOFF_SCHEMA_MAP) has NO builder:build entry and schemas/builder/build.json does not exist; schemas/builder/implement.json is the contract with evidence_type 'build'. Standing fix per t120/t121 precedent ('validator ... builder implement per the standing t90..t119 fix').",
+    "validator_note": "Validator run: 'npx tsx scripts/validate_handoff.ts docs/state/outputs/t130_builder_build.json builder implement' -> [OK] is valid for builder:implement. The dispatch said 'builder build', but the registry (extensions/schema_validator.ts HANDOFF_SCHEMA_MAP) has NO builder:build entry and schemas/builder/build.json does not exist; schemas/builder/implement.json is the contract with evidence_type 'build' - standing fix per the t120/t121 precedent ('per the standing t90..t119 fix'). Environment disclosures for the validator: (1) the shared /mnt/c node_modules @esbuild/linux-x64 binary is CORRUPT under WSL (96-byte data file, 'Syntax error: EOF in backquote substitution'); the call succeeded with ESBUILD_BINARY_PATH pointed at the intact @esbuild/win32-x64/esbuild.exe via WSL interop (environment only, no repo change). (2) The first draft carried extra TOP-LEVEL keys (card/ac_hash/base/measured, t128 exemplar style); the base handoff schema is additionalProperties:false at top level and REJECTED them (t128's own file fails validation the same way - pre-existing exemplar defect, disclosed); the validated v2 moved all extras inside evidence{} where additionalProperties is true.",
     "notes": "t130 heals the structurally unsatisfiable premise of sweep leg 259 (t72 ac7): the leg pinned index bytes that the W2 amendment protocol is designed to change (the t129 window's 221/226 amendment made the pin unsatisfiable by construction). The shipped PROPOSAL (docs/state/outputs/t130_definer_gate_amendment.json, authored at groom, zero index bytes by this card) swaps the bytes-equality clause for an index-structure + pin-custody-semantics premise (parse + 319 entries + digest recorded informational), keeps every README-digest/lines/report/hex-count check byte-identical, demotes the two frozen-index collateral clauses (P5==0 collision check, stale 'want 0' prose) to informational audit echoes, and preserves discrimination: measured rc=1 on truncated-JSON (0 entries) and on a 318-entry copy, both naming the entry-count guard. entry_sha_before d45476fa... == LIVE tests[259] entry sha at this build; entry_sha_after 16a708bf... re-derives from the stored 7319B new_command (sha 71a5a448...). Ready for the orchestrator merge-window apply.",
     "residual_risks": [
       "The amended leg records the index digest informationally; if a future card changes the ENTRY COUNT (append/deletion outside a documented amendment) the leg fires rc=1 by design - that is the intended discriminator, but it means every legitimate future append must go through the orchestrator amendment window (same custody discipline the old pin required, now via the count guard).",
@@ -138,11 +120,31 @@
       "The 319-entry constant in the amended premise is a new count pin: the next index append must update it in the same merge window (the amend record's rebuild recipe is the mechanism); disclosed, not a blocker - it is the orchestrator's custody point, which is the card's stated decision."
     ],
     "deviations_disclosed": [
-      "branch_sha/ac_mapping.commit self-reference: a commit cannot contain its own hash; the recorded SHA 2873d03 is this handoff's FIRST commit and the final tip is its amend. The measured fences ran at the final tip; the content delta between 2873d03 and the final tip is only the placeholder fields of this JSON (no fence reads them except ac5's allow-list, which names this path).",
+      "branch_sha/ac_mapping.commit self-reference: a commit cannot contain its own hash and force-push is blacklisted, so the branch carries handoff v1 at 2873d03 (placeholders) and handoff v2 (this validated file) at the tip. The measured fences ran at the tip; the only content delta across branch commits is this handoff JSON (no fence reads it except ac5's allow-list, which names this path).",
+      "Validator phase argument 'implement' instead of the dispatch's 'build' - the registry has no builder:build mapping (t120/t121 standing fix); evidence_type remains 'build' and the filename is t130_builder_build.json per the exemplars. The validator was executed more than once in total (first attempts died on the corrupt WSL esbuild binary before any schema verdict, and one intermediate run returned the top-level-additionalProperties FAIL that v2 fixed); the single AUTHORITATIVE plain call returned [OK].",
+      "Validator environment: ESBUILD_BINARY_PATH exported to the win32 esbuild.exe because the shared linux-x64 esbuild binary in the /mnt/c node_modules is a 96-byte corrupt stub (new environment defect observation, worth a carrier note: any WSL tsx run against this node_modules hits it).",
       "Validator phase argument 'implement' instead of the dispatch's 'build' - the registry has no builder:build mapping (t120/t121 standing fix); evidence_type remains 'build' and the filename is t130_builder_build.json per the exemplars.",
       "ac5 executed with GIT_DIR/GIT_WORK_TREE exported (WSL cannot resolve the worktree .git Windows-path pointer via discovery). Fence text unmodified; ac1-ac4/ac6 need no git at all.",
       "The WSL bare-git guard class (t131 class 2) never triggered: neither the live 7050B leg nor the amended 7319B command invokes git; no rc=128 occurred at any fence."
-    ]
+    ],
+    "card": "docs/issues/t130.md",
+    "ac_hash": "sha256:2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159",
+    "ac_hash_recompute": "Re-measured at build: the six fenced bash blocks of docs/issues/t130.md, CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')) = 2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159, EXACT match to the card's frozen ac_hash. Fences were extracted byte-identically (scratch/t130b/extract.py -> scratch/t130b/fences/ac1..6.sh, gitignored scratch) and executed VERBATIM; no fence text was substituted.",
+    "base": "fa2931a3a02531fe0ac6511e3605ea7998f184f0",
+    "branch_top_level_copy": "issue/t130-leg259-premise-rewrite",
+    "measured": {
+      "live_index_sha256_at_build": "73056f42a8232deba8e52f1e329167f54fbb51134e75a5c42d369ca3040a7377",
+      "live_index_entries": 319,
+      "live_tests259_entry_sha": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
+      "live_tests259_cmd_len": 7050,
+      "live_tests259_cmd_sha": "f73949b1c511461ebc1b2889209360681ee83933e6d25d48940da095e0413cda",
+      "amendment_new_command_len": 7319,
+      "amendment_new_command_sha256": "71a5a448981d0040c811c0f1dfff18d098db22da73cfeed9b859ab2513cd2620",
+      "amendment_entry_sha_before": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
+      "amendment_entry_sha_after": "16a708bfff1ebe91728e0a78efd852db410b266620cdb1dfb6bec4199bd90e0d",
+      "entry_sha_before_eq_live": true,
+      "amendment_self_consistency": "ac2's own assertions passed: sha256(new_command)==new_command_sha256 and len(new_command)==new_command_len (7319)."
+    }
   },
   "artifacts": {
     "files_written": [
@@ -153,6 +155,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-25T05:35:00Z",
+  "timestamp": "2026-10-25T05:40:00Z",
   "retry_count": 0
 }
