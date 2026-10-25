@@ -53,8 +53,8 @@ For a seeded dataset, run `npm run seed:demo` AFTER ## Prerequisites and
 Quick Start steps 1-3 - it needs the toolchain those steps install, and
 uv comes from them (uv is used by the Quick Start setup, not installed by
 this repository). The seed loads the fixed account demo@example.com /
-demo-password-123 into your own local database only; it is never available
-on the hosted app. The seed script touches only its own demo rows and is
+demo-password-123 into your own local database. The
+seed script touches only its own demo rows and is
 safe to re-run.
 
 ## Prerequisites

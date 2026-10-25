@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t133",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t133-readme-demo-honesty",
+    "branch_sha": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+    "branch_tip_note": "branch tip carries one additional docs-only commit adding this handoff file (docs/state/outputs/t133_builder_build.json); all product bytes ship in db959ede above; ac5 delta purity re-verified GREEN at the tip",
+    "base": "13cf32acf55cc4c0ae685803b69c0438a0385149",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+        "test": "docs/issues/t133.md#ac1 fenced block: frozen 3-line block at 56-58 byte-identical, lines 52-55 byte-identical to base blob, denial gone, six carried token counts unchanged, ## Online demo still says NO seeded demo account + register, 421 CRLF lines, cr-stripped digest 9551149a05caf92f552964432f9564a1c1ebe47c2e72a792bdbd235f67326ef4 equals groom measurement",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+        "test": "docs/issues/t133.md#ac2 fenced block: five negative controls fired (base carries 'never available'; synthetic ad fires hosted-claim grep and frozen text is silent; +1 line measures 422; token rewrite base=2 now=0; base lines 56-58 refused by byte comparison)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+        "test": "docs/issues/t133.md#ac3 fenced block: README_DIGEST=9551149a.../README_LINES=421 == measured pair, pre-change bea72320 pin gone from constant and README, regenerated report carries README_MEASURE PASS lines=421 digest=9551149a... and ends ALL_CHECKS_PASS, four carried reports (agent_pack 0123737e/dashboard 6fd4e18d/infra 04098540/security_ops 517faffb) byte-identical",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+        "test": "docs/issues/t133.md#ac4 fenced block: index entries=319, zero legs mention the deleted sentence/neighbours, README digests (now+pre) pinned by exactly [227], legs 231/256/257/258 independent, synthetic-leg negative control fired",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "db959ede1d318dd3e8c8487bbd22a2b4aeac8c1a",
+        "test": "docs/issues/t133.md#ac5 fenced block: delta == README.md + backend/scripts/docs_verification.py + docs/criteria/docs_verification.md, index/seed_demo.py/package.json/backend/app byte-untouched, generator diff touches only README_DIGEST/README_LINES, purity negative control fired",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured": {
+      "readme_lines": 421,
+      "readme_crlf_terminators": 421,
+      "readme_cr_stripped_sha256": "9551149a05caf92f552964432f9564a1c1ebe47c2e72a792bdbd235f67326ef4",
+      "pre_change_digest_gone_from": ["README.md", "backend/scripts/docs_verification.py"],
+      "carried_token_counts_unchanged": {
+        "demo@example.com": 2,
+        "demo-password-123": 2,
+        "npm run seed:demo": 3,
+        "register your own": 1,
+        "NO seeded demo account": 1,
+        "safe to re-run": 1
+      },
+      "ac_hash_recomputed": "sha256:9dbddb81e5da207c08683ec6287d9ea6c88dbda9853fdf6dc14d0132cf2040b3 (matches card; 5 blocks, from committed card blob at HEAD)",
+      "report_row": "README_MEASURE PASS lines=421 digest=9551149a05caf92f552964432f9564a1c1ebe47c2e72a792bdbd235f67326ef4",
+      "report_tail": "ALL_CHECKS_PASS",
+      "generator_rc": 0,
+      "index_bytes_touched": false,
+      "merge_test_index_diff": "empty (zero bytes)",
+      "delta_files": [
+        "README.md",
+        "backend/scripts/docs_verification.py",
+        "docs/criteria/docs_verification.md"
+      ],
+      "environment_preconditions_applied": [
+        "npm install at worktree root (via cmd.exe; WSL-side npm install broke esbuild postinstall on /mnt/c and wiped node_modules, restored via cmd.exe npm install)",
+        "npm ci in frontend/ (first WSL-side npm install produced a corrupt truncated js-yaml; cmd.exe npm ci from frontend/package-lock.json restored tests[134]'s ./frontend/node_modules/js-yaml)",
+        "uv sync --dev via cmd.exe (Windows venv backend/.venv) AND UV_PROJECT_ENVIRONMENT=/tmp/t133_venv Linux venv OUTSIDE the tree for the WSL-side generator run (stored gate tests[155] shells 'cd backend && uv run'); backend/.venv was never executed from WSL",
+        "generator run: /tmp/t133_venv/bin/python backend/scripts/docs_verification.py with UV_PROJECT_ENVIRONMENT=/tmp/t133_venv and PATH including ~/.local/bin -> GREEN rc=0"
+      ]
+    },
+    "notes": "The regenerated report's LINK_CHECK row moved files=291->files=299: an honest regeneration artifact - the committed report was generated before the 8 tracked .agents/.pi .md files landed on main, and the row is an informational count with no pin holder (the card itself records the stale LINK_CHECK count line as a known t132-class follow-up; ac3 pins only the README_MEASURE row, ALL_CHECKS_PASS and the four carried digests, all of which hold). No product-code change. The leg-227 double re-pin is the ORCHESTRATOR merge-window obligation (card: Merge-window obligations 1-2); zero index bytes were touched by this builder. Platform comment/label transitions for platform issue 138 were NOT executed by this builder run (orchestrator instruction: the card is on main and the platform call was declared unnecessary; .env was not created and scratch/env_quarantine_t94post was not touched)."
+  },
+  "artifacts": {
+    "files_written": [
+      "README.md",
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md"
+    ],
+    "platform_issue": 138,
+    "output_path": "docs/state/outputs/t133_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T10:00:00Z",
+  "retry_count": 0
+}
