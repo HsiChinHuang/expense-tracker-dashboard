@@ -1,0 +1,111 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t131",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t131-fence-defects",
+    "branch_sha": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+    "base": "c02f3027197d8cb30439377b0ab8b192ff36614a",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac1 fenced block: fence_defects_verification.md ac1 fence (README pin=421 == splitlines==wc -l; off-by-one split(chr(10))=422=pin+1 negative control measured)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac2 fenced block: ac2 fence (corrected cmd.exe gitdir guard rc=0; bare git rc=128 negative control measured on WSL worktree host)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac3 fenced block: ac3 fence (exactly 1 record resolves vs live leg 284 -> t124_definer_gate_amendment_v2.json; v1 measured non-matching; leg 284 owner t81)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac4 fenced block: ac4 fence (193 ac-less legs contiguous prefix 0..192; 8 INDEX_ANCHORS recompute GREEN; 6 anchored legs inside prefix)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac5 fenced block: ac5 fence (delta == docs/criteria/fence_defects_verification.md only; index/generator/README byte-untouched)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "a911a6e92d877fb17dc4b8e1bf617990e76ce289",
+        "test": "docs/issues/t131.md#ac6 fenced block: ac6 fence (11 pinned FENCE_DEFECT rows; re-measured values agree: pin=421, off-by-one=422, ac-less=193, corrections=0)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured": {
+      "fences": [
+        {
+          "ac": "ac1",
+          "rc": 0
+        },
+        {
+          "ac": "ac2",
+          "rc": 0
+        },
+        {
+          "ac": "ac3",
+          "rc": 0
+        },
+        {
+          "ac": "ac4",
+          "rc": 0
+        },
+        {
+          "ac": "ac5",
+          "rc": 0
+        },
+        {
+          "ac": "ac6",
+          "rc": 0
+        }
+      ],
+      "carrier": "docs/criteria/fence_defects_verification.md (new, 119 lines, 11 pinned FENCE_DEFECT rows)",
+      "readme_pin": 421,
+      "splitlines": 421,
+      "wc_l": 421,
+      "off_by_one": 422,
+      "ac_less_legs": 193,
+      "ac_less_prefix": "0..192 contiguous",
+      "index_anchors_green": 8,
+      "negative_controls": {
+        "split_newlines": 422,
+        "bare_git_wsl": 128,
+        "amendment_v1": "non-matching vs live leg 284"
+      },
+      "delta_files": [
+        "docs/criteria/fence_defects_verification.md"
+      ],
+      "uv_used": false,
+      "venv_touched": false
+    },
+    "notes": "ASSEMBLED BY ORCHESTRATOR from builder run ec8ff2eb's own measured result table (its worktree was reclaimed before the untracked build JSON survived; precedent t124 WAL 1325, t127 WAL 1335). Builder disclosed: carrier deliberately NOT taught to any generator (t124 no-generator ruling); follow-ups recorded on the carrier (class-4 ac-key generator+re-pin, class-5 SKIP_DIRS .pytest_cache, stale LINK_CHECK count line -> t132)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/criteria/fence_defects_verification.md"
+    ],
+    "platform_issue": 135,
+    "output_path": "docs/state/outputs/t131_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T04:01:48Z",
+  "retry_count": 0
+}
