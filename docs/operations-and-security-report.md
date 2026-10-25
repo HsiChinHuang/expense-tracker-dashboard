@@ -36,7 +36,7 @@ emit carries a disposition row in the register
 owns the acceptance and limitation language; this page points at the register
 and never restates a row from it.
 
-MEASURED scan_findings_total=122 source=security/agent-security-notes.md
+MEASURED scan_findings_total=113 source=security/agent-security-notes.md
 MEASURED scan_finding_ids=98 source=security/agent-security-notes.md
 MEASURED register_rows=98 source=security/agent-security-notes.md
 
