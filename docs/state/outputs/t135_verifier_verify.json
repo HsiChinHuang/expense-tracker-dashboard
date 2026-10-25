@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t135",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac1 fenced bash block (same-tree dynamic number equality, stale 396 gone, committed bytes == scratch-clone generator output, CRLF intact, NC on 396 / N+1)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac1_fixed.sh",
+        "note": "BOTH numbers reported per dispatch. (1) VERBATIM rc=1: dies at 'cd \"$S/backend\"' with 'C:\\Users\\...\\t135ac1clone/backend: No such file or directory' - the disclosed card-text defect (S is a Windows path from wslpath -w but the cd is WSL bash). Defect is genuinely CARD TEXT (the clone-path assignment line), not code. (2) DISCLOSED MINIMAL FIX (one line, path-only: S=$(wslpath -u \"$G/../t135ac1clone\"), zero logic changed): rc=0 GREEN - report records 421 == same-tree wc -l README.md (421), prose line exactly-once, stale 'measures 396 lines' gone file-wide (grep 0 in the report AND across docs/criteria + README), committed bytes == scratch-clone generator output (cr-tolerant cmp of the generator freshly executed by the block itself with UV_PROJECT_ENVIRONMENT=/tmp/t135v_venv OUTSIDE the tree, in-tree backend/.venv never touched), CR==LF==113, NC refuses 396 and 422. Verbatim run left a partial clone at the worktree-sibling path; removed with rmdir (tree byte-clean afterwards, git status empty)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac2 fenced bash block (generator diff byte-zero, dynamic form proven at 905/988, never-edit header, NC literal-bake fires)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac2_fixed.sh",
+        "note": "BOTH numbers reported. (1) VERBATIM rc=1: 'sed: -e expression #1, char 54: Unmatched \\{' - exactly the disclosed error string, dying before the script's own RED echo. Defect is genuinely CARD TEXT: the NC's sed program is double-quoted, bash eats one backslash pair of \\\\\\\\{, GNU sed -E then sees an unmatched \\{ interval expression; the generator and every check leg are fine. (2) INTENT-EQUIVALENT FIX (identical substitution, single-quoted sed program, NC line only): rc=0 GREEN on BOTH the merged main tree (T135_BASE=f33f43c dispatch base) and the builder branch tip 08b878f clone - generator diff byte-zero vs dispatch base, dynamic forms present (readme_lines = len(read_text(root / \"README.md\").splitlines()) and the f-string render), never-edit header intact, the synthetic literal-bake IS refused (NC fires)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac3 fenced bash block (22 PASS rows, ALL_CHECKS_PASS 19 PASS + closing fence, <= 500 sentence present and true, NC row-drop + synthetic 501 fire)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac3.sh",
+        "note": "VERBATIM rc=0 GREEN on current main - 22 PASS rows, ALL_CHECKS_PASS 19 PASS + closing fence, '<= 500 gate re-attested' sentence present with 421 <= 500, row-drop NC changes the count and synthetic 501 fires. Extraction note: the ac3 fence contains an inline ^```$ inside a grep pattern; naive non-anchored fence extraction truncates it (that is the regex class the builder's ac_hash recompute used - see notes), so blocks were re-extracted with line-anchored fences for the runs; the card text itself is intact."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac4 fenced bash block (319-leg rescan reproduces the groom table exactly: 0/0/0; CARRIED holder named with pre-change value and hex-count 13; synthetic-leg NC)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac4.sh",
+        "note": "VERBATIM rc=0 GREEN on the builder branch tip 08b878f (fresh clone, -c core.autocrlf=false from the start): 319 legs scanned, full-digest pins=0 literal-396 legs=0 report-count legs=0 (groom table reproduced exactly), CARRIED holder present with pre-change value 0123737e, hex-literal count 13, synthetic NC fires. On CURRENT main (post-M1 43cebae) the same verbatim block exits 1 at the pre-change-pin leg - EXPECTED and by design: the AC text itself says 'this AC runs before the rotation', and M1 (orchestrator-side, WAL 1368 ruling) rotated 0123737e -> af4909fe after the builder ran. The pre-rotation run is the faithful AC measurement; the post-M1 state is separately verified in the M1-invariants check (new pin present, old absent, count 13)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac5 fenced bash block (delta whitelist; index/generators/README/docs-report byte-zero; index-byte NC)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac5.sh",
+        "note": "VERBATIM rc=0 GREEN at the dispatch base: run in the builder-tip clone with T135_BASE=f33f43ca78a0d47b43c3b132fc23e6cb89b9fc9e (the assigned BASE; HEAD == branch tip 08b878f): changed == [docs/criteria/agent_pack_verification.md, docs/state/outputs/t135_builder_build.json] ONLY - zero index bytes, README/both generators/docs report byte-zero, index-byte NC fires. Independently confirmed the report delta vs BASE is exactly the three disclosed lines (collection 307->310 x2, README measures 396->421 x1), no other row moved. The card path itself is delta-absent (whitelist permits it; the groom committed it pre-dispatch at a77fe30, already an ancestor of BASE)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t135.md#ac6 fenced bash block (fresh cr-sha + readme_lines_measured in the build handoff; base-value and mutation NCs)",
+        "exit_code": 0,
+        "output_path": "scratch/t135_verifier/ac/ac6.sh",
+        "note": "VERBATIM rc=0 GREEN on current main - fresh report cr-sha af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409 != base 0123737e, the build handoff carries both the fresh sha and readme_lines_measured=421, base-value and mutation NCs refuse. Independently re-measured the committed report cr-sha with the fence's own byte-source on BOTH sources: working tree tr -d CR | sha256sum AND git show HEAD:docs/criteria/agent_pack_verification.md | tr -d CR | sha256sum both == af4909fe... (the M1-rotated CARRIED value)."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac_hash adjudication (dispatch item 1): the card literal sha256:5aff32da... is NOT reproducible from the committed card blob. Verifier re-derivation from git show HEAD:docs/issues/t135.md (HEAD b2dcc6d; blob identical to the groom commit a77fe30 - same file sha256 9396f26d...) with the stated recipe (six fenced bash blocks, CR-stripped, rstripped, json.dumps compact separators) yields dbe8258de7ebbe50928f0ac9b5c77f3d84963a7158f4d3211afa720a31768d30 - EXACTLY the builder's recompute. 28 further normalizations (anchored vs naive fence regex, rstrip/strip/raw, compact/spaced json, list/dict/join/concat, section- and file-level hashes, CR-retention) reproduce NEITHER the card literal. Adjudication: the card's ac_hash literal is WRONG (groom-side measurement error, same class as the t133 vacuity disclosures); the builder's disclosed recompute is CORRECT and independently reproduced; the card was correctly NOT edited. Unlike t133/t134 (whose verifiers reproduced their card literals), t135's literal fails - the disclosure, not the literal, is the accurate record.",
+      "the naive fence regex (non-anchored ```bash ... ```) used by the builder's recompute truncates ac3 at the inline ^```$ grep pattern (ac3 becomes 7 lines instead of 22) - recorded because it means the builder's hash input is not the six full blocks; the anchored extraction hashes b844404d9586badc971b2197f0884d6e8b8ce659125610ca53cc2a306f101c4c (also not the card literal). AC RUNS used the anchored (faithful) blocks.",
+      "ac4 is time-ordered by design ('this AC runs before the rotation'): verbatim GREEN only pre-M1 (builder tip clone); post-M1 on main the pre-change-pin leg REDs at 0123737e's absence. Verdict judged on the pre-rotation run per the AC's own text; post-rotation state verified separately (new pin af4909fe present, old 0123737e count 0, hex count 13)."
+    ],
+    "dod_verified": {
+      "t134_merged_and_builder_branch_from_main_containing_it_sequencing_rule_1": true,
+      "all_six_ac_blocks_exit_0_on_the_builder_branch_with_negative_controls_firing_as_specified_defect_fixed_runs_for_the_two_disclosed_card_text_defects": true,
+      "delta_is_exactly_regenerated_report_plus_t135_outputs_ac5_green_at_the_dispatch_base": true,
+      "build_handoff_carries_fresh_report_cr_sha_af4909fe_and_readme_lines_measured_421_ac6_green": true,
+      "orchestrator_m1_rotation_landed_in_the_same_window_43cebae_and_post_window_legs_227_and_259_rc_0_in_fresh_autocrlf_false_clone_leg_318_rc_0_in_main_repo_cited_wal_1370": true,
+      "report_machine_contract_intact_113_lines_CR_EQ_LF_EQ_113_22_PASS_rows_ALL_CHECKS_PASS_19_PASS_closing_fence": true,
+      "stale_396_gone_filewide_report_records_421_eq_same_tree_wc_l": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "VERDICT: all 6 ACs PASS on current main b2dcc6d + the builder branch tip 08b878f (pre-rotation) + dispatch base f33f43c (delta). ac_hash: derived dbe8258d... == builder recompute, card literal 5aff32da... unreproducible under 28 normalizations - groom-side literal error, builder disclosure accurate, card not edited. CARD-TEXT DEFECTS: both confirmed genuinely card-text (ac1 WSL/Windows path-form mix in the clone-path line; ac2 double-quote backslash-eating + GNU sed -E unmatched \\{ in the NC line), both disclosed by the builder, both minimal-fix runs GREEN with verbatim rc=1 and exact disclosed error strings reproduced. M1 ROTATION INVARIANTS on main (HEAD b2dcc6d >= 43cebae): CARRIED_DIGESTS['docs/criteria/agent_pack_verification.md'] == af4909fe... (lines 84-85); old 0123737e... occurrences == 0; 64-hex literal count == 13; git diff f33f43c..HEAD -- docs/criteria/docs_verification.md EMPTY (committed bytes unchanged across the window); committed docs report still carries LINK_CHECK files=300 (the deliberately-unmoved record; 301 is tree dirt from docs/issues/t135.md, disclosed); report cr-sha re-measured from BOTH working tree and git show HEAD: == af4909fe.... M1 commit 43cebae touches ONLY backend/scripts/docs_verification.py. CARRIED-INDEPENDENCE: legs 259 (rc=0, 13 hex literals, pin-5 switchover GREEN) and 227 (rc=0, 20 frozen files + docs_verification.md blob f1f71d46 + README 79aa573e/421) executed VERBATIM in a fresh clone made with -c core.autocrlf=false from the start at main tip - both GREEN. LEG 318 NOT re-run per dispatch (needs frontend/node_modules; builder unrotated-control proof + orchestrator main-repo rc=0 cited from WAL 1370). Sequencing rule 1: merge-base --is-ancestor cee2b49(t134 merge) f33f43c(dispatch base) rc=0. Environment: UV_PROJECT_ENVIRONMENT=/tmp/t135v_venv (outside the tree; builder's venv reused; in-tree backend/.venv never created or executed from WSL); uv 0.12.13 via ~/.local/bin; git via cmd.exe; scratch clone t135ac1clone removed; worktree byte-clean (git status empty at every checkpoint). Lint: ruff check --output-format=json on both generators -> [] (0/0, non-blocking). Platform #140: comment posted + label built->verified via scripts/platform.ts (not closed)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t135_verifier_verify.json"
+    ],
+    "platform_issue": 140,
+    "output_path": "docs/state/outputs/t135_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T11:24:00Z",
+  "retry_count": 0
+}
