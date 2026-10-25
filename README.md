@@ -46,8 +46,8 @@ you look at it:
 https://expense-tracker-dashboard-1qtu.onrender.com
 
 The free tier sleeps when idle, so the first visit can take tens of
-seconds (cold start). The hosted app has NO seeded demo account: register
-your own account there before you try to sign in.
+seconds (cold start). Before you try to sign in, register your own
+account there.
 
 For a seeded dataset, run `npm run seed:demo` AFTER ## Prerequisites and
 Quick Start steps 1-3 - it needs the toolchain those steps install, and
