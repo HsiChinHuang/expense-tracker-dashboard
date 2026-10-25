@@ -1,0 +1,40 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t127",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:030a94f6f7c96d00b585d064a17f82f66446a077d4c70c43356c1395cde0e3bc",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "fenced ac1 block: leg tests[49] VERBATIM from live index via python3+bash -c, rc=0; index digest unchanged; pre-fix negative control = exactly 2 banned clauses",
+      "ac2": "fenced ac2 block: grep -RnE '^[[:space:]]*except Exception[[:space:]]*(:|as )' backend/app backend/tests exits rc=1; identical pattern RED on pre-fix blob",
+      "ac3": "fenced ac3 block: uv run pytest -q && uv run ruff check . && uv run mypy . all rc=0 on the worktree; UV_PROJECT_ENVIRONMENT outside the tree; backend/.venv/Scripts clobber check",
+      "ac4": "fenced ac4 block: grep -rl --include=*.py trace tests files run by name under uv, rc=0; empty file set is RED",
+      "ac5": "fenced ac5 block: git diff --name-only base..HEAD == backend/app/trace.py (+ justified backend/tests/ files only); index/README/reports byte-untouched",
+      "ac6": "fenced ac6 block: t127_builder_build.json carries leg49_rc/grep_rc/pytest_rc/ruff_rc/mypy_rc/trace_tests_rc/tails/venv_outside_tree; live grep cross-check"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t127.md",
+      "docs/state/outputs/t127_definer_groom.json"
+    ],
+    "platform_issue": 131,
+    "output_path": "docs/state/outputs/t127_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T03:40:00Z",
+  "retry_count": 0
+}
