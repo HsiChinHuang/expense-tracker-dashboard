@@ -1,0 +1,41 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t135",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:5aff32da5e8cf2fa8de077519113edd4ed383ab1fc123976f6babb7c8cd8dc2f",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "fenced ac1 bash: sed-extract the 'README.md measures N lines' prose from docs/criteria/agent_pack_verification.md, assert exactly-once and N == wc -l README.md IN THE SAME TREE (dynamic, no hard-pinned 421), stale 'measures 396 lines' proven gone, git-clone scratch regeneration via the verbatim t35 recipe (legs 154/155) and cr-tolerant cmp of committed bytes vs generator output, CRLF count CR==LF; NEGATIVE CONTROLS: synthetic prose lines with 396 and N+1 must both refuse the equality leg",
+      "ac2": "fenced ac2 bash: git diff --quiet on backend/scripts/agent_pack_verification.py (generator byte-zero - the line is ALREADY dynamic), grep the dynamic forms at generator lines 905 (readme_lines = len(read_text(root / 'README.md').splitlines())) and 988 (f-string renders {readme_lines}), report header 'never edit' intact; NEGATIVE CONTROL: a sed-baked literal-396 generator copy must fail the dynamic-form grep",
+      "ac3": "fenced ac3 bash: PASS-row count == 22 (CARRIED rows=22 contract), 'ALL_CHECKS_PASS 19 PASS' marker present and report ends in its closing fence, '<= 500 gate re-attested' sentence line present and recorded N <= 500; NEGATIVE CONTROLS: dropping one PASS row changes the count, a synthetic 'measures 501 lines' fires the gate leg",
+      "ac4": "fenced ac4 bash: read-only python3 json rescan of ALL 319 live index legs reproducing the groom table exactly (0 legs pin the full report cr-sha 0123737e...fb09c nor its 16-char prefix, 0 legs carry literal 396, 0 legs assert the report README count), then name the ONE real holder: docs_verification.py CARRIED_DIGESTS entry (lines 84-85) with pre-change value 0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c and the 13 64-hex-literal count (leg 259 pins it); NEGATIVE CONTROL: synthetic legs carrying each forbidden pattern must fire all three scans",
+      "ac5": "fenced ac5 bash: git diff --name-only whitelist == {docs/criteria/agent_pack_verification.md, docs/issues/t135.md, docs/state/outputs/t135_*}; zero bytes on docs/state/merge_test_index.json, README.md, both generators, and docs/criteria/docs_verification.md; NEGATIVE CONTROL: the matcher refuses index bytes",
+      "ac6": "fenced ac6 bash: fresh cr-stripped sha256 of the regenerated report != base 0123737e... and recorded verbatim in docs/state/outputs/t135_builder_build.json together with readme_lines_measured; NEGATIVE CONTROLS: base value and a single-char-mutated digest refused"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "notes": "ZERO-LEG-RUN, ZERO-INDEX-BYTE groom on base main tip 391830b. Groom-run measurements (all read-only): (1) 319-leg index scan CONFIRMS the orchestrator probe - 0 legs pin the full cr-stripped digest of docs/criteria/agent_pack_verification.md (current cr-sha 0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c), 0 legs contain literal 396, 0 legs assert the report's README line count; 9 legs merely mention the file (154/155 regenerate+restore, 156/157 grep PASS rows, 217/220/221/226/318 restore-or-mention) and none pins its bytes. (2) MEASURED leg 227 (t59/ac4): its 20-file frozen set does NOT contain the agent-pack report (nor docs_verification.py), so regeneration trips no frozen-set leg; leg 227's README pins (9551149a/421) are t134's obligation (M2). (3) THE PIN THE PROBE MISSED, priced as merge-window obligation M1: docs_verification.py CARRIED_DIGESTS['docs/criteria/agent_pack_verification.md'] = 0123737e... (lines 84-85) is ENFORCED by check_carried() (339-351) and index leg 318 (t126) demands the docs generator rc=0, so the CARRIED rotation (replace-only, hex-literal count stays 13 per leg 259; generated docs report bytes do not move -> leg 227 stays green) is required in the same merge window; precedent t116 ac6. (4) Generator needs NO change: verified line 905 computes readme_lines dynamically and line 988 renders it; the 396 is purely the last regeneration's committed measurement. (5) Base facts: report line 67 carries the stale 'measures 396 lines'; README wc -l = 421 (cr-sha 9551149a...), 421 <= 500 so the gate stands and the AC is record accuracy; report 113 lines / 22 PASS rows / ends ALL_CHECKS_PASS 19 PASS + fence. ACs are DYNAMIC: ac1 compares the report number against wc -l README.md in the same tree (no hard-pinned 421; base value 421 recorded in Context for reference only). HARD SEQUENCING (non-AC section): t135 builder branches only after t134 (#139) merges, else the regenerated number is stale on arrival. Platform #140 body sync + label transition are orchestrator-owned ingest bookkeeping in this milestone and are disclosed as not performed by this child run (t132/t133 precedent)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t135.md",
+      "docs/state/outputs/t135_definer_groom.json"
+    ],
+    "platform_issue": 140,
+    "output_path": "docs/state/outputs/t135_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T10:33:32Z",
+  "retry_count": 0
+}
