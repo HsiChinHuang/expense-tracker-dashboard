@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t135",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t135-agentpack-record-accuracy",
+    "branch_sha": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+    "branch_note": "Branched from main tip f33f43ca78a0d47b43c3b132fc23e6cb89b9fc9e (contains merged t134: README 421 CRLF lines, cr-sha 79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109 - sequencing rule 1 satisfied). Product commit b53e063 carries ONLY the regenerated docs/criteria/agent_pack_verification.md; the handoff commit (this file) sits on top so ac2/ac5 HEAD~1 defaults equal the dispatch base. Both commits pushed to origin.",
+    "base": "f33f43ca78a0d47b43c3b132fc23e6cb89b9fc9e",
+    "regeneration_recipe": "VERBATIM t35 recipe (index legs 154/155): (cd backend && uv run pytest --collect-only -q | tr -d CR) capture + cmd.exe /c git ls-files -s .agents capture + (cd backend && PYTHONPATH=. uv run python scripts/agent_pack_verification.py --collection-file C --ls-files-file L); environment: UV_PROJECT_ENVIRONMENT=/tmp/t135v_venv (OUTSIDE the tree; in-tree backend/.venv never touched or executed from WSL), uv 0.12.13, git via cmd.exe. Generator rc=0, ALL_CHECKS_PASS 19 PASS, WROTE docs/criteria/agent_pack_verification.md.",
+    "readme_lines_measured": 421,
+    "report_cr_sha_new": "af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409",
+    "report_cr_sha_old": "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
+    "m1_rotation_values": {
+      "file": "backend/scripts/docs_verification.py",
+      "key": "docs/criteria/agent_pack_verification.md",
+      "from": "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
+      "to": "af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409",
+      "owner": "orchestrator (M1, merge window; supervisor confirmed option A after the dispatch text contradicted the card's three orchestrator-only statements; the card is authoritative)",
+      "hex_literal_count_after_rotation": 13
+    },
+    "changed_rows": [
+      "METHOD prose: collection 307 nodes -> 310 nodes (floor 244 unchanged)",
+      "BACKEND_COLLECTION 307 floor=244 PASS -> BACKEND_COLLECTION 310 floor=244 PASS",
+      "prose: README.md measures 396 lines -> README.md measures 421 lines (the card's defect; == same-tree wc -l README.md)"
+    ],
+    "unchanged_machine_contract": "report wc -l 113, CR==LF==113, PASS rows 22, ALL_CHECKS_PASS 19 PASS + closing fence, all other 21 rows byte-identical",
+    "ac_hash": "sha256:5aff32da5e8cf2fa8de077519113edd4ed383ab1fc123976f6babb7c8cd8dc2f",
+    "ac_hash_recompute": "NOT claimed to match. Recomputed from the committed card blob (docs/issues/t135.md at f33f43c, CR-stripped, six fenced bash blocks ac1..ac6, each rstripped, joined as compact json) = sha256 dbe8258de7ebbe50928f0ac9b5c77f3d84963a7158f4d3211afa720a31768d30, which does NOT equal the card literal 5aff32da. Several normalizations were tried; none reproduced 5aff32da. Disclosed for the verifier to re-derive and adjudicate per the t133 recipe; the card was NOT edited.",
+    "card_text_defects": [
+      "ac2 negative control (verbatim): the sed line uses double quotes with \\\\\\{ - bash eats one backslash pair and GNU sed -E then sees an unmatched \\{ interval expression. Verbatim run rc=1 dying with 'sed: -e expression #1, char 54: Unmatched \\{' before the script's own RED echo. Defect class: double-quote backslash-eating + GNU sed -E unmatched \\{. Intent-equivalent run (same substitution, single-quoted sed program) passes: the literal-baked synthetic generator IS refused and ac2 prints GREEN rc=0.",
+      "ac1 clone leg (verbatim): S=\"$G/../t135ac1clone\" is a Windows path but the script then does WSL 'cd \"$S/backend\"', which cannot resolve. Verbatim run rc=1 at that cd ('No such file or directory' on the Windows-path form). Defect class: Windows/WSL path-form mixing in the card text. One-line normalization S=$(wslpath -u \"$G/../t135ac1clone\") (path-only; zero logic changed) then runs fully GREEN rc=0 including the byte-identity cmp and CRLF leg."
+    ],
+    "rotation_safety_proof": "Scratch clone (deleted after the run), rotation applied there only, never committed: (i) docs_verification.py rc=1 with the ONLY failures STORED_GATES FAIL tests[134] rc=1 - a js-yaml environment artifact (fresh clones have no frontend/node_modules; the unrotated control run in the same clone fails tests[134] identically, and the main repo HAS frontend/node_modules/js-yaml); CARRIED_REPORT FAIL for the agent pack DISAPPEARS under the rotation (unrotated control: CARRIED_REPORT FAIL digest=af4909fe... exactly the failure M1 exists to fix); all other CARRIED rows PASS. (ii) hex-literal count stays 13. (iii) docs_verification.md bytes: the rotation itself adds no line (CARRIED_REPORT rows carry no digest, confirmed in output), BUT any regeneration in THIS tree moves the bytes for a pre-existing, t135-unrelated reason: LINK_CHECK files=300 (committed, measured at 8efc57c) vs files=301 (this tree) because docs/issues/t135.md itself joined the tree at 7cfd0d0 - the drift pre-existed this card's delta and pre-exists on main (leg 318 regenerates-then-restores, so it is latent and harmless). The COMMITTED docs_verification.md bytes do NOT move in this build (ac5 proves byte-zero), so leg 227's 737f96a9a83b6c7fb78cda5a597663e296766e5be2289fee4ed3081a62317a46 pin stays green through M1 as-is; NO leg-227 re-pin is required for t135.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac1 block of docs/issues/t135.md run VERBATIM first (rc=1, disclosed card-text path-form defect), then with the one-line wslpath -u clone-path normalization (path-only): rc=0 GREEN - report records 421 == wc -l README.md, stale 396 gone, committed bytes == scratch-clone generator output (cr-tolerant cmp), CR==LF==113, negative controls refuse 396 and 422",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac2 block run VERBATIM first (rc=1, disclosed card-text sed quoting defect) then intent-equivalent (single-quoted sed program in the NC only): rc=0 GREEN - generator diff byte-zero vs base, dynamic forms present at lines 905/988, never-edit header intact, synthetic literal-bake refused",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac3 block run VERBATIM: rc=0 GREEN - 22 PASS rows, ALL_CHECKS_PASS 19 PASS + closing fence, <= 500 sentence present with 421 <= 500, NC row-drop and synthetic 501 both fire",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac4 block run VERBATIM: rc=0 GREEN - 319 legs scanned, full-digest pins=0 literal-396 legs=0 report-count legs=0 (groom table reproduced exactly), CARRIED holder present with pre-change value 0123737e (runs BEFORE the rotation, which is orchestrator M1 work), hex-literal count 13, synthetic NC fires",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac5 block run VERBATIM with T135_BASE=f33f43ca78a0d47b43c3b132fc23e6cb89b9fc9e after the handoff commit: rc=0 GREEN - delta == docs/criteria/agent_pack_verification.md + docs/state/outputs/t135_builder_build.json only; index/README/both generators/docs report byte-zero; index-byte NC fires",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "b53e063e1d9e39ff95afa95048a1764bbb41e73d",
+        "test": "fenced ac6 block run VERBATIM after this handoff exists: rc=0 GREEN - fresh report cr-sha af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409 != base 0123737e, this handoff carries the fresh sha and readme_lines_measured, base-value and mutation NCs refuse",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "No product change beyond the regenerated report; no generator, index, README, or docs-report bytes; no CARRIED rotation performed (supervisor decision A: the card's orchestrator-only statements override the dispatch text). Scratch artifacts removed: t135ac1clone, t135rotclone, /tmp/t135v_venv kept for reuse (outside the tree), /tmp/t135rot_venv deleted."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/criteria/agent_pack_verification.md",
+      "docs/state/outputs/t135_builder_build.json"
+    ],
+    "platform_issue": 140,
+    "output_path": "docs/state/outputs/t135_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T11:12:00Z",
+  "retry_count": 0
+}
