@@ -1,0 +1,160 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t130",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t130-leg259-premise-rewrite",
+    "branch_sha": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+    "branch_sha_note": "2873d03 is the branch's FIRST commit (handoff v1 with placeholder fields). The branch tip is a later commit carrying this validated handoff v2 (a commit cannot contain its own hash; force-push is blacklisted so no amend-and-force). The six fences were measured at the branch tip; the card, amendment, groom JSON and index bytes are UNCHANGED across every commit on the branch (only this handoff file moves), so the ac1/ac2/ac3/ac4/ac6 at-tip measurements hold for the tip, and ac5 was re-measured at the final tip. Treat the pushed branch tip as authoritative; 2873d03 is the recorded content anchor (t121/t126/t127 precedent records the same self-reference shape).",
+    "ac_results": {
+      "ac1": {
+        "rc": 0,
+        "note": "GREEN BY DESIGN - the CURRENT live tests[259] command measured rc=1 on the live index and its output names the index-bytes clause: 'ac7 RED: the merge-test index bytes changed - pin custody moves ONLY by orchestrator append at merge, never by a card edit' (/tmp/t130_ac1_out.txt line 5). The defect is confirmed exactly as the card premises it.",
+        "key_stdout": [
+          "t130 ac1 evidence: current-command rc=1",
+          "t130 ac1 GREEN BY DESIGN: the live leg is RED solely on the index-bytes-equality clause"
+        ]
+      },
+      "ac2": {
+        "rc": 0,
+        "note": "The amendment's stored new_command (7319B, sha 71a5a448 - self-consistency asserted by the fence itself) runs rc=0 against the LIVE index. Internal evidence: README cr_sha256=bea72320...==constant, lines=421==constant, report row README_MEASURE PASS, 13 hex literals == base 13, index structure intact at 319 entries with digest recorded as INFORMATIONAL (never pinned; the leg's IDX echo is computed as tr -d '\\r' | sha256sum, so it reports the CR-stripped digest 72d5e77d... while the on-disk worktree bytes hash to 73056f42... - CRLF checkout artifact, disclosed, the digest is informational by design), the two demoted clauses echo as audit lines, INDEX_FLOOR 217 <= 319.",
+        "key_stdout": [
+          "ac7 evidence: index digest measured sha256=72d5e77d8649913f1abcb852841557206ce54ae3319d3e0deacdac08f99757ae (INFORMATIONAL - recorded, never pinned ...)",
+          "t130 ac2 evidence: amended-command rc=0 against the live index",
+          "t130 ac2 GREEN: the amended premise is satisfiable on the live amended index"
+        ]
+      },
+      "ac3": {
+        "rc": 0,
+        "note": "Discrimination preserved: against the /tmp truncated-JSON copy the amended command fires rc=1 (entry-count guard fires on the parse-failure fallback 0: 'ac7 RED: the index holds 0 entries, not the 319 of the amended premise ...').",
+        "key_stdout": [
+          "t130 ac3 evidence: truncated-index copy rc=1",
+          "t130 ac3 GREEN: the amended command still fires on a corrupted (truncated-JSON) index"
+        ]
+      },
+      "ac4": {
+        "rc": 0,
+        "note": "Discrimination preserved 2: against the 318-entry /tmp copy the amended command fires rc=1 naming the guard: 'ac7 RED: the index holds 318 entries, not the 319 of the amended premise - the index is corrupted or the entry count moved without a documented amendment'.",
+        "key_stdout": [
+          "t130 ac4 evidence: 318-entry copy rc=1",
+          "t130 ac4 GREEN: the amended command still fires when the entry count leaves 319"
+        ]
+      },
+      "ac5": {
+        "rc": 0,
+        "note": "Delta purity at the final tip: merge-base main HEAD = fa2931a; git diff --name-only fa2931a..HEAD = [docs/state/merge_test_index.json NOT present]; the only changed file is docs/state/outputs/t130_builder_build.json, inside the fence's own allow-list. The amendment JSON asserts status==proposed, applied_by==orchestrator, card_writes_index_bytes==false, amendments[0].index==259. The known WSL git-guard class (t131 class 2) was reproduced VERBATIM for this fence: without GIT_DIR/GIT_WORK_TREE exported the fence's git lines print 'fatal: not a git repository: .../C:/Users/...worktrees/...' (the Windows-path .git pointer), yet the fence still exits rc=0 because its grep-guard is fail-open on empty diff output; with the environment exported (runtime only, fence text byte-verbatim) the diff is measured and purity confirmed.",
+        "key_stdout": [
+          "t130 ac5 GREEN: proposal-only delta - the card wrote zero index bytes and touched nothing outside its own artifacts"
+        ]
+      },
+      "ac6": {
+        "rc": 0,
+        "note": "Honesty table present in docs/state/outputs/t130_definer_groom.json: entry_sha d45476fa76670eca..., README digest bea72320..., lines 421, hex-literal count 13 all present; fence rc=0.",
+        "key_stdout": [
+          "t130 ac6 GREEN: the groom JSON carries the measured digests table"
+        ]
+      }
+    },
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "fence_rc_provenance": "ALL SIX fences were re-run VERBATIM AT THE FINAL BRANCH TIP (card text committed at base fa2931a; fences extracted from the committed card into scratch/t130b/fences, gitignored, and executed with bash with cwd = repository root of worktree pi-worktree-853a1617-...-s0-0 on branch issue/t130-leg259-premise-rewrite): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (logs scratch/t130b/log_ac{1..6}*tip*.txt / log_ac5.txt / log_ac6.txt). ac1-ac4 were additionally measured pre-commit on byte-identical card/amendment/groom/index files - the pre-commit and at-tip runs agree. The WSL git-guard class (t131 carrier class 2) could not bite ac1-ac4/ac6 (neither the live 7050B leg nor the amended 7319B command invokes git - grep of both bodies confirms); for ac5 the guard's VERBATIM failure was captured (see ac5 note) and the authoritative run used GIT_DIR/GIT_WORK_TREE exported to this worktree's metadata (runtime environment only; the fence TEXTS were run byte-verbatim, never substituted).",
+    "index_bytes_written": 0,
+    "index_unchanged_proof": "docs/state/merge_test_index.json is byte-identical to base fa2931a (never staged, never committed on this branch; sha256 73056f42a8232deba8e52f1e329167f54fbb51134e75a5c42d369ca3040a7377, 319 entries, tests[259] entry_sha still d45476fa... - the amendment's entry_sha_before still equals LIVE at this build, so the orchestrator's merge-window apply remains valid). The builder wrote ZERO bytes into the index; the amendment stays 'proposed'/'applied_by: orchestrator'/card_writes_index_bytes: false.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac1' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root>",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac2' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root>",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac3' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root (the fence builds its own /tmp/t130_ac3_tree copy)>",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac4' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root (the fence builds its own /tmp/t130_ac4_tree copy)>",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac5' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root with GIT_DIR/GIT_WORK_TREE exported to this worktree (environment only, text verbatim)>",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "2873d03964c346fad3c6832cd2b98c20d7a180c2",
+        "test": "bash <the fenced bash block under '### ac6' of docs/issues/t130.md, extracted byte-identically from the committed card; run VERBATIM from the repository root>",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "test_summary_note": "The six 'tests' are the card's six fenced verification commands themselves - this card's ACs ARE executable fences and the builder's product is zero-bytes-in + the measured build handoff; per the builder implement mode the card fences are the authoritative tests and were NOT substituted. No new test files were written: the delta allow-list (ac5) permits only docs/issues/t130.md and docs/state/outputs/t130_*.json, so no test surface exists for this card. No app code exists to lint; the amendment JSON is validated by the fences' own parse legs.",
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_purity": "Branch delta vs base fa2931a (= merge-base main HEAD): exactly one committed file, docs/state/outputs/t130_builder_build.json (this handoff). docs/state/merge_test_index.json, README.md, backend/, docs/criteria/, docs/issues/ and the amendment/groom artifacts are byte-identical to base. scratch/t130b (fence extraction + logs) is gitignored (line 204 of .gitignore) and never committed. The index-bytes count written by this branch is ZERO (WAL 1274 protocol - the orchestrator applies the amendment in the merge window).",
+    "measure_at_tip_note": "Per the ac5 design (its allow-list explicitly contains docs/state/outputs/t130_builder_build.json, unlike the t99 purity clause), all six fences were run AT THE FINAL BRANCH TIP with the handoff committed, and the card's Definition of Done ('ac1 GREEN BY DESIGN and ac2 GREEN on the same branch tip') is satisfied at that same tip. ac5 was run after the handoff commit precisely because it audits the committed delta.",
+    "validator_note": "Validator run: 'npx tsx scripts/validate_handoff.ts docs/state/outputs/t130_builder_build.json builder implement' -> [OK] is valid for builder:implement. The dispatch said 'builder build', but the registry (extensions/schema_validator.ts HANDOFF_SCHEMA_MAP) has NO builder:build entry and schemas/builder/build.json does not exist; schemas/builder/implement.json is the contract with evidence_type 'build' - standing fix per the t120/t121 precedent ('per the standing t90..t119 fix'). Environment disclosures for the validator: (1) the shared /mnt/c node_modules @esbuild/linux-x64 binary is CORRUPT under WSL (96-byte data file, 'Syntax error: EOF in backquote substitution'); the call succeeded with ESBUILD_BINARY_PATH pointed at the intact @esbuild/win32-x64/esbuild.exe via WSL interop (environment only, no repo change). (2) The first draft carried extra TOP-LEVEL keys (card/ac_hash/base/measured, t128 exemplar style); the base handoff schema is additionalProperties:false at top level and REJECTED them (t128's own file fails validation the same way - pre-existing exemplar defect, disclosed); the validated v2 moved all extras inside evidence{} where additionalProperties is true.",
+    "notes": "t130 heals the structurally unsatisfiable premise of sweep leg 259 (t72 ac7): the leg pinned index bytes that the W2 amendment protocol is designed to change (the t129 window's 221/226 amendment made the pin unsatisfiable by construction). The shipped PROPOSAL (docs/state/outputs/t130_definer_gate_amendment.json, authored at groom, zero index bytes by this card) swaps the bytes-equality clause for an index-structure + pin-custody-semantics premise (parse + 319 entries + digest recorded informational), keeps every README-digest/lines/report/hex-count check byte-identical, demotes the two frozen-index collateral clauses (P5==0 collision check, stale 'want 0' prose) to informational audit echoes, and preserves discrimination: measured rc=1 on truncated-JSON (0 entries) and on a 318-entry copy, both naming the entry-count guard. entry_sha_before d45476fa... == LIVE tests[259] entry sha at this build; entry_sha_after 16a708bf... re-derives from the stored 7319B new_command (sha 71a5a448...). Ready for the orchestrator merge-window apply.",
+    "residual_risks": [
+      "The amended leg records the index digest informationally; if a future card changes the ENTRY COUNT (append/deletion outside a documented amendment) the leg fires rc=1 by design - that is the intended discriminator, but it means every legitimate future append must go through the orchestrator amendment window (same custody discipline the old pin required, now via the count guard).",
+      "ac2's internal evidence line shows the amended leg's own pin-digest audit echo counting 1 occurrence (its own appended body) - demoted to informational by the groom's rebuild recipe; a future README-content card must still legitimately move the digest and re-pin, exactly as the card states.",
+      "The 319-entry constant in the amended premise is a new count pin: the next index append must update it in the same merge window (the amend record's rebuild recipe is the mechanism); disclosed, not a blocker - it is the orchestrator's custody point, which is the card's stated decision."
+    ],
+    "deviations_disclosed": [
+      "branch_sha/ac_mapping.commit self-reference: a commit cannot contain its own hash and force-push is blacklisted, so the branch carries handoff v1 at 2873d03 (placeholders) and handoff v2 (this validated file) at the tip. The measured fences ran at the tip; the only content delta across branch commits is this handoff JSON (no fence reads it except ac5's allow-list, which names this path).",
+      "Validator phase argument 'implement' instead of the dispatch's 'build' - the registry has no builder:build mapping (t120/t121 standing fix); evidence_type remains 'build' and the filename is t130_builder_build.json per the exemplars. The validator was executed more than once in total (first attempts died on the corrupt WSL esbuild binary before any schema verdict, and one intermediate run returned the top-level-additionalProperties FAIL that v2 fixed); the single AUTHORITATIVE plain call returned [OK].",
+      "Validator environment: ESBUILD_BINARY_PATH exported to the win32 esbuild.exe because the shared linux-x64 esbuild binary in the /mnt/c node_modules is a 96-byte corrupt stub (new environment defect observation, worth a carrier note: any WSL tsx run against this node_modules hits it).",
+      "Validator phase argument 'implement' instead of the dispatch's 'build' - the registry has no builder:build mapping (t120/t121 standing fix); evidence_type remains 'build' and the filename is t130_builder_build.json per the exemplars.",
+      "ac5 executed with GIT_DIR/GIT_WORK_TREE exported (WSL cannot resolve the worktree .git Windows-path pointer via discovery). Fence text unmodified; ac1-ac4/ac6 need no git at all.",
+      "The WSL bare-git guard class (t131 class 2) never triggered: neither the live 7050B leg nor the amended 7319B command invokes git; no rc=128 occurred at any fence."
+    ],
+    "card": "docs/issues/t130.md",
+    "ac_hash": "sha256:2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159",
+    "ac_hash_recompute": "Re-measured at build: the six fenced bash blocks of docs/issues/t130.md, CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')) = 2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159, EXACT match to the card's frozen ac_hash. Fences were extracted byte-identically (scratch/t130b/extract.py -> scratch/t130b/fences/ac1..6.sh, gitignored scratch) and executed VERBATIM; no fence text was substituted.",
+    "base": "fa2931a3a02531fe0ac6511e3605ea7998f184f0",
+    "branch_top_level_copy": "issue/t130-leg259-premise-rewrite",
+    "measured": {
+      "live_index_sha256_at_build": "73056f42a8232deba8e52f1e329167f54fbb51134e75a5c42d369ca3040a7377",
+      "live_index_entries": 319,
+      "live_tests259_entry_sha": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
+      "live_tests259_cmd_len": 7050,
+      "live_tests259_cmd_sha": "f73949b1c511461ebc1b2889209360681ee83933e6d25d48940da095e0413cda",
+      "amendment_new_command_len": 7319,
+      "amendment_new_command_sha256": "71a5a448981d0040c811c0f1dfff18d098db22da73cfeed9b859ab2513cd2620",
+      "amendment_entry_sha_before": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
+      "amendment_entry_sha_after": "16a708bfff1ebe91728e0a78efd852db410b266620cdb1dfb6bec4199bd90e0d",
+      "entry_sha_before_eq_live": true,
+      "amendment_self_consistency": "ac2's own assertions passed: sha256(new_command)==new_command_sha256 and len(new_command)==new_command_len (7319)."
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t130_builder_build.json"
+    ],
+    "platform_issue": 134,
+    "output_path": "docs/state/outputs/t130_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T05:40:00Z",
+  "retry_count": 0
+}
