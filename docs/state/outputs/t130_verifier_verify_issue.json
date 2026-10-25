@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t130",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac1 fenced block (VERBATIM, verifier-extracted from git show HEAD:docs/issues/t130.md)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac1.log",
+        "note": "GREEN-BY-DESIGN, adjudicated per card text with full disclosure. Verbatim-at-HEAD run rc=1 with the fence's own RED line 'the current command PASSES': post-window precondition artifact - the W2 window at c4cb08a already applied the amendment, so live tests[259] IS the amended command (verified byte-identical to the amendment new_command, entry sha 16a708bf == recorded entry_sha_after) and runs rc=0; the defect ac1 documents was real and is now healed by design. Adjudication evidence: (a) direct extraction+run of tests[259] from the pre-window blob git show fa2931a:docs/state/merge_test_index.json -> rc=1 with tail 'ac7 RED: the merge-test index bytes changed - pin custody moves ONLY by orchestrator append at merge, never by a card edit' and every README-side check PASSING (digest bea72320 lines 421 report row PASS hex-literals 13) - the sole firing check is the index-bytes equality, exactly the card's premise; (b) FAITHFUL full-fence replication with cwd at a /tmp tree holding the fa2931a index -> fence rc=0 printing 't130 ac1 GREEN BY DESIGN'; (c) entry sha at fa2931a recomputed d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb == amendment entry_sha_before; (d) ORCHESTRATOR-LOCKED (cited, not re-run): amended leg 259 VERBATIM on fresh clone of merged main rc=0."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac2 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac2.log",
+        "note": "Amendment record self-consistency assertions hold (new_command_sha256 71a5a448 recomputes, len 7319); amended command rc=0 against the live index; GREEN line states the STRUCTURE premise (319 entries, digest recorded informational), README digest/lines/report/hex-count checks all still enforced and passing."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac3 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac3.log",
+        "note": "Truncated (/2) /tmp copy of the index: amended command rc=1 (corruption guard fires via entry-count fallback) - fence GREEN."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac4 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac4.log",
+        "note": "318-entry /tmp copy: amended command rc=1 and output names the entry-count guard ('not the 319 of the amended premise') - fence GREEN; live index confirmed at 319 entries by the fence's own assert."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac5 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac5.log",
+        "note": "Fence rc=0 at HEAD (HEAD==merge-base(main,HEAD)==c4cb08a post-merge, delta empty - disclosed triviality). Substantive purity verified independently: builder delta fa2931a..8960bdf = docs/state/outputs/t130_builder_build.json ONLY (inside the fence allow-list, zero index bytes); the only index-bytes change fa2931a..c4cb08a is the orchestrator's own W2 window commit c4cb08a (WAL 1274 protocol, out-of-scope for the card by the card's own text); amendment JSON asserts status=proposed, applied_by=orchestrator, card_writes_index_bytes=false, index=259 (fence assertion passed)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t130.md#ac6 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t130_verifier_ac6.log",
+        "note": "Groom JSON carries the measured digests table: entry_sha d45476fa..., README bea72320..., lines 421, hex literals 13 - all four values present; honesty cross-check: my own measurements reproduce all four (pre-window entry sha recomputed d45476fa, live README checks bea72320/421/13 in the ac2/ac1 outputs)."
+      }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "failure_type": null,
+    "lint_report": null,
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_pass": true,
+      "ac2_pass": true,
+      "ac3_pass": true,
+      "ac4_pass": true,
+      "ac5_pass": true,
+      "ac6_pass": true,
+      "entry_sha_before_equals_live_at_merge_base": true,
+      "new_command_sha_recomputes": true,
+      "ac_hash_re_derived_exact": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_three_way_match": {
+      "recomputed": "sha256:2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159",
+      "card": "MATCH (re-derived by verifier from git show HEAD:docs/issues/t130.md at c4cb08a; 6 fenced blocks, CR-stripped+trimmed, sha256 over json.dumps(blocks,separators=(',',':')))",
+      "builder": "MATCH (builder handoff evidence.ac_hash identical)"
+    },
+    "delta_purity": "builder delta fa2931a..8960bdf = t130_builder_build.json only; index bytes touched ONLY by orchestrator window commit c4cb08a; card+groom artifacts reached main via fa2931a before the builder delta",
+    "window_state": "verified at c4cb08a: live tests[259] == amendment new_command byte-identical, entry sha 16a708bf == entry_sha_after, pre-window blob entry sha d45476fa == entry_sha_before, index 319 entries, amended leg rc=0 live (orchestrator-locked fresh-clone rc=0 cited)"
+  },
+  "artifacts": {
+    "files_written": ["docs/state/outputs/t130_verifier_verify_issue.json"],
+    "platform_issue": 134,
+    "output_path": "docs/state/outputs/t130_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T05:45:18Z",
+  "retry_count": 0
+}
