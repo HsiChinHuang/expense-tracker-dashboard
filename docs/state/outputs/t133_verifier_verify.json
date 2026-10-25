@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t133",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t133.md#ac1 fenced bash block (frozen 3-line block at 56-58, neighbours byte-identical, denial gone, six carried token counts, NO seeded demo account + register, 421 CRLF lines, digest 9551149a)",
+        "exit_code": 0,
+        "output_path": "scratch/verify_t133/ac1_basepin.sh",
+        "note": "Ran with BASE pinned to the builder's declared base 13cf32a (groom commit): rc=0, all 9 evidence lines GREEN (lines=421, digest=9551149a05caf92f552964432f9564a1c1ebe47c2e72a792bdbd235f67326ef4, frozen block byte-exact, lines 52-55 identical to base blob, denial gone, six token counts unchanged, CRLF=421). The verbatim block at main tip ALSO rc=0, but post-merge the card's own BASE resolution (merge-base HEAD origin/main) resolves to HEAD itself, making its two base-comparison legs self-comparing; the faithful-base run is the full-strength measurement."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t133.md#ac2 fenced bash block (five negative controls)",
+        "exit_code": 0,
+        "output_path": "scratch/verify_t133/ac2_basepin.sh",
+        "note": "With BASE=13cf32a all five negative controls fire, rc=0: NC1 base blob carries 'never available'; NC2 synthetic ad fires the hosted-claim grep and the frozen text is silent; NC3 +1 line measures 422; NC4 token rewrite base=2 now=0; NC5 base lines 56-58 refused. DISCLOSED: the verbatim block at main tip exits 1 (NC1 'base blob does not carry the denial') because post-merge merge-base HEAD origin/main == HEAD, so the block reads the NEW blob as 'base' - a post-merge BASE-resolution artifact of a block designed for the pre-merge branch context, not a product defect; the builder ran it on the branch pre-merge where it is non-vacuous."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t133.md#ac3 fenced bash block (constants == measured, pre-change pin gone, regenerated report attests the pair and ends ALL_CHECKS_PASS, four carried reports byte-identical)",
+        "exit_code": 0,
+        "output_path": "scratch/verify_t133/ac3_verbatim.sh",
+        "note": "Verbatim block rc=0 at main tip: README_DIGEST=9551149a.../README_LINES=421 == measured pair, zero bea72320 in the generator (grep count 0), report row 'README_MEASURE PASS lines=421 digest=9551149a...', report ends ALL_CHECKS_PASS, four carried reports (agent_pack 0123737e / dashboard 6fd4e18d / infra 04098540 / security_ops 517faffb) byte-identical, negative control refuses the pre-change digest. FULL REGENERATION ALSO VERIFIER-MEASURED: frontend npm ci (526 pkgs, rc=0) satisfied the documented tests[134] precondition, the builder's /tmp/t133_venv survived, /tmp/t133_venv/bin/python backend/scripts/docs_verification.py exited GREEN rc=0, and the regenerated report is cr-stripped-IDENTICAL to the committed report (246f5d9b5f0d7ef2981ce7f45df1cb6338c0175927e9b298f95ab5dc2066eef3 == the leg-227 new pin); the raw diff is LF-vs-CRLF checkout normalization only (generator writes LF, committed report is CRLF in the worktree). Working tree restored byte-clean (git status empty)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t133.md#ac4 fenced bash block (full 319-leg index rescan: zero legs mention the sentence, exactly leg 227 pins a README digest, legs 231/256/257/258 independent, synthetic negative control)",
+        "exit_code": 0,
+        "output_path": "scratch/verify_t133/ac4_verbatim.sh",
+        "note": "Verbatim rc=0 at main tip: index entries=319, sentence/neighbour scan hits=[], README digests {now=9551149a, pre=bea72320} pinned by exactly [227], legs 231/256/257/258 clean, negative control flags 1/1 synthetic leg. The block is absolute (no BASE dependency) so the post-window index is scanned as-is: leg 227 now carries BOTH new digests and zero old ones (forward proof independently checked by the verifier)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t133.md#ac5 fenced bash block (delta purity: README + two generator constants + regenerated report + t133 outputs; index and product code byte-untouched; generator diff touches only the two constants)",
+        "exit_code": 0,
+        "output_path": "scratch/verify_t133/ac5_tip.sh",
+        "note": "Builder-delta run (BASE=13cf32a, TIP=c020584 branch tip) rc=0: delta == README.md + backend/scripts/docs_verification.py + docs/criteria/docs_verification.md + docs/state/outputs/t133_builder_build.json; index/seed_demo.py/package.json/backend/app byte-untouched; generator diff touches ONLY README_DIGEST/README_LINES; purity negative control fires. DISCLOSED: the verbatim block at main tip exits 1 because 13cf32a..HEAD additionally moves docs/state/merge_test_index.json and docs/log/orchestrator_wal.jsonl - that is the orchestrator W2 merge window (leg-227 re-pin commit b499ff0 + WAL line), explicitly orchestrator-only per the card's merge-window obligations, NOT builder work; the window delta was independently bounded: the index diff is exactly ONE leg line (t59/ac4 = leg 227), old digests bea72320/f018af69 gone, new digests 9551149a/246f5d9b present; product paths and docs/issues/t133.md untouched 13cf32a..HEAD."
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac1/ac2/ac5 blocks resolve BASE via merge-base HEAD origin/main with an HEAD~1 fallback; post-merge at main tip this resolves to HEAD itself, making ac1's base-comparison legs self-comparing and ac2 NC1 / ac5 purity exit 1. The verifier re-ran them with BASE pinned to the builder's declared base 13cf32a (full strength, all GREEN) and disclosed both raw outcomes. Not a product defect; a card-block design artifact for pre-merge branch contexts."
+    ],
+    "dod_verified": {
+      "readme_421_crlf_zero_never_available_frozen_block_token_counts_ac1_green_merged_tree": true,
+      "generator_constants_match_measured_pre_change_pin_gone_report_regenerated_all_checks_pass_carried_reports_untouched_ac3_green": true,
+      "full_index_rescan_reproduces_priced_pin_set_ac4_green": true,
+      "builder_commit_moves_only_the_three_product_paths_card_and_t133_outputs_ac5_green": true,
+      "five_fenced_blocks_recompute_ac_hash_from_committed_card_blob": true,
+      "orchestrator_merge_entry_records_leg227_repin_with_digests_and_entry_sha_chain_leg227_replays_green": true,
+      "no_hosted_demo_login_announced_anywhere": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "ac_hash RE-DERIVED from git show HEAD:docs/issues/t133.md (committed card blob at main tip b499ff0): 5 fenced bash blocks, CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')) == sha256:9dbddb81e5da207c08683ec6287d9ea6c88dbda9853fdf6dc14d0132cf2040b3 - MATCHES the card. W2 window (orchestrator-locked, cited not re-run per instruction): fresh-clone (core.autocrlf=false) leg 227 rc=0 (6s) and leg 259 rc=0 (0s) at post-window main tip; commit b499ff0 message carries entry_sha_before 53dad848.../entry_sha_after 632de7fd... with forward+reverse proofs; the verifier independently confirmed the forward proof (leg 227 command contains both new digests, zero old ones; entry keys are ac/command/issue_id only, so the entry_sha chain itself is not recomputable from the index file without the pricing recipe - cited from the commit message). Lint: ruff check backend/scripts/docs_verification.py 0 errors 0 warnings (non-blocking). Platform comment/label transitions for issue 138 NOT executed by this verifier run (same orchestrator directive the builder recorded: card lives on main, issue already merged; no .env created, backend/.venv never executed from WSL, UV_PROJECT_ENVIRONMENT=/tmp/t133_venv used outside the tree)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t133_verifier_verify.json"
+    ],
+    "platform_issue": 138,
+    "output_path": "docs/state/outputs/t133_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T10:15:17Z",
+  "retry_count": 0
+}
