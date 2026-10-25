@@ -46,7 +46,7 @@ from opentelemetry.propagate import extract
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import ReadableSpan, SpanProcessor, TracerProvider
 from opentelemetry.sdk.trace.export import SpanExporter
-from opentelemetry.trace import SpanKind, Status, StatusCode
+from opentelemetry.trace import SpanKind
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 TRACER_SCOPE: str = "t122.trace.correlation"
@@ -102,7 +102,10 @@ class FileSpanExporter(SpanExporter):
             }
             try:
                 self._sink.write(json.dumps(line) + "\n")
-            except Exception:  # noqa: BLE001 - export must never raise
+            except (OSError, ValueError):
+                # Export must never raise: the only fallible calls here are the
+                # sink write (OSError) and writes to a closed file (ValueError);
+                # json.dumps cannot fail on the all-str/int/None line above.
                 pass
         return None
 
@@ -190,12 +193,7 @@ class TraceContextMiddleware:
             name, context=parent, kind=SpanKind.SERVER, attributes={"http.method": method}
         ) as span:
             span.set_attribute("http.target", str(scope.get("path", "")))
-            try:
-                await self._app(scope, receive, send)
-            except Exception as exc:
-                span.record_exception(exc)
-                span.set_status(Status(StatusCode.ERROR))
-                raise
+            await self._app(scope, receive, send)
 
 
 class TraceCorrelationFilter(logging.Filter):
