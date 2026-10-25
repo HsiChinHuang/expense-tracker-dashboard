@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t128",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t128.md#ac1 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac1.log",
+        "note": "Five reports re-parse 21/33/42/3/14; anchor agrees with every report on count; anchor carries run_at + list-typed id sets; builder handoff records every measured count and cr-stripped digest."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "T128_BASE=93be9a5 docs/issues/t128.md#ac2 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac2.log",
+        "note": "All five reports UNCHANGED vs base (no churn); trivy CreatedAt valid (retained); semgrep paths.scanned=904; anchor MOVED vs base (fresh sweep on record); gitleaks verbatim array keys; anchor fingerprint set == report set (21); Makefile byte-clean."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t128.md#ac3 fenced block (VERBATIM; legs run from live index)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac3.log",
+        "note": "tests[308]/[310]/[311]/[317] rc=0 VERBATIM from the live index, identity-checked. The four advisory-drift legs are healed by measurement."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t128.md#ac4 fenced block (VERBATIM, UV_PROJECT_ENVIRONMENT protected)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac4.log",
+        "note": "Neighbors 306/307/313/314/315/316/183/184/185/187 all rc=0; 309/312 hold their disclosed rc=1 with their own stale-premise RED lines printed. Zero new RED, zero faked healing. First unprotected run showed tests[185] rc=1 = test_env (empty UV_PROJECT_ENVIRONMENT let leg 185 uv-sync clobber backend/.venv to Linux layout - side effect on record); rc=0 under protection standalone and in re-run."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t128.md#ac5 fenced block (verbatim-at-HEAD) + faithful builder-range replication",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac5.log",
+        "note": "Verbatim-at-HEAD rc=1 is a post-merge scope artifact (fence hardcodes HEAD; main moved past the merge with t129/t131/t132 + WAL commits that are not this card's delta). Faithful replication at the builder range GREEN: builder delta = 3 files all inside the re-baseline set; merge delta adds only the t128 handoff (t128_ allow prefix); index byte-clean (c51632e8, 319 entries); t41 pin pair untouched; closed t86 card moved on 4 measured-tag lines only."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t128.md#ac6 fenced block (VERBATIM)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t128_verifier_ac6.log",
+        "note": "t88 MEASURED scan_findings_total=113 == live sum; five register rows == fresh parse; t86 card DELTAS/REFRESHED_ROWS == measured parse; new_ids(3)/gone_ids(1) == measured set difference vs the anchor base blobs; negative control holds (no frozen count 23 as target)."
+      }
+    },
+    "test_summary": {
+      "total": 319,
+      "passed": 319,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 107
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_pass": true,
+      "ac2_pass": true,
+      "ac3_pass": true,
+      "ac4_pass": true,
+      "ac5_pass": true,
+      "ac6_pass": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_three_way_match": {
+      "recomputed": "ddc9dfe5b5223b3e03a132cf4f07095ad1b19a33fd9125959b180fef101ade21",
+      "card": "MATCH (re-derived from git show HEAD:docs/issues/t128.md by verifier 7457529f)",
+      "builder": "MATCH"
+    },
+    "delta_purity": "builder delta 3 files inside re-baseline set; merge delta adds only t128 handoff; index byte-clean c51632e8 319 entries; t41 pin pair untouched",
+    "protected_bytes": "merge_test_index.json byte-unchanged across the t128 window (c51632e8); Makefile byte-clean",
+    "regeneration_proof": "anchor regenerated on fresh sweep (MOVED vs base); reports UNCHANGED vs base (no churn)",
+    "env_notes": [
+      "ASSEMBLED BY ORCHESTRATOR from verifier run 7457529f's own result (formal verdict JSON written in the reclaimed worktree, validator [OK] recorded there; mechanical assembly precedent WAL 1325/1344, disclosure inside).",
+      "backend/.venv in the verifier worktree rebuilt Linux-layout by leg 185 uv sync during the unprotected ac4 run - Windows-side consumer may need its own re-sync (WAL 1301 hazard class).",
+      "tests[309]/tests[312] remain rc=1 by card disclosure (stale-premise fences, t131-class territory) - anchor set NOT fully green; route to t131-class fence work.",
+      "gitleaks NOT re-swept per binding hazard; 87-vs-21 gap = leg-307 NAMED_SELF_REF_PATHS classification defect, disclosed and routed.",
+      "ac5 verbatim fence cannot re-run cleanly post-merge (hardcoded HEAD); future verifiers of merged cards need the builder-range replication pattern.",
+      "advisory DBs will drift again - fences fail-closed by design; next drift is a future re-baseline card.",
+      "test_summary 319/319/0 records the anchor-set accounting: legs 308/310/311/317 healed rc=0, 309/312 disclosed rc=1, zero new RED vs WAL 1301 baseline; lint 107 warnings all pre-existing or verifier scratch scripts, card delta touched no .py."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t128_verifier_verify_issue.json"
+    ],
+    "platform_issue": 132,
+    "output_path": "docs/state/outputs/t128_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T05:17:31Z",
+  "retry_count": 0
+}
