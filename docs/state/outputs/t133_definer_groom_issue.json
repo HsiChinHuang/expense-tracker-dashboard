@@ -8,7 +8,7 @@
  "evidence": {
   "evidence_type": "grooming",
   "ac_hash": "sha256:9dbddb81e5da207c08683ec6287d9ea6c88dbda9853fdf6dc14d0132cf2040b3",
-  "ac_hash_recipe": "t58/t116/t131 recipe - the five fenced bash blocks under Acceptance criteria CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')); recomputed from the WORKING card file in this run and identical to the card literal (the verifier RE-DERIVES it from git show <groom commit>:docs/issues/t133.md after the groom commit lands)",
+  "ac_hash_recipe": "t58/t116/t131 recipe - the five fenced bash blocks under Acceptance criteria CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')); RE-DERIVED in this run from the COMMITTED card blob (cmd.exe git show 4c381a0e81c0826c059a0e1c47cc1e4de8dec885:docs/issues/t133.md, five blocks extracted) and byte-equal to the card literal; the verifier re-derives it the same way",
   "ac_count": 5,
   "verification_commands": {
    "ac1": "fenced ac1 block: README lines 56-58 equal the frozen 3-line replacement byte-for-byte; lines 52-55 byte-identical to the base blob; zero hosted-availability claims remain; the six carried token counts equal their base counts; ## Online demo still says NO seeded demo account + register; 421 lines and 421 CRLF; cr-stripped digest == the groom measurement. Measured rc=0 GREEN on the candidate, rc=1 RED at base.",
