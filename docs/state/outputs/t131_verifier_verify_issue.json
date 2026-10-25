@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t131",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac1 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac1.log",
+        "note": "GREEN verbatim RC=0: pin=421; splitlines=421; wc -l=421 (CORRECTED); off-by-one split('\\n')=422=pin+1 negative control MEASURED"
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac2 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac2.log",
+        "note": "GREEN verbatim RC=0: corrected cmd.exe guard rc=0 naming the gitdir; bare-git negative control MEASURED rc=128 on this host class"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac3 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac3.log",
+        "note": "GREEN verbatim RC=0: match-resolution names t124_definer_gate_amendment_v2.json as the exactly-1 live-matching record vs live leg 284; superseded v1 measured NON-MATCHING"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac4 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac4.log",
+        "note": "GREEN verbatim RC=0: 193 ac-less legs contiguous prefix 0..192; 8 INDEX_ANCHORS recompute GREEN; key-injection control armed; zero amendments priced"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac5 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac5.log",
+        "note": "substance GREEN: delta == docs/criteria/fence_defects_verification.md only (orchestrator merge record 6539bc3: 1 file changed 119 insertions; index/generator/README byte-untouched, digest c51632e8 byte-unchanged). DISCLOSED FENCE DEFECT: verbatim fence measured RED 'the builder delta is empty' at the merged tree because its BASE resolution (origin/main / HEAD~1) resolves base==merged tip - the carrier's OWN class-3 base-resolution defect, dual-measured; adjudicated per the carrier's own standard (substance measured, never assumed)"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t131.md#ac6 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t131_verifier_ac6.log",
+        "note": "GREEN verbatim RC=0: 11 pinned FENCE_DEFECT rows; re-measured values agree (pin=421, off-by-one=422, ac-less=193, corrections=0); bare-git rc on record 128; index read-only sha prefix e9e0ea18"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_pass": true,
+      "ac2_pass": true,
+      "ac3_pass": true,
+      "ac4_pass": true,
+      "ac5_pass": true,
+      "ac6_pass": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_three_way_match": {
+      "recomputed": "d44883772732eeab844f84ac6830b99024424c8dfc9c65be49afeb8b95e8b53f",
+      "card": "MATCH (re-derived from groom commit 9d13fe7 blob by verifier deedad1c and bdc76a94)",
+      "builder": "MATCH"
+    },
+    "env_notes": [
+      "ASSEMBLED BY ORCHESTRATOR from verifier run bdc76a94's own measured log (formal verdict JSON was written in the worktree but lost with reclamation before push; validator env crash class - esbuild EOF under WSL).",
+      "The ac5 adjudication applies THIS CARD'S OWN carrier standard: base-resolution defects are fence defects when the substance is independently measured; the orchestrator merge record is the independent measurement."
+    ],
+    "delta_purity": "merge 6539bc3 delta = docs/criteria/fence_defects_verification.md only (119 lines); index byte-unchanged before==after (c51632e8)",
+    "fence_defects_disclosed": [
+      "ac5 base-resolution 'delta empty' artifact at merged tree (carrier class 3) - re-groom suggestion: resolve BASE as merge-base(main, branch-tip) captured BEFORE the merge"
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t131_verifier_verify_issue.json"
+    ],
+    "platform_issue": 135,
+    "output_path": "docs/state/outputs/t131_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T05:02:47Z",
+  "retry_count": 0
+}

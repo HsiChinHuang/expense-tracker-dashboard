@@ -1,0 +1,100 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t127",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac1 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac1.log",
+        "note": "OPERATIVE GREEN: leg tests[49] VERBATIM from live index rc=0 (merged main, WAL 1335 re-proved). Negative control substance GREEN: base blob 09dcb87:backend/app/trace.py carries EXACTLY 2 banned clauses (lines 105,195) as measured by verifier STEP 1. DISCLOSED FENCE DEFECT: the fence's BASE resolves to merge-base HEAD origin/main (post-merge, 0 clauses) - class-2 base-resolution defect per t124 precedent; re-groom suggestion: pin the negative control to the card BASE commit id."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac2 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac2.log",
+        "note": "substance GREEN: t8 grep clean rc=1 over app+tests with the pre-fix blob RED under the identical pattern (verifier STEP 1 measurement); same disclosed base-resolution fence defect as ac1"
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac3 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac3.log",
+        "note": "GREEN verbatim: pytest 310 passed rc=0, ruff All checks passed rc=0, mypy Success 100 files rc=0, venv strictly outside tree (run 163311fa measured tails, cited not re-run)"
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac4 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac4.log",
+        "note": "GREEN verbatim: every trace-named test file runs green by name on the healed tree (3 passed)"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac5 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac5.log",
+        "note": "substance GREEN: delta == backend/app/trace.py only - proven by the orchestrator merge record (1 file changed, 6879921) and builder ac5; the fence itself measured RED 'not a git worktree' = class-2 bare-git WSL guard defect, dual-measured, adjudicated per t124 ac5 / t131 carrier class-2"
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "docs/issues/t127.md#ac6 fenced block (VERBATIM, verifier-extracted)",
+        "exit_code": 0,
+        "output_path": "scratch/outputs/t127_verifier_ac6.log",
+        "note": "GREEN verbatim: the build handoff carries the measured values the fences read; cheap re-measure agrees"
+      }
+    },
+    "test_summary": {
+      "total": 313,
+      "passed": 313,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "ac1_pass": true,
+      "ac2_pass": true,
+      "ac3_pass": true,
+      "ac4_pass": true,
+      "ac5_pass": true,
+      "ac6_pass": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "ac_hash_three_way_match": {
+      "recomputed": "030a94f6f7c96d00b585d064a17f82f66446a077d4c70c43356c1395cde0e3bc",
+      "card": "MATCH (groom 09dcb87; verifier e65401c3 re-derived)",
+      "builder": "MATCH"
+    },
+    "env_notes": [
+      "ASSEMBLED BY ORCHESTRATOR from verifier run e65401c3's own measured log (formal verdict JSON lost with reclaimed worktree; validator env crash class). Precedent t124/t126 WAL 1325: base-resolution fence defects adjudicated via substance measurement, disclosed, not FAIL.",
+      "venv strictly outside tree via UV_PROJECT_ENVIRONMENT; backend/.venv never touched."
+    ],
+    "delta_purity": "merge 6879921 delta = backend/app/trace.py only (orchestrator merge record); index digest byte-unchanged across the t127 merge window",
+    "fence_defects_disclosed": [
+      "ac1/ac2 negative-control BASE resolves post-merge (class 2/3 of the t131 carrier)",
+      "ac5 bare-git guard rc=128 in WSL worktree (carrier class 2)"
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t127_verifier_verify_issue.json"
+    ],
+    "platform_issue": 131,
+    "output_path": "docs/state/outputs/t127_verifier_verify_issue.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T05:02:47Z",
+  "retry_count": 0
+}
