@@ -1,0 +1,63 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t130",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "ac_hash": "sha256:2ee6942d3188ce4762f4439ebfc92e70b4e8c40e874c83b3dc04cfc30f4cd159",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "python3 extracts LIVE docs/state/merge_test_index.json tests[259] command to /tmp/t130_ac1_cmd.sh (read-only); bash it, assert rc!=0 AND stdout names 'the merge-test index bytes changed' - GREEN-BY-DESIGN negative control documenting the unsatisfiable-premise defect. Fenced bash: docs/issues/t130.md#acceptance-criteria ac1. MEASURED rc=0 (defect confirmed: leg rc=1 on the index-bytes clause).",
+   "ac2": "python3 extracts new_command from docs/state/outputs/t130_definer_gate_amendment.json asserting new_command_sha256 71a5a448981d0040c811c0f1dfff18d098db22da73cfeed9b859ab2513cd2620 and new_command_len 7319 recompute; bash the amended command against the LIVE index, assert rc=0. Fenced bash: docs/issues/t130.md ac2. MEASURED rc=0.",
+   "ac3": "build /tmp/t130_ac3_tree (README.md, backend/scripts/docs_verification.py, docs/criteria/docs_verification.md, and a copy of the index TRUNCATED to half its bytes); run the amended command there, assert rc!=0 - corruption guard preserved. Fenced bash: docs/issues/t130.md ac3. MEASURED rc!=0 (entry-count guard fires on the parse-fallback 0).",
+   "ac4": "build /tmp/t130_ac4_tree with the index minus one entry (tests.pop(0) over the live 319 entries -> 318); run the amended command there, assert rc!=0 AND the output names 'not the 319 of the amended premise'. Fenced bash: docs/issues/t130.md ac4. MEASURED rc!=0 naming the 319 guard. (Bonus discrimination measured off-fence: a README-appended copy also fires rc!=0 on the retained measured-digest==README_DIGEST check.)",
+   "ac5": "git diff --name-only $(git merge-base main HEAD)..HEAD must contain NO docs/state/merge_test_index.json and nothing outside docs/issues/t130.md and docs/state/outputs/t130_{definer_gate_amendment,definer_groom,builder_build}.json; the amendment JSON must carry status=proposed, applied_by=orchestrator, card_writes_index_bytes=false, amendments[0].index=259. Fenced bash: docs/issues/t130.md ac5 (WAL 1274: zero index bytes).",
+   "ac6": "python3 asserts docs/state/outputs/t130_definer_groom.json carries the measured digests table: live entry_sha d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb, README digest bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6, README lines 421, 64-hex literal count 13. Fenced bash: docs/issues/t130.md ac6."
+  },
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "measured_digests_table": {
+   "live_entry_sha_before": "d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb",
+   "entry_sha_after": "16a708bfff1ebe91728e0a78efd852db410b266620cdb1dfb6bec4199bd90e0d",
+   "old_command_sha256": "f73949b1c511461ebc1b2889209360681ee83933e6d25d48940da095e0413cda",
+   "old_command_len": 7050,
+   "new_command_sha256": "71a5a448981d0040c811c0f1dfff18d098db22da73cfeed9b859ab2513cd2620",
+   "new_command_len": 7319,
+   "README_digest": "bea7232033b3423488a921491ebe35f6587e7b729967525bb87ae467bf3be8a6",
+   "README_lines": 421,
+   "hex_literal_count_in_docs_verification_py": 13,
+   "live_index_sha256_at_groom": "73056f42a8232deba8e52f1e329167f54fbb51134e75a5c42d369ca3040a7377",
+   "index_entry_count": 319
+  },
+  "ac_hash_provenance": "sha256 over json.dumps(blocks, separators=(',',':')) of the six fenced bash blocks under '## Acceptance criteria', each CR-stripped and trimmed; computed from the working tree, then RE-DERIVED from the committed blob (git show HEAD:docs/issues/t130.md at groom commit 0fd9a46) with an identical digest 2ee6942d... (the t58/t116/t129 recipe).",
+  "locked_facts_reverified": "the orchestrator-locked facts were re-verified read-only at this groom on main 959d3e0: live tests[259] is issue t72 / ac7, command len 7050, entry sha == d45476fa76670eca99cf4f23f34f1c35fefa1cb41315ab9b0dfd34fd7ec237bb (entry_sha256 recipe: sha256 over json.dumps(entry, separators=(',',':'))). The live command was executed and measured rc=1 with the ONLY firing clause 'the merge-test index bytes changed' - the README-side checks (digest bea72320..., lines 421, report row, 13 hex literals) all pass, exactly as the dispatch stated.",
+  "measurement_scope": "MEASUREMENT-AUTHORIZED dispatch: the current leg was run (rc=1, ac1 negative control), the amended command was run against the live index (rc=0), a truncated /tmp copy (rc!=0), a 318-entry /tmp copy (rc!=0), and a README-appended /tmp copy (rc!=0, retained README-digest guard). All index mutations happened exclusively in /tmp copies; the live index was never written (ac5 fences the branch diff to zero index bytes).",
+  "amendment_record": "docs/state/outputs/t130_definer_gate_amendment.json - ONE REPLACE_COMMAND amendment at index 259. Four clause replacements: (1) the IDX==a77f98a0 bytes-equality guard + ENT==259 guard -> informational IDX echo + ENT==319 structure guard (the orchestrator-ruled premise swap); (2) the P5==0 pin-collision hard guard -> informational P5 echo (the merged amended leg necessarily carries its own pin literal); (3) stale frozen-index audit prose; (4) GREEN-line prose. Every README digest/lines/report/hex-count/SP==3/INDEX_FLOOR check is byte-identical. entry d45476fa -> 16a708bf; command 7050 -> 7319 bytes.",
+  "disclosures": [
+   "Platform sync for #134 (issue update body mirror + defined->groomed label transition) was NOT performed: this dispatch's work order was write+commit+push only and named no platform step. The orchestrator's Gate 1 must either accept the file-as-authoritative mirror or run the sync; recorded here rather than silently omitted.",
+   "docs/state/merge_test_index.json is byte-identical to main at both groom commits; the definer wrote zero index bytes (WAL 1274 - the orchestrator applies the proposal).",
+   "The ac4 fence builds its 318-entry copy by popping tests[0]; the amended leg's own entry (index 259) is untouched in that copy, so the firing is solely the entry-count guard.",
+   "The dispatch's 'FIELD 259' notation is the index-array position tests[259]; identity is fenced by digest + issue/ac + command length, never by notation."
+  ]
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t130.md",
+   "docs/state/outputs/t130_definer_gate_amendment.json",
+   "docs/state/outputs/t130_definer_groom.json"
+  ],
+  "platform_issue": 134,
+  "output_path": "docs/state/outputs/t130_definer_groom.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-25T05:18:14Z",
+ "retry_count": 0
+}
