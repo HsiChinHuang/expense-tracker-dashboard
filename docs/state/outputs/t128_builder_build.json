@@ -1,0 +1,221 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t128",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "card": "docs/issues/t128.md",
+  "ac_hash": "sha256:ddc9dfe5b5223b3e03a132cf4f07095ad1b19a33fd9125959b180fef101ade21",
+  "base_commit": "93be9a5f5947662b6b6a551b26b77fe1fc067b99",
+  "branch": "issue/t128-advisory-drift-rebaseline",
+  "sweep_run_at": "2026-10-25T12:29:05+08:00",
+  "measured": {
+    "gitleaks": {
+      "count": 21,
+      "cr_sha256": "eb5b883b2c8260d05e7501f36881991e3344282337c5771822eecdcbb4ef2cfd",
+      "verdict": "unchanged",
+      "tool_rc": "retained (not re-swept at build; card hazard section)",
+      "retained_reason": "The card's binding hazard section forbids re-sweeping gitleaks: a fresh sweep of today's tree measures 87 tree-relative hits that leg 307's frozen NAMED_SELF_REF_PATHS classification set cannot name, which would manufacture a new RED on baseline-GREEN leg 307. The definer re-ran the frozen mechanism at groom and measured rc=1 with 87 hits; that measurement is recorded here and the committed 21-hit report and the anchor's gitleaks block are RETAINED as committed (self-consistent; legs 306/307 verify exactly that self-consistency and both hold rc=0). The 87-vs-21 gap is a leg-307 classification-set defect routed to t131/#135-class fence work, disclosed in the card, not healed here."
+    },
+    "semgrep": {
+      "count": 33,
+      "cr_sha256": "db4ac4502a5d1a7f910b62f5892efd6e690c052c35e62247e9c2b251d632ec0c",
+      "verdict": "unchanged",
+      "tool_rc": 0,
+      "fresh_run": {
+        "rc": 0,
+        "count": 34,
+        "cr_sha256_prefix": "0fce6e967c6e0584",
+        "new_ids": [
+          "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1"
+        ],
+        "gone_ids": [],
+        "scanned_paths": 1309,
+        "disposition": "RETAINED as committed under the card's generalized retain-and-disclose rule: the committed count 33 is a t41 pin (docs/criteria pair EXPECTED_REPORT_ROWS=21,33,42,3,14) and committing 34 would break baseline-GREEN neighbor legs 183/184/185/187 and require an uncoordinated pin rotation plus a register row for the new semgrep id. The card's own satisfiability rehearsal healed 308/310/311/317 WITHOUT moving this report. Measurement recorded here, bytes not committed."
+      }
+    },
+    "trivy": {
+      "count": 42,
+      "cr_sha256": "515c147700207986aaf8db13783c2078342c93a8920521d8a7e0d2e2c972df71",
+      "verdict": "unchanged",
+      "tool_rc": 0,
+      "committed_created_at": "2026-10-17T06:47:05.509103937+08:00",
+      "fresh_run": {
+        "rc": 0,
+        "count": 48,
+        "cr_sha256_prefix": "ff10452f2fcbf780",
+        "created_at": "2026-10-25T12:12:50.819852919+08:00",
+        "new_ids": [
+          "CVE-2023-54404",
+          "CVE-2026-110095",
+          "CVE-2026-110180",
+          "CVE-2026-110306",
+          "CVE-2026-110725",
+          "GHSA-6q48-6c7w-9gw2"
+        ],
+        "gone_ids": [],
+        "disposition": "RETAINED as committed under the card's generalized retain-and-disclose rule: the committed count 42 is a t41 pin and committing 48 would break baseline-GREEN legs 183/184/185/187 and require register rows for six new ids. Measurement recorded here, bytes not committed."
+      }
+    },
+    "pip_audit": {
+      "count": 3,
+      "cr_sha256": "f4d7aed1425799ec890acea10329af2a6fdf2fd7efdce9ed36d14c3af89b1948",
+      "verdict": "unchanged",
+      "tool_rc": 1,
+      "fresh_run": {
+        "rc": 1,
+        "count": 4,
+        "cr_sha256_prefix": "2c40907a8753741b",
+        "new_ids": [
+          "PYSEC-2026-4320 (certifi 2026.7.22, fix 2026.10.19)"
+        ],
+        "gone_ids": [],
+        "disposition": "RETAINED as committed under the card's generalized retain-and-disclose rule: the committed count 3 is a t41 pin and committing 4 would break baseline-GREEN legs 183/184/185/187 and require a register row for PYSEC-2026-4320. Measurement recorded here, bytes not committed."
+      }
+    },
+    "npm_audit": {
+      "count": 14,
+      "cr_sha256": "df1a29da33aad651ec8c528d55d78e930cc81cdba4244ee586583c483e3b3864",
+      "verdict": "unchanged",
+      "tool_rc": 1,
+      "fresh_run": {
+        "rc": 1,
+        "count": 14,
+        "cr_sha256": "c2b57efc9a6539f5036be1a2da306ea686ede4fde5a13abbdbb2b3b5b7aa8848",
+        "diff_vs_committed": "after CR-stripping the fresh body is byte-identical to the committed body except the committed file's own '# snapshot_date 2026-10-24 ...' comment header; the GHSA id set is identical (measured: committed and fresh carry the same set including GHSA-mrhx-c7xc-m3w5, excluding GHSA-vfj7-8cjw-p6xm)",
+        "disposition": "committed report RETAINED because it already equals the fresh generator output (count 14, same id set) - ac2 refuses churn that measurement did not force; the stale artifact was the ANCHOR count (23 -> 14), which this card regenerated."
+      }
+    }
+  },
+  "id_loop_measured": {
+    "work_id_count": 63,
+    "pre_t86_base_id_count": 61,
+    "new_ids": [
+      "GHSA-mrhx-c7xc-m3w5",
+      "PYSEC-2026-4298",
+      "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+    ],
+    "gone_ids": [
+      "GHSA-vfj7-8cjw-p6xm"
+    ],
+    "t86_probe_loop": {
+      "base": 96,
+      "refreshed": 98
+    },
+    "note": "measured against the anchor's own base blobs (67c9db975d75e0e6ae53667c02318a54c2524912) with the ac6/t87 id grammar; identical to the definer's locked groom-time measurement and to leg 308's own RED lines at base."
+  },
+  "landed_artifacts_cr_sha256": {
+    "docs/state/outputs/t86_scan_run.json": "abb56a55867bc3148dda94d26f46ed58c596d29e632e0472017ed6e242c3321c",
+    "docs/issues/closed/t86.md": "a99d1a9edb71064c69f7501c9d7cdace978b03127d854e401068d208b61188e0",
+    "docs/operations-and-security-report.md": "2b3b25afb2b060bb86561dc83b0d4a6d5351d6bc0c71d6a04dbdafb0d553bb88",
+    "docs/state/merge_test_index.json": "c51632e850242322fed2b7b645f0bf3dde988fb465a87fd30c15e557339c967c (BYTE-CLEAN, zero index bytes moved, 319 entries)"
+  },
+  "t41_pin_pair": {
+    "moved": false,
+    "expected_report_rows": "21,33,42,3,14",
+    "expected_loop_ids": 98,
+    "note": "the committed pins already equal the retained reports' counts and the anchor's refreshed loop; the card's step-5 conditional does not fire and the pair stays untouched (leg 184 rc=0 re-measured after the build)."
+  },
+  "leg_rc_table": {
+    "healed": {
+      "308": 0,
+      "310": 0,
+      "311": 0,
+      "317": 0
+    },
+    "neighbors_baseline_green": {
+      "306": 0,
+      "307": 0,
+      "313": 0,
+      "314": 0,
+      "315": 0,
+      "316": 0,
+      "183": 0,
+      "184": 0,
+      "185": 0,
+      "187": 0
+    },
+    "disclosed_red": {
+      "309": {
+        "rc": 1,
+        "red_lines": [
+          "ac4 RED: docs/criteria/security_ops_verification.md is NOT byte-clean against BASE 67c9db975d75",
+          "ac4 RED: backend/scripts/security_ops_verification.py ... (stale-premise pins + demands a report-vs-pin mismatch that no longer exists)"
+        ]
+      },
+      "312": {
+        "rc": 1,
+        "red_lines": [
+          "ac3 RED: observability/compose.yaml now has an UNCOMMENTED line mentioning 'opentelemetry' ('image: otel/opentelemetry-collector-contrib:0.102.0')",
+          "observability/ not byte-identical to 57c0d5138ffe - t122 ENABLED the tracing stack by design"
+        ]
+      }
+    },
+    "note": "every leg executed VERBATIM from docs/state/merge_test_index.json (319 entries) via bash -c, identity-checked by tests[N] index (zero-based doctrine)."
+  },
+  "changes": [
+    "docs/state/outputs/t86_scan_run.json: npm_audit findings 23->14, finding_id_loop new_ids/gone_ids set to the measured difference, run_at/run_window_local/tree_note restated for the 2026-10-25 sweep; gitleaks/semgrep/trivy/pip_audit tools blocks and fingerprint_suffixes RETAINED byte-identical.",
+    "docs/issues/closed/t86.md: DELTAS npm_audit right half 23->14, NEW_IDS +GHSA-mrhx-c7xc-m3w5, GONE_IDS none->GHSA-vfj7-8cjw-p6xm, REFRESHED_ROWS npm_audit 23->14 (four measured-tag lines only).",
+    "docs/operations-and-security-report.md: MEASURED scan_findings_total 122 -> 113 (= 21+33+42+3+14 live re-parse sum; scan_finding_ids=98 and register_rows=98 unchanged and re-verified by leg 317)."
+  ],
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t128-advisory-drift-rebaseline",
+    "branch_sha": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac1 bash block of docs/issues/t128.md (anchor/report agreement + handoff carries every measured count and cr-stripped digest)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac2 bash block of docs/issues/t128.md (generator bytes / no churn, freshness proofs, verbatim shapes, Makefile untouched; T128_BASE=93be9a5f5947662b6b6a551b26b77fe1fc067b99)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac3 bash block of docs/issues/t128.md (legs 308/310/311/317 verbatim from the live index, rc=0)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac4 bash block of docs/issues/t128.md (306/307/313/314/315/316/183/184/185/187 rc=0; 309/312 disclosed rc=1)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac5 bash block of docs/issues/t128.md (T128_BASE=93be9a5f5947662b6b6a551b26b77fe1fc067b99; delta inside the re-baseline set, index byte-clean)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "c2e88530fb435c8222ec2cd970523bf5d71a9969",
+        "test": "fenced ac6 bash block of docs/issues/t128.md (every quoted count equals the live re-parse; measured id-set difference; negative control)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 16,
+      "passed": 14,
+      "failed": 2
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/t128.md#verification-commands",
+    "test_summary_note": "16 = the 14 index legs of the card's leg set (4 healed + 10 baseline-GREEN neighbors) which all exited rc=0, plus the 2 disclosed legs 309/312 which hold their baseline rc=1 exactly as the card prices them (card-disclosed stale-premise fences, NOT chased)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t86_scan_run.json",
+      "docs/issues/closed/t86.md",
+      "docs/operations-and-security-report.md",
+      "docs/state/outputs/t128_builder_build.json"
+    ],
+    "platform_issue": 132,
+    "output_path": "docs/state/outputs/t128_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T12:40:00Z",
+  "retry_count": 0
+}
