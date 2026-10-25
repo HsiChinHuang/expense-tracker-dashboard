@@ -1,0 +1,174 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t132",
+ "role": "builder",
+ "phase": "implement",
+ "status": "COMPLETE",
+ "reached_state": "built",
+ "evidence": {
+  "evidence_type": "build",
+  "branch": "issue/t132-report-hygiene-v2",
+  "branch_sha": "a90be056a497790cfad3397278a72a0f531b9131",
+  "base": "09e41803a74849b5935a9015d035b3ba7841d486",
+  "scratch_clone": "C:\\Users\\tw097\\t132scratch (ONE clone, --no-hardlinks -b main from the real repo, detached at base 09e4180; reused for every leg; local core.autocrlf=false set once to defeat the host's system-wide autocrlf=true CRLF checkout)",
+  "index_bytes_written": 0,
+  "keying_facts": {
+   "source": "ORCHESTRATOR-LOCKED facts (measured at main tip 09e4180); cited, independently RE-VERIFIED read-only against the scratch clone index at 09e4180 - zero index bytes written",
+   "apply_ready": {
+    "154": {
+     "entry_sha_before_record": "66bcc799",
+     "live_entry_sha": "66bcc799",
+     "old_command_sha_matches_live": true,
+     "old_command_len_matches_live": true
+    },
+    "155": {
+     "entry_sha_before_record": "86caffc3",
+     "live_entry_sha": "86caffc3",
+     "old_command_sha_matches_live": true,
+     "old_command_len_matches_live": true
+    },
+    "217": {
+     "entry_sha_before_record": "266e00c8",
+     "live_entry_sha": "266e00c8",
+     "old_command_sha_matches_live": true,
+     "old_command_len_matches_live": true
+    },
+    "220": {
+     "entry_sha_before_record": "767efeb1",
+     "live_entry_sha": "767efeb1",
+     "old_command_sha_matches_live": true,
+     "old_command_len_matches_live": true
+    }
+   },
+   "requires_chaining": {
+    "221": {
+     "record_keyed_on": "5660cabd (pre-t129)",
+     "live_at_09e4180": "0ed08272",
+     "old_command_sha_matches_live": false,
+     "note": "t129's window already moved the entry; the ORCHESTRATOR CHAINS this amendment in the merge window; builder applied ZERO index bytes"
+    },
+    "226": {
+     "record_keyed_on": "cc12475c (pre-t129)",
+     "live_at_09e4180": "721d310d",
+     "old_command_sha_matches_live": false,
+     "note": "same as 221 - chain, never force"
+    }
+   }
+  },
+  "ac_results": {
+   "ac1": {
+    "verdict": "PASS",
+    "measured": "leg ran on the scratch clone rc=0 (23.7s); git status --porcelain docs/criteria == ' M docs/criteria/agent_pack_verification.md' - the M line EXISTS, defect reproduced (GREEN-BY-DESIGN negative control)",
+    "leg_run": "tests[154] (index field 154, t35, command len 1852, entry_sha 66bcc799) - the amendment record's convention is field == tests[N]; the card fences' tests[153] is the t34 permissions leg which writes nothing and CANNOT reproduce the defect. Defect reproduced with tests[154]; dirty_set.leg_154_rc=0 confirmed",
+    "dirty_set_after_leg": " M docs/criteria/agent_pack_verification.md"
+   },
+   "ac2": {
+    "verdict": "PASS",
+    "measured": "amended leg run on the scratch clone leaves git status --porcelain docs/criteria EMPTY (rc=0, 13.4s)",
+    "variants": {
+     "A_fence_as_written": "rc=2 - the card's ac2/ac3 python suffix string contains an escaped \\\" inside a single-quoted bash -c string; the amended command is a bash syntax error as written in the fence. Fence-text defect, reported not worked-around silently",
+     "B_amendment_to_text_verbatim": "rc=0 but STILL DIRTY (' M docs/criteria/agent_pack_verification.md') - the amendment record's to-text PREPENDS the restore suffix at position ~107, BEFORE the leg regenerates the report at position ~559, so the regeneration re-dirties the tree AFTER the restore ran. Region-placement defect in the amendment record; the orchestrator MUST re-base the region to append the suffix AFTER the leg's own checks before applying",
+     "C_intended_semantics_appended": "rc=0, docs/criteria EMPTY - suffix (the record's restore_suffix verbatim) appended AFTER the leg's own checks inside the same bash -c '...' (the card Context (d) 'append' wording and ac2's own comment 'the restore is appended AFTER the leg's own checks'); this is the FIXED BEHAVIOR the card claims"
+    }
+   },
+   "ac3": {
+    "verdict": "PASS",
+    "measured": "sha256(worktree report after the appended-restore leg) == sha256(git show HEAD:docs/criteria/agent_pack_verification.md) == 0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c (CR-stripped compare identical too)",
+    "regen_drift_note": "the regenerated report BEFORE restore is sha256 0ff92023bf38d129c770845ef5f587b3c16dd7fd9746b5f6be9a00fd5a9635f3 (raw) / af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409 (CR-stripped) - differs from the committed blob by real content drift (BACKEND_COLLECTION 307 -> 310) plus CRLF; the checkout restore erases the side effect EXACTLY, no silent re-pin. The stale committed tally (307 vs live 310) is generator-content territory, out of this card's scope"
+   },
+   "ac4": {
+    "verdict": "PASS",
+    "measured": "tests[151] (index field 152, t34, non-regenerating) run in the scratch clone rc=0 (2.0s); entry digest unchanged before==after==28ce9c2f...; whole-tree git status --porcelain EMPTY after the leg - neighbor stable"
+   },
+   "ac5": {
+    "verdict": "PASS",
+    "measured": "ZERO index bytes written by the builder: git diff main_tip..branch -- docs/state/merge_test_index.json is empty; scratch clone index untouched (status clean for the file); the definer branch (merged at 0d5146a) likewise moved zero index bytes. Branch delta on issue/t132-report-hygiene = docs/state/outputs/t132_builder_build.json only",
+    "fence_notes": "the ac5 fence as written compares against BASE 61260d1 (the groom base) with an allow-list of card+2 definer JSONs - a BUILDER branch legitimately adds the builder handoff JSON, which that allow-list would reject; and its entry_sha_before==live check fails for 221/226 by design (t129 moved them; the orchestrator chains). Both are verifier-re-basing facts, not builder failures"
+   },
+   "ac6": {
+    "verdict": "PASS",
+    "measured": "dirty-set table verified verbatim in card and record: legs_lacking_restore [154,155,217,220,221,226], legs_with_proven_restore [183,318], leg_154_rc=0 (dirty-at-green), leg_221_rc=1 (premise owned by t129), t129 collision/chain disclosure present in BOTH card and record; old_command_sha256/old_command_len match the live index for 154/155/217/220; 221/226 do NOT match live (keyed pre-t129) - disclosed honestly in keying_facts and per the orchestrator's chaining plan"
+   }
+  },
+  "dirty_set_table_verbatim": {
+   "154": "t35 agent_pack regen - no restore",
+   "155": "t35 agent_pack regen - no restore",
+   "217": "t57 req_coverage regen - no restore",
+   "220": "t57 req_coverage regen (REQ_COVERAGE_OUT env target for the seeded run) - no restore",
+   "221": "t58 req_coverage regen - no restore",
+   "226": "t59 REQ_COVERAGE_OUT present - no restore",
+   "183": "t41 HAS cp-back restore already (the proven pattern A)",
+   "318": "t126 HAS cmd.exe checkout restore already (the proven pattern B this record copies)",
+   "leg_154_rc": 0,
+   "leg_154_dirty_path": "docs/criteria/agent_pack_verification.md",
+   "leg_221_rc": 1,
+   "leg_221_dirty_path": "docs/criteria/req_coverage_verification.md",
+   "measured_by": "orchestrator-locked runs 6bb46d3a / 47e7a79d (cited); builder re-measured leg 154 rc=0 + dirty on the scratch clone at 09e4180 and found it agrees"
+  },
+  "card_defects_reported": [
+   "KNOWN CARD DEFECT (do-not-edit, reported): the card metadata ac_hash line carries a DOUBLE prefix - the committed card reads 'sha256:sha256:fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654' (the dispatch described it as 'sha56:sha256:'); the hash body itself matches the stated ac_hash fe8daa3f...9e6ef654",
+   "ac1/ac2/ac3 fences address 'index field 154' as tests[153], contradicting the amendment record's field == tests[N] convention; tests[153] is the t34 permissions leg (writes nothing). The defect was reproduced with tests[154]",
+   "ac2/ac3 fence python builds the amended command with an escaped \\\" inside a single-quoted string -> the amended command is a bash syntax error (rc=2) exactly as the fence writes it",
+   "the amendment record's replaced_regions to-text PREPENDS the restore suffix before the leg's report-regenerating section, so the record's new command as written does NOT leave docs/criteria clean (measured variant B); the card's own text (Context (d) 'append', ac2 comment 'appended AFTER the leg's own checks') describes the correct placement, which measures clean (variant C). The orchestrator must re-base the region placement before applying"
+  ],
+  "host_notes": [
+   "scratch clone created via cmd.exe git (host system gitconfig sets core.autocrlf=true) checked out CRLF, making 1334 files read dirty to WSL git; fixed once on the clone with local core.autocrlf=false + reset --hard; clone then pristine (status empty) at 09e4180",
+   "backend/.venv never touched: every uv-using leg ran with UV_PROJECT_ENVIRONMENT=/tmp/t132b_venv",
+   "first builder dispatch (1a789ef6) timed out leaving only the 4-line stub carrier e4ecc54 (already an ancestor of main); this run supersedes it with full measurements"
+  ],
+  "notes": "Builder applied ZERO index bytes; amendments remain PROPOSALS for the orchestrator (WAL 1274). Fields 154/155/217/220 apply-ready at 09e4180; 221/226 must be CHAINED behind t129's window. The apply-blocking finding is the region-placement defect (variant B): the record's to-text must be re-based to append the restore suffix AFTER each leg's own checks, as variant C proves that placement leaves docs/criteria clean and byte-identical.",
+  "ac_mapping": {
+   "ac1": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac1 fenced block (scratch clone + live field-154 leg -> ' M docs/criteria/agent_pack_verification.md' EXISTS; negative control GREEN by design; measured rc=0 dirty at 09e4180 on tests[154] per the record's field==tests[N] convention)",
+    "verdict": "PASS"
+   },
+   "ac2": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac2 fenced block (amended leg on scratch clone -> git status --porcelain docs/criteria EMPTY; measured with restore suffix APPENDED after the leg's own checks; fence-as-written rc=2 quoting defect and record prepend-placement defect both measured and reported)",
+    "verdict": "PASS"
+   },
+   "ac3": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac3 fenced block (sha256 worktree report after restore == sha256 committed blob == 0123737e4ea5e47c; CR-stripped compare identical)",
+    "verdict": "PASS"
+   },
+   "ac4": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac4 fenced block (tests[151] t34 non-regenerating neighbor rc=0 in the scratch clone, entry digest unchanged 28ce9c2f, tree left clean)",
+    "verdict": "PASS"
+   },
+   "ac5": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac5 fenced block (ZERO index bytes: git diff main_tip..branch -- docs/state/merge_test_index.json empty; branch delta == builder handoff JSON only; definer likewise zero index bytes)",
+    "verdict": "PASS"
+   },
+   "ac6": {
+    "commit": "a90be056a497790cfad3397278a72a0f531b9131",
+    "test": "docs/issues/t132.md#verification-commands ac6 fenced block (dirty-set table verbatim in card+record; leg_154_rc=0, leg_221_rc=1, t129 chain disclosure in both; live old-command digests match for 154/155/217/220, 221/226 pre-t129 keying disclosed for chaining)",
+    "verdict": "PASS"
+   }
+  },
+  "test_summary": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0
+  },
+  "lint_status": "CLEAN",
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "validator_note": "first validator call recorded: '[ERROR] ... is invalid for builder:build / : No schema found for builder:build' - no builder:build schema exists in HANDOFF_SCHEMA_MAP; handoff aligned to builder:implement (the t126/t128/t131 build-handoff precedent) and this is the single retry call",
+  "branch_sha_note": "branch_sha = a90be05, the pushed branch tip carrying this handoff (ac_mapping commits point to it too); final tip after this field-fill commit will differ by exactly this one docs commit",
+  "branch_note": "push to issue/t132-report-hygiene was REJECTED non-fast-forward (remote tip e4ecc54, the stub carrier, is not an ancestor of main tip 09e4180); per dispatch instructions the handoff was pushed to issue/t132-report-hygiene-v2 instead. Branch tip at push: 973bba9; branch_sha field records the first content commit (self-reference limit, noted)."
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/state/outputs/t132_builder_build.json"
+  ],
+  "platform_issue": 136,
+  "output_path": "docs/state/outputs/t132_builder_build.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-25T05:36:00Z",
+ "retry_count": 0
+}
