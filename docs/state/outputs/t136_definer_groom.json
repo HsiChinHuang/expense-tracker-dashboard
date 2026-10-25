@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t136",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:b8c99f9ac29ef164e055e2aaffa9e3bb680bb0939fba7e4012b662323e423914",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "fenced ac1 block in docs/issues/t136.md at commit 27bda90c3d304c525edfac640881ff64d3e6428d: same-tree files= re-derivation, links=67 broken=0 unchanged, stale 300 gone, committed bytes == dirt-free-clone generator output (cr-stripped), uniform line endings, NC on 300/N+1. Smoke-run GREEN at gate B (commit a420f33).",
+      "ac2": "fenced ac2 block in docs/issues/t136.md at 27bda90: generator diff byte-zero, dynamic counters proven at docs_verification.py:313-318/:336, do-not-edit header stands, NC literal-bake fires. Smoke-run GREEN at gate B (commit a420f33).",
+      "ac3": "fenced ac3 block in docs/issues/t136.md at 27bda90: exactly one removed / one added line and it is the LINK_CHECK row, 55 lines, 4 carried rows, STORED_GATES PASS executed=9 failures=0 restored=1, ALL_CHECKS_PASS last, NC second-row delta fires. Smoke-run GREEN at gate B (commit a420f33).",
+      "ac4": "fenced ac4 block in docs/issues/t136.md at 27bda90: 319-leg rescan (digest pins == [227], counter pins == [], blob pins == [227]); CARRIED_DIGESTS 4 keys and NOT this report; hex count 13; the EXECUTED 318-then-227 sweep-order hazard RED on the pre-re-pin dispatch base; synthetic-pin NC. Smoke-run GREEN at gate B (commit a420f33).",
+      "ac5": "fenced ac5 block in docs/issues/t136.md at 27bda90: delta purity at the DISPATCH BASE (T136_BASE); index/generators/README/agent-pack byte-zero; SKIP_DIRS-edit refusal; index-byte NC. Smoke-run GREEN at gate B (commit a420f33).",
+      "ac6": "fenced ac6 block in docs/issues/t136.md at 27bda90: build handoff carries fresh + old digests, both LINK_CHECK rows, byte_source, leg227_repin_owned_by=orchestrator, the rejected polluted digest; base-value and mutation NCs. Smoke-run GREEN at gate B (commit a420f33)."
+    },
+    "verification_commands_source": "The six authoritative verification commands are the fenced bash blocks under '## Acceptance criteria' in docs/issues/t136.md at commit 27bda90 (card is COMMITTED AND PUSHED; local file is authoritative). This finalize-only run did NOT re-extract, re-measure, or re-run them.",
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "contract_first_disclosure": "All six ACs are automatable and fenced in the card; none is manual. The card's context role is served by its Goal + Premise + Measured-base-state sections; acceptance_criteria, out_of_scope and definition_of_done are present as dedicated sections.",
+    "finalize_only_run": {
+      "what_this_run_did": "Bookkeeping finalization ONLY. The card was already written, committed and pushed by the prior groom run (which timed out before its handoff/label bookkeeping). This run wrote this handoff, validated it, committed it on a finalize branch off the groom branch tip, pushed, and set the groomed label on issue 141. It did NOT re-measure anything, re-run any AC fence or generator, edit the card, or re-groom.",
+      "what_this_run_did_not_do": [
+        "did not re-run the ac_hash recipe (gate A value taken from the orchestrator's independent validation)",
+        "did not re-run the six gate-B fences (status carried forward from a420f33 with caveat)",
+        "did not edit docs/issues/t136.md (only docs/state/outputs/t136_definer_groom.json was written)"
+      ]
+    },
+    "card": {
+      "path": "docs/issues/t136.md",
+      "commit": "27bda90c3d304c525edfac640881ff64d3e6428d",
+      "branch": "pi-subagents/definer-Groom-mode-for-issue-t136-141-milestone-phase_24_readme_demo_honesty-follow-up-41fa3558-2774206-0f05-s0-t0",
+      "branch_contains_vs_base": "docs/issues/t136.md only, versus base b437216 (WAL 1371-1372, t135 closure / phase_24 wrap)",
+      "ac_hash": "sha256:b8c99f9ac29ef164e055e2aaffa9e3bb680bb0939fba7e4012b662323e423914",
+      "ac_hash_recipe": "ANCHORED variant of the t58/t116/t131/t133/t134 recipe (documented inside the card): sha256 over json.dumps(blocks, separators=(',',':')) of the six fenced bash blocks under '## Acceptance criteria', each CR-stripped and strip()-ed, in document order; extraction anchored at column 0 via (?m)^```bash ... ^```[ \\t]*$.",
+      "gate_a_validation": "ORCHESTRATOR-INDEPENDENT MATCH CONFIRMED: the card's own ANCHORED ac_hash recipe run against its committed blob at 27bda90 yields exactly 6 blocks and sha256 b8c99f9ac29ef164e055e2aaffa9e3bb680bb0939fba7e4012b662323e423914, matching the published literal in the card. Gate A is CLOSED on the orchestrator's independent measurement; this finalize run did not re-measure."
+    },
+    "measured_truth_dirt_free": {
+      "environment": "fresh clean clone of 3f83c4e (same tree as base b437216 plus WAL-only bytes) with frontend/node_modules junctioned; measured by the prior groom run",
+      "link_check_row": "LINK_CHECK PASS files=301 links=67 broken=0",
+      "report_cr_stripped_sha256": "436301f60bb4daa8c9f7819dd047811c61c9766e59e6f5a9c367226e91ebe818",
+      "report_lines": 55,
+      "stored_gates": "STORED_GATES PASS executed=9 failures=0 restored=1",
+      "all_checks_pass": true,
+      "idempotent": "second generator run in the clean clone is byte-identical",
+      "this_is_the_product": "the regenerated LINK_CHECK row the builder must land (committed stale row is files=300, cr-sha 737f96a9a83b6c7fb78cda5a597663e296766e5be2289fee4ed3081a62317a46)"
+    },
+    "rejected_dirt_measurement": {
+      "link_check_row": "files=320 links=94 broken=0",
+      "report_cr_stripped_sha256": "4b1ec8a1da8fe1f84d9e2a64c4c921ab1787b2e6c33f7a39d23bac9c85ba70f6",
+      "environment": "orchestrator preflight, measured in the polluted MAIN checkout",
+      "verdict": "REJECTED - machine dirt, not tree truth; committing it would bake 15 site-packages markdown files into a generated evidence record (t102/WAL 1220 pollution defect class)",
+      "cause": "15 untracked .md files under backend/.pi-agent/venvs/*/site-packages/**, plus backend/.pytest_cache/README.md, plus 4 gitignored runtime docs (docs/log/2026_10_16.md, docs/log/2026_10_07_human.md, docs/log/redaction_failures.md, docs/state/pending_blockers/blocker_1.md); none of these paths is covered by SKIP_DIRS at backend/scripts/docs_verification.py:96. The extra 27 links are their prose links."
+    },
+    "tree_true_drift": "files= 300 -> 301: the committed 300 was written at 8efc57c; docs/issues/t135.md arrived after t134's regeneration and counts in files= (the counter is taken at docs_verification.py:336 from md_files built at :313-318, BEFORE the docs/state/ + docs/issues/ link-skip at :323). links=67 unchanged. Machine check: 305 tracked .md minus 4 build/factpack_t*.md (SKIP_DIRS build entry) = 301.",
+    "sweep_order_hazard": {
+      "status": "LIVE - RED TODAY on a byte-clean tree with no builder involved",
+      "evidence": "groom executed stored legs verbatim in a dirt-free clean clone with committed (stale) bytes present, in sweep order: leg 318 (t126 ac-generator-execution) rc=0 GREEN and DELIBERATELY leaves the regenerated docs report (it restores only the agent-pack report); leg 227 (t59 ac4) then rc=1 RED on its digest pin ('ac4 RED: docs_verification.md cr-stripped sha256 drifted from 29d22aff'). Any 318-before-227 sweep is RED today pre-re-pin.",
+      "closure": "this card's merge (report + leg-227 re-pin in the SAME window) closes it; ac4 executes and proves the RED half; the GREEN half (post-re-pin 318-then-227 rc=0/rc=0) is merge-window obligation M2, orchestrator-only, deliberately not fenced by the groom because post-re-pin state does not exist at groom or build time."
+    },
+    "pin_custody": {
+      "sole_digest_holder": "leg 227 (t59/ac4) - the only leg of all 319 pinning the report's cr-stripped digest (and the only blob-equality pin); it also carries blob id d849c775e2f4c4b5872422ce1f9afb266a7049a2 as prose",
+      "counter_pins": "ZERO legs assert a files= or links= literal over the report - the record can be corrected without amending any leg",
+      "carried_digests": "ZERO carried pins move. CARRIED_DIGESTS (backend/scripts/docs_verification.py:83-92) has exactly four keys: agent_pack_verification.md, dashboard_verification.md, infra_verification.md, security_ops_verification.md. docs_verification.md is NOT a key (it is the report the generator WRITES, not one it CONSUMES). backend/scripts/agent_pack_verification.py contains ZERO references to docs_verification.md (grep -c = 0). 64-hex literal count stays 13 (leg 259's pin).",
+      "merge_window_repin": "ORCHESTRATOR-ONLY obligation M1: re-pin tests[227] from 737f96a9... to the fresh value in docs/state/outputs/t136_builder_build.json, replace-only inside that leg's command string, in the same window as the t136 merge. Precedent: t133's leg-227 double re-pin and t135's M1 CARRIED_DIGESTS rotation (WAL 1370). The builder NEVER touches index bytes."
+    },
+    "builder_obligations": [
+      "Regenerate docs/criteria/docs_verification.md in a DIRT-FREE environment ONLY (fresh clean clone of the builder's own commit with frontend/node_modules junctioned; UV_PROJECT_ENVIRONMENT outside the repo tree). The polluted main checkout must never be the byte-source.",
+      "The generator stays byte-untouched - the counters are ALREADY dynamic (docs_verification.py:313-318/:336); any generator edit (especially SKIP_DIRS) falsifies ac2 and belongs to the separate follow-up card.",
+      "ZERO index bytes by builder (and by definer). No merge_test_index.json edit on the card branch.",
+      "The build handoff must carry cr-sha 436301f60bb4daa8c9f7819dd047811c61c9766e59e6f5a9c367226e91ebe818 (the fresh value measured in the dirt-free clone; re-measure at build time against the dispatch base that contains this card, since the builder's own card can move files=) and the exact one-line diff, plus both LINK_CHECK rows, byte_source, leg227_repin_owned_by=orchestrator, and the rejected polluted digest (ac6).",
+      "The leg-227 re-pin is ORCHESTRATOR-ONLY merge-window work (M1); it is not the builder's to do."
+    ],
+    "skip_dirs_gap_followup": "SEPARATE follow-up card, explicitly OUT of t136 scope (merge-window obligation M4): SKIP_DIRS (docs_verification.py:96) does not exclude .pi-agent, .pytest_cache, the gitignored docs/log/[date]*.md runtime logs, or docs/state/pending_blockers/, so regeneration from a dirty tree silently inflates files=/links= (measured 301 -> 320, 67 -> 94). The honest fix is a generator change plus re-attestation in its own card (the t102 shape). Folding it into t136 is forbidden by the card's out-of-scope section.",
+    "gate_b_smoke_test_status": {
+      "recorded_from": "groom branch commit messages (read, not re-executed)",
+      "a420f33": "gate-B complete - all 6 fences smoke-run GREEN in a sim clone (LF-only generator output at docs_verification.py:500-502, scoped index scanner vs leg 279 false positive, set-e RC capture via || RC=$?)",
+      "d642ab7": "gate-B fixes: sed -nE p-flag vacuum control, pwd -W is git-bash (fails in WSL), rm -rf no-ops on C:\\ paths, E derived in the dirt-free clone not the worktree",
+      "caveat": "the finalize run did NOT re-run the six fences; the GREEN status is carried forward from the prior run's own smoke evidence in a420f33. The builder's gate C (full fence re-runs at the dispatch base) remains the fresh-execution checkpoint."
+    },
+    "prior_run_incident": {
+      "what_happened": "A printf probe by the prior groom run overwrote 4 gitignored UNTRACKED runtime files: docs/log/2026_10_16.md, docs/log/2026_10_07_human.md, docs/log/redaction_failures.md, docs/state/pending_blockers/blocker_1.md.",
+      "impact": "Nothing committed was lost - all four files are gitignored/untracked; the tracked tree and the pushed card are unaffected.",
+      "ownership": "The orchestrator owns the rebuild of those runtime files; disclosed at WAL 1376."
+    },
+    "base_coordination": {
+      "groom_measurement_base": "b4372164acf (main tip at groom; 3f83c4e is the same tree plus WAL-only bytes)",
+      "dispatch_base_for_builder": "the main tip that already CONTAINS this card (builder branches from the DISPATCH BASE and sets T136_BASE; ac5)",
+      "index_entries_at_groom": 319,
+      "index_touched_by_definer": false,
+      "milestone": "phase_24_readme_demo_honesty (follow-up; re-opens the record-accuracy defect class on the sibling report)"
+    },
+    "changes_made": [
+      "docs/state/outputs/t136_definer_groom.json (this handoff; finalize branch only)",
+      "docs/issues/t136.md was NOT touched by this run - it is committed at 27bda90 by the prior groom run"
+    ],
+    "platform_sync": {
+      "issue": 141,
+      "labels": "label set 141 --labels groomed via scripts/platform.ts (env quarantine scratch/env_quarantine_t94post copied to .env for the call window, removed immediately after). Issue left OPEN - groom never closes.",
+      "body": "NOT re-synced by the finalize run; the card at 27bda90 is the local authority (t96-t99/t131-t134 pointer-body precedent; the 46,781-byte card exceeds the Windows argv ceiling). Body correction of the preflight number is orchestrator-owned per the card's out-of-scope section."
+    },
+    "validation": {
+      "handoff_validator": "scripts/validate_handoff.ts definer groom - see commandsRun; [OK] required before commit",
+      "card_unmodified": true,
+      "git_commits_by_this_run": 1
+    },
+    "notes": "t136 heals a record-accuracy defect in ONE generated row by REGENERATION in a dirt-free clone, never hand-editing. Zero generator bytes, zero index bytes, zero carried-pin movement; the only custody change is the orchestrator's merge-window leg-227 re-pin (M1) plus the post-re-pin sweep-order recheck (M2). The preflight 320/94 value is recorded as REJECTED machine dirt with its full cause."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t136_definer_groom.json"
+    ],
+    "platform_issue": 141,
+    "output_path": "docs/state/outputs/t136_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T15:28:00Z",
+  "retry_count": 0
+}
