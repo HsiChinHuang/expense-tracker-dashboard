@@ -1,0 +1,104 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t134",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t134-readme-demo-softening",
+    "branch_sha": "8efc57c",
+    "branch_tip_note": "branch tip carries one additional docs-only commit adding this handoff file (docs/state/outputs/t134_builder_build.json); all product bytes ship in 8efc57c above; both commits pushed to origin before this handoff was finalised",
+    "base": "fda7f0fe98cff343c07e5a2bd981637f6d2f657f",
+    "dispatch_base": "0ccea5fae2276e39787a1d8abb371c220ca9cf5c",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "8efc57c",
+        "test": "docs/issues/t134.md#ac1 fenced block: lines 49-50 equal the frozen two lines byte-for-byte, all 419 other lines byte-identical to base blob fda7f0f (verified at 9551149a...), denial gone file-wide, no hosted-login ad, five carried token counts unchanged (flattened), neutral register-your-own guidance survives in ## Online demo, 421 lines / 421 CRLF, cr-stripped digest 79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109 equals the groom measurement",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "8efc57c",
+        "test": "docs/issues/t134.md#ac2 fenced block: six negative controls fired (base blob carries the denial; denial grep fires on base sentence lines and is silent on the frozen text; ad grep fires on synthetic ad, silent on frozen; +1 line measures 422 not 421; token rewrite base=2 now=0; base lines 49-50 refused by the byte comparison)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "8efc57c",
+        "test": "docs/issues/t134.md#ac3 fenced block: README_DIGEST=79aa573e.../README_LINES=421 == builder-measured pair, both proven moved off the base pins, regenerated report (committed generator, uv, UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv outside the tree, frontend npm ci via cmd.exe) carries README_MEASURE PASS lines=421 digest=79aa573e... and ends ALL_CHECKS_PASS, four carried reports (agent_pack 0123737e / dashboard 6fd4e18d / infra 04098540 / security_ops 517faffb) re-measured byte-identical, base digest refused by the moved-off legs",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "8efc57c",
+        "test": "docs/issues/t134.md#ac4 fenced block: index entries=319, zero legs mention the edited sentence tokens (0/319), README digests (now=79aa573e base=9551149a) pinned by exactly [227], report digests (now=737f96a9 base=246f5d9b) pinned by exactly [227], legs 248/250/252/259 independent, synthetic-leg negative control fired (1 of 1)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "8efc57c",
+        "test": "docs/issues/t134.md#ac5 fenced block: builder delta == README.md + backend/scripts/docs_verification.py (README_DIGEST constant only) + docs/criteria/docs_verification.md; index/seed_demo.py/package.json/backend/app byte-untouched (git diff --quiet rc=0 each); generator diff touches only the pinned constants; purity negative control fired. DISCLOSURE: the fence AS WRITTEN against the pinned base fda7f0f prints one ac5-RED line for docs/log/orchestrator_wal.jsonl - that WAL row (WAL 1360) was introduced by the ORCHESTRATOR's own commit 20883bb which is already on origin/main and is an ancestor of the card commit 0ccea5f (the dispatch base); the builder commit 8efc57c moves exactly the three product paths (git show --name-only). The identical fence re-run verbatim with BASE=0ccea5f (the assigned dispatch base, i.e. the delta actually produced by this builder) is GREEN rc=0 with the same purity negative control firing. Zero index bytes touched either way.",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured": {
+      "readme_lines": 421,
+      "readme_crlf_terminators": 421,
+      "readme_cr_stripped_sha256": "79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109",
+      "readme_digest_matches_groom_measurement": true,
+      "base_readme_digest_verified": "9551149a05caf92f552964432f9564a1c1ebe47c2e72a792bdbd235f67326ef4 (base blob fda7f0f read via cmd.exe git show, cr-stripped)",
+      "report_cr_stripped_sha256": "737f96a9a83b6c7fb78cda5a597663e296766e5be2289fee4ed3081a62317a46",
+      "report_row": "README_MEASURE PASS lines=421 digest=79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109",
+      "report_tail": "ALL_CHECKS_PASS",
+      "generator_rc": 0,
+      "carried_reports_measured": {
+        "agent_pack": "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
+        "dashboard": "6fd4e18d55422c268b3d5848b0dfa59ce22474382d4c789a052aba20789751b6",
+        "infra": "04098540e56f34018b9cddffeb9806137eccacbfb2e8f29ca9b5031be10efe50",
+        "security_ops": "517faffb59ad9acd7b8918cc9bf6d986594f9ee2d94020785696cfcd1b02dfd1"
+      },
+      "ac_hash_recomputed": "sha256:3c6138db6398094ea8444e48e1a638ef50c250d6f2bfaa43343e68ffa78213f4 (MATCH; 5 blocks, CR-stripped+trimmed, sha256 over json.dumps(blocks,separators=(',',':')), recomputed from the committed card blob at HEAD 0ccea5f)",
+      "carried_token_counts_flattened_base_vs_now": {
+        "demo@example.com": "2 -> 2",
+        "demo-password-123": "2 -> 2",
+        "npm run seed:demo": "3 -> 3",
+        "safe to re-run": "2 -> 2",
+        "register your own": "1 -> 1 (crosses the 49/50 boundary in base AND candidate)"
+      },
+      "denial_occurrences_now": 0,
+      "index_bytes_touched": false,
+      "merge_test_index_diff": "empty (zero bytes; git diff --quiet fda7f0f HEAD -- docs/state/merge_test_index.json rc=0)",
+      "delta_files": [
+        "README.md",
+        "backend/scripts/docs_verification.py",
+        "docs/criteria/docs_verification.md"
+      ],
+      "generator_diff_lines": "only README_DIGEST 9551149a... -> 79aa573e... (README_LINES unchanged at 421); generator diff touches only the pinned constants",
+      "environment_preconditions_applied": [
+        "frontend npm ci via cmd.exe Windows side (rc=0, 526 packages; restored tests[134]'s ./frontend/node_modules/js-yaml for STORED_GATES)",
+        "backend deps via WSL uv with UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv OUTSIDE the tree (uv sync --frozen); in-tree backend/.venv never created, touched, or executed from WSL (WAL 1301)",
+        "root node_modules already present in the worktree (118 entries), no root install needed",
+        "generator run: cd backend && UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv PYTHONPATH=. uv run python scripts/docs_verification.py -> 'docs_verification: GREEN' rc=0; report ends ALL_CHECKS_PASS; STORED_GATES PASS executed=9 failures=0 restored=1 (agent_pack restored by the generator itself, git status clean for it)"
+      ]
+    },
+    "notes": "Builder commit 8efc57c moves exactly README.md (lines 49-50 frozen replacement, 421 CRLF lines, builder-measured cr-sha 79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109 == the groom measurement), the README_DIGEST constant in backend/scripts/docs_verification.py, and the regenerated docs/criteria/docs_verification.md. The regenerated report's only other row change is the informational LINK_CHECK count files=299->files=300 (an honest regeneration artifact of the environment-dirt surface, same class as t133's 291->299; no pin holder, ac3 does not pin it). The leg-227 double re-pin (README 9551149a->79aa573e, report 246f5d9b->737f96a9, entry sha chain) is the ORCHESTRATOR merge-window obligation (card Merge-window obligations 1-2); zero index bytes were touched by this builder. The ac5-as-written WAL disclosure is recorded in ac_mapping.ac5.test. Platform comment/label transitions for platform issue 139 were not executed by this builder run (no .env created; card is on main)."
+  },
+  "artifacts": {
+    "files_written": [
+      "README.md",
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md"
+    ],
+    "platform_issue": 139,
+    "output_path": "docs/state/outputs/t134_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T10:40:00Z",
+  "retry_count": 0
+}
