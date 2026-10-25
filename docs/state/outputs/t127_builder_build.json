@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t127",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t127-leg49-heal",
+    "branch_sha": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+    "base": "09dcb87661077404ad423cb43a5e9929765c94a0",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac1 fenced block",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac2 fenced block",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac3 fenced block",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac4 fenced block",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac5 fenced block",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "9eb553887874c4b4403c88e7ee1726e2ef326712",
+        "test": "docs/issues/t127.md#ac6 fenced block",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "measured": {
+      "leg49_rc": 0,
+      "grep_rc": 1,
+      "pytest_rc": 0,
+      "ruff_rc": 0,
+      "mypy_rc": 0,
+      "trace_tests_rc": 0,
+      "pytest_tail": "310 passed, 342 warnings in 153.56s (0:02:33)",
+      "ruff_tail": "All checks passed!",
+      "mypy_tail": "Success: no issues found in 100 source files",
+      "trace_tests_tail": "3 passed, 10 warnings in 3.54s",
+      "trace_test_files": [
+        "backend/tests/integration/test_trace_correlation_api.py"
+      ],
+      "ac1": "leg tests[49] (issue t8) VERBATIM from live index rc=0; negative control: pre-fix blob at 09dcb87 carried exactly 2 banned clauses (lines 105,195); index digest unchanged",
+      "ac5": "delta == backend/app/trace.py only; index/README/criteria reports byte-untouched",
+      "venv_outside_tree": true,
+      "test_addition_justification": "none",
+      "fences_passed": 6,
+      "fences_total": 6
+    },
+    "changes": "line ~105 except Exception -> except (OSError, ValueError) with never-raise justification; line ~195 redundant try/except Exception scaffold DELETED (use_span.__exit__ records/ERROR/re-raises, BaseException propagates); ruff F401: removed Status/StatusCode from the line-49 import, SpanKind kept",
+    "notes": "ASSEMBLED BY ORCHESTRATOR from the builder run f6c07c8d's own measured result table (its worktree was reclaimed before the build JSON survived; the untracked-on-purpose file was lost with it). Precedent t124 WAL 1325. BRANCH ALIAS: the dispatch named pi-subagents/builder-t127 (pushed by the run at this exact sha); orchestrator created schema-canonical alias issue/t127-leg49-heal -> 9eb5538 and pushed it so evidence.branch validates. Builder disclosed: worktree .git pointer held a Windows absolute gitdir WSL could not resolve; rewritten to relative (untracked metadata, no diff)."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/app/trace.py"
+    ],
+    "platform_issue": 131,
+    "output_path": "docs/state/outputs/t127_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T03:39:14Z",
+  "retry_count": 0
+}
