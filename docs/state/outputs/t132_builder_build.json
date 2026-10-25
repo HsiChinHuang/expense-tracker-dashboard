@@ -7,7 +7,7 @@
  "reached_state": "built",
  "evidence": {
   "evidence_type": "build",
-  "branch": "issue/t132-report-hygiene",
+  "branch": "issue/t132-report-hygiene-v2",
   "branch_sha": "493f7bdcb0185e990fff29578200e58db9694caa",
   "base": "09e41803a74849b5935a9015d035b3ba7841d486",
   "scratch_clone": "C:\\Users\\tw097\\t132scratch (ONE clone, --no-hardlinks -b main from the real repo, detached at base 09e4180; reused for every leg; local core.autocrlf=false set once to defeat the host's system-wide autocrlf=true CRLF checkout)",
@@ -157,7 +157,8 @@
   "lint_status": "CLEAN",
   "verification_commands_source": "docs/issues/<id>.md#verification-commands",
   "validator_note": "first validator call recorded: '[ERROR] ... is invalid for builder:build / : No schema found for builder:build' - no builder:build schema exists in HANDOFF_SCHEMA_MAP; handoff aligned to builder:implement (the t126/t128/t131 build-handoff precedent) and this is the single retry call",
-  "branch_sha_note": "branch_sha = the commit that carries this handoff file; a follow-up docs commit fills this field (self-reference limit)"
+  "branch_sha_note": "branch_sha = the commit that carries this handoff file; a follow-up docs commit fills this field (self-reference limit)",
+  "branch_note": "push to issue/t132-report-hygiene was REJECTED non-fast-forward (remote tip e4ecc54, the stub carrier, is not an ancestor of main tip 09e4180); per dispatch instructions the handoff was pushed to issue/t132-report-hygiene-v2 instead. Branch tip at push: 973bba9; branch_sha field records the first content commit (self-reference limit, noted)."
  },
  "artifacts": {
   "files_written": [
