@@ -82,7 +82,7 @@ CARRIED: dict[str, int] = {
 }
 CARRIED_DIGESTS = {
     "docs/criteria/agent_pack_verification.md":
-        "0123737e4ea5e47cff1b743a5a49a2f65111761dfcda6545f5b2fbb0699fb09c",
+        "af4909fe835bda0aa0b72a5645848037a0f838dc080827ddf205ae310864b409",
     "docs/criteria/dashboard_verification.md":
         "6fd4e18d55422c268b3d5848b0dfa59ce22474382d4c789a052aba20789751b6",
     "docs/criteria/infra_verification.md":
