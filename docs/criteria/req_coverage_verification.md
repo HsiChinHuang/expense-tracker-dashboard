@@ -11,8 +11,8 @@ landing is expected to carry GAP rows; closing them is t58's work.
 
 REQ_STATUSES PASS vocabulary=IMPLEMENTED_TESTED,IMPLEMENTED_STRUCTURAL,DEFERRED_RULLED,GAP,EXAMPLE_REFERENCE
 REQ_MATRIX PASS rows=749 unique=749 idset=sha256:ef6c4bba27791a79
-REQ_STATUS_COUNT IMPLEMENTED_TESTED 116
-REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 622
+REQ_STATUS_COUNT IMPLEMENTED_TESTED 117
+REQ_STATUS_COUNT IMPLEMENTED_STRUCTURAL 621
 REQ_STATUS_COUNT DEFERRED_RULLED 10
 REQ_STATUS_COUNT GAP 0
 REQ_STATUS_COUNT EXAMPLE_REFERENCE 1
@@ -505,7 +505,7 @@ REQ_ROW PASS id=REQ-CICD-023 family=CICD status=IMPLEMENTED_STRUCTURAL method=ve
 REQ_TITLE PASS id=REQ-CICD-023 title="docker-compose.yml services" statement="Compose defines `db` (postgres:16-alpine with healthcheck and named volume) and `app` (build from Dockerfile, depends on db healthy, environment variables, port"
 REQ_ROW PASS id=REQ-CICD-024 family=CICD status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=docker-compose.yml
 REQ_TITLE PASS id=REQ-CICD-024 title="compose design decisions" statement="Two services; PostgreSQL 16; healthcheck on db; healthcheck on app; named volume; single app container; explicit CORS."
-REQ_ROW PASS id=REQ-CICD-025 family=CICD status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t24.md,docs/issues/closed/t49.md
+REQ_ROW PASS id=REQ-CICD-025 family=CICD status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t109.md,docs/issues/closed/t24.md
 REQ_TITLE PASS id=REQ-CICD-025 title="development vs production" statement="Development uses Vite dev server, uvicorn reload, PostgreSQL in Compose, two containers; production uses static files served by FastAPI, single container plus m"
 REQ_ROW PASS id=REQ-CICD-026 family=CICD status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=README.md
 REQ_TITLE PASS id=REQ-CICD-026 title="local development modes" statement="Mode A (full Docker): `docker compose up --build`; Mode B (hybrid): Compose db + local backend + local frontend."
@@ -669,7 +669,7 @@ REQ_ROW PASS id=REQ-DB-134 family=DB status=IMPLEMENTED_STRUCTURAL method=citati
 REQ_TITLE PASS id=REQ-DB-134 title="audit entity_id choice" statement="UUID without FK, supporting multiple entity types and surviving deletion."
 REQ_ROW PASS id=REQ-DB-135 family=DB status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=backend/app/database.py
 REQ_TITLE PASS id=REQ-DB-135 title="fallback choice" statement="SQLite on startup only; no runtime switching."
-REQ_ROW PASS id=REQ-DOC-001 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t4.md,docs/issues/closed/t48.md
+REQ_ROW PASS id=REQ-DOC-001 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t112.md,docs/issues/closed/t4.md,docs/issues/closed/t48.md
 REQ_TITLE PASS id=REQ-DOC-001 title="documentation principles" statement="English only; one purpose per file; reviewer-first; living documents; linked not duplicated; short where possible."
 REQ_ROW PASS id=REQ-DOC-002 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,backend/scripts/docs_verification.py,docs/criteria/docs_verification.md
 REQ_TITLE PASS id=REQ-DOC-002 title="documentation map" statement="Root documents (README, product-spec, AGENTS, CLAUDE, openapi, LICENSE); docs/; security/; ops/; screenshots/."
@@ -727,9 +727,9 @@ REQ_ROW PASS id=REQ-DOC-063 family=DOC status=IMPLEMENTED_STRUCTURAL method=veri
 REQ_TITLE PASS id=REQ-DOC-063 title="document ownership" statement="Ownership table exists for each document."
 REQ_ROW PASS id=REQ-DOC-070 family=DOC status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-DOC-070 title="5-minute live verification" statement="Steps: open live URL, register, add expense, set budget, verify five charts, switch month, log out."
-REQ_ROW PASS id=REQ-DOC-071 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t103.md,docs/issues/closed/t49.md
+REQ_ROW PASS id=REQ-DOC-071 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t103.md,docs/issues/closed/t113.md
 REQ_TITLE PASS id=REQ-DOC-071 title="5-minute local verification" statement="Clone, cp .env.example, docker compose up --build, open localhost:8000, repeat live steps."
-REQ_ROW PASS id=REQ-DOC-072 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t49.md,product-spec.md
+REQ_ROW PASS id=REQ-DOC-072 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=README.md,docs/issues/closed/t116.md,docs/issues/closed/t49.md
 REQ_TITLE PASS id=REQ-DOC-072 title="evidence checklist" statement="Table maps each of the 14 criteria to a specific file to open."
 REQ_ROW PASS id=REQ-DOC-080 family=DOC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t49.md,product-spec.md
 REQ_TITLE PASS id=REQ-DOC-080 title="language and layout" statement="English only; minimal root docs; details in docs/; README < 500 lines; AGENTS.md < 60 lines."
@@ -1031,7 +1031,7 @@ REQ_ROW PASS id=REQ-OPS-061 family=OPS status=IMPLEMENTED_TESTED method=citation
 REQ_TITLE PASS id=REQ-OPS-061 title="initial deployment record" statement="Records platform, URL, date, version, commit, health check response, smoke test results, screenshots, cold start, database, notes."
 REQ_ROW PASS id=REQ-OPS-062 family=OPS status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/unit/test_req_coverage_verification.py
 REQ_TITLE PASS id=REQ-OPS-062 title="post-expiry deployment record" statement="Records the state after Render PostgreSQL expires: health returns degraded, fallback active, all features work, data temporary."
-REQ_ROW PASS id=REQ-OPS-070 family=OPS status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/scripts/security_ops_verification.py,docs/criteria/security_ops_verification.md,docs/issues/closed/t41.md
+REQ_ROW PASS id=REQ-OPS-070 family=OPS status=IMPLEMENTED_TESTED method=citation pointers=backend/tests/integration/test_trace_correlation_api.py
 REQ_TITLE PASS id=REQ-OPS-070 title="manual diagnosis commands" statement="Commands to check status, response time, database, fallback state, and API docs."
 REQ_ROW PASS id=REQ-OPS-080 family=OPS status=IMPLEMENTED_STRUCTURAL method=verification-artifact pointers=ops/runbook.md
 REQ_TITLE PASS id=REQ-OPS-080 title="monitoring" statement="Render dashboard, UptimeRobot, health endpoint."
@@ -1261,7 +1261,7 @@ REQ_ROW PASS id=REQ-SEC-051 family=SEC status=IMPLEMENTED_TESTED method=citation
 REQ_TITLE PASS id=REQ-SEC-051 title="date handling" statement="Expense date DATE no timezone; created_at and updated_at TIMESTAMPTZ UTC; year_month CHAR(7) no timezone."
 REQ_ROW PASS id=REQ-SEC-052 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/alembic/versions/001_initial_schema.py,docs/issues/closed/t6.md
 REQ_TITLE PASS id=REQ-SEC-052 title="database constraints" statement="UNIQUE on email, username, (user_id, year_month); CHECK on color, system consistency, amount > 0, currency = 'USD', year_month format, action, entity_type."
-REQ_ROW PASS id=REQ-SEC-060 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/models/audit_log.py,docs/issues/closed/t12.md,docs/plan.md
+REQ_ROW PASS id=REQ-SEC-060 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=backend/app/models/audit_log.py,docs/issues/closed/t115.md,docs/issues/closed/t12.md
 REQ_TITLE PASS id=REQ-SEC-060 title="audit design" statement="Triggered by expense and budget create/update/delete; written in the same transaction; not accessible via API; preserved on user delete; fields: user_id, action"
 REQ_ROW PASS id=REQ-SEC-061 family=SEC status=IMPLEMENTED_STRUCTURAL method=citation pointers=docs/issues/closed/t12.md
 REQ_TITLE PASS id=REQ-SEC-061 title="what is logged" statement="CREATE has null old_value and full new_value; UPDATE has both; DELETE has full old_value and null new_value."
