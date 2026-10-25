@@ -1,0 +1,42 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t132",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "ac_hash": "sha256:fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "fenced ac1 bash: git clone $PWD to temp; run the LIVE tests[153] command (extracted read-only from docs/state/merge_test_index.json via python3 json load) in the clone; assert git status --porcelain shows the M line for docs/criteria/agent_pack_verification.md (GREEN-BY-DESIGN negative control documenting the defect)",
+   "ac2": "fenced ac2 bash: build the amended leg text (original tests[153] command + the proven field-318 restore suffix folded into its own quotes); run it on a scratch clone; assert git status --porcelain docs/criteria is EMPTY",
+   "ac3": "fenced ac3 bash: after the amended-restore run on the scratch clone, sha256(worktree docs/criteria/agent_pack_verification.md) == sha256(git show HEAD:docs/criteria/agent_pack_verification.md) (byte-identity restore, no silent re-pin)",
+   "ac4": "fenced ac4 bash: run the non-regenerating neighbor leg tests[151] (t34) from the live index; assert rc=0 and the entry digest unchanged (neighbor stability at baseline)",
+   "ac5": "fenced ac5 bash: git diff 61260d1..HEAD touches only docs/issues/t132.md + the two t132 output JSONs; git diff --quiet on docs/state/merge_test_index.json (ZERO index bytes by definer AND builder); every amendment entry_sha_before matches the live entry digest (proposals chainable per WAL 1274)",
+   "ac6": "fenced ac6 bash: the card and t132_definer_gate_amendment.json carry the measured dirty-set table verbatim (legs lacking [154,155,217,220,221,226]; proven [183,318]; leg 154 rc=0-dirty; leg 221 rc=1 disclosed), the t129 collision/chain disclosure, and live-matching old_command digests/lengths"
+  },
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "contract_first_applied": true,
+  "notes": "ZERO-LEG-RUN WRITE-ONLY groom (third dispatch; prior runs 6bb46d3a/47e7a79d timed out AFTER all measurements). The groom executed NO index leg, NO pytest, NO generator: every measured fact (dirty-set audit, leg 154 rc=0-dirty, leg 221 rc=1 side-effect, 183/318 proven patterns) is cited from the orchestrator-locked runs. The only computations the groom performed are read-only python3 json loads of docs/state/merge_test_index.json to key the amendment digests to the live index. ac1 is deliberately GREEN-when-dirty (negative control documenting the defect); ac2/ac3 price the fixed behavior; ac5 enforces WAL 1274 (amendments are PROPOSALS applied by the orchestrator in merge windows). Platform body sync and label transitions are orchestrator-owned ingest bookkeeping in this milestone and are disclosed as not performed by this child run."
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t132.md",
+   "docs/state/outputs/t132_definer_gate_amendment.json",
+   "docs/state/outputs/t132_definer_groom.json"
+  ],
+  "platform_issue": 136,
+  "output_path": "docs/state/outputs/t132_definer_groom.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-25T04:23:51Z",
+ "retry_count": 0
+}
