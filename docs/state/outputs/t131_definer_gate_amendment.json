@@ -1,0 +1,47 @@
+{
+ "schema_version": 2.0,
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t131",
+ "milestone": "phase_23_backlog_hygiene",
+ "platform_issue": 135,
+ "status": "proposed",
+ "authority": "W2 index-amendment policy; the t126 record is the shape precedent. This is a ZERO-AMENDMENT record: the card's own sweep (its ac1-ac4 fences) measured that NO LIVE index leg's command text changes under t131, so there is nothing for the orchestrator to apply in any merge window.",
+ "policy": "W2",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "operation": "NONE",
+ "amendments": [],
+ "add_count": 0,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "base": {
+  "main_tip_at_groom": "09dcb87",
+  "index_entries": 319,
+  "index_file_sha256_prefix": "e9e0ea18",
+  "note": "the index sha is recorded as INFORMATION, not as an assertion (the t122/t126 frozen-premise lesson); the card's fences assert positions and identity, never the file digest."
+ },
+ "sweep": {
+  "method": "the five inventoried fence-defect classes re-measured at groom on main 09dcb87 by the card's own ac1-ac4 fences, plus a full-index scan for command-text victims",
+  "class1_split_newlines": "the off-by-one convention lives in CARD fences (t124 ac5), not in any live index leg: no live leg command contains a len(...split('\\n')) equality against a pinned number (measured: zero hits across all 319 commands and their base64 payloads); the corrected convention (splitlines / tr -d CR | wc -l == README_LINES=421, off-by-one == 422) is card+carrier text only -> ZERO index legs amended",
+  "class2_wsl_git_guard": "live legs that use git WITHOUT cmd.exe (measured indices 0,3,4,11,22,23,26,201,214,217,243,286) do NOT call rev-parse --git-dir or any path-translating git metadata call - they use ls-files/check-ignore inside commands that already run green in the sweep, so none is a class-2 victim; the defect class lived in CARD fences (t124/t126 ac5), whose corrected cmd.exe-wrapped form (rc=0 measured, bare form rc=128 measured) is card+carrier text only -> ZERO index legs amended",
+  "class3_superseded_amendment_path": "no live index leg hardcodes a docs/state/outputs/*gate_amendment*.json path (measured: the only amendment-path pins were in the t124/t126 CARD fences); the corrected match-resolution block (exactly one of the two t124 records resolves against live tests[284]: the v2 record, sha 3e3c4a60/entry 231aace6; v1 measured non-matching) is card+carrier text only -> ZERO index legs amended",
+  "class4_ac_key_193": "measured: EXACTLY indices 0..192 lack the ac key (contiguous legacy prefix, issues t0..t47); every leg >= 193 carries ac; 6 of 8 INDEX_ANCHORS positions (16/54/131/132/133/135) sit inside the prefix and their pinned digests recompute GREEN over the AC-LESS entries; the in-memory key-injection control CHANGES the anchored entry digest -> adding ac to those legs is an INDEX + generator re-pin PRODUCT move, not a fence amendment; ZERO of the 193 need a fence amendment and none is amended here",
+  "class5_pytest_cache_link_check": "backend/scripts/docs_verification.py SKIP_DIRS lacks .pytest_cache (line 96, measured); the fix is a generator PRODUCT change plus regeneration (t132-adjacent); no index leg prices LINK_CHECK files= counts -> ZERO index legs amended",
+  "disposition": "ZERO live legs amended, ZERO added, ZERO deleted. The definer wrote zero index bytes; the orchestrator applies nothing."
+ },
+ "negative_control_matrix": [
+  {"case": "ac1 corrected convention vs the off-by-one convention on the same README", "expected": "splitlines==421==pin AND split('\\n')==422==pin+1", "measured": "421/422 at 09dcb87 - both directions asserted inside the fence (either equality breaking is RED)"},
+  {"case": "ac2 corrected cmd.exe guard vs bare git on the WSL worktree class", "expected": "corrected rc=0 AND bare divergence recorded", "measured": "rc=0 vs rc=128 (fatal: not a git repository: .../C:/Users/...)"},
+  {"case": "ac3 match-resolution vs the superseded v1 path pin", "expected": "exactly 1 record matches; v1 matches neither command sha nor entry sha", "measured": "v2 matches (3e3c4a60/231aace6); v1 non-matching; len(matches)!=1 branch is RED"},
+  {"case": "ac4 key-injection into anchored entry 16 (in-memory only, index never written)", "expected": "entry digest changes (anchor would go RED)", "measured": "digest changed; control armed inside the fence"},
+  {"case": "ac5/ac6 at the groom base (carrier absent)", "expected": "RED by design - the product is unbuilt", "measured": "ac5 rc=1 empty delta; ac6 rc=1 carrier missing"}
+ ],
+ "not_amended": {
+  "leg_259": "tests[259]'s self-referential index digest (a77f98a0 vs live e9e0ea18) stays t130's, disclosed untouched",
+  "leg_227": "tests[227] carries the substituted bea72320 pins (measured: no a5e22eec, no placeholder) - custody state is healthy and not this card's",
+  "generator": "backend/scripts/docs_verification.py (SKIP_DIRS class-5 fix, INDEX_ANCHORS re-pin class-4 fix) is product territory - follow-up candidates for the orchestrator ledger, listed in the card's Out of scope"
+ },
+ "written_by_definer_applied_by": "definer-groom for t131 (platform issue #135); the orchestrator applies NOTHING - this record exists to make the zero-amendment conclusion a written, checkable artifact rather than an absence"
+}
