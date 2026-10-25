@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t128",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:ddc9dfe5b5223b3e03a132cf4f07095ad1b19a33fd9125959b180fef101ade21",
+    "ac_hash_recipe": "t58/t116: each fenced bash block CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')); RE-DERIVED by orchestrator from the COMMITTED blob at 16ad0bb and from main f7792d4 - MATCHES the card literal",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "the fenced bash block under '## Acceptance criteria' heading ac1 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)",
+      "ac2": "the fenced bash block under '## Acceptance criteria' heading ac2 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)",
+      "ac3": "the fenced bash block under '## Acceptance criteria' heading ac3 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)",
+      "ac4": "the fenced bash block under '## Acceptance criteria' heading ac4 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)",
+      "ac5": "the fenced bash block under '## Acceptance criteria' heading ac5 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)",
+      "ac6": "the fenced bash block under '## Acceptance criteria' heading ac6 in docs/issues/t128.md (run verbatim from repo root; rc=0 means GREEN)"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "baseline_rc_table": "in the card: 306/307 stay 0; 308/310/311/317 HEALED by this card; 309 DISCLOSED not-healable-by-builder; 312 DISCLOSED not-advisory-drift; 313-316 stay 0; 183/184/185/187 stay 0",
+    "measured_stale_states": "in the card's 'What is actually stale (measured, not assumed)' table (npm report parses 14 vs anchor 23; cr-stripped digests recorded there)",
+    "card": "t128",
+    "platform_issue": 132,
+    "milestone": "phase_23_backlog_hygiene",
+    "branch": "groom/t128-advisory-drift-rebaseline",
+    "base_commit": "4f9353ec16e7a30e28971bab457fda9e5e20eba9",
+    "card_path": "docs/issues/t128.md",
+    "disclosures": [
+      "ASSEMBLED BY ORCHESTRATOR, not by the definer run: definer 3cc03d98 timed out at 2100000ms AFTER its final card commit 16ad0bb was pushed, but BEFORE writing this groom JSON; its worktree .git pointer was reclaimed. The surviving worktree file docs/issues/t128.md is CR-stripped byte-IDENTICAL to the committed blob (diff 0). All values here come from the card's own committed content or orchestrator re-derivation (ac_hash recomputed from the committed blob, MATCHES the card literal). Precedent: t124 build-JSON mechanical assembly (WAL 1325).",
+      "the definer measured a fresh gitleaks sweep TODAY yields 87 hits vs committed 21 - re-sweeping would break baseline-GREEN leg 307; the card prices that (it is why the card regenerates ONLY the drift-affected artifacts, not every security report)",
+      "leg 312 RED is NOT advisory drift (compose.yaml opentelemetry/loki/tempo line) - card discloses it as out-of-class; orchestrator must adjudicate 312 separately if it stays RED after the build"
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t128.md",
+      "docs/state/outputs/t128_definer_groom.json"
+    ],
+    "platform_issue": 132,
+    "output_path": "docs/state/outputs/t128_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T03:08:36Z",
+  "retry_count": 0
+}
