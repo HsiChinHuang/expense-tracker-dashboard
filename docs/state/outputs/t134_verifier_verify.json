@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t134",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "docs/issues/t134.md#ac1 fenced bash block (lines 49-50 == frozen two lines byte-for-byte; all 419 other lines byte-identical to the PINNED base fda7f0f whose blob is verified at 9551149a...; denial + any 'seeded demo account' phrasing gone file-wide; no hosted-login ad; five carried token counts unchanged flattened; neutral register-your-own guidance survives in ## Online demo; 421 lines / 421 CRLF; cr-stripped digest == 79aa573e820e27c00690f3a8aaec3cab41ecb97b6752d37e9d1c46f637b41109)",
+        "exit_code": 0,
+        "output_path": "scratch/t134_ac/ac1.sh",
+        "note": "Verbatim block rc=0 on the merged tree (HEAD d4f84ac line of work; product bytes cee2b49). The block's literal BASE=fda7f0f was run AS WRITTEN per instruction; its internal base-blob digest check measured 9551149a... GREEN, proving base fidelity. All nine evidence lines GREEN: lines=421 crlf=421 digest=79aa573e..., base blob verified at the pinned digest, lines 49-50 byte-exact, all 419 non-edit lines byte-identical to base (t133 block 56-58 included), denial gone, no ad, five token counts unchanged, neutral guidance present, digest == groom measurement."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "docs/issues/t134.md#ac2 fenced bash block (six negative controls: base carries the denial; denial grep fires on the base sentence and is silent on the frozen text; ad grep fires on a synthetic ad and is silent on frozen; +1 line measures 422; token rewrite base=2 now=0; base lines 49-50 refused by the byte comparison)",
+        "exit_code": 0,
+        "output_path": "scratch/t134_ac/ac2.sh",
+        "note": "Verbatim block rc=0; all six negative controls fired with their evidence lines: NC1 base blob carries 'NO seeded demo account'; NC2 fires on base lines 49-50, silent on frozen; NC3 fires on the synthetic hosted-login ad, silent on frozen; NC4 appended synthetic measures 422 not 421; NC5 token counter base=2 now=0; NC6 base lines 49-50 refused. The card pins BASE=fda7f0f as a literal and the block's own base-blob read succeeded, so the controls are non-vacuous at the pinned base (the t133 vacuity class does not apply to this card's blocks)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "docs/issues/t134.md#ac3 fenced bash block (README_DIGEST/README_LINES == builder-measured pair, both proven moved off the base pins 9551149a.../421-unchanged; regenerated report carries README_MEASURE PASS lines=421 digest=79aa573e... and ends ALL_CHECKS_PASS; four carried reports byte-identical 0123737e/6fd4e18d/04098540/517faffb)",
+        "exit_code": 0,
+        "output_path": "scratch/t134_ac/ac3.sh",
+        "note": "Verbatim block rc=0: constants README_DIGEST=79aa573e.../README_LINES=421 == measured README; zero 9551149a occurrences in the generator (grep count 0); report row 'README_MEASURE PASS lines=421 digest=79aa573e...'; report ends ALL_CHECKS_PASS; four carried reports byte-identical to their pins; base digest refused by the moved-off legs. FULL REGENERATION ALSO VERIFIER-MEASURED (not just cited): frontend npm ci via cmd.exe (526 packages, rc=0) satisfied the documented tests[134] precondition; generator run cd backend && UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv PYTHONPATH=. uv run --frozen python scripts/docs_verification.py -> 'docs_verification: GREEN' rc=0 (the builder's /tmp/t134v_venv survived; in-tree backend/.venv never created or touched). The regenerated report is cr-stripped-IDENTICAL to the committed report on every row EXCEPT the informational LINK_CHECK count (files=300 committed vs 301 verifier-run): the generator's md walk counts docs/issues/*.md, and the verifier's tree carries docs/issues/t135.md (groomed after this card, merged 7cfd0d0) on top of docs/issues/t134.md - the same disclosed environment-dirt class as the builder's 299->300 row change, no pin holder, ac3 does not pin it. README_MEASURE, STORED_GATES PASS executed=9 failures=0 restored=1 and ALL_CHECKS_PASS are identical. Working tree restored byte-clean (git status empty; the generator's own agent_pack restore plus one git checkout HEAD -- docs/criteria/docs_verification.md to undo the regeneration's write to that tracked report - tree cleanup of a file the generator itself modified, not a code edit)."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "docs/issues/t134.md#ac4 fenced bash block (full 319-leg rescan: zero legs mention the edited sentence tokens; exactly leg 227 pins the README+report digest pair; legs 248/250/252/259 independent; synthetic-leg negative control)",
+        "exit_code": 0,
+        "output_path": "scratch/t134_ac/ac4.sh",
+        "note": "Verbatim rc=0 on the post-window index: index entries=319, sentence-token hits=[], README digests {now=79aa573e, base=9551149a} pinned by exactly [227], report digests {now=737f96a9, base=246f5d9b} pinned by exactly [227], legs 248/250/252/259 clean, negative control flags 1/1 synthetic leg. The block is BASE-free so the post-window index is scanned as-is; independently confirmed leg 227 (t59/ac4) now carries BOTH new digests and zero old ones, keeps the wc -l == 421 assertion, and its command sha256 == 7915ee56ebd3316ec68a53c8c13ff98788d0ee180c4bfca2e07e48dad6331549 == the new_command_sha256 recorded in the W2 commit 99520d1; the entry's insertion-order json sha256 == e7904c7e662cd554320d398ae823b3b19e9125e1ba15b38f81165952c8f26a81 == entry_sha_after in that commit message (forward+reverse proofs independently reproduced)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "docs/issues/t134.md#ac5 fenced bash block (delta purity: README + the two generator constants + the regenerated report + this card + t134 outputs against the PINNED base; index and product code byte-untouched; generator diff touches only the constants)",
+        "exit_code": 0,
+        "output_path": "scratch/t134_ac/ac5_dispatchbase.sh",
+        "note": "BOTH numbers reproduced by the verifier, as instructed. (1) Fence AS WRITTEN (literal BASE=fda7f0f) against the builder's branch tip a021c2d exits 1 on exactly ONE path: docs/log/orchestrator_wal.jsonl - the WAL 1360 row introduced by the ORCHESTRATOR's commit 20883bb, which the verifier proved is an ancestor of the dispatch base 0ccea5f (git merge-base --is-ancestor rc=0), i.e. orchestrator-only bookkeeping already on origin/main before the builder was dispatched; the builder's product commit 8efc57c moves exactly the three product paths (git show --name-only). Against current HEAD the as-written fence additionally lists docs/issues/t135.md, docs/state/outputs/t135_definer_groom.json (t135 groom commits 7cfd0d0/6f09168) and docs/state/merge_test_index.json (the orchestrator's W2 window 99520d1) - all post-dispatch orchestrator/t135 work, none builder bytes. (2) The identical fence with BASE=0ccea5f (the assigned dispatch base; delta HEAD replaced by the builder tip a021c2d) is GREEN rc=0: delta == README.md + backend/scripts/docs_verification.py + docs/criteria/docs_verification.md + docs/state/outputs/t134_builder_build.json; index/seed_demo.py/package.json/backend/app byte-untouched; generator diff touches ONLY README_DIGEST (README_LINES unchanged at 421); purity negative control fires. Verdict PASS with disclosure per the card's own merge-window framing: zero index bytes and zero product code were touched by this builder; the extra paths in the as-written run are orchestrator commits on main, exactly the disclosed class."
+      }
+    },
+    "test_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [
+      "ac5's fence compares BASE..HEAD; post-merge at main tip HEAD carries orchestrator commits (WAL rows, the t135 groom, the W2 index window) on top of the builder's delta, so the as-written block cannot be the builder-purity measurement post-merge. The faithful builder-delta run (BASE=dispatch base 0ccea5f, TIP=builder tip a021c2d) is the full-strength measurement and is GREEN; the as-written fda7f0f-vs-a021c2d and fda7f0f-vs-HEAD runs were both executed and their exact extra-path diffs recorded in the ac5 note."
+    ],
+    "dod_verified": {
+      "readme_421_crlf_lines_at_79aa573e_lines_49_50_frozen_all_other_419_lines_byte_identical_to_fda7f0f_denial_zero_occurrences_no_hosted_login_claim_five_token_counts_equal_ac1_green": true,
+      "generator_constants_equal_measured_pair_moved_off_base_pins_report_attests_pair_ends_all_checks_pass_four_carried_reports_byte_identical_ac3_green": true,
+      "full_index_rescan_reproduces_priced_pin_set_0_of_319_sole_holder_leg_227_ac4_green": true,
+      "builder_delta_moves_only_readme_two_generator_constants_report_card_and_t134_outputs_ac5_green_at_dispatch_base_with_wal_disclosure": true,
+      "five_fenced_blocks_recompute_ac_hash_from_committed_card_blob_3c6138db_match": true,
+      "orchestrator_merge_entry_records_leg227_double_repin_digests_entry_sha_chain_b499ff0_precedent_leg227_post_window_rc_0": true,
+      "no_claim_positive_or_negative_about_a_hosted_demo_account_anywhere_in_the_readme": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "ac_hash RE-DERIVED from git show HEAD:docs/issues/t134.md (committed card blob at HEAD): 5 fenced bash blocks extracted from the Acceptance-criteria section, CR-stripped and trimmed, sha256 over json.dumps(blocks,separators=(',',':')) == sha256:3c6138db6398094ea8444e48e1a638ef50c250d6f2bfaa43343e68ffa78213f4 - MATCHES the card. The literal pinned BASE=fda7f0f was respected in every base-comparing block (no merge-base substitution); each block's internal base-blob digest leg measured 9551149a... GREEN, proving base fidelity. INDEPENDENT SPOT-CHECKS beyond replay: (a) frozen two lines confirmed AT 49-50 with cat -A (CRLF terminators visible); (b) grep both directions over the whole README - 'hosted' occurs exactly once (line 43, 'Try the hosted app first'), zero hosted-demo-presence AND zero hosted-demo-absence claims; every 'demo account' mention (lines 55-56, 103, 121, 126) is local-seed context; (c) 421 lines / 421 CR / cr-sha 79aa573e... measured with the fence's own byte-source (tr -d '\\r' < README.md | sha256sum); (d) the t133-frozen block 56-58 is byte-identical to the base blob (segment cr-stripped sha256 c3d7bb7c51083a6ca3b6705f4fbec35af885536bfe25240ec4704dc9295b0de3 on both sides). ORCHESTRATOR-LOCKED MEASUREMENTS CITED, NOT RE-RUN per instruction: post-window fresh clone (-c core.autocrlf=false) leg 227 rc=0 (6s) and leg 259 rc=0 (0s) at index commit 99520d1; the W2 commit message carries the double re-pin (README 9551149a->79aa573e, report 246f5d9b->737f96a9), entry_sha 632de7fd->e7904c7e with forward+reverse proofs and the b499ff0 precedent - the verifier independently reproduced the forward proof (both new digests present in leg 227, zero old), the new_command_sha256 (7915ee56...) and the entry_sha_after (e7904c7e, insertion-order json.dumps). Lint: ruff check --output-format=json scripts/docs_verification.py -> [] (0 errors 0 warnings, non-blocking; via UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv outside the tree). Environment: frontend npm ci via cmd.exe Windows side; uv via ~/.local/bin/uv with UV_PROJECT_ENVIRONMENT=/tmp/t134v_venv OUTSIDE the tree; in-tree backend/.venv never created or executed; tree restored byte-clean. Platform comment/label transitions for issue 139 NOT executed by this verifier run (same directive the builder and the t133 verifier recorded: the card lives on main and the issue is already merged; no .env created)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t134_verifier_verify.json"
+    ],
+    "platform_issue": 139,
+    "output_path": "docs/state/outputs/t134_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-25T12:05:00Z",
+  "retry_count": 0
+}
