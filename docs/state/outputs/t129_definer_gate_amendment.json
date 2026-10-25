@@ -1,0 +1,93 @@
+{
+ "schema_version": "2.0",
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t129",
+ "milestone": "phase_23_backlog_hygiene",
+ "platform_issue": 133,
+ "status": "proposed",
+ "authority": "W2 index-amendment policy; the t126/t131 records are the shape precedents. This is a TWO-LEG amendment record: legs 221 and 226 hardcode the stale post-t98 tally pair 116/622 and must be re-priced to the measured 117/621 the moment the regenerated matrix lands. The definer wrote zero index bytes; the orchestrator applies it.",
+ "policy": "W2",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "operation": "REPLACE_COMMAND",
+ "amendments": [
+  {
+   "index": 221,
+   "name": "t58-ac1-req-matrix-tally",
+   "issue_id": "t58",
+   "ac": "ac1",
+   "old_command_sha256": "013f18b84e7a1ae4b913b3e8a84a7ea9bdafcc0d38957192307027943d96c664",
+   "old_command_len": 3038,
+   "new_command_sha256": "9ff0de653a1c0cdfb185e689014aa38ab9de123d7e5ae08cf0cbead2de74350a",
+   "new_command_len": 3038,
+   "entry_sha_before": "5660cabdd44c4f60de02996caaa10e36ca57c77455b60d7fe7bc1639f8e98f04",
+   "entry_sha_after": "0ed08272e6f3c9861539a630956f2dfc6d0dffe230162d5bcdd6e479f92ae5a9",
+   "replacements": [
+    {
+     "from": "\"IMPLEMENTED_TESTED 116\"",
+     "to": "\"IMPLEMENTED_TESTED 117\"",
+     "occurrences": 1
+    },
+    {
+     "from": "\"IMPLEMENTED_STRUCTURAL 622\"",
+     "to": "\"IMPLEMENTED_STRUCTURAL 621\"",
+     "occurrences": 1
+    },
+    {
+     "from": "116/622/10/0/1",
+     "to": "117/621/10/0/1",
+     "occurrences": 1
+    }
+   ],
+   "new_command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv >/dev/null || { echo \"ac1: uv missing\"; exit 1; }; command -v node >/dev/null || { echo \"ac1: node missing\"; exit 1; }; test -f docs/criteria/req_coverage_verification.md || { echo \"ac1 RED: the generated matrix is missing\"; exit 1; }; cp docs/criteria/req_coverage_verification.md /tmp/t58_ac1_committed.md || { echo \"ac1 RED: cannot capture the committed matrix\"; exit 1; }; D0=$(tr -d \"\\r\" < /tmp/t58_ac1_committed.md | sha256sum | cut -c1-64); (cd backend && uv run python scripts/req_coverage_verification.py >/tmp/t58_ac1_r1.log 2>&1); R1=$?; (cd backend && uv run python scripts/req_coverage_verification.py >/tmp/t58_ac1_r2.log 2>&1); R2=$?; D1=$(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md | sha256sum | cut -c1-64); echo \"ac1 evidence: rc1=$R1 rc2=$R2 committed_digest=$D0 regenerated_digest=$D1\"; cmp -s <(tr -d \"\\r\" < /tmp/t58_ac1_committed.md) <(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md) || { echo \"ac1 RED: the regenerated matrix differs from the committed bytes - commit exactly what the generator writes (CR-tolerant compare)\"; tail -20 /tmp/t58_ac1_r2.log; exit 1; }; [ \"$R1\" = 0 ] || { echo \"ac1 RED: PRIMARY FENCE - the fail-closed generator exits $R1, so the tree still carries GAP or unpointed rows\"; tail -6 /tmp/t58_ac1_r1.log; exit 1; }; [ \"$R2\" = 0 ] || { echo \"ac1 RED: the second run exits $R2 - the exit-0 state is not reproducible\"; exit 1; }; [ \"$D0\" = \"$D1\" ] || { echo \"ac1 RED: committed digest differs from the regenerated digest\"; exit 1; }; C=$(tr -d \"\\r\" < docs/criteria/req_coverage_verification.md); for sc in \"IMPLEMENTED_TESTED 117\" \"IMPLEMENTED_STRUCTURAL 621\" \"DEFERRED_RULLED 10\" \"GAP 0\" \"EXAMPLE_REFERENCE 1\"; do printf \"%s\\n\" \"$C\" | grep -qE \"^REQ_STATUS_COUNT ${sc}$\" || { echo \"ac1 RED: the status tally is not the expected post-remediation state [${sc}]\"; printf \"%s\\n\" \"$C\" | grep -E \"^REQ_STATUS_COUNT\"; exit 1; }; done; L=$(printf \"%s\\n\" \"$C\" | grep -E \"^REQ_ROW PASS id=REQ-[A-Z_]+-[0-9]{3} \" | grep -vE \" status=GAP \" | grep -vcE \"pointers=[^ ]+\"); N=$(printf \"%s\\n\" \"$C\" | grep -cE \"^REQ_ROW PASS id=REQ-[A-Z_]+-[0-9]{3} \"); echo \"ac1 evidence: matrix_rows=$N unpointed_non_gap_rows=$L\"; [ \"$N\" = 749 ] || { echo \"ac1 RED: $N rows - the enumeration must stay exactly 749\"; exit 1; }; [ \"$L\" = 0 ] || { echo \"ac1 RED: $L non-GAP rows carry no evidence pointer\"; exit 1; }; printf \"%s\\n\" \"$C\" | grep -qE \"^REQ_FENCE PASS gate=fail-closed iff=gap-or-unpointed-row\" || { echo \"ac1 RED: the fail-closed fence declaration vanished from the report - the instrument was edited, not satisfied\"; exit 1; }; echo \"ac1 GREEN: PRIMARY FENCE - the t57 generator now exits 0 twice in a row (zero GAP rows, zero unpointed rows) and byte-identically to the committed report, with the expected post-t98 tally 117/621/10/0/1 over exactly 749 rows (t98: the 5 ids formerly backed by LIVE_DEPLOYMENT_STATE moved DEFERRED_RULLED -> IMPLEMENTED_TESTED via the t98 test-file citation, GAP stays 0, replace-not-vanish)\"'"
+  },
+  {
+   "index": 226,
+   "name": "t59-ac2-req-matrix-tally",
+   "issue_id": "t59",
+   "ac": "ac2",
+   "old_command_sha256": "613a81383e9c32fc62b62d0ba33cae539b043be98963b0a21e2466847b75c66e",
+   "old_command_len": 9002,
+   "new_command_sha256": "aa31182da48df0b2e69c5b893d21d6eff1bef4ff30bdd69cc1534d0f84a586c9",
+   "new_command_len": 9002,
+   "entry_sha_before": "cc12475cb9c6e75d26fa54237a2fec55cb47c6407bb6b21b74a16d0d5c47905a",
+   "entry_sha_after": "721d310dd398430c1a7565aa5223f25c87534e28380a1036c93d5b366302b231",
+   "replacements": [
+    {
+     "from": "IMPLEMENTED_TESTED:116",
+     "to": "IMPLEMENTED_TESTED:117",
+     "occurrences": 1
+    },
+    {
+     "from": "IMPLEMENTED_STRUCTURAL:622",
+     "to": "IMPLEMENTED_STRUCTURAL:621",
+     "occurrences": 1
+    },
+    {
+     "from": "116/622/10/0/1",
+     "to": "117/621/10/0/1",
+     "occurrences": 2
+    }
+   ],
+   "new_command": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v node >/dev/null || { echo \"ac2: node missing\"; exit 1; }; command -v uv >/dev/null || { echo \"ac2: uv missing\"; exit 1; }; for f in docs/criteria/req_coverage_verification.md docs/criteria/docs_verification.md docs/rulings/req-matrix.md ops/deployment-health.md; do test -f \"$f\" || { echo \"ac2 RED: $f missing - the deferral re-attestation reads the matrix, the register, the rulings artifact and the #61 pointer file\"; exit 1; }; done; (cd backend && REQ_COVERAGE_SEED=gap REQ_COVERAGE_FIXTURE_TOKEN=d5d75d0382bd0796 REQ_COVERAGE_OUT=/tmp/t59_ac2_seed_matrix.md uv run python scripts/req_coverage_verification.py >/dev/null 2>&1); SR=$?; test -s /tmp/t59_ac2_seed_matrix.md || { echo \"ac2 RED: the seeded self-test produced no matrix\"; exit 1; }; echo \"ac2 evidence: seeded-GAP matrix synthesized at /tmp (generator rc=$SR, want nonzero)\"; node -e \"const fs=require(\\\"fs\\\");const CR=String.fromCharCode(13);const T=(p)=>fs.readFileSync(p,\\\"utf8\\\").split(CR).join(\\\"\\\");const REG=T(\\\"docs/criteria/docs_verification.md\\\").split(\\\"\\\\n\\\");const RUN=T(\\\"docs/rulings/req-matrix.md\\\");const ANCHOR=T(\\\"ops/deployment-health.md\\\");const run=(MP)=>{const bad=[];const C=T(MP).split(\\\"\\\\n\\\");const rows=C.filter((x)=>/^REQ_ROW PASS id=REQ-[A-Z_]+-[0-9]{3} /.test(x));if(rows.length!==749){bad.push(\\\"matrix carries \\\"+rows.length+\\\" rows, expected 749\\\")}const gap=rows.filter((x)=>/ status=GAP /.test(x));if(gap.length!==0){bad.push(gap.length+\\\" GAP rows remain - the matrix is not closed\\\")}const unpointed=rows.filter((x)=>!/ status=GAP /.test(x)&&!/pointers=[^ ]/.test(x));if(unpointed.length){bad.push(unpointed.length+\\\" non-GAP rows carry no evidence pointer\\\")}const sc={};for(const l of C){const m=l.match(/^REQ_STATUS_COUNT ([A-Z_]+) ([0-9]+)$/);if(m)sc[m[1]]=Number(m[2])}const WANT={IMPLEMENTED_TESTED:117,IMPLEMENTED_STRUCTURAL:621,DEFERRED_RULLED:10,GAP:0,EXAMPLE_REFERENCE:1};for(const k of Object.keys(WANT)){if(sc[k]!==WANT[k]){bad.push(\\\"tally \\\"+k+\\\"=\\\"+sc[k]+\\\", expected \\\"+WANT[k])}}const dr=rows.filter((x)=>/ status=DEFERRED_RULLED /.test(x));if(dr.length!==10){bad.push(dr.length+\\\" DEFERRED_RULLED rows, expected 10 (t98: 8 register/issue-61 rows + 2 ruling rows; the 5 formerly LIVE_DEPLOYMENT_STATE ids are IMPLEMENTED_TESTED)\\\")}const KEYS=[\\\"LIVE_AGENT_SESSION\\\",\\\"LIVE_MCP_SUBPROCESS\\\",\\\"LIVE_SUBAGENT_LAUNCH\\\",\\\"RULING_TECH_DATEFNS_OVERRULED\\\",\\\"RULING_FE_PERF_LIVE_PROFILING\\\"];if(rows.some((x)=>x.indexOf(\\\" deferral_key=LIVE_DEPLOYMENT_STATE \\\")>=0)){bad.push(\\\"a DEFERRED_RULLED row still carries deferral_key=LIVE_DEPLOYMENT_STATE - t98 moved the key out of the register and the 5 ids to IMPLEMENTED_TESTED\\\")}if(C.some((x)=>x.indexOf(\\\"REQ_DEFERRAL_KEY PASS key=LIVE_DEPLOYMENT_STATE \\\")>=0)){bad.push(\\\"a REQ_DEFERRAL_KEY row still claims key=LIVE_DEPLOYMENT_STATE - the key left the register with t98\\\")}for(const k of KEYS){const n=dr.filter((x)=>x.indexOf(\\\" deferral_key=\\\"+k+\\\" \\\")>=0).length;const claim=C.find((x)=>x.indexOf(\\\"REQ_DEFERRAL_KEY PASS key=\\\"+k+\\\" \\\")>=0);const K=claim?Number((claim.match(/ids=([0-9]+)/)||[0,-1])[1]):-1;if(K!==n){bad.push(\\\"key \\\"+k+\\\" backs \\\"+n+\\\" rows but the REQ_DEFERRAL_KEY row claims \\\"+K)}if(n===0){bad.push(\\\"key \\\"+k+\\\" backs zero rows\\\")}if(k.indexOf(\\\"RULING_\\\")===0){for(const r of dr.filter((x)=>x.indexOf(\\\" deferral_key=\\\"+k+\\\" \\\")>=0)){if(r.indexOf(\\\"issue=65\\\")<0){bad.push(\\\"a \\\"+k+\\\" row carries no issue=65 pointer\\\")}}}else{for(const rk of [\\\"RULING_TECH_DATEFNS_OVERRULED\\\",\\\"RULING_FE_PERF_LIVE_PROFILING\\\"]){if(REG.some((x)=>x.indexOf(\\\"| \\\"+rk+\\\" |\\\")>=0)){bad.push(rk+\\\" was added as a DEFERRAL_REGISTER row - the two ruling keys are static generator constants, the register must stay at 3 DEFERRED after the t98 move\\\")}}}}const i61=dr.filter((x)=>x.indexOf(\\\" issue=61\\\")>=0);if(i61.length!==2){bad.push(i61.length+\\\" DEFERRED_RULLED rows carry issue=61, expected 2 (the deploy-hook family)\\\")}for(const r of i61){if(r.indexOf(\\\"ops/deployment-health.md\\\")<0){bad.push(\\\"an issue=61 row does not point at ops/deployment-health.md\\\")}if(r.indexOf(\\\"RENDER_DEPLOY_HOOK\\\")<0){bad.push(\\\"an issue=61 row carries no RENDER_DEPLOY_HOOK reason snippet\\\")}}if(!ANCHOR.includes(\\\"Render\\\")){bad.push(\\\"ops/deployment-health.md is not the Render deployment record the pointer row claims\\\")}if(!REG.some((x)=>/^DEFERRAL_REGISTER 3 DEFERRED$/.test(x))){bad.push(\\\"the carried register is no longer at exactly 3 DEFERRED rows (t98 moved LIVE_DEPLOYMENT_STATE out)\\\")}if(REG.some((x)=>x.indexOf(\\\"| LIVE_DEPLOYMENT_STATE | DEFERRED |\\\")>=0)){bad.push(\\\"LIVE_DEPLOYMENT_STATE is still a DEFERRED register row\\\")}const SOP=T(\\\"docs/criteria/security_ops_verification.md\\\");if(!SOP.includes(\\\"VERIFIED_ROW LIVE_DEPLOYMENT_STATE artifact=ops/deployment-health.md url=https://expense-tracker-dashboard-1qtu.onrender.com/api/v1/health http_status=200 database=postgresql fallback_active=false version=1.0.0 evidence=measured_by_t92_record record=docs/state/outputs/t92_deploy_evidence.json\\\")){bad.push(\\\"the security_ops VERIFIED_ROW replacement for LIVE_DEPLOYMENT_STATE is missing or malformed - the moved row must be replaced, not vanish\\\")}for(const id of [\\\"REQ-OPS-061\\\",\\\"REQ-OPS-062\\\",\\\"REQ-CICD-041\\\",\\\"REQ-DOC-070\\\",\\\"REQ-PROD-041\\\"]){const r=rows.find((x)=>x.indexOf(\\\" id=\\\"+id+\\\" \\\")>=0);if(!r){bad.push(\\\"id \\\"+id+\\\" vanished from the matrix\\\")}else if(r.indexOf(\\\" status=IMPLEMENTED_TESTED \\\")<0){bad.push(id+\\\" is not IMPLEMENTED_TESTED after the t98 move\\\")}}for(const k of [\\\"LIVE_AGENT_SESSION\\\",\\\"LIVE_MCP_SUBPROCESS\\\",\\\"LIVE_SUBAGENT_LAUNCH\\\"]){if(!REG.some((x)=>x.indexOf(\\\"| \\\"+k+\\\" | DEFERRED | reason=\\\")>=0)){bad.push(\\\"register row \\\"+k+\\\" is not DEFERRED with a reason in docs/criteria/docs_verification.md\\\")}}if(!C.some((x)=>/^REQ_DEFERRAL_PROVENANCE PASS source=docs\\/criteria\\/docs_verification.md#DEFERRAL_REGISTER/.test(x))){bad.push(\\\"the register provenance row vanished\\\")}if(!C.some((x)=>/^REQ_DEFERRAL_PROVENANCE PASS source=docs\\/rulings\\/req-matrix.md/.test(x))){bad.push(\\\"the rulings provenance row vanished\\\")}if(!C.some((x)=>/^REQ_DEFERRAL_POINTER PASS issue=61 family=OPS artifact=ops\\/deployment-health[.]md$/.test(x))){bad.push(\\\"the issue=61 provenance pointer row vanished\\\")}for(const tok of [\\\"RULING_TECH_DATEFNS_OVERRULED\\\",\\\"RULING_FE_PERF_LIVE_PROFILING\\\"]){if(!RUN.includes(tok)){bad.push(\\\"docs/rulings/req-matrix.md does not name \\\"+tok)}}for(const id of dr.filter((x)=>/deferral_key=RULING_/.test(x))){const g=id.match(/id=(REQ-[A-Z_]+-[0-9]{3})/);if(g&&!RUN.includes(g[1])){bad.push(\\\"docs/rulings/req-matrix.md does not name the ruled id \\\"+g[1])}}const noKey=dr.filter((x)=>!/deferral_key=/.test(x)&&x.indexOf(\\\" issue=61\\\")<0);if(noKey.length){bad.push(noKey.length+\\\" DEFERRED_RULLED rows carry neither a deferral_key nor issue=61\\\")}const noReason=dr.filter((x)=>x.indexOf(\\\"deferral_reason=\\\")<0);if(noReason.length){bad.push(noReason.length+\\\" DEFERRED_RULLED rows print no deferral_reason snippet\\\")}return bad};const bad=run(\\\"docs/criteria/req_coverage_verification.md\\\");if(bad.length){console.error(\\\"ac2 RED: \\\"+bad.slice(0,10).join(\\\" | \\\"));process.exit(1)}console.log(\\\"ac2 evidence: 749 rows, GAP=0, every non-GAP row pointed, tally 117/621/10/0/1, 10 DEFERRED_RULLED rows = 8 register/issue-61 backed (3 LIVE_* keys reconciling to REQ_DEFERRAL_KEY claims, register at 3 DEFERRED after the t98 LIVE_DEPLOYMENT_STATE move, the 5 formerly-backed ids IMPLEMENTED_TESTED, the VERIFIED_ROW replacement present) + 2 ruling rows (issue=65 + docs/rulings/req-matrix.md) + the 2-row issue=61 deploy-hook family pointing at ops/deployment-health.md, every row key-or-61 and reason-bearing, both provenance rows present\\\");const nb=run(\\\"/tmp/t59_ac2_seed_matrix.md\\\");if(!nb.length){console.error(\\\"ac2 RED: the same checker ACCEPTED a seeded-GAP matrix - the closure attestation is vacuous\\\");process.exit(1)}console.log(\\\"ac2 evidence: NEGATIVE CONTROL - the identical checker rejects the seeded-GAP matrix (first rejection: \\\"+nb[0]+\\\")\\\")\" || { echo \"ac2 RED: the deferral re-attestation failed\"; exit 1; }; rm -f /tmp/t59_ac2_seed_matrix.md; echo \"ac2 GREEN: MATRIX CLOSURE AND DEFERRAL RE-ATTESTATION - the matrix closes at 749 rows with zero GAP and zero unpointed rows and the tally is exactly 117/621/10/0/1, and its entire deferral surface re-attests: the carried DEFERRAL_REGISTER carries exactly 3 DEFERRED LIVE_* keys after the t98 LIVE_DEPLOYMENT_STATE move each reconciling row-for-row against its REQ_DEFERRAL_KEY claim, the two static RULING_* keys carry issue=65 plus the docs/rulings/req-matrix.md pointer without masquerading as register rows, the 2-row issue=61 deploy-hook family points at ops/deployment-health.md with reason snippets, and no deferred row was re-adjudicated into code scope (re-adjudication is OUT OF SCOPE here); this fence is GREEN AT BASE by design - it attests carried state - and its seeded-GAP negative control fires, so the green is not vacuous\"'"
+  }
+ ],
+ "add_count": 0,
+ "no_leg_deleted": true,
+ "verifier_thresholds_touched": false,
+ "base": {
+  "main_tip_at_groom": "61260d1",
+  "index_entries": 319,
+  "note": "entry_sha_before values were verified THIS groom against the LIVE entries at 61260d1 (the two cheap digest verifications this zero-measurement dispatch authorized); legs are pinned by digest + issue/ac identity + command length, never by the file digest (the t122 frozen-premise lesson). The dispatch's tests[220]/tests[225] notation is off-by-one; the digests below pin the true positions 221/226."
+ },
+ "apply_window": "apply legs 221 and 226 in the t129 merge window ONLY AFTER the builder's regenerated-matrix commit lands. Applying earlier leaves BOTH legs RED against the still-stale committed report (they grep REQ_STATUS_COUNT from docs/criteria/req_coverage_verification.md) - that RED is the intended ordering signal, not a defect.",
+ "rebuild_recipe": "each new_command is its live command with EXACTLY the listed literal replacements and nothing else: leg 221 gains 3 substitutions (the for-sc pair \"IMPLEMENTED_TESTED 116\"/\"IMPLEMENTED_STRUCTURAL 622\" and the prose tally 116/622/10/0/1); leg 226 gains 4 (the node WANT pairs IMPLEMENTED_TESTED:116/IMPLEMENTED_STRUCTURAL:622 and the prose tally 116/622/10/0/1 twice - the evidence echo and the GREEN line). Every other byte is identical; the amended commands contain zero occurrences of 116 or 622.",
+ "proof_state": "the entry digests (entry_sha_before/after, old/new command shas) are MEASURED at 61260d1 by this groom; the rc=0 GREEN of the amended legs on a /tmp copy is fenced by the card's ac3 for the builder/verifier to execute (this dispatch ran under a zero-measurement write-only mandate - the leg RUNS were not re-measured here, only the digests).",
+ "sweep": {
+  "method": "full-index read-only scan for the tally pattern at 61260d1",
+  "result": "the 116/622 tally-pair pattern appears in EXACTLY legs 221 and 226; no other leg among the 319 prices that pair; legs 224/227 (t58 ac4 / t59 ac4) carry no tally pin and are fenced as untouched neighbors by the card's ac4"
+ },
+ "written_by_definer_applied_by": "definer-groom for t129 (platform issue #133); the orchestrator applies both amendments in the t129 merge window after the product commit"
+}
