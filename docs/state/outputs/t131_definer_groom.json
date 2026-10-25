@@ -1,0 +1,58 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t131",
+ "role": "definer",
+ "phase": "groom",
+ "status": "COMPLETE",
+ "reached_state": "groomed",
+ "evidence": {
+  "evidence_type": "grooming",
+  "ac_hash": "sha256:d44883772732eeab844f84ac6830b99024424c8dfc9c65be49afeb8b95e8b53f",
+  "ac_hash_recipe": "t58/t116 - the six fenced bash blocks CR-stripped and trimmed, sha256 over json.dumps(blocks, separators=(',',':')); RE-DERIVED from the committed blob git show 9d13fe7:docs/issues/t131.md and identical to the card literal (verified in this run)",
+  "ac_count": 6,
+  "verification_commands": {
+   "ac1": "fenced ac1 block: README_LINES pin vs splitlines()/wc -l (corrected, must equal pin) vs split('\\n') (off-by-one, must equal pin+1); measured 421/421/422 at main 09dcb87",
+   "ac2": "fenced ac2 block: cmd.exe /d /c git -C <wslpath -w PWD> rev-parse --git-dir rc=0; bare git rev-parse --git-dir divergence measured (rc=128 on this WSL worktree class)",
+   "ac3": "fenced ac3 block: glob-resolve docs/state/outputs/t124_definer_gate_amendment*.json against LIVE tests[284] command sha + entry sha; exactly one match (v2, 3e3c4a60/231aace6); superseded v1 measured non-matching",
+   "ac4": "fenced ac4 block: ac-less index legs form contiguous prefix 0..192 (193 legs); all 8 INDEX_ANCHORS digests recompute GREEN over ac-less entries; in-memory key-injection into anchored entry 16 changes its digest (control armed); ZERO amendments priced",
+   "ac5": "fenced ac5 block: git diff --name-only base..HEAD (cmd.exe git) == docs/criteria/fence_defects_verification.md + docs/state/outputs/t131_* only; index/generator/README diff --quiet byte-untouched",
+   "ac6": "fenced ac6 block: carrier docs/criteria/fence_defects_verification.md FENCE_DEFECT rows parsed and RE-MEASURED against the live tree (pin, off-by-one, guard rcs, ac-less count, amendments=0, class5 disposition, zero-amendment record name, ac_hash stamp present)"
+  },
+  "sections_filled": [
+   "context",
+   "acceptance_criteria",
+   "out_of_scope",
+   "definition_of_done"
+  ],
+  "contract_first_applied": true,
+  "fence_measurements_at_groom": "all six fences executed verbatim from the working card at main 09dcb87: ac1 rc=0 GREEN, ac2 rc=0 GREEN, ac3 rc=0 GREEN, ac4 rc=0 GREEN (each with its negative control asserted inside the fence), ac5 rc=1 and ac6 rc=1 RED-BY-DESIGN at base (the carrier is the unbuilt product)",
+  "classes_in_card": "class1 split-newlines off-by-one (ac1), class2 --git-dir WSL guard (ac2), class3 hardcoded superseded amendment path (ac3), class4 193 ac-less legs as a measured CLASSIFICATION with zero amendments (ac4)",
+  "classes_carved": "class5 LINK_CHECK .pytest_cache pollution - SKIP_DIRS (docs_verification.py line 96) lacks .pytest_cache (measured); the fix is a generator PRODUCT change plus regeneration (t132-adjacent) and this card must not re-fix products; it is priced on the record (ac6 class5_disposition row) and listed in Out of scope as a follow-up candidate. The class-4 KEY FIX (adding ac to the 193 legacy legs) is likewise carved: it requires re-pinning six INDEX_ANCHORS digests in the generator (product + index coordination), proven by ac4's key-injection control.",
+  "gate_amendment": "docs/state/outputs/t131_definer_gate_amendment.json - a ZERO-AMENDMENT record (t126 shape, amendments: [], add_count: 0, operation NONE): the full-index sweep found no LIVE leg whose command text changes under this card (the off-by-one, git-guard and amendment-path defects lived in CARD fences, not index legs; no index leg pins an amendment path or a split-newlines equality). The definer wrote zero index bytes; the orchestrator applies nothing.",
+  "disclosures": [
+   "the platform CLI cannot receive the card body verbatim: scripts/platform.ts parseFlags rejects a value starting with '--' and the card body begins with the '---' frontmatter fence, so the synced body carries ONE leading newline (the local file remains authoritative; GitHub renders the leading blank line invisibly)",
+   "the platform CLI was run from the sibling worktree C:/Users/tw097/Desktop/261007_project01/worktrees/t92b because this worktree (and the main checkout) has no .env (API_TOKEN/REPO_ID); issue update 135 returned rc=0 with number=135, then label remove defined and label add groomed both returned rc=0 with labels=[] and [groomed] respectively; the CLI's normalized get output carries no body field, so body persistence is asserted from the update rc/number contract (groom.md Step 6)",
+   "class-5 second half measured: the committed report line LINK_CHECK PASS files=291 links=67 disagrees with a fresh count on this clean tree (293 counted files) - a regeneration-hygiene fact owned by the t132 class, disclosed not healed",
+   "the ac_hash literal in the card was written after the fence texts were final; re-derivation from the committed blob 9d13fe7 reproduced sha256:d4488377... byte-identically (no working-file vs committed-blob drift)",
+   "ac2's negative control is host-class conditional BY DESIGN: on a host where bare git also succeeds the fence states the divergence as a note instead of a measurement - the corrected cmd.exe spelling is green on BOTH classes, which is exactly why it is the corrected block"
+  ],
+  "branch_and_commit": {
+   "branch": "groom/t131-fence-defects",
+   "base": "09dcb87",
+   "card_commit": "9d13fe7c7b91c8f5695bab5beffa0aa7c89e46ca"
+  }
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/issues/t131.md",
+   "docs/state/outputs/t131_definer_gate_amendment.json",
+   "docs/state/outputs/t131_definer_groom.json"
+  ],
+  "platform_issue": 135,
+  "output_path": "docs/state/outputs/t131_definer_groom.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-25T05:10:00Z",
+ "retry_count": 0
+}
