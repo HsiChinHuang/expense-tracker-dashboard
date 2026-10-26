@@ -1,0 +1,88 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t139",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "168bce2e8ca436b123afce801e80edbce8db6198",
+    "t139_base": "483d8e6e3e411b7bfc54965546fdef81166ad69d",
+    "built_state_commit": "product 6c3ee023261299b03bb69f616626a275a09e1a81 + handoff tip df45999; merged to main as 9a75941; dispatch base 483d8e6 (the main tip that already contains the card) is the T139_BASE per the card's BASE convention (gate C).",
+    "ac_hash_rederived": "sha256:d1f87151836644251cf058cf1fdb4297086c9df5940e3437429b95814c667137 - MATCH. Independently re-derived with the card's ANCHORED recipe (column-0 fenced bash blocks, CR-stripped+strip(), compact json.dumps separators) from the committed HEAD blob AND from the sim clone's df45999 blob; both reproduce d1f87151 exactly. All six fences executed VERBATIM from that extraction with zero edits.",
+    "ac_execution_policy": "All six fences executed VERBATIM at BOTH states per the task and the t140/t138 precedent: (A) POST-MERGE MAIN 168bce2 in the worktree (frontend/node_modules junctioned to the main checkout per the card's Harness notes - js-yaml prerequisite for legs 131/132/133 and ac1/ac5, untracked/git-invisible, not a relaxation); (B) DESIGNED CONTEXT = builder branch tip df45999 in a dirt-free cmd.exe clone (default core.autocrlf, junctioned) with T139_BASE=483d8e6. rc table: POST-MERGE MAIN ac1=0 ac2=1 ac3=0 ac4=0 ac5=0 ac6=0; DESIGNED CONTEXT ac1=0 ac2=0 ac3=0 ac4=0 ac5=0 ac6=0. The single post-merge RED (ac2) is the KNOWN t140-class finding (WAL 1406/1409/1414, adjudicated PASS-with-non-block by verifier 8205d9f6 for exactly this class); its substance is independently measured below.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash <fence ac1 verbatim> with T139_BASE=483d8e6e3e411b7bfc54965546fdef81166ad69d (needs frontend/node_modules junction)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at BOTH states (post-merge main 168bce2 AND designed context df45999). The documented sed over each BASE blob equals the committed bytes cr-stripped; exactly one runs-on pair per drifted site and nothing else; ALL FIVE jobs (ci backend-test/frontend-test/compose-build, deploy deploy, promote promote) parse runs-on as the STRING ubuntu-24.04 via js-yaml; e2e.yml's t137 quoted pin intact. INDEPENDENT CONFIRMATION: git grep ubuntu-latest over the four workflows at HEAD returns rc=1 (zero occurrences); the working-tree runs-on lines are ci.yml 22/46/70, deploy.yml 22, promote.yml 18, e2e.yml 22 - all five t139 sites carry quoted \"ubuntu-24.04\"."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash <fence ac2 verbatim> with T139_BASE=483d8e6e3e411b7bfc54965546fdef81166ad69d",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at the DESIGNED CONTEXT (builder tip df45999, T139_BASE=483d8e6): changed == [.github/workflows/ci.yml, deploy.yml, promote.yml, docs/state/outputs/t139_builder_build.json] - whitelist-clean; index/e2e.yml/.gitkeep byte-zero; the matcher NC refuses index and e2e.yml edits. RED rc=1 at POST-MERGE MAIN 168bce2 - the KNOWN t140-class finding: the fence's pre-merge-authored whitelist refuses the post-merge delta which now also carries docs/issues/t132.md, t141.md, t142.md, docs/log/orchestrator_wal.jsonl, docs/state/merge_test_index.json, and t141a/t142 handoffs - NONE of which are t139's. SUBSTANCE INDEPENDENTLY MEASURED: (1) zero workflow bytes beyond the five pinned lines - git diff --numstat 483d8e6..168bce2 over the four workflows = ci 3/3, deploy 1/1, promote 1/1, e2e.yml 0, .gitkeep 0; the full diff shows EXACTLY five runs-on pairs (5x '-runs-on: ubuntu-latest' / '+runs-on: \"ubuntu-24.04\"') and nothing else. (2) zero index bytes attributable to t139 - git log 483d8e6..168bce2 -- docs/state/merge_test_index.json names EXACTLY ONE commit, 4412514 (the t141 Card A W2 window), which touches ONLY merge_test_index.json (git show --name-only 4412514 = the index alone, zero workflow bytes); t139's own commits 6c3ee02/df45999 touch ONLY the three workflows + the t139 handoff (zero index bytes). The index change is attributable to commit 4412514/t141, not t139. RULING: documented non-block per the t140 precedent (verifier 8205d9f6 PASS-with-non-block for exactly this class)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash <fence ac3 verbatim> (needs the junction; legs 162/177 are slow gitleaks legs - allow >=900s)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at BOTH states, executed synchronously (post-merge main 8m03s, designed context 7m32s; NEVER backgrounded). The six workflow-referencing GREEN legs (5,131,132,133,161,227) all rc=0 on the patched tree - 131/132/133 parse the patched ci/deploy STRUCTURE, never runs-on values; the four pre-existing RED legs (162,167,177,191 - user-declared background, WAL 1399) hold rc=1 unchanged, no heal and no worsening, matching the groom's BASE and PATCHED tables exactly; leg 191 embeds and passes 131/132/133/135 inside itself."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash <fence ac4 verbatim>",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at BOTH states. Pin-surface EXECUTED against the live index: zero legs reference runs-on or ubuntu; zero digest pins over the three patched workflows (cr-stripped AND raw); leg 227 freezes 20 non-workflow files plus a filename-level dir LISTING; a one-char digest mutation is refused by the same comparison form. Note: this fence reads the LIVE index (docs/state/merge_test_index.json) which at HEAD carries the t141 W2 amendment (digest 93b24c38) - the amendment does not disturb the pin-surface premise (still zero runs-on/ubuntu references, zero workflow digest pins), and the fence is GREEN at both states."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash <fence ac5 verbatim> (needs the junction; creates and removes its own scratch dir)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at BOTH states. Both forbidden emissions EXECUTE-REFUSED through the same js-yaml STRING check ac1 uses: an ubuntu-26.04 emission is refused (value is not the accepted pin), and the unquoted 24.04 emission parses as the NUMBER 24.04 (the exact t137 float failure the quotes prevent) - refused by ac1's typeof+equality check. The real patched ci.yml passes the same check (control baseline intact)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash <fence ac6 verbatim>",
+        "exit_code": 0,
+        "note": "GREEN rc=0 VERBATIM at BOTH states (the builder handoff exists at verify time, so the full digest+observation branch runs). The groom handoff carries the ac_hash, leg_rc_base/patched tables, all six BASE/PATCHED cr-sha digests, and post_merge_observation_owned_by=orchestrator. The builder handoff carries the measured patched cr-sha of all three workflows and the pending orchestrator-owned runner observation. INDEPENDENT DIGEST CONFIRMATION with the fence's OWN byte-source (tr -d '\\r' < f | sha256sum): ci=83b5829115f51cf289f5be0836519596c531b86d28675800d1978d5e30b609ba, deploy=2efac6ad1175251ef3f6ba12a8e8691ced41ebd39e40254f8e9be22b2c5e16eb, promote=4e1525ce68e059fd158960a2e1acfa42f7776b6aefe4df4ee60b75404ebcd6e6 - all three EQUAL the builder handoff's patched_cr_sha_* values AND the groom's expected_patched_cr_sha_* values. RUNNER OBSERVATION: the orchestrator's post-merge observation stands (WAL 1413: CI jobs backend-test/frontend-test/compose-build on 0c2fae6 carry labels ['ubuntu-24.04'], pin LIVE not just committed text; backend/frontend SUCCESS, compose-build cancelled-by-supersession not failure; E2E SUCCESS; Deploy success) - orchestrator-owned, not blocked on."
+      }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "failure_type": null,
+    "lint_report": { "errors": 0, "warnings": 0 },
+    "test_quality_warnings": [
+      "ac2's verbatim purity fence is RED-by-construction at post-merge heads: its whitelist was authored pre-merge and admits only {ci/deploy/promote, docs/issues/t139.md, docs/state/outputs/t139_*}, so it refuses the legitimate post-merge arrivals (WAL growth, the t141 W2 index amendment 4412514, and the t132/t141/t142 cards+handoffs). Orchestrator-owned card-text hygiene (append-only-addendum territory for a future card, never a fenced-block edit), same class as t140 (verifier 8205d9f6) and t142 (WAL 1416). Not a product defect: the substance (five runs-on pairs, zero t139 index bytes) is independently verified."
+    ],
+    "dod_verified": {
+      "five_sites_carry_quoted_ubuntu_24_04_delta_exactly_five_lines": true,
+      "e2e_yml_and_index_byte_zero_vs_dispatch_base": true,
+      "six_workflow_referencing_green_legs_rc0_verbatim_four_red_legs_rc1_unchanged": true,
+      "pin_surface_and_both_emission_negative_controls_execute": true,
+      "both_handoffs_exist_with_required_fields": true,
+      "builder_commits_pushed_and_merged": true,
+      "post_merge_runner_observation_landed_24_04_image": true,
+      "platform_144_labels_orchestrator_owned": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "known_non_blocks_confirmed": [
+      "ac2 verbatim fence RED at post-merge main 168bce2 (rc=1) - the KNOWN t140-class finding (WAL 1406/1409/1414): the pre-merge-authored whitelist refuses post-merge arrivals (orchestrator_wal.jsonl growth, the t141 W2 index amendment commit 4412514, and the t132/t141/t142 cards+handoffs). Substance independently proven: exactly five runs-on pairs across the three workflows (numstat 3/3,1/1,1/1; e2e.yml and .gitkeep zero bytes), and the sole index-touching commit in the range is 4412514/t141 (touches ONLY merge_test_index.json); t139's own commits touch zero index bytes. Adjudicated PASS-with-non-block per the t140 precedent (verifier 8205d9f6). The fence is GREEN rc=0 at the DESIGNED CONTEXT (builder tip df45999, T139_BASE=483d8e6).",
+      "frontend/node_modules junction (mklink /J to the main checkout, js-yaml verified) is untracked gitignored scaffolding - the harness shape the fences' junction prerequisite expects; no stray nul file staged.",
+      "platform #144 label transitions are orchestrator-owned (orchestrator owns closure per the dispatch); the verifier handoff is committed and pushed on this branch."
+    ],
+    "validator_note": "Validator invoked exactly as dispatched with phase alias verify_issue (the bare 'verify' alias has no schema per the t135/t136 WAL precedent); the '< NUL' redirect placed INSIDE the cmd.exe quotes to avoid the stray-nul contamination class; the handoff copied to the main checkout for the validation call since the validator resolves paths against the main checkout."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t139_verifier_verify.json"
+    ],
+    "platform_issue": 144,
+    "output_path": "docs/state/outputs/t139_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T07:07:48Z",
+  "retry_count": 0
+}
