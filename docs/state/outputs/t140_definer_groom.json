@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t140",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:e571d88956250cf5888b94bb3c3f3274678e19365ceabfb0134b0e4c11925f43",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash ac1-fence (docs/issues/t140.md): premise re-derived live - 0 occurrences of a0399b17 in docs/state/merge_test_index.json; leg 227's CURRENT pin EXTRACTED from the index is held by [227] alone; the t138 ac4 part-3 stale-literal scan is RED-by-construction ([]); the identical scan under the current pin returns [227] (NC)",
+      "ac2": "bash ac2-fence: docs/issues/t138.md carries the '## Post-closure hygiene addendum (t140 ...' section at column 0 as its LAST section, after Definition of Done, with all required record content (both digests, convention, adjudication, WAL pointers, echo-prose non-block) and zero markdown links",
+      "ac3": "bash ac3-fence: t138 published ac_hash sha256:323fc030... re-derives MATCH from BOTH the HEAD blob and the working tree (6 fenced blocks, column-0 anchored recipe); NC: a one-character edit inside ac4 part 3 moves the digest",
+      "ac4": "bash ac4-fence with T140_BASE=<DISPATCH BASE>: delta whitelist {docs/issues/t138.md append-only, docs/issues/t140.md, docs/state/outputs/t140_*}; index/product/README/criteria byte-zero; the t138 delta deletes 0 lines and adds 0 markdown links (git diff --ignore-cr-at-eol); NC refuses index bytes",
+      "ac5": "bash ac5-fence: committed report cr-sha256 == leg 227's CURRENT pin READ from docs/state/merge_test_index.json at fence time (no hardcoded digest - the convention in practice); LINK_CHECK row shape links=67 broken=0 intact; mutation NC",
+      "ac6": "bash ac6-fence: docs/state/outputs/t140_builder_build.json names both digests, ac_hash_match, addendum_sha256, and explicit \"index_bytes_moved\": false"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "adjudication": {
+      "question": "docs/issues/t138.md is a CLOSED card whose published ac_hash 323fc030 covers its six fenced AC blocks - is editing closed-card AC text admissible, or must the fix land as (i) addendum/hygiene section, (ii) re-groom with re-derived ac_hash, or (iii) no card edit plus a documented convention?",
+      "decision": "option (i): an APPEND-ONLY addendum to docs/issues/t138.md that touches ZERO fenced-block bytes; the published t138 ac_hash 323fc030 stays valid and re-derives MATCH (ac3 executes this both ways). The 'make the fence read the current pin from the index' rewrite is REFUSED for the CLOSED card and adopted as (a) the CONVENTION the addendum records and (b) the design rule of this card's own fences (ac1/ac5 extract leg 227's pin from the shipped index at run time and never hardcode it).",
+      "citations": [
+        "docs/process.md state machine: defined -> groomed -> built -> verified -> closed; no closed -> groomed edge exists; the definer's AC-mutating mode is re_groom",
+        "skills/definer/details/re_groom.md: trigger = Verifier FAIL (failure_type ac_ambiguous|ac_wrong); the verifier FAIL report is a REQUIRED input - t138's verifier returned PASS 6/6 (WAL 1394), so re_groom (option ii) has no admissible trigger",
+        "docs/process.md Rules: 'Verification commands are pinned at groom time and re-run verbatim; substituting a command is a gate failure' - the fenced texts are evidence artifacts cited verbatim by the verifier replay and merge verdict (WAL 1394, ff417ad)",
+        "WAL 1129 (t90) precedent: supervisor REJECTED re-grooming merged fences to fit a post-merge tree as 'pointless re-premise'; disclosure/record is the instrument, not text mutation",
+        "WAL 1394/1395: the verifier and orchestrator themselves classified this staleness as orchestrator-owned CARD-TEXT hygiene and routed the fix to a future card (t140/#145, WAL 1397/1399 user-authorized) - i.e. record via a new card, which is what the addendum does",
+        "t138's own card text classifies the same-class leg-227 echo-prose staleness as 'recorded non-block, separate hygiene' (Out of scope) - the recorded practice is record, not patch"
+      ]
+    },
+    "echo_prose_adjudication": "The stale 29d22aff/d849c775 strings inside leg 227's command are an INDEX edit. ZERO index bytes is KEPT; the refresh is NOT performed and NOT in this card's ACs. It is recorded as an orchestrator-owned OPTIONAL W2 merge-window obligation with the exact REPLACE-only edit (3 message-prose strings + optional case-probe arm rotation), forward+reverse proofs, and the 319-leg invariant. The current HEAD blob id of docs/criteria/docs_verification.md (336231a0bd3c73e0b3a0dec733144bde60a4d3de, measured at f0eeb769279) is named with a re-measure caveat.",
+    "measured_premise": {
+      "base": "f0eeb769279266dbb1abb6fef4ae108b40b139ce",
+      "index_legs": 319,
+      "old_literal_occurrences_in_index": 0,
+      "pin_surface_under_current_pin": "[227]/[227]/[]/[]/[318]/[]",
+      "t138_ac4_part3_verbatim_stale_scan": "RED-by-construction: digest scan returns [] != [227]",
+      "t138_ac_hash_rederivation_at_base": "323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c MATCH",
+      "report_cr_sha_at_base": "11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f",
+      "report_head_blob_at_base": "336231a0bd3c73e0b3a0dec733144bde60a4d3de",
+      "link_check_row_at_base": "LINK_CHECK PASS files=304 links=67 broken=0"
+    },
+    "gate_A_ac_hash_self_derivation": "ac_hash 363d5614... was self-derived from the committed blob at 53c3dc0, then RE-DERIVED as e571d889... after the ac4 fence amendment (--ignore-cr-at-eol + builder CRLF note, discovered by gate B); the FINAL value e571d88956250cf5888b94bb3c3f3274678e19365ceabfb0134b0e4c11925f43 re-derives MATCH from the FINAL committed blob 71adfb0:docs/issues/t140.md via the column-0 anchored recipe (6 blocks).",
+    "gate_B_smoke": "All six fences extracted VERBATIM from the committed card and executed in a simulated BUILT-STATE clone (clone of branch tip 53c3dc0 + CRLF addendum appended to t138.md + synthetic t140 build handoff + built-state commit; T140_BASE=53c3dc02de58ec81a192416f848a6860c1c7b732): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0, all negative controls fired (scratch/t140_smoke2.out). The FIRST run exposed a real trap: an LF append to the CRLF-smudged t138.md produced a full-file diff (619 phantom deleted lines, ac4 RED); fixed by (a) a builder note to append CRLF-normalized text and (b) ac4's delete/link counts running through git diff --ignore-cr-at-eol; the re-run was 6/6 GREEN.",
+    "platform_sync": "issue update 145 with the full committed card body (leading single space prepended ONLY to dodge parseFlags' '--'-prefix rejection; local file remains authoritative per groom.md); read-back number=145. Labels: defined removed, groomed added; read-back labels=[groomed] state=open.",
+    "zero_bytes": "ZERO product bytes, ZERO index bytes, ZERO bytes of docs/issues/t138.md in the GROOM commit chain (the card + handoff only). The t138 addendum append is the BUILDER's single product-surface edit, priced and fenced by ac2/ac3/ac4/ac5."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t140.md",
+      "docs/state/outputs/t140_definer_groom.json"
+    ],
+    "platform_issue": 145,
+    "output_path": "docs/state/outputs/t140_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T05:25:00Z",
+  "retry_count": 0
+}
