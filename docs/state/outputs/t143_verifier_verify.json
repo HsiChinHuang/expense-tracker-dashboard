@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t143",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "80579ced48f0a643d5a4352a9c679b58d6ca1903",
+    "t143_base": "f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e",
+    "built_state_commit": "product 07c0a4afee5f27140cf22c125a56c71b21ea7ab0 (P1 row-13 in-place rewrite 1/1 + P2 policy append 20/0, CRLF held) + handoff tip 5e15d63597f4ba73fdd5fb053f42b9d21b4ee1d2 (origin branch tip verified); merged into main at 246ceda; post-merge main tip 80579ced48f0a643d5a4352a9c679b58d6ca1903 (worktree HEAD == origin/main, verified).",
+    "ac_hash_rederived": "sha256:dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280 - MATCH. Independently re-derived with the card's ANCHORED recipe (column-0 '^## Acceptance criteria' anchor to next column-0 H2, fenced bash blocks CR-stripped and strip()-ed, 7 blocks, json.dumps compact separators) from the committed card blob at THREE revs: DISPATCH BASE f767d34, builder tip 5e15d63, post-merge main 80579ce - all MATCH, and the 7 extracted fence files are sha256-identical across the three revs, so the two state-runs below provably executed the same verbatim blocks. All seven fences executed VERBATIM with zero edits at BOTH states.",
+    "ac_execution_policy": "SEVEN fences extracted verbatim from the committed t143 card blob and run UNEDITED at BOTH states per the t140 precedent (verifier 8205d9f6, WAL 1409) and the t142 precedent (WAL 1417): (1) the card's DESIGNED CONTEXT - builder branch tip 5e15d63 in a dirt-free cmd.exe clone (default core.autocrlf, checkout through cmd.exe, clone under gitignored scratch/) with T143_BASE=f767d34 (the DISPATCH BASE), exactly as the card's own Verification commands section instructs ('Run from the builder branch with T143_BASE set to the DISPATCH BASE'): 7/7 rc=0 GREEN, every NC firing as specified; (2) POST-MERGE MAIN 80579ce in the clean worktree with T143_BASE=f767d34: ac1/ac2/ac3/ac4/ac6/ac7 rc=0, ac5 rc=1 ('ac5 RED: the delta carries docs/log/orchestrator_wal.jsonl'). I reproduced the orchestrator's WAL 1426 measurement EXACTLY. No fenced block was edited and no command was substituted at either state.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "ac1: the fenced ac1 block (refreshed row 13 sheds the three stale claims, keeps a truthful gap token, and its LIVE claims re-derive from compose/trace/collector; NC: the T143_BASE row carried \"stays commented out\")",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac1.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states (builder branch tip 5e15d63 designed context AND post-merge main 80579ce), identical GREEN output (scratch/t143v/logs/main_ac1.log). NC fired: the T143_BASE row carries 'stays commented out' - the scan discriminates. INDEPENDENT substance: at HEAD the table has EXACTLY 13 numbered data rows and exactly one '| 13 |' row; the refreshed row carries none of the three stale claims, keeps the truthful 'not measured' gap token, cross-references security/ai-tool-data-policy.md, and its LIVE claims re-derive from my own measurements: compose defines otel-collector/loki/tempo as LIVE top-level services with the claimed images, trace.py defines install_tracing AND calls install_tracing(), collector.yaml carries the LIVE traces pipeline with otlp/tempo."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "ac2: the fenced ac2 block (the real residual gap - no processor, no exporter instantiation, no job boots the stack - re-derived live and named by row 13; NC: the grep machinery is non-vacuous over the same files)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac2.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states. Independently re-measured (>=3 spot-checks per dispatch, all six gap claims confirmed): the production call site passes NO processor; provider.add_span_processor is guarded by 'if processor is not None'; FileSpanExporter is never instantiated in shipped code (0 sites in main.py/trace.py); backend/uv.lock carries ZERO otlp hits (the only opentelemetry-exporter-* package is prometheus - metrics, not OTLP, so the row's 'ships no OTLP exporter' claim is precise); ZERO job files (.github/workflows, Makefile) reference otel-collector/grafana/tempo/grafana/loki/observability/compose; NC: the same grep machinery finds pytest/uv hits in those files (non-vacuous). Row 13 names 'processor' truthfully."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "ac3: the fenced ac3 block (stored legs 307/309/312 extracted from the shipped index and run VERBATIM, all rc=0; 312 proven LIVE-amended by its t141-Card-A marker; 319 legs; RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present, never healed)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac3.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states - including at post-merge main, where the fence extracts the legs from the LIVE shipped index at run time. INDEPENDENT re-run per the dispatch: legs 307 (t86), 309 (t86), 312 (t87 - the probe that watches these very files) extracted from the live docs/state/merge_test_index.json at post-merge main and executed synchronously (never background): all three rc=0 (scratch/t143v/logs/legs_main.log). 319 legs; RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (WAL 1399, never healed); leg 312's 'AMENDED (t141 Card A)' marker proven from the shipped blobs."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "ac4: the fenced ac4 block (policy add-only against the probe's OWN BASE re-read from the shipped leg-312 source; appended tail carries TRACE + DOC_LANG + STALE/SUPERSEDED; NC: an in-place BASE edit breaks the prefix)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac4.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states. Independently re-derived: the probe BASE literal 57c0d5138ffe2342de40da93a8f67fbb3d330fee re-read from the shipped leg-312 source (never guessed); the 94 BASE non-comment lines remain an UNTOUCHED PREFIX at post-merge main (the probe's premise holds); the appended tail (40 non-comment lines) carries tracing vocabulary, the documentation-only boundary language, and names the t87 sentences STALE and SUPERSEDED; NC fired (a simulated in-place BASE-line edit breaks the prefix under the probe's own comparison). The policy tail is byte-equal to the card's frozen P2 text."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "ac5: the fenced ac5 block with `T143_BASE` set to the DISPATCH BASE (delta whitelist {security/agent-security-notes.md with exactly 1 deleted line = the old row 13, security/ai-tool-data-policy.md append-only 0 deleted, docs/issues/t143.md, docs/state/outputs/t143_*}; index/observability/backend/frontend/.github/criteria/README/plan byte-zero; numstat ceilings refuse a CRLF whole-file rewrite; NC refuses index bytes)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac5.log",
+        "note": "PASS IN SUBSTANCE AND IN ITS DESIGNED CONTEXT; the post-merge-main RED is a DOCUMENTED NON-BLOCK per the t140 precedent (verifier 8205d9f6, WAL 1409) and the t142 precedent (run 16f575ca, WAL 1417) - adjudicated below. TWO VERBATIM MEASUREMENTS, both recorded honestly: (a) AT POST-MERGE MAIN 80579ce the fence exits rc=1 with its own RED line 'ac5 RED: the delta carries docs/log/orchestrator_wal.jsonl' - changed=[docs/log/orchestrator_wal.jsonl,docs/state/outputs/t143_builder_build.json,security/agent-security-notes.md,security/ai-tool-data-policy.md] (scratch/t143v/logs/main_ac5.log); I reproduced the orchestrator's WAL 1426 measurement EXACTLY; (b) AT THE DESIGNED CONTEXT - builder branch tip 5e15d63 in the dirt-free cmd.exe clone, T143_BASE=f767d34, exactly as the card's own Verification commands section instructs - the SAME fence exits rc=0 GREEN with changed=[docs/state/outputs/t143_builder_build.json,security/agent-security-notes.md,security/ai-tool-data-policy.md]. exit_code 0 records measurement (b), the fence's designed context and the card's own instruction; measurement (a) stands as recorded and is the basis of the non-block adjudication. ATTRIBUTION (independently verified, not trusted from WAL 1426): the single non-whitelisted delta path maps to ORCHESTRATOR commits, not t143 - git log f767d34..80579ce -- docs/log/orchestrator_wal.jsonl returns EXACTLY b5304d3 (WAL 1423-1424, groom merge + builder dispatch) and 80579ce (WAL 1425-1426, build merge + this routing), the numstat over the range is +4/-0 append-only (0 deletions, the orchestrator's journal; the WAL's own entry 1426 pre-discloses this RED as the t140 class third occurrence and routes it to this verification). The index BLOB ID proves zero index bytes: 873f90394163ae5291215909014387620f7f1c9e at BASE == at builder tip 5e15d63 == at main 80579ce (identical blob is stronger than diff --quiet). The merge commit 246ceda itself carries EXACTLY three paths (builder handoff +90, notes 2/1-line, policy +20/-0) - all whitelisted. THIS IS THE PUREST FORM OF THE CLASS: no index carrier this time, the WAL is the SOLE foreign path. OUT-OF-FENCE DIAGNOSTIC (explicitly labelled: a MEASUREMENT, NOT a substitute for the verbatim fence - the verbatim rc values above stand as recorded): re-running ac5's own whitelist loop over the delta EXCLUDING docs/log/orchestrator_wal.jsonl yields changed=[docs/state/outputs/t143_builder_build.json,security/agent-security-notes.md,security/ai-tool-data-policy.md] with every path whitelist-OK. SUBSTANCE at post-merge main, independently measured: notes delta over the range = exactly 1 deleted line (the old '| 13 |' row) + 1 inserted (the frozen P1 line, byte-equal); policy delta = +20/-0 pure append (0 deleted lines); ZERO bytes over the range on docs/state/merge_test_index.json, observability/, backend/, frontend/, .github/, docs/criteria/, README.md, docs/plan.md (git diff --quiet rc=0 on each); ZERO .py files in the delta; numstat insertion-dominated (no CRLF phantom churn - the t140 trap is pre-empted); NC refuses index bytes."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "ac6: the fenced ac6 block (observability records measured gap-free; row 13 makes no observability cross-reference; NC: the BASE row carried the false cross-reference)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac6.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states. NC fired: the T143_BASE row carries 'the same gap is disclosed in observability/README.md' - the scan discriminates. Independently confirmed: the refreshed row 13 makes no observability/README.md cross-reference, and the gap-vocabulary scan of observability/README.md + observability/collector.yaml measures zero hits (the false cross-reference is gone rather than made true by editing observability/, which the card forbids)."
+      },
+      "ac7": {
+        "verdict": "PASS",
+        "command": "ac7: the fenced ac7 block (builder handoff names the gap token, legs 307/309/312, add_only, and explicit `\"index_bytes_moved\": false` / `\"observability_bytes_moved\": false`)",
+        "exit_code": 0,
+        "output_path": "scratch/t143v/logs/built_ac7.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states (the handoff is committed at both states). The build handoff names 'not measured', install_tracing, otel-collector, 307/309/312, add_only, and states \"index_bytes_moved\": false and \"observability_bytes_moved\": false explicitly. I VERIFIED those claims rather than trusting them: the index blob is byte-identical at BASE/builder-tip/main (zero index bytes) and git diff --quiet over observability/ backend/ frontend/ .github/ across the whole range is rc=0."
+      }
+    },
+    "test_summary": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "failure_type": null,
+    "known_non_blocks_confirmed": [
+      "ac5's post-merge-main rc=1 is caused SOLELY by docs/log/orchestrator_wal.jsonl (+4/-0 append-only, seq 1423-1426, 0 deletions) landing on main between t143's DISPATCH BASE and the post-merge tip - the known whitelist omission (WAL 1406 class), THIRD occurrence after t140 ac4 (verifier 8205d9f6, WAL 1409) and t142 ac4 (run 16f575ca, WAL 1417), and the PUREST form: no index carrier this time, the WAL is the sole foreign path. NEITHER byte is t143's: the WAL commits are b5304d3/80579ce (orchestrator journal entries), the index blob 873f90394163 is IDENTICAL at BASE, builder tip and main (t143 moved ZERO index bytes), and the merge commit 246ceda introduces exactly three whitelisted files (builder handoff +90/-0, notes 1/1, policy +20/-0). This is a defect in t143's OWN fence design (a whitelist that hardcodes a surface which legitimately rotates - the orchestrator's append-only journal always grows in every merge window), NOT a product, index, or disclosure defect. Ruled a DOCUMENTED NON-BLOCK per the t140/t142 precedent. The verbatim rc=1 at post-merge main stands as recorded; no fenced block was edited and no command was substituted.",
+      "The fence is correct AT ITS DESIGNED CONTEXT and the card's own Verification commands section prescribes exactly that context ('Run from the builder branch with T143_BASE set to the DISPATCH BASE'), where ac5 exits rc=0 verbatim with the delta carrying ONLY the three whitelisted paths. The correction (admit the WAL path to the whitelist) is append-only card-text hygiene for a FUTURE card and must NEVER be made by editing t143's fenced block (WAL 1403 ruling; WAL 1426 itself records the correction as 'a card-text-hygiene addendum for a future card, never an edit of a merged card's fenced AC').",
+      "SUBSTANCE, independently verified (not from the WAL or the builder's claims): notes table EXACTLY 13 numbered data rows at HEAD; exactly ONE deleted line over f767d34..80579ce and it IS the old '| 13 |' row; refreshed row 13 byte-equal to the card's frozen P1 text; policy tail byte-equal to the frozen P2 text with 0 deleted lines (pure append) and the 94-line BASE prefix untouched under the probe's own comparison; the refreshed disclosure is TRUTHFUL against the live tree on every claim I spot-checked (compose otel-collector/loki/tempo LIVE with claimed images; install_tracing defined AND called; collector traces pipeline LIVE with otlp/tempo; production install passes no processor with the attach guarded; FileSpanExporter never instantiated in shipped code; ZERO otlp hits in backend/uv.lock - only a prometheus metrics exporter; ZERO job files boot the stack with the NC proving the machinery sees those files); ZERO bytes over the range on index/observability/backend/frontend/.github/criteria/README/plan; ZERO .py files in the delta; t143's ac_hash dd9acd82 re-derives MATCH at BASE, builder tip AND main HEAD (7 blocks, anchored recipe, my own implementation) - the fences never moved.",
+      "Platform #148 label transition: 'verified' ADDED per the skill's PASS rule; read-back labels [groomed, built, verified]. 'groomed' and 'built' were LEFT IN PLACE deliberately, matching the recorded cumulative-label practice at WAL 1395 (#143) and the t142/#147 precedent; the state-routing intent of the built->verified swap is satisfied by 'verified' being present. Closure is orchestrator-owned.",
+      "Builder handoff disclosure accepted: the builder disclosed that 'builder:build' is not a registered validator key (extensions/schema_validator.ts registers builder:implement/fix_qa/fix_merge/fix_regression only - the t67 verifier:verify registered-key gap class) and that the handoff validated [OK] under the registered phase builder:implement. The ac_mapping test strings match the card's literal '## Verification commands' lines (fc186ee), satisfying the ac_mapping-consistency check with no [BUILDER_COMMAND_MISMATCH]."
+    ],
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "Non-blocking. The delta moves ZERO .py files (git diff --name-only f767d34..80579ce -- '*.py' is empty), so no lint finding is attributable to this card; ruff is not installed in this verifier environment (consistent with the zero-findings-attributable convention of the t140/t142 verifier handoffs). Recorded as 0 errors / 0 warnings attributable to t143.",
+    "test_quality_warnings": [
+      "t143's ac5 whitelist omits docs/log/orchestrator_wal.jsonl, so the fence cannot exit 0 at ANY post-merge main head - the orchestrator's append-only journal always grows between a card's DISPATCH BASE and the post-merge tip. This is the THIRD occurrence of the class (t140 ac4, t142 ac4, t143 ac5) and the first PURE form (WAL-only carrier, no index carrier). The fence is correct AT ITS DESIGNED CONTEXT (builder branch + T143_BASE = DISPATCH BASE, where it exits rc=0 verbatim). The whitelist correction is a future card's append-only card-text hygiene (WAL 1426's own wording); it must NEVER be made by editing t143's fenced block.",
+      "This card has no separate test files by design: its verification commands ARE the seven fenced bash blocks, each self-verifying with a negative control. Writing separate test files would breach the card's own ac5 delta whitelist."
+    ],
+    "dod_verified": {
+      "builder_branched_from_dispatch_base_containing_card_with_T143_BASE_set": true,
+      "all_seven_ac_blocks_exit_0_on_the_builder_branch_with_NCs_firing": true,
+      "delta_is_exactly_row13_rewrite_policy_append_card_and_t143_outputs": true,
+      "notes_delta_exactly_1_deleted_line_the_old_row13_and_1_inserted_frozen_P1": true,
+      "policy_append_only_zero_deleted_lines_BASE_prefix_untouched": true,
+      "stored_legs_307_309_312_exit_0_verbatim_at_built_state_AND_at_post_merge_main": true,
+      "permanent_RED_set_present_unchanged_never_healed": true,
+      "build_handoff_names_gap_token_leg_rcs_add_only_and_explicit_index_and_observability_bytes_moved_false": true,
+      "ac5_verbatim_at_designed_context_builder_branch_with_T143_BASE_exits_0": true,
+      "ac5_verbatim_at_post_merge_main_exits_0": false,
+      "zero_index_observability_product_bytes_attributable_to_t143": true,
+      "no_new_RED_legs_attributable_to_this_card_zero_product_index_bytes": true,
+      "platform_148_labels_groomed_built_verified_read_back_verified_added_by_this_verifier": true
+    },
+    "dod_note": "The single false DoD reading ('All seven AC blocks exit 0' read as 'at post-merge main') is exactly the documented non-block: the card's own Verification commands section scopes the fences to the BUILDER BRANCH with T143_BASE set to the DISPATCH BASE, where all seven exit 0 verbatim; at post-merge main ac5 cannot, by its own construction, because the orchestrator's append-only WAL always grows in that window (t140 class, third occurrence, pure WAL-only form). All other DoD items verified true.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema declares this field as a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is emitted verbatim per the t138/t140/t142/t143-builder precedent; the id-substituted form FAILS validation. The ACTUAL authoritative source is docs/issues/t143.md#verification-commands; all seven fenced blocks were extracted verbatim from the committed card blob (sha256-identical across BASE/builder-tip/main) and executed unedited at both states.",
+    "validator_note": "Validator invoked exactly as dispatched: cmd.exe /d /c \"cd C:\\Users\\tw097\\Desktop\\261007_project01\\expense-tracker-dashboard && npx tsx scripts/validate_handoff.ts docs/state/outputs/t143_verifier_verify.json verifier verify_issue < NUL\" with '< NUL' INSIDE the cmd quotes (never bare in WSL bash). The validator resolves the relative path against the MAIN checkout, so the worktree handoff was copied there for the validation call and the copy deleted afterwards; the main checkout's .env was staged from scratch/env_quarantine_t94post per the WAL 1408 recipe (cp in one call, validator in its OWN call, rm -f .env + sleep 2 + ls-assert in a SEPARATE call).",
+    "harness_notes": [
+      "The dirt-free clone for the designed-context run was created with cmd.exe git clone -b issue/t143-tracing-disclosure-refresh (default core.autocrlf); the first bare clone attempt failed on 'Filename too long' for the long pi-subagents ref and was disclosed/remedied by cloning the short branch name; no WSL git checkout was performed inside the cmd.exe clone. The clone lives under scratch/ (gitignored).",
+      "This worktree's HEAD == origin/main == 80579ced48f (verified by rev-parse); the worktree was clean before, during (fence .sh files and helper .py lived under gitignored scratch/), and after the post-merge runs (git status --porcelain empty).",
+      "All git operations in this worktree were read-only (rev-parse/show/diff/log/status) through cmd.exe /d /c, one operation per call; the only state-changing git work was committing and pushing THIS handoff on the verifier branch (push after each commit).",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH are empty - no-op for this Node.js project; all fences use WSL python3.",
+      "The fence files used at both states are sha256-identical (verified by digest comparison across the BASE/builder-tip/main extractions), so the two measurements are provably the same seven verbatim blocks.",
+      "Platform API calls ran through cmd.exe against the MAIN checkout (the WSL npx picks up the Windows node_modules through the /mnt/c junction and esbuild chokes); the verdict comment was posted through the shell-less node --import tsx execFileSync wrapper (t121-class npx.cmd argument-corruption precedent) reading the body from a file - read-back via issue latest-comment is byte-equal to the local body.",
+      "Stored legs 307/309/312 were run synchronously (never background) from the LIVE index at post-merge main; all three are light probes (rc=0 in seconds); no js-yaml-dependent leg ran, so no frontend/node_modules junction was needed."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t143_verifier_verify.json"
+    ],
+    "platform_issue": 148,
+    "output_path": "docs/state/outputs/t143_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T09:45:00Z",
+  "retry_count": 0
+}
