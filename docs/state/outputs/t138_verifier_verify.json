@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t138",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "b5ba050cb615b6fff505f599d23eb732f7233ccf",
+    "t138_base": "69b6e28f03df4ac34550892afbe01fe06df55c61",
+    "built_state_commit": "product 36613781e124ede894ae6c0197c310d2eaa96b54 + handoff tip 7b9c712; merged to main as 823bb298e5a, orchestrator M1 re-pin 47f2076 on top; dispatch base main tip b5ba050 contains all of it (verified ancestor).",
+    "ac_hash_rederived": "sha256:323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c - MATCH. Independently re-derived with the card's ANCHORED recipe from the committed HEAD blob (cmd.exe git show HEAD:docs/issues/t138.md captured in python, CR-stripped, 6 fenced bash blocks extracted at column 0, compact json.dumps separators). All six fences executed VERBATIM from that extraction with zero edits.",
+    "ac_execution_policy": "ac1/ac2/ac3/ac6 executed VERBATIM at merged HEAD b5ba050 in the worktree (frontend/node_modules junctioned to the main checkout per the card's Harness notes - js-yaml/STORED_GATES prerequisite, untracked and git-invisible, not a relaxation). ac4 executed VERBATIM at merged HEAD: parts 1,2,4 and the NC ran GREEN; part 3's 319-leg scan asserts the literal OLD digest a0399b17 as the leg-227 pin, which the orchestrator's legitimate M1 re-pin (commit 47f2076, REPLACE-only, EXACTLY this card's M1 obligation) replaced with the built-state digest 11ed40fa - the AC text was frozen at groom time before M1 ran. The pin-surface INTENT re-derived exactly under the new digest: digest pins == [227], blob pins == [227], counter/gen-byte/SKIP_DIRS-text pins == [], executor == [318], 319 legs intact, a0399b17 has 0 occurrences anywhere in the index. ac5 executed VERBATIM at the built-state tip 7b9c712 in a dirt-free clone with T138_BASE=69b6e28 (its designed context: per-card delta purity at the DISPATCH BASE); at merged HEAD the same fence would fire RED on the orchestrator's WAL/re-pin and t137's merged files - the expected post-merge multi-card signature, NOT a t138 defect.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced ac1 block (committed report == dirt-free-clone generator output; files= == recorded-rule re-derivation == clean-tree walk set; links=67 broken=0; count NCs on F+1/99999)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 verbatim at merged HEAD. Committed report byte-equals (cr-stripped) what the committed generator writes in a dirt-free cmd.exe clone (junctioned, uv with UV_PROJECT_ENVIRONMENT outside the tree, rc=0). INDEPENDENT RE-DERIVATION: F=304 == E=304 (the generator's OWN recorded rule re-derived via git ls-files in the clone with SKIP_DIRS read from the clone's own source) == W=304 (clean-tree walk set - byte-neutrality). links=67 broken=0. The count leg refuses 305 and 99999. My re-derivation AGREES with the committed report (304 at the merged tip = 302 base + t137 card + t138 card recorded arrivals - legitimate recorded-rule behavior, not a discrepancy)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced ac2 block (20 planted untracked .md incl. a fresh tool dir and a root stray; walk +20 but generator row and report digest UNMOVED; recorded set unmoved; vacuity guards)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 verbatim at merged HEAD - the machine-independence proof REPRODUCED independently: planted 20 untracked .md (14 under fresh .newtool/venvs, 3 docs/log, 1 backend/.pytest_cache, 1 docs/state/pending_blockers, 1 repo-root stray); the OLD walk rule measured 324 == 304+20 (vacuity guard satisfied), the recorded set unmoved (308 == 308), and the committed generator still exited rc=0 writing files=304 links=67 broken=0 with a report BYTE-IDENTICAL to the dirt-free run (cr-sha 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f both runs)."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced ac3 block (no os.walk in the generator; executed masked-git refusal for failure and empty-zero; unmasked probe non-vacuity)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 verbatim at merged HEAD. os.walk count in the generator == 0; git_unavailable and ls-files paths present; SKIP_DIRS constant stands. BOTH fail-closed negative controls EXECUTED: (a) git-fails mask (rc=1) -> check_links FAILS loud with git_unavailable and emits NO PASS row; (b) rc=0 + EMPTY stdout (the quoted-glob vacuous-zero trap) -> same loud refusal, no emitted row. Unmasked probe non-vacuous: emits 'LINK_CHECK PASS files=304 links=67 broken=0' with git real."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced ac4 block (byte-neutrality at BASE by re-derivation; HEAD == BASE + recorded .md arrivals; 319-leg scan: digest/blob pins == [227], counter/generator-byte/SKIP_DIRS text pins == [], executor == [318]; CARRIED_DIGESTS 4 keys; 13 hex; SKIP_DIRS byte-identical; NCs)",
+        "exit_code": 0,
+        "note": "GREEN in substance; the verbatim fence exits rc=1 ONLY at part 3's literal digest key: it asserts legs pinning a0399b17 == [227], but the orchestrator's M1 re-pin (47f2076, REPLACE-only - this card's own merge-window obligation, executed exactly as prescribed) rotated the pin to 11ed40fa. Re-derived under the new digest: digest pins == [227], blob pins == [227], counter pins == [], generator-source-byte pins == [], executor == [318], SKIP_DIRS/os.walk text pins == [], 319 legs intact, a0399b17 occurs 0 times in the index. Parts 1/2/4 + NC ran GREEN verbatim: at BASE 08e6385 in a dirt-free clone the walk rule AND the recorded rule BOTH measure 302 == the committed BASE row (byte-neutral); HEAD 304 == BASE 302 + 2 recorded .md arrivals (t137+t138 cards) - 0 departures; CARRIED_DIGESTS 4 keys without this report; 13 hex literals; SKIP_DIRS byte-identical to BASE; all five scans fire on synthetic pins. Card-text staleness vs post-M1 state is orchestrator-owned hygiene, not a product defect (the task's own acceptance criterion - leg 227 pins 11ed40fa, 0 occurrences of a0399b17, 319 legs - is exactly satisfied)."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced ac5 block with T138_BASE=69b6e28f03df4ac34550892afbe01fe06df55c61 (delta whitelist at the DISPATCH BASE; index/README/carried/sibling byte-zero; SKIP_DIRS-set edit refusal; zero new hex; index-byte NC)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 verbatim at the built-state tip 7b9c712 (ancestor of merged HEAD) in a dirt-free clone with T138_BASE=69b6e28: changed == [backend/scripts/docs_verification.py, docs/criteria/docs_verification.md, docs/state/outputs/t138_builder_build.json] - whitelist-clean; index/README/carried-reports/sibling-generator all byte-zero; SKIP_DIRS set unedited in the delta; zero new 64-hex literals; the matcher NC refuses index bytes. Independently at the MERGED tip: diff --quiet 69b6e28 823bb29 -- merge_test_index.json rc=0 (the product merge moved ZERO index bytes) and the ONLY index delta 69b6e28..b5ba050 is the orchestrator re-pin commit 47f2076 whose word-diff is exactly the two digest strings a0399b17 -> 11ed40fa (REPLACE-only)."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced ac6 block (built-state + BASE digests, both rows, byte_source, machine_independence_proof, leg227_repin_owned_by, rejected 4b1ec8a1, report_bytes_moved when unchanged; mutation NC)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 verbatim at merged HEAD. The build handoff carries the measured built-state cr-sha 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f (== the value I measured on the committed report bytes), names the BASE pin a0399b17 it replaces, carries link_check_row_measured (LINK_CHECK PASS files=304 links=67 broken=0 - exactly the report's row), link_check_row_base, byte_source, machine_independence_proof (planted-dirt row == clean row), leg227_repin_owned_by=orchestrator, the rejected polluted digest 4b1ec8a1, and report_bytes_moved=true; the mutation NC refuses a doctored digest."
+      }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "failure_type": null,
+    "lint_report": { "errors": 0, "warnings": 0 },
+    "test_quality_warnings": [
+      "ac4 part 3's digest scan hardcodes the PRE-M1 literal a0399b17; after the orchestrator's legitimate M1 re-pin the verbatim fence is RED-by-construction at post-merge heads. Card-text staleness (orchestrator-owned hygiene), not a product defect; the pin-surface intent re-derives exactly under the new digest."
+    ],
+    "dod_verified": {
+      "builder_branched_from_dispatch_base_containing_card_with_T138_BASE_set": true,
+      "all_six_ac_blocks_exit_0_on_the_builder_branch_with_NCs_firing": true,
+      "delta_is_exactly_generator_report_card_t138_outputs_zero_index_bytes": true,
+      "regenerated_row_files_304_links_67_broken_0_report_55_lines_ALL_CHECKS_PASS_last": true,
+      "leg_318_execution_path_rc0_with_STORED_GATES_PASS_executed_9_failures_0_restored_1": true,
+      "build_handoff_carries_digests_rows_byte_source_machine_proof_repin_owner_rejected_digest": true,
+      "M1_landed_REPLACE_only_and_M2_recorded_rc0_rc0": true,
+      "platform_143_labels_orchestrator_owned": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "merged_state_verification": {
+      "merge_commit": "823bb298e5a (product 3661378 + handoff 7b9c712); orchestrator re-pin 47f2076; dispatch base tip b5ba050 contains all",
+      "leg_227_repin": "tests[227] (t59/ac4) pins 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f; a0399b17 occurs 0 times anywhere in docs/state/merge_test_index.json; 319 legs intact; the ONLY index delta vs base 69b6e28 is this REPLACE-only re-pin (word-diff: exactly the two digest strings).",
+      "index_bytes_vs_base": "ZERO index bytes from the product merge (diff --quiet 69b6e28 823bb29 -- merge_test_index.json rc=0); the sole index-touching commit in the window is the orchestrator's 47f2076.",
+      "skip_dirs": "byte-identical to BASE 08e63854144 (ac4 part 4 verbatim).",
+      "report_shape": "55 lines, exactly one LINK_CHECK PASS row (files=304 links=67 broken=0), STORED_GATES PASS executed=9 failures=0 restored=1, 4 CARRIED_REPORT PASS rows, ALL_CHECKS_PASS last.",
+      "main_tip_drift_note": "main moved to a05b5cc (t137 verifier handoff + WAL) after my dispatch base; the b5ba050..a05b5cc delta is only orchestrator_wal.jsonl + t137_verifier_verify.json - no recorded .md arrives/departs, so files=304 and the report's byte-currency hold unchanged at the newer tip."
+    },
+    "known_non_blocks_confirmed": [
+      "ac4's verbatim fence is RED-by-construction at post-M1 heads (pre-M1 literal digest key) - orchestrator-owned card-text hygiene, same class as leg 227's stale echo prose (29d22aff/d849c775) recorded as a separate non-block by the groom.",
+      "frontend/node_modules junction (mklink /J to the main checkout, js-yaml verified) is untracked gitignored scaffolding - the harness shape the fences' junction-source resolver expects; no stray nul file staged.",
+      "platform #143 label transitions are orchestrator-owned (WAL 1391 records #142/#143 labeling; t137-verifier precedent: verifier handoff committed on its branch, orchestrator merges and transitions)."
+    ],
+    "validator_note": "Validator invoked exactly as dispatched with phase alias verify_issue (the bare 'verify' alias has no schema per the t135/t136 WAL precedent); the '< NUL' redirect placed INSIDE the cmd.exe quotes to avoid the stray-nul contamination class."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t138_verifier_verify.json"
+    ],
+    "platform_issue": 143,
+    "output_path": "docs/state/outputs/t138_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T03:36:30Z",
+  "retry_count": 0
+}
