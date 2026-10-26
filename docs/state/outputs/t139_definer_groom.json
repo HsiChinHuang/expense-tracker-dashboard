@@ -1,0 +1,88 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t139",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:d1f87151836644251cf058cf1fdb4297086c9df5940e3437429b95814c667137",
+    "ac_hash_groups": "d1f87151 83664425 1cf058cf 1fdb4297 086c9df5 940e3437 429b9581 4c667137",
+    "ac_hash_provenance": "SELF-DERIVED (gate A) via the anchored recipe stated IN the card over the COMMITTED card blob at b937967 (the ac5-correction commit; the placeholder fill cannot move the hash because it covers ONLY the six AC bash blocks). Re-verified over the fresh blob after the fill commit.",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash <fence ac1 verbatim> with T139_BASE=<DISPATCH BASE> (needs frontend/node_modules junction)",
+      "ac2": "bash <fence ac2 verbatim> with T139_BASE=<DISPATCH BASE>",
+      "ac3": "bash <fence ac3 verbatim> (needs the junction; legs 162/177 are slow gitleaks legs - allow >=900s)",
+      "ac4": "bash <fence ac4 verbatim>",
+      "ac5": "bash <fence ac5 verbatim> (needs the junction; creates and removes its own scratch dir)",
+      "ac6": "bash <fence ac6 verbatim>"
+    },
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "base": "f0eeb769279",
+    "base_blob_ci": "a9c153ecb9027f5686da4e338415ea8ff40d1bd3",
+    "base_blob_deploy": "17c11618859e68230ebc74a6a748f519bc1fe184",
+    "base_blob_promote": "cf252212f85ba74b13a36253e9be156c065caf06",
+    "base_cr_sha_ci": "9d64451ae236987834d967ee6a4449e7ea2edf9a7fe3baba496980330e4734aa",
+    "base_cr_sha_deploy": "7262fe869db6b0addd540fb1e6e4a4b09636b63c25fe428957eff39d50a0b18f",
+    "base_cr_sha_promote": "d56f1622cddbfa7ed900b4e4c8640e6886f0984f5b8fb25225d78f6169ade548",
+    "expected_patched_cr_sha_ci": "83b5829115f51cf289f5be0836519596c531b86d28675800d1978d5e30b609ba",
+    "expected_patched_cr_sha_deploy": "2efac6ad1175251ef3f6ba12a8e8691ced41ebd39e40254f8e9be22b2c5e16eb",
+    "expected_patched_cr_sha_promote": "4e1525ce68e059fd158960a2e1acfa42f7776b6aefe4df4ee60b75404ebcd6e6",
+    "documented_patch_sed": "sed -E 's/^(    runs-on: )ubuntu-latest\\r?$/\\1\"ubuntu-24.04\"/'",
+    "leg_rc_base": {
+      "5": 0,
+      "131": 0,
+      "132": 0,
+      "133": 0,
+      "161": 0,
+      "162": 1,
+      "167": 1,
+      "177": 1,
+      "191": 1,
+      "227": 0
+    },
+    "leg_rc_patched": {
+      "5": 0,
+      "131": 0,
+      "132": 0,
+      "133": 0,
+      "161": 0,
+      "162": 1,
+      "167": 1,
+      "177": 1,
+      "191": 1,
+      "227": 0
+    },
+    "leg_rc_notes": "Every rc measured VERBATIM from the committed index in dirt-free cmd.exe clones (BASE=card commit 888d24b, PATCHED=BASE+five-line patch commit 0d14432), per-leg rc files under C:/t139sim/rc_BASE and C:/t139sim/rc_PATCHED; the two tables are IDENTICAL - GREEN legs 5/131/132/133/161/227 stay 0, the user-declared RED background set 162/167/177/191 (WAL 1399) stays 1: no heal, no worsening. 131/132/133 GREEN only where frontend/node_modules/js-yaml is junctioned (environment prerequisite, t42/t49/t137 precedent). 191 embeds and PASSES legs 131/132/133/135 inside itself; its outer rc=1 is pre-existing (measured unchanged at BASE).",
+    "gate_B": "sim clone = cmd.exe clone of the worktree branch at card commit 888d24b + patch commit 0d14432, js-yaml junctioned, T139_BASE=888d24b (simulated DISPATCH BASE). Fences executed VERBATIM from the committed blob: ac1 rc=0 (five-job js-yaml STRING proof), ac2 rc=0 (delta purity + index/e2e refusal NC), ac4 rc=0 (pin-surface EXECUTED: zero legs reference runs-on/ubuntu, zero digest pins over the three workflows cr-stripped AND raw, leg 227 freezes 20 non-workflow files + filename-level dir LISTING, mutated-digest NC refused), ac3 rc=0 (6 GREEN legs rc=0, 4 RED legs rc=1 unchanged; completed 4m25s, output recorded in the groom session), ac5 rc=0 after the gate-B correction (both forbidden emissions EXECUTE-REFUSED: ubuntu-26.04 wrong-image + bare 24.04 -> NUMBER 24.04 float form). ac6 rc=1 pre-handoff as designed (handoff-missing signal), GREEN once this file exists.",
+    "gate_B_ac5_correction": "Gate B caught a real error in the draft ac5: js-yaml 4 loads the PLAIN scalar ubuntu-24.04 as a STRING; the t137 float hazard is the BARE 24.04 form (parses as NUMBER 24.04). The NC was corrected in commit b937967 to test both real refusals; the card Goal/adjudication text carries the sharpened mechanism.",
+    "gate_C_purity_base": "T139_BASE = DISPATCH BASE (main tip already containing the card); never HEAD~1-substituted with the card-adding commit.",
+    "index_scan": "Independent 319-leg re-scan CONFIRMS the orchestrator pre-scan: zero legs contain runs-on or ubuntu anywhere; zero digest pins (cr-stripped or raw) over ci.yml/deploy.yml/promote.yml; legs 162/167/177/191/227 workflow references are filename-level (ls -A dir-SET / find exclusions); legs 131/132/133 parse ci/deploy STRUCTURE (names/triggers/jobs/steps/secrets/permissions) and assert NO runs-on value. ADDENDUM found by the groom: leg 191 EXECUTES stored legs 131/132/133/135 inside itself and byte-pins their INDEX-ENTRY sha256 (unaffected by workflow content edits) - which is why 191 sits in the sweep set.",
+    "w2_amendment": "none needed and none taken; zero index bytes in this card",
+    "adjudication": "ALL FIVE sites in scope (ci x3 + deploy + promote), not ci-only: the t137 deferral reasons do not survive as reasons to defer again (this IS the deliberate anchor-all card t137 itself called for; 131/133 pin deploy STRUCTURE not runs-on and execute rc=0 on the patched tree; curl-only deploy/promote cost nothing to pin; half-anchoring leaves the push-gate ci.yml on a moving label). Quoted form MANDATORY per the closed t137/#142 precedent (empirically GREEN hosted runs #781-#783).",
+    "post_merge_observation_owned_by": "orchestrator",
+    "post_merge_obligation": "observe the first post-merge CI run on main (and the next deploy/promote runs) landing on the ubuntu-24.04 image and WAL it; until observed the status is landed-pending-observation, never verified. Children cannot trigger GitHub Actions.",
+    "gate_A_note": "the original worktree was externally destroyed between sessions; the resume finalized in a fresh worktree C:/t139fin on the SAME pushed branch (tip b937967), the ac_hash re-derived from the committed blob there, and the placeholder resolved in the finalize commit.",
+    "residual_gate_B_items": "ac6 was executed pre-handoff (rc=1 handoff-missing signal, as designed) and re-executed GREEN after this file was written; the builder/verifier re-run all six fences VERBATIM at build/verify time regardless."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t139.md",
+      "docs/state/outputs/t139_definer_groom.json"
+    ],
+    "platform_issue": 144,
+    "output_path": "docs/state/outputs/t139_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T14:05:00Z",
+  "retry_count": 0
+}
