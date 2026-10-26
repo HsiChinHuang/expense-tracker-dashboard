@@ -7,7 +7,7 @@
   "reached_state": "groomed",
   "evidence": {
     "evidence_type": "grooming",
-    "ac_hash": "sha256:__PENDING_COMMIT_A__",
+    "ac_hash": "sha256:d076e7781b9aed05882037dde966070f5fa1742b9cbe93b9f663cbb385a7e189",
     "ac_count": 6,
     "verification_commands": {
       "ac1": "see docs/issues/t141.md ac1 fence: 319-leg invariant + before-state digests of legs 307/309/312 + RED set {139,162,167,177,191,204} present and unchanged",
@@ -17,28 +17,73 @@
       "ac5": "see docs/issues/t141.md ac5 fence: T141_BASE delta whitelist, zero index bytes",
       "ac6": "see docs/issues/t141.md ac6 fence: this handoff's BLOCKER completeness + zero silent drops"
     },
-    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
     "contract_first_applied": true,
     "measurements_at_main_tip_f0eeb76": {
       "index_entries": 319,
-      "leg_307": {"rc": 0, "command_sha256": "8fa6daa6a67e33147ca77a63dfa6abc709ffeb549ec398b597e619273979619d", "command_len": 35860, "committed_gitleaks_findings": 21, "verdict": "MEASURED NON-BLOCK: today's correct count is 21 (committed report, fully classified by the closed NAMED_SELF_REF_PATHS set); the 87 figure was a t128 dispatch hazard warning about a fresh re-sweep on a dirty tree, not a claim any leg asserts; zero card work"},
-      "leg_309": {"rc": 1, "command_sha256": "b2e22b2d5006b83a3444ba54ba0d95d0f2aeade9a8d3b88897a8a4a14186b630", "command_len": 25606, "stale_premises": ["byte-clean-diff vs frozen BASE 67c9db97 on docs/criteria/security_ops_verification.md + backend/scripts/security_ops_verification.py - both lawfully moved by t128 (generator now pins 21,33,42,3,14 / LOOP_IDS 98, measured live); structurally unsatisfiable after any legitimate W2-era card = the t130 class", "the demanded open-loop mismatch no longer exists: committed reports parse == generator pins (t128 closed the loop); the clause now fails on equality instead of inequality", "disclosure-prose greps target docs/issues/closed/t86.md, a frozen closed card that can never be updated"]},
-      "leg_312": {"rc": 1, "command_sha256": "f5a929d5cd87db8a660a418d59d9fcdc46bdde73099ffab287dfc7ddd14d2cde", "command_len": 26789, "stale_premises": ["never-touch premise on observability/ is false-by-history: t122 lawfully realized the OTel/Loki/Tempo block (compose header records it); legs (i)/(ii) growth+policy still measure GREEN"], "surfaced_real_drift": "security/agent-security-notes.md row 13 still says the exporter stays disabled / compose block stays commented while trace.py ships install_tracing/FileSpanExporter and the block is live - product disclosure refresh work, NOT hygiene; routed as Card C"},
-      "t132_card_text": {"double_sha256_prefix_occurrences": 1, "addressing": "card fences say tests[153]; live index shows field 154 = t35 (the regeneration leg, len 2178) and field 153 = t34; WAL 1347 confirmed both defects", "class": "closed-card text edit - same core question as open card t140/#145 (WAL 1397); this groom does not pre-empt that ruling"},
-      "merged_card_verifier_pattern": {"adjudication": "WAL-only precedent (verifier procedure for hardcoded-HEAD fence class, WAL 1345/1351, exercised t128/t130/t132/t135/t137/t138); changes no leg, byte, or card; NOT card work"}
+      "leg_307": {
+        "rc": 0,
+        "command_sha256": "8fa6daa6a67e33147ca77a63dfa6abc709ffeb549ec398b597e619273979619d",
+        "command_len": 35860,
+        "committed_gitleaks_findings": 21,
+        "verdict": "MEASURED NON-BLOCK: today's correct count is 21 (committed report, fully classified by the closed NAMED_SELF_REF_PATHS set); the 87 figure was a t128 dispatch hazard warning about a fresh re-sweep on a dirty tree, not a claim any leg asserts; zero card work"
+      },
+      "leg_309": {
+        "rc": 1,
+        "command_sha256": "b2e22b2d5006b83a3444ba54ba0d95d0f2aeade9a8d3b88897a8a4a14186b630",
+        "command_len": 25606,
+        "stale_premises": [
+          "byte-clean-diff vs frozen BASE 67c9db97 on docs/criteria/security_ops_verification.md + backend/scripts/security_ops_verification.py - both lawfully moved by t128 (generator now pins 21,33,42,3,14 / LOOP_IDS 98, measured live); structurally unsatisfiable after any legitimate W2-era card = the t130 class",
+          "the demanded open-loop mismatch no longer exists: committed reports parse == generator pins (t128 closed the loop); the clause now fails on equality instead of inequality",
+          "disclosure-prose greps target docs/issues/closed/t86.md, a frozen closed card that can never be updated"
+        ]
+      },
+      "leg_312": {
+        "rc": 1,
+        "command_sha256": "f5a929d5cd87db8a660a418d59d9fcdc46bdde73099ffab287dfc7ddd14d2cde",
+        "command_len": 26789,
+        "stale_premises": [
+          "never-touch premise on observability/ is false-by-history: t122 lawfully realized the OTel/Loki/Tempo block (compose header records it); legs (i)/(ii) growth+policy still measure GREEN"
+        ],
+        "surfaced_real_drift": "security/agent-security-notes.md row 13 still says the exporter stays disabled / compose block stays commented while trace.py ships install_tracing/FileSpanExporter and the block is live - product disclosure refresh work, NOT hygiene; routed as Card C"
+      },
+      "t132_card_text": {
+        "double_sha256_prefix_occurrences": 1,
+        "addressing": "card fences say tests[153]; live index shows field 154 = t35 (the regeneration leg, len 2178) and field 153 = t34; WAL 1347 confirmed both defects",
+        "class": "closed-card text edit - same core question as open card t140/#145 (WAL 1397); this groom does not pre-empt that ruling"
+      },
+      "merged_card_verifier_pattern": {
+        "adjudication": "WAL-only precedent (verifier procedure for hardcoded-HEAD fence class, WAL 1345/1351, exercised t128/t130/t132/t135/t137/t138); changes no leg, byte, or card; NOT card work"
+      }
     },
-    "gate_b_rc_table": {"ac1": "PENDING", "ac2": "PENDING", "ac3": "PENDING", "ac4": "PENDING", "ac5": "PENDING", "ac6": "PENDING"},
-    "w2_constraints_recorded": "zero product bytes by this card; index edits only via explicitly adjudicated orchestrator W2 windows carrying forward+reverse proofs and the 319-leg invariant (precedent: WAL 1351 t129/t130/t132 chained windows); RED set {139,162,167,177,191,204} user-declared out of scope (WAL 1399) - not healed, not re-groomed, rc=1 not treated as a finding; Render free-DB item user-declined"
+    "gate_b_rc_table": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "w2_constraints_recorded": "zero product bytes by this card; index edits only via explicitly adjudicated orchestrator W2 windows carrying forward+reverse proofs and the 319-leg invariant (precedent: WAL 1351 t129/t130/t132 chained windows); RED set {139,162,167,177,191,204} user-declared out of scope (WAL 1399) - not healed, not re-groomed, rc=1 not treated as a finding; Render free-DB item user-declined",
+    "gate_a_recipe_self_validation": "anchored recipe reproduces t133 9dbddb81 / t134 3c6138db / t136 b8c99f9a from committed blobs; own literal re-derived from committed blob at 6a566ed"
   },
   "artifacts": {
-    "files_written": ["docs/issues/t141.md", "docs/state/outputs/t141_definer_groom.json"],
+    "files_written": [
+      "docs/issues/t141.md",
+      "docs/state/outputs/t141_definer_groom.json"
+    ],
     "platform_issue": 146,
     "output_path": "docs/state/outputs/t141_definer_groom.json"
   },
   "error": {
     "error_type": "business_failure",
     "error_code": "SCOPE_SPLIT_RULING_REQUIRED",
-    "message": "The WAL 1351 residual package authorized on #146 mixes four heterogeneous classes: (1) tests[309]/[312] W2 amendment-proposal rewrites (measured rc=1 at f0eeb76, stale premises named), (2) leg-307 classification which MEASURED GREEN = a non-block needing zero card work, (3) t132 closed-card text hygiene gated on the closed-card-editability ruling already assigned to open card t140/#145, and (4) the merged-card verifier pattern which adjudicates as WAL-only precedent, not card work. Item (1) additionally surfaced a real product-disclosure drift (tracing row 13 vs post-t122 reality) that is Card C product work needing its own authorization. Folding all into one executable card would mix zero-byte survey evidence, orchestrator-W2 amendments, another card's pending ruling, and unauthorized product work.",
+    "message": "WAL 1351 package on #146 mixes four classes: (1) tests[309]/[312] W2 amendment-proposal rewrites (measured rc=1 at f0eeb76); (2) leg-307 MEASURED GREEN = non-block, zero card work; (3) t132 closed-card text hygiene gated on the closed-card-editability ruling assigned to open card t140/#145; (4) merged-card verifier pattern = WAL-only precedent. Item 1 also surfaced tracing-disclosure drift = Card C product work needing authorization. Split ruling requested; exact split in context.dispositions.",
     "context": {
       "failure_type": "ac_ambiguous",
       "main_tip_measured": "f0eeb76",
