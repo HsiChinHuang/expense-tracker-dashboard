@@ -112,3 +112,23 @@ same commented-block statement in `observability/README.md` and
 `observability/collector.yaml`, and is closed only by a dedicated tracing
 card that publishes the collector, uncommented compose block, and wired
 exporter — after which spans can be measured and this row dropped.
+
+## Disclosure refresh (t143 / #148) - supersedes the stale t87 sentences above; appended 2026-10-26
+
+The t87 "Recorded Limitation: Distributed Tracing" section above states that the OTel
+exporter "stays disabled" and that the otel-collector / Loki / Tempo block in
+`observability/compose.yaml` "stays commented out on purpose". Both sentences are STALE
+and are SUPERSEDED here rather than edited in place: the t87 stored gate keeps this
+record ADD-ONLY against its pinned BASE, so an appended superseding paragraph is the
+truthful instrument. The measured current state (re-read from the live tree at the t143
+groom base): `observability/compose.yaml` defines otel-collector, loki and tempo as LIVE
+services (realized by t122), `observability/collector.yaml` carries a LIVE traces
+pipeline, and `backend/app/trace.py` installs the tracer and opens one SERVER span per
+request. The residual gap this record still discloses is measurement, not definition:
+the production install attaches no span processor, the locked environment ships no OTLP
+exporter, and no CI or E2E job boots the observability compose stack, so no span is
+exported to the collector and distributed traces are not measured, queried, or
+dispositioned by any sweep. Like the t86 self-reference boundary this policy already
+records and the t87 disclosure this paragraph supersedes, this refresh is
+documentation-only: it names a measurement gap and grants no new data access - no
+secret, no personal data, and no expense row crosses the local boundary because of it.
