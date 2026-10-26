@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t142",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:e2351330f9810a950631ad3e9927f0276dae37f2875f7461b779f76fb5653c9a",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash ac1-fence (docs/issues/t142.md): committed t132 blob re-read live via git show - pre-addendum text carries tests[153] x7, tests[154] x0, sha256:sha256: x1; NC: once the addendum exists it must introduce tests[154] (full-text count > pre-addendum count)",
+      "ac2": "bash ac2-fence: docs/issues/t132.md carries the '## Post-closure hygiene addendum (t142 ...' heading at column 0 as the LAST section, after Definition of Done, with all required record content (tests[153], tests[154], t34, t35, sha256:sha256:, fe8daa3f digest, ac_hash, WAL 1347/1403/1404, docs/state/merge_test_index.json, 319, APPEND-ONLY) and zero markdown links",
+      "ac3": "bash ac3-fence: t132's published ac_hash sha256:fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 re-derives MATCH from BOTH the HEAD blob and the working tree (6 fenced blocks, column-0 anchored recipe); NC: a one-character edit inside a fenced block moves the digest",
+      "ac4": "bash ac4-fence with T142_BASE=<DISPATCH BASE>: delta whitelist {docs/issues/t132.md append-only, docs/issues/t142.md, docs/state/outputs/t142_*}; index/product/README/criteria/security byte-zero; the t132 delta deletes 0 lines and adds 0 markdown links (git diff --ignore-cr-at-eol + tr -d '\\r'); NC refuses index bytes",
+      "ac5": "bash ac5-fence: addressing claim re-derived LIVE from docs/state/merge_test_index.json - 319 legs; field 153 = t34 (permissions-doc leg, no agent_pack_verification.md mention), field 154 = t35 (the agent_pack regeneration leg); RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (WAL 1399); NC: the same mention scan under docs/permissions.md returns [153] - the scan discriminates both ways",
+      "ac6": "bash ac6-fence: docs/state/outputs/t142_builder_build.json names t132's ac_hash, tests[153], tests[154], sha256:sha256:, ac_hash_match, addendum_sha256, and explicit \"index_bytes_moved\": false and \"product_bytes_moved\": false"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "adjudication": {
+      "question": "Is editing the CLOSED t132 card's text (the tests[153] addressing and the sha256:sha256: literal) admissible, or must the fix land as an addendum?",
+      "decision": "INHERITED, not re-litigated: WAL 1403 ADOPTED the t140/#145 option (i) as project precedent - a CLOSED card's fenced AC blocks are IMMUTABLE; the admissible instrument is an APPEND-ONLY addendum placed OUTSIDE the anchored recipe's hashed surface, keeping the published ac_hash and the verifier attestation valid. This card EXECUTES that ruling: the builder appends the verbatim addendum (frozen in this card's 'Addendum text' section) to the END of docs/issues/t132.md; zero pre-existing bytes change.",
+      "citations": [
+        "WAL 1403 (docs/log/orchestrator_wal.jsonl): CLOSED-CARD EDITABILITY RULING adopted from the t140/#145 definer adjudication",
+        "docs/process.md: defined -> groomed -> built -> verified -> closed; no closed -> groomed edge; the definer's AC-mutating mode is re_groom, gated on a Verifier FAIL - t132's verifier returned PASS, so re_groom has no admissible trigger",
+        "WAL 1404: t142/#147 opened as Card B of the t141/#146 split under the 4a authorization (item 3 of the WAL 1351 residual list)",
+        "WAL 1347: both t132 defects originally recorded as card-text hygiene; t141/#146 Item 3 (docs/issues/t141.md) re-confirmed them and routed the fix here",
+        "t140/#145 (docs/issues/t140.md): the ac2/ac3/ac4 fence shapes mirrored here, and the Builder CRLF-append trap (619 phantom deleted lines from an LF append to a CRLF-smudged file) recorded here verbatim"
+      ]
+    },
+    "measured_premise": {
+      "base": "f61495efce0 (main tip at groom start; full sha f61495efce0ceba441a19ace93be200bcadad411)",
+      "re_measured_not_quoted": "Both t132 defects were RE-MEASURED by this groom at this base from the committed blob and the shipped index; t141's survey numbers were treated as claims to verify, not inputs.",
+      "index_legs": 319,
+      "field_153": {"issue_id": "t34", "command_len": 1003, "command_prefix": "bash -c 'test -f docs/permissions.md || exit 1; q=docs/permi", "mentions_agent_pack_verification": false, "mentions_permissions_md": true},
+      "field_154": {"issue_id": "t35", "command_len": 2178, "command_prefix": "bash -c 'export PATH=\"$HOME/.local/bin:$PATH\"; command -v uv", "mentions_agent_pack_verification": true, "mentions_permissions_md": false},
+      "t132_pre_addendum_counts": {"tests[153]": 7, "tests[154]": 0, "sha256:sha256:": 1},
+      "t132_published_ac_hash_literal_as_written": "sha256:sha256:fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654",
+      "t132_ac_hash_rederivation_at_base": "fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 MATCH (independent re-derivation from git show HEAD:docs/issues/t132.md, column-0 anchored recipe, 6 blocks) - the double prefix is notational only; BASELINE PROVEN before any addendum was proposed",
+      "red_set_139_162_167_177_191_204": ["t27", "t36", "t37", "t38", "t47", "t54"],
+      "t132_fenced_blocks": 6
+    },
+    "gate_A_ac_hash_self_derivation": "ac_hash e2351330f9810a950631ad3e9927f0276dae37f2875f7461b779f76fb5653c9a (8-group: e2351330 f9810a95 0631ad3e 9927f027 6dae37f2 875f7461 b779f76f b5653c9a) SELF-DERIVED from the committed card blob at commit 47e4a9f (the fence commit) with the column-0 anchored json.dumps(fenced bash blocks) recipe, then RE-DERIVED as the SAME value from the FINAL card commit c1eaab6:docs/issues/t142.md (the Metadata literal commit - Metadata sits outside the hashed AC surface, so publishing the hash never moves it). 6 blocks.",
+    "gate_B_smoke": "All six fences extracted VERBATIM from the committed card blob and executed in a simulated BUILT-STATE clone (cmd.exe-default-autocrlf clone of branch tip 47e4a9f at C:\\Users\\tw097\\AppData\\Local\\Temp\\t142smoke\\w + the card's verbatim addendum appended CRLF-normalized to docs/issues/t132.md + synthetic t142 build handoff + built-state commit c87bb56; T142_BASE=47e4a9f8617b9f0d0e53dde72d301e988453f575): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0 (6/6 GREEN). Negative controls fired: ac1 NC (the addendum introduces tests[154] x2 > pre-addendum x0 - count scan discriminates), ac3 NC (one-char fenced-block edit moves the digest), ac4 (append-only delta: 67 insertions 0 deletions; whitelist refused everything beyond t132.md + t142 output; the built-state diff carried no index/product bytes), ac5 NC (permissions-doc scan returns [153] - the mention scan discriminates both ways). The CRLF append produced a clean append-only delta (no phantom deletions) - the t140 trap was pre-empted by design, not rediscovered.",
+    "baseline_proof": "t132's published ac_hash literal was READ from the card (sha256:sha256:fe8daa3f...) and INDEPENDENTLY RE-DERIVED from the committed blob at the groom base BEFORE any addendum was proposed: fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 MATCH (6 blocks, anchored recipe). The live index addresses were recorded with evidence: field 153 = t34 (permissions-doc leg, 1003 chars, no agent_pack mention), field 154 = t35 (agent_pack regeneration leg, 2178 chars) - the addressing correction is evidence-backed, and ac5 re-derives it live at every run so the disclosure cannot silently rot.",
+    "platform_sync": "issue update 147 with the full committed card body (leading single space prepended ONLY to dodge parseFlags' '--'-prefix rejection; local file remains authoritative per groom.md); read-back number=147. Labels: defined removed (read-back labels=[]); groomed added at the end of the run with read-back.",
+    "zero_bytes": "ZERO product bytes, ZERO index bytes, ZERO bytes of docs/issues/t132.md in the GROOM commit chain (f61495e -> 4a05da9 -> 47e4a9f -> c1eaab6: docs/issues/t142.md + this handoff only). The t132 addendum append is the BUILDER's single product-surface edit, priced and fenced by ac1/ac2/ac3/ac4/ac5/ac6."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t142.md",
+      "docs/state/outputs/t142_definer_groom.json"
+    ],
+    "platform_issue": 147,
+    "output_path": "docs/state/outputs/t142_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T06:14:00Z",
+  "retry_count": 0
+}
