@@ -1,0 +1,57 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t143",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t143-tracing-disclosure-refresh",
+    "branch_sha": "07c0a4afee5f27140cf22c125a56c71b21ea7ab0",
+    "branch_note": "Branched from the DISPATCH BASE f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e (main tip at dispatch, the t143/#148 groom merge that already contains docs/issues/t143.md). Product commit 07c0a4a carries ONLY the two card-frozen edits: the in-place row-13 rewrite in security/agent-security-notes.md (+1/-1, the single deleted line is the old '| 13 |' row) and the append-only superseding paragraph in security/ai-tool-data-policy.md (+20/-0). This handoff commit sits on top; both commits pushed to origin at issue/t143-tracing-disclosure-refresh (push after EACH commit).",
+    "base": "f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e",
+    "t143_base": "f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e",
+    "product_commit": "07c0a4afee5f27140cf22c125a56c71b21ea7ab0",
+    "ac_hash": "sha256:dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280",
+    "ac_hash_note": "The published Gate-A ac_hash of this card. The builder RE-DERIVED it at the build state from the committed card blob (git show HEAD:docs/issues/t143.md, column-0 anchored recipe, 7 blocks, json.dumps separators) and got dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280 - MATCH.",
+    "product_text_extraction": "P1 and P2 were extracted PROGRAMMATICALLY from the committed card blob (git show HEAD:docs/issues/t143.md; line-based scan of the frozen fences under '## Product texts', fence-state tracked because the P2 text itself contains a column-0 heading; outer ```text fences excluded). NOTHING was retyped. P1 (1 line, 1257 chars, sha256 prefix 8f0d5f81b37d3fd7) replaced the single '| 13 |' line; P2 (20 lines including the leading blank line, LF-hash prefix 3fdfdf66507150cf) was appended after all existing content, CRLF-normalized (sed-style 's/\\r*$/\\r/' equivalent in python: LF->CRLF rebuild).",
+    "crlf_discipline": "Both security records are CRLF on this host (notes: 345/345 CRLF, policy: 114/114 CRLF at BASE). Edits were made by splitting/joining on CRLF and appending CRLF bytes, so git diff --numstat at the product commit is EXACTLY '1 1 security/agent-security-notes.md' and '20 0 security/ai-tool-data-policy.md' - the single deletion is the old row 13, zero deletions on the policy file, no whole-file rewrite (the t140/t142 phantom-churn trap is pre-empted, not papered over). git diff --check is clean.",
+    "table_invariant": "The Accepted Limitations table STILL has exactly 13 numbered data rows after the edit (measured at the built state); exactly ONE line was deleted (the old '| 13 |' row) and exactly one was inserted (the frozen P1 line). The 'Thirteen rows' lead-in was not touched.",
+    "add_only": "The policy record is add-only against the leg-312 probe's OWN pinned BASE 57c0d5138ffe2342de40da93a8f67fbb3d330fee (re-read from the shipped leg-312 source, never guessed): the 94 BASE non-comment lines remain an untouched prefix (ac4 proof), the appended tail carries the tracing vocabulary, the documentation-only boundary language and the STALE/SUPERSEDED record, and stored leg 312 re-ran rc=0 VERBATIM at the built state.",
+    "gap_token": "not measured - the refreshed row 13 states the true LIVE state (otel-collector/loki/tempo LIVE services, LIVE traces pipeline, install_tracing wired) and the real residual gap: the production install attaches no span processor, the locked environment ships no OTLP exporter, no CI or E2E job boots the stack, so distributed traces are not measured, queried, or dispositioned by any sweep.",
+    "stored_legs_rc": "Stored legs 307 (t86), 309 (t86) and 312 (t87, the probe that watches these very two files) were extracted from the LIVE docs/state/merge_test_index.json at run time and executed VERBATIM at the built state with a fully clean tree: all three rc=0. Leg 312's dirt gate passed because everything (both product edits) was committed BEFORE the legs ran. The 319-leg count and the permanent RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] were asserted present and unchanged - never healed (WAL 1399).",
+    "index_bytes_moved": false,
+    "index_bytes_moved_note": "ZERO bytes written to docs/state/merge_test_index.json; ac5's git diff --quiet over the index path passes at the built state.",
+    "observability_bytes_moved": false,
+    "observability_bytes_moved_note": "ZERO bytes under observability/ (also backend/, frontend/, .github/): ac5's git diff --quiet over those paths passes; observability/ is already truthful and out of whitelist.",
+    "delta_purity": "git diff --name-only f767d349524 HEAD at the product commit = security/agent-security-notes.md + security/ai-tool-data-policy.md only; after the handoff commit it adds docs/state/outputs/t143_builder_build.json - exactly the ac5 whitelist (the card docs/issues/t143.md already sits in the DISPATCH BASE so it does not appear in the delta; the builder never edited it).",
+    "ac_fences_run_verbatim": "All seven fenced blocks were extracted VERBATIM from the committed docs/issues/t143.md at HEAD (column-0 anchored, python-extracted; the extraction re-derived the published ac_hash dd9acd82 as a faithfulness proof) and executed in the builder worktree with T143_BASE=f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e at the final branch HEAD: ac1 rc=0 GREEN (row 13 sheds the three stale claims, keeps the truthful 'not measured' gap token, LIVE claims re-derive from compose/trace/collector; NC: the BASE row carried 'stays commented out'), ac2 rc=0 GREEN (residual gap re-derived live and named by row 13; NC: grep machinery non-vacuous), ac3 rc=0 GREEN (legs 307/309/312 rc=0 verbatim, 312 proven LIVE-amended, 319 legs, RED set untouched), ac4 rc=0 GREEN (add-only against the probe's own BASE, append carries TRACE + DOC_LANG + STALE/SUPERSEDED; NC: in-place BASE edit breaks the prefix), ac5 rc=0 GREEN (delta whitelist, 1 deleted notes line = old row 13, policy append 0 deleted, index/observability/product byte-zero; NC refuses index bytes), ac6 rc=0 GREEN (false cross-reference gone, observability measured gap-free; NC: the BASE row carried it), ac7 rc=0 GREEN (this handoff, run after it was committed). Every negative control fired as the card documents.",
+    "ac_mapping": {
+      "ac1": { "commit": "07c0a4a", "test": "ac1: the fenced ac1 block (refreshed row 13 sheds the three stale claims, keeps a truthful gap token, and its LIVE claims re-derive from compose/trace/collector; NC: the T143_BASE row carried \"stays commented out\")", "verdict": "PASS" },
+      "ac2": { "commit": "07c0a4a", "test": "ac2: the fenced ac2 block (the real residual gap - no processor, no exporter instantiation, no job boots the stack - re-derived live and named by row 13; NC: the grep machinery is non-vacuous over the same files)", "verdict": "PASS" },
+      "ac3": { "commit": "07c0a4a", "test": "ac3: the fenced ac3 block (stored legs 307/309/312 extracted from the shipped index and run VERBATIM, all rc=0; 312 proven LIVE-amended by its t141-Card-A marker; 319 legs; RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present, never healed)", "verdict": "PASS" },
+      "ac4": { "commit": "07c0a4a", "test": "ac4: the fenced ac4 block (policy add-only against the probe's OWN BASE re-read from the shipped leg-312 source; appended tail carries TRACE + DOC_LANG + STALE/SUPERSEDED; NC: an in-place BASE edit breaks the prefix)", "verdict": "PASS" },
+      "ac5": { "commit": "07c0a4a", "test": "ac5: the fenced ac5 block with T143_BASE set to the DISPATCH BASE (delta whitelist {security/agent-security-notes.md with exactly 1 deleted line = the old row 13, security/ai-tool-data-policy.md append-only 0 deleted, docs/issues/t143.md, docs/state/outputs/t143_*}; index/observability/backend/frontend/.github/criteria/README/plan byte-zero; numstat ceilings refuse a CRLF whole-file rewrite; NC refuses index bytes)", "verdict": "PASS" },
+      "ac6": { "commit": "07c0a4a", "test": "ac6: the fenced ac6 block (observability records measured gap-free; row 13 makes no observability cross-reference; NC: the BASE row carried the false cross-reference)", "verdict": "PASS" },
+      "ac7": { "commit": "07c0a4a", "test": "ac7: the fenced ac7 block (builder handoff names the gap token, legs 307/309/312, add_only, and explicit \"index_bytes_moved\": false / \"observability_bytes_moved\": false)", "verdict": "PASS" }
+    },
+    "test_summary": { "total": 7, "passed": 7, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "Documentation-only disclosure refresh build: zero product-code/index/observability/backend/frontend/.github bytes. The schema's verification_commands_source is a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is used verbatim per the t140/t142 precedent; the actual authoritative source is docs/issues/t143.md#verification-commands and all seven fenced blocks were extracted verbatim from the committed card blob. No test files were written: the card's verification commands ARE the seven fenced bash blocks (each self-verifying with its negative control) and writing separate test files would breach the ac5 delta whitelist. Temporary helper files (extraction/apply scripts, fence .sh files, P1/P2 text stubs, commit-message file) live under scratch/, were never staged, and never entered the delta. The card was NOT edited. No label transitions were attempted - the orchestrator owns them. Stored legs 307/309/312 were re-run separately VERBATIM from the live index at the built HEAD with a clean tree, per the dispatch, in addition to being run inside the ac3 fence. Validator: the dispatch's literal 'builder build' invocation was run EXACTLY as given and fails with 'No schema found for builder:build' - extensions/schema_validator.ts registers no builder:build key (HANDOFF_SCHEMA_MAP has builder:implement/fix_qa/fix_merge/fix_regression only), the same registered-key gap class as the t67 verifier:verify precedent. The handoff was therefore ALSO validated with the registered phase: 'validate_handoff.ts docs\\state\\outputs\\t143_builder_build.json builder implement' -> [OK] valid for builder:implement rc=0 (validator run from the MAIN checkout with a temporary copy, per dispatch; the copy was deleted afterwards)."
+  },
+  "artifacts": {
+    "files_written": [
+      "security/agent-security-notes.md",
+      "security/ai-tool-data-policy.md",
+      "docs/state/outputs/t143_builder_build.json"
+    ],
+    "platform_issue": 148,
+    "output_path": "docs/state/outputs/t143_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T23:35:00Z",
+  "retry_count": 0
+}
