@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t138",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "fenced ac1 block in docs/issues/t138.md at card commit 1288059: dirt-free clone (gate-B recipe: clone --no-hardlinks, default core.autocrlf, mklink /J frontend/node_modules resolved via wslpath -w, UV_PROJECT_ENVIRONMENT outside the tree) runs the committed generator rc=0; committed report == generator output cr-stripped; files= re-derived THREE ways (report row == recorded-rule == clean walk, byte-neutral); links=67 broken=0 shape intact; NC on stale/baked values. Smoke-run GREEN (rc=0) at gate B on the simulated built-state clone.",
+      "ac2": "fenced ac2 block in docs/issues/t138.md at 1288059: PLANT-DIRT negative control - 20 untracked .md planted outside SKIP_DIRS (fresh tool dirs + gitignored classes + root stray); the walk rule sees F0+P while the committed generator writes files=F0, rc=0, byte-identical report; recorded set provably unmoved. This is the machine-independence proof. Smoke-run GREEN (rc=0) at gate B.",
+      "ac3": "fenced ac3 block in docs/issues/t138.md at 1288059: os.walk GONE from the generator; git_unavailable + ls-files + SKIP_DIRS static gates; EXECUTED masked-git probes (git fails rc=1, and rc=0-with-empty-stdout vacuous-zero trap) both refuse loudly with zero PASS rows; unmasked NC run proves the probe non-vacuous (real subprocess.run restored from a saved reference, not a re-read of the masked module attribute). Smoke-run GREEN (rc=0) at gate B.",
+      "ac4": "fenced ac4 block in docs/issues/t138.md at 1288059: count-neutrality anchored UNCONDITIONALLY at the dispatch base 08e63854144 (the commit whose report is byte-current; deliberately NOT T138_BASE, which is the builder's dispatch base containing the card and is ac5's anchor only) - on a dirt-free BASE clone BOTH the walk rule and the recorded rule re-derive the committed files=302; HEAD == BASE + recorded .md arrivals - departures; 319-leg index rescan: leg 227 sole digest/blob holder, ZERO legs pin the counters or generator bytes, leg 318 sole executor; CARRIED_DIGESTS stays 4 keys; SKIP_DIRS byte-identical to BASE; hex literals stay 13. Smoke-run GREEN (rc=0) at gate B.",
+      "ac5": "fenced ac5 block in docs/issues/t138.md at 1288059: delta purity at T138_BASE (the dispatch base containing the card) - exactly generator + regenerated report + card + t138 outputs; ZERO bytes in docs/state/merge_test_index.json, README, carried digests, sibling cards; SKIP_DIRS-edit refusal; zero new hex literals; index-byte NC. Smoke-run GREEN (rc=0) at gate B.",
+      "ac6": "fenced ac6 block in docs/issues/t138.md at 1288059: build handoff carries built-state cr-sha f8d645dce61296b42c92e74628741472271bfeafc40e51ad4d169fce9a07d836, BASE pin a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721, both LINK_CHECK rows, byte_source, machine_independence_proof, leg227_repin_owned_by=orchestrator, rejected t136 polluted digest 4b1ec8a1...; base-value and mutation NCs. Smoke-run GREEN (rc=0) at gate B."
+    },
+    "verification_commands_source": "The six authoritative verification commands are the fenced bash blocks under '## Acceptance criteria' in docs/issues/t138.md at card commit 1288059 (card COMMITTED AND PUSHED on the groom branch). The ac_hash is self-derived from that committed card blob via the card's ANCHORED extraction recipe (t135 lesson); AC blocks did not change between the placeholder commit and the final commit.",
+    "sections_filled": [
+      "context",
+      "acceptance_criteria",
+      "out_of_scope",
+      "definition_of_done"
+    ],
+    "contract_first_applied": true,
+    "contract_first_disclosure": "All six ACs are automatable and fenced in the card; none is manual. The card's context role is served by its Goal + Fix adjudication + Premise sections; acceptance_criteria, out_of_scope and definition_of_done are dedicated sections.",
+    "smoke_run": {
+      "gate": "B (groom-time smoke)",
+      "environment": "simulated built-state clone at ../t138_scratch/smoke: clone of the groom branch (card commit 1288059) + builder-spec patch (git ls-files *.md recorded-set counting, no walk fallback) + regenerated report + synthetic builder handoff; frontend/node_modules junctioned to the main checkout; default core.autocrlf; UV_PROJECT_ENVIRONMENT outside the tree; T138_BASE=HEAD~1 for the delta anchor",
+      "results": {
+        "ac1": 0,
+        "ac2": 0,
+        "ac3": 0,
+        "ac4": 0,
+        "ac5": 0,
+        "ac6": 0
+      },
+      "iterations": "first batch ac1-4 RED exposed three FENCE bugs (nm resolver emitted backslash-mangled /mnt paths that mklink silently accepted as dead targets; ac3 restored subprocess.run by re-reading the masked module attribute; ac4 anchored neutrality at the card commit where the report is legitimately stale by the card's own arrival). Fences were fixed in the card (commits ed04aff, 1288059), the clone rebuilt on the final card, and ALL SIX re-run GREEN verbatim. The generator patch itself never needed correction."
+    },
+    "measured_premise": {
+      "base": "08e63854144 (main tip at dispatch; branch base; neutrality anchor)",
+      "clean_clone_walk_at_base": 302,
+      "dirty_main_checkout_walk_at_base": 321,
+      "dirt_planted_clone_walk": 322,
+      "dirt_planted_clone_patched": "files=302 digest a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721 UNCHANGED (negative control)",
+      "card_arrival_effect": "302 -> 303 under BOTH rules (this card is one recorded .md)",
+      "built_state_row": "LINK_CHECK PASS files=303 links=67 broken=0",
+      "built_state_report_cr_sha256": "f8d645dce61296b42c92e74628741472271bfeafc40e51ad4d169fce9a07d836",
+      "base_report_cr_sha256": "a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721",
+      "git_invocation_contract": "direct `git ls-files *.md` answers a normal clone rc=0; fails rc=128 in a WSL worktree whose .gitfile holds a Windows path; `cmd.exe /d /c \"git -C <wslpath -w ROOT> ls-files *.md\"` with an UNQUOTED glob answers everywhere - a QUOTED glob returns rc=0 with EMPTY output (vacuous-zero trap; the generator must refuse an empty list, and ac3 executes that refusal)"
+    },
+    "fix_adjudication": "option (b): derive the .md set from `git ls-files *.md` (the set the tree RECORDS), filtered by the byte-identical SKIP_DIRS components; FAIL-CLOSED with `LINK_CHECK FAIL git_unavailable` when git cannot count or records an empty list - NO filesystem-walk fallback (a silent fallback reintroduces the defect class; a visible FAIL is honest). Option (a) (extending SKIP_DIRS) rejected: SKIP_DIRS stays byte-identical and ac4 proves it.",
+    "merge_window_obligations": {
+      "leg227_repin": "ORCHESTRATOR obligation, not builder, not this card: tests[227] pins the report cr-stripped digest a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721; the regenerated report moves bytes (measured new digest f8d645dce61296b42c92e74628741472271bfeafc40e51ad4d169fce9a07d836, files=303 links=67). Re-pin is REPLACE-only, in the same merge window as the M1 leg edit, per the t136 pattern. The build handoff carries the measured new digest so M1 does not measure blind.",
+      "index_bytes": "ZERO index bytes for this card: docs/state/merge_test_index.json is byte-frozen on the builder branch (ac5 fence); the leg-227 re-pin happens ONLY in the orchestrator merge window."
+    },
+    "card_paths": {
+      "card": "docs/issues/t138.md",
+      "card_commits": "0d30d63 (draft, placeholder hash) -> ed04aff (smoke-hardened fences, hash 002837ed...) -> 1288059 (final fences + self-derived ac_hash 323fc030...); branch pushed after each commit",
+      "branch": "pi-subagents/definer-Groom-mode-for-DEFINED-card-t138-143-follow-up-M4-from-t136-the-docs_verificati-4daf3691-64a47cc-50fc-s0-t0"
+    }
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t138.md",
+      "docs/state/outputs/t138_definer_groom.json"
+    ],
+    "platform_issue": 143,
+    "output_path": "docs/state/outputs/t138_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T02:52:00Z",
+  "retry_count": 0
+}
