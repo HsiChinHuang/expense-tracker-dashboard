@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t143",
+  "status": "COMPLETE",
+  "role": "definer",
+  "phase": "groom",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280",
+    "ac_count": 7,
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands": {
+      "ac1": "bash ac1-fence (docs/issues/t143.md): refreshed row 13 sheds the three stale claims (stays disabled / stays commented out / not published for this milestone), keeps a truthful probe gap token (not measured|no tracing|no otel|disabled), and its LIVE claims re-derive from observability/compose.yaml (otel-collector/loki/tempo live services + images), backend/app/trace.py (install_tracing defined AND called) and observability/collector.yaml (live traces pipeline + otlp/tempo); NC: the T143_BASE row carried 'stays commented out'",
+      "ac2": "bash ac2-fence: the REAL residual gap re-derived live - install_tracing takes an optional processor, the attach is guarded by 'if processor is not None', the shipped call site passes none, no shipped code instantiates FileSpanExporter, and no job file (.github/workflows, Makefile) boots the observability stack (nonzero hits now RED the fence); row 13 must name the processor gap; NC: the same grep machinery finds pytest/uv hits in the same files (non-vacuous)",
+      "ac3": "bash ac3-fence: stored legs 307/309/312 extracted from docs/state/merge_test_index.json AT RUN TIME and executed VERBATIM (all rc=0); tests[312]'s stored probe blobs proven LIVE-amended by the 'AMENDED (t141 Card A)' marker inside the decoded base64; 319 legs; RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (WAL 1399, never healed)",
+      "ac4": "bash ac4-fence: the leg-312 probe's OWN BASE literal re-read from its committed common blob in the shipped index (never guessed; at the groom base it is 57c0d5138ffe2342de40da93a8f67fbb3d330fee); the policy record's non-comment BASE lines remain an untouched prefix; the appended tail carries TRACE vocabulary + the probe's DOC_LANG documentation-only boundary language + the STALE/SUPERSEDED record; NC: a simulated in-place BASE-line edit breaks the prefix under the probe's own comparison",
+      "ac5": "bash ac5-fence with T143_BASE=<DISPATCH BASE>: delta whitelist {security/agent-security-notes.md with EXACTLY 1 deleted line which must be the old '| 13 |' row, security/ai-tool-data-policy.md append-only with 0 deleted lines, docs/issues/t143.md, docs/state/outputs/t143_*}; ZERO bytes for docs/state/merge_test_index.json, observability/, backend/, frontend/, .github/, docs/criteria/, README.md, docs/plan.md; numstat ceilings (notes <=10 insertions, policy 0 deletions) refuse a CRLF whole-file rewrite; NC refuses index bytes",
+      "ac6": "bash ac6-fence: observability/README.md and observability/collector.yaml measured gap-free live (gap-vocabulary scan returns zero) and refreshed row 13 makes NO observability cross-reference; NC: the T143_BASE row carried 'the same gap is disclosed in observability/README.md'",
+      "ac7": "bash ac7-fence: docs/state/outputs/t143_builder_build.json names 'not measured', install_tracing, otel-collector, legs 307/309/312, add_only, and explicit \"index_bytes_moved\": false and \"observability_bytes_moved\": false"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "adjudication": {
+      "question": "Can the disclosure falsehood be cured APPEND-ONLY (no W2 amendment of the stored leg-312 probe), given the policy record's ADD-ONLY premise and the notes table's row-count/regex premises?",
+      "decision": "YES - append-only cure chosen; NO gate amendment is proposed. Measured from the LIVE amended leg-312 command decoded from the shipped index at the groom base: (1) the probe has NO prefix premise for security/agent-security-notes.md - it checks ONLY that the '## Accepted Limitations' data-row count is STRICTLY greater than the count measured from the pinned BASE blob (12 BASE vs 13 live) and that >=1 row matches TRACE_WORDS AND GAP_WORDS; an IN-PLACE rewrite of row 13 is therefore admissible for leg 312 provided the refreshed row keeps one GAP token truthfully (the frozen P1 text keeps 'not measured' and 'cannot', both measured-true); (2) the policy record DOES carry the ADD-ONLY prefix premise (non-comment lines vs BASE) and the stale t87 tracing section sits at live lines 96-114, entirely inside the post-BASE append region, so the honest instrument is an APPENDED SUPERSEDING paragraph that names the t87 sentences STALE and SUPERSEDED and carries the probe's DOC_LANG documentation-only boundary language; (3) the amended probe's (iii) is a working-tree dirt gate against HEAD for observability/ and security/, so every edit must be committed before any leg runs. The card's brief test for append sufficiency - whether the stale lines keep reading as current truth - is satisfied by the explicit supersession paragraph.",
+      "citations": [
+        "docs/state/merge_test_index.json tests[312].command (LIVE amended, 'AMENDED (t141 Card A)' marker inside the decoded probe blob): probe BASE literal 57c0d5138ffe2342de40da93a8f67fbb3d330fee; GAP_WORDS regex r'cannot|not measurable|no trace|never measured|not measured|no tracing|no otel|disabled'; DOC_LANG regex r'documentation[- ]only|documentation only|no secret, no personal data|...'; policy prefix check plines[:len(blines)] != blines; notes check = row-count growth vs BASE blob + TRACE_WORDS AND GAP_WORDS row regex (no notes prefix)",
+        "docs/state/outputs/t141a_definer_gate_amendment.json: the W2 REPLACE_COMMAND shape this card deliberately does NOT use - editing the fence that watches this card's own files would be self-referential; append is sufficient by measurement",
+        "docs/issues/t143.md 'Core adjudication' section: the same decision recorded on the card for the builder and verifier",
+        "WAL 1422: explicit user authorization for Card C, closing the WAL 1401/1421 pending flag",
+        "WAL 1399: the permanent RED set {139,162,167,177,191,204} is out of scope - ac3 asserts presence-and-unchanged, never heals"
+      ]
+    },
+    "measured_premise": {
+      "base": "757fc7e525bc86c047d08f0b214cb11fbde28775 (T143_BASE, main tip at dispatch; every premise below RE-MEASURED by this groom at this base, none quoted from the brief)",
+      "card_text_source": "the platform #148 body (4519 bytes, fetched with curl + the API token parsed CRLF-safe from the MAIN checkout's scratch/env_quarantine_t94post, per the orchestrator's steering) - quoted VERBATIM into the card's 'Defined draft' section; scratch/ is gitignored and absent from the worktree, so scratch/t143_defined.md was never read and no WAL reconstruction was needed",
+      "index_legs": 319,
+      "stored_legs_at_base": {"307": "rc=0 (t86, 2.6s)", "309": "rc=0 (t86, 0.7s)", "312": "rc=0 (t87, 0.5s)"},
+      "probe_base_literal_read_from_source": "57c0d5138ffe2342de40da93a8f67fbb3d330fee",
+      "notes_rows": {"BASE_blob": 12, "live": 13, "tracing_rows_matching_trace_and_gap_regex": ["13"], "prefix_premise_in_probe": false},
+      "policy_prefix": {"BASE_non_comment_lines": 94, "live_non_comment_lines": 114, "prefix_holds": true, "stale_t87_section_location": "live lines 96-114 (entirely inside the post-BASE append region)"},
+      "compose_live_services": "otel-collector (otel/opentelemetry-collector-contrib:0.102.0), loki (grafana/loki:3.1.0), tempo (grafana/tempo:2.5.0) - all uncommented; the file header itself says 'since t122 ... the OTel collector / Loki / Tempo traces-and-logs block'",
+      "exporter_wiring": "backend/app/trace.py:127 def install_tracing; called at line 283 by install_trace_correlation; backend/app/main.py:102 wires install_trace_correlation from create_app",
+      "real_residual_gap_measured": [
+        "install_trace_correlation calls install_tracing() with NO processor argument and install_tracing attaches a processor only 'if processor is not None' (trace.py:147-148) - the production provider has ZERO span processors and no span is ever exported",
+        "FileSpanExporter is defined but never instantiated in shipped code (main.py/trace.py instantiation scan: 0)",
+        "backend/app/trace.py docstring: 'No OTLP exporter package exists in the locked environment' (backend/pyproject.toml + uv.lock byte-frozen, leg 227)",
+        "ZERO hits for otel-collector / grafana/tempo / grafana/loki / observability/compose across .github/workflows and Makefile - no CI or E2E job boots the stack",
+        "no sweep dispositions spans: the t86 sweep language (recorded in row 13) already says it cannot measure what does not run"
+      ],
+      "cross_reference_staleness": "row 13 claims 'the same gap is disclosed in observability/README.md and observability/collector.yaml'; a gap-vocabulary scan (not measured|no tracing|no otel|stays disabled|stays commented) over both files returns ZERO hits",
+      "leg_180_status": "rc=1 at this base ALREADY (t40 ac3 requires EXACTLY 12 limitation rows; the table has had 13 since t87) - pre-existing RED, NOT healed by this card (the table stays 13 rows; the card's delta touches only row 13's text)",
+      "red_set_139_162_167_177_191_204": ["t27", "t36", "t37", "t38", "t47", "t54"],
+      "red_set_legs_touch_security_files": "none of 139/162/167/177/204 mention either security record; 191 is a backend uv-collect leg - the refresh cannot heal them (and all six re-measured rc=1 in the built-state clone)"
+    },
+    "gate_A_ac_hash_self_derivation": "ac_hash dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280 (8-group: dd9acd82 eac7efa6 e1552a42 aca7e782 a05f8d78 217eff24 ed1269c9 4a54c280) SELF-DERIVED from the COMMITTED card blob at commit 45c0ca3 (the fence commit carrying the final AC texts) with the column-0 anchored json.dumps(blocks, separators=(',',':')) recipe over the 7 fenced bash blocks, then RE-DERIVED as the SAME value from the FINAL card commit 6baf324:docs/issues/t143.md (Metadata sits outside the hashed AC surface, so publishing the hash never moves it). The interim value a97c62172352cbbcbda67c0c8a182827f66eeda0fdd92f2d7197281f5a193cc2 (published at 28f3250) was SUPERSEDED when ac2's job-boot scan was made fatal (nonzero job hits now RED the fence instead of warning) - the supersession is recorded in the Metadata literal itself.",
+    "gate_B_smoke": "All seven fences extracted VERBATIM from the COMMITTED card blob and executed in a simulated BUILT-STATE clone (cmd.exe-default-autocrlf clone of branch tip 28f3250 at C:\\Users\\tw097\\AppData\\Local\\Temp\\t143smoke\\w; the frozen P1 row-13 replacement + P2 CRLF-normalized policy append applied as built-state commit e53c3b2; synthetic t143 builder handoff committed at 3a30b3c; T143_BASE=28f3250a003939bbec3389e6e83588cbe3be3902): ac1 rc=0, ac2 rc=0, ac3 rc=0, ac4 rc=0, ac5 rc=0, ac6 rc=0, ac7 rc=0 (7/7 GREEN). The committed block texts were byte-compared (cmp) against the smoke-run copies: all seven identical. Negative controls fired as specified: ac1 NC (the BASE row carried 'stays commented out'), ac2 NC (the same grep finds pytest/uv hits in .github/workflows+Makefile - the zero-hit job scan is non-vacuous), ac4 NC (an in-place BASE-line edit breaks the prefix under the probe's own comparison), ac5 (whitelist + 1-deleted-line + 0-deleted-line + numstat ceilings all enforced), ac6 NC (the BASE row carried the false observability cross-reference). Pre-state (worktree at T143_BASE, no product diff): ac1/ac2/ac4/ac5/ac6/ac7 rc=1 for their designed reasons and ac3 rc=0 (the stored legs are state-independent at the clean base) - the fences are discriminating, not vacuous.",
+    "stored_leg_verification": "Verbatim runs of the LIVE index legs 307/309/312 (extracted from docs/state/merge_test_index.json at run time, never copied): rc=0/rc=0/rc=0 BOTH at the clean T143_BASE worktree AND inside the built-state clone with the P1/P2 diff committed - the heart of Gate B holds: the fence that watches security/ (312) stays GREEN verbatim under the disclosure refresh. The permanent RED set {139,162,167,177,191,204} re-measured rc=1/rc=1/rc=1/rc=1/rc=1/rc=1 in the built-state clone - none healed, none touched (WAL 1399).",
+    "crlf_discipline_proof": "The built-state delta measured with git diff --numstat HEAD~1 HEAD at the simulated built commit e53c3b2: security/agent-security-notes.md = 1 insertion / 1 deletion (exactly the row-13 replacement), security/ai-tool-data-policy.md = 20 insertions / 0 deletions (pure CRLF-normalized append). Zero phantom churn - the t140/t142 mixed-EOL trap was pre-empted by design (the append and the row replacement are both CRLF), and ac5's numstat ceilings refuse any whole-file rewrite.",
+    "baseline_proof": "Before proposing any cure, the groom proved every premise the cure must preserve: leg 312 rc=0 at the clean base; the probe's notes premise (12 BASE rows -> 13 live, row 13 matches TRACE+GAP); the policy prefix premise (94 BASE non-comment lines are an untouched prefix of the 114 live lines); and the falsehood itself (row 13 + policy lines 104-105 claim 'stays disabled'/'stays commented out' while compose defines the three services uncommented, trace.py calls install_tracing, and collector.yaml's traces pipeline is live). The REAL gap the refreshed row states was measured, not invented: zero processors attached in production, zero shipped exporter instantiations, zero job files booting the stack.",
+    "platform_sync": "issue update 148 with the FULL committed card body (44474 bytes, byte-equal read-back via GET issues/148; synced twice - the second sync carried the final ac_hash Metadata). scripts/platform.ts was used for every platform call; the 44KB body exceeded cmd.exe's 8K argument ceiling, so the call ran through scratch/t143_platform.ts - a byte-copy of scripts/platform.ts plus a --body-file hook that reads the file with the module's already-imported fs and feeds the SAME updateIssue code path (no API call is made by any non-platform.ts route; the scratch copy and the .env built from the quarantined token file were removed after the sync).",
+    "platform_labels": "label remove 148 --label defined (read-back labels=[]); label add 148 --labels groomed (read-back labels=['groomed']).",
+    "zero_bytes": "The GROOM commit chain (757fc7e -> 1ed2570 card -> 28f3250 gate A -> 45c0ca3 ac2 fix -> 6baf324 final ac_hash) touches ONLY docs/issues/t143.md and this handoff: ZERO security/ bytes, ZERO index bytes, ZERO observability/ bytes, ZERO product bytes. The two security-record edits are the BUILDER's priced product surface, frozen verbatim in the card's 'Product texts' section and fenced by ac1-ac7."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t143.md",
+      "docs/state/outputs/t143_definer_groom.json"
+    ],
+    "platform_issue": 148,
+    "output_path": "docs/state/outputs/t143_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T09:05:00Z",
+  "retry_count": 0
+}
