@@ -23,7 +23,7 @@ DIAGNOSIS_REPRODUCIBLE PASS sections=8
 DEPLOYMENT_RECORD PASS sections=5
 HOOK_TESTS PASS nodes=14
 OPENAPI_PARITY PASS paths=16
-LINK_CHECK PASS files=302 links=67 broken=0
+LINK_CHECK PASS files=304 links=67 broken=0
 CARRIED_REPORT PASS file=docs/criteria/agent_pack_verification.md rows=22
 CARRIED_REPORT PASS file=docs/criteria/dashboard_verification.md rows=25
 CARRIED_REPORT PASS file=docs/criteria/infra_verification.md rows=24
