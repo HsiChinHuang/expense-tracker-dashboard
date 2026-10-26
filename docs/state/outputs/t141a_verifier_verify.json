@@ -1,0 +1,142 @@
+{
+ "schema_version": "2.0",
+ "issue_id": "t141",
+ "role": "verifier",
+ "phase": "verify_issue",
+ "status": "COMPLETE",
+ "reached_state": "verified",
+ "evidence": {
+  "evidence_type": "verification",
+  "ac_results": {
+   "ac1": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac1 fenced block (VERBATIM, verifier-extracted from git show HEAD:docs/issues/t141.md)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac1.log",
+    "note": "PASS-BY-RE-KEY, adjudicated per the card's own Gate A/B record ('after the Card A W2 window applies its amendments, legs 309/312 measure rc=0 and ac1's before-state pins are re-keyed by the Card A verifier run exactly as the t129/t130/t132 windows did'). Verbatim at post-window main rc=1 with the fence's own RED line 'ac1 RED: leg 309 moved from the groom-pinned before-state' - the pins moved because the orchestrator APPLIED the amendment (4412514), which is the card's stated re-key protocol, not a defect. RE-KEYED BEFORE-STATE VERIFIED: at the pre-window index (0c2fae6, blob eede2438, CRLF-normalised digest 96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2 == the groom pin) legs 307/309/312 are EXACTLY the ac1-pinned before-state: 307 8fa6daa6a67e.../35860, 309 b2e22b2d5006.../25606, 312 f5a929d5cd87.../26789 (all three digests+lengths recomputed by the verifier and equal to the fence literals). POST-STATE: live 309 644b6e742a34.../29727 and 312 2d02a8f860be.../27948 == the PROPOSAL new_command digests; leg 307 byte-identical pre->post; RED set {139,162,167,177,191,204} issue_ids t27/t36/t37/t38/t47/t54 present and byte-identical pre->post, all six re-run rc=1 (permanent background, never healed). 319 entries at both states."
+   },
+   "ac2": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac2 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac2.log",
+    "note": "Verbatim at post-window main rc=1: 'tests[309] exited rc=0, expected the measured before-state rc=1' - disclosed post-window precondition artifact: the fence extracts the LIVE tests[309] which IS the amended command (healed by design, WAL 1414). BEFORE-STATE OUTCOME re-measured by the verifier: the pre-window (0c2fae6) tests[309] command run VERBATIM -> rc=1 with BOTH named stale-premise RED lines present: 'NOT byte-clean against BASE 67c9db975d75' (doc + generator) and 'the DISCLOSED OPEN LOOP this card states does not exist yet' - the premise table of the survey holds at the state the fence was groomed for. Live amended leg re-run rc=0 with 'ac4 GREEN' lines (non-vacuous)."
+   },
+   "ac3": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac3 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac3.log",
+    "note": "Verbatim at post-window main rc=1: 'tests[312] exited rc=0, expected the measured before-state rc=1' - same disclosed post-window artifact. BEFORE-STATE OUTCOME re-measured: the pre-window tests[312] command run VERBATIM -> rc=1 with the named false-by-history premise firing ('UNCOMMENTED line mentioning opentelemetry/loki/tempo') AND the (i) growth evidence printing GREEN ('limitations table grew 12 -> 13 rows'). Live amended leg re-run rc=0 printing both (i) 'limitations table grew' and (ii) 'policy record' evidence - the still-true guards preserved."
+   },
+   "ac4": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac4 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac4.log",
+    "note": "GREEN VERBATIM at post-window main (rc=0, 4.1s): leg 307 rc=0 with its own 'ac2 GREEN' line (non-vacuous, verifier re-ran the stored leg directly: rc=0 + ac2 GREEN) and the committed security/gitleaks-report.json count == 21 recomputed. The measured non-block stands unchanged by the window (307 byte-identical pre->post)."
+   },
+   "ac5": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac5 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac5.log",
+    "note": "Verbatim rc=1: the fence's default BASE f0eeb76..HEAD delta carries the merged history of UNRELATED cards (t139/t140/t142 cards+handoffs, .github workflows, WAL, and the orchestrator's own W2 index commit) - the same disclosed scope artifact class as t130 ac5 / t132 ac5 / t142 ac4 (WAL 1416 routed this class). SUBSTANCE measured with the correct base: the Card A re-groom delta 7d528c43409..083f455 (the card's own commits e6e7410..083f455, merged at 8a13858) == EXACTLY docs/issues/t141.md + docs/state/outputs/t141a_definer_gate_amendment.json + docs/state/outputs/t141a_definer_groom.json - all three inside the fence's own whitelist (t141(a|_)?_ spelling), ZERO index bytes by the card. The ONLY commit touching docs/state/merge_test_index.json in 7d528c4..HEAD is the orchestrator's own W2 window 4412514 (WAL 1274/1414 protocol, out of scope for the card by the card's own text: 'any leg rewrite rides an orchestrator W2 window')."
+   },
+   "ac6": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac6 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac6.log",
+    "note": "GREEN VERBATIM (rc=0): the split BLOCKER handoff docs/state/outputs/t141_definer_groom.json is present, status=BLOCKER, error_code=SCOPE_SPLIT_RULING_REQUIRED, all five dispositions present, silent_drops==[]. The split was ruled (WAL 1401) and executed: Card A = this card, Card B = t142/#147 (merged d09939e), Card C pending user authorization (WAL 1401(C))."
+   },
+   "ac7": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac7 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac7.log",
+    "note": "Verbatim rc=1: 'the live index digest 93b24c3839b5 != the groom-base digest the PROPOSAL chains on 96f2fb2e1f0a - re-key the PROPOSAL before applying' - THE GUARD FIRED WITH ITS RECORDED MESSAGE AFTER APPLICATION, which is its purpose (refuse apply on a moved index); the orchestrator verified this digest BEFORE applying (WAL 1414: 'ac7 GUARD PASSED BEFORE APPLY'). OUTCOME re-derived by the verifier at the PRE-WINDOW index (0c2fae6 raw blob eede2438, CRLF-normalised == 96f2fb2e == the chain): every ac7 assertion holds there - policy W2, applied_by orchestrator, card_writes_index_bytes false, operation REPLACE_COMMAND, add_count 0, no_leg_deleted, entry_count_after 319, verifier_thresholds_touched false, indices [309,312], both legs' old_command_sha256/old_command_len/entry_sha_before match the pre-window live entries, RED set issue_ids intact, reverse digest == chain (proof closes). At post-window main the chain is closed INDEPENDENTLY by the verifier's window_rekey re-derivation (see window_rekey field)."
+   },
+   "ac8": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac8 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac8.log",
+    "note": "Verbatim rc=1: 'leg 309 replacement 309-R1 matches 0 times in the live blob' - the live leg IS the amended command, so the from-pairs no longer match (already applied); precondition artifact of the applied window. OUTCOME re-derived by the verifier from the PRE-WINDOW (groom-base) commands + the PROPOSAL pairs: every blob/cmd replacement occurrence-asserted == 1, both amended commands rebuild deterministically -> 309 644b6e742a34.../29727 B and 312 2d02a8f860be.../27948 B, EQUAL to the recorded new_command_sha256/new_command_len, and the rebuilt strings are BYTE-IDENTICAL to the live amended commands (rebuilt==live True for both legs; the 312 t87_common.py payload untouched - second payload indexed correctly)."
+   },
+   "ac9": {
+    "verdict": "PASS",
+    "command": "docs/issues/t141.md#ac9 fenced block (VERBATIM)",
+    "exit_code": 0,
+    "output_path": "scratch/outputs/t141_verifier_ac9.log",
+    "note": "Verbatim rc=1: 'leg 309 replacement 309-R1 does not match the live blob' - same precondition (the fence rebuilds the amended commands FROM the live index, which post-window already carries them). GATE B rc TABLE re-measured by the verifier on this tree with the correct pre/post pairing: ORIGINAL pre-window 309 VERBATIM rc=1 (both stale premises named), ORIGINAL pre-window 312 VERBATIM rc=1 (UNCOMMENTED fires, 'limitations table grew' GREEN evidence printed), AMENDED live 309 VERBATIM rc=0 with 'ac4 GREEN' (non-vacuous), AMENDED live 312 VERBATIM rc=0 with 'limitations table grew' AND 'policy record' evidence ((i)/(ii) still enforced). All four cells of the GATE B table hold; the orchestrator's independent dirt-free cmd.exe clone measurement (WAL 1414: 309 rc=0, 312 rc=0, neighbor 307 rc=0) corroborates."
+   }
+  },
+  "test_summary": {
+   "total": 9,
+   "passed": 9,
+   "failed": 0
+  },
+  "failure_type": null,
+  "lint_report": null,
+  "test_quality_warnings": [],
+  "dod_verified": {
+   "gate_a_ac_hash_re_derived_exact": true,
+   "gate_b_rc_table_holds_post_window": true,
+   "w2_window_applied_with_forward_reverse_proofs": true,
+   "post_window_legs_309_312_rc0_verbatim": true,
+   "split_ruling_recorded_in_wal_1401": true,
+   "card_b_landed_per_t140_ruling_t142_merged": true,
+   "card_c_authorized_or_declined_recorded": false,
+   "zero_index_bytes_by_card": true,
+   "red_set_untouched_never_healed": true
+  },
+  "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+  "ac_hash_three_way_match": {
+   "recomputed": "sha256:d6d01d867c3eaddedbd73ab4cc6707102313a773ac3aaf2021501b5037b4ea43",
+   "card": "MATCH (verifier re-derived from git show HEAD:docs/issues/t141.md at 168bce2 with the column-0-anchored recipe; 9 fenced blocks, CR-stripped+trimmed, sha256 over json.dumps(blocks,separators=(',',':')))",
+   "builder": "N/A - Card A ships zero product bytes and no builder handoff exists (docs/state/outputs/ has no t141a_builder_build.json); the 'built' label was applied by the orchestrator after the W2 window (WAL 1414). The PROPOSAL artifact (t141a_definer_gate_amendment.json) carries the digests the window matched exactly."
+  },
+  "window_rekey": {
+   "protocol": "t129/t130/t132 chained post-window re-key, re-derived INDEPENDENTLY by the verifier on the index BYTES (raw JSON-escaped command-string replacement; the CRLF-normalised file digest is the pinned surface per WAL 1414)",
+   "before_digest_crlf_normalised_pre_window_0c2fae6": "96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2",
+   "amended_digest_live": "93b24c3839b53916f613f4d9e7bf4ef5502efe4fa6e02c8a026c3725bed9167b",
+   "forward_proof": "before + apply(new 309/312 commands, each occurrence-asserted ==1) -> 93b24c3839b53916f613f4d9e7bf4ef5502efe4fa6e02c8a026c3725bed9167b == live (EXACT)",
+   "reverse_proof": "live + unapply(restore old 309/312 commands, each occurrence-asserted ==1) -> 96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2 == before (EXACT); equals the PROPOSAL's recorded reverse_index_sha256_after_unapply",
+   "amendment_scope": "entry-by-entry diff pre(0c2fae6) vs live(HEAD): changed entries EXACTLY [309,312]; changed fields EXACTLY {(309,'command'),(312,'command')}; 319 entries both sides; zero adds/deletes; legs 307 and {139,162,167,177,191,204} byte-identical; entry_sha_before/entry_sha_after/old/new command digests+lengths all match the PROPOSAL records for both legs; identity (t86,ac4)/(t87,ac3) intact",
+   "rekeyed_before_state_pins": {
+    "leg307": "8fa6daa6a67e33147ca77a63dfa6abc709ffeb549ec398b597e619273979619d / 35860 (UNCHANGED by the window; still the live pin)",
+    "leg309": "b2e22b2d5006b83a3444ba54ba0d95d0f2aeade9a8d3b88897a8a4a14186b630 / 25606 -> amended live 644b6e742a34b87bc706bae10b089c39864b5fe720e579e412cec834c48a1809 / 29727",
+    "leg312": "f5a929d5cd87db8a660a418d59d9fcdc46bdde73099ffab287dfc7ddd14d2cde / 26789 -> amended live 2d02a8f860bea5742b5fb1fd7cf227f204d6e5c672106b4a24a6622f00230c68 / 27948"
+   }
+  },
+  "post_window_leg_rc_table": {
+   "309_amended_live_verbatim": "rc=0 (1.3s, ac4 GREEN lines, amended-provenance wording)",
+   "312_amended_live_verbatim": "rc=0 (1.0s, (i) growth + (ii) policy evidence printed)",
+   "307_neighbor_verbatim": "rc=0 (ac2 GREEN; report count 21 recomputed)",
+   "309_original_pre_window_verbatim": "rc=1 (frozen-BASE + inverted-loop RED lines named)",
+   "312_original_pre_window_verbatim": "rc=1 (UNCOMMENTED fires; growth GREEN evidence printed)",
+   "red_set_139_162_167_177_191_204_verbatim": "rc=1,1,1,1,1,1 - permanent background UNCHANGED, never healed (WAL 1399)"
+  },
+  "delta_purity": "Card A delta 7d528c43409..083f455 = docs/issues/t141.md + t141a_definer_gate_amendment.json + t141a_definer_groom.json ONLY (all whitelisted by ac5); zero index bytes by the card; the only index-touching commit in 7d528c4..HEAD is the orchestrator's W2 window 4412514",
+  "env_notes": [
+   "js-yaml junction NOT needed: legs 307/309/312 contain no js-yaml (verifier-measured; the 11 js-yaml legs are 125/131/132/133/134/200/204/211/216/268/269). The frontend/node_modules junction requirement was pre-satisfied at the repo root for the legs that need it; none of this card's fences did.",
+   "heavy legs ran synchronously; all fence/leg runs completed in <5s each (the t86/t87 probes are committed-report parsers + git gates, not live tool sweeps).",
+   "no builder handoff exists for Card A by design (zero product bytes; orchestrator applied the window and labeled built per WAL 1414) - the builder_implement input of the generic verify_issue flow is N/A and disclosed rather than fabricated.",
+   "orchestrator steering received mid-run and followed: ac7/ac8/ac9 REDs at post-window main are the expected guard behavior; recorded verbatim, no fence edited, no re-run for different results.",
+   "git show of the index blob applies CRLF text conversion (identical digests pre/post via show); the verifier used cat-file raw blob bytes + CRLF normalisation - the pinned surface per WAL 1414 - for all digest work."
+  ],
+  "verification_notes": "Nine fences extracted VERBATIM from the committed card blob (ac_hash d6d01d86 re-derived exact, 9 blocks). Verbatim rc table at post-window main 168bce2: ac1=1, ac2=1, ac3=1, ac4=0, ac5=1, ac6=0, ac7=1, ac8=1, ac9=1. Every RED is the card's own pre-window precondition/guard surface firing after the authorized W2 window (t129/t130/t132 precedent class, WAL 1416 routed this class); every outcome cell was re-measured by the verifier with the correct pre/post pairing and holds. Verdict: PASS - the survey evidence reproduced exactly at the state it was groomed for, the amendment applied exactly as proposed, the healed legs GREEN verbatim, the neighbor and permanent RED set untouched."
+ },
+ "artifacts": {
+  "files_written": [
+   "docs/state/outputs/t141a_verifier_verify.json"
+  ],
+  "platform_issue": 146,
+  "output_path": "docs/state/outputs/t141a_verifier_verify.json"
+ },
+ "error": null,
+ "next_action": null,
+ "timestamp": "2026-10-26T07:11:49Z",
+ "retry_count": 0
+}
