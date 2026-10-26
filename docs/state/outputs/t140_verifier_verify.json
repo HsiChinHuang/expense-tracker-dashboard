@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t140",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "493383f7e4fd161d430fe0b742aec7a4f06158ef (post-merge main tip; contains merge commit 7ec3368 - merge-base --is-ancestor verified)",
+    "t140_base": "f04d143c4bfd97981731e7bef6084e1c8affc3c7 (DISPATCH BASE; verified to contain docs/issues/t140.md via git cat-file -e)",
+    "built_state_commit": "builder branch issue/t140-t138-ac4-hygiene-addendum tip bf78d5c696bd266b735402e113f022cc01c7828e (product 8e3a589); branch_sha confirmed against origin via git ls-remote.",
+    "ac_hash_rederived": "t140's own ac_hash e571d889 is not re-derived by this verifier (the card publishes it for the six AC blocks; the groom self-derived it at Gate A, WAL 1402). The CARD'S OWN ac3 fence re-derives t138's published ac_hash sha256:323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c and it re-derived MATCH at HEAD blob AND working tree in this verifier's verbatim run (ac3 rc=0) - the central custody claim holds at post-merge main.",
+    "ac_execution_policy": "All six fenced blocks were extracted VERBATIM from the committed docs/issues/t140.md blob at HEAD (cmd.exe git show HEAD:docs/issues/t140.md, CR-stripped, column-0 anchored recipe: '## Acceptance criteria' .. next ^## , six ```bash blocks) and executed unedited with T140_BASE=f04d143c4bfd97981731e7bef6084e1c8affc3c7. Five fences (ac1/ac2/ac3/ac5/ac6) exit rc=0 at post-merge main 493383f. ac4 exits rc=1 at post-merge main with its own RED line 'ac4 RED: the delta carries docs/log/orchestrator_wal.jsonl'; the SAME fence executed VERBATIM in a dirt-free cmd.exe clone checked out at the builder branch tip bf78d5c - its DESIGNED CONTEXT per the card's own Verification commands ('Run from the builder branch with T140_BASE set to the DISPATCH BASE') - exits rc=0 GREEN. No fenced block of any card was edited; no command was substituted (t140's own WAL 1403 ruling: fenced AC text is immutable, substituting a command is a gate failure).",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced ac1 block (premise re-derived live: 0 stale-literal occurrences; current pin extracted from the index is held by [227] alone; stale-literal scan RED-by-construction; current-pin scan GREEN NC)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac1.out",
+        "note": "GREEN rc=0 VERBATIM at post-merge main 493383f with T140_BASE=f04d143. Superseded literal a0399b17 has 0 occurrences in docs/state/merge_test_index.json (independently re-counted with grep -o | wc -l: 0); leg 227 ALONE carries the current pin 11ed40fa (extracted from the index at fence time, never hardcoded); t138 ac4 part-3's verbatim stale-literal scan returns [] (RED-by-construction, the recorded staleness stands); the identical scan under the current pin returns [227] (NC GREEN - the mechanism works, only t138's hardcoded literal is stale). 319-leg invariant asserted inside the fence."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced ac2 block (addendum heading at column 0 as the LAST section after Definition of Done; all required record content; zero markdown links)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac2.out",
+        "note": "GREEN rc=0 VERBATIM at post-merge main. The '## Post-closure hygiene addendum (t140 / #145)' heading sits at column 0, is the LAST section, sits after '## Definition of Done', carries all nine required needles (both digests, the index path, RED-BY-CONSTRUCTION, t135, 47f2076225b, WAL 1394, 29d22aff, 319) and zero markdown links."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced ac3 block (t138 ac_hash 323fc030 re-derives MATCH at HEAD blob and working tree, 6 blocks, anchored recipe; NC: one-char edit inside ac4 moves the digest)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac3.out",
+        "note": "GREEN rc=0 VERBATIM at post-merge main. t138's published ac_hash 323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c re-derives MATCH from BOTH the HEAD blob (cmd.exe git show) and the working tree, six fenced blocks intact; NC GREEN: a one-character leading-space edit inside ac4 part 3 MOVES the digest - the MATCH is discriminating, not vacuous. The append-only addendum sits OUTSIDE the anchored hashed surface: ac_hash custody is INTACT at post-merge main."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced ac4 block with T140_BASE=f04d143c4bfd97981731e7bef6084e1c8affc3c7 (delta whitelist at the DISPATCH BASE; t138 delta append-only and link-neutral; index/product/README/criteria byte-zero; NC refuses index bytes)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac4_clone.out",
+        "note": "PASS IN SUBSTANCE AND IN ITS DESIGNED CONTEXT; the post-merge-main RED is a DOCUMENTED NON-BLOCK in t140's own fence design, adjudicated below. TWO VERBATIM MEASUREMENTS, both recorded honestly: (a) AT POST-MERGE MAIN 493383f the fence exits rc=1 with its own RED line 'ac4 RED: the delta carries docs/log/orchestrator_wal.jsonl' - changed=[docs/issues/t138.md,docs/log/orchestrator_wal.jsonl,docs/state/outputs/t140_builder_build.json] (output /mnt/c/tmp/t140_ac4.out); (b) AT THE DESIGNED CONTEXT - the builder branch tip bf78d5c in a dirt-free cmd.exe clone, T140_BASE=f04d143, exactly as the card's own Verification commands section instructs ('Run from the builder branch with T140_BASE set to the DISPATCH BASE') - the SAME fence exits rc=0 GREEN with changed=[docs/issues/t138.md,docs/state/outputs/t140_builder_build.json] (output /mnt/c/tmp/t140_ac4_clone.out). exit_code 0 records measurement (b), the fence's designed context and the card's own instruction; measurement (a) stands as recorded and is the basis of the non-block adjudication. ATTRIBUTION (independently verified, not trusted from WAL 1406): the ONLY delta path beyond the whitelist is docs/log/orchestrator_wal.jsonl. At the merge commit 7ec3368 its delta vs the DISPATCH BASE is +1/-0 (seq 1404, the t142/#147 card-opening entry); at HEAD 493383f it is +3/-0 (seq 1404/1405/1406 - the t142 opening, this card's merge record, and this finding). All are orchestrator journal APPENDS: 0 deleted lines (grep -cE '^-[^-]' on the --ignore-cr-at-eol diff = 0), zero card-work bytes, zero product/index bytes. OUT-OF-FENCE DIAGNOSTIC (explicitly labelled: a MEASUREMENT, NOT a substitute for the verbatim fence - the verbatim rc values above stand as recorded): re-running ac4's own whitelist loop over the delta EXCLUDING docs/log/orchestrator_wal.jsonl yields changed=[docs/issues/t138.md,docs/state/outputs/t140_builder_build.json] with every path whitelist-OK, index diff --quiet CLEAN, product/README/criteria/backend/frontend/.github diff --quiet CLEAN, and 0 new markdown links in the t138 delta - i.e. the RED is attributable ONLY to the WAL path. SUBSTANCE (independently verified): t138's delta is +37/-0 append-only (git diff --numstat AND --ignore-cr-at-eol --numstat both 37/0; single hunk @@ -727,3 +727,40 @@ - pure EOF append, no full-file rewrite, no 619 phantom deletions), link-neutral (0 new '](' lines); ZERO index bytes (the index BLOB ID is identical at base and HEAD: eede243896001d2b90eb5daa6211e9b72e7d1c6 - byte-identical, stronger than diff --quiet); ZERO product/README/criteria bytes; superseded literal a0399b17 has 0 occurrences in the index; the committed report's cr-sha 11ed40fa equals leg 227's CURRENT pin READ dynamically from the index (ac5); LINK_CHECK row 'files=304 links=67 broken=0' intact. ADJUDICATION - DOCUMENTED NON-BLOCK, NOT A CARD FAILURE: the fence hardcodes a delta surface that legitimately rotates (the orchestrator's append-only journal always grows between any card's base and any post-merge head), which is precisely the defect class t140 exists to address, and the card's own ac1 carries the tripwire convention for it ('that rc=1 means re-premise, not fix-around'). CITED PRECEDENT: (1) docs/issues/t136.md Metadata explicitly treats WAL-only bytes as admissible base-adjacent bytes ('the groom verified git diff b437216 3f83c4e touches docs/log/orchestrator_wal.jsonl and nothing else') - t136's own purity fence (ac5) carries the SAME whitelist omission, and its verifier adjudicated it PASS 6/6 by measuring at the WAL-free built-state tip (t136_verifier_verify.json ac5 note: 'GREEN at 1391696 with T136_BASE=fbfbfbd ... exactly the report + the builder handoff'); (2) WAL 1347/1348 (t130/#134 CLOSED): verbatim-at-HEAD rc=1 precondition artifacts adjudicated PASS 6/6 with full disclosure; (3) WAL 1394/1395 (t138/#143 CLOSED): a verbatim fence RED-by-construction on a hardcoded rotating value was adjudicated ORCHESTRATOR-OWNED CARD-TEXT STALENESS, not a product defect, and the card closed. RESIDUAL (recorded, not fixed here): t140's ac4 whitelist correction - adding docs/log/orchestrator_wal.jsonl to the admitted set as t136's Metadata precedent does - is APPEND-ONLY-ADDENDUM TERRITORY FOR A FUTURE CARD (the t142/#147 pattern already opened at WAL 1404), NEVER a fenced-block edit: t140's own ruling (WAL 1403, adopted project precedent) makes fenced AC text immutable, and this verifier is forbidden from editing any card."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced ac5 block (report cr-sha == leg-227 CURRENT pin READ from the index; LINK_CHECK row shape links=67; mutation NC)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac5.out",
+        "note": "GREEN rc=0 VERBATIM at post-merge main. The committed docs/criteria/docs_verification.md cr-stripped sha256 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f equals leg 227's CURRENT pin EXTRACTED from docs/state/merge_test_index.json at fence time (no digest hardcoded in the fence - the convention the card records, practiced by its own fence); LINK_CHECK PASS files=304 links=67 broken=0 intact; mutation NC fires. Independently re-measured outside the fence: same digest, same LINK_CHECK row."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced ac6 block (builder handoff names both digests, ac_hash_match, addendum_sha256, explicit index_bytes_moved=false)",
+        "exit_code": 0,
+        "output_path": "/mnt/c/tmp/t140_ac6.out",
+        "note": "GREEN rc=0 VERBATIM at post-merge main. docs/state/outputs/t140_builder_build.json carries 323fc030..., a0399b17..., 11ed40fa..., ac_hash_match, index_bytes_moved, addendum_sha256 and the explicit '\"index_bytes_moved\": false'. The handoff's claims were independently checked and hold: ac_hash_match=true is confirmed by this verifier's own ac3 rc=0; index_bytes_moved=false is confirmed by the identical index blob id at base and HEAD (eede2438...); the branch_sha it names (8e3a589 product / bf78d5c tip) is confirmed on origin."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "known_non_blocks_confirmed": [
+      "ac4's post-merge-main rc=1 is caused SOLELY by docs/log/orchestrator_wal.jsonl (+1 line at the merge commit, +3 at HEAD; append-only, 0 deletions, no card-work bytes) landing on main AFTER the builder's DISPATCH BASE. This is a defect in t140's OWN fence design (a whitelist that hardcodes a surface which legitimately rotates - the same class t140 exists to address), NOT a product, index, or t138-custody defect. Ruled a DOCUMENTED NON-BLOCK per the t136 Metadata precedent + t136's own ac5 verifier adjudication + the t130 (WAL 1347/1348) and t138 (WAL 1394/1395) post-window/staleness precedents. The verbatim rc=1 at post-merge main stands as recorded; no fenced block was edited and no command was substituted.",
+      "t138's ac4 part-3 stale literal a0399b17 remains RED-by-construction at every post-M1 head - this card's own premise, re-derived live by ac1 and left in place by design (the addendum records, it does not scrub).",
+      "Leg-227 echo prose (29d22aff x2 / d849c775 x1) remains in the index as recorded non-block; the W2 refresh is orchestrator-owned merge-window work and t140 correctly moved ZERO index bytes."
+    ],
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "Non-blocking. The delta moves ZERO .py files (git diff --name-only f04d143..HEAD -- '*.py' is empty), so no lint finding is attributable to this card. Repo-wide ruff 0.16.7 reports 77 pre-existing findings across the tree (58 UP031, 4 SIM401, 3 TRY004, 3 RUF100, 3 I001, remainder other) - all pre-existing, none in this card's delta. Recorded as 0 errors / 0 warnings attributable to t140, matching the t138 verifier's convention.",
+    "test_quality_warnings": [
+      "t140's ac4 whitelist omits docs/log/orchestrator_wal.jsonl, so the fence cannot exit 0 at ANY post-merge main head - the orchestrator's append-only journal always grows between a card's DISPATCH BASE and the post-merge tip. The fence is correct AT ITS DESIGNED CONTEXT (builder branch + T140_BASE = DISPATCH BASE, where it exits rc=0 verbatim) and the card's own Verification commands section prescribes exactly that context. The correction (admit the WAL path, as t136's Metadata precedent does) is append-only-addendum territory for a FUTURE card and must never be made by editing t140's fenced block (WAL 1403 ruling).",
+      "This card has no separate test files by design: its verification commands ARE the six fenced bash blocks, each self-verifying with a negative control. Writing separate test files would breach ac4's own delta whitelist."
+    ],
+    "dod_verified": {
+      "builder_branched_from_dispatch_base_containing_card_with_T140_BASE_set": true,
+      "all_six_ac_blocks_exit_0_on_the_builder_branch_with_NCs_firing": true,
+      "delta_is_exactly_t138_addendum_this_card_and_t140_outputs_append_only_link_neutral": true,
+      "t138_delta_append_only_zero_deleted_lines": true,
+      "t138_delta_link_neutral_zero_new_markdown_links": true,
+      "zero_index_bytes_index_blob_identical_at_base_and_HEAD": true,
+      "zero_product_README_criteria_bytes": true,
+      "t138_ac_hash_323fc030_re_derives_MATCH_at_HEAD_blob_and_working_tree_after_append": true,
+      "committed_report_digest_equals_leg227_current_pin_read_from_index": true,
+      "LINK_CHECK_row_files_304_links_67_broken_0_intact": true,
+      "superseded_literal_a0399b17_zero_occurrences_in_index": true,
+      "build_handoff_names_both_digests_ac_hash_match_addendum_sha256_and_explicit_index_bytes_moved_false": true,
+      "ac4_verbatim_at_post_merge_main_exits_0": false,
+      "ac4_verbatim_at_designed_context_builder_branch_with_T140_BASE_exits_0": true,
+      "no_new_RED_legs_attributable_to_this_card_zero_product_index_report_bytes": true,
+      "platform_145_groomed_label_present": true
+    },
+    "dod_note": "The single false DoD item ('All six AC blocks exit 0' read as 'at post-merge main') is exactly the documented non-block: the card's own Verification commands section scopes ac4 to the BUILDER BRANCH with T140_BASE set to the DISPATCH BASE, where it exits 0 verbatim; at post-merge main it cannot, by its own construction, because the orchestrator's WAL always grows in that window. All other DoD items verify. Stored-leg 227 execution is the ORCHESTRATOR's pre-merge-sweep obligation (the card's Verification commands section states the heavy generator execution stays owned by stored legs 318/227 in the orchestrator's merge-window sweep) and was NOT re-executed by this verifier; what this verifier did verify is that NO new RED leg can be attributable to this card: zero product bytes, zero report bytes (ac5) and a byte-identical index blob at base and HEAD. platform_145_body_synced is taken from WAL 1402 (groom merge record) - the sanctioned CLI (scripts/platform.ts issue get) DROPS the body field, so body sync is not independently readable by the verifier; the groomed label WAS read back live (state open, labels [groomed]).",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema declares this field as a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is emitted verbatim as the t138/t140-builder precedent handoffs do. The ACTUAL authoritative source is docs/issues/t140.md#verification-commands; all six fenced blocks were extracted verbatim from the committed card blob at HEAD and executed unedited.",
+    "validator_note": "TWO invocations, both recorded verbatim (the t136-documented invocation quirk: the validator resolves an issue-relative path against the MAIN checkout, so the dispatched relative form cannot see this worktree's uncommitted handoff). (a) The EXACT dispatched command: cmd.exe /d /c \"cd C:\\Users\\tw097\\Desktop\\261007_project01\\expense-tracker-dashboard && npx tsx scripts/validate_handoff.ts docs/state/outputs/t140_verifier_verify.json verifier verify_issue < NUL\" -> rc=1, 'Handoff not found: docs/state/outputs/t140_verifier_verify.json' (the '< NUL' sits INSIDE the cmd quotes; the schema alias is verify_issue, not verify). (b) Schema conformance PROVEN with the same command and the same 'verifier verify_issue' arguments, path made absolute so the main-checkout cwd can resolve this worktree's file -> rc=0: '[OK] ...\\docs\\state\\outputs\\t140_verifier_verify.json is valid for verifier:verify_issue'. The relative-path failure is a path-resolution artifact of validating an UNCOMMITTED worktree file from the main checkout, not a schema defect; the file is unchanged between (a) and (b).",
+    "harness_notes": [
+      "WSL npx/esbuild is broken on this host (documented in docs/commands.md troubleshooting): platform.ts and the validator were run through cmd.exe.",
+      "The main checkout's .env was ABSENT for part of this run (the first platform.ts call succeeded, later ones failed with 'ERROR: .env not found at .env'); platform reads were completed by running scripts/platform.ts with cwd set to an existing sibling worktree that carries a .env (no files were written outside this worktree). Recorded as an environment observation, not a card finding.",
+      "The dirt-free clone used for ac4's designed-context run was created with cmd.exe git clone (default core.autocrlf) into C:\\tmp\\t140clone and checked out through cmd.exe; no WSL git checkout was performed inside a cmd.exe clone.",
+      "No git state-changing operation was performed in this worktree (read-only rev-parse/show/diff/ls-remote/merge-base only); the clone is outside the repo tree."
+    ],
+    "label_transition_note": "PASS label transition executed: 'verified' ADDED to #145 (read-back: state open, labels [groomed, verified]). The skill's PASS rule is a 'built' -> 'verified' swap, but #145 never carried 'built' (the orchestrator's build-merge WAL 1405 did not apply it), so there was nothing to remove; 'groomed' was LEFT IN PLACE deliberately, matching the recorded cumulative-label practice at WAL 1393/1395 ('Labels set groomed,built,verified' on #142/#143 at closure). No 'verifier_failed' modifier added: the verdict is PASS. Issue CLOSURE was NOT performed - closure is orchestrator-owned."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t140_verifier_verify.json"
+    ],
+    "platform_issue": 145,
+    "output_path": "docs/state/outputs/t140_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T06:35:00Z",
+  "retry_count": 0
+}
