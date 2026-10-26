@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t137",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:8cbceec3b5e5b97e44159d0957f3a25d9a65f0be71793e15624935d6baf3f8b1",
+    "ac_hash_groups": "8cbceec3 b5e5b97e 44159d09 57f3a25d 9a65f0be 71793e15 624935d6 baf3f8b1",
+    "ac_hash_provenance": "SELF-DERIVED (gate A) from the COMMITTED card blob docs/issues/t137.md on branch t137-definer-groom via the anchored recipe stated IN the card; re-verified stable after the final fence edits",
+    "ac_count": 6,
+    "verification_commands": {
+      "ac1": "bash <fence ac1 verbatim> with T137_BASE=<DISPATCH BASE>",
+      "ac2": "bash <fence ac2 verbatim> with T137_BASE=<DISPATCH BASE>",
+      "ac3": "bash <fence ac3 verbatim> (needs frontend/node_modules junction)",
+      "ac4": "bash <fence ac4 verbatim> with T137_BASE=<DISPATCH BASE> (self-cleaning throwaway clone under scratch/)",
+      "ac5": "bash <fence ac5 verbatim> (strict at build/verify; T137_GROOM_PREPRODUCT=1 only for the groom's pre-product sweep)",
+      "ac6": "bash <fence ac6 verbatim>"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "base": "08e63854144",
+    "base_cr_sha": "daa2ffc81034669c324823e4d5d0bf3922baf1bd3101368e707649f9e146f332",
+    "base_blob_id": "9c391d05cfea2d22c34a65bf0637443d53ecef22",
+    "expected_patched_cr_sha": "d83375a9567976e1265d1bb0021a868a98cafd2c5d9737108aebe459911b6e1a",
+    "documented_patch_sed": "sed -E 's/^(    runs-on: )ubuntu-latest\\r?$/\\1\"ubuntu-24.04\"/'",
+    "e2e_package_json_base_blob": "10ad0e1932cdf62b90752a0aeee8d9386fc3e1b5",
+    "leg_rc_base": { "5": 0, "131": 0, "132": 0, "133": 0, "136": 0, "139": 1, "161": 0, "162": 1, "167": 1, "177": 1, "191": 1, "203": 0, "204": 1, "215": 0, "227": 0 },
+    "leg_rc_patched": { "5": 0, "131": 0, "132": 0, "133": 0, "136": 0, "139": 1, "161": 0, "162": 1, "167": 1, "177": 1, "191": 1, "203": 0, "204": 1, "215": 0, "227": 0 },
+    "leg_rc_notes": "131/132/133/204 GREEN only where frontend/node_modules is present (js-yaml prerequisite; measured RED in a bare worktree without it). 139 pre-existing RED: final assertion cmd.exe git diff --quiet a224be8 -- backend/app fails at BASE in patched clone, groom worktree, and main checkout alike (bash -x measured; e2e fragment passes). 162 gitleaks 87 leaks on this machine. 167/177 security-dir denylist drift predates those legs. 191 frontend failed tests at BASE. 204 RED solely because it executes 139 (131/132/133/135 print rc=0 inside it). All rc UNCHANGED by the patch.",
+    "gate_B": "all six fences smoke-run VERBATIM by the groom in a dirt-free sim clone (BASE + card commit + patched e2e.yml commit + this handoff), T137_BASE=card commit; negative controls executed against live stored legs 136/203 in throwaway clones",
+    "gate_C_purity_base": "T137_BASE = DISPATCH BASE (main tip already containing the card); never HEAD~1-substituted with the card-adding commit",
+    "index_scan": "ZERO legs pin runs-on/ubuntu-latest/ubuntu-2x; ZERO legs pin e2e.yml bytes; 227's 20-file byte-frozen set excludes e2e.yml (includes e2e/package.json, frozen); 136 pins @playwright/test EXACTLY 1.58.0; 203 greps the install run line VERBATIM; 204 requires RAW substrings playwright install / make e2e / ms-playwright",
+    "w2_amendment": "none needed and none taken; zero index bytes in this card",
+    "adjudication": "ci.yml/deploy.yml/promote.yml stay ubuntu-latest: only e2e.yml uses Playwright (grep -il measured), deploy.yml shape is live-pinned by legs 131/133, ci runs GREEN on 26.04 in the same window; anchor-all-runners deferred to a deliberate follow-up card",
+    "post_merge_observation_owned_by": "orchestrator",
+    "post_merge_obligation": "observe the NEXT E2E run on main going GREEN after merge (children cannot trigger GitHub Actions); until observed, status is landed-pending-observation, never verified-fixed. Also merge-window: if the orchestrator elects to amend the index for pre-existing RED legs 139/162/167/177/191/204, that is orchestrator authority on a different card - this card carries zero index bytes.",
+    "run_778_failure_step": "Install Playwright browsers: ERROR: Playwright does not support chromium on ubuntu26.04-x64 (deploy.yml workflow_run gating freezes the deploy chain while RED)"
+  },
+  "artifacts": {
+    "files_written": ["docs/issues/t137.md", "docs/state/outputs/t137_definer_groom.json"],
+    "platform_issue": 142,
+    "output_path": "docs/state/outputs/t137_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T02:40:00Z",
+  "retry_count": 0
+}
