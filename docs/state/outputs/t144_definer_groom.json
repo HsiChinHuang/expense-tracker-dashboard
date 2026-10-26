@@ -78,6 +78,11 @@
     "adjudication": {
       "question": "Is the recurring whitelist RED cured by editing the three adjudicated cards' fences, or by a prospective template rule?",
       "decision": "INHERITED, not re-litigated: WAL 1403 makes closed cards' fenced blocks immutable; the t143 verifier (WAL 1428) named the prospective template cure explicitly. This card appends the standing rule and touches zero closed-card bytes (ac4)."
+    },
+    "platform_sync": {
+      "body": "issue update 149 with the COMMITTED BLOB bytes verbatim via the t139/t143 --body-file byte-copy hook (scratch/syncbody_t144_direct.ts, one PATCH, no argv, no preprocessing); read-back BYTE-EQUAL to git show HEAD:docs/issues/t144.md - sha256 ee67fccf9e99642395c0e209335127aabe1416491171f0c1931aaad525a992e8 on both sides (31,683 chars). The first attempt through the t135 in-process --body preload stored a leading newline (parseFlags needs the --'-prefix dodge and GitHub preserves leading whitespace on update), breaking byte-equality; the direct hook fixed it - recorded so future syncs of frontmatter-first cards use the t139 shape.",
+      "labels": "label add 149 --labels groomed rc=0, then label remove 149 --label defined rc=0 (the skill's Step 7 pair; the #145/#147 end-state precedent shows groomed without defined); API read-back labels=['groomed'] state=open.",
+      "env_recipe": "cp scratch/env_quarantine_t94post .env in one call; every platform call in its own call; rm -f .env in a SEPARATE call + sleep 2 + ls-assert (WAL 1408)."
     }
   },
   "artifacts": {
@@ -87,6 +92,6 @@
   },
   "error": null,
   "next_action": null,
-  "timestamp": "2026-10-26T11:04:19Z",
+  "timestamp": "2026-10-26T11:12:30Z",
   "retry_count": 0
 }
