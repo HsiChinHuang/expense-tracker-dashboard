@@ -1,0 +1,98 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t137",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "b5ba050cb615b6fff505f599d23eb732f7233ccf",
+    "t137_base": "2d1c438b712acc8567a8330284697b5a24927e4f",
+    "built_state_commit": "3a94679a729213f09781dda21d3caf6abf2e09e5 (product) + 8bbc9d9 (builder handoff tip); merged to main as c7bcb9dfc3a which is an ancestor of verified HEAD b5ba050",
+    "ac_hash_rederived": "sha256:58ffd65368a58194778cb41001e6d7ee9fbd67fe650fbad7a95721a3e279402d - MATCH. Independently re-derived with the card's ANCHORED extraction recipe from the committed HEAD blob (git show HEAD:docs/issues/t137.md captured in python, CR-stripped, 6 fenced bash blocks, compact json.dumps separators). All six fences executed VERBATIM from that extraction with zero edits.",
+    "ac_execution_policy": "ac1/ac3/ac5/ac6 executed at merged HEAD b5ba050 in the worktree (frontend/node_modules junctioned to the main checkout per card Harness notes - js-yaml environment prerequisite, not a relaxation). ac2 executed VERBATIM at the built-state tip 8bbc9d9 in a dirt-free clone (its designed context: per-card delta purity at the DISPATCH BASE); at merged HEAD the same fence correctly fires RED on OTHER cards' merged files (t138 backend/scripts/docs_verification.py, orchestrator WAL/index re-pin) - that is the expected post-merge multi-card signature, NOT a t137 defect; the t137 product delta is exactly e2e.yml (independently confirmed). ac4 executed VERBATIM in a dirt-free clone (short-path C:\\Users\\tw097\\sc137wt because the deep subagent-worktree path exceeded Windows MAX_PATH for the clone target - an environment condition, reproduced from the same merged tree).",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac1)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence above, verbatim)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 at merged HEAD. The documented sed over the BASE blob (git show 2d1c438b:.github/workflows/e2e.yml, cr-stripped) equals the committed bytes (cr-stripped); exactly one changed line pair and it is the runs-on line; js-yaml parses jobs.e2e.runs-on as the STRING \"ubuntu-24.04\" (quoted - the float-24.04 trap refused); the Install Playwright browsers step and the verbatim install run line are byte-identical; ci/deploy/promote byte-untouched vs BASE; the sed NC refuses an unquoted emission. Independently: git diff 2d1c438b HEAD -- e2e.yml shows exactly '-    runs-on: ubuntu-latest' / '+    runs-on: \"ubuntu-24.04\"' (BASE blob id 9c391d0 matches the card)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac2)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence above, verbatim)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 at the built-state tip 8bbc9d9 in a dirt-free clone: changed=[.github/workflows/e2e.yml,docs/state/outputs/t137_builder_build.json,] - exactly the product + the builder handoff; docs/state/merge_test_index.json, e2e/package.json, ci.yml, deploy.yml, promote.yml all byte-zero vs BASE; the matcher NC refuses synthetic index/manifest deltas. At merged HEAD b5ba050 the same fence fires RED on backend/scripts/docs_verification.py etc - those are t138 product + the orchestrator merge-window leg-227 re-pin (commit 47f2076, t138 authority), NOT t137 bytes. Independently confirmed: git diff --name-only 2d1c438b 3a94679a == [.github/workflows/e2e.yml] only, and diff --quiet 2d1c438b HEAD -- e2e/package.json/ci.yml/deploy.yml/promote.yml all rc=0."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac3)\" (fence above, verbatim; needs frontend/node_modules junction)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 at merged HEAD. All nine e2e-relevant GREEN legs (5,131,132,133,136,161,203,215,227) execute rc=0 VERBATIM on the patched workflow; the six pre-existing RED legs (139,162,167,177,191,204) hold rc=1 unchanged - no heal, no worsening, no rc>=2. Matches the groom's gate-B table and the builder's leg_rc_patched exactly."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac4)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence above, verbatim; creates and removes its own throwaway clone under scratch/)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 in a dirt-free clone of the merged tree (frontend/node_modules junctioned). Baseline GREEN for legs 136/203 before mutating. NC-a: bumping @playwright/test 1.58.0->1.59.0 in e2e/package.json is REFUSED by stored tests[136] (rc!=0). NC-b: appending ' --force' to the install run line is REFUSED by stored tests[203] (rc!=0). Both forbidden fix directions are EXECUTE-REFUSED against live stored legs, not asserted. (The fence's in-worktree clone attempt hit Windows MAX_PATH from the deep subagent branch path - an environment condition; reproduced verbatim from the same merged tree at a short path.)"
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac5)\" (fence above, verbatim)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 at merged HEAD (strict mode, no T137_GROOM_PREPRODUCT). RAW substrings 'playwright install' / 'make e2e' / 'ms-playwright' all present; step order health-wait -> browser-install -> suite-run holds; the quoted pinned runner line '^    runs-on: \"ubuntu-24.04\"$' is present (the fix is landed); the substring-removal NC refuses a copy with any of them removed."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "bash -c \"$(fence ac6)\" (fence above, verbatim)",
+        "exit_code": 0,
+        "note": "GREEN rc=0 at merged HEAD. The groom handoff carries ac_hash, leg_rc_base, leg_rc_patched, base_cr_sha, expected_patched_cr_sha and post_merge_observation_owned_by=orchestrator. The builder handoff carries the measured patched-workflow cr-sha d83375a9567976e1265d1bb0021a868a98cafd2c5d9737108aebe459911b6e1a (== the value I measured on the committed HEAD bytes: tr -d CR | sha256sum), names run_778_failure_step, and records post_merge_green_e2e_observation as PENDING - owned by orchestrator. The hosted-run observation is correctly left PENDING (children cannot trigger GitHub Actions); no GitHub Actions run result is fabricated or required."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "test_quality_warnings": [],
+    "dod_verified": {
+      "e2e_yml_carries_quoted_ubuntu_24_04_and_delta_is_exactly_one_line": true,
+      "nine_e2e_relevant_green_legs_rc0_verbatim_six_pre_existing_red_hold_rc1": true,
+      "both_negative_controls_execute_their_refusals_against_live_stored_legs": true,
+      "raw_substring_and_step_order_contract_holds": true,
+      "both_handoffs_exist_with_required_fields": true,
+      "builder_commit_pushed_and_merged": true,
+      "post_merge_green_e2e_observation_is_orchestrator_owned_pending": true
+    },
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "delta_purity_verification": {
+      "e2e_yml_delta_vs_base": "git diff 2d1c438b HEAD -- .github/workflows/e2e.yml == exactly one line pair: '-    runs-on: ubuntu-latest' / '+    runs-on: \"ubuntu-24.04\"' (blob 9c391d0 -> 296a15e); BASE blob cr-stripped sha256 daa2ffc81034669c324823e4d5d0bf3922baf1bd3101368e707649f9e146f332, HEAD cr-stripped sha256 d83375a9567976e1265d1bb0021a868a98cafd2c5d9737108aebe459911b6e1a (== builder patched_cr_sha and groom expected_patched_cr_sha).",
+      "byte_zero_vs_base": "diff --quiet 2d1c438b HEAD -- for each of .github/workflows/ci.yml, deploy.yml, promote.yml, e2e/package.json all rc=0 (byte-zero). e2e/package.json BASE blob 10ad0e1932cdf62b90752a0aeee8d9386fc3e1b5 unchanged.",
+      "index_delta_at_merged_head": "docs/state/merge_test_index.json differs at merged HEAD ONLY in leg 227 (t59/ac4) via the orchestrator merge-window REPLACE-only re-pin (a0399b17 -> 11ed40fa, commit 47f2076, t138 authority) - NOT a t137 byte. t137 owns ZERO index bytes (confirmed: diff --quiet 2d1c438b c7bcb9df -- merge_test_index.json rc=0 at the t137 merge)."
+    },
+    "known_non_blocks_confirmed": [
+      "ac2 at merged HEAD fires RED on other cards' merged files (t138 product, orchestrator WAL/index re-pin) - the per-card purity fence's expected multi-card post-merge signature; t137's own delta is exactly e2e.yml (independently confirmed via git diff --name-only 2d1c438b 3a94679a).",
+      "pre-existing RED legs 139/162/167/177/191/204 hold rc=1 unchanged (e2e-irrelevant drift/environment classes this card neither causes nor cures; no-regression contract satisfied per ac3).",
+      "frontend/node_modules junction (mklink /J to the main checkout) and the short-path clone C:\\Users\\tw097\\sc137wt are gitignored/out-of-tree environment scaffolding; no stray 'nul' file staged.",
+      "the post-merge GREEN E2E run on main is PENDING and orchestrator-owned (ac6) - the fix is landed-pending-observation, NOT verified-fixed until the next main push goes GREEN."
+    ],
+    "validator_note": "The dispatched validator command uses phase alias 'verify_issue' (registry-correct; the bare 'verify' alias has NO schema in the registry per the t135/t136 WAL-precedent invocation quirk). The < NUL redirect is placed INSIDE the cmd.exe quotes as dispatched to avoid the stray-nul-file contamination class."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t137_verifier_verify.json"
+    ],
+    "platform_issue": 142,
+    "output_path": "docs/state/outputs/t137_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T03:40:00Z",
+  "retry_count": 0
+}
