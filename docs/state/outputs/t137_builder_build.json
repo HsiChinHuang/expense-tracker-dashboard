@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t137",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t137-e2e-runner-drift-pin",
+    "branch_sha": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+    "dispatch_base": "2d1c438b712acc8567a8330284697b5a24927e4f",
+    "product_commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+    "ac_hash": "sha256:58ffd65368a58194778cb41001e6d7ee9fbd67fe650fbad7a95721a3e279402d",
+    "exact_one_line_diff": "-    runs-on: ubuntu-latest\n+    runs-on: \"ubuntu-24.04\"",
+    "patched_cr_sha": "d83375a9567976e1265d1bb0021a868a98cafd2c5d9737108aebe459911b6e1a",
+    "patched_cr_sha_provenance": "MEASURED by the builder on the committed worktree bytes: tr -d '\\r' < .github/workflows/e2e.yml | sha256sum - equals the groom's expected_patched_cr_sha d83375a9567976e1265d1bb0021a868a98cafd2c5d9737108aebe459911b6e1a (BASE cr-sha daa2ffc81034669c324823e4d5d0bf3922baf1bd3101368e707649f9e146f332 -> PATCHED, matching the card's gate-B measurement)",
+    "run_778_failure_step": "Install Playwright browsers: ERROR: Playwright does not support chromium on ubuntu26.04-x64 (deploy.yml workflow_run gating freezes the deploy chain while RED) - this patch pins the runner to the quoted ubuntu-24.04 image so the 1.58.0-pinned chromium build exists again",
+    "post_merge_green_e2e_observation": "PENDING - owned by orchestrator (children cannot trigger GitHub Actions); the fix is landed-pending-observation, NOT verified-fixed until the NEXT E2E run on main is observed GREEN (ac6)",
+    "leg_rc_patched": {
+      "5": 0,
+      "131": 0,
+      "132": 0,
+      "133": 0,
+      "136": 0,
+      "139": 1,
+      "161": 0,
+      "162": 1,
+      "167": 1,
+      "177": 1,
+      "191": 1,
+      "203": 0,
+      "204": 1,
+      "215": 0,
+      "227": 0
+    },
+    "leg_rc_note": "Builder-measured on the PATCHED workflow in this worktree (frontend/node_modules junctioned to the main checkout per card Harness notes - js-yaml environment prerequisite, not a relaxation). Exactly the groom's gate-B table: nine e2e-relevant GREEN legs rc=0 VERBATIM, six pre-existing RED legs rc=1 unchanged (no heal, no worsening, no rc>=2).",
+    "negative_controls": "ac4 EXECUTED in a throwaway clone: NC-a Playwright 1.58.0->1.59.0 bump REFUSED by stored tests[136] (rc!=0); NC-b install run line + ' --force' REFUSED by stored tests[203] (rc!=0). Baseline in the clone verified GREEN for 136/203 before mutating.",
+    "delta_purity": "git diff --name-only 2d1c438b HEAD == .github/workflows/e2e.yml only (product commit; the handoff commit adds only docs/state/outputs/t137_builder_build.json). e2e/package.json, docs/state/merge_test_index.json, ci.yml, deploy.yml, promote.yml all byte-zero (ac2).",
+    "environment_preconditions_applied": [
+      "frontend/node_modules junctioned to the main checkout (mklink /J, card Harness notes; t42/t49 prerequisite precedent)",
+      "fences extracted from the committed card blob by the anchored recipe (6 blocks) and executed VERBATIM"
+    ],
+    "ac_mapping": {
+      "ac1": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac1)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence verbatim)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac2)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence verbatim)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac3)\" (fence verbatim; frontend/node_modules junctioned)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac4)\" with T137_BASE=2d1c438b712acc8567a8330284697b5a24927e4f (fence verbatim; self-cleaning throwaway clone under scratch/)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac5)\" (fence verbatim, strict mode - no T137_GROOM_PREPRODUCT)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "3a94679a729213f09781dda21d3caf6abf2e09e5",
+        "test": "bash -c \"$(fence ac6)\" (fence verbatim; requires this builder handoff present)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands"
+  },
+  "artifacts": {
+    "files_written": [
+      ".github/workflows/e2e.yml",
+      "docs/state/outputs/t137_builder_build.json"
+    ],
+    "platform_issue": 142,
+    "output_path": "docs/state/outputs/t137_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T00:00:00Z",
+  "retry_count": 0
+}
