@@ -310,12 +310,56 @@ def check_openapi() -> None:
         emit(f"OPENAPI_PARITY PASS paths={len(app_paths)}")
 
 
+def git_recorded_md_paths() -> list[str] | None:
+    """The git-RECORDED .md paths (repo-relative, slash form), or None.
+
+    t138: the .md set is what the tree RECORDS (``git ls-files *.md``), never
+    a filesystem walk, so untracked/gitignored .md dirt cannot move the
+    counter.  Direct git over ROOT first (works in plain clones); the
+    ``cmd.exe /d /c git -C <wslpath -w ROOT> ls-files *.md`` form second
+    (works inside WSL worktrees, whose .git pointer points at a Windows path
+    where direct git exits rc=128).  The glob is UNQUOTED in the cmd.exe form
+    - a quoted glob is the measured vacuous-zero trap (rc=0, zero lines).
+    An EMPTY list is unusable, never a zero.  No walk fallback: a verifier
+    that cannot count must fail loud (t138 adjudication).
+    """
+    try:
+        out = subprocess.run(["git", "ls-files", "*.md"], cwd=ROOT,
+                             capture_output=True)
+        if out.returncode == 0 and out.stdout.strip():
+            return [ln.strip().replace("\\", "/")
+                    for ln in out.stdout.decode("utf-8", "replace").splitlines()
+                    if ln.strip()]
+    except OSError:
+        pass
+    try:
+        wp = subprocess.run(["wslpath", "-w", ROOT], capture_output=True)
+        win = wp.stdout.decode("utf-8", "replace").strip() if wp.returncode == 0 else ""
+        if win:
+            out = subprocess.run(
+                ["cmd.exe", "/d", "/c", f"git -C {win} ls-files *.md"],
+                capture_output=True)
+            if out.returncode == 0 and out.stdout.strip():
+                return [ln.strip().replace("\\", "/")
+                        for ln in out.stdout.decode("utf-8", "replace").splitlines()
+                        if ln.strip()]
+    except OSError:
+        pass
+    return None
+
+
 def check_links() -> None:
-    md_files: list[str] = []
-    for base, dirs, files in os.walk(ROOT):
-        dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
-        md_files.extend(os.path.join(base, f) for f in files if f.endswith(".md"))
-    md_files.sort()
+    paths = git_recorded_md_paths()
+    if paths is None:
+        fail("LINK_CHECK FAIL git_unavailable - git ls-files could not produce "
+             "a non-empty recorded .md set; refusing the machine-dependent "
+             "filesystem walk and the vacuous zero")
+        return
+    md_files = sorted(
+        os.path.join(ROOT, p.replace("/", os.sep))
+        for p in paths
+        if not (set(p.split("/")[:-1]) & SKIP_DIRS)
+    )
     total = 0
     broken: list[str] = []
     for mdf in md_files:
