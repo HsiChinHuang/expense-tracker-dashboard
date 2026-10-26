@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t142",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t142-t132-card-text-hygiene-addendum",
+    "branch_sha": "a58ba5772cb2a433e7ea4571828f82d537a4c464",
+    "branch_note": "Branched from the DISPATCH BASE 0c2fae6bd0744e31cc44fbd174d2225fb4d5841f (main tip that already contains docs/issues/t142.md). Product commit a58ba57 carries ONLY the append-only addendum to docs/issues/t132.md (+41/-0, CRLF-normalized); this handoff commit (docs/state/outputs/t142_builder_build.json) sits on top. Both commits pushed to origin at issue/t142-t132-card-text-hygiene-addendum (push after EACH commit).",
+    "base": "0c2fae6bd0744e31cc44fbd174d2225fb4d5841f",
+    "t142_base": "0c2fae6bd0744e31cc44fbd174d2225fb4d5841f",
+    "product_commit": "a58ba5772cb2a433e7ea4571828f82d537a4c464",
+    "ac_hash": "sha256:e2351330f9810a950631ad3e9927f0276dae37f2875f7461b779f76fb5653c9a",
+    "ac_hash_note": "This card's (t142) published Gate-A ac_hash. The CLOSED t132 card's published ac_hash digest value fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 is the hygiene subject of this card.",
+    "t132_ac_hash": "fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654",
+    "ac_hash_match": true,
+    "ac_hash_recompute": "t132's published ac_hash fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 re-derives MATCH at the built HEAD from BOTH the HEAD blob and the working tree (fenced blocks unchanged; six blocks; column-0 anchored recipe; the addendum sits outside the anchored hashed surface). ac3 executed at HEAD blob and working tree: MATCH both, NC one-char fenced-block edit moves the digest.",
+    "disclosed_defects": "(a) positional addressing: the closed t132 card addresses the t35 agent-pack regeneration leg as tests[153] (7 occurrences pre-addendum; tests[154] x0) while the live 319-leg index carries t34 at field 153 and the t35 regeneration leg at field 154 - correction tests[153] -> tests[154]; (b) double sha256 prefix: the t132 Metadata ac_hash literal reads sha256:sha256:fe8daa3f... (exactly 1 occurrence) - notational only, the digest value is correct.",
+    "addendum_sha256": "1397be4a2045ee4ee24b98e7301b5a8f2e189f1756ba130704e396de20da0720",
+    "addendum_sha256_note": "sha256 of the appended text block WITH CRLF endings as appended (the verbatim card 'Addendum text' fence content, outer ```text fence removed, leading blank line included, 3208 bytes). The same text LF-normalized hashes to a6526153ceec38ff33b546a53069feeb80f961e903b2b5abc26c5c820e0ccfcf (3167 bytes).",
+    "append_method": "The addendum text was extracted VERBATIM from the committed card's '## Addendum text' fence (outer ```text fence excluded, leading blank line included), CRLF-normalized (sed 's/\\r*$/\\r/'), then cat >> docs/issues/t132.md. The worktree file is CRLF (autocrlf checkout) so the delta is literally +41 lines at EOF only: git diff --numstat shows 41/0 (insertions-only, ZERO deletions) - the t140 CRLF-append trap (619 phantom deletions from an LF-only append) is pre-empted, NOT papered over by ac4's --ignore-cr-at-eol fence.",
+    "delta_purity": "git diff --name-only 0c2fae6bd07 HEAD at the addendum commit = docs/issues/t132.md only; after the handoff commit it adds docs/state/outputs/t142_builder_build.json - exactly the ac4 whitelist (t132 addendum + t142 outputs; this card docs/issues/t142.md already sits in the DISPATCH BASE so it does not appear in the delta).",
+    "index_bytes_moved": false,
+    "index_bytes_moved_note": "ZERO bytes written to docs/state/merge_test_index.json. ac4's git diff --quiet check over the index path passes at the built state.",
+    "product_bytes_moved": false,
+    "product_bytes_moved_note": "ZERO product/README/criteria/.github/security bytes. Card C (security/agent-security-notes.md) is NOT this card - ac4's whitelist refuses security/ bytes and nothing was touched there.",
+    "ac_fences_run_verbatim": "All six fenced blocks extracted VERBATIM from the committed docs/issues/t142.md at HEAD (column-0 anchored, python-extracted) and executed in the builder worktree with T142_BASE=0c2fae6bd0744e31cc44fbd174d2225fb4d5841f: ac1 rc=0 GREEN (pre-addendum counts 7/0/1 re-derived live; NC: the addendum introduces tests[154]), ac2 rc=0 GREEN (addendum is the LAST section after Definition of Done, full record, zero links), ac3 rc=0 GREEN (fe8daa3f MATCH at HEAD blob AND working tree, 6 blocks; NC one-char edit moves the digest), ac4 rc=0 GREEN (delta whitelist, append-only 0 deletions, link-neutral, index/product byte-zero; NC refuses index bytes), ac5 rc=0 GREEN (319 legs; field 153=t34 without agent_pack regeneration, 154=t35 with it; RED set {139,162,167,177,191,204}=[t27,t36,t37,t38,t47,t54] present and unchanged, never healed; NC permissions-scan returns [153]), ac6 rc=0 GREEN (this handoff, run after it exists on disk). Every negative control fired as specified.",
+    "ac_mapping": {
+      "ac1": { "commit": "a58ba57", "test": "the fenced ac1 block (committed t132 blob re-read live: pre-addendum counts tests[153] x7, tests[154] x0, sha256:sha256: x1; NC: the addendum must introduce tests[154])", "verdict": "PASS" },
+      "ac2": { "commit": "a58ba57", "test": "the fenced ac2 block (addendum heading at column 0 as the LAST section after Definition of Done; all required record content; zero markdown links)", "verdict": "PASS" },
+      "ac3": { "commit": "a58ba57", "test": "the fenced ac3 block (t132 ac_hash fe8daa3f re-derives MATCH at HEAD blob and working tree, 6 blocks, anchored recipe; NC: one-char fenced-block edit moves the digest)", "verdict": "PASS" },
+      "ac4": { "commit": "a58ba57", "test": "the fenced ac4 block with T142_BASE=0c2fae6bd0744e31cc44fbd174d2225fb4d5841f (delta whitelist {t132 append-only, this card, t142 outputs}; index/product/README/criteria/security byte-zero; append-only + link-neutral; NC refuses index bytes)", "verdict": "PASS" },
+      "ac5": { "commit": "a58ba57", "test": "the fenced ac5 block (live index: 319 legs; field 153 = t34 without agent_pack regeneration, field 154 = t35 with it; RED set unchanged; NC: permissions-doc scan returns [153])", "verdict": "PASS" },
+      "ac6": { "commit": "a58ba5772cb2a433e7ea4571828f82d537a4c464", "test": "the fenced ac6 block (builder handoff names both corrections, t132's ac_hash, ac_hash_match, addendum_sha256, explicit \"index_bytes_moved\": false and \"product_bytes_moved\": false)", "verdict": "PASS" }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "Card-text hygiene build: zero product/index/README/criteria/security bytes. The schema's verification_commands_source is a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is used verbatim as the t140 precedent handoff does; the actual authoritative source is docs/issues/t142.md#verification-commands and all six fenced blocks were extracted verbatim from the committed card blob. No test files were written: the card's verification commands ARE the six fenced bash blocks (automatable, self-verifying, each with its negative control) - this card's 'implementation' is the addendum text those fences validate, and writing separate test files would breach the ac4 delta whitelist. Temporary helper files (extraction scripts, fence .sh files, addendum text stubs, commit-message file) were untracked, never entered the delta, and were deleted at the end of the run. No platform calls were attempted by this builder run beyond what is recorded in the run result; label transitions remain the orchestrator's per the dispatch."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t132.md",
+      "docs/state/outputs/t142_builder_build.json"
+    ],
+    "platform_issue": 147,
+    "output_path": "docs/state/outputs/t142_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T14:55:00Z",
+  "retry_count": 0
+}
