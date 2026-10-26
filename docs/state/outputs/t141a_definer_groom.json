@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t141",
+  "role": "definer",
+  "phase": "groom",
+  "status": "COMPLETE",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:d6d01d867c3eaddedbd73ab4cc6707102313a773ac3aaf2021501b5037b4ea43",
+    "ac_count": 9,
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands": {
+      "ac1": "see the ac1 fence (319-leg invariant; legs 307/309/312 pinned at the measured before-state digests; RED set {139,162,167,177,191,204} present and unchanged)",
+      "ac2": "see the ac2 fence (stored tests[309] verbatim: rc=1 + both named stale-premise RED lines)",
+      "ac3": "see the ac3 fence (stored tests[312] verbatim: rc=1, UNCOMMENTED fires, growth leg GREEN)",
+      "ac4": "see the ac4 fence (stored tests[307] verbatim: rc=0; committed gitleaks report count == 21)",
+      "ac5": "see the ac5 fence (T141_BASE delta whitelist; zero index bytes)",
+      "ac6": "see the ac6 fence (split BLOCKER handoff completeness; zero silent drops)",
+      "ac7": "see the ac7 fence (PROPOSAL integrity: REPLACE_COMMAND-only, 319 legs, chained on the live index digest, before-state digests match the live legs, RED set untouched)",
+      "ac8": "see the ac8 fence (rebuild recipe: the amended commands rebuild deterministically from the PROPOSAL pairs and match the recorded new digests/lengths)",
+      "ac9": "see the ac9 fence (GATE B before/after rc table: originals verbatim rc=1, rebuilt amended verbatim rc=0, the 312 (i)/(ii) growth evidence still enforced)"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "summary": "Card A re-groom of t141 (platform issue #146) COMPLETE: the W2 amendment-PROPOSAL pair for tests[309] (t86 ac4) and tests[312] (t87 ac3) is authored and proven at docs/state/outputs/t141a_definer_gate_amendment.json. Both amendments are REPLACE_COMMAND-only: 319 entries before, 319 after; zero legs added, zero deleted; no verifier threshold touched; applied_by orchestrator; card_writes_index_bytes false; chained on the LIVE index digest at the groom base 7d528c43409 (96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2). Forward+reverse proof (t129 recipe, MEASURED at the groom base on the index bytes): apply -> forward digest 93b24c3839b53916f613f4d9e7bf4ef5502efe4fa6e02c8a026c3725bed9167b -> reverse -> 96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2 == the before digest (exact); the forward file parses to 319 entries with legs 307 and the RED set byte-identical and ONLY 309/312 commands changed. RED set untouched: legs {139,162,167,177,191,204} (t27/t36/t37/t38/t47/t54), their rc=1 is NOT a finding (WAL 1399 user decision). The card writes ZERO index bytes; the orchestrator applies from the recorded digests + rebuild recipe (WAL 1274 protocol, t130 SHAPE A precedent). Gate A: ac_hash re-derived by the anchored column-0 recipe from the committed card blob at 6927049a9b2 and independently re-verified at finalize time: sha256:d6d01d867c3eaddedbd73ab4cc6707102313a773ac3aaf2021501b5037b4ea43 (supersedes the first-groom d076e778; fences ac1-ac4/ac6 byte-identical, ac5 corrected, ac7-ac9 appended).",
+    "gate_a": {
+      "method": "the card's own ANCHORED recipe (column-0 anchored, CR-stripped, json.dumps(blocks, separators=(',',':')) of the nine fenced bash blocks under '## Acceptance criteria') applied to the committed blob 6927049a9b2:docs/issues/t141.md",
+      "blocks_found": 9,
+      "computed": "d6d01d867c3eaddedbd73ab4cc6707102313a773ac3aaf2021501b5037b4ea43",
+      "published": "d6d01d867c3eaddedbd73ab4cc6707102313a773ac3aaf2021501b5037b4ea43",
+      "result": "MATCH (re-verified independently at finalize time)"
+    },
+    "gate_b_rc_table": "GATE B rc table (measured in a dirt-free cmd.exe-default clone of the groom base, commands run VERBATIM):\n\n| leg | original verbatim | amended verbatim | negative controls (each rc=1) |\n|---|---|---|---|\n| 309 | rc=1 (frozen-BASE + inverted-loop RED lines) | rc=0 | doc dirtied -> DIRTY gate; report +1 finding -> \"the closed loop broke\"; carrier row falsified -> \"doc is stale against its own generator\" |\n| 312 | rc=1 (UNCOMMENTED + never-touch RED lines; (i)/(ii) GREEN evidence printed) | rc=0 ((i)/(ii) evidence identical) | compose.yaml dirtied -> DIRTY gate; agent-security-notes dirtied -> DIRTY gate |\n\nAfter restoring the dirt both amended legs re-ran rc=0 (not dirt-flaky).",
+    "digest_table": {
+      "leg_309": "command b2e22b2d5006b83a3444ba54ba0d95d0f2aeade9a8d3b88897a8a4a14186b630 (25606 B) -> 644b6e742a34b87bc706bae10b089c39864b5fe720e579e412cec834c48a1809 (29727 B); entry 2c46984c55a9e793faa735c98f6a357cff3cf75c4227ef672500e4892e5fa200 -> 9654eab4703cc624f795db7eb542892541fa606d7c3a9757ce030b0f6a89d7b9",
+      "leg_312": "command f5a929d5cd87db8a660a418d59d9fcdc46bdde73099ffab287dfc7ddd14d2cde (26789 B) -> 2d02a8f860bea5742b5fb1fd7cf227f204d6e5c672106b4a24a6622f00230c68 (27948 B); entry eb8be260b4fd39eea2afda6c4fc6417349f0e68073894eabe79e760f44ee9e2a -> 23af60621b70a2af240ed309e298409d74230333dbbd30276ab921a5c73ffce5"
+    },
+    "apply_window": "apply legs 309 and 312 in ANY merge window at the orchestrator's discretion - no ordering dependency; both amended legs measure GREEN against the CURRENT live tree at the groom base and stay GREEN until a card legitimately dirties the carried artefacts (then firing is the intended behavior).",
+    "post_merge_rekey": "after the W2 window applies, legs 309/312 measure rc=0 verbatim and ac1's before-state pins are re-keyed by the Card A verifier run exactly as the t129/t130/t132 windows did (chained forward+reverse proofs).",
+    "provenance": "FINALIZE run: the original Card A re-groom definer run completed all substantive work (card + PROPOSAL committed at branch tip 6927049a9b2, merge-base 7d528c43409) but died at its 60-minute timeout before emitting this groom handoff; this run authors the handoff only, re-verifies Gate A, and adds no new survey/amendment work."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t141.md",
+      "docs/state/outputs/t141a_definer_gate_amendment.json"
+    ],
+    "platform_issue": 146,
+    "output_path": "docs/state/outputs/t141a_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T06:20:32Z",
+  "retry_count": 0
+}
