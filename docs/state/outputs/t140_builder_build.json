@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t140",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t140-t138-ac4-hygiene-addendum",
+    "branch_sha": "8e3a58941af2167df36c78f1581a330ad53181be",
+    "branch_note": "Branched from the DISPATCH BASE f04d143c4bfd97981731e7bef6084e1c8affc3c7 (main tip that already contains docs/issues/t140.md). Product commit 8e3a589 carries ONLY the append-only addendum to docs/issues/t138.md (+37/-0, CRLF-normalized); this handoff commit (docs/state/outputs/t140_builder_build.json) sits on top. Both commits pushed to origin at issue/t140-t138-ac4-hygiene-addendum.",
+    "base": "f04d143c4bfd97981731e7bef6084e1c8affc3c7",
+    "t140_base": "f04d143c4bfd97981731e7bef6084e1c8affc3c7",
+    "ac_hash": "sha256:323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c",
+    "ac_hash_match": true,
+    "ac_hash_recompute": "The published t138 ac_hash 323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c re-derives MATCH at the built HEAD (fenced blocks unchanged; addendum sits outside the anchored hashed surface). ac3 executed at HEAD blob and working tree: MATCH both, six fenced blocks, NC one-char edit moves the digest.",
+    "stale_literal_superseded": "a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721",
+    "current_leg227_pin": "11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f",
+    "repin_commit": "47f2076225b",
+    "addendum_sha256": "e6dbd66eabc2a20dedd2bcabcb0467548e190dce6befa48b87395b406984b5e6",
+    "addendum_sha256_note": "sha256 of the appended text block with CRLF endings as appended (the verbatim card 'Addendum text' fence content, outer ```text fence removed, leading blank line included). The same text inside the committed t138 blob re-hashes to c132b1698637707426d45b06cc227f31a70026aa105ea0cc86120a6d6ba2e351 (LF-normalized slice) / 3fcb24b0161cfbc2ae3d53dc903df3dcbd27d8b245ae5e393b0f72f23be6571a (CRLF slice) - the CRLF-append form is what the file stores in the worktree.",
+    "append_method": "The addendum text was extracted VERBATIM from the committed card's '## Addendum text' fence (outer ```text fence excluded), converted LF->CRLF (sed-equivalent s/$/\\r/), then cat >> docs/issues/t138.md. The worktree file is CRLF (autocrlf checkout) so the delta is literally +37 lines at EOF only: git diff --numstat shows 37/0, git diff --ignore-cr-at-eol --stat shows 37 insertions(+), 0 deletions - no full-file rewrite, no 619 phantom deletions.",
+    "delta_purity": "git diff --name-only f04d143c4bfd97981731e7bef6084e1c8affc3c7 HEAD at the addendum commit = docs/issues/t138.md only; after the handoff commit it adds docs/state/outputs/t140_builder_build.json - exactly the ac4 whitelist (t138 addendum + t140 outputs; this card docs/issues/t140.md already sits in the DISPATCH BASE so it does not appear in the delta).",
+    "index_bytes_moved": false,
+    "index_bytes_moved_note": "ZERO bytes written to docs/state/merge_test_index.json. The leg-227 echo-prose refresh (29d22aff/d849c775) was NOT touched - it is an orchestrator W2 merge-window obligation per the card's Merge-window obligations section.",
+    "product_bytes_moved": false,
+    "report_digest_check": "ac5 GREEN at built state: the committed docs/criteria/docs_verification.md cr-stripped sha256 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f equals leg 227's CURRENT pin READ from docs/state/merge_test_index.json at fence time (never hardcoded by the fence); LINK_CHECK PASS files=304 links=67 broken=0 intact.",
+    "ac_fences_run_verbatim": "All six fenced blocks extracted VERBATIM from the committed docs/issues/t140.md at HEAD and executed in the builder worktree with T140_BASE=f04d143c4bfd97981731e7bef6084e1c8affc3c7: ac1 GREEN, ac2 GREEN, ac3 GREEN, ac4 GREEN, ac5 GREEN, ac6 GREEN (ac6 run after this handoff exists; ac4 re-run at the final HEAD covering both commits). Every negative control fired as specified.",
+    "ac_mapping": {
+      "ac1": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac1 block (premise re-derived live: 0 stale-literal occurrences; current pin extracted from the index is held by [227] alone; stale-literal scan RED-by-construction; current-pin scan GREEN NC)", "verdict": "PASS" },
+      "ac2": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac2 block (addendum heading at column 0 as the LAST section after Definition of Done; all required record content; zero markdown links)", "verdict": "PASS" },
+      "ac3": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac3 block (t138 ac_hash 323fc030 re-derives MATCH at HEAD blob and working tree, 6 blocks, anchored recipe; NC: one-char edit inside ac4 moves the digest)", "verdict": "PASS" },
+      "ac4": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac4 block with T140_BASE=f04d143c4bfd97981731e7bef6084e1c8affc3c7 (delta whitelist at the DISPATCH BASE; t138 delta append-only and link-neutral; index/product/README/criteria byte-zero; NC refuses index bytes)", "verdict": "PASS" },
+      "ac5": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac5 block (report cr-sha == leg-227 CURRENT pin READ from the index; LINK_CHECK row shape links=67; mutation NC)", "verdict": "PASS" },
+      "ac6": { "commit": "8e3a58941af2167df36c78f1581a330ad53181be", "test": "the fenced ac6 block (builder handoff names both digests, ac_hash_match, addendum_sha256, explicit index_bytes_moved=false)", "verdict": "PASS" }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "Card-text hygiene build: zero product/index/README/criteria bytes. The schema's verification_commands_source is a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is used verbatim as the t138 precedent handoff does; the actual authoritative source is docs/issues/t140.md#verification-commands and all six fenced blocks were extracted verbatim from the committed card. No test files were written: the card's verification commands ARE the six fenced bash blocks (automatable, self-verifying, each with its negative control) - this card's 'implementation' is the addendum text those fences validate, and writing separate test files would breach the ac4 delta whitelist. The temporary extraction script used for the CRLF append was deleted before commit and never entered the delta."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/issues/t138.md",
+      "docs/state/outputs/t140_builder_build.json"
+    ],
+    "platform_issue": 145,
+    "output_path": "docs/state/outputs/t140_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T13:40:00Z",
+  "retry_count": 0
+}
