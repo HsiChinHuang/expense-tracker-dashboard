@@ -1,0 +1,183 @@
+{
+ "schema_version": "2.0",
+ "role": "definer",
+ "phase": "groom",
+ "artifact": "gate_amendment",
+ "card": "t141",
+ "card_alias": "t141 Card A (re-groom of platform issue #146)",
+ "milestone": "phase_23_backlog_hygiene",
+ "platform_issue": 146,
+ "status": "proposed",
+ "authority": "W2 index-amendment policy; the t126/t129/t130 records are the shape precedents (this file follows the t130 disposition: PROPOSAL authored and proven by the groom, NEVER a tracked deliverable - the orchestrator applies from the recorded digests + rebuild recipes). This is a TWO-LEG premise rewrite: legs 309/312 pin frozen groom-time BASE state (BASE 67c9db97 byte-clean on the t41 criterion doc+generator; observability/ never-touch vs BASE 57c0d513) that later windows LAWFULLY moved (t128 regenerated/re-pinned; t122 realized the traces block) - structurally unsatisfiable after any legitimate later card, the exact t130 class. The definer wrote zero index bytes; the orchestrator applies.",
+ "policy": "W2",
+ "applied_by": "orchestrator",
+ "card_writes_index_bytes": false,
+ "operation": "REPLACE_COMMAND",
+ "add_count": 0,
+ "no_leg_deleted": true,
+ "entry_count_after": 319,
+ "verifier_thresholds_touched": false,
+ "base": {
+  "main_tip_at_groom": "7d528c43409f332f7d8f3098df1c8fae07d54ddd",
+  "index_entries": 319,
+  "live_index_sha256_at_groom": "96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2",
+  "note": "entry_sha_before values were verified THIS groom against the LIVE entries at the groom base (digest + issue/ac identity + command length; legs are pinned by that triple, never by the file digest - the t122 frozen-premise lesson). Forward+reverse proof recipe (the t129 shape, verbatim): apply the new_command in a merge window -> compute the post-apply index sha256 -> reverse the replacement (restore the old_command) -> recompute the index sha256 and assert it equals the before digest recorded here; the forward digest is the amended-state proof, the reverse equality proves the amendment touched NOTHING else in the index.",
+  "forward_index_sha256_after_apply": "93b24c3839b53916f613f4d9e7bf4ef5502efe4fa6e02c8a026c3725bed9167b",
+  "reverse_index_sha256_after_unapply": "96f2fb2e1f0a602f540923bdfe74be37fec7a620d5b28b0ef295ed88d1f746b2",
+  "proof_chain_measured": "MEASURED at the groom base by raw-string replacement of the two JSON-escaped command strings in the CRLF-checkouted index bytes (all other bytes untouched): before 96f2fb2e... -> apply -> forward 93b24c38... -> reverse -> 96f2fb2e... == before (exact). The forward file parses to 319 entries with legs 307 and the RED set byte-identical and only 309/312 commands changed."
+ },
+ "amendments": [
+  {
+   "index": 309,
+   "name": "t86-ac4-frozen-BASE-byte-clean-and-inverted-open-loop-premise-rewrite",
+   "issue_id": "t86",
+   "ac": "ac4",
+   "old_command_sha256": "b2e22b2d5006b83a3444ba54ba0d95d0f2aeade9a8d3b88897a8a4a14186b630",
+   "old_command_len": 25606,
+   "new_command_sha256": "644b6e742a34b87bc706bae10b089c39864b5fe720e579e412cec834c48a1809",
+   "new_command_len": 29727,
+   "entry_sha_before": "2c46984c55a9e793faa735c98f6a357cff3cf75c4227ef672500e4892e5fa200",
+   "entry_sha_after": "9654eab4703cc624f795db7eb542892541fa606d7c3a9757ce030b0f6a89d7b9",
+   "replacements": [
+    {
+     "id": "309-R1",
+     "occurrences": 1,
+     "note": "BASE_BLOBS dict -> ANCHOR_BLOBS (informational provenance) + CARRIER_REL constant",
+     "target": "blob",
+     "from": "BASE_BLOBS = {\n    \"Makefile\": \"55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\",\n    \"docs/criteria/security_ops_verification.md\": \"7ff2d65d90ae93e06dcab64c7bedb11eff5aa0a1\",\n    \"security/gitleaks-report.json\": \"fe51488c7066f6687ef680d6bfaa4f7768ef205c\",\n    \"security/semgrep-report.json\": \"9ef74bf2dc3fa54fff5949e74d212b1c749e19db\",\n    \"security/trivy-report.json\": \"469b1f47dba236ee74568aa9b61f24cfe8eb80b2\",\n    \"security/pip-audit-report.txt\": \"d905d4a27bcc07475b8919e5e39cd6b0356eab6c\",\n    \"security/npm-audit-report.txt\": \"eda56395c966d526f21e80577e08f9f08ef0f0c2\",\n}",
+     "to": "# t141 Card A amendment: the BASE-era blob digests are ANCHOR provenance\n# (informational), never guards. The criterion doc and generator were\n# lawfully regenerated/re-pinned by the t128 window; pinning equality to a\n# frozen groom-time BASE is the t130-class structurally unsatisfiable premise\n# this amendment heals. The dirty gate below (diff --quiet HEAD) is the\n# enforceable premise: the carried gate must be byte-clean against HEAD.\nANCHOR_BLOBS = {\n    \"Makefile\": \"55745c4ddcae4e6e1f076315de0e4e8ccbaf5a28\",\n    \"docs/criteria/security_ops_verification.md\": \"7ff2d65d90ae93e06dcab64c7bedb11eff5aa0a1\",\n    \"security/gitleaks-report.json\": \"fe51488c7066f6687ef680d6bfaa4f7768ef205c\",\n    \"security/semgrep-report.json\": \"9ef74bf2dc3fa54fff5949e74d212b1c749e19db\",\n    \"security/trivy-report.json\": \"469b1f47dba236ee74568aa9b61f24cfe8eb80b2\",\n    \"security/pip-audit-report.txt\": \"d905d4a27bcc07475b8919e5e39cd6b0356eab6c\",\n    \"security/npm-audit-report.txt\": \"eda56395c966d526f21e80577e08f9f08ef0f0c2\",\n}\nCARRIER_REL = \"docs/criteria/security_ops_verification.md\""
+    },
+    {
+     "id": "309-R2",
+     "occurrences": 1,
+     "note": "legs (i)/(ii): 'diff --quiet BASE' + BASE-blob equality -> 'diff --quiet HEAD' dirt gate + anchor-provenance evidence echo",
+     "target": "blob",
+     "from": "    # --- (i)+(ii): both t41 artefacts byte-clean against BASE --------------\n    for rel, pinned in ((\"docs/criteria/security_ops_verification.md\",\n                         BASE_BLOBS[\"docs/criteria/security_ops_verification.md\"]),\n                        (\"backend/scripts/security_ops_verification.py\", None)):\n        out, err, rc = cmd_git(root, \"diff --quiet %s -- %s\" % (BASE, rel))\n        if rc != 0:\n            problems.append(\"%s is NOT byte-clean against BASE %s (%s) - this card is \"\n                            \"report-only; regenerating the criterion doc or re-pinning \"\n                            \"the generator is the follow-up cards work, and editing them \"\n                            \"here to force a carried gate green is the forbidden path\"\n                            % (rel, BASE[:12], (err or \"\").strip()[:140]))\n            continue\n        if pinned is not None:\n            blob, _, rc2 = cmd_git(root, \"rev-parse %s:%s\" % (BASE, rel))\n            if rc2 != 0 or blob != pinned:\n                problems.append(\"the BASE blob for %s is %r, not the pinned %s - the \"\n                                \"artefact this card was groomed against moved\"\n                                % (rel, blob, pinned))\n        evidence.append(\"%s byte-clean against BASE (git diff --quiet, autocrlf-safe)\"\n                        % rel)",
+     "to": "    # --- (i)+(ii) AMENDED (t141 Card A): the carried t41 gate is byte-clean\n    # against HEAD - a working-tree dirt gate. The frozen-BASE equality was\n    # the t130-class unsatisfiable premise; t128 lawfully regenerated both\n    # artefacts, so HEAD is the live truth and dirt on them is the regression.\n    for rel in (\"docs/criteria/security_ops_verification.md\",\n                \"backend/scripts/security_ops_verification.py\"):\n        out, err, rc = cmd_git(root, \"diff --quiet HEAD -- %s\" % rel)\n        if rc != 0:\n            problems.append(\"%s is DIRTY against HEAD (%s) - the carried t41 gate is \"\n                            \"committed truth; a card that dirties the criterion doc or \"\n                            \"re-pins the generator outside a regeneration-with-reprice \"\n                            \"window is editing the gate to force itself green, the \"\n                            \"forbidden path\" % (rel, (err or \"\").strip()[:140]))\n            continue\n        blob, _, rc2 = cmd_git(root, \"rev-parse HEAD:%s\" % rel)\n        anchor = ANCHOR_BLOBS.get(rel)\n        evidence.append(\"%s byte-clean against HEAD (blob %s; BASE-era anchor %s is \"\n                        \"provenance, never a guard - the t128 window lawfully moved it)\"\n                        % (rel, blob[:12], anchor[:12] if anchor else \"none\"))"
+    },
+    {
+     "id": "309-R3",
+     "occurrences": 1,
+     "note": "the inverted open-loop clause: demands reports != pins (t128 closed the loop) -> demands reports == pins; a mismatch is now the RED regression",
+     "target": "blob",
+     "from": "    if all(wc[t] == pinned_parse[t] for t in wc):\n        problems.append(\"the DISCLOSED OPEN LOOP this card states does not exist yet: \"\n                        \"the committed reports measure exactly what the generator pins \"\n                        \"(parse %s == EXPECTED_REPORT_ROWS), so either the refresh has not \"\n                        \"run (RED at base BY DESIGN - the committed reports still \"\n                        \"describe the tree they were cut on) or the cards disclosure \"\n                        \"prose is stale. The card may not describe a mismatch it did not \"\n                        \"measure\" % pinned_rows)",
+     "to": "    # AMENDED (t141 Card A): the open loop was LAWFULLY CLOSED by t128, so\n    # equality of the committed reports with the generator pins is the GREEN\n    # invariant; a mismatch is the regression this guard now catches.\n    if not all(wc[t] == pinned_parse[t] for t in wc):\n        problems.append(\"the closed loop broke: the committed reports parse %s but the \"\n                        \"generator pins EXPECTED_REPORT_ROWS=%r - a report refresh landed \"\n                        \"without the regeneration-and-re-pin window (or the reverse), and \"\n                        \"the carried gate is RED by that drift, not by design\"\n                        % (\",\".join(str(wc[t]) for t in\n                                    (\"gitleaks\", \"semgrep\", \"trivy\", \"pip_audit\", \"npm_audit\")),\n                           pinned_rows))\n    else:\n        evidence.append(\"closed-loop invariant holds: the committed reports parse \"\n                        \"%s == the generator pins read live from its source\" % pinned_rows)"
+    },
+    {
+     "id": "309-R4",
+     "occurrences": 1,
+     "note": "disclosure greps retargeted from the frozen closed card to the LIVE named carrier docs/criteria/security_ops_verification.md ('REPORT_ROWS <rows> PASS' / 'REGISTER_DATA_ROWS <n> PASS' interlocked against the pins extracted live from the generator source - the t131 live-carrier pattern)",
+     "target": "blob",
+     "from": "    if pinned_rows not in card or str(pinned_loop) not in card:\n        problems.append(\"the card does not carry the generators own pinned values \"\n                        \"(REPORT_ROWS %r / LOOP_IDS %d as read from its source) next to \"\n                        \"the refreshed rows - the mismatch is only disclosed if the reader \"\n                        \"can see both sides\" % (pinned_rows, pinned_loop))",
+     "to": "    # AMENDED (t141 Card A): the disclosure carrier is the LIVE regenerated\n    # criterion doc (docs/criteria/security_ops_verification.md), the t41\n    # generator's own product - never the frozen closed card. The generator\n    # cannot regenerate the doc without its rows/loops PASS lines matching its\n    # pins, so this interlock is self-maintaining (the t131 live-carrier pattern).\n    carrier = read_text(os.path.join(root, CARRIER_REL))\n    m_rows_carrier = re.search(r\"^REPORT_ROWS ([0-9,]+) PASS$\", carrier, re.M)\n    m_loop_carrier = re.search(r\"^REGISTER_DATA_ROWS ([0-9]+) PASS$\", carrier, re.M)\n    if not m_rows_carrier:\n        return problems + [\"the live carrier %s carries no 'REPORT_ROWS <rows> PASS' \"\n                           \"line - the regenerated criterion doc is the named disclosure \"\n                           \"carrier; without that line the pinned rows are not disclosed \"\n                           \"in machine-checkable form\" % CARRIER_REL], evidence\n    if m_rows_carrier.group(1) != pinned_rows:\n        problems.append(\"the live carrier discloses REPORT_ROWS %s but the generator pins \"\n                        \"%r - the doc is stale against its own generator (a regeneration \"\n                        \"that did not re-pin, or a re-pin that did not regenerate)\"\n                        % (m_rows_carrier.group(1), pinned_rows))\n    if not m_loop_carrier:\n        problems.append(\"the live carrier carries no 'REGISTER_DATA_ROWS <n> PASS' line - \"\n                        \"the loop-ids disclosure moved out of the frozen closed card and \"\n                        \"must be re-derivable from the carrier\")\n    elif int(m_loop_carrier.group(1)) != pinned_loop:\n        problems.append(\"the live carrier discloses REGISTER_DATA_ROWS %s but the generator \"\n                        \"pins EXPECTED_LOOP_IDS=%d - same drift as the rows line\"\n                        % (m_loop_carrier.group(1), pinned_loop))\n    else:\n        evidence.append(\"live carrier %s discloses REPORT_ROWS %s and REGISTER_DATA_ROWS %d \"\n                        \"PASS, matching the generator pins extracted live (the t131-class \"\n                        \"live named carrier; the frozen closed card is never the target)\"\n                        % (CARRIER_REL, m_rows_carrier.group(1), pinned_loop))"
+    },
+    {
+     "id": "309-R5",
+     "occurrences": 1,
+     "note": "report-only diff-vs-BASE block -> carried-gate purity dirt gate vs HEAD",
+     "target": "blob",
+     "from": "    # --- refresh is report-only: criterion doc not in the diff -------------\n    out, _, rc = cmd_git(root, \"diff --name-only %s\" % BASE)\n    if rc != 0:\n        problems.append(\"git diff --name-only %s failed (rc=%d) - the report-only shape \"\n                        \"cannot be measured\" % (BASE[:12], rc))\n    else:\n        touched = [t for t in out.splitlines() if t.strip()]\n        if \"docs/criteria/security_ops_verification.md\" in touched:\n            problems.append(\"docs/criteria/security_ops_verification.md IS in the \"\n                            \"working-tree diff against BASE - the criterion doc must not \"\n                            \"be regenerated by this card (see legs (i)/(ii)): a diff that \"\n                            \"shows it changed while the byte check says clean means the \"\n                            \"check was skipped, not passed\")\n        else:\n            evidence.append(\"the criterion doc is absent from the working-tree diff - the \"\n                            \"refresh is a report-only commit\")",
+     "to": "    # --- AMENDED (t141 Card A): carried-gate purity is a working-tree dirt\n    # gate against HEAD, not a diff against a frozen BASE (which t128\n    # lawfully moved). Dirt on the criterion doc is the regression.\n    out, err, rc = cmd_git(root, \"diff --name-only HEAD\")\n    if rc != 0:\n        problems.append(\"git diff --name-only HEAD failed (rc=%d) - the carried-gate \"\n                        \"purity shape cannot be measured: %s\" % (rc, (err or \"\").strip()[:120]))\n    else:\n        touched = [t for t in out.splitlines() if t.strip()]\n        if CARRIER_REL in touched:\n            problems.append(\"%s is DIRTY against HEAD - the criterion doc must not be \"\n                            \"regenerated as uncommitted dirt by any card passing this \"\n                            \"gate (see legs (i)/(ii)): a dirty doc while the byte check \"\n                            \"says clean means the check was skipped, not passed\" % CARRIER_REL)\n        else:\n            evidence.append(\"the criterion doc is absent from the working-tree dirt set - \"\n                            \"the carried gate stays committed truth\")"
+    },
+    {
+     "id": "309-R6",
+     "occurrences": 1,
+     "note": "probe GREEN-line prose",
+     "target": "blob",
+     "from": "    print(\"ac4 GREEN: THE T41 CRITERION DOC AND GENERATOR ARE BYTE-CLEAN AND THE \"\n          \"MISMATCH IS DISCLOSED BY NAME - both artefacts are byte-clean against BASE, \"\n          \"the generators own pinned values were read from its source, the card states \"\n          \"the refreshed rows (gitleaks as a tree-relative BASE floor plus four exact \"\n          \"rows), the pinned rows, the stored gate row id and index, the MIN_CHECKS \"\n          \"distinction and the follow-up card that closes the loop\")",
+     "to": "    print(\"ac4 GREEN: THE T41 CARRIED GATE IS COMMITTED TRUTH AND THE LOOP IS \"\n          \"DISCLOSED CLOSED BY NAME - both artefacts are byte-clean against HEAD (the \"\n          \"frozen-BASE premise was amended by t141 Card A after t128 lawfully moved it), \"\n          \"the generators own pinned values were read from its source, the live criterion \"\n          \"doc discloses the rows and loop counts matching the pins, the closed card \"\n          \"carries the refreshed rows (gitleaks as a tree-relative BASE floor plus four \"\n          \"exact rows), the stored gate row ids and index, the MIN_CHECKS distinction and \"\n          \"the follow-up card that closed the loop\")"
+    },
+    {
+     "id": "309-R7",
+     "occurrences": 1,
+     "note": "outer bash GREEN echo prose",
+     "target": "cmd",
+     "from": "echo \"ac4 GREEN: THE T41 CRITERION DOC AND GENERATOR ARE BYTE-CLEAN AND THE MISMATCH IS DISCLOSED BY NAME - both artefacts are byte-clean against BASE, the generators own pinned values were read from its source, the card states the refreshed rows (gitleaks as a tree-relative BASE floor plus four exact rows), the pinned rows, the stored gate rows by index, the MIN_CHECKS distinction and the follow-up card that closes the loop (see the ac4 evidence lines above)\"",
+     "to": "echo \"ac4 GREEN: THE T41 CARRIED GATE IS COMMITTED TRUTH AND THE LOOP IS DISCLOSED CLOSED BY NAME - both artefacts are byte-clean against HEAD (the frozen-BASE premise amended by t141 Card A after t128 lawfully moved it), the generators own pinned values were read from its source, the live criterion doc discloses rows and loop counts matching the pins, the closed card states the refreshed rows (gitleaks floor plus four exact rows), the stored gate rows by index, the MIN_CHECKS distinction and the follow-up card that closed the loop (see the ac4 evidence lines above)\""
+    },
+    {
+     "id": "309-R8",
+     "occurrences": 1,
+     "note": "the base64 payload swapped to the amended t86_ac4_probe.py (R1-R6 inside)",
+     "target": "b64-swap",
+     "derived": "the fence/orchestrator derives it: base64(new blob) replaces the old base64 payload in place; no literal pair is stored (size); the resulting command digest is the discriminator"
+    }
+   ]
+  },
+  {
+   "index": 312,
+   "name": "t87-ac3-observability-never-touch-false-by-history-premise-rewrite",
+   "issue_id": "t87",
+   "ac": "ac3",
+   "old_command_sha256": "f5a929d5cd87db8a660a418d59d9fcdc46bdde73099ffab287dfc7ddd14d2cde",
+   "old_command_len": 26789,
+   "new_command_sha256": "2d02a8f860bea5742b5fb1fd7cf227f204d6e5c672106b4a24a6622f00230c68",
+   "new_command_len": 27948,
+   "entry_sha_before": "eb8be260b4fd39eea2afda6c4fc6417349f0e68073894eabe79e760f44ee9e2a",
+   "entry_sha_after": "23af60621b70a2af240ed309e298409d74230333dbbd30276ab921a5c73ffce5",
+   "replacements": [
+    {
+     "id": "312-R1",
+     "occurrences": 1,
+     "note": "clause (iii): commented-out-only grep over compose.yaml + compare_tree(observability vs BASE 57c0d513) - false-by-history since t122 lawfully realized the OTel/Loki/Tempo block - -> working-tree dirt gate against HEAD over observability/ and security/ + the live limitations-section structure guard. The (i) growth and (ii) policy-append guards (measured GREEN today) are kept BYTE-IDENTICAL and still enforce",
+     "target": "blob",
+     "from": "    # (iii) the gap is still true, and observability/ is untouched ---------------\n    compose = read_text(os.path.join(root, COMPOSE))\n    for pat in (\"opentelemetry\", \"otlp\", \"loki\", \"tempo\"):\n        bad = [ln.strip() for ln in compose.splitlines()\n               if pat in ln.lower() and not ln.strip().startswith(\"#\")]\n        if bad:\n            problems.append(\"observability/compose.yaml now has an UNCOMMENTED \"\n                            \"line mentioning %r (%r) - either the tracing gap \"\n                            \"was 'fixed' by this card (out of scope: the \"\n                            \"collector image is not published here, and this \"\n                            \"card never touches observability/) or the \"\n                            \"stack changed underneath the disclosure\"\n                            % (pat, bad[0][:110]))\n    problems.extend(compare_tree(root, \"observability\"))\n    if not problems:\n        evidence.append(\"observability/compose.yaml keeps its OTel exporter \"\n                        \"block commented out and observability/ is byte-clean \"\n                        \"against BASE - the recorded gap is still the gap\")",
+     "to": "    # (iii) AMENDED (t141 Card A): the never-touch premise was false-by-\n    # history - the t122 window lawfully realized the OTel/Loki/Tempo traces\n    # block, so BASE-byte-identity of observability/ can never hold again\n    # (the t130 class). The enforceable premise is a working-tree dirt gate\n    # against HEAD: observability/ and the security disclosure records are\n    # committed truth; a card passing this gate may not dirty them. The\n    # disclosure-record staleness the RED exposed (row 13 prose vs the live\n    # block) is Card C product work, deliberately NOT priced here.\n    dirty = changed_paths(root, \"HEAD\")\n    for p in dirty:\n        if p.startswith(\"observability/\") or p.startswith(\"security/\"):\n            problems.append(\"%s is DIRTY against HEAD - observability/ and security/ \"\n                            \"are committed truth for this carried gate; a card that \"\n                            \"dirties them while claiming this leg is a refresh is \"\n                            \"editing the disclosure to force itself green\" % p)\n    if \"## Accepted Limitations\" not in read_text(os.path.join(root, NOTES)):\n        problems.append(\"%s lost its '## Accepted Limitations' section in the live tree - \"\n                        \"the amended premise keeps the disclosure structure guard against \"\n                        \"HEAD, not against the frozen BASE\" % NOTES)\n    if not problems:\n        evidence.append(\"observability/ and security/ are byte-clean against HEAD \"\n                        \"(the dirty-tree gate replaced the false-by-history never-touch-\"\n                        \"against-BASE premise; the t122 realization of the traces block \"\n                        \"was lawful and HEAD is the truth) and %s keeps its limitations \"\n                        \"section\" % NOTES)"
+    },
+    {
+     "id": "312-R2",
+     "occurrences": 1,
+     "note": "probe GREEN-line prose",
+     "target": "blob",
+     "from": "    print(\"ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - \"\n          \"the limitations table grew past its BASE row count with a tracing \"\n          \"row that states the measurement gap, the policy record gained the \"\n          \"matching documentation-only sentence as a pure append, and the \"\n          \"gap itself is unchanged and still honestly described\")",
+     "to": "    print(\"ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - \"\n          \"the limitations table grew past its BASE row count with a tracing \"\n          \"row that states the measurement gap, the policy record gained the \"\n          \"matching documentation-only sentence as a pure append, and \"\n          \"observability/ and security/ stay byte-clean against HEAD (the never-\"\n          \"touch-vs-frozen-BASE premise was amended by t141 Card A after t122 \"\n          \"lawfully realized the traces block)\")"
+    },
+    {
+     "id": "312-R3",
+     "occurrences": 1,
+     "note": "outer bash GREEN echo prose",
+     "target": "cmd",
+     "from": "echo \"ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - the limitations table grew past its BASE row count with a tracing row that states the measurement gap, the policy record gained the matching documentation-only sentence as a pure append, and the gap itself is unchanged and still honestly described\"",
+     "to": "echo \"ac3 GREEN: THE TRACES GAP IS A RECORDED LIMITATION IN BOTH RECORDS - the limitations table grew past its BASE row count with a tracing row that states the measurement gap, the policy record gained the matching documentation-only sentence as a pure append, and observability/ and security/ stay byte-clean against HEAD (the never-touch-vs-frozen-BASE premise amended by t141 Card A after t122 lawfully realized the traces block)\""
+    },
+    {
+     "id": "312-R4",
+     "occurrences": 1,
+     "note": "the base64 payload swapped to the amended t87_ac3_probe.py (R1/R2 inside); t87_common.py is NOT touched",
+     "target": "b64-swap",
+     "derived": "the fence/orchestrator derives it: base64(new blob) replaces the old base64 payload in place; no literal pair is stored (size); the resulting command digest is the discriminator"
+    }
+   ]
+  }
+ ],
+ "apply_window": "apply legs 309 and 312 in ANY merge window at the orchestrator's discretion - no ordering dependency: both amended legs measure GREEN against the CURRENT live tree at the groom base and stay GREEN until a card legitimately dirties the carried artefacts (then firing is the intended behavior).",
+ "rebuild_recipe": "each new_command is its live command with EXACTLY the listed replacements and nothing else (every replacement was applied by exact-string match with a counted occurrence assertion at groom; the resulting digests/lengths are recorded per amendment). The commands keep their preflight, mktemp materialisation, the t86 closed-card mechanism greps (REFRESHED_ROWS floor/exact rows, security_ops_verification, tests[183]/tests[184], MIN_CHECKS, t87|follow-up card), the (i) growth and (ii) policy-append guards of 312, and every anti-magic-number extraction (pinned values are extracted from the generator source, never restated).",
+ "carrier_decision": "309's disclosure greps target the LIVE named carrier docs/criteria/security_ops_verification.md (the t41 generator's regenerated product, committed and live), interlocked against the generator's pins extracted live from its source - the t131 pattern. No new carrier file is needed and the card ships no product: the carrier decision is recorded here and in the card.",
+ "proof_state": "MEASURED at the groom base by this re-groom: the rc table above (309: 1 -> 0; 312: 1 -> 0, verbatim in the dirt-free clone), the five negative controls (each rc=1 naming its own amended gate), the entry digests, and the forward/reverse index digest chain (96f2fb2e -> 93b24c38 -> 96f2fb2e). The amended commands were built by exact-string counted replacements (each occurrence-asserted == 1) over the live commands.",
+ "red_set_untouched": "legs {139,162,167,177,191,204} (t27/t36/t37/t38/t47/t54) - their rc=1 is NOT a finding (WAL 1399 user decision); this amendment touches none of them.",
+ "written_by_definer_applied_by": "definer re-groom for t141 Card A (platform issue #146); the orchestrator applies both amendments in its merge window (WAL 1274 protocol). Per the t130 precedent this PROPOSAL file is a state artifact, never a tracked deliverable.",
+ "apply_recipe": "REBUILD each amended command from the LIVE command: (1) extract the base64 payload (309: the single printf '...' blob; 312: the SECOND printf \"%s\" ... blob - the t87_ac3_probe.py; the t87_common.py blob is NOT touched); (2) decode, apply the target==blob pairs IN DOCUMENT ORDER; (3) encode base64; (4) in the outer command apply the target==cmd pairs IN DOCUMENT ORDER; (5) replace the old base64 blob with the new one. Then assert sha256(new command)==new_command_sha256 and len==new_command_len. Replace tests[309]/tests[312] command fields ONLY (entry order, all other fields, all other 317 entries untouched). Index bytes are edited by raw replacement of the JSON-escaped command strings to keep the CRLF-checkouted bytes otherwise byte-identical; the forward+reverse digest chain proves it.",
+ "shape_decision": "SHAPE A (exact t130 precedent, verified this groom: gate_amendment_PROPOSAL_t130.json was NEVER a tracked file - git ls-files and git log --all -- '*PROPOSAL*' are empty; the t130 PROPOSAL was committed as docs/state/outputs/t130_definer_gate_amendment.json, a handoff artifact). This record follows that precedent: committed at docs/state/outputs/t141a_definer_gate_amendment.json, NOT at docs/state/gate_amendment_PROPOSAL_t141.json. Zero index bytes either way; the orchestrator applies.",
+ "rc_table": {
+  "environment": "dirt-free cmd.exe-default clone of the groom base 7d528c43409, commands run VERBATIM from files",
+  "tests[309]": {
+   "before_original_verbatim": 1,
+   "after_amended_verbatim": 0,
+   "negative_controls": {
+    "criterion doc dirtied -> rc=1 naming the DIRTY gate": 1,
+    "gitleaks report +1 finding (loop torn vs pins) -> rc=1 'the closed loop broke'": 1,
+    "carrier REPORT_ROWS row falsified -> rc=1 'doc is stale against its own generator'": 1
+   }
+  },
+  "tests[312]": {
+   "before_original_verbatim": 1,
+   "after_amended_verbatim": 0,
+   "guards_preserved": "amended run still prints the (i) growth evidence (limitations table grew 12 -> 13 rows, tracing row 13) and the (ii) policy-append evidence byte-identical to the pre-amendment run",
+   "negative_controls": {
+    "observability/compose.yaml dirtied -> rc=1 naming the DIRTY gate": 1,
+    "security/agent-security-notes.md dirtied -> rc=1 naming the DIRTY gate": 1
+   }
+  },
+  "reconfirm": "after restoring the dirt, both amended legs re-ran rc=0 (rc=0 is not dirt-flaky)"
+ }
+}
