@@ -1,0 +1,100 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t139",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t139-anchor-workflow-runners",
+    "branch_sha": "6c3ee023261299b03bb69f616626a275a09e1a81",
+    "dispatch_base": "483d8e6e3e411b7bfc54965546fdef81166ad69d",
+    "ac_hash_check": "MATCH - the anchored extraction recipe over the COMMITTED card blob at T139_BASE reproduces sha256:d1f87151836644251cf058cf1fdb4297086c9df5940e3437429b95814c667137; the six fences executed VERBATIM from that same committed-blob extraction (scratch/fences/ac1..6.sh at build time).",
+    "patched_cr_sha_ci": "83b5829115f51cf289f5be0836519596c531b86d28675800d1978d5e30b609ba",
+    "patched_cr_sha_deploy": "2efac6ad1175251ef3f6ba12a8e8691ced41ebd39e40254f8e9be22b2c5e16eb",
+    "patched_cr_sha_promote": "4e1525ce68e059fd158960a2e1acfa42f7776b6aefe4df4ee60b75404ebcd6e6",
+    "patched_digest_measurement": "Measured with the fence's own byte-source at the built state: tr -d '\\r' < .github/workflows/<f>.yml | sha256sum. All three EQUAL the groom's expected_patched_cr_sha_* values - the committed bytes are exactly the documented sed over the BASE blobs.",
+    "documented_patch_applied": "sed -E 's/^(    runs-on: )ubuntu-latest\\r?$/\\1\"ubuntu-24.04\"/' applied once per file (ci.yml, deploy.yml, promote.yml); the \\r? guard handles the measured CRLF worktree materialization (autocrlf).",
+    "delta": "Exactly five lines across three files vs the DISPATCH BASE: .github/workflows/ci.yml lines 22/46/70 (backend-test, frontend-test, compose-build), .github/workflows/deploy.yml line 22 (deploy), .github/workflows/promote.yml line 18 (promote); each 'runs-on: ubuntu-latest' -> 'runs-on: \"ubuntu-24.04\"' (quoted). Zero bytes on e2e.yml, zero index bytes, zero other product files.",
+    "leg_rc_measured": {
+      "5": 0,
+      "131": 0,
+      "132": 0,
+      "133": 0,
+      "161": 0,
+      "162": 1,
+      "167": 1,
+      "177": 1,
+      "191": 1,
+      "227": 0
+    },
+    "leg_rc_notes": "ac3 executed VERBATIM at the built state (rc=0, 6m48s synchronous): GREEN legs 5/131/132/133/161/227 all rc=0; RED background set 162/167/177/191 all rc=1 unchanged - no heal, no worsening, matching the groom's BASE and PATCHED tables exactly.",
+    "ac_mapping": {
+      "ac1": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac1 verbatim> with T139_BASE=483d8e6e3e411b7bfc54965546fdef81166ad69d (needs frontend/node_modules junction)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac2 verbatim> with T139_BASE=483d8e6e3e411b7bfc54965546fdef81166ad69d",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac3 verbatim> (needs the junction; legs 162/177 are slow gitleaks legs - allow >=900s)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac4 verbatim>",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac5 verbatim> (needs the junction; creates and removes its own scratch dir)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "6c3ee02",
+        "test": "bash <fence ac6 verbatim>",
+        "verdict": "PASS"
+      }
+    },
+    "fence_rc": {
+      "ac1": 0,
+      "ac2": 0,
+      "ac3": 0,
+      "ac4": 0,
+      "ac5": 0,
+      "ac6": 0
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "post_merge_runner_observation": "PENDING - orchestrator-owned (ac6): the first post-merge CI run on main and the next deploy/promote runs must be observed landing on the ubuntu-24.04 image and WALed; until then the status is 'landed, observation pending', never 'verified'. Children cannot trigger GitHub Actions.",
+    "environment_prerequisite": "frontend/node_modules junctioned to the main checkout's frontend/node_modules (t42/t49/t137 precedent; legs 131/132/133 and ac1/ac5 need js-yaml). Junction is outside the tracked tree; zero delta bytes.",
+    "out_of_fence_diagnostic_delta": "OUT-OF-FENCE DIAGNOSTIC (explicitly labelled; NOT a fenced-block edit; excludes docs/state/merge_test_index.json which is byte-zero and verified so by ac2): the ac2 delta whitelist admits {ci.yml, deploy.yml, promote.yml, docs/issues/t139.md, docs/state/outputs/t139_*}. The builder's own commits add ONLY the three workflows (commit 1) and this handoff (commit 2). Any growth of docs/log/orchestrator_wal.jsonl or other main-tip files at the post-merge head is the KNOWN t140-class finding (WAL 1406) - the card's fence whitelist was authored pre-merge and refuses WAL growth at post-merge heads; run fences verbatim anyway and report rc honestly.",
+    "platform_comment_posted": false,
+    "platform_note": "The orchestrator dispatch for this run restricts the delta to exactly the five workflow lines plus this handoff (ZERO other files), which supersedes the skill's Step 8 comment / Step 10 label-transition writes for this spawn; the orchestrator owns the #144 groomed->built label transition and comment on the built state."
+  },
+  "artifacts": {
+    "files_written": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/deploy.yml",
+      ".github/workflows/promote.yml",
+      "docs/state/outputs/t139_builder_build.json"
+    ],
+    "platform_issue": 144,
+    "output_path": "docs/state/outputs/t139_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T15:30:00Z",
+  "retry_count": 0
+}
