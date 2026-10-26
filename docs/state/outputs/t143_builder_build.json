@@ -9,7 +9,7 @@
     "evidence_type": "build",
     "branch": "issue/t143-tracing-disclosure-refresh",
     "branch_sha": "07c0a4afee5f27140cf22c125a56c71b21ea7ab0",
-    "branch_note": "Branched from the DISPATCH BASE f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e (main tip at dispatch, the t143/#148 groom merge that already contains docs/issues/t143.md). Product commit 07c0a4a carries ONLY the two card-frozen edits: the in-place row-13 rewrite in security/agent-security-notes.md (+1/-1, the single deleted line is the old '| 13 |' row) and the append-only superseding paragraph in security/ai-tool-data-policy.md (+20/-0). This handoff commit sits on top; both commits pushed to origin at issue/t143-tracing-disclosure-refresh (push after EACH commit).",
+    "branch_note": "Branched from the DISPATCH BASE f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e (main tip at dispatch, the t143/#148 groom merge that already contains docs/issues/t143.md). The product commit 07c0a4a carries ONLY the two card-frozen edits: the in-place row-13 rewrite in security/agent-security-notes.md (+1/-1, the single deleted line is the old '| 13 |' row) and the append-only superseding paragraph in security/ai-tool-data-policy.md (+20/-0). The build-handoff commit(s) for docs/state/outputs/t143_builder_build.json sit on top of the product commit (the tip is the final handoff state; branch_sha names the product commit per the t142 precedent). All commits pushed to origin at issue/t143-tracing-disclosure-refresh (push after EACH commit).",
     "base": "f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e",
     "t143_base": "f767d3495249f8b0c2b9a7d6ff62cf73c4ab134e",
     "product_commit": "07c0a4afee5f27140cf22c125a56c71b21ea7ab0",
