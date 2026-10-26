@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t144",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "d32b09e4a82bb049779d80e1494254716be686fc (origin/main tip, verified by my own rev-parse after fetch; merge commit 64e5fcf is its parent; worktree HEAD at dispatch was 64e5fcf)",
+    "t144_base": "23d84cad4bf9698601aade6381874dd4b3fdf385",
+    "built_state_commit": "product 7cc25edfb08658a01c12d35df0074ae145ac430f (docs/task-template.md +15/-0 pure append) + handoff tip 7634790f253073bacc72312df476cb95355aa712 (origin branch tip verified by rev-parse); merged into main at 64e5fcf; post-merge main tip d32b09e (64e5fcf + WAL 1433-1434 commit, delta = docs/log/orchestrator_wal.jsonl +2/-0 ONLY).",
+    "ac_hash_rederived": "sha256:b0714412038413b114e7b912937162a64a43be0a9dcf217bfd49941f409fe72f - MATCH. Independently re-derived with the card's ANCHORED recipe (single column-0 '^## Acceptance criteria' to the next column-0 '## ', fenced bash blocks CR-stripped and strip()-ed, 6 blocks, sha256 over json.dumps(blocks, separators=(',',':'))) from the committed card blob at FOUR revs: DISPATCH BASE 23d84ca, builder tip 7634790, merge 64e5fcf, origin/main d32b09e - all MATCH, and the per-block digests of the six extracted fences are identical across the four revs, so the state-runs below provably executed the same verbatim blocks. All six fences executed VERBATIM with zero edits at all three run states.",
+    "ac_execution_policy": "SIX fences extracted verbatim from the committed t144 card blob and run UNEDITED at THREE states per the standing precedent (t140 verifier 8205d9f6/WAL 1409, t142 verifier 16f575ca/WAL 1417, t143 verifier 59d6e7a1/WAL 1427): (1) the card's DESIGNED CONTEXT - builder branch tip 7634790 in a dirt-free cmd.exe clone (default core.autocrlf, clone under the main checkout's gitignored scratch/), T144_BASE=23d84ca, exactly as the card's Verification commands section instructs ('Run from the builder branch with T144_BASE set to the DISPATCH BASE'): 6/6 rc=0 GREEN, every NC evaluated live; (2) the worktree at 64e5fcf (post-merge main tip at dispatch): 6/6 rc=0 - at this state the delta 23d84ca..64e5fcf carries ONLY docs/task-template.md (15/0) + docs/state/outputs/t144_builder_build.json (110/0), NO WAL lines yet, reproducing the orchestrator's measurement exactly; (3) POST-MERGE MAIN TIP d32b09e (origin/main, verified by my own fetch+rev-parse): ac1/ac2/ac4/ac5/ac6 rc=0, ac3 rc=1 ('ac3 RED: the delta carries docs/log/orchestrator_wal.jsonl') - the FOURTH occurrence of the class, exactly as the card itself predicted (WAL 1433 pre-discloses it); adjudicated per the standing precedent below. No fenced block was edited and no command was substituted at any state.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "ac1: the fenced ac1 block (standing-rule section names the WAL path + nature + MUST over future delta whitelists + prospective-only clause + t140/8205d9f6/WAL-1409 precedent; NC: the BASE template named no WAL)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac1.txt (worktree 64e5fcf); clone logs_built_ac1.txt (designed context); clone scratch/log_main_ac1.txt (d32b09e)",
+        "note": "GREEN rc=0 VERBATIM at ALL THREE states (builder tip 7634790 designed context, 64e5fcf, and origin/main d32b09e), identical GREEN output. NC evaluated live: the T144_BASE template names no orchestrator_wal - the scan discriminates. INDEPENDENT substance: the appended section is present at column 0 with the exact heading, names docs/log/orchestrator_wal.jsonl, states orchestrator-owned / append-only / moves on every card cycle, carries the MUST verb over FUTURE delta whitelists, the PROSPECTIVE-ONLY clause binding closed cards' frozen fences, and the t140 precedent (verifier 8205d9f6, WAL 1406/1409) - all 13 required tokens verified by my own token scan (scratch/t144v/log_substance.txt)."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "ac2: the fenced ac2 block with `T144_BASE=<DISPATCH BASE>` (template append-only: BASE an untouched prefix, file grew, numstat deletions == 0; NC refuses a BASE already carrying the rule)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac2.txt (worktree 64e5fcf); clone logs_built_ac2.txt; clone scratch/log_main_ac2.txt (d32b09e)",
+        "note": "GREEN rc=0 VERBATIM at ALL THREE states. INDEPENDENT substance (my own byte-level checks, both merge and main-tip revs): the BASE blob bytes (1965) are an UNTOUCHED PREFIX of the HEAD blob bytes (2920) - head.startswith(base) over raw git-show bytes; numstat over the range is EXACTLY 15/0 (ZERO deleted lines); the 15 appended bytes are BYTE-EQUAL to one blank line + the card's frozen Product text extracted PROGRAMMATICALLY from the committed card blob (column-0 '## Product text' heading, first ```text fence; 14 lines, 954 chars, LF sha256 aee318e261b3e9d358559a07b2c5c8064b70db256b000b689e8f40125086102c; appended 955 bytes == expected 955, sha256 9a45978fa462faf1...); file 55 -> 70 lines; CRLF working bytes held (working newlines all CRLF). NC: the BASE carried no WAL rule."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "ac3: the fenced ac3 block with `T144_BASE=<DISPATCH BASE>` (delta EXACTLY {docs/task-template.md, docs/issues/t144.md, docs/state/outputs/t144_*}; byte-zero on index/skills/schemas/scripts/security/observability/backend/frontend/.github; no other docs/issues card file)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac3.txt (worktree 64e5fcf, rc=0); clone logs_built_ac3.txt (designed context, rc=0); clone scratch/log_main_ac3.txt (d32b09e, rc=1)",
+        "note": "PASS IN SUBSTANCE AND IN ITS DESIGNED CONTEXT; the post-merge-main-tip rc=1 is a DOCUMENTED NON-BLOCK per the standing precedent - FOURTH occurrence, adjudicated below. THREE VERBATIM MEASUREMENTS, all recorded honestly: (a) DESIGNED CONTEXT - builder branch tip 7634790 in the dirt-free cmd.exe clone, T144_BASE=23d84ca, exactly as the card's Verification commands section instructs: rc=0, delta = {docs/state/outputs/t144_builder_build.json, docs/task-template.md}; (b) AT 64e5fcf (the merge commit, main tip at dispatch) in the clean worktree: rc=0, delta = {docs/state/outputs/t144_builder_build.json, docs/task-template.md} - NO WAL lines yet, reproducing the orchestrator's dispatch measurement EXACTLY (23d84ca..64e5fcf = template 15/0 + handoff 110/0 only); (c) AT origin/main TIP d32b09e: rc=1, 'ac3 RED: the delta carries docs/log/orchestrator_wal.jsonl' - changed = [docs/log/orchestrator_wal.jsonl, docs/state/outputs/t144_builder_build.json, docs/task-template.md]. exit_code 0 records measurement (a), the fence's designed context and the card's own instruction; (b) and (c) stand as recorded. THE SELF-REFERENCE, verified live: THIS card exists to stop exactly this recurrence in FUTURE cards, but its own fence was frozen before the cure existed and cannot be retroactively fixed (WAL 1403 prospective-only doctrine) - I verified BOTH the card's frozen Product text AND the appended template section state 'PROSPECTIVE ONLY' and bind closed cards' frozen fences; the WAL 1433 commit message itself pre-discloses 'ac3 will RED at post-merge WAL (fourth occurrence)'. ATTRIBUTION (independently verified, not trusted): the sole non-whitelisted path maps to ORCHESTRATOR commit d32b09e ('WAL 1433-1434: t144 build merged...'), the numstat over 23d84ca..d32b09e for the WAL is +2/-0 append-only (0 deletions, the orchestrator's journal for the build merge + this routing). The index BLOB ID proves zero index bytes: 873f90394163ae5291215909014387620f7f1c9e at BASE == at 64e5fcf == at d32b09e (identical blob is stronger than diff --quiet). OUT-OF-FENCE DIAGNOSTIC (explicitly labelled: a MEASUREMENT, NOT a substitute for the verbatim fence - the verbatim rc values above stand as recorded; scratch/t144v/diagnostic_ac3_minus_wal.sh, output clone scratch/log_diag_ac3.txt): re-running ac3's OWN whitelist loop over the delta EXCLUDING docs/log/orchestrator_wal.jsonl yields changed = [docs/state/outputs/t144_builder_build.json, docs/task-template.md], every path whitelist-OK, all nine byte-zero checks rc=0 - the WAL is the SOLE foreign path. SUBSTANCE at origin/main, independently measured (71-check script, 0 FAIL, scratch/t144v/log_substance.txt): delta over 23d84ca..d32b09e is EXACTLY {docs/log/orchestrator_wal.jsonl (+2/-0, orchestrator), docs/state/outputs/t144_builder_build.json (+110/-0, whitelisted), docs/task-template.md (+15/-0, whitelisted)}; ZERO bytes over the range on docs/state/merge_test_index.json, skills/, schemas/, scripts/, security/, observability/, backend/, frontend/, .github/ (git diff --quiet rc=0 on each at BOTH merge and main-tip revs); no other docs/issues card file; no outputs file outside t144_*."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "ac4: the fenced ac4 block with `T144_BASE=<DISPATCH BASE>` (zero closed card files differ BASE..HEAD; t140/t142/t143 explicitly byte-zero)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac4.txt (worktree 64e5fcf); clone logs_built_ac4.txt; clone scratch/log_main_ac4.txt (d32b09e)",
+        "note": "GREEN rc=0 VERBATIM at ALL THREE states. INDEPENDENT substance: I hashed EVERY docs/issues/t*.md blob (25 closed cards) at BASE and at both 64e5fcf and d32b09e - all 25 byte-identical, and t144.md ITSELF is also byte-identical BASE..HEAD (the builder never edited the card). t140/t142/t143 (the three adjudicated cards this rule would have cured) explicitly byte-zero - the amendment is prospective-only (WAL 1403) and touched none of them."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "ac5: the fenced ac5 block (stored legs 307/309/312 VERBATIM from the shipped index, all rc=0; 319 legs; RED set present and unchanged)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac5.txt (worktree 64e5fcf); clone logs_built_ac5.txt; clone scratch/log_main_ac5.txt (d32b09e)",
+        "note": "GREEN rc=0 VERBATIM at ALL THREE states - including at origin/main tip d32b09e, where the fence extracts the legs from the LIVE shipped index at run time. INDEPENDENT re-run per the dispatch: legs 307 (t86), 309 (t86), 312 (t87) extracted from the LIVE docs/state/merge_test_index.json at d32b09e and executed synchronously (never background) in their own run: all three rc=0 (clone scratch/log_legs_main.txt). 319 legs; RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (never healed). A frontend/node_modules junction to the main checkout (gitignored, zero delta bytes) was created in both the worktree and the clone so the node-dependent legs could actually execute rather than env-skip."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "ac6: the fenced ac6 block (permanent RED legs 139/162/167/177/191/204 each rc!=0 at the built state - unhealed; leg 191 heavy ~160s, synchronous)",
+        "exit_code": 0,
+        "output_path": "scratch/t144v/log_main_ac6.txt (worktree 64e5fcf); clone logs_built_ac6.txt; clone scratch/log_main_ac6.txt (d32b09e)",
+        "note": "GREEN rc=0 VERBATIM at ALL THREE states: legs 139/162/167/177/191/204 each rc=1 (present and UNHEALED) at the designed context, at 64e5fcf, and at origin/main d32b09e. Leg 191 ran synchronously with ~/.local/bin on PATH and was proven to EXECUTE rather than env-skip: its own evidence lines printed (backend collected=310 floor 270, mypy files=100 floor 87, then 'ac4 RED: frontend failed tests present' - the recorded permanent RED; scratch/t144v/log_leg191.txt). The append healed nothing and worsened nothing in the declared set."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "known_non_blocks_confirmed": [
+      "ac3's rc=1 at origin/main tip d32b09e is caused SOLELY by docs/log/orchestrator_wal.jsonl (+2/-0 append-only, WAL 1433-1434, 0 deletions) landing on main between the merge commit 64e5fcf and the current main tip - the known whitelist omission (WAL 1406 class), FOURTH occurrence after t140 ac4 (verifier 8205d9f6, WAL 1409), t142 ac4 (verifier 16f575ca, WAL 1417), and t143 ac5 (verifier 59d6e7a1, WAL 1427). Ruled a DOCUMENTED NON-BLOCK per that standing precedent. NEITHER byte is t144's: the WAL commit d32b09e is the orchestrator's own journal ('WAL 1433-1434: t144 build merged...'), and the index blob 873f90394163 is IDENTICAL at BASE, 64e5fcf and d32b09e (t144 moved ZERO index bytes). The verbatim rc values stand as recorded; no fenced block was edited and no command was substituted.",
+      "THE SELF-REFERENCE, adjudicated explicitly: this card's own charter is to stop exactly this recurrence in FUTURE cards, but it cannot retroactively fix its own fence - ac3's whitelist admits template + t144 card + t144 outputs ONLY, and the WAL grew after the merge. I verified the prospective-only doctrine is stated in BOTH places the dispatch requires: the card's frozen Product text ('This rule is PROSPECTIVE ONLY. Closed cards' fenced AC blocks are frozen and are never edited to add this admission') and the appended template section (byte-equal to it). The fence is correct AT ITS DESIGNED CONTEXT (rc=0 verbatim at builder tip 7634790 with T144_BASE=23d84ca, and also at 64e5fcf where the delta carried no WAL lines yet - the orchestrator's dispatch measurement reproduced exactly). From the NEXT card onward, the standing rule in docs/task-template.md admits the WAL and this RED class ends.",
+      "SUBSTANCE, independently verified (not from the WAL or the builder's claims): the appended template bytes are BYTE-EQUAL to the card's frozen Product text extracted programmatically from the committed card blob (955 appended bytes == blank line + 954-char block, both merge and main-tip revs); the BASE template is an untouched prefix (raw blob bytes), numstat 15/0, ZERO deleted lines; the standing-rule section carries all required properties (WAL path, orchestrator-owned, append-only, every card cycle, MUST, future, delta whitelist, PROSPECTIVE ONLY, closed cards, frozen, t140, 8205d9f6, 1409); leg premises verified over the whole file (each of '## Goal'/'## Acceptance criteria'/'## Out of scope'/'## Constraints' EXACTLY once at column 0, no '####', ASCII-only, 70 lines = 55 + 15); ALL 25 closed cards byte-identical BASE..HEAD and t144.md itself never edited; byte-zero on index/skills/schemas/scripts/security/observability/backend/frontend/.github at both revs; 71 independent checks, 0 FAIL.",
+      "Platform #149 label transition: 'verified' ADDED per the skill's PASS rule; read-back labels [groomed, built, verified]. 'groomed' and 'built' were LEFT IN PLACE deliberately, matching the recorded cumulative-label practice (WAL 1395 #143, t142/#147, t143/#148 precedents); the state-routing intent of the built->verified swap is satisfied by 'verified' being present. Closure is orchestrator-owned.",
+      "Builder handoff disclosure accepted: the builder disclosed that 'builder:build' is not a registered validator key (the registered map has builder:implement only - WAL 1425 class) and that the handoff validated [OK] under the registered phase builder:implement. The ac_mapping test strings were verified by me against the card's REAL '## Verification commands' section (the LAST column-0 heading; the first is inside the defined-draft text block): all six MATCH exactly - no [BUILDER_COMMAND_MISMATCH]."
+    ],
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "Non-blocking. The delta moves ZERO .py files (git diff --name-only 23d84ca..d32b09e -- '*.py' is empty), so no lint finding is attributable to this card; ruff is not installed in this verifier environment (consistent with the zero-findings-attributable convention of the t140/t142/t143 verifier handoffs). Recorded as 0 errors / 0 warnings attributable to t144.",
+    "test_quality_warnings": [
+      "t144's ac3 whitelist omits docs/log/orchestrator_wal.jsonl, so the fence cannot exit 0 at ANY main tip that carries a WAL append after the merge - the fourth and (by this card's own cure) FINAL occurrence of the class. The fence is correct AT ITS DESIGNED CONTEXT (builder branch + T144_BASE = DISPATCH BASE, rc=0 verbatim) and at 64e5fcf itself (no WAL lines in the delta yet). The cure this card lands is prospective-only by design and applies to FUTURE cards' boilerplate; it must NEVER be applied retroactively to t144's own frozen fence (WAL 1403).",
+      "This card has no separate test files by design: its verification commands ARE the six fenced bash blocks, each self-verifying with a negative control. Writing separate test files would breach the card's own ac3 delta whitelist."
+    ],
+    "dod_verified": {
+      "builder_branched_from_dispatch_base_containing_card_with_T144_BASE_set": true,
+      "all_six_ac_blocks_exit_0_on_the_builder_branch_with_NCs_firing": true,
+      "delta_is_exactly_template_append_card_and_t144_outputs_zero_closed_card_movement": true,
+      "template_append_only_BASE_untouched_prefix_zero_deleted_lines": true,
+      "appended_bytes_byte_equal_to_frozen_product_text": true,
+      "stored_legs_307_309_312_exit_0_verbatim_at_built_state_AND_at_post_merge_main": true,
+      "permanent_RED_set_139_162_167_177_191_204_present_unchanged_never_healed": true,
+      "build_handoff_names_heading_append_proof_leg_rcs_and_explicit_index_and_closed_cards_bytes_moved_false": true,
+      "ac3_verbatim_at_designed_context_builder_branch_with_T144_BASE_exits_0": true,
+      "ac3_verbatim_at_merge_commit_64e5fcf_exits_0_no_wal_lines_in_delta_yet": true,
+      "ac3_verbatim_at_origin_main_tip_d32b09e_exits_0": false,
+      "prospective_only_clause_stated_in_both_frozen_product_text_and_appended_section": true,
+      "zero_index_product_tooling_bytes_attributable_to_t144": true,
+      "no_new_RED_legs_attributable_to_this_card": true,
+      "platform_149_labels_groomed_built_verified_read_back_verified_added_by_this_verifier": true
+    },
+    "dod_note": "The single false DoD reading ('All six AC blocks exit 0' read as 'at the current main tip') is exactly the documented fourth-occurrence non-block: the card's own Verification commands section scopes the fences to the BUILDER BRANCH with T144_BASE set to the DISPATCH BASE, where all six exit 0 verbatim; at 64e5fcf (main tip at dispatch) all six still exit 0 because the delta carried no WAL lines yet; only at the later main tip d32b09e does ac3 RED on the orchestrator's own WAL append - the exact recurrence this card exists to end for FUTURE cards, unfixable for its own frozen fence under WAL 1403. All other DoD items verified true.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema declares this field as a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is emitted verbatim per the t138/t140/t142/t143 precedent; the id-substituted form FAILS validation. The ACTUAL authoritative source is docs/issues/t144.md#verification-commands (the LAST column-0 '## Verification commands' heading - the first occurrence is inside the defined-draft text block); all six fenced blocks were extracted verbatim from the committed card blob (per-block digests identical across BASE/builder-tip/merge/main-tip) and executed unedited at all three states.",
+    "validator_note": "Validator invoked exactly as dispatched: cmd.exe /d /c \"cd C:\\Users\\tw097\\Desktop\\261007_project01\\expense-tracker-dashboard && npx tsx scripts/validate_handoff.ts docs/state/outputs/t144_verifier_verify.json verifier verify_issue < NUL\" with '< NUL' INSIDE the cmd quotes (never bare in WSL bash). The validator resolves the relative path against the MAIN checkout, so the worktree handoff was copied there for the validation call and the copy deleted afterwards; the main checkout's .env was staged from scratch/env_quarantine_t94post per the WAL 1408 recipe (cp in one call, platform/validator calls in their OWN calls, rm -f .env + sleep 2 + ls-assert in a SEPARATE call).",
+    "harness_notes": [
+      "The dirt-free clone for the designed-context and main-tip runs was created with cmd.exe git clone -b issue/t144-wal-delta-whitelist-standing-rule (default core.autocrlf) under the MAIN checkout's gitignored scratch/ (the worktree path exceeds the clone 'Filename too long' limit through the -C flag; the clone lives at expense-tracker-dashboard/scratch/t144v/clone); the main-tip run used cmd.exe git checkout d32b09e INSIDE the cmd.exe clone (no WSL git checkout); clone status --porcelain was empty at both checkouts.",
+      "This worktree's HEAD at dispatch was 64e5fcf (the merge commit, main tip at dispatch); origin/main verified by my own fetch + rev-parse = d32b09e. The worktree was clean before, during (fence .sh files and helper .py lived under gitignored scratch/), and after the runs (git status --porcelain empty).",
+      "All git operations in this worktree were read-only (rev-parse/show/diff/log/status/ls-tree/diff-tree) through cmd.exe /d /c, one operation per call; the only state-changing git work was committing and pushing THIS handoff on the verifier branch (push after each commit).",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH are empty - no-op for this Node.js project; all fences use WSL python3.",
+      "The six fence files used at all three states were extracted once from the committed card blob at d32b09e and copied to the clone; per-block sha256 equality across the four revs proves they are the same verbatim blocks the other revs would yield.",
+      "Platform API calls ran through cmd.exe against the MAIN checkout (the WSL npx picks up Windows node_modules through /mnt/c and esbuild chokes); the verdict comment was posted through the shell-less node --import tsx execFileSync wrapper (t121/t143/t144-groom precedent) reading the body from a file - read-back via issue latest-comment is content-equal to the local body.",
+      "Stored legs 307/309/312 and the permanent RED legs were run synchronously (never background) from the LIVE index; frontend/node_modules junctions (mklink /J to the main checkout's node_modules, gitignored, zero delta bytes) were created in the worktree and clone so legs 191/204-class prerequisites execute; leg 191 (~150s) proven executing via its own evidence lines.",
+      "The ac3 out-of-fence diagnostic is explicitly labelled a MEASUREMENT, not a substitute: scratch/t144v/diagnostic_ac3_minus_wal.sh replicates ac3's OWN whitelist loop minus the WAL path; the verbatim rc values stand as recorded."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t144_verifier_verify.json"
+    ],
+    "platform_issue": 149,
+    "output_path": "docs/state/outputs/t144_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T12:05:00Z",
+  "retry_count": 0
+}
