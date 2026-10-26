@@ -53,3 +53,18 @@ byte-frozen manifests and pins, environment preconditions (for example
 the Docker daemon state for frontend legs), and toolchain notes. A
 builder that needs a constraint relaxed writes a BLOCKER handoff rather
 than silently widening the delta.
+
+## Standing rule - the orchestrator WAL in delta whitelists
+
+`docs/log/orchestrator_wal.jsonl` is orchestrator-owned, append-only, and moves (gains
+lines) on every card cycle: between any card's DISPATCH BASE and its post-merge main the
+WAL carries the orchestrator's own records for that cycle. Every future delta whitelist in
+a card's acceptance criteria MUST admit `docs/log/orchestrator_wal.jsonl` as an
+always-permitted foreign path (or exclude it from the forbidden set explicitly), so the
+orchestrator's own WAL appends never false-RED a purity fence at post-merge main.
+
+This rule is PROSPECTIVE ONLY. Closed cards' fenced AC blocks are frozen and are never
+edited to add this admission; the recurring post-merge REDs of those cards' whitelist
+fences continue to be adjudicated per the t140 precedent - documented non-block, the card
+does not fail (verifier 8205d9f6, WAL 1406/1409; repeated for t142 at WAL 1416/1417 and
+t143 at WAL 1425-1428).

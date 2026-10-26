@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t144",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t144-wal-delta-whitelist-standing-rule",
+    "branch_sha": "7cc25edfb08658a01c12d35df0074ae145ac430f",
+    "branch_note": "Branched from the DISPATCH BASE 23d84cad4bf9698601aade6381874dd4b3fdf385 (main tip at dispatch - the WAL 1431-1432 commit whose tree contains the t144 groom merge 2aa29fc and docs/issues/t144.md; the card's Gate C says the builder branches from the DISPATCH BASE that already contains this card and runs every fence with T144_BASE set to that commit, and the dispatch names 23d84cad4bf as that base). The product commit 7cc25ed carries ONLY the append to docs/task-template.md (+15/-0). The build-handoff commit for docs/state/outputs/t144_builder_build.json sits on top; branch_sha names the product commit per the t142/t143 precedent. All commits pushed to origin (push after EACH commit).",
+    "base": "23d84cad4bf9698601aade6381874dd4b3fdf385",
+    "t144_base": "23d84cad4bf9698601aade6381874dd4b3fdf385",
+    "product_commit": "7cc25edfb08658a01c12d35df0074ae145ac430f",
+    "ac_hash": "sha256:b0714412038413b114e7b912937162a64a43be0a9dcf217bfd49941f409fe72f",
+    "ac_hash_note": "The published Gate-A ac_hash of this card. The builder RE-DERIVED it at the build state from the committed card blob (git show HEAD:docs/issues/t144.md; column-0 anchored recipe: single column-0 '## Acceptance criteria' to the next column-0 '## ', ```bash fences inside, each CR-stripped and strip()-ed, document order, sha256 over json.dumps(blocks, separators=(',',':'))) and got b0714412038413b114e7b912937162a64a43be0a9dcf217bfd49941f409fe72f - MATCH, 6 blocks.",
+    "product_text_extraction": "The standing-rule block was extracted PROGRAMMATICALLY from the committed card blob (git show HEAD:docs/issues/t144.md; line-based scan: column-0 '## Product text' heading, then the first ```text fence, content up to the closing fence; outer fence lines excluded). NOTHING was retyped. Extracted block: 14 lines, 953 chars, LF sha256 a211f7ab541b28d59dca99ee7284ac443fe603ef8886f71fff19b5b3a67a0caf. Appended to the END of docs/task-template.md preceded by exactly one blank line, CRLF working bytes (file verified 55/55 CRLF before append; append bytes are CRLF; file ends with CRLF).",
+    "appended_section_heading": "## Standing rule - the orchestrator WAL in delta whitelists",
+    "append_proof": "git diff --numstat at the product commit is EXACTLY '15 0 docs/task-template.md' - 15 insertions (1 blank + 14 block lines), ZERO deleted lines; the 55 BASE lines remain an untouched prefix (ac2 python prefix check passed); file 55 -> 70 lines; +970 working bytes; CRLF held, no whole-file rewrite, no phantom churn.",
+    "design_premises_held": {
+      "no_second_goal_heading": true,
+      "no_second_acceptance_criteria_heading": true,
+      "no_second_out_of_scope_heading": true,
+      "no_second_constraints_heading": true,
+      "no_h4_heading": true,
+      "ascii_only": true,
+      "note": "asserted programmatically in the extraction script over the extracted block before appending (leg 194 / leg 177-class premises); stored template-watching legs measured GREEN: 307/309/312 re-run VERBATIM rc=0"
+    },
+    "crlf_discipline": "docs/task-template.md is i/lf w/crlf on this host (git ls-files --eol). The append was done in binary mode: read raw bytes, assert fully-CRLF and CRLF-terminated, append b'\\r\\n' + product-with-CRLF + b'\\r\\n'. git diff --numstat shows 15 0 - the t140/t142 phantom-churn trap is pre-empted, not papered over.",
+    "fence_runs_at_final_head": {
+      "protocol": "All six AC blocks extracted VERBATIM from the committed card blob (git show HEAD:docs/issues/t144.md, the anchored recipe) to scratch/fences_t144_build/fences/ac1..ac6.sh and run with bash from the worktree root with T144_BASE=23d84cad4bf9698601aade6381874dd4b3fdf385 exported. ac1..ac4 ran at the product commit; ac5/ac6 ran at the same HEAD; the final re-run of all six is recorded at the final branch HEAD (product commit + handoff commit) below.",
+      "rcs": { "ac1": 0, "ac2": 0, "ac3": 0, "ac4": 0, "ac5": 0, "ac6": 0 }
+    },
+    "negative_controls": {
+      "ac1_nc": "baked in and evaluated live: the T144_BASE template names no orchestrator_wal - grep found none, the vacuity guard did not fire (the scan discriminates).",
+      "ac2_nc": "baked in and evaluated live: the BASE did not already carry the WAL rule; prefix/growth/numstat checks all passed.",
+      "ac3_delta": "the live delta at the fence run was EXACTLY {docs/task-template.md} (card and outputs not yet in the range at that commit); the whitelist case-glob accepts only docs/task-template.md, docs/issues/t144.md, docs/state/outputs/t144_*; every byte-zero check (index, skills, schemas, scripts, security, observability, backend, frontend, .github) passed via git diff --quiet.",
+      "ac4": "zero closed-card movement; t140/t142/t143 explicitly byte-zero.",
+      "groom_side_firings": "the groom handoff records the destructive firings (foreign docs/plan.md commit -> ac3 rc=1; simulated t143 append -> ac4 rc=1 and ac3 rc=1; pre-state ac1/ac2/ac3 RED before the append). The builder did NOT re-commit foreign files to re-fire them - the delta whitelist forbids even a transient foreign commit on the branch."
+    },
+    "stored_legs_verbatim": {
+      "307": 0,
+      "309": 0,
+      "312": 0,
+      "note": "extracted VERBATIM from the LIVE docs/state/merge_test_index.json at the built state and executed synchronously inside the ac5 fence, AND re-run independently (scratch/fences_t144_build/rerun_stored.py) - rc {307: 0, 309: 0, 312: 0}; 319 legs; tests[307/309/312] proven t86/t87 by the fence itself."
+    },
+    "permanent_red_set": {
+      "139": 1,
+      "162": 1,
+      "167": 1,
+      "177": 1,
+      "191": 1,
+      "204": 1,
+      "healed": false,
+      "note": "ac6 re-ran all six VERBATIM at the built state, each rc=1 (unhealed); leg 191 ran synchronously with uv on PATH (rc=1 'ac4 RED: frontend failed tests present' - the recorded permanent RED). frontend/node_modules was a MISSING directory in this worktree; a directory junction to the main checkout's node_modules was created (gitignored, zero delta bytes) so leg 191 could actually execute rather than env-skip."
+    },
+    "index_bytes_moved": false,
+    "closed_cards_moved": false,
+    "delta_files": ["docs/task-template.md", "docs/state/outputs/t144_builder_build.json"],
+    "ac_mapping": {
+      "ac1": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac1 block (standing-rule section names the WAL path + nature + MUST over future delta whitelists + prospective-only clause + t140/8205d9f6/WAL-1409 precedent; NC: the BASE template named no WAL)",
+        "verdict": "PASS"
+      },
+      "ac2": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac2 block with `T144_BASE=<DISPATCH BASE>` (template append-only: BASE an untouched prefix, file grew, numstat deletions == 0; NC refuses a BASE already carrying the rule)",
+        "verdict": "PASS"
+      },
+      "ac3": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac3 block with `T144_BASE=<DISPATCH BASE>` (delta EXACTLY {docs/task-template.md, docs/issues/t144.md, docs/state/outputs/t144_*}; byte-zero on index/skills/schemas/scripts/security/observability/backend/frontend/.github; no other docs/issues card file)",
+        "verdict": "PASS"
+      },
+      "ac4": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac4 block with `T144_BASE=<DISPATCH BASE>` (zero closed card files differ BASE..HEAD; t140/t142/t143 explicitly byte-zero)",
+        "verdict": "PASS"
+      },
+      "ac5": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac5 block (stored legs 307/309/312 VERBATIM from the shipped index, all rc=0; 319 legs; RED set present and unchanged)",
+        "verdict": "PASS"
+      },
+      "ac6": {
+        "commit": "7cc25ed",
+        "test": "the fenced ac6 block (permanent RED legs 139/162/167/177/191/204 each rc!=0 at the built state - unhealed; leg 191 heavy ~160s, synchronous)",
+        "verdict": "PASS"
+      }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "Template-append build: the implementation is the card-frozen Product text landed VERBATIM; zero product/index/skill/schema/script/security/observability/backend/frontend/.github bytes. The schema's verification_commands_source is a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is used verbatim per the t140/t142/t143 precedent; the actual authoritative source is docs/issues/t144.md#verification-commands and all six fenced blocks were extracted verbatim from the committed card blob. The ac_mapping test strings are the literal '- acN:' lines from that section. No test files were written: the card's verification commands ARE the six fenced bash blocks (automatable, self-verifying, each with its negative control) and writing separate test files would breach the ac3 delta whitelist. Temporary helper files (extraction script, fence .sh files, commit-message file, run logs) live under scratch/fences_t144_build/, were never staged, and never entered the delta. The card was NOT edited. No label transitions were attempted - the orchestrator owns them. Validator key note: the registered map has builder:implement only ('builder build' is NOT registered, WAL 1425 class); the handoff was validated with 'validate_handoff.ts <path> builder implement' -> [OK] rc=0 (run from the MAIN checkout against a temporary copy per the dispatch; the copy was deleted afterwards)."
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/task-template.md",
+      "docs/state/outputs/t144_builder_build.json"
+    ],
+    "platform_issue": 149,
+    "output_path": "docs/state/outputs/t144_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T11:21:35Z",
+  "retry_count": 0
+}
