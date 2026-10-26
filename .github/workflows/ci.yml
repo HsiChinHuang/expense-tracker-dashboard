@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   backend-test:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Set up uv with cache
@@ -43,7 +43,7 @@ jobs:
         run: make test-backend-cov
 
   frontend-test:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Set up Node with npm cache
@@ -67,7 +67,7 @@ jobs:
 
   compose-build:
     needs: [backend-test, frontend-test]
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Build the application image

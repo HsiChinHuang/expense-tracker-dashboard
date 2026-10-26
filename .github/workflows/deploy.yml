@@ -19,7 +19,7 @@ jobs:
     # Gate on the E2E run conclusion so only a green pipeline deploys
     # (REQ-CICD-013/014).
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
     steps:
       - name: Trigger the Render deploy hook
         env:
