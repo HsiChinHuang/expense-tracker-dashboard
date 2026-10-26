@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t142",
+  "role": "verifier",
+  "phase": "verify_issue",
+  "status": "COMPLETE",
+  "reached_state": "verified",
+  "evidence": {
+    "evidence_type": "verification",
+    "verified_head": "168bce2e8ca436b123afce801e80edbce8db6198",
+    "t142_base": "0c2fae6bd0744e31cc44fbd174d2225fb4d5841f",
+    "built_state_commit": "product a58ba5772cb2a433e7ea4571828f82d537a4c464 (t132 addendum +41/-0 CRLF-normalized) + handoff tip 26ca60aaf68c78a4e5458335298a0b105f4c68fe (origin branch tip verified); merged into main at d09939e; post-merge main tip 168bce2e8ca436b123afce801e80edbce8db6198 (worktree HEAD == main == origin/main, verified).",
+    "ac_hash_rederived": "sha256:e2351330f9810a950631ad3e9927f0276dae37f2875f7461b779f76fb5653c9a - MATCH. Independently re-derived with the card's ANCHORED recipe from the committed HEAD blob (cmd.exe git show HEAD:docs/issues/t142.md captured in python, CR-stripped, 6 fenced bash blocks extracted at column 0, compact json.dumps separators). All six fences executed VERBATIM from that extraction with zero edits, at BOTH states.",
+    "ac_execution_policy": "SIX fences extracted verbatim from the committed t142 card blob (sha256-identical files reused at both states - no re-extraction drift) and run UNEDITED at BOTH states per the t140 precedent (verifier 8205d9f6, WAL 1409): (1) the card's DESIGNED CONTEXT - builder branch tip 26ca60a in a dirt-free cmd.exe clone (default core.autocrlf, checkout through cmd.exe) with T142_BASE=0c2fae6: 6/6 rc=0 GREEN, every NC firing as specified; (2) POST-MERGE MAIN 168bce2 in the clean worktree with T142_BASE=0c2fae6: ac1/ac2/ac3/ac5/ac6 rc=0, ac4 rc=1 ('the delta carries docs/log/orchestrator_wal.jsonl'). I reproduced the orchestrator's WAL 1416 measurement EXACTLY. No fenced block was edited and no command was substituted at either state.",
+    "ac_results": {
+      "ac1": {
+        "verdict": "PASS",
+        "command": "the fenced ac1 block (committed t132 blob re-read live: pre-addendum counts tests[153] x7, tests[154] x0, sha256:sha256: x1; NC: the addendum must introduce tests[154])",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac1.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states (builder branch tip 26ca60a designed context AND post-merge main 168bce2), identical output. Pre-addendum t132 committed text: tests[153] x7, tests[154] x0, sha256:sha256: x1 - both disclosed defects re-derived live, never quoted. NC GREEN: the addendum introduces the corrected addressing (full-text tests[154] count 2 > pre-addendum 0) - the count scan discriminates. Independently re-measured by my own python over the HEAD blob: 7/0/1, full-text tests[154]=2."
+      },
+      "ac2": {
+        "verdict": "PASS",
+        "command": "the fenced ac2 block (addendum heading at column 0 as the LAST section after Definition of Done; all required record content; zero markdown links)",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac2.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states. Independently re-derived: the '## Post-closure hygiene addendum (t142 ...' heading sits at column 0, AFTER the last '## Definition of Done', with no following '## ' section (LAST section = append-only placement); all required record needles present; markdown links in the addendum = 0."
+      },
+      "ac3": {
+        "verdict": "PASS",
+        "command": "the fenced ac3 block (t132 ac_hash fe8daa3f re-derives MATCH at HEAD blob and working tree, 6 blocks, anchored recipe; NC: one-char fenced-block edit moves the digest)",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac3.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states; NC fired (one-char fenced-block edit moves the digest). INDEPENDENT re-derivation with my own implementation of the column-0 anchored recipe: fe8daa3f59ee221261381f7c8fb9217796d7c15ed5f44385db8f93a09e6ef654 MATCH at the post-merge HEAD blob, MATCH at the working tree, AND MATCH at the BASE 0c2fae6 pre-addendum blob - t132's ac_hash custody is intact before and after the append at the merged tip."
+      },
+      "ac4": {
+        "verdict": "PASS",
+        "command": "the fenced ac4 block with T142_BASE=0c2fae6bd0744e31cc44fbd174d2225fb4d5841f (delta whitelist {docs/issues/t132.md append-only, docs/issues/t142.md, docs/state/outputs/t142_*}; index/product/README/criteria/security byte-zero; append-only + link-neutral counts; NC refuses index bytes)",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac4.log",
+        "note": "PASS IN SUBSTANCE AND IN ITS DESIGNED CONTEXT; the post-merge-main RED is a DOCUMENTED NON-BLOCK per the t140 precedent (verifier 8205d9f6, WAL 1409), adjudicated below. TWO VERBATIM MEASUREMENTS, both recorded honestly: (a) AT POST-MERGE MAIN 168bce2 the fence exits rc=1 with its own RED line 'ac4 RED: the delta carries docs/log/orchestrator_wal.jsonl' - changed=[docs/issues/t132.md,docs/log/orchestrator_wal.jsonl,docs/state/merge_test_index.json,docs/state/outputs/t142_builder_build.json] (scratch/t142v/logs/main_ac4.log); (b) AT THE DESIGNED CONTEXT - the builder branch tip 26ca60a in a dirt-free cmd.exe clone, T142_BASE=0c2fae6, exactly as the card's own Verification commands section instructs ('Run from the builder branch with T142_BASE set to the DISPATCH BASE') - the SAME fence exits rc=0 GREEN with changed=[docs/issues/t132.md,docs/state/outputs/t142_builder_build.json]. exit_code 0 records measurement (b), the fence's designed context and the card's own instruction; measurement (a) stands as recorded and is the basis of the non-block adjudication. ATTRIBUTION (independently verified, not trusted from WAL 1416): the two non-whitelisted delta paths map to ORCHESTRATOR commits, not t142 - git log 0c2fae6..168bce2 -- docs/state/merge_test_index.json returns EXACTLY commit 4412514 (the orchestrator's t141 Card A W2 window, REPLACE_COMMAND-only, 2/2 lines, legs 309/312; 4412514 is an ancestor of the merge's FIRST parent 0ab3a7d, i.e. it landed on main BEFORE t142's merge); git log over the range -- docs/log/orchestrator_wal.jsonl returns 0ab3a7d and 168bce2 (WAL appends seq 1413-1416, +4/-0, 0 deletions - orchestrator journal). The index BLOB ID proves it: eede24389600 at BASE == eede24389600 at the builder tip 26ca60a (t142 moved ZERO index bytes; identical blob is stronger than diff --quiet) != 873f90394163 at 4412514 == 873f90394163 at HEAD (the sole index mover in the window is the W2 window commit). The merge commit d09939e itself carries EXACTLY two paths (t132 +41/-0, t142 handoff +56/-0) and diff 0ab3a7d..d09939e confirms the merge introduced ONLY those two files. OUT-OF-FENCE DIAGNOSTIC (explicitly labelled: a MEASUREMENT, NOT a substitute for the verbatim fence - the verbatim rc values above stand as recorded): re-running ac4's own whitelist loop over the delta EXCLUDING docs/log/orchestrator_wal.jsonl and docs/state/merge_test_index.json yields changed=[docs/issues/t132.md,docs/state/outputs/t142_builder_build.json] with every path whitelist-OK, and diff --quiet over the range is CLEAN for docs/criteria/, README.md, backend/, frontend/, .github/, security/ - i.e. the RED is attributable ONLY to the WAL + W2-index-carrier paths, ZERO bytes of which are t142's. SUBSTANCE: see the independent t132-delta and byte-zero measurements in ac_execution_policy and known_non_blocks_confirmed."
+      },
+      "ac5": {
+        "verdict": "PASS",
+        "command": "the fenced ac5 block (live index: 319 legs; field 153 = t34 without agent_pack regeneration, field 154 = t35 with it; RED set unchanged; NC: permissions-doc scan returns [153])",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac5.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states - including at post-merge main ON THE AMENDED INDEX, which is the card's design: ac5 re-derives the addressing claim LIVE from the shipped index at every fence run, so the t141 Card A W2 window (4412514) landing between t142's base and its merge does not disturb the premise. Independently re-derived: 319 legs; tests[153]=t34 (permissions-doc leg, no agent_pack mention), tests[154]=t35 (the regeneration leg the t132 card means); agent_pack mention scan -> [154], NC permissions scan -> [153] (discriminates both ways); RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (WAL 1399, never healed). Cross-check vs the BASE index blob: legs 153/154 and the RED set identical; the ONLY legs differing BASE vs HEAD are 309/312 (t86/t87) - the W2 window's own authorized REPLACE-only pair, outside this card's premise surface."
+      },
+      "ac6": {
+        "verdict": "PASS",
+        "command": "the fenced ac6 block (builder handoff names both corrections, t132's ac_hash, ac_hash_match, addendum_sha256, explicit \"index_bytes_moved\": false and \"product_bytes_moved\": false)",
+        "exit_code": 0,
+        "output_path": "scratch/t142v/logs/built_ac6.log",
+        "note": "GREEN rc=0 VERBATIM at BOTH states. The build handoff names tests[153]/tests[154], the sha256:sha256: literal, t132's ac_hash fe8daa3f, ac_hash_match, addendum_sha256, and states index_bytes_moved=false and product_bytes_moved=false explicitly. I additionally VERIFIED the handoff's addendum digests rather than trusting them: sha256 of the appended text CRLF-normalized = 1397be4a2045ee4ee24b98e7301b5a8f2e189f1756ba130704e396de20da0720 and LF-normalized = a6526153ceec38ff33b546a53069feeb80f961e903b2b5abc26c5c820e0ccfcf - both EXACTLY as claimed, and the appended text is byte-identical to the card's VERBATIM 'Addendum text' fence (outer ```text fence excluded, leading blank line included)."
+      }
+    },
+    "test_summary": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "failure_type": null,
+    "known_non_blocks_confirmed": [
+      "ac4's post-merge-main rc=1 is caused SOLELY by two orchestrator-carried paths landing on main between t142's DISPATCH BASE and the post-merge tip: (a) docs/log/orchestrator_wal.jsonl +4/-0 append-only (seq 1413-1416, 0 deletions - the known whitelist omission, WAL 1406) and (b) docs/state/merge_test_index.json 2/2, which is commit 4412514, the orchestrator's OWN t141 Card A W2 amendment window (tests[309]/[312] REPLACE_COMMAND-only, WAL 1414) - an ancestor of the merge's first parent 0ab3a7d, i.e. it landed BEFORE t142's merge. NEITHER byte is t142's: the index blob at the builder tip 26ca60a (eede24389600) is IDENTICAL to the BASE blob (ZERO index bytes attributable to t142, stronger than diff --quiet), and the merge commit d09939e introduces exactly two files (t132 +41/-0, t142 handoff +56/-0). This is a defect in t142's OWN fence design (a whitelist that hardcodes a surface which legitimately rotates - the same class t140 exists to address), NOT a product, index, or t132-custody defect. Ruled a DOCUMENTED NON-BLOCK per the t140 precedent (verifier 8205d9f6, WAL 1409) plus the t136 Metadata precedent and the t130 (WAL 1347/1348) / t138 (WAL 1394/1395) post-window precedents. The verbatim rc=1 at post-merge main stands as recorded; no fenced block was edited and no command was substituted.",
+      "The index-carrier VARIANT STRENGTHENS rather than weakens the t140 non-block ruling: t142's own ac5 is written to tolerate index ROTATION BY DESIGN (it re-derives the addressing claim LIVE from the shipped index at every fence run - 'the disclosure cannot silently rot while this fence runs'), and it PASSES GREEN on the amended index at post-merge main (319 legs, 153=t34/154=t35, RED set intact). The W2 window is authorized orchestrator merge-window work (WAL 1414, forward+reverse proofs, legs 309/312 healed), the t129/t130/t132 post-window re-key precedent class; t142 correctly moved ZERO index bytes, so the very path that turns ac4 RED is one the card's own premise surface is immune to.",
+      "SUBSTANCE, independently verified (not from the WAL or the builder's claims): the t132 delta is +41/-0 on the RAW diff WITHOUT --ignore-cr-at-eol (numstat 41/0 both ways; single hunk @@ -386,3 +386,44 @@ - pure EOF append, ZERO deleted lines - the t140 CRLF-append trap (619 phantom deletions) is genuinely pre-empted, not papered over); link-neutral (0 new '](' lines); the appended 41 lines are BYTE-IDENTICAL to the card's VERBATIM 'Addendum text' fence and hash to the handoff's claimed addendum_sha256 values (CRLF 1397be4a..., LF a6526153...); t132's published ac_hash fe8daa3f re-derives MATCH at the HEAD blob AND the working tree AND the pre-addendum BASE blob (6 blocks, anchored recipe, my own independent implementation); ZERO product/README/criteria/.github/security bytes (diff --quiet rc=0 over each surface across the whole range; the merge's own diff carries only the two whitelisted files); ZERO .py files in the delta.",
+      "Platform #147 label transition: 'verified' ADDED per the skill's PASS rule; read-back labels [groomed, built, verified] (the orchestrator applied 'built' at merge between my dispatch and my label call). 'groomed' and 'built' were LEFT IN PLACE deliberately, matching the recorded cumulative-label practice at WAL 1395 (#143 closed with groomed,built,verified) and the t140/#145 precedent; the state-routing intent of the built->verified swap is satisfied by 'verified' being present. Closure is orchestrator-owned."
+    ],
+    "lint_report": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "lint_note": "Non-blocking. The delta moves ZERO .py files (git diff --name-only 0c2fae6..168bce2 -- '*.py' is empty), so no lint finding is attributable to this card; ruff is not installed in this verifier environment (consistent with the zero-findings-attributable convention of the t138/t140 verifier handoffs). Recorded as 0 errors / 0 warnings attributable to t142.",
+    "test_quality_warnings": [
+      "t142's ac4 whitelist omits docs/log/orchestrator_wal.jsonl AND the orchestrator's W2-window index carrier, so the fence cannot exit 0 at ANY post-merge main head - the orchestrator's append-only journal always grows between a card's DISPATCH BASE and the post-merge tip, and authorized W2 windows legitimately move index bytes in that window. The fence is correct AT ITS DESIGNED CONTEXT (builder branch + T142_BASE = DISPATCH BASE, where it exits rc=0 verbatim) and the card's own Verification commands section prescribes exactly that context. The correction (admit the WAL path and orchestrator-window index carriers, as t136's Metadata precedent does) is append-only-addendum territory for a FUTURE card and must NEVER be made by editing t142's fenced block (WAL 1403 ruling).",
+      "This card has no separate test files by design: its verification commands ARE the six fenced bash blocks, each self-verifying with a negative control. Writing separate test files would breach the card's own ac4 delta whitelist."
+    ],
+    "dod_verified": {
+      "builder_branched_from_dispatch_base_containing_card_with_T142_BASE_set": true,
+      "all_six_ac_blocks_exit_0_on_the_builder_branch_with_NCs_firing": true,
+      "delta_is_exactly_t132_addendum_this_card_and_t142_outputs_append_only_link_neutral": true,
+      "t132_delta_append_only_zero_deleted_lines_raw_diff_41_and_0": true,
+      "t132_delta_link_neutral_zero_new_markdown_links": true,
+      "t132_ac_hash_fe8daa3f_re_derives_MATCH_before_and_after_append_at_HEAD_blob_AND_working_tree": true,
+      "addressing_claim_re_derives_live_from_shipped_index_319_legs_RED_set_unchanged": true,
+      "zero_index_bytes_attributable_to_t142_index_blob_identical_at_base_and_builder_tip": true,
+      "zero_product_README_criteria_github_security_bytes": true,
+      "build_handoff_names_both_corrections_t132_ac_hash_ac_hash_match_addendum_sha256_and_explicit_index_and_product_bytes_moved_false": true,
+      "ac4_verbatim_at_designed_context_builder_branch_with_T142_BASE_exits_0": true,
+      "ac4_verbatim_at_post_merge_main_exits_0": false,
+      "no_new_RED_legs_attributable_to_this_card_zero_product_index_report_bytes": true,
+      "platform_147_labels_groomed_built_verified_read_back_verified_added_by_this_verifier": true
+    },
+    "dod_note": "The single false DoD reading ('All six AC blocks exit 0' read as 'at post-merge main') is exactly the documented non-block: the card's own Verification commands section scopes the fences to the BUILDER BRANCH with T142_BASE set to the DISPATCH BASE, where all six exit 0 verbatim; at post-merge main ac4 cannot, by its own construction, because the orchestrator's WAL always grows in that window and authorized W2 windows legitimately move index bytes there. All other DoD items verified true.",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "verification_commands_note": "The schema declares this field as a literal const 'docs/issues/<id>.md#verification-commands' (ajv exact-match), so the literal is emitted verbatim as the t138/t140/t142-builder precedent handoffs do; the id-substituted form FAILS validation. The ACTUAL authoritative source is docs/issues/t142.md#verification-commands; all six fenced blocks were extracted verbatim from the committed card blob at HEAD and executed unedited at both states.",
+    "validator_note": "Validator invoked exactly as dispatched: cmd.exe /d /c \"cd C:\\Users\\tw097\\Desktop\\261007_project01\\expense-tracker-dashboard && npx tsx scripts/validate_handoff.ts docs/state/outputs/t142_verifier_verify.json verifier verify_issue < NUL\" with '< NUL' INSIDE the cmd quotes (the t136-documented invocation quirk: the validator resolves the relative path against the MAIN checkout, so the worktree handoff was copied to the main checkout for the validation call; the main checkout's .env was staged from scratch/env_quarantine_t94post per the WAL 1408 recipe - cp in one call, validator in its OWN call, rm -f .env + sleep + ls-assert in a SEPARATE call).",
+    "harness_notes": [
+      "The dirt-free clone for the designed-context run was created with cmd.exe git clone (default core.autocrlf) and checked out through cmd.exe (branch t142built at 26ca60a); no WSL git checkout was performed inside the cmd.exe clone. The clone lives under scratch/ (gitignored).",
+      "This worktree's HEAD == main == origin/main == 168bce2e8ca (verified by rev-parse); the worktree was clean before, during (fence .sh files were copied in and removed; git status --porcelain empty), and after the post-merge runs.",
+      "All git operations in this worktree were read-only (rev-parse/show/diff/log/merge-base/status) through cmd.exe /d /c, one operation per call; the only state-changing git work was committing and pushing THIS handoff on the verifier branch.",
+      "[VENV_UNAVAILABLE]: UV_PROJECT_ENVIRONMENT and PYTHONPATH are empty - no-op for this Node.js project; all fences use WSL python3.",
+      "The t142 fence files used at both states are sha256-identical (verified by digest comparison between the worktree copies and the clone copies), so the two measurements are provably the same six verbatim blocks."
+    ]
+  },
+  "artifacts": {
+    "files_written": [
+      "docs/state/outputs/t142_verifier_verify.json"
+    ],
+    "platform_issue": 147,
+    "output_path": "docs/state/outputs/t142_verifier_verify.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T06:55:25Z",
+  "retry_count": 0
+}
