@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t138",
+  "role": "builder",
+  "phase": "implement",
+  "status": "COMPLETE",
+  "reached_state": "built",
+  "evidence": {
+    "evidence_type": "build",
+    "branch": "issue/t138-git-recorded-link-check",
+    "branch_sha": "36613781e124ede894ae6c0197c310d2eaa96b54",
+    "branch_note": "Branched from the DISPATCH BASE 69b6e28f03df4ac34550892afbe01fe06df55c61 (main tip that already contains docs/issues/t138.md). Product commit 3661378 carries ONLY backend/scripts/docs_verification.py (recorded-set counting rule) + the regenerated docs/criteria/docs_verification.md; this handoff commit (docs/state/outputs/t138_builder_build.json) sits on top. Both commits pushed to origin at issue/t138-git-recorded-link-check.",
+    "base": "69b6e28f03df4ac34550892afbe01fe06df55c61",
+    "t138_base": "69b6e28f03df4ac34550892afbe01fe06df55c61",
+    "byte_source": "fresh clone of the builder product commit (worktree parent -> t138_build_clone, same /mnt/c volume) with DEFAULT core.autocrlf (NO -c core.autocrlf=false override - stored leg 128 needs the CRLF worktree form) plus an mklink /J frontend/node_modules junction (js-yaml reachability verified) so stored leg 134 loads; generator run as (cd backend && PYTHONPATH=. UV_PROJECT_ENVIRONMENT=<outside-tree> uv run python scripts/docs_verification.py), rc=0 GREEN, run twice: second run byte-identical (idempotent). The polluted main checkout was NEVER the byte-source.",
+    "regeneration_idempotent": true,
+    "regeneration_idempotency_evidence": "Generator run twice in the same clean clone; both runs produced cr-sha 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f.",
+    "link_check_row_measured": "LINK_CHECK PASS files=304 links=67 broken=0",
+    "link_check_row_base": "LINK_CHECK PASS files=302 links=67 broken=0",
+    "counters_measured": { "files": 304, "links": 67, "broken": 0 },
+    "report_bytes_moved": true,
+    "report_cr_sha_new": "11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f",
+    "report_cr_sha_old": "a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721",
+    "rejected_polluted_digest": "4b1ec8a1 (the REJECTED t136 polluted-tree digest, files=320 links=94 - a machine-dependent dirty-checkout number; this card kills that defect class by counting only what git records)",
+    "machine_independence_proof": "ac2 executed at built state: in a clone of the product commit planted with 20 UNTRACKED .md files (14 under a fresh .newtool/venvs tool dir, 3 docs/log, 1 backend/.pytest_cache, 1 docs/state/pending_blockers, 1 repo-root stray), the OLD filesystem walk measured 324 (== 304 + 20 planted) but the committed generator still exited rc=0 and wrote files=304 links=67 broken=0 - the planted-dirt row EQUALS the clean row ('LINK_CHECK PASS files=304 links=67 broken=0') and the planted-run report digest EQUALS the clean-run digest 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f (byte-identical); git ls-files recorded count unmoved by the planting (308 == 308).",
+    "leg227_repin_owned_by": "orchestrator",
+    "leg227_repin_note": "M1 merge-window obligation, REPLACE-only inside tests[227]: rotate a0399b175d064158a0b6a4e0c6560374ca6f2c3da0b005c5055fd9303ad32721 -> 11ed40fae97cf96652c339a5082acc38b991c78476f36764cfa177f76d0c7a9f. Builder moved ZERO index bytes (ac5). The groom's f8d645dc expectation was priced at files=303 (card arrival alone); t137/#142 merged first at the dispatch base, so the built state legitimately records files=304 and the measured digest is 11ed40fa (ac1's re-derivation F==E==W==304 agrees; the card's premise table itself predicts '+1 more if t137/#142 merged first'). M2: after M1, execute stored legs 318-then-227 in a dirt-free clean clone, require rc=0/rc=0.",
+    "files_count_rederivation": "ac1 re-derived E from git ls-files in the dirt-free clone of the product commit (SKIP_DIRS read from the clone's own source) and required F==E: F=304 E=304 W=304 (clean-tree walk set identical - rule change byte-neutral on dirt-free trees; ac4 re-derives the same equality at BASE 08e63854144 where both rules measure 302). Built-state 304 == BASE 302 + 2 recorded .md arrivals (t138 card + t137 card, ac4 leg 2).",
+    "report_shape": "55 lines, ends ALL_CHECKS_PASS, STORED_GATES PASS executed=9 failures=0 restored=1, exactly one LINK_CHECK PASS row.",
+    "ac_hash": "sha256:323fc0304158c339964421c801f12df825dd978a2eef2ce8d640df708dae002c",
+    "ac_hash_recompute": "Re-derived by the anchored recipe over the six fenced blocks of the committed card at the dispatch base: MATCH.",
+    "ac_fences_run_verbatim": "All six fenced blocks extracted VERBATIM from docs/issues/t138.md and executed in the run worktree with T138_BASE=69b6e28f03df4ac34550892afbe01fe06df55c61 (ac5): ac1 GREEN, ac2 GREEN, ac3 GREEN, ac4 GREEN, ac5 GREEN, ac6 GREEN (ac6 run after this handoff exists). The run tree needed a frontend/node_modules junction (mklink /J to the main checkout's, js-yaml verified) - untracked, git-invisible, exactly the harness shape the fences' junction-source resolver expects.",
+    "ac_mapping": {
+      "ac1": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac1 block (committed report == dirt-free-clone generator output; files= == recorded-rule re-derivation == clean-tree walk set; links=67 broken=0; count NCs on F+1/99999)", "verdict": "PASS" },
+      "ac2": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac2 block (20 planted untracked .md incl. a fresh tool dir and a root stray; walk +20 but generator row and report digest UNMOVED; recorded set unmoved; vacuity guards)", "verdict": "PASS" },
+      "ac3": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac3 block (no os.walk in the generator; executed masked-git refusal for failure and empty-zero; unmasked probe non-vacuity)", "verdict": "PASS" },
+      "ac4": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac4 block (byte-neutrality at BASE by re-derivation; HEAD == BASE + recorded .md arrivals; 319-leg scan; CARRIED_DIGESTS 4 keys; 13 hex; SKIP_DIRS byte-identical; NCs)", "verdict": "PASS" },
+      "ac5": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac5 block with T138_BASE=69b6e28f03df4ac34550892afbe01fe06df55c61 (delta whitelist at the DISPATCH BASE; index/README/carried/sibling byte-zero; SKIP_DIRS-set edit refusal; zero new hex)", "verdict": "PASS" },
+      "ac6": { "commit": "36613781e124ede894ae6c0197c310d2eaa96b54", "test": "the fenced ac6 block (built-state + BASE digests, both rows, byte_source, machine_independence_proof, leg227_repin_owned_by, rejected 4b1ec8a1, mutation NC)", "verdict": "PASS" }
+    },
+    "test_summary": { "total": 6, "passed": 6, "failed": 0 },
+    "lint_status": "CLEAN",
+    "verification_commands_source": "docs/issues/<id>.md#verification-commands",
+    "notes": "Zero index bytes, zero README bytes, zero agent-pack/carried-report bytes moved (ac5). SKIP_DIRS byte-identical to BASE (option (a) refused). No new 64-hex literal (count stays 13). CARRIED_DIGESTS unchanged at 4 keys. Generator: os.walk removed; git_recorded_md_paths() tries direct git first, cmd.exe /d /c git -C <wslpath -w ROOT> ls-files *.md (UNQUOTED glob) second; empty output and rc!=0 both unusable -> check_links fails loud 'LINK_CHECK FAIL git_unavailable'; never a walk fallback, never a vacuous zero (ac3 executes both masked refusals)."
+  },
+  "artifacts": {
+    "files_written": [
+      "backend/scripts/docs_verification.py",
+      "docs/criteria/docs_verification.md",
+      "docs/state/outputs/t138_builder_build.json"
+    ],
+    "platform_issue": 143,
+    "output_path": "docs/state/outputs/t138_builder_build.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T03:02:00Z",
+  "retry_count": 0
+}
