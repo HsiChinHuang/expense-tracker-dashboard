@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "issue_id": "t144",
+  "status": "COMPLETE",
+  "role": "definer",
+  "phase": "groom",
+  "reached_state": "groomed",
+  "evidence": {
+    "evidence_type": "grooming",
+    "ac_hash": "sha256:b0714412038413b114e7b912937162a64a43be0a9dcf217bfd49941f409fe72f",
+    "ac_count": 6,
+    "verification_commands_source": "docs/issues/t144.md#verification-commands",
+    "verification_commands": {
+      "ac1": "bash ac1-fence (docs/issues/t144.md): the template carries a column-0 '## Standing rule - the orchestrator WAL in delta whitelists' section naming docs/log/orchestrator_wal.jsonl, its orchestrator-owned / append-only / moves-every-card-cycle nature, a MUST verb over future delta whitelists, the prospective-only clause over closed cards' frozen fences, and the t140 precedent (verifier 8205d9f6 / WAL 1409); NC: the T144_BASE template named no orchestrator_wal path at all (pre-state RED fired at the groom)",
+      "ac2": "bash ac2-fence with T144_BASE=<DISPATCH BASE>: the template is APPEND-ONLY vs the BASE - git show BASE:docs/task-template.md lines remain an untouched prefix of the working file, the file grew, and git diff --numstat reports ZERO deleted lines over the range; NC: a BASE already carrying the WAL rule is refused as vacuous (the real BASE 9758ef00 does not; pre-state RED fired at the groom)",
+      "ac3": "bash ac3-fence with T144_BASE=<DISPATCH BASE>: delta EXACTLY {docs/task-template.md, docs/issues/t144.md, docs/state/outputs/t144_*}; byte-zero via git diff --quiet on docs/state/merge_test_index.json, skills/, schemas/, scripts/, security/, observability/, backend/, frontend/, .github/; no docs/issues card file other than t144.md; NC fired at the groom: a foreign docs/plan.md commit AND a t143 edit both RED the fence",
+      "ac4": "bash ac4-fence with T144_BASE=<DISPATCH BASE>: zero closed card files (docs/issues/t*.md except t144.md) differ BASE..HEAD, with docs/issues/t140.md, t142.md, t143.md explicitly byte-zero (prospective-only amendment, WAL 1403); NC fired at the groom: a simulated t143 append REDs the fence by name",
+      "ac5": "bash ac5-fence: stored legs 307/309/312 extracted VERBATIM from the LIVE docs/state/merge_test_index.json at run time and executed (all rc=0 at the groom's built state); 319 legs; tests[307/309/312] proven t86/t87; the permanent RED set {139,162,167,177,191,204} = [t27,t36,t37,t38,t47,t54] present and unchanged (never healed)",
+      "ac6": "bash ac6-fence: permanent RED legs 139/162/167/177/191/204 re-run VERBATIM from the shipped index at the built state, each rc!=0 (unhealed; measured 151s total with uv on PATH, leg 191 ~150s of it - synchronous, never background)"
+    },
+    "sections_filled": ["context", "acceptance_criteria", "out_of_scope", "definition_of_done"],
+    "contract_first_applied": true,
+    "first_measure_template_legs": {
+      "question": "does ANY stored leg (of the 319) read docs/task-template.md, and would an append break it?",
+      "answer": "four legs mention the template; NONE pins its bytes/line-count/digest, so the append breaks none",
+      "legs": {
+        "194": "t48 - the four grooming H2 sections each EXACTLY once + frontmatter tokens (append adds none of the four headings); rc=0 at BASE and at built state",
+        "197": "t48 - ASCII + heading depth <= ### over a six-doc list incl. the template (append is ASCII, no ####); rc=0 at BASE and at built state",
+        "225": "t58 - the token appears only inside the docs/plan.md substance-token list; the template is not a file operand; rc=0 at BASE and at built state",
+        "227": "t59 - git rev-parse HEAD:docs/task-template.md == git hash-object (working==HEAD, NOT a pinned digest); rc=0 at BASE and at built state"
+      },
+      "conclusion": "no leg constrains the append; NO index edit is proposed or needed (index edits remain orchestrator W2-window work)"
+    },
+    "gate_a": {
+      "recipe": "column-0 anchored: single column-0 '## Acceptance criteria' line to the next column-0 '## '; ```bash fences inside, each CR-stripped and strip()-ed, document order; sha256 over json.dumps(blocks, ensure_ascii=False, separators=(',',':'))",
+      "recipe_validation": "reproduced the t143 published hash dd9acd82eac7efa6e1552a42aca7e782a05f8d78217eff24ed1269c94a54c280 EXACTLY (7 blocks) from docs/issues/t143.md before authoring",
+      "self_derivation": "digest computed from the committed card blob (git show HEAD:docs/issues/t144.md) AFTER the fence commits; the Metadata literal commit carries the frozen value and does not touch the hashed region",
+      "blocks": 6,
+      "digest": "sha256:b0714412038413b114e7b912937162a64a43be0a9dcf217bfd49941f409fe72f",
+      "grouped": "b0714412 038413b1 14e7b912 937162a6 4a43be0a 9dcf217b fd49941f 409fe72f",
+      "rederive_from_final": "MATCH - the extract-and-hash run over the committed blob returned the embedded literal (scratch/fences_t144/extract.py HEAD)"
+    },
+    "gate_b": {
+      "protocol": "WAL 1372 - all six fences extracted VERBATIM from the committed card blob and smoke-run in the groom's own worktree; T144_BASE=9758ef0046ea9ff4e9ea2fb60ec00f97f33fba90 (the DISPATCH BASE) exported for every fence",
+      "built_state": "card commit ba26f52 + a LOCAL-ONLY simulated built commit a118a3c (the frozen Product text appended to docs/task-template.md, +15/-0, extracted programmatically from the card blob; NEVER pushed; reset --hard back to ba26f52 after the run)",
+      "pre_state_rcs": {"ac1": 1, "ac2": 1, "ac3": 1, "ac4": 0},
+      "pre_state_red_reasons": {
+        "ac1": "no column-0 standing-rule section (rule absent pre-append)",
+        "ac2": "the template did not grow (55 lines at BASE, 55 now)",
+        "ac3": "docs/task-template.md is not in the delta"
+      },
+      "built_state_rcs": {"ac1": 0, "ac2": 0, "ac3": 0, "ac4": 0, "ac5": 0, "ac6": 0},
+      "negative_controls": {
+        "foreign_path": "committing a docs/plan.md line at the built state -> ac3 rc=1 'the delta carries docs/plan.md'",
+        "closed_card_edit": "committing a docs/issues/t143.md append -> ac4 rc=1 'a closed card file differs BASE..HEAD: docs/issues/t143.md' AND ac3 rc=1",
+        "vacuity_NCs_baked_into_fences": "ac1/ac2 refuse a BASE that already names orchestrator_wal (the real BASE does not - checked live)"
+      },
+      "stored_legs_verbatim": {"307": 0, "309": 0, "312": 0, "194": 0, "197": 0, "225": 0, "227": 0},
+      "permanent_red_set": {"139": 1, "162": 1, "167": 1, "177": 1, "191": 1, "204": 1, "healed": false},
+      "leg191_note": "heavy leg (~150-160s; boots the backend uv venv + frontend suite); ran synchronously inside ac6 with a 2400s allowance; rc=1 'ac4 RED: frontend failed tests present' - the recorded permanent RED, unhealed"
+    },
+    "measurements": {
+      "dispatch_base": "9758ef0046ea9ff4e9ea2fb60ec00f97f33fba90",
+      "template_at_base": "55 lines / 2020 working bytes CRLF / blob 00d76bdd86106b3537c60c522e28c97491d16bdb / cr-stripped sha256 5d2d886173a837d29c96335ccff3b03e3341f78e45e46b8a2691e7b2fde35f96",
+      "template_appended": "+15 lines / +970 working bytes (blank + 14-line section), 0 deleted, CRLF held",
+      "card_bytes": 32115,
+      "card_lines_crlf": 426,
+      "authoritative_draft": "platform #149 body fetched via curl with the token parsed CRLF-safe from scratch/env_quarantine_t94post (API_TOKEN key); body_len 3725 chars / 3731 bytes, quoted verbatim in the 'Defined draft' text block (the only 9 non-ASCII bytes in the card are its 可以 開)",
+      "wal_tracked": "docs/log/orchestrator_wal.jsonl is a TRACKED path (git ls-files confirms a blob at base) - the mechanism of the false RED is real, not hypothetical"
+    },
+    "design_decisions": [
+      "APPEND-ONLY to docs/task-template.md is the whole product surface; no W2 amendment, no closed-card edit (WAL 1403 prospective-only), no index touch",
+      "the standing-rule text is FROZEN VERBATIM in the card's Product text section (t143 P1/P2 precedent) - the builder lands it byte-exact; ac1 checks the properties so a paraphrase that loses a clause still REDs",
+      "the product block deliberately avoids: a second column-0 Goal/Acceptance criteria/Out of scope/Constraints heading (leg 194), #### headings and non-ASCII (leg 197), and any exact column-0 '## Acceptance criteria' collision (the hash anchor)",
+      "ac6 (permanent REDs stay RED) is a SEPARATE fence from ac5 (stored legs stay GREEN) so a heal and a break produce distinct, attributable REDs",
+      "the card's own ## Acceptance criteria heading is the single column-0 anchor; the defined draft's heading carries its '(to be finalized at groom; ...)' suffix and cannot steal the anchor (asserted in the generator)"
+    ],
+    "adjudication": {
+      "question": "Is the recurring whitelist RED cured by editing the three adjudicated cards' fences, or by a prospective template rule?",
+      "decision": "INHERITED, not re-litigated: WAL 1403 makes closed cards' fenced blocks immutable; the t143 verifier (WAL 1428) named the prospective template cure explicitly. This card appends the standing rule and touches zero closed-card bytes (ac4)."
+    }
+  },
+  "artifacts": {
+    "files_written": ["docs/issues/t144.md", "docs/state/outputs/t144_definer_groom.json"],
+    "platform_issue": 149,
+    "output_path": "docs/state/outputs/t144_definer_groom.json"
+  },
+  "error": null,
+  "next_action": null,
+  "timestamp": "2026-10-26T11:04:19Z",
+  "retry_count": 0
+}
